@@ -1,0 +1,22 @@
+#!/bin/sh
+
+rm -rf docs
+mkdir docs
+
+git clone .git --branch gh-pages docs
+
+rm -rf docs/*
+
+# Need to generate into an empty directory docs/generated
+# The root, docs, has the git hidden config files
+typedoc --out docs/generated src/ --mode file
+mv docs/generated/* docs/
+rm -rf docs/generated
+
+cd docs
+git remote add upstream git@github.com:CondeNast-Copilot/atjson.git
+
+git add --all && git commit -m "Publishing to gh-pages" && git push origin gh-pages
+
+echo "Pushing changes to upstream gh-pages..."
+git push upstream gh-pages --force

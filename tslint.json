@@ -1,0 +1,24 @@
+{
+  "extends": "tslint:recommended",
+  "defaultSeverity": "warning",
+  "rules": {
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-last",
+        "named-imports-order": "lowercase-last"
+      }
+    ],
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "curly": [true, "ignore-same-line"],
+    "interface-name": [true, "never-prefix"],
+    "max-classes-per-file": [false],
+    "member-access": [true, "no-public"],
+    "no-empty-interface": false,
+    "object-literal-sort-keys": false,
+    "prefer-const": false,
+    "quotemark": [true, "single"],
+    "trailing-comma": [true, "never"],
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"]
+  }
+}
