@@ -9,8 +9,3 @@ export interface AtJSON {
   contentType?: string;
   annotations: Array<Annotation>;
 }
-
-export interface HIRNode {
-  type: string;
-  children: Array<HIRNode|string>;
-}

@@ -22,23 +22,20 @@ export class HIRTest extends TestCase {
       annotations: []
     };
 
+    let expected = {
+      type: 'root',
+      children: [{
+        type: 'paragraph',
+        children: [ 'test', { type: 'newline' }, 'document' ]
+      },
+      {
+        type: 'paragraph',
+        children: ['new paragraph']
+      }]
+    }
+
     assert.ok(new HIR(validDoc));
-    assert.deepEqual(
-     new HIR(validDoc).toJSON(),
-     [{
-       type: 'paragraph',
-       children: [
-         'test',
-         { type: 'newline' },
-         'document'
-       ]
-     },
-     {
-       type: 'paragraph',
-       children: [
-         'new paragraph'
-       ]
-     }]);
+    assert.deepEqual(new HIR(validDoc).toJSON(), expected);
   }
 
   @test
