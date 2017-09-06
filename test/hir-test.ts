@@ -17,7 +17,7 @@ export class HIRTest extends TestCase {
 
   @test
   "accepts atjson-shaped object"(assert: QUnitAssert) {
-    let validDoc = <AtJSON>{
+    let validDoc: AtJSON = {
       content: 'test\ndocument\n\nnew paragraph', 
       annotations: []
     };
@@ -52,7 +52,7 @@ export class HIRTest extends TestCase {
 
   @test
   "constructs a valid heirarchy from a document without nesting"(assert: QUnitAssert) {
-    let noNesting = <AtJSON>{
+    let noNesting: AtJSON = {
       content: 'A string with a bold and an italic annotation',
       annotations: [
         { type: 'bold', start: 16, end: 20 },
@@ -83,7 +83,7 @@ export class HIRTest extends TestCase {
 
   @test
   "constructs a valid heirarchy from a document with nesting"(assert: QUnitAssert) {
-    let nested = <AtJSON>{
+    let nested: AtJSON = {
       content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
       annotations: [
         { type: 'bold', start: 34, end: 38 },
@@ -131,7 +131,7 @@ export class HIRTest extends TestCase {
 
   @test
   "constructs a valid heirarchy from a document with overlapping annotations at the same level"(assert: QUnitAssert) {
-    let overlapping = <AtJSON>{
+    let overlapping: AtJSON = {
       content: 'Some text that is both bold and italic plus something after.',
       annotations: [
         { type: 'bold', start: 23, end: 31 },
@@ -156,7 +156,7 @@ export class HIRTest extends TestCase {
 
   @test
   "constructs a valid heirarchy from a document with overlapping annotations across heirarchical levels"(assert: QUnitAssert) {
-    let spanning = <AtJSON>{
+    let spanning: AtJSON = {
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
         { type: 'bold', start: 22, end: 31 }
@@ -178,7 +178,7 @@ export class HIRTest extends TestCase {
   @test
   "throws an error for invalid overlapping annotations"(assert: QUnitAssert) {
     let content = 'My list\n\nitems bring\n\nall the boys\n\nto the yard';
-    let invalidOverlaps = <AtJSON>{
+    let invalidOverlaps: AtJSON = {
       content: content,
       annotations: [
         { type: 'ordered-list', start: "My list\n\n".length, end: "My list\n\nitems bring\n\nall the boys\n\n".length },

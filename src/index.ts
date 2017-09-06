@@ -48,9 +48,7 @@ export class HIR {
 
   getParser() {
     switch (this.atjson.contentType) {
-      case undefined: {
-        return { parse: this.plainTextParser };
-      }
+      case undefined:
       case 'text/plain': {
         return { parse: this.plainTextParser };
       }

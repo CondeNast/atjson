@@ -16,9 +16,9 @@ export class HIRNodeTest extends TestCase {
   @test
   "insert annotation partially contained within the node returns a trimmed annotation"(assert: QUnitAssert) {
     let node = new HIRNode({ type: 'test', start: 5, end: 10 });
-    let annotation = { type: 'bold', start: 8, end: 15 } as Annotation;
+    let annotation: Annotation = { type: 'bold', start: 8, end: 15 };
 
-    let expectedResult = { type: 'bold', start: 10, end: 15 } as Annotation;
+    let expectedResult: Annotation = { type: 'bold', start: 10, end: 15 };
 
     assert.deepEqual(node.insertAnnotation(annotation), expectedResult);
   };
@@ -26,7 +26,7 @@ export class HIRNodeTest extends TestCase {
   @test
   "insert annotation not contained within the node (starts after) returns the original annotation"(assert: QUnitAssert) {
     let node = new HIRNode({ type: 'test', start: 0, end: 5 });
-    let annotation = { type: 'bold', start: 8, end: 10 } as Annotation;
+    let annotation: Annotation = { type: 'bold', start: 8, end: 10 };
 
     assert.deepEqual(node.insertAnnotation(annotation), annotation);
   }
@@ -34,7 +34,7 @@ export class HIRNodeTest extends TestCase {
   @test
   "insert annotation not contained within the node (starts before) throws an error"(assert: QUnitAssert) {
     let node = new HIRNode({ type: 'test', start: 10, end: 15 });
-    let annotation = { type: 'bold', start: 3, end: 6 } as Annotation;
+    let annotation: Annotation = { type: 'bold', start: 3, end: 6 };
 
     assert.raises(() => node.insertAnnotation(annotation));
   }
