@@ -10,7 +10,7 @@ export class HIRNodeTest extends TestCase {
     let node = new HIRNode({ type: 'test', start: 5, end: 10 });
     let annotation = { type: 'bold', start: 6, end: 9 } as Annotation;
 
-    assert.deepEqual(node.insertAnnotation(annotation), null);
+    assert.equal(node.insertAnnotation(annotation), undefined);
   };
 
   @test
