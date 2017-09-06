@@ -10,19 +10,28 @@
   "main": "dist/commonjs/src/index.js",
   "module": "dist/modules/src/index.js",
   "types": "dist/types/src/index.d.ts",
+  "ember-addon": {
+    "main": "ember-addon.js"
+  },
   "scripts": {
+    "problems": "node ./scripts/problems.js",
     "preversion": "npm run test",
-    "prepare": "npm run build",
-    "pretest": "npm run build",
-    "build": "node ./scripts/build.js",
-    "test": "qunit dist/commonjs/test/**-test.js"
+    "prepack": "ember build -prod",
+    "build": "ember build -prod",
+    "build-tests": "ember build",
+    "test": "ember test",
+    "tdd": "ember test --server",
+    "docs": "typedoc --out docs src/ --mode file",
+    "publish-docs": "./scripts/publish-docs"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/qunit": "^2.0.31",
+    "ember-cli": "^2.15.1",
+    "libkit": "^0.5.12",
     "qunitjs": "^2.4.0",
     "shelljs": "^0.7.8",
-    "tslint": "^5.6.0",
+    "tslint": "^5.7.0",
     "typedoc": "^0.8.0",
     "typescript": "^2.4.2"
   },
