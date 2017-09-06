@@ -1,14 +1,5 @@
-export interface AtJSON {
-  content: string;
-  contentType: string | void;
-  annotations: Array<Annotation | never>;
-}
-
-export interface Annotation {
-  type: string;
-  start: number;
-  end: number;
-}
+import { Annotation, AtJSON, HIRNode } from './interfaces';
+export { Annotation, AtJSON, HIRNode };
 
 export class HIR {
   atjson: AtJSON;
@@ -20,7 +11,10 @@ export class HIR {
     }
   }
 
-  toJSON(): object {
-    return [];
+  toJSON(): HIRNode {
+    return <HIRNode>{
+      type: 'root',
+      children: []
+    };
   }
 }
