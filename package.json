@@ -1,5 +1,5 @@
 {
-  "name": "@atjson/core",
+  "name": "atjson",
   "version": "0.1.0",
   "description": "Libraries for annotated JSON documents",
   "contributors": [

@@ -1,1 +1,1 @@
-import './dummy-test';
+import './hir-test';
