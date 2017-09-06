@@ -12,6 +12,7 @@
     "arrow-parens": [true, "ban-single-arg-parens"],
     "curly": [true, "ignore-same-line"],
     "interface-name": [true, "never-prefix"],
+    "indent": [true, "spaces", 2],
     "max-classes-per-file": [false],
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
