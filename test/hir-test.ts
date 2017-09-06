@@ -19,7 +19,7 @@ export class HIRTest extends TestCase {
   "accepts atjson-shaped object"(assert: QUnitAssert) {
     let validDoc = <AtJSON>{
       content: 'test\ndocument\n\nnew paragraph', 
-      annotations: <Annotation>[]
+      annotations: []
     };
 
     assert.ok(new HIR(validDoc));
