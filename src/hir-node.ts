@@ -6,7 +6,7 @@ const PARAGRAPH_NODE_RANK = 2;
 const SPAN_NODE_RANK = 3;
 const TEXT_NODE_RANK = Infinity;
 
-export class HIRNode {
+export default class HIRNode {
 
   type: string;
 
