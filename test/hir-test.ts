@@ -88,7 +88,7 @@ export class HIRTest extends TestCase {
         { type: 'italic', start: 60, end: 66 },
         { type: 'ordered-list', start: 16, end: 91 },
         { type: 'list-item', start: 16, end: 43 },
-        { type: 'list-item', start: 43, end: 73 },
+        { type: 'list-item', start: 43, end: 91 },
         { type: 'ordered-list', start: 73, end: 91 },
         { type: 'list-item', start: 73, end: 82 },
         { type: 'list-item', start: 82, end: 91 }
@@ -96,33 +96,36 @@ export class HIRTest extends TestCase {
     }
 
     let expected = 
-      [ { type: 'paragraph', children: ['I have a list:'] },
-        { type: 'ordered-list', children: [
-          { type: 'list-item', children: [
-            { type: 'paragraph', children: [
-              'First item plus ',
-              { type: 'bold', children: ['bold'] },
-              ' text'
-            ]}
-          ] },
-          { type: 'list-item', children: [
-            { type: 'paragraph', children: [
-              'Second item plus ',
-              { type: 'italic', children: ['italic'] },
-              ' text'
-           ]},
-           {type: 'ordered-list', children: [
-             { type: 'list-item', children: [
-               { type: 'paragraph', children: ['Item 2a'] }
+      { type: 'root',
+        children: [
+          { type: 'paragraph', children: ['I have a list:\n\n'] },
+          { type: 'ordered-list', children: [
+            { type: 'list-item', children: [
+              { type: 'paragraph', children: [
+                'First item plus ',
+                { type: 'bold', children: ['bold'] },
+                ' text\n\n'
+              ]}
+            ] },
+            { type: 'list-item', children: [
+              { type: 'paragraph', children: [
+                'Second item plus ',
+                { type: 'italic', children: ['italic'] },
+                ' text\n\n'
              ]},
-             { type: 'list-item', children: [
-               { type: 'paragraph', children: ['Item 2b'] }
+             {type: 'ordered-list', children: [
+               { type: 'list-item', children: [
+                 { type: 'paragraph', children: ['Item 2a\n\n'] }
+               ]},
+               { type: 'list-item', children: [
+                 { type: 'paragraph', children: ['Item 2b\n\n'] }
+               ]}
              ]}
            ]}
-         ]}
-        ]},
-        { type: 'paragraph', children: ['After all the lists'] }
-      ];
+          ]},
+          { type: 'paragraph', children: ['After all the lists'] }
+        ]
+      };
 
     assert.deepEqual(new HIR(nested).toJSON(), expected);
   }
