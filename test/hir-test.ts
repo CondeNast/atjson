@@ -24,15 +24,11 @@ export class HIRTest extends TestCase {
 
     let expected = {
       type: 'root',
-      children: [{
-        type: 'paragraph',
-        children: [ 'test', { type: 'newline' }, 'document' ]
-      },
-      {
-        type: 'paragraph',
-        children: ['new paragraph']
-      }]
-    }
+      children: [
+        { type: 'paragraph', children: [ 'test\ndocument\n\n' ] },
+        { type: 'paragraph', children: ['new paragraph'] }
+      ]
+    };
 
     assert.ok(new HIR(validDoc));
     assert.deepEqual(new HIR(validDoc).toJSON(), expected);
@@ -40,14 +36,16 @@ export class HIRTest extends TestCase {
 
   @test
   "accepts a bare string"(assert: QUnitAssert) {
-    assert.ok(new HIR("Look at this huge string"));
-    assert.deepEqual(
-      new HIR("Look at this huge string"),
-      [{
+    let expected = {
+      type: 'root',
+      children: [{
         type: "paragraph",
         children: [ 'Look at this huge string' ]
       }]
-    );
+    };
+
+    assert.ok(new HIR("Look at this huge string"));
+    assert.deepEqual(new HIR("Look at this huge string").toJSON(), expected);
   }
 
   @test
@@ -60,8 +58,8 @@ export class HIRTest extends TestCase {
       ]
     };
 
-    let hir = new HIR(noNesting);
-    let expected = [{
+    let hir = new HIR(noNesting).toJSON();
+    let expected = { type: 'root', children: [{
       type: 'paragraph',
       children: [
         'A string with a ',
@@ -76,7 +74,7 @@ export class HIRTest extends TestCase {
         },
         ' annotation'
       ]
-    }];
+    }]};
 
     assert.deepEqual(hir, expected);
   }
@@ -86,14 +84,14 @@ export class HIRTest extends TestCase {
     let nested: AtJSON = {
       content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
       annotations: [
-        { type: 'bold', start: 34, end: 38 },
-        { type: 'italic', start: 64, end: 70 },
+        { type: 'bold', start: 32, end: 36 },
+        { type: 'italic', start: 60, end: 66 },
         { type: 'ordered-list', start: 16, end: 91 },
         { type: 'list-item', start: 16, end: 43 },
         { type: 'list-item', start: 43, end: 73 },
-        { type: 'ordered-list', start: 73, end: 92 },
-        { type: 'list-item', start: 73, end: 83 },
-        { type: 'list-item', start: 83, end: 92 }
+        { type: 'ordered-list', start: 73, end: 91 },
+        { type: 'list-item', start: 73, end: 82 },
+        { type: 'list-item', start: 82, end: 91 }
       ]
     }
 
@@ -139,9 +137,8 @@ export class HIRTest extends TestCase {
       ]
     }
 
-    assert.deepEqual(
-      new HIR(overlapping).toJSON(),
-      [{
+    let expected = { type: 'root',
+      children: [{
         type: 'paragraph',
         children: [
           'Some text that is both ',
@@ -150,8 +147,11 @@ export class HIRTest extends TestCase {
           ]},
           { type: 'italic', children: [' italic'] },
           ' plus something after.'
-        ],
-      }]);
+        ]
+      }]
+    };
+
+    assert.deepEqual(new HIR(overlapping).toJSON(), expected);
   }
 
   @test
@@ -159,20 +159,20 @@ export class HIRTest extends TestCase {
     let spanning: AtJSON = {
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
-        { type: 'bold', start: 22, end: 31 }
+        { type: 'bold', start: 22, end: 32 }
       ]
     }
 
-    assert.deepEqual(
-      new HIR(spanning).toJSON(),
-      [
-        { type: 'paragraph', children: [
-          'A paragraph with some ', { type: 'bold', children: ['bold'] }
-        ]},
-        { type: 'paragraph', children: [
-          { type: 'bold', children: ['text'] }, ' that continues into the next.'
-        ]}
-      ]);
+    let expected = { type: 'root', children: [
+      { type: 'paragraph', children: [
+        'A paragraph with some ', { type: 'bold', children: ['bold\n\n'] }
+      ]},
+      { type: 'paragraph', children: [
+        { type: 'bold', children: ['text'] }, ' that continues into the next.'
+      ]}
+    ]};
+
+    assert.deepEqual(new HIR(spanning).toJSON(), expected);
   }
 
   @test

@@ -8,7 +8,7 @@ export class HIR {
   rootNode: HIRNode;
 
   constructor(atjson: string | AtJSON) {
-    if (atjson instanceof String) {
+    if (typeof atjson === 'string') {
       this.atjson = {
         content: atjson,
         annotations: []
@@ -20,14 +20,13 @@ export class HIR {
     this.populateHIR();
   }
 
-  toJSON(): HIRNode {
-    return this.rootNode;
+  toJSON(): object {
+    return this.rootNode.toJSON();
   }
 
   populateHIR(): void {
     this.rootNode = new HIRNode({
       type: 'root',
-      children: [],
       start: 0,
       end: this.atjson.content.length
     });
@@ -35,9 +34,14 @@ export class HIR {
     let annotations = this.atjson.annotations.concat(this.parseContent());
 
     annotations
+      .filter(a => a.type === 'paragraph')
       .sort((a: Annotation, b: Annotation) => a.start - b.start)
-      .sort((a: Annotation, b: Annotation) => 0) // this should sort according to annotation heirarchy
-      .forEach(this.rootNode.insertAnnotation);
+      .forEach((annotation) => this.rootNode.insertAnnotation(annotation));
+
+    annotations
+      .filter(a => a.type !== 'paragraph')
+      .sort((a, b) => a.start - b.start)
+      .forEach((annotation) => this.rootNode.insertAnnotation(annotation));
 
     this.rootNode.insertText(this.atjson.content);
   }
@@ -60,15 +64,20 @@ export class HIR {
 
   plainTextParser(content: string): Annotation[] {
     let paragraphs = content.split('\n\n');
-    let startIdx = 0;
-    return paragraphs.map(paragraph => {
+    var startIdx = 0;
+
+    return paragraphs.map((paragraph, i) => {
       let pghStartIdx = startIdx;
-      startIdx += 2;
+      startIdx += paragraph.length + 2;
+
+      let pghEndIdx = pghStartIdx + paragraph.length;
+      if (i < paragraphs.length - 1) {
+        pghEndIdx += 2;
+      }
       return {
         type: 'paragraph',
         start: pghStartIdx,
-        end: paragraph.length + 2,
-        children: [ paragraph + '\n\n' ]
+        end: pghEndIdx
       } as Annotation;
     });
   }
