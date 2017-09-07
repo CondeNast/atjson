@@ -34,14 +34,13 @@ export class HIR {
     let annotations = this.atjson.annotations.concat(this.parseContent());
 
     annotations
-      .filter(a => a.type === 'paragraph')
-      .sort((a: Annotation, b: Annotation) => a.start - b.start)
-      .forEach((annotation) => this.rootNode.insertAnnotation(annotation));
-
-    annotations
-      .filter(a => a.type !== 'paragraph')
-      .sort((a, b) => a.start - b.start)
-      .forEach((annotation) => this.rootNode.insertAnnotation(annotation));
+      .sort((a: Annotation, b: Annotation) => {
+        if (a.start === b.start) {
+          return (b.end - b.start) - (a.end - a.start);
+        } else {
+          return a.start - b.start;
+        }
+      }).forEach((annotation) => this.rootNode.insertAnnotation(annotation));
 
     this.rootNode.insertText(this.atjson.content);
   }

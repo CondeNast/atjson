@@ -70,10 +70,14 @@ export class HIRNodeTest extends TestCase {
   "out-of-order insertion of different rank nodes works"(assert: QUnitAssert) {
     let root = new HIRNode({ type: 'root', start: 0, end: 10 });
     let block = new HIRNode({type: 'ordered-list', start: 4, end: 8});
-    let paragraph = new HIRNode({type: 'paragraph', start: 4, end: 8});
+    let paragraphOne = new HIRNode({type: 'paragraph', start: 0, end: 4});
+    let paragraphTwo = new HIRNode({type: 'paragraph', start: 4, end: 8});
+    let paragraphThree = new HIRNode({type: 'paragraph', start: 8, end: 10});
 
     root.insertNode(block);
-    root.insertNode(paragraph);
+    root.insertNode(paragraphOne);
+    root.insertNode(paragraphTwo);
+    root.insertNode(paragraphThree);
 
     root.insertText('ab\n\nli\n\ncd');
 
@@ -83,7 +87,21 @@ export class HIRNodeTest extends TestCase {
         { type: 'paragraph', children: ['li\n\n'] }
       ]},
       { type: 'paragraph', children: ['cd'] }
-    ]})
+    ]});
+  }
+
+  @test
+  "insert paragraph after bold works"(assert: QUnitAssert) {
+    let root = new HIRNode({type:'root', start: 0, end: 10});
+    let bold = new HIRNode({type:'bold', start: 4, end: 6});
+    let paragraph = new HIRNode({type:'paragraph', start:0, end: 10});
+    root.insertNode(bold);
+    root.insertNode(paragraph);
+    root.insertText('abcdefghij');
+
+    assert.deepEqual(root.toJSON(), {type:'root', children: [
+      { type: 'paragraph', children: [ 'abcd', { type: 'bold', children: ['ef']}, 'ghij']}
+    ]});
   }
 
     /*

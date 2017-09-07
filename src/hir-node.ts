@@ -118,56 +118,88 @@ export class HIRNode {
   }
 
   insertSibling(node: HIRNode): void {
-    if (this.sibling) {
-      if (node.start < this.sibling.start) {
-        let preSibling = node.trim(this.end, this.sibling.start);
-        let postSibling = node.trim(this.sibling.start, node.end);
+    if (!this.sibling) {
+      this.sibling = node;
+    } else {
+      if (node.rank < this.sibling.rank) {
+        // FIXME FIXME FIXME this needs refacotring, as with below.
+        if (this.sibling.start < node.start) {
+          let preSibling = this.sibling.trim(this.end, node.start);
+          let postSibling = this.sibling.trim(node.start, this.sibling.end);
 
-        if (postSibling) {
-          this.sibling.insertNode(postSibling);
-        }
+          if (postSibling) {
+            node.insertNode(postSibling);
+          }
 
-        if (preSibling) {
-          preSibling.insertNode(this.sibling);
-          this.sibling = preSibling;
-        }
-      } else {
-        if (node.rank < this.sibling.rank) {
+          if (preSibling) {
+            preSibling.insertNode(node);
+            this.sibling = preSibling;
+          } else {
+            this.sibling = node;
+          }
+        } else {
           node.insertNode(this.sibling);
           this.sibling = node;
+        }
+      } else {
+        if (node.start < this.sibling.start) {
+          let preSibling = node.trim(this.end, this.sibling.start);
+          let postSibling = node.trim(this.sibling.start, node.end);
+
+          if (postSibling) {
+            this.sibling.insertNode(postSibling);
+          }
+
+          if (preSibling) {
+            preSibling.insertNode(this.sibling);
+            this.sibling = preSibling;
+          }
         } else {
           this.sibling.insertNode(node);
         }
       }
-    } else {
-      this.sibling = node;
     }
   }
 
   insertChild(node: HIRNode): void {
-    if (this.child) {
-      if (node.start < this.child.start) {
-        let preChild = node.trim(this.start, this.child.start);
-        let postChild = node.trim(this.child.start, node.end);
+    if (!this.child) {
+      this.child = node;
+    } else {
+      // FIXME FIXME FIXME this needs some refactoring for clarity / symmetry.
+      if (node.rank < this.child.rank) {
+        if (this.child.start < node.start) {
+          let preChild = this.child.trim(this.child.start, node.start);
+          let postChild = this.child.trim(this.start, this.child.end);
 
-        if (postChild) {
-          this.child.insertNode(postChild);
-        }
+          if (postChild) {
+            node.insertNode(postChild);
+          }
 
-        if (preChild) {
-          preChild.insertNode(this.child);
-          this.child = preChild;
-        }
-      } else {
-        if (node.rank < this.child.rank) {
+          if (preChild) {
+            preChild.insertNode(node);
+            this.child = preChild;
+          }
+        } else {
           node.insertNode(this.child);
           this.child = node;
+        }
+      } else {
+        if (node.start < this.child.start) {
+          let preChild = node.trim(this.start, this.child.start);
+          let postChild = node.trim(this.child.start, node.end);
+
+          if (postChild) {
+            this.child.insertNode(postChild);
+          }
+
+          if (preChild) {
+            preChild.insertNode(this.child);
+            this.child = preChild;
+          }
         } else {
           this.child.insertNode(node);
         }
       }
-    } else {
-      this.child = node;
     }
   }
 
