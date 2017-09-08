@@ -2,8 +2,6 @@ import Annotation from './annotation';
 import AtJSON from './atjson';
 import HIRNode from './hir-node';
 
-type Range = [number, number];
-
 export default class HIR {
 
   atjson: AtJSON;
