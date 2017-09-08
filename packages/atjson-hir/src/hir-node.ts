@@ -1,4 +1,4 @@
-import { Annotation } from './interfaces';
+import Annotation from './annotation';
 
 const ROOT_NODE_RANK = 0;
 const BLOCK_NODE_RANK = 1;

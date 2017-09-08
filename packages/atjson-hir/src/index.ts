@@ -1,4 +1,5 @@
-import { Annotation, AtJSON } from './interfaces';
+import Annotation from './annotation';
+import AtJSON from './atjson';
 import HIRNode from './hir-node';
 import HIR from './hir';
 export { Annotation, AtJSON, HIRNode, HIR };
