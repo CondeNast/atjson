@@ -1,4 +1,4 @@
-import HIR from './hir';
+import HIR from 'atjson';
 import React from 'react';
 import markdown from './markdown';
 

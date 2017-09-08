@@ -1,7 +1,8 @@
 import { module, test, TestCase, QUnitAssert } from './support';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { HIR, ReactRenderer } from 'atjson';
+import { HIR } from 'atjson';
+import { ReactRenderer } from 'atjson-renderer-markdown';
 
 @module("markdown")
 export class MarkdownTest extends TestCase {
@@ -29,6 +30,8 @@ export class MarkdownTest extends TestCase {
         { type: 'bold', start: 22, end: 32 }
       ]
     });
+
+    console.log(hir.toJSON())
 
     let renderer = new ReactRenderer(hir);
     assert.equal(ReactDOMServer.renderToStaticMarkup(renderer.compile()),

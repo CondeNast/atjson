@@ -1,3 +1,2 @@
-export default function hello() {
-  return 'Hello from atjson-renderer-markdown';
-}
+import ReactRenderer from './react-renderer';
+export { ReactRenderer };
