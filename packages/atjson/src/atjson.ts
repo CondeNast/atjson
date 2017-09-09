@@ -26,7 +26,7 @@ export default class AtJSON {
     }
   }
 
-  insertText(position: number, text: string) {
+  insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
 
     if (position < 0 || position > this.content.length) throw new Error('Invalid position.');
 
@@ -39,8 +39,45 @@ export default class AtJSON {
     for (let i = this.annotations.length - 1; i >= 0; i--) {
       let a = this.annotations[i];
 
-      if (position <= a.start) a.start += length;
-      if (position <= a.end) a.end += length;
+      // annotation types that implement the Annotation transform interface can
+      // override the default behaviour. This is desirable for e.g., links or
+      // comments, where insertion at the end of the link/comment should _not_
+      // affect the annotation.
+      //
+      // FIXME this whole inner loop should probably be moved to a base Annotation.transform 
+      if (a.transform) {
+        a.transform(a, this.content, position, text.length, preserveAdjacentBoundaries);
+
+      // The first two normal cases are self explanatory. Just adjust the annotation
+      // position, since there is never a case where we wouldn't want to.
+      } else if (position < a.start) {
+        a.start += length;
+        a.end += length;
+      } else if (position > a.start && position < a.end) {
+        a.end += length;
+      
+      // In this case, however, the normal behaviour when inserting text at a
+      // point adjacent to an annotation is to drag along the end of the
+      // annotation, or push forward the beginning, i.e., the transform happens
+      // _inside_ an annotation to the left, or _outside_ an annotation to the right.
+      //
+      // Sometimes, the desire is to change the direction; this is provided below
+      // with the preserveAdjacentBoundaries switch.
+
+      // Default edge behaviour.
+      } else if (!preserveAdjacentBoundaries) {
+        if (position === a.start) {
+          a.start += length;
+          a.end += length;
+        } else if (position === a.end) {
+          a.end += length;
+        }
+
+      // Non-standard behaviour. Do nothing to the adjacent boundary!
+      } else if (position == a.start) {
+        a.end += length;
+      } else if (position == a.end)  {
+      }
     }
   }
 

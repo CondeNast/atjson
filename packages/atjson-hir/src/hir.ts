@@ -1,5 +1,4 @@
-import Annotation from './annotation';
-import AtJSON from './atjson';
+import { AtJSON, Annotation } from 'atjson';
 import HIRNode from './hir-node';
 
 export default class HIR {

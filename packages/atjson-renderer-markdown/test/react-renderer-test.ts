@@ -1,7 +1,7 @@
 import { module, test, TestCase, QUnitAssert } from './support';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { HIR } from 'atjson';
+import { HIR } from 'atjson-hir';
 import { ReactRenderer } from 'atjson-renderer-markdown';
 
 @module("markdown")
