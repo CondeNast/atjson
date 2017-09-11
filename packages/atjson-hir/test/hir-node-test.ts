@@ -1,5 +1,6 @@
 import { module, test, TestCase, QUnitAssert } from './support';
-import { Annotation, HIRNode } from 'atjson';
+import { Annotation } from 'atjson';
+import { HIRNode } from 'atjson-hir';
 
 @module("hir-node")
 export class HIRNodeTest extends TestCase {

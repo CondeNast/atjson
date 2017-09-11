@@ -1,11 +1,11 @@
-import HIR from './hir';
+import HIR from 'atjson-hir';
 import React from 'react';
 import markdown from './markdown';
 
 function compile(annotations, node) {
   return React.createElement(
     annotations[node.type],
-    null,
+    node.data,
     ...node.children.map(function (childNode) {
       if (typeof childNode === 'string') {
         return childNode;

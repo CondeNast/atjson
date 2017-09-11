@@ -2,6 +2,6 @@ import React from 'react';
 
 export default class extends React.Component {
   render() {
-    return [this.props.children, "\n\n"];
+    return ['[', this.props.children, '](', this.props.url, ')'];
   }
 }

@@ -1,4 +1,4 @@
-import { Annotation, AtJSON } from './interfaces';
+import { AtJSON, Annotation } from 'atjson';
 import HIRNode from './hir-node';
 
 export default class HIR {
@@ -8,12 +8,9 @@ export default class HIR {
 
   constructor(atjson: string | AtJSON) {
     if (typeof atjson === 'string') {
-      this.atjson = {
-        content: atjson,
-        annotations: []
-      } as AtJSON;
+      this.atjson = new AtJSON(atjson);
     } else {
-      this.atjson = { ...atjson };
+      this.atjson = new AtJSON(atjson);
     }
 
     this.populateHIR();
@@ -24,15 +21,28 @@ export default class HIR {
   }
 
   populateHIR(): void {
+
+    let atjson = this.atjson;
+
+    atjson.addAnnotations(this.parseContent());
+
+    //let annotations = this.atjson.annotations.concat(this.parseContent());
+
+    atjson.annotations
+      .filter((a) => a.type === 'parse-token')
+      .forEach((a) => atjson.deleteText(a));
+
+    atjson.annotations
+      .filter(a => a.type === 'parse-token' || a.type === 'parse-element')
+      .forEach(a => atjson.removeAnnotation(a));
+
     this.rootNode = new HIRNode({
       type: 'root',
       start: 0,
-      end: this.atjson.content.length
+      end: atjson.content.length
     });
 
-    let annotations = this.atjson.annotations.concat(this.parseContent());
-
-    annotations
+    atjson.annotations
       .sort((a: Annotation, b: Annotation) => {
         if (a.start === b.start) {
           return (b.end - b.start) - (a.end - a.start);
@@ -41,7 +51,7 @@ export default class HIR {
         }
       }).forEach((annotation) => this.rootNode.insertAnnotation(annotation));
 
-    this.rootNode.insertText(this.atjson.content);
+    this.rootNode.insertText(atjson.content);
   }
 
   parseContent(): Annotation[] {
@@ -64,22 +74,42 @@ export default class HIR {
   }
 
   plainTextParser(content: string): Annotation[] {
-    let paragraphs = content.split('\n\n');
-    var startIdx = 0;
+    let prevIdx = 0;
+    let breakIdx = content.indexOf("\n\n", 0);
 
-    return paragraphs.map((paragraph, i) => {
-      let pghStartIdx = startIdx;
-      startIdx += paragraph.length + 2;
+    let annotations = [];
 
-      let pghEndIdx = pghStartIdx + paragraph.length;
-      if (i < paragraphs.length - 1) {
-        pghEndIdx += 2;
-      }
-      return {
+    while (breakIdx != -1) {
+      annotations.push({
         type: 'paragraph',
-        start: pghStartIdx,
-        end: pghEndIdx
-      } as Annotation;
-    });
+        start: prevIdx,
+        end: breakIdx
+      } as Annotation);
+
+      annotations.push({
+        type: 'parse-element',
+        start: prevIdx,
+        end: breakIdx + 2,
+      } as Annotation);
+
+      annotations.push({
+        type: 'parse-token',
+        start: breakIdx,
+        end: breakIdx + 2
+      } as Annotation);
+
+      prevIdx = breakIdx + 2;
+      breakIdx = content.indexOf("\n\n", breakIdx + 2);
+    }
+
+    if (prevIdx < content.length) {
+      annotations.push({
+        type: 'paragraph',
+        start: prevIdx,
+        end: content.length
+      } as Annotation);
+    }
+
+    return annotations;
   }
 }

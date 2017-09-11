@@ -1,7 +1,8 @@
 import { module, test, TestCase, QUnitAssert } from './support';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { HIR, ReactRenderer } from 'atjson';
+import { HIR } from 'atjson-hir';
+import { ReactRenderer } from 'atjson-renderer-markdown';
 
 @module("markdown")
 export class MarkdownTest extends TestCase {
@@ -30,13 +31,15 @@ export class MarkdownTest extends TestCase {
       ]
     });
 
+    console.log(hir.toJSON())
+
     let renderer = new ReactRenderer(hir);
     assert.equal(ReactDOMServer.renderToStaticMarkup(renderer.compile()),
                  'A paragraph with some **bold**\n\n**text** that continues into the next.');
   }
 
   @test
-    "a list"(assert: QUnitAssert) {
+  "a list"(assert: QUnitAssert) {
     let hir = new HIR({
       content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
       annotations: [
@@ -62,6 +65,21 @@ export class MarkdownTest extends TestCase {
 
 After all the lists
 `);
+  }
 
+  @test
+  "links"(assert: QUnitAssert) {
+    let hir = new HIR({
+      content: 'Linky!',
+      annotations: [{
+        type: 'link', start: 0, end: 6, data: {
+          url: 'https://example.com'
+        }
+      }]
+    });
+
+    let renderer = new ReactRenderer(hir);
+    assert.equal(ReactDOMServer.renderToStaticMarkup(renderer.compile()),
+                 `I have a [list](https://example.com)`);
   }
 };
