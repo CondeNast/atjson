@@ -39,7 +39,7 @@ export class MarkdownTest extends TestCase {
   }
 
   @test
-    "a list"(assert: QUnitAssert) {
+  "a list"(assert: QUnitAssert) {
     let hir = new HIR({
       content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
       annotations: [
@@ -65,6 +65,21 @@ export class MarkdownTest extends TestCase {
 
 After all the lists
 `);
+  }
 
+  @test
+  "links"(assert: QUnitAssert) {
+    let hir = new HIR({
+      content: 'Linky!',
+      annotations: [{
+        type: 'link', start: 0, end: 6, data: {
+          url: 'https://example.com'
+        }
+      }]
+    });
+
+    let renderer = new ReactRenderer(hir);
+    assert.equal(ReactDOMServer.renderToStaticMarkup(renderer.compile()),
+                 `I have a [list](https://example.com)`);
   }
 };

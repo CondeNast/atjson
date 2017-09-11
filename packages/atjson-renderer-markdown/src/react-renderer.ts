@@ -5,7 +5,7 @@ import markdown from './markdown';
 function compile(annotations, node) {
   return React.createElement(
     annotations[node.type],
-    null,
+    node.data,
     ...node.children.map(function (childNode) {
       if (typeof childNode === 'string') {
         return childNode;

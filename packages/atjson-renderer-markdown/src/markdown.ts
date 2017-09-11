@@ -1,17 +1,25 @@
-import Root from './markdown/root';
 import Bold from './markdown/bold';
+import Heading from './markdown/heading';
+import HorizontalRule from './markdown/horizontal-rule';
+import Image from './markdown/image';
 import Italic from './markdown/italic';
-import Paragraph from './markdown/paragraph';
-import OrderedList from './markdown/ordered-list';
-import UnorderedList from './markdown/unordered-list';
+import Link from './markdown/link';
 import ListItem from './markdown/list-item';
+import OrderedList from './markdown/ordered-list';
+import Paragraph from './markdown/paragraph';
+import Root from './markdown/root';
+import UnorderedList from './markdown/unordered-list';
 
 export default {
-  'root': Root,
   'bold': Bold,
+  'heading': Heading,
+  'horizontal-rule': HorizontalRule,
+  'image': Image,
   'italic': Italic,
-  'paragraph': Paragraph,
+  'link': Link,
+  'list-item': ListItem,
   'ordered-list': OrderedList,
-  'unordered-list': UnorderedList,
-  'list-item': ListItem
+  'paragraph': Paragraph,
+  'root': Root,
+  'unordered-list': UnorderedList
 };
