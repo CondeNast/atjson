@@ -35,19 +35,20 @@ export class CommonMarkTest extends TestCase {
   @test
   "a list"(assert: QUnitAssert) {
     let hir = new HIR({
-      content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
+      content: 'I have a list:\n\nFirst item plus bold text\nSecond item plus italic text\nItem 2a\nItem 2b\n\nAfter all the lists',
       annotations: [
         { type: 'bold', start: 32, end: 36 },
-        { type: 'italic', start: 60, end: 66 },
-        { type: 'ordered-list', start: 16, end: 91 },
-        { type: 'list-item', start: 16, end: 43 },
-        { type: 'list-item', start: 43, end: 91 },
-        { type: 'ordered-list', start: 73, end: 91 },
-        { type: 'list-item', start: 73, end: 82 },
-        { type: 'list-item', start: 82, end: 91 }
+        { type: 'italic', start: 59, end: 65 },
+        { type: 'ordered-list', start: 16, end: 87 },
+        { type: 'list-item', start: 16, end: 42 },
+        { type: 'list-item', start: 42, end: 87 },
+        { type: 'ordered-list', start: 70, end: 87 },
+        { type: 'list-item', start: 70, end: 78 },
+        { type: 'list-item', start: 78, end: 87 }
       ]
     });
 
+    console.log(hir.toJSON());
     assert.equal(commonmark.render(hir),
                  `I have a list:
 
@@ -56,22 +57,37 @@ export class CommonMarkTest extends TestCase {
    1. Item 2a
    2. Item 2b
 
-After all the lists
-`);
+After all the lists`);
   }
 
   @test
   "links"(assert: QUnitAssert) {
     let hir = new HIR({
-      content: 'Linky!',
+      content: 'I have a link',
       annotations: [{
-        type: 'link', start: 0, end: 6, data: {
+        type: 'link', start: 9, end: 13, data: {
           url: 'https://example.com'
         }
       }]
     });
 
     assert.equal(commonmark.render(hir),
-                 `I have a [list](https://example.com)`);
+                 `I have a [link](https://example.com)`);
+  }
+
+  @test
+  "images"(assert: QUnitAssert) {
+    let hir = new HIR({
+      content: ' ',
+      annotations: [{
+        type: 'image', start: 0, end: 0, data: {
+          alt: 'CommonMark',
+          url: 'http://commonmark.org/images/markdown-mark.png'
+        }
+      }]
+    });
+
+    assert.equal(commonmark.render(hir),
+                 `![CommonMark](http://commonmark.org/images/markdown-mark.png)`);
   }
 };

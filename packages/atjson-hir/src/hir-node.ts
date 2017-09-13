@@ -9,6 +9,7 @@ const TEXT_NODE_RANK = Infinity;
 export default class HIRNode {
 
   type: string;
+  attributes?: Object;
 
   start: number;
   end: number;
@@ -26,6 +27,7 @@ export default class HIRNode {
 
     this.start = node.start;
     this.end = node.end;
+    this.attributes = node.attributes;
 
     switch (node.type) {
       case 'root':
@@ -63,6 +65,7 @@ export default class HIRNode {
 
     return {
       type: this.type,
+      data: this.data,
       children: this.children().map(child => {
         return child.toJSON();
       })

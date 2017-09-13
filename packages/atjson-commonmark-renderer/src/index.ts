@@ -3,6 +3,16 @@ import TextRenderer from 'atjson-text-renderer';
 export default new TextRenderer({
 
   /**
+    The root allows us to normalize the document
+    after all annotations have been rendered to
+    CommonMark.
+   */
+  *root() {
+    let document = yield;
+    return document.trimRight();
+  },
+
+  /**
     Bold text looks like **this** in Markdown.
    */
   *bold() {
@@ -44,7 +54,7 @@ export default new TextRenderer({
     ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *image(props: { alt: string, url: string }) {
-    return `'![${props.alt}](${props.url})`;
+    return `![${props.alt}](${props.url})`;
   },
 
   /**
@@ -78,9 +88,11 @@ export default new TextRenderer({
     let indentedItem = item.split('\n').map((line) => indent + line).join('\n').trim();
 
     if (this.type === 'ordered-list') {
-      return `${indent}${this.index++}. ${indentedItem}`;
+      console.log('li', `${indent}${this.index}. ${indentedItem}\n`);
+      return `${indent}${this.index++}. ${indentedItem}\n`;
     } else if (this.type === 'unordered-list') {
-      return `${indent}- ${indentedItem}`;
+      console.log('li', `${indent}- ${indentedItem}\n`);
+      return `${indent}- ${indentedItem}\n`;
     }
     return item;
   },
@@ -93,12 +105,13 @@ export default new TextRenderer({
   *'ordered-list'() {
     this.pushScope({
       type: 'ordered-list',
-      indent: (this.indent || 0) + 1,
+      indent: (this.indent + 1) || 0,
       index: 1
     });
     let list = yield;
     this.popScope();
-    return list;
+    console.log('ol', `"${list}\n"`);
+    return `${list}\n`;
   },
 
   /**
@@ -109,7 +122,7 @@ export default new TextRenderer({
   *'unordered-list'() {
     this.pushScope({
       type: 'unordered-list',
-      indent: (this.indent || 0) + 1
+      indent: (this.indent + 1) || 0
     });
     let list = yield;
     this.popScope();

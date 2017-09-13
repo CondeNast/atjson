@@ -8,7 +8,10 @@ class Scope {
   }
 
   pushScope(scope) {
-    this.scopes.push(scope);
+    this.scopes.push(Object.assign({
+      popScope: () => this.popScope(),
+      pushScope: (scope) => this.pushScope(scope)
+    }, scope));
   }
 
   popScope() {
@@ -16,12 +19,16 @@ class Scope {
   }
 
   invoke(fn, ...args) {
-    return fn.call(this.scopes[this.scopes.length - 1], ...args);
+    let scope = this.scopes[this.scopes.length - 1];
+    return fn.call(scope, ...args);
   }
 }
 
 function compile(env, node, scope): string {
-  let generator = scope.invoke(env[node.type], node.data);
+  if (!env[node.type]) {
+      console.log(`No handler found for ${node.type}`);
+  }
+  let generator = scope.invoke(env[node.type], node.attributes);
   let result = generator.next();
   if (result.done) {
     return result.value;
