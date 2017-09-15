@@ -17,6 +17,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/qunit": "^2.0.31",
+    "atjson-contenttype-html": "0.5.0",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
     "ember-cli": "^2.14.2",
@@ -24,10 +25,11 @@
     "qunitjs": "^2.4.0",
     "shelljs": "^0.7.8",
     "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "typescript": "^2.4.2",
+    "atjson": "0.5.0",
+    "atjson-hir": "0.5.0"
   },
   "dependencies": {
-    "markdown-it": "^8.4.0",
-    "atjson": "0.5.0"
+    "markdown-it": "^8.4.0"
   }
 }
