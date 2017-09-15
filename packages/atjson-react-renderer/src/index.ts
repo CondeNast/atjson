@@ -1,27 +1,41 @@
-import HIR from 'atjson-hir';
+import Renderer from 'atjson-renderer';
 import React from 'react';
 
-function compile(annotations, node) {
-  return React.createElement(
-    annotations[node.type],
-    node.data,
-    ...node.children.map(function (childNode) {
-      if (typeof childNode === 'string') {
-        return childNode;
-      } else {
-        return compile(annotations, childNode);
-      }
-    })
-  );
+interface Component {
+  new (...args: any[]): React.Component
 }
 
-export default class {
-  private env;
-  constructor(env) {
-    this.env = env;
+interface ComponentLookup {
+  [key: string]: Component|function
+}
+
+class ReactRenderer implements Renderer {
+  private componentMap: ComponentLookup;
+
+  constructor(componentMap: ComponentLookup) {
+    super();
+    this.componentMap = componentMap;
   }
 
-  render(hir) {
-    return compile(this.env, hir.toJSON());
+  registerComponent(type: string, component: Component|function) {
+    this.componentMap[type] = component;
   }
-};
+
+  unregisterComponent(type: string) {
+    this.componentMap[type] = null;
+  }
+
+  *renderAnnotation(annotation) {
+    let AnnotationComponent = this.componentMap[annotation.type];
+    if (AnnotationComponent) {
+      return React.createElement(
+        AnnotationComponent,
+        annotation.attributes,
+        ...yield
+      );
+    } else {
+      console.error(`No component found for "${annotation.type}"- content will be yielded`);
+      return ;
+    }
+  }
+}

@@ -1,3 +1,4 @@
 import HIRNode from './hir-node';
 import HIR from './hir';
-export { HIRNode, HIR };
+import Renderer from './renderer';
+export { HIRNode, HIR, Renderer };

@@ -65,7 +65,7 @@ export default class HIRNode {
 
     return {
       type: this.type,
-      data: this.data,
+      attributes: this.attributes,
       children: this.children().map(child => {
         return child.toJSON();
       })

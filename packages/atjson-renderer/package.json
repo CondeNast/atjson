@@ -1,5 +1,5 @@
 {
-  "name": "atjson-react-renderer",
+  "name": "atjson-renderer",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/src/index.js",
@@ -24,13 +24,10 @@
   "devDependencies": {
     "@types/qunit": "^2.0.31",
     "ember-cli": "^2.14.2",
-    "libkit": "^0.5.12",
+    "libkit": "^0.5.13",
     "qunitjs": "^2.4.0",
     "shelljs": "^0.7.8",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
-  },
-  "dependencies": {
-    "atjson-renderer": "0.5.0"
   }
 }

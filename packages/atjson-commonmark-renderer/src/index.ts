@@ -1,7 +1,10 @@
-import TextRenderer from 'atjson-text-renderer';
+import Renderer from 'atjson-renderer';
 
-export default new TextRenderer({
+interface AnnotationLookup {
+  [key: string]: *(any): string;
+}
 
+const MARKDOWN_RULES = {
   /**
     The root allows us to normalize the document
     after all annotations have been rendered to
@@ -137,5 +140,32 @@ export default new TextRenderer({
    */
   *paragraph() {
     return `${yield}\n\n`;
+  }
+};
+
+export default class extends Renderer {
+  annotationLookup: AnnotationLookup
+
+  constructor(annotationLookup: AnnotationLookup) {
+    super();
+    this.annotationLookup = Object.assign(annotationLookup, MARKDOWN_RULES);
+  }
+
+  registerRule(type: string, rule: *(any): string) {
+    this.annotationLookup[type] = rule;
+  }
+
+  unregisterRule(type: string) {
+    this.annotationLookup[type] = null;
+  }
+
+  *renderAnnotation (annotation) {
+    let rule = this.annotationLookup[annotation.type];
+    if (rule) {
+      return *rule.call(this, annotation.attributes);
+    } else {
+      console.error(`No rule found for "${annotation.type}"`);
+      return `yield.join('')`;
+    }
   }
 });
