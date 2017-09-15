@@ -114,9 +114,10 @@ export default class AtJSON {
       // everything.
       //           [       ]
       // --*---*-------------
-      if (end <= a.start) {
+      if (end < a.start) {
         a.start -= length;
         a.end -= length;
+
       } else {
 
         if (end < a.end) {
@@ -145,7 +146,8 @@ export default class AtJSON {
           //              [     ]
           //    ------*---------*--------
           if (start <= a.start) {
-            deletedAnnotationIndexes.push(i);
+            a.start = start;
+            a.end -= length;
 
           //       [        ]
           //    ------*---------*--------
@@ -155,12 +157,6 @@ export default class AtJSON {
 
         }
       }
-    }
-
-    // Clean up deleted annotations.
-    let l = deletedAnnotationIndexes.length;
-    while (l--) {
-      this.annotations.splice(deletedAnnotationIndexes[l], 1);
     }
   }
 }
