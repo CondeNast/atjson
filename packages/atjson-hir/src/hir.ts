@@ -1,5 +1,6 @@
 import { AtJSON, Annotation } from 'atjson';
 import HIRNode from './hir-node';
+import * as entities from 'entities';
 
 export default class HIR {
 
@@ -7,24 +8,35 @@ export default class HIR {
   rootNode: HIRNode;
 
   constructor(atjson: string | AtJSON) {
-    if (typeof atjson === 'string') {
+    if (atjson instanceof AtJSON) {
+      this.atjson = atjson;
+    } else if (typeof atjson === 'string') {
       this.atjson = new AtJSON(atjson);
     } else {
-      this.atjson = new AtJSON(atjson);
+      throw new Error('Invalid argument');
     }
 
     this.populateHIR();
   }
 
   toJSON(): object {
-    return this.rootNode.toJSON();
+    if (this.atjson.contentType === 'text/html') {
+      return this.rootNode.toJSON((node: HIRNode): HIRNode => {
+        if (node.type === 'text') {
+          node.text = entities.decodeHTML5(node.text);
+        }
+        return node;
+      });
+    } else {
+      return this.rootNode.toJSON();
+    }
   }
 
   populateHIR(): void {
 
     let atjson = this.atjson;
 
-    atjson.addAnnotations(this.parseContent());
+    //atjson.addAnnotations(this.parseContent());
 
     //let annotations = this.atjson.annotations.concat(this.parseContent());
 
