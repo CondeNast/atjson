@@ -91,6 +91,10 @@ export default class AtJSON {
     const end = annotation.end;
     const length = end - start;
 
+    if (!(start >= 0 && end >= 0)) {
+      throw new Error('Start and end must be numbers.');
+    }
+
     const before = this.content.slice(0, start);
     const after = this.content.slice(end);
 
