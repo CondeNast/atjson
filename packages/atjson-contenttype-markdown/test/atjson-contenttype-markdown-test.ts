@@ -8,49 +8,143 @@ export class MarkdownToAtJSONTest extends TestCase {
   "Correctly obtains annotations for simple inline elements"(assert: QUnitAssert) {
     let markdown = "*hello* __world__";
     let expectedAnnotations = [
-      { type: 'parse-token', tokenType: 'em_open', tag: 'em', start: 0, end: 1 },
-      { type: 'em', start: 1, end: 6 },
-      { type: 'parse-token', tokenType: 'em_close', tag: 'em', start: 6, end: 7 },
-      { type: 'parse-element', tag: 'em', start: 0, end: 7 },
-
-      { type: 'parse-token', tokenType: 'strong_open', tag: 'strong', start: 8, end: 10 },
-      { type: 'strong', start: 10, end: 15 },
-      { type: 'parse-token', tokenType: 'strong_close', tag: 'strong', start: 15, end: 17 },
-      { type: 'parse-element', tag: 'strong', start: 8, end: 17 },
-
-      { type: 'paragraph', start: 0, end: 17 },
-      { type: 'parse-element', tag: 'paragraph', start: 0, end: 17 },
+      { type: 'em', start: 0, end: 5 },
+      { type: 'strong', start: 6, end: 11 },
+      { type: 'paragraph', start: 0, end: 11 },
     ];
 
     let parser = new Parser(markdown);
-    assert.deepEqual(parser.parse(), expectedAnnotations);
+    let atjson = parser.parse();
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
   }
 
   @test
   "Correctly handles multiple paragraphs"(assert: QUnitAssert) {
     let markdown = "12345\n\n\n678\n910\n\neleventwelve\n\n";
-    let mi = markdown.indexOf.bind(markdown);
-    let pe = 'parse-element';
-    let pg = 'paragraph';
-    let a = (t: string, s: number, e: number, tag?: string): Annotation => {
-      let v = { type: t, start: s, end: e };
-      if (tag) {
-        v.tag = tag;
-      }
-      return v;
-    };
 
     let expectedAnnotations = [
-      a(pg,   0,           mi('5') + 1),
-      a(pe,   0,           mi('6'), pg),
-      a('br', mi('8') + 1, mi('9')),
-      a(pg,   mi('6'),     mi('e') - 2),
-      a(pe,   mi('6'),     mi('e'), pg),
-      a(pg,   mi('e'),     markdown.length - 2),
-      a(pe,   mi('e'),     markdown.length, pg)
+      { type: 'paragraph', start: 0, end: 5 },
+      { type: 'paragraph', start: 6, end: 13 },
+      { type: 'paragraph', start: 14, end: 26 }
+    ];
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+    assert.equal(atjson.content, '12345\n678\n910\neleventwelve\n');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "Correctly handles escape sequences"(assert: QUnitAssert) {
+    let markdown = 'foo __\\___'
+    let expectedAnnotations = [
+      { type: 'strong', start: 4, end: 5 },
+      { type: 'paragraph', start: 0, end: 5 },
+    ];
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    assert.equal(atjson.content, 'foo _\n');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "Correctly handles simple code spans"(assert: QUnitAssert) {
+    let markdown = '`a b`';
+
+    let expectedAnnotations = [
+      { type: 'code', start: 0, end: 3 },
+      { type: 'paragraph', start: 0, end: 3 }
+    ];
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    assert.equal(atjson.content, 'a b\n');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "`` foo ` bar  ``"(assert: QUnitAssert) {
+    let markdown = "`` foo ` bar  ``";
+    let expectedAnnotations = [
+      { type: 'code', start: 0, end: 9 },
+      { type: 'paragraph', start: 0, end: 9 }
+    ];
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+    assert.equal(atjson.content, 'foo ` bar\n');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "links"(assert: QUnitAssert) {
+    let markdown = '[link](/url "title")\n[link](/url \'title\')\n[link](/url (title))';
+    let expectedAnnotations = [
+      { type: 'a', start: 0, end: 4 },
+      { type: 'a', start: 5, end: 9 },
+      { type: 'a', start: 10, end: 14 }
+      { type: 'paragraph', start: 0, end: 14 },
     ]
 
     let parser = new Parser(markdown);
-    assert.deepEqual(parser.parse(), expectedAnnotations);
+    let atjson = parser.parse();
+    assert.equal(atjson.content, 'link\nlink\nlink\n');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "An ordered list with an embedded blockquote"(assert: QUnitAssert) {
+
+    let markdown = "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote."
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    let c = atjson.content;
+    let expectedAnnotations = [
+      { type: 'paragraph', start: 2, end: c.indexOf('nes.') + 4 },
+      { type: 'pre', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5 },
+      { type: 'code', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5 },
+      { type: 'paragraph', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6 },
+      { type: 'blockquote', start: c.indexOf('\nA block'), end: c.indexOf('quote.\n') + 7 }
+      { type: 'list-item', start: 1, end: c.length - 2 },
+      { type: 'ordered-list', start: 0, end: c.length - 1 },
+    ];
+
+    assert.equal(atjson.content.replace(/\n/g, 'Z'), '\n\nA paragraph\nwith two lines.\nindented code\n\n\nA block quote.\n\n\n\n'.replace(/\n/g, 'Z');
+    assert.deepEqual(atjson.annotations, expectedAnnotations);
+  }
+
+  @test
+  "html blocks"(assert: QUnitAssert) {
+    let markdown = '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>';
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    assert.equal(atjson.content, '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>\n');
+    assert.deepEqual(atjson.annotations, [{ type: 'html', start: 0, end: 49 }]);
+  }
+
+  @test
+  "tabs"(assert: QUnitAssert) {
+    let markdown = "\tfoo\tbaz\t\tbim";
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    assert.equal(atjson.content, 'foo\tbaz\t\tbim\n');
+  }
+
+  @test
+  "hr"(assert: QUnitAssert) {
+    let markdown = "*\t*\t*\t\n";
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    assert.equal(atjson.content, "\n");
   }
 }
