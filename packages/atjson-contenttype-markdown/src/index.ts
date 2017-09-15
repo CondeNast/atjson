@@ -2,17 +2,21 @@ import * as MarkdownIt from 'markdown-it';
 import { Token } from 'markdown-it';
 import { Annotation } from 'atjson';
 
-const parser = MarkdownIt();
+const parser = MarkdownIt('commonmark');
 
 const TAG_MAP = {
-  'p': 'paragraph'
+  'p': 'paragraph',
+  'img': 'image',
+  'ol': 'ordered-list',
+  'ul': 'unordered-list',
+  'li': 'list-item'
 };
 
 export class Parser {
 
   markdown: string;
+  content: string;
   stack: {}[];
-  offset: number;
   annotations: Annotation[];
 
   constructor(markdown: string) {
@@ -21,39 +25,48 @@ export class Parser {
 
   parse(): Annotation[] {
     this.reset();
+
     let tokens = parser.parse(this.markdown, {});
     this.parseTokens(tokens);
 
-    return this.annotations;
+    return {
+      content: this.content,
+      annotations: this.annotations
+    };
   }
 
   reset(): void {
     this.annotations = [];
+    this.content = '';
     this.stack = [];
-    this.offset = 0;
   }
 
   parseTokens(tokens: Token[]): void {
     for (let i = 0, len = tokens.length; i < len; i++) {
-      if (tokens[i].type === 'inline') {
-        this.parseTokens(tokens[i].children);
-      } else {
-        this.parseToken(tokens[i]);
-      }
+      let prevToken, nextToken;
+      if (i > 0) prevToken = tokens[i-1];
+      if (i + 1 < len) nextToken = tokens[i+1];
+      this.parseToken(tokens[i], prevToken, nextToken);
     }
   }
 
   normalizeToken(token: Token): Token {
     if (TAG_MAP[token.tag]) {
       token.tag = TAG_MAP[token.tag];
+    } if (!token.tag) {
+      if (token.type === 'html_block') {
+        token.tag = 'html';
+      }
     }
 
     return token;
   }
 
-  parseToken(token: Token): void {
+  parseToken(token: Token, prevToken?: Token, nextToken?: Token): void {
 
     token = this.normalizeToken(token);
+
+    if (token.block && token.type !== 'inline' && token.nesting !== -1 && prevToken && prevToken.hidden) this.content += "\n";
 
     // open new annotation.
     if (token.nesting === 1) {
@@ -65,132 +78,93 @@ export class Parser {
 
     // work on current annotation
     } else if (token.nesting === 0) {
-      if (token.content.length) {
-        this.offset += token.content.length;
-      } else if (token.type === 'softbreak') {
-        let start = this.offset;
-        this.offset = this.findBoL(this.offset);
 
+      if (token.hidden) return;
+
+      if (token.children) {
+        if (token.type !== 'inline') {
+          this.startToken(token);
+        }
+        this.parseTokens(token.children);
+        if (token.type !== 'inline') {
+          this.endToken(token);
+        }
+      } else if (token.content) {
+        if (token.type !== 'text' && token.type.length > 0) {
+
+          // this is stupid.
+          if (token.type === 'code_block' || token.type === 'fence') {
+            this.annotations.push({
+              type: 'pre',
+              start: this.content.length,
+              end: this.content.length + token.content.length
+            });
+          }
+
+          this.annotations.push({
+            type: token.tag,
+            start: this.content.length,
+            end: this.content.length + token.content.length
+          });
+        }
+
+        this.content += token.content;
+
+      } else if (token.type === 'hardbreak') {
         this.annotations.push({
-          // n.b. the parser *does not give us sufficient information to 100%
-          // ascertain the start/end offsets here. We should do something
-          // better (e.g., find the actual 'next character', or improve the
-          // parser.
-          type: 'br', start: start, end: this.offset
+          type: token.tag,
+          start: this.content.length,
+          end: this.content.length
+        });
+        this.content += "\n";
+      } else if (token.type === 'softbreak') {
+        this.content += "\n";
+      } else if (token.type === 'hr') {
+        this.annotations.push({
+          type: token.tag,
+          start: this.content.length,
+          end: this.content.length
         });
       }
     }
-  }
 
-  lineToOffset(line: number): number {
-    let offset = 0;
-    if (line === 0) {
-      return 0;
-    } else {
-      while (line--) offset = this.markdown.indexOf('\n', offset + 1);
-      if (offset === -1) {
-        return this.markdown.length;
-      } else {
-        return offset + 1;
+    if (token.block && token.type !== 'inline') {
+      let needNewline = true;
+
+      if (token.nesting === 1 && nextToken) {
+        if (nextToken.type === 'inline' || nextToken.hidden) {
+          // no newline
+          needNewline = false;
+        } else if (nextToken.nesting === -1 && token.tag === this.normalizeToken(nextToken).tag {
+          // no newline
+          needNewline = false;
+        }
+      }
+
+      if (needNewline) {
+        this.content += "\n";
       }
     }
   }
 
-  adjustOffset(lineNumber: number): void {
-    this.offset = this.lineToOffset(lineNumber);
-  }
-
-  adjustStartOffset(map?: [number, number]): void {
-    if (map) this.adjustOffset(map[0]);
-  }
-
-  adjustEndOffset(map?: [number, number]): void {
-    if (map) this.adjustOffset(map[1]);
-  }
-
-  // finds the next beginning-of-line (i.e., the first character following a
-  // sequence of line breaks)
-  findBoL(offset: number): number {
-    while (this.markdown[offset] === '\n') offset++;
-    return offset;
-  }
-
   startToken(token: Token): void {
-    this.adjustStartOffset(token.map);
-    this.startParseToken(token);
-    this.startParseElement(token);
-  }
-
-  startParseToken(token: Token): void {
-    if (token.markup.length > 0) {
-      this.annotations.push({
-        type: 'parse-token',
-        tokenType: token.type,
-        tag: token.tag,
-        start: this.offset,
-        end: this.offset + token.markup.length
-      });
-    }
-  }
-
-  startParseElement(token: Token): void {
-    this.stack.push({
-      start: this.offset,
-      type: 'parse-element', 
-      tag: token.tag,
-      map: token.map
-    });
-
-    this.offset += token.markup.length;
-
-    this.stack.push({start: this.offset, type: token.tag});
+    this.stack.push({type: token.tag, start: this.content.length, __annotations: this.annotations});
+    this.annotations = [];
   }
 
   endToken(token: Token): void {
-    this.endAnnotation(token);
-    this.endParseToken(token);
-    this.endParseElement(token);
-  }
-
-  endAnnotation(token: Token): void {
     let annotation = this.stack.pop();
-    annotation.end = this.offset;
+    if (annotation.type != token.tag) throw new Error('that was pretty unexpected.');
 
-    if (annotation.type != token.tag) {
-      console.log(annotation, token);
-      throw new Error('that was pretty unexpected.');
+    let childAnnotations = this.annotations;
+    this.annotations = annotation.__annotations;
+
+    annotation.end = this.content.length;
+
+    if (token.tag.length > 0) {
+      this.annotations.push(annotation);
     }
 
-    this.annotations.push(annotation);
-  }
-
-  endParseToken(token: Token): void {
-    if (token.markup.length > 0) {
-      this.annotations.push({
-        type: 'parse-token',
-        tokenType: token.type,
-        tag: token.tag,
-        start: this.offset,
-        end: this.offset + token.markup.length
-      });
-    }
-  }
-
-  endParseElement(token: Token): void {
-    let parseElement = this.stack.pop();
-    if (parseElement.map) {
-      this.offset = this.lineToOffset(parseElement.map[1]);
-    } else {
-      this.offset += token.markup.length;
-    }
-
-    if (token.type === 'paragraph_close') {
-      this.offset = this.findBoL(this.offset);
-    }
-
-    parseElement.end = this.offset;
-    delete parseElement.map;
-
-    this.annotations.push(parseElement);
+    this.annotations = this.annotations.concat(childAnnotations);
   }
 }
