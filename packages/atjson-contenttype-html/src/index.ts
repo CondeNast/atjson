@@ -30,11 +30,11 @@ export class Parser {
   }
 
   parseElement(type: string, location: { startOffset: number, endOffset: number }) {
-    return Object.assign( this.newAnnotation('parse-element', location, { htmlType: type }) );
+    return this.newAnnotation('parse-element', location, { htmlType: type });
   }
 
   parseToken(type: string, location: { startOffset: number, endOffset: number }) {
-    return Object.assign( this.newAnnotation('parse-token', location, { htmlType: type }) );
+    return this.newAnnotation('parse-token', location, { htmlType: type });
   }
 
   /*
