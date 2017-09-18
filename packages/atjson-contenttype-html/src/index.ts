@@ -51,10 +51,6 @@ export class Parser {
     for (let i = 0, len = node.childNodes.length; i < len; i++) {
       let child = node.childNodes[i];
 
-      if (child.nodeName === '#text' && child.value.match(/^\n*$/)) {
-        //annotations.push(this.parseToken('newlines', child.__location));
-      }
-
       if (child.childNodes) {
         annotations = annotations.concat(this.walkNode(child));
       }
