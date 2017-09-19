@@ -23,16 +23,18 @@
   "license": "MIT",
   "devDependencies": {
     "@types/qunit": "^2.0.31",
+    "atjson": "0.5.0",
+    "atjson-contenttype-html": "0.5.0",
+    "atjson-hir": "0.5.0",
     "ember-cli": "^2.14.2",
     "libkit": "^0.5.12",
+    "parse5": "^3.0.2",
     "qunitjs": "^2.4.0",
     "shelljs": "^0.7.8",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "ts-std": "^0.5.3",
-    "atjson": "0.5.0",
-    "atjson-hir": "0.5.0"
+    "atjson-renderer": "0.5.0"
   }
 }
