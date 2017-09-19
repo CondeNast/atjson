@@ -12,14 +12,15 @@ const MARKDOWN_RULES = {
    */
   *root() {
     let document = yield;
-    return document.trimRight();
+    return document.join('').trimRight();
   },
 
   /**
     Bold text looks like **this** in Markdown.
    */
   *bold() {
-    return `**${yield}**`;
+    let text = yield;
+    return `**${text.join('')}**`;
   },
 
   /**
@@ -30,7 +31,7 @@ const MARKDOWN_RULES = {
    */
   *blockquote() {
     let quote: string = yield;
-    return quote.split('\n').map((line) => `> ${line}`).join('\n');
+    return quote.join('').split('\n').map((line) => `> ${line}`).join('\n');
   },
 
   /**
@@ -40,7 +41,8 @@ const MARKDOWN_RULES = {
    */
   *heading(props: { size: number }) {
     let hashes = new Array((props.size || 0) + 1).join('#');
-    return `${hashes} ${yield}`;
+    let heading = yield;
+    return `${hashes} ${heading.join('')}`;
   },
 
   /**
@@ -64,7 +66,8 @@ const MARKDOWN_RULES = {
     Italic text looks like *this* in Markdown.
    */
   *italic() {
-    return `*${yield}*`;
+    let text = yield;
+    return `*${text.join('')}*`;
   },
 
   /**
@@ -79,7 +82,8 @@ const MARKDOWN_RULES = {
     A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
   *link(props: { url: string }) {
-    return `[${yield}](${props.url})`;
+    let text = yield;
+    return `[${text.join('')}](${props.url})`;
   },
 
   /**
@@ -88,14 +92,14 @@ const MARKDOWN_RULES = {
   *'list-item'() {
     let indent: string = new Array(this.indent + 1).join('   ');
     let item: string = yield;
-    let indentedItem = item.split('\n').map((line) => indent + line).join('\n').trim();
+    let indentedItem = item.join('').split('\n').map((line) => indent + line).join('\n').trim();
 
     if (this.type === 'ordered-list') {
       console.log('li', `${indent}${this.index}. ${indentedItem}\n`);
-      return `${indent}${this.index++}. ${indentedItem}\n`;
+      return `${indent}${this.index++}. ${indentedItem}`;
     } else if (this.type === 'unordered-list') {
       console.log('li', `${indent}- ${indentedItem}\n`);
-      return `${indent}- ${indentedItem}\n`;
+      return `${indent}- ${indentedItem}`;
     }
     return item;
   },
@@ -107,14 +111,19 @@ const MARKDOWN_RULES = {
    */
   *'ordered-list'() {
     this.pushScope({
+      annotationLookup: this.annotationLookup,
       type: 'ordered-list',
       indent: (this.indent + 1) || 0,
       index: 1
     });
     let list = yield;
     this.popScope();
-    console.log('ol', `"${list}\n"`);
-    return `${list}\n`;
+
+    let markdown = `${list.join('\n')}\n`;
+    if (this.type === 'ordered-list' || this.type === 'unordered-list') {
+      return `\n${markdown}`;
+    }
+    return markdown;
   },
 
   /**
@@ -124,12 +133,18 @@ const MARKDOWN_RULES = {
    */
   *'unordered-list'() {
     this.pushScope({
+      annotationLookup: this.annotationLookup,
       type: 'unordered-list',
       indent: (this.indent + 1) || 0
     });
     let list = yield;
     this.popScope();
-    return list;
+
+    let markdown = `${list.join('\n')}\n`;
+    if (this.type === 'ordered-list' || this.type === 'unordered-list') {
+      return `\n${markdown}`;
+    }
+    return markdown;
   },
 
   /**
@@ -139,16 +154,17 @@ const MARKDOWN_RULES = {
     text.
    */
   *paragraph() {
-    return `${yield}\n\n`;
+    let text = yield;
+    return `${text.join('')}\n\n`;
   }
 };
 
-export default class extends Renderer {
+export default class CommonmarkRenderer extends Renderer {
   annotationLookup: AnnotationLookup
 
   constructor(annotationLookup: AnnotationLookup) {
     super();
-    this.annotationLookup = Object.assign(annotationLookup, MARKDOWN_RULES);
+    this.annotationLookup = Object.assign(annotationLookup || {}, MARKDOWN_RULES);
   }
 
   registerRule(type: string, rule: *(any): string) {
@@ -159,10 +175,16 @@ export default class extends Renderer {
     this.annotationLookup[type] = null;
   }
 
+  willRender() {
+    this.pushScope({
+      annotationLookup: this.annotationLookup
+    });
+  }
+
   *renderAnnotation (annotation) {
     let rule = this.annotationLookup[annotation.type];
     if (rule) {
-      return *rule.call(this, annotation.attributes);
+      return yield* rule.call(this, annotation.attributes);
     } else {
       console.error(`No rule found for "${annotation.type}"`);
       return `yield.join('')`;
