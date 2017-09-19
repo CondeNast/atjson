@@ -17,7 +17,7 @@ export default class HIRNode {
   private sibling: HIRNode | undefined;
 
   node: any;
-  text: any;
+  text?: string;
 
   rank: number;
 
@@ -47,7 +47,9 @@ export default class HIRNode {
         break;
 
       case 'ordered-list':
+      case 'unordered-list':
       case 'list-item':
+      case 'blockquote':
         this.rank = BLOCK_NODE_RANK;
         break;
 
@@ -56,18 +58,37 @@ export default class HIRNode {
     }
   }
 
-  toJSON(): object {
-    if (this.type === 'text') {
-      return this.text;
+  toJSON(filter?: (node: HIRNode) => HIRNode): object {
+    let thisNode = this;
+    if (filter) {
+      let thisNode = filter(this);
+    }
+
+    if (thisNode.type === 'text') {
+      return thisNode.text;
     }
 
     return {
-      type: this.type,
-      children: this.children().map(child => {
-        return child.toJSON();
+      type: thisNode.type,
+      children: thisNode.children().map(child => {
+        return child.toJSON(filter);
       })
     };
   }
+    /*
+  toJSON(): object {
+    if (this.type === 'text') {
+      return this.text;
+    } else {
+      return {
+        type: this.type,
+        children: this.children().map(child => {
+          return child.toJSON();
+        })
+      };
+    }
+  }
+     */
 
   children(): Array<HIRNode> {
     if (this.child) {
