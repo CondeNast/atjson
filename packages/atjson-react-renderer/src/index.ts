@@ -9,24 +9,30 @@ interface ComponentLookup {
   [key: string]: Component|function
 }
 
-class ReactRenderer implements Renderer {
-  private componentMap: ComponentLookup;
+export default class ReactRenderer extends Renderer {
+  private componentLookup: ComponentLookup;
 
-  constructor(componentMap: ComponentLookup) {
+  constructor(componentLookup: ComponentLookup) {
     super();
-    this.componentMap = componentMap;
+    this.componentLookup = componentLookup;
   }
 
   registerComponent(type: string, component: Component|function) {
-    this.componentMap[type] = component;
+    this.componentLookup[type] = component;
   }
 
   unregisterComponent(type: string) {
-    this.componentMap[type] = null;
+    this.componentLookup[type] = null;
+  }
+
+  willRender() {
+    this.pushScope({
+      componentLookup: this.componentLookup
+    });
   }
 
   *renderAnnotation(annotation) {
-    let AnnotationComponent = this.componentMap[annotation.type];
+    let AnnotationComponent = this.componentLookup[annotation.type];
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
