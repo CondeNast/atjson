@@ -1,46 +1,52 @@
 import Renderer from 'atjson-renderer';
 
-interface Filter {
+interface Annotation {
+  type: string;
+  attributes: Object;
+  children: (Annotation|string)[]
+}
+
+interface Transform {
   (annotation: Annotation|string): Annotation|string;
 }
 
-interface FilterList {
-  type: string;
-  filter: Filter;
-}[];
+interface TransformList {
+  [key: string]: {
+    type: string;
+    transform: Transform;
+  }
+};
 
 /**
   import { Renderer } from 'atjson-hir';
   let renderer = new Renderer();
-  renderer.filter('list-item', (annotation) => {
+  renderer.transform('list-item', (annotation) => {
     if (annotation.children.length === 1 &&
         annotation.children[0].type === 'paragraph') {
       return annotation.children[0];
     }
     return annotation;
   });
-
-  let hir = renderer.render();
  */
 export default class extends Renderer {
-  private filters: FilterList;
+  private transforms: TransformList;
 
   constructor () {
     super();
-    this.filters = [];
+    this.transforms = [];
   }
 
-  filter (type: string, filter: Filter) {
-    this.filters.push({ type, filter });
+  transform (type: string, transform: Transform) {
+    this.transforms.push({ type, transform });
     return this;
   }
 
   *renderAnnotation (annotation) {
-    let filters = this.filters.filter(({ type }) => annotation.type === type);
-    let filteredAnnotation = filters.reduce(function (filteredAnnotation, filter) {
-      return filter(filteredAnnotation);
+    let transforms = this.transforms.transform(({ type }) => annotation.type === type);
+    let transformedAnnotation = transforms.reduce(function (transformedAnnotation, transform) {
+      return transform(transformedAnnotation);
     }, annotation);
-    filtereredAnnotation.children = yield;
-    return filteredAnnotation;
+    transformeredAnnotation.children = yield;
+    return transformedAnnotation;
   }
 }
