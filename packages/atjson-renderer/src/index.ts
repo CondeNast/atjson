@@ -24,7 +24,7 @@ function compile(scope: Renderer, node: Annotation): string {
   })).value;
 }
 
-export default class Renderer {
+export default abstract class Renderer {
   private scopes: Object[];
 
   constructor() {
@@ -47,14 +47,20 @@ export default class Renderer {
     return fn.call(scope, ...args);
   }
 
-  *renderAnnotation() {
-    throw "`renderAnnotation` must be overridden with a generator";
+  abstract *renderAnnotation();
+
+  willRender() {
+    this.pushScope({});
+  }
+
+  didRender() {
+    this.popScope();
   }
 
   render(annotationGraph: Serializeable) {
-    this.pushScope({});
+    this.willRender();
     let renderedDocument = compile(this, annotationGraph.toJSON());
-    this.popScope();
+    this.didRender();
     return renderedDocument;
   }
 }
