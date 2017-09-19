@@ -91,6 +91,10 @@ export default class AtJSON {
     const end = annotation.end;
     const length = end - start;
 
+    if (!(start >= 0 && end >= 0)) {
+      throw new Error('Start and end must be numbers.');
+    }
+
     const before = this.content.slice(0, start);
     const after = this.content.slice(end);
 
@@ -110,9 +114,10 @@ export default class AtJSON {
       // everything.
       //           [       ]
       // --*---*-------------
-      if (end <= a.start) {
+      if (end < a.start) {
         a.start -= length;
         a.end -= length;
+
       } else {
 
         if (end < a.end) {
@@ -141,7 +146,8 @@ export default class AtJSON {
           //              [     ]
           //    ------*---------*--------
           if (start <= a.start) {
-            deletedAnnotationIndexes.push(i);
+            a.start = start;
+            a.end -= length;
 
           //       [        ]
           //    ------*---------*--------
@@ -151,12 +157,6 @@ export default class AtJSON {
 
         }
       }
-    }
-
-    // Clean up deleted annotations.
-    let l = deletedAnnotationIndexes.length;
-    while (l--) {
-      this.annotations.splice(deletedAnnotationIndexes[l], 1);
     }
   }
 }
