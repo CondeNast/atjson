@@ -1,38 +1,45 @@
+import { Annotation, AtJSON } from 'atjson';
 import * as MarkdownIt from 'markdown-it';
 import { Token } from 'markdown-it';
-import { Annotation } from 'atjson';
 
 const parser = MarkdownIt('commonmark');
 
-const TAG_MAP = {
-  'p': 'paragraph',
-  'img': 'image',
-  'ol': 'ordered-list',
-  'ul': 'unordered-list',
-  'li': 'list-item'
+const TAG_MAP: { [tagName: string]: string } = {
+  p: 'paragraph',
+  img: 'image',
+  ol: 'ordered-list',
+  ul: 'unordered-list',
+  li: 'list-item'
 };
+
+interface TempAnnotation {
+  type: string;
+  start: number;
+  __annotations: Annotation[];
+}
 
 export class Parser {
 
   markdown: string;
   content: string;
-  stack: {}[];
   annotations: Annotation[];
+
+  private stack: TempAnnotation[];
 
   constructor(markdown: string) {
     this.markdown = markdown;
   }
 
-  parse(): Annotation[] {
+  parse(): AtJSON {
     this.reset();
 
     let tokens = parser.parse(this.markdown, {});
     this.parseTokens(tokens);
 
-    return {
+    return new AtJSON({
       content: this.content,
       annotations: this.annotations
-    };
+    });
   }
 
   reset(): void {
@@ -43,9 +50,10 @@ export class Parser {
 
   parseTokens(tokens: Token[]): void {
     for (let i = 0, len = tokens.length; i < len; i++) {
-      let prevToken, nextToken;
-      if (i > 0) prevToken = tokens[i-1];
-      if (i + 1 < len) nextToken = tokens[i+1];
+      let prevToken;
+      let nextToken;
+      if (i > 0) prevToken = tokens[i - 1];
+      if (i + 1 < len) nextToken = tokens[i + 1];
       this.parseToken(tokens[i], prevToken, nextToken);
     }
   }
@@ -53,10 +61,10 @@ export class Parser {
   normalizeToken(token: Token): Token {
     if (TAG_MAP[token.tag]) {
       token.tag = TAG_MAP[token.tag];
-    } if (!token.tag) {
-      if (token.type === 'html_block') {
-        token.tag = 'html';
-      }
+    }
+
+    if (!token.tag && token.type === 'html_block') {
+      token.tag = 'html';
     }
 
     return token;
@@ -66,7 +74,7 @@ export class Parser {
 
     token = this.normalizeToken(token);
 
-    if (token.block && token.type !== 'inline' && token.nesting !== -1 && prevToken && prevToken.hidden) this.content += "\n";
+    if (token.block && token.type !== 'inline' && token.nesting !== -1 && prevToken && prevToken.hidden) this.content += '\n';
 
     // open new annotation.
     if (token.nesting === 1) {
@@ -116,9 +124,9 @@ export class Parser {
           start: this.content.length,
           end: this.content.length
         });
-        this.content += "\n";
+        this.content += '\n';
       } else if (token.type === 'softbreak') {
-        this.content += "\n";
+        this.content += '\n';
       } else if (token.type === 'hr') {
         this.annotations.push({
           type: token.tag,
@@ -135,31 +143,38 @@ export class Parser {
         if (nextToken.type === 'inline' || nextToken.hidden) {
           // no newline
           needNewline = false;
-        } else if (nextToken.nesting === -1 && token.tag === this.normalizeToken(nextToken).tag {
+        } else if (nextToken.nesting === -1 && token.tag === this.normalizeToken(nextToken).tag) {
           // no newline
           needNewline = false;
         }
       }
 
-      if (needNewline) {
-        this.content += "\n";
-      }
+      if (needNewline) this.content += '\n';
     }
   }
 
   startToken(token: Token): void {
-    this.stack.push({type: token.tag, start: this.content.length, __annotations: this.annotations});
+    this.stack.push({
+      type: token.tag,
+      start: this.content.length,
+      __annotations: this.annotations});
     this.annotations = [];
   }
 
   endToken(token: Token): void {
-    let annotation = this.stack.pop();
-    if (annotation.type != token.tag) throw new Error('that was pretty unexpected.');
+    let tempAnnotation = this.stack.pop();
+
+    if (tempAnnotation === undefined) return;
+    if (tempAnnotation.type !== token.tag) throw new Error('Unexpected mismatch in Token stream.');
 
     let childAnnotations = this.annotations;
-    this.annotations = annotation.__annotations;
+    this.annotations = tempAnnotation.__annotations;
 
-    annotation.end = this.content.length;
+    let annotation: Annotation = {
+      type: tempAnnotation.type,
+      start: tempAnnotation.start,
+      end: this.content.length
+    };
 
     if (token.tag.length > 0) {
       this.annotations.push(annotation);

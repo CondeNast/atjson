@@ -6,7 +6,7 @@ import { AtJSON } from 'atjson';
 if (QUnit.isLocal) {
   const spec = require('commonmark-spec');
 
-  const testModules = spec.tests.reduce((modules, test) => {
+  const testModules = spec.tests.reduce((modules: any, test: any) => {
     if (!modules[test.section]) modules[test.section] = [];
     modules[test.section].push(test);  
     return modules;
@@ -19,7 +19,7 @@ if (QUnit.isLocal) {
 
     QUnit.module(module);
     
-    moduleTests.forEach(test => {
+    moduleTests.forEach((test: any): void => {
       QUnit.test("\n\n--- markdown --->" + test.markdown + "<---\n--- html --->" + test.html + "<---\n\n", assert => {
 
         test.markdown = test.markdown.replace(/→/g, '\t');
