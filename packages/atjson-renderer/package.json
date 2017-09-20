@@ -1,18 +1,16 @@
 {
-  "name": "atjson-hir",
+  "name": "atjson-renderer",
   "version": "0.5.0",
-  "description": "Libraries for annotated JSON documents",
-  "contributors": [
-    "Blaine Cook <blaine_cook@condenast.com>",
-    "Tim Evans <tim_evans@condenast.com>"
-  ],
-  "repository": "https://github.com/CondeNast-Copilot/atjson",
+  "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/src/index.js",
   "module": "dist/modules/src/index.js",
   "types": "dist/types/src/index.d.ts",
   "ember-addon": {
     "main": "ember-addon.js"
   },
+  "keywords": [
+    "ember-addon"
+  ],
   "scripts": {
     "problems": "node ./scripts/problems.js",
     "preversion": "npm run test",
@@ -20,24 +18,16 @@
     "build": "ember build -prod",
     "build-tests": "ember build",
     "test": "ember test",
-    "tdd": "ember test --server",
-    "docs": "typedoc --out docs src/ --mode file",
-    "publish-docs": "./scripts/publish-docs"
+    "tdd": "ember test --server"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/qunit": "^2.0.31",
-    "ember-cli": "^2.15.1",
-    "libkit": "^0.5.12",
+    "ember-cli": "^2.14.2",
+    "libkit": "^0.5.13",
     "qunitjs": "^2.4.0",
     "shelljs": "^0.7.8",
     "tslint": "^5.7.0",
-    "typedoc": "^0.8.0",
     "typescript": "^2.4.2"
-  },
-  "dependencies": {
-    "atjson": "0.5.0",
-    "atjson-renderer": "0.5.0",
-    "entities": "^1.1.1"
   }
 }
