@@ -12,10 +12,15 @@ const TAG_MAP: { [tagName: string]: string } = {
   li: 'list-item'
 };
 
+interface AttributeList {
+  [key: string]: any;
+}
+
 interface TempAnnotation {
   type: string;
   start: number;
   __annotations: Annotation[];
+  attributes: AttributeList
 }
 
 export class Parser {
@@ -105,14 +110,16 @@ export class Parser {
             this.annotations.push({
               type: 'pre',
               start: this.content.length,
-              end: this.content.length + token.content.length
+              end: this.content.length + token.content.length,
+              attributes: {}
             });
           }
 
           this.annotations.push({
             type: token.tag,
             start: this.content.length,
-            end: this.content.length + token.content.length
+            end: this.content.length + token.content.length,
+            attributes: {}
           });
         }
 
@@ -122,7 +129,8 @@ export class Parser {
         this.annotations.push({
           type: token.tag,
           start: this.content.length,
-          end: this.content.length
+          end: this.content.length,
+          attributes: {}
         });
         this.content += '\n';
       } else if (token.type === 'softbreak') {
@@ -131,7 +139,8 @@ export class Parser {
         this.annotations.push({
           type: token.tag,
           start: this.content.length,
-          end: this.content.length
+          end: this.content.length,
+          attributes: {}
         });
       }
     }
@@ -154,10 +163,17 @@ export class Parser {
   }
 
   startToken(token: Token): void {
+    let attributes: AttributeList = (token.attrs || []).reduce(function (attrs: AttributeList, [key, value]: [string, any]) {
+      attrs[key] = value;
+      return attrs;
+    }, {});
+
     this.stack.push({
       type: token.tag,
       start: this.content.length,
-      __annotations: this.annotations});
+      __annotations: this.annotations,
+      attributes
+    });
     this.annotations = [];
   }
 
@@ -173,7 +189,8 @@ export class Parser {
     let annotation: Annotation = {
       type: tempAnnotation.type,
       start: tempAnnotation.start,
-      end: this.content.length
+      end: this.content.length,
+      attributes: tempAnnotation.attributes
     };
 
     if (token.tag.length > 0) {

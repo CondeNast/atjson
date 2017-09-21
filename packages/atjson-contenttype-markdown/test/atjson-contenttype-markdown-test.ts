@@ -7,9 +7,9 @@ export class MarkdownToAtJSONTest extends TestCase {
   'Correctly obtains annotations for simple inline elements'(assert: QUnitAssert) {
     let markdown = '*hello* __world__';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 11 },
-      { type: 'em', start: 0, end: 5 },
-      { type: 'strong', start: 6, end: 11 }
+      { type: 'paragraph', start: 0, end: 11, attributes: {} },
+      { type: 'em', start: 0, end: 5, attributes: {} },
+      { type: 'strong', start: 6, end: 11, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -22,9 +22,9 @@ export class MarkdownToAtJSONTest extends TestCase {
     let markdown = '12345\n\n\n678\n910\n\neleventwelve\n\n';
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 5 },
-      { type: 'paragraph', start: 6, end: 13 },
-      { type: 'paragraph', start: 14, end: 26 }
+      { type: 'paragraph', start: 0, end: 5, attributes: {} },
+      { type: 'paragraph', start: 6, end: 13, attributes: {} },
+      { type: 'paragraph', start: 14, end: 26, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -37,8 +37,8 @@ export class MarkdownToAtJSONTest extends TestCase {
   'Correctly handles escape sequences'(assert: QUnitAssert) {
     let markdown = 'foo __\\___';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 5 },
-      { type: 'strong', start: 4, end: 5 }
+      { type: 'paragraph', start: 0, end: 5, attributes: {} },
+      { type: 'strong', start: 4, end: 5, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -53,8 +53,8 @@ export class MarkdownToAtJSONTest extends TestCase {
     let markdown = '`a b`';
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 3 },
-      { type: 'code', start: 0, end: 3 }
+      { type: 'paragraph', start: 0, end: 3, attributes: {} },
+      { type: 'code', start: 0, end: 3, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -68,8 +68,8 @@ export class MarkdownToAtJSONTest extends TestCase {
   '`` foo ` bar  ``'(assert: QUnitAssert) {
     let markdown = '`` foo ` bar  ``';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 9 },
-      { type: 'code', start: 0, end: 9 }
+      { type: 'paragraph', start: 0, end: 9, attributes: {} },
+      { type: 'code', start: 0, end: 9, attributes: {} }
     ];
     let parser = new Parser(markdown);
     let atjson = parser.parse();
@@ -81,10 +81,10 @@ export class MarkdownToAtJSONTest extends TestCase {
   'links'(assert: QUnitAssert) {
     let markdown = '[link](/url "title")\n[link](/url \'title\')\n[link](/url (title))';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 14 },
-      { type: 'a', start: 0, end: 4 },
-      { type: 'a', start: 5, end: 9 },
-      { type: 'a', start: 10, end: 14 }
+      { type: 'paragraph', start: 0, end: 14, attributes: {} },
+      { type: 'a', start: 0, end: 4, attributes: { href: '/url', title: 'title' } },
+      { type: 'a', start: 5, end: 9, attributes: { href: '/url', title: 'title' } },
+      { type: 'a', start: 10, end: 14, attributes: { href: '/url', title: 'title' } }
     ];
 
     let parser = new Parser(markdown);
@@ -103,13 +103,13 @@ export class MarkdownToAtJSONTest extends TestCase {
 
     let c = atjson.content;
     let expectedAnnotations = [
-      { type: 'ordered-list', start: 0, end: c.length - 1 },
-      { type: 'list-item', start: 1, end: c.length - 2 },
-      { type: 'paragraph', start: 2, end: c.indexOf('nes.') + 4 },
-      { type: 'pre', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5 },
-      { type: 'code', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5 },
-      { type: 'blockquote', start: c.indexOf('\nA block'), end: c.indexOf('quote.\n') + 7 },
-      { type: 'paragraph', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6 }
+      { type: 'ordered-list', start: 0, end: c.length - 1, attributes: {} },
+      { type: 'list-item', start: 1, end: c.length - 2, attributes: {} },
+      { type: 'paragraph', start: 2, end: c.indexOf('nes.') + 4, attributes: {} },
+      { type: 'pre', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5, attributes: {} },
+      { type: 'code', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5, attributes: {} },
+      { type: 'blockquote', start: c.indexOf('\nA block'), end: c.indexOf('quote.\n') + 7, attributes: {} },
+      { type: 'paragraph', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6, attributes: {} }
     ];
 
     assert.equal(atjson.content.replace(/\n/g, 'Z'), '\n\nA paragraph\nwith two lines.\nindented code\n\n\nA block quote.\n\n\n\n'.replace(/\n/g, 'Z'));
@@ -124,7 +124,7 @@ export class MarkdownToAtJSONTest extends TestCase {
     let atjson = parser.parse();
 
     assert.equal(atjson.content, '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>\n');
-    assert.deepEqual(atjson.annotations, [{ type: 'html', start: 0, end: 49 }]);
+    assert.deepEqual(atjson.annotations, [{ type: 'html', start: 0, end: 49, attributes: {} }]);
   }
 
   @test
