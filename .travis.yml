@@ -1,3 +1,27 @@
+---
 language: node_js
 node_js:
-  - "node"
+  - "6"
+
+env:
+  - PACKAGE=atjson
+  - PACKAGE=atjson-renderer
+  - PACKAGE=atjson-hir
+  - PACKAGE=atjson-text-renderer
+  - PACKAGE=atjson-react-renderer
+  - PACKAGE=atjson-commonmark-renderer
+  - PACKAGE=atjson-contenttype-html
+  - PACKAGE=atjson-contenttype-markdown
+
+install:
+  - lerna bootstrap
+  - pushd ./packages/atjson; ember build; popd
+  - pushd ./packages/atjson-renderer; ember build; popd
+  - pushd ./packages/atjson-hir; ember build; popd
+  - pushd ./packages/atjson-text-renderer; ember build; popd
+  - pushd ./packages/atjson-react-renderer; ember build; popd
+  - pushd ./packages/atjson-commonmark-renderer; ember build; popd
+  - pushd ./packages/atjson-contenttype-html; ember build; popd
+  - pushd ./packages/atjson-contenttype-markdown; ember build; popd
+
+script: lerna run test --scope $PACKAGE
