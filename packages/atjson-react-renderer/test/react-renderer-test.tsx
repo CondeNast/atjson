@@ -2,16 +2,9 @@ import ReactRenderer from 'atjson-react-renderer';
 import { AtJSON, Annotation } from 'atjson';
 import { HIR } from 'atjson-hir';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
-function renderDocument(renderer, doc) {
-  let element = document.createElement('div');
-  let root = document.querySelector('#atjson');
-  root.appendChild(element);
-  ReactDOM.render(renderer.render(new HIR(doc)), element);
-  root.appendChild(document.createElement('hr'));
-
+function renderDocument(renderer: ReactRenderer, doc: AtJSON) {
   return ReactDOMServer.renderToStaticMarkup(renderer.render(new HIR(doc)));
 }
 
@@ -33,14 +26,14 @@ QUnit.test('simple components are called', function (assert) {
   let document = new AtJSON({
     content: 'This is bold and italic text',
     annotations: [{
-      type: 'bold', start: 8, end: 12
+      type: 'bold', start: 8, end: 17
     }, {
-      type: 'italic', start: 17, end: 23
+      type: 'italic', start: 12, end: 23
     }]
   });
 
   assert.equal(renderDocument(renderer, document),
-               `<article>This is <strong>bold</strong> and <em>italic</em> text</article>`);
+               `<article>This is <strong>bold<em> and </em></strong><em>italic</em> text</article>`);
 });
 
 (function () {
@@ -57,7 +50,12 @@ QUnit.test('simple components are called', function (assert) {
     newline() {
       return <br/>;
     },
-    youtube({ children, source, showRelatedVideos, showPlayerControls, showInfo, noCookies }) {
+    giphy({ source }) {
+      let id: string = source.match(/\/gifs\/(.*)-([^-]*)/)[2];
+      let src: string = `https://media.giphy.com/media/${id}/giphy.gif`;
+      return <img src={src} />;
+    },
+    youtube({ source, showRelatedVideos, showPlayerControls, showInfo, noCookies }) {
       let videoId = source.match(/[?|&]v=([^&]*)/)[1];
       let domain = noCookies ? 'youtube-nocookie' : 'youtube';
       let queryParams = [];
@@ -103,25 +101,25 @@ QUnit.test('simple components are called', function (assert) {
                  `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe></a></article>`);
   });
 
-  QUnit.test('attributes can change ', function (assert) {
+  QUnit.test('renderers can be reused', function (assert) {
     let doc = new AtJSON({
-      content: 'Goats!\n ',
+      content: 'Another good boy\n ',
       annotations: [{
-        type: 'link', start: 0, end: 8, attributes: {
-          href: 'https://www.youtube.com/watch?v=AWvefaN8USk',
+        type: 'link', start: 0, end: 19, attributes: {
+          href: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy',
           shouldOpenInNewTab: true
         }
       }, {
-        type: 'newline', start: 6, end: 7
+        type: 'newline', start: 16, end: 17
       }, {
-        type: 'youtube', start: 7, end: 8, attributes: {
-          source: 'https://www.youtube.com/watch?v=AWvefaN8USk'
+        type: 'giphy', start: 17, end: 18, attributes: {
+          source: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy'
         }
       }]
     });
 
     assert.equal(renderDocument(renderer, doc),
-                 `<article><a href="https://www.youtube.com/watch?v=AWvefaN8USk" target="__blank" rel="noreferrer noopener">Goats!<br/><iframe width="560" height="315" src="https://www.youtube.com/embed/AWvefaN8USk" frameborder="0" allowfullscreen=""></iframe></a></article>`);
+                 `<article><a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a></article>`);
   });
 
 }());
