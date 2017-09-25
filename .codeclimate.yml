@@ -1,0 +1,21 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - typescript
+      - javascript
+  fixme:
+    enabled: true
+  tslint:
+    enabled: true
+ratings:
+  paths:
+  - "**.ts"
+  - "**.tsx"
+  - "**.js"
+  - "**.jsx"
+exclude_paths:
+- packages/**/dist
+- packages/**/node_modules
