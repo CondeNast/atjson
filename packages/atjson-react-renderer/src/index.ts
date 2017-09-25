@@ -5,8 +5,12 @@ interface Component {
   new (...args: any[]): React.Component
 }
 
+interface StatelessComponent {
+  (...args: any[]): any
+}
+
 interface ComponentLookup {
-  [key: string]: Component|function
+  [key: string]: Component|StatelessComponent
 }
 
 export default class ReactRenderer extends Renderer {
@@ -17,7 +21,7 @@ export default class ReactRenderer extends Renderer {
     this.componentLookup = componentLookup;
   }
 
-  registerComponent(type: string, component: Component|function) {
+  registerComponent(type: string, component: Component|StatelessComponent) {
     this.componentLookup[type] = component;
   }
 
