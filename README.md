@@ -1,4 +1,4 @@
-# AtJSON [![Build Status](https://travis-ci.com/CondeNast-Copilot/atjson.svg?token=EyGr19LqBpbDaJHnY815&branch=master)](https://travis-ci.com/CondeNast-Copilot/atjson)
+# AtJSON [![Build Status](https://travis-ci.com/CondeNast-Copilot/atjson.svg?token=EyGr19LqBpbDaJHnY815&branch=latest)](https://travis-ci.com/CondeNast-Copilot/atjson)
 
 Annotated JSON.
 
