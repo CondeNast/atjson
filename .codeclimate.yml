@@ -6,6 +6,9 @@ engines:
       languages:
       - typescript
       - javascript
+  tslint:
+    enabled: true
+    channel: beta
   fixme:
     enabled: true
 ratings:
@@ -17,3 +20,5 @@ ratings:
 exclude_paths:
 - packages/**/dist
 - packages/**/node_modules
+include_paths:
+- packages/**/src/*
