@@ -4,14 +4,14 @@ node_js:
   - "6"
 
 env:
-  - PACKAGE=atjson
-  - PACKAGE=atjson-renderer
-  - PACKAGE=atjson-hir
-  - PACKAGE=atjson-text-renderer
-  - PACKAGE=atjson-react-renderer
-  - PACKAGE=atjson-commonmark-renderer
-  - PACKAGE=atjson-contenttype-html
-  - PACKAGE=atjson-contenttype-markdown
+  - PACKAGE=core
+  - PACKAGE=renderer
+  - PACKAGE=hir
+  - PACKAGE=text-renderer
+  - PACKAGE=react-renderer
+  - PACKAGE=commonmark-renderer
+  - PACKAGE=contenttype-html
+  - PACKAGE=contenttype-markdown
 
 before_install:
   - npm install -g lerna
@@ -19,13 +19,6 @@ before_install:
 
 install:
   - lerna bootstrap
-  - pushd ./packages/atjson; ember build; popd
-  - pushd ./packages/atjson-renderer; ember build; popd
-  - pushd ./packages/atjson-hir; ember build; popd
-  - pushd ./packages/atjson-text-renderer; ember build; popd
-  - pushd ./packages/atjson-react-renderer; ember build; popd
-  - pushd ./packages/atjson-commonmark-renderer; ember build; popd
-  - pushd ./packages/atjson-contenttype-html; ember build; popd
-  - pushd ./packages/atjson-contenttype-markdown; ember build; popd
+  - lerna run build-tests
 
-script: lerna run test --scope $PACKAGE
+script: pushd packages/$PACKAGE npm run test
