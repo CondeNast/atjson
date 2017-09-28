@@ -3,6 +3,9 @@ language: node_js
 node_js:
   - "6"
 
+cache:
+  yarn: true
+
 env:
   - PACKAGE=core
   - PACKAGE=renderer
@@ -21,4 +24,4 @@ install:
   - lerna bootstrap
   - lerna run build-tests
 
-script: pushd packages/$PACKAGE npm run test
+script: pushd packages/$PACKAGE; npm test
