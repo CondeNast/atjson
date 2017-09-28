@@ -1,4 +1,4 @@
-import { Parser } from '@atjson/contenttype/markdown';
+import { Parser } from '@atjson/contenttype-markdown';
 import { Parser as HTMLParser } from '@atjson/contenttype-html';
 import { HIR } from '@atjson/hir';
 import { AtJSON } from '@atjson/core';
