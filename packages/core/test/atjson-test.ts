@@ -1,5 +1,5 @@
 import { module, test, TestCase, QUnitAssert } from './support';
-import { AtJSON } from 'atjson';
+import { AtJSON } from '@atjson/core';
 
 @module("atjson")
 export class AtJSONTest extends TestCase {
