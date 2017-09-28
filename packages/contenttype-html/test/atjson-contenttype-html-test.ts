@@ -20,11 +20,14 @@ QUnit.test('pre-code', assert => {
 
   assert.deepEqual(hir, {
     type: 'root',
+    attributes: undefined,
     children: [
       { type: 'pre',
+        attributes: undefined,
         children: [{
           type: 'code',
-          children: [ 'this ', { type: 'b', children: ['is'] }, ' a test' ]
+          attributes: undefined,
+          children: [ 'this ', { type: 'b', attributes: undefined, children: ['is'] }, ' a test' ]
         }]
       }]}
   );
@@ -44,12 +47,13 @@ QUnit.test('<p>aaa<br />\nbbb</p>', assert => {
   let hir = new HIR(htmlAtJSON).toJSON();
   assert.deepEqual(hir, {
     type: 'root',
-    children: [
-      { type: 'paragraph',
-        children: [
-          'aaa', { type: 'br', children: [] }, '\nbbb'
-        ]
-      }
-    ]
+    attributes: undefined,
+    children: [{
+      type: 'paragraph',
+      attributes: undefined,
+      children: [
+        'aaa', { type: 'br', attributes: undefined, children: [] }, '\nbbb'
+      ]
+    }]
   });
 });
