@@ -14,9 +14,9 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(node);
     root.insertNode(sibling);
 
-    assert.deepEqual(root.toJSON(), { type: 'root', children: [
-      { type: 'test', children: [] },
-      { type: 'test', children: [] }
+    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+      { type: 'test', children: [], attributes: undefined },
+      { type: 'test', children: [], attributes: undefined }
     ] })
   }
 
@@ -27,8 +27,8 @@ export class HIRNodeTest extends TestCase {
 
     root.insertNode(node);
 
-    assert.deepEqual(root.toJSON(), { type: 'root', children: [
-      { type: 'test', children: [] },
+    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+      { type: 'test', children: [], attributes: undefined },
     ] })
   }
 
@@ -42,9 +42,9 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(sibling);
     root.insertText('some text.');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', children: [
-      { type: 'test', children: ['some '] },
-      { type: 'test', children: ['text.'] }
+    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+      { type: 'test', children: ['some '], attributes: undefined },
+      { type: 'test', children: ['text.'], attributes: undefined }
     ] })
   }
 
@@ -60,9 +60,9 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(sibling);
     root.insertText('some text.');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', children: [
-      { type: 'a', children: [ 'so', { type: 'b', children: ['me'] }, ' ' ] },
-      { type: 'c', children: ['text.'] }
+    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+      { type: 'a', children: [ 'so', { type: 'b', children: ['me'], attributes: undefined  }, ' ' ], attributes: undefined },
+      { type: 'c', children: ['text.'], attributes: undefined }
     ] })
   }
 
@@ -81,12 +81,12 @@ export class HIRNodeTest extends TestCase {
 
     root.insertText('ab\n\nli\n\ncd');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', children: [
-      { type: 'paragraph', children: ['ab\n\n'] },
-      { type: 'ordered-list', children: [
-        { type: 'paragraph', children: ['li\n\n'] }
+    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+      { type: 'paragraph', children: ['ab\n\n'], attributes: undefined },
+      { type: 'ordered-list', attributes: undefined, children: [
+        { type: 'paragraph', children: ['li\n\n'], attributes: undefined }
       ]},
-      { type: 'paragraph', children: ['cd'] }
+      { type: 'paragraph', children: ['cd'], attributes: undefined }
     ]});
   }
 
@@ -99,8 +99,8 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(paragraph);
     root.insertText('abcdefghij');
 
-    assert.deepEqual(root.toJSON(), {type:'root', children: [
-      { type: 'paragraph', children: [ 'abcd', { type: 'bold', children: ['ef']}, 'ghij']}
+    assert.deepEqual(root.toJSON(), {type:'root', attributes: undefined, children: [
+      { type: 'paragraph', children: [ 'abcd', { type: 'bold', children: ['ef'], attributes: undefined }, 'ghij'], attributes: undefined }
     ]});
   }
 
