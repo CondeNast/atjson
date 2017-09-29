@@ -95,10 +95,8 @@ const MARKDOWN_RULES = {
     let indentedItem = item.join('').split('\n').map((line) => indent + line).join('\n').trim();
 
     if (this.type === 'ordered-list') {
-      console.log('li', `${indent}${this.index}. ${indentedItem}\n`);
       return `${indent}${this.index++}. ${indentedItem}`;
     } else if (this.type === 'unordered-list') {
-      console.log('li', `${indent}- ${indentedItem}\n`);
       return `${indent}- ${indentedItem}`;
     }
     return item;

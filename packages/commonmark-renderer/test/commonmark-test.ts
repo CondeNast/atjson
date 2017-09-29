@@ -26,6 +26,9 @@ export class CommonMarkTest extends TestCase {
     let document = new AtJSON({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
+        { type: 'paragraph', start: 0, end: 26 },
+        { type: 'parse-token': start: 26, end: 28 },
+        { type: 'paragraph', start: 28, end: 62 },
         { type: 'bold', start: 22, end: 32 }
       ]
     });
