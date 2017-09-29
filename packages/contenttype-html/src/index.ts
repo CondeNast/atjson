@@ -116,7 +116,6 @@ export class Parser {
 
   convertSelfClosingNodeToAnnotations(type: string, node: parse5.AST.Default.Element): Annotation[] {
     let annotations = [];
-    console.log(node);
 
     if (node.__location !== undefined) {
       annotations.push(this.parseToken(type, node.__location.startTag));
