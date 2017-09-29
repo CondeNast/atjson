@@ -6,7 +6,8 @@ const TAG_MAP: { [name: string]: string } = {
   p: 'paragraph',
   ul: 'unordered-list',
   ol: 'ordered-list',
-  li: 'list-item'
+  li: 'list-item',
+  img: 'image'
 };
 
 const isElement = (node: parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode): node is parse5.AST.Default.Element => {
@@ -37,6 +38,7 @@ export class Parser {
   newAnnotation(type: string, location: parse5.MarkupData.Location, extra?: {}) {
     return Object.assign({
       type,
+      attributes: {},
       start: location.startOffset,
       end: location.endOffset
     }, extra);
@@ -72,7 +74,6 @@ export class Parser {
    * Convert the node to annotations!
    */
   convertNodeToAnnotations(node: parse5.AST.Default.Element): Annotation[] {
-
     let type;
 
     if (TAG_MAP[node.tagName]) {
@@ -94,17 +95,28 @@ export class Parser {
 
       }
     } else {
+        debugger;
       // This is a self-closing tag, so we include the parse-token to remove
       // the markup, alongside the element itself to preserve it.
       return [
         this.parseToken(type, node.__location),
-        this.newAnnotation(type, node.__location)
+        this.newAnnotation(type, node.__location, {
+          attributes: this.attributesForNode(node)
+        })
       ];
     }
   }
 
+  attributesForNode(node: parse5.AST.Default.Element): any {
+    return node.attrs.reduce((attrs, { name, value }) => {
+      attrs[name] = value;
+      return attrs;
+    }, {});
+  }
+
   convertSelfClosingNodeToAnnotations(type: string, node: parse5.AST.Default.Element): Annotation[] {
     let annotations = [];
+    console.log(node);
 
     if (node.__location !== undefined) {
       annotations.push(this.parseToken(type, node.__location.startTag));
@@ -125,6 +137,7 @@ export class Parser {
 
       annotations.push({
         type,
+        attributes: this.attributesForNode(node),
         start: node.__location.startTag.endOffset,
         end: node.__location.endTag.startOffset
       });

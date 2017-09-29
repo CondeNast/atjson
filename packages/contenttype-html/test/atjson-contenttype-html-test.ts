@@ -23,11 +23,11 @@ QUnit.test('pre-code', assert => {
     attributes: undefined,
     children: [
       { type: 'pre',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'code',
-          attributes: undefined,
-          children: [ 'this ', { type: 'b', attributes: undefined, children: ['is'] }, ' a test' ]
+          attributes: {},
+          children: [ 'this ', { type: 'b', attributes: {}, children: ['is'] }, ' a test' ]
         }]
       }]}
   );
@@ -50,10 +50,60 @@ QUnit.test('<p>aaa<br />\nbbb</p>', assert => {
     attributes: undefined,
     children: [{
       type: 'paragraph',
-      attributes: undefined,
+      attributes: {},
       children: [
-        'aaa', { type: 'br', attributes: undefined, children: [] }, '\nbbb'
+        'aaa', { type: 'br', attributes: {}, children: [] }, '\nbbb'
       ]
     }]
+  });
+});
+
+QUnit.test('<a href="https://example.com">example</a>', assert => {
+  let html = '<a href="https://example.com">example</a>';
+  let parser = new Parser(html);
+  let parsedHtml = parser.parse();
+
+  let htmlAtJSON = new AtJSON({
+    content: html,
+    contentType: 'text/html',
+    annotations: parsedHtml
+  });
+
+  let hir = new HIR(htmlAtJSON).toJSON();
+  assert.deepEqual(hir, {
+    type: 'root',
+    attributes: undefined,
+    children: [{
+      type: 'a',
+      attributes: {
+        href: 'https://example.com'
+      },
+      children: ['example']
+    }]
+  });
+});
+
+QUnit.test('<img src="https://example.com/test.png" /> ', assert => {
+  let html = '<img src="https://example.com/test.png" /> ';
+  let parser = new Parser(html);
+  let parsedHtml = parser.parse();
+
+  let htmlAtJSON = new AtJSON({
+    content: html,
+    contentType: 'text/html',
+    annotations: parsedHtml
+  });
+
+  let hir = new HIR(htmlAtJSON).toJSON();
+  assert.deepEqual(hir, {
+    type: 'root',
+    attributes: undefined,
+    children: [{
+      type: 'img',
+      attributes: {
+        src: 'https://example.com/test.png'
+      },
+      children: []
+    }, ' ']
   });
 });
