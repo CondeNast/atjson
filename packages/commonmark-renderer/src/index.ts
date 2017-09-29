@@ -6,93 +6,93 @@ interface AnnotationLookup {
 
 const MARKDOWN_RULES = {
   /**
-    The root allows us to normalize the document
-    after all annotations have been rendered to
-    CommonMark.
+   * The root allows us to normalize the document
+   * after all annotations have been rendered to
+   * CommonMark.
    */
-  *root() {
+  *'root'(): IterableIterator<string> {
     let document = yield;
     return document.join('').trimRight();
   },
 
   /**
-    Bold text looks like **this** in Markdown.
+   * Bold text looks like **this** in Markdown.
    */
-  *bold() {
+  *'bold'(): IterableIterator<string> {
     let text = yield;
     return `**${text.join('')}**`;
   },
 
   /**
-    > A block quote has `>` in front of every line
-    > it is on.
-    >
-    > It can also span multiple lines.
+   * > A block quote has `>` in front of every line
+   * > it is on.
+   * >
+   * > It can also span multiple lines.
    */
-  *blockquote() {
+  *'blockquote'(): IterableIterator<string> {
     let quote: string = yield;
-    return quote.join('').split('\n').map((line) => `> ${line}`).join('\n');
+    return quote.split('\n').map(line => `> ${line}`).join('\n');
   },
 
   /**
-    # Headings have 6 levels, with a single `#` being the most important
-
-    ###### and six `#` being the least important
+   * # Headings have 6 levels, with a single `#` being the most important
+   *
+   * ###### and six `#` being the least important
    */
-  *heading(props: { size: number }) {
+  *'heading'(props: { size: number }): IterableIterator<string> {
     let hashes = new Array((props.size || 0) + 1).join('#');
     let heading = yield;
     return `${hashes} ${heading.join('')}`;
   },
 
   /**
-    A horizontal rule separates sections of a story
-    ---
-    Into multiple sections.
+   * A horizontal rule separates sections of a story
+   * ---
+   * Into multiple sections.
    */
-  *'horizontal-rule'() {
+  *'horizontal-rule'(): IterableIterator<string> {
     return '\n---\n';
   },
 
   /**
-    Images are embedded like links, but with a `!` in front.
-    ![CommonMark](http://commonmark.org/images/markdown-mark.png)
+   * Images are embedded like links, but with a `!` in front.
+   * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *image(props: { alt: string, url: string }) {
+  *'image'(props: { alt: string, url: string }): IterableIterator<string> {
     return `![${props.alt}](${props.url})`;
   },
 
   /**
-    Italic text looks like *this* in Markdown.
+   * Italic text looks like *this* in Markdown.
    */
-  *italic() {
+  *'italic'(): IterableIterator<string> {
     let text = yield;
     return `*${text.join('')}*`;
   },
 
   /**
-    A line break in Commonmark can be two white spaces at the end of the line  
-    or it can be a backslack at the end of the line\
+   * A line break in Commonmark can be two white spaces at the end of the line  <--
+   * or it can be a backslack at the end of the line\
    */
-  *'line-break'() {
+  *'line-break'(): IterableIterator<string> {
     return '  ';
   },
 
   /**
-    A [link](http://commonmark.org) has the url right next to it in Markdown.
+   * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *link(props: { url: string }) {
+  *'link'(props: { url: string }): IterableIterator<string> {
     let text = yield;
     return `[${text.join('')}](${props.url})`;
   },
 
   /**
-    A list item is part of an ordered list or an unordered list.
+   * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'() {
+  *'list-item'(): IterableIterator<string> {
     let indent: string = new Array(this.indent + 1).join('   ');
     let item: string = yield;
-    let indentedItem = item.join('').split('\n').map((line) => indent + line).join('\n').trim();
+    let indentedItem = item.split('\n').map(line => indent + line).join('\n').trim();
 
     if (this.type === 'ordered-list') {
       return `${indent}${this.index++}. ${indentedItem}`;
@@ -103,11 +103,11 @@ const MARKDOWN_RULES = {
   },
 
   /**
-    1. An ordered list contains
-    2. A number
-    3. Of things with numbers preceding them
+   * 1. An ordered list contains
+   * 2. A number
+   * 3. Of things with numbers preceding them
    */
-  *'ordered-list'() {
+  *'ordered-list'(): IterableIterator<string> {
     this.pushScope({
       annotationLookup: this.annotationLookup,
       type: 'ordered-list',
@@ -125,11 +125,11 @@ const MARKDOWN_RULES = {
   },
 
   /**
-    - An ordered list contains
-    - A number
-    - Of things with dashes preceding them
+   * - An ordered list contains
+   * - A number
+   * - Of things with dashes preceding them
    */
-  *'unordered-list'() {
+  *'unordered-list'(): IterableIterator<string> {
     this.pushScope({
       annotationLookup: this.annotationLookup,
       type: 'unordered-list',
@@ -146,12 +146,12 @@ const MARKDOWN_RULES = {
   },
 
   /**
-    A paragraph is the base unit of text.
-
-    They are created by adding two newlines between
-    text.
+   * A paragraph is the base unit of text.
+   *
+   * They are created by adding two newlines between
+   * text.
    */
-  *paragraph() {
+  *'paragraph'(): IterableIterator<string> {
     let text = yield;
     return `${text.join('')}\n\n`;
   }
@@ -179,13 +179,12 @@ export default class CommonmarkRenderer extends Renderer {
     });
   }
 
-  *renderAnnotation (annotation) {
+  *renderAnnotation(annotation) {
     let rule = this.annotationLookup[annotation.type];
     if (rule) {
       return yield* rule.call(this, annotation.attributes);
     } else {
-      console.error(`No rule found for "${annotation.type}"`);
       return `yield.join('')`;
     }
   }
-});
+})
