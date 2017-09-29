@@ -100,8 +100,6 @@ export default class AtJSON {
 
     this.content = before + after;
 
-    let deletedAnnotationIndexes: number[] = [];
-
     for (let i = this.annotations.length - 1; i >= 0; i--) {
       let a = this.annotations[i];
 
