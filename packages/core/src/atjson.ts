@@ -6,7 +6,7 @@ export default class AtJSON {
   contentType?: string;
   annotations: Annotation[];
 
-  constructor(options: { content: string, annotations?: Annotation[], contentType?: string }|string) {
+  constructor(options: { content: string, annotations?: Annotation[], contentType?: string } | string) {
     if (typeof options === 'string') {
       options = { content: options };
     }
@@ -15,11 +15,11 @@ export default class AtJSON {
     this.contentType = options.contentType || 'text/plain';
   }
 
-  addAnnotations(annotations: Annotation|Annotation[]): void {
+  addAnnotations(annotations: Annotation | Annotation[]): void {
     this.annotations = this.annotations.concat(annotations);
   }
 
-  removeAnnotation(annotation: Annotation): Annotation|void {
+  removeAnnotation(annotation: Annotation): Annotation | void {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       return this.annotations.splice(index, 1)[0];
@@ -44,7 +44,7 @@ export default class AtJSON {
       // comments, where insertion at the end of the link/comment should _not_
       // affect the annotation.
       //
-      // FIXME this whole inner loop should probably be moved to a base Annotation.transform 
+      // FIXME this whole inner loop should probably be moved to a base Annotation.transform
       if (a.transform) {
         a.transform(a, this.content, position, text.length, preserveAdjacentBoundaries);
 
@@ -74,9 +74,15 @@ export default class AtJSON {
         }
 
       // Non-standard behaviour. Do nothing to the adjacent boundary!
-      } else if (position == a.start) {
+      } else if (position === a.start) {
         a.end += length;
-      } else if (position == a.end)  {
+
+      // no-op; we would delete the annotation, but we should defer to the
+      // annotation as to whether or not it's deletable, since some zero-length
+      // annotations should be retained.
+      // n.b. the += 0 is just to silence tslint ;-)
+      } else if (position === a.end)  {
+        a.end += 0;
       }
     }
   }
