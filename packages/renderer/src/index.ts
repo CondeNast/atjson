@@ -1,23 +1,16 @@
-interface Annotation {
-  type: string;
-  attributes: Object;
-  children: (Annotation|string)[];
-}
+import { AtJSON } from '@atjson/core';
+import { HIR, HIRNode } from '@atjson/hir';
 
-interface Serializeable {
-  toJSON(): Annotation
-}
-
-function compile(scope: Renderer, node: Annotation): string {
+function compile(scope: Renderer, node: HIRNode): any {
   let generator = scope.invoke(scope.renderAnnotation, node);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  return generator.next(node.children.map(function (childNode) {
-    if (typeof childNode === 'string') {
-      return childNode;
+  return generator.next(node.children().map(function (childNode) {
+    if (childNode.type === 'text' && typeof childNode.text === 'string') {
+      return childNode.text;
     } else {
       return compile(scope, childNode);
     }
@@ -31,29 +24,29 @@ export default abstract class Renderer {
     this.scopes = [];
   }
 
-  pushScope(scope: any) {
+  pushScope(scope: any): void {
     this.scopes.push(Object.assign({
       popScope: () => this.popScope(),
-        pushScope: (scope: any) => this.pushScope(scope)
+      pushScope: (scope: any) => this.pushScope(scope)
     }, scope));
   }
 
-  popScope() {
+  popScope(): void {
     this.scopes.pop();
   }
 
-  invoke(fn, ...args: any[]) {
+  invoke(fn: (node: HIRNode) => IterableIterator<string>, ...args: any[]) {
     let scope = this.scopes[this.scopes.length - 1];
     return fn.call(scope, ...args);
   }
 
-  abstract *renderAnnotation();
+  abstract renderAnnotation(node: HIRNode): IterableIterator<any>;
 
-  willRender() {
+  willRender(): void {
     this.pushScope({});
   }
 
-  didRender() {
+  didRender(): void {
     this.popScope();
   }
 

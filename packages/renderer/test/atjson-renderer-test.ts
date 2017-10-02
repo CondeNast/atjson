@@ -1,15 +1,8 @@
 import { AtJSON } from '@atjson/core';
-import { HIR } from '@atjson/hir';
+import { HIR, HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer';
 
 QUnit.module('@atjson/renderer tests');
-
-QUnit.test('renderAnnotation is required on the base class', function (assert) {
-  let renderer = new Renderer();
-  assert.throws(function () {
-    renderer.render(new HIR(new AtJSON('Hello')));
-  });
-});
 
 QUnit.test('renderer abstract interface', function (assert) {
   let hir = new HIR(new AtJSON({
@@ -37,7 +30,7 @@ QUnit.test('renderer abstract interface', function (assert) {
   ];
 
   class ConcreteRenderer extends Renderer {
-    *renderAnnotation(annotation) {
+    *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
       assert.deepEqual(annotation, callStack.shift());
 
       let text: string[] = yield;
