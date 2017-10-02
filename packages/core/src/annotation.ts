@@ -3,6 +3,8 @@ export default interface Annotation {
   start: number;
   end: number;
 
+  attributes?: { [key: string]: any };
+
   transform?: (
     annotation: Annotation,
     content: string,
