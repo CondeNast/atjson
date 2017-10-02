@@ -8,7 +8,7 @@ function compile(scope: Renderer, node: HIRNode): any {
     return result.value;
   }
 
-  return generator.next(node.children().map(function (childNode) {
+  return generator.next(node.children().map(childNode => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return childNode.text;
     } else {
@@ -18,7 +18,7 @@ function compile(scope: Renderer, node: HIRNode): any {
 }
 
 export default abstract class Renderer {
-  private scopes: Object[];
+  private scopes: object[];
 
   constructor() {
     this.scopes = [];
@@ -27,7 +27,7 @@ export default abstract class Renderer {
   pushScope(scope: any): void {
     this.scopes.push(Object.assign({
       popScope: () => this.popScope(),
-      pushScope: (scope: any) => this.pushScope(scope)
+      pushScope: (pushedScope: any) => this.pushScope(pushedScope)
     }, scope));
   }
 
@@ -50,7 +50,7 @@ export default abstract class Renderer {
     this.popScope();
   }
 
-  render(atjson: AtJSON|HIR): any {
+  render(atjson: AtJSON | HIR): any {
 
     let annotationGraph;
     if (atjson instanceof AtJSON) {

@@ -3,7 +3,7 @@ import Renderer from '@atjson/renderer';
 import * as React from 'react';
 
 interface Component {
-  new (...args: any[]): React.Component
+  new (...args: any[]): React.Component;
 }
 
 type StatelessComponent = (...args: any[]) => any;

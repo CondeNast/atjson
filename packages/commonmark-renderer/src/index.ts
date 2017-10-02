@@ -1,11 +1,11 @@
-import Renderer from '@atjson/renderer';
 import { HIRNode } from '@atjson/hir';
+import Renderer from '@atjson/renderer';
 
-type Rule = (...args: any[]) => IterableIterator<string>;
+export type Rule = (...args: any[]) => IterableIterator<string>;
 
-interface AnnotationLookup {
+export interface AnnotationLookup {
   [key: string]: Rule;
-};
+}
 
 const MARKDOWN_RULES: AnnotationLookup = {
   /**

@@ -1,20 +1,20 @@
 import { AtJSON } from '@atjson/core';
-import { HIR, HIRNode } from '@atjson/hir';
+import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer';
 
 QUnit.module('@atjson/renderer tests');
 
-QUnit.test('renderer abstract interface', function (assert) {
-  let hir = new HIR(new AtJSON({
+QUnit.test('renderer abstract interface', assert => {
+  let atjson = new AtJSON({
     content: 'This is bold and italic text',
     annotations: [{
       type: 'bold', start: 8, end: 17
     }, {
       type: 'italic', start: 12, end: 23
     }]
-  }));
+  });
 
-  let root = hir.rootNode;
+  let root = atjson.rootNode;
   let callStack = [
     root,
     root.children()[1],
@@ -40,5 +40,5 @@ QUnit.test('renderer abstract interface', function (assert) {
   }
 
   let renderer = new ConcreteRenderer();
-  renderer.render(hir);
+  renderer.render(atjson);
 });

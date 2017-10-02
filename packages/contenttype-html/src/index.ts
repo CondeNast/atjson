@@ -112,7 +112,7 @@ export class Parser {
   }
 
   attributesForNode(node: parse5.AST.Default.Element): object {
-    return node.attrs.reduce(this.convertElementToAttrObject, {})
+    return node.attrs.reduce(this.convertElementToAttrObject, {});
 
       /*
     (attrs, { name, value }: { name: string, value: string }) => {

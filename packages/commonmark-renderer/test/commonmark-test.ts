@@ -1,11 +1,11 @@
-import { module, test, TestCase, QUnitAssert } from './support';
-import { AtJSON } from '@atjson/core';
 import CommonMarkRenderer from '@atjson/commonmark-renderer';
+import { AtJSON } from '@atjson/core';
+import { QUnitAssert, TestCase, module, test } from './support';
 
-@module("commonmark")
+@module('commonmark')
 export class CommonMarkTest extends TestCase {
   @test
-  "raw atjson document"(assert: QUnitAssert) {
+  'raw atjson document'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'Some text that is both bold and italic plus something after.',
       contentType: 'text/atjson',
@@ -21,7 +21,7 @@ export class CommonMarkTest extends TestCase {
   }
 
   @test
-  "a plain text document with virtual paragraphs"(assert: QUnitAssert) {
+  'a plain text document with virtual paragraphs'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
@@ -38,7 +38,7 @@ export class CommonMarkTest extends TestCase {
   }
 
   @test
-  "a list"(assert: QUnitAssert) {
+  'a list'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'I have a list:\n\nFirst item plus bold text\nSecond item plus italic text\nItem 2a\nItem 2b\n\nAfter all the lists',
       annotations: [
@@ -66,7 +66,7 @@ After all the lists`);
   }
 
   @test
-  "links"(assert: QUnitAssert) {
+  'links'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'I have a link',
       annotations: [{
@@ -82,7 +82,7 @@ After all the lists`);
   }
 
   @test
-  "images"(assert: QUnitAssert) {
+  'images'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: ' ',
       annotations: [{
@@ -99,7 +99,7 @@ After all the lists`);
   }
 
   @test
-  "block quote"(assert: QUnitAssert) {
+  'block quote'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'This is a quote\n\nThat has some\nlines in it.',
       annotations: [{
@@ -109,14 +109,13 @@ After all the lists`);
 
     let renderer = new CommonMarkRenderer();
     assert.equal(renderer.render(document),
-                 `> This is a quote
-> 
+                 '> This is a quote\n> ' + `
 > That has some
 > lines in it.`);
   }
 
   @test
-  "headlines"(assert: QUnitAssert) {
+  'headlines'(assert: QUnitAssert) {
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
       annotations: [{
@@ -131,4 +130,4 @@ After all the lists`);
                  `# Banner
 ## Headline`);
   }
-};
+}

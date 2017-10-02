@@ -1,10 +1,10 @@
-import TextRenderer from '@atjson/text-renderer';
 import { Parser } from '@atjson/contenttype-html';
 import { Annotation, AtJSON } from '@atjson/core';
+import TextRenderer from '@atjson/text-renderer';
 
 QUnit.module('TextRenderer');
 
-QUnit.test('it returns the text from the atjson document', function (assert) {
+QUnit.test('it returns the text from the atjson document', assert => {
   let renderer = new TextRenderer();
   let annotations: Annotation[] = [{
       type: 'atjson',
@@ -20,13 +20,13 @@ QUnit.test('it returns the text from the atjson document', function (assert) {
   let document = new AtJSON({
     content: '☎️👨🏻⛵️🐳👌🏼',
     contentType: 'text/plain',
-    annotations: annotations
+    annotations
   });
   let text = renderer.render(document);
   assert.equal(text, '☎️👨🏻⛵️🐳👌🏼');
 });
 
-QUnit.test('it strips virtual annotations', function (assert) {
+QUnit.test('it strips virtual annotations', assert => {
   let html = '<p>This is some <em>fancy</em> <span class="fancy">text</span>.';
   let parser = new Parser(html);
   let parsedHTML = parser.parse();
