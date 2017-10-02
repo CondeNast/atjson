@@ -50,9 +50,19 @@ export default abstract class Renderer {
     this.popScope();
   }
 
-  render(annotationGraph: Serializeable) {
+  render(atjson: AtJSON|HIR): string {
+
+    let annotationGraph;
+    if (atjson instanceof AtJSON) {
+      annotationGraph = new HIR(atjson);
+    } else if (atjson instanceof HIR) {
+      annotationGraph = atjson;
+    } else {
+      throw new Error('Supplied arguments invalid.');
+    }
+
     this.willRender();
-    let renderedDocument = compile(this, annotationGraph.toJSON());
+    let renderedDocument = compile(this, annotationGraph.rootNode);
     this.didRender();
     return renderedDocument;
   }

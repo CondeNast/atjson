@@ -14,15 +14,15 @@ QUnit.test('renderer abstract interface', function (assert) {
     }]
   }));
 
-  let root = hir.toJSON();
+  let root = hir.rootNode;
   let callStack = [
     root,
-    root.children[1],
-    root.children[1].children[1],
-    root.children[2]
+    root.children()[1],
+    root.children()[1].children()[1],
+    root.children()[2]
   ];
 
-  let textBuilder = [
+  let textBuilder: string[] = [
     ' and ',
     'bold and ',
     'italic',
