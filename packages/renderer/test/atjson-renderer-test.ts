@@ -1,5 +1,5 @@
 import { AtJSON } from '@atjson/core';
-import { HIRNode } from '@atjson/hir';
+import { HIR, HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer';
 
 QUnit.module('@atjson/renderer tests');
@@ -14,7 +14,7 @@ QUnit.test('renderer abstract interface', assert => {
     }]
   });
 
-  let root = atjson.rootNode;
+  let root = new HIR(atjson).rootNode;
   let callStack = [
     root,
     root.children()[1],
