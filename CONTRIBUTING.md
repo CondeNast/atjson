@@ -4,7 +4,7 @@ This is a Lerna repository, with a bunch of sub-modules. To build and get starte
 
 ```
 lerna bootstrap
-lerna run build
+lerna run build-tests
 lerna run test
 ```
 
