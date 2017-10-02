@@ -1,6 +1,7 @@
-import { AtJSON, Annotation } from '@atjson/core';
-import HIRNode from './hir-node';
+import { Annotation, AtJSON } from '@atjson/core';
 import * as entities from 'entities';
+import HIRNode from './hir-node';
+import JSONNode from './json-node';
 
 export default class HIR {
 
@@ -19,10 +20,10 @@ export default class HIR {
     this.populateHIR();
   }
 
-  toJSON(): object {
+  toJSON(): JSONNode|string {
     if (this.atjson.contentType === 'text/html') {
       return this.rootNode.toJSON((node: HIRNode): HIRNode => {
-        if (node.type === 'text') {
+        if (node.type === 'text' && typeof(node.text) === 'string') {
           node.text = entities.decodeHTML5(node.text);
         }
         return node;
@@ -36,13 +37,13 @@ export default class HIR {
 
     let atjson = this.atjson;
 
-    //atjson.addAnnotations(this.parseContent());
+    // atjson.addAnnotations(this.parseContent());
 
-    //let annotations = this.atjson.annotations.concat(this.parseContent());
+    // let annotations = this.atjson.annotations.concat(this.parseContent());
 
     atjson.annotations
-      .filter((a) => a.type === 'parse-token')
-      .forEach((a) => atjson.deleteText(a));
+      .filter(a => a.type === 'parse-token')
+      .forEach(a => atjson.deleteText(a));
 
     atjson.annotations
       .filter(a => a.type === 'parse-token' || a.type === 'parse-element')
@@ -61,7 +62,7 @@ export default class HIR {
         } else {
           return a.start - b.start;
         }
-      }).forEach((annotation) => this.rootNode.insertAnnotation(annotation));
+      }).forEach(annotation => this.rootNode.insertAnnotation(annotation));
 
     this.rootNode.insertText(atjson.content);
   }
@@ -87,11 +88,11 @@ export default class HIR {
 
   plainTextParser(content: string): Annotation[] {
     let prevIdx = 0;
-    let breakIdx = content.indexOf("\n\n", 0);
+    let breakIdx = content.indexOf('\n\n', 0);
 
     let annotations = [];
 
-    while (breakIdx != -1) {
+    while (breakIdx !== -1) {
       annotations.push({
         type: 'paragraph',
         start: prevIdx,
@@ -111,7 +112,7 @@ export default class HIR {
       } as Annotation);
 
       prevIdx = breakIdx + 2;
-      breakIdx = content.indexOf("\n\n", breakIdx + 2);
+      breakIdx = content.indexOf('\n\n', breakIdx + 2);
     }
 
     if (prevIdx < content.length) {

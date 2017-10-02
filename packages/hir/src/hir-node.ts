@@ -1,4 +1,5 @@
 import { Annotation } from '@atjson/core';
+import JSONNode from './json-node';
 
 const ROOT_NODE_RANK = 0;
 const BLOCK_NODE_RANK = 1;
@@ -9,20 +10,20 @@ const TEXT_NODE_RANK = Infinity;
 export default class HIRNode {
 
   type: string;
-  attributes?: Object;
+  attributes?: object;
 
   start: number;
   end: number;
 
-  private child: HIRNode | undefined;
-  private sibling: HIRNode | undefined;
-
-  node: any;
   text?: string;
 
   rank: number;
 
-  constructor(node: any) {
+  private child: HIRNode | undefined;
+  private sibling: HIRNode | undefined;
+
+  constructor(node: {type: string, start: number, end: number, attributes?: object, text?: string}) {
+
     this.type = node.type;
 
     this.start = node.start;
@@ -35,8 +36,12 @@ export default class HIRNode {
         break;
 
       case 'text':
-        this.text = node.text.slice(node.start, node.end);
-        this.rank = TEXT_NODE_RANK;
+        if (typeof(node.text) === 'string') {
+          this.text = node.text.slice(node.start, node.end);
+          this.rank = TEXT_NODE_RANK;
+        } else {
+          throw new Error('Encountered a text node with no text.');
+        }
         break;
 
       case 'paragraph':
@@ -60,13 +65,13 @@ export default class HIRNode {
     }
   }
 
-  toJSON(filter?: (node: HIRNode) => HIRNode): object {
-    let thisNode = this;
+  toJSON(filter?: (node: HIRNode) => HIRNode): JSONNode|string {
+    let thisNode: HIRNode = this;
     if (filter) {
-      let thisNode = filter(this);
+      thisNode = filter(this);
     }
 
-    if (thisNode.type === 'text') {
+    if (thisNode.type === 'text' && typeof(thisNode.text) === 'string') {
       return thisNode.text;
     }
 
@@ -78,22 +83,8 @@ export default class HIRNode {
       })
     };
   }
-    /*
-  toJSON(): object {
-    if (this.type === 'text') {
-      return this.text;
-    } else {
-      return {
-        type: this.type,
-        children: this.children().map(child => {
-          return child.toJSON();
-        })
-      };
-    }
-  }
-     */
 
-  children(): Array<HIRNode> {
+  children(): HIRNode[] {
     if (this.child) {
       return [this.child].concat(this.child.siblings());
     } else {
@@ -101,7 +92,7 @@ export default class HIRNode {
     }
   }
 
-  siblings(): Array<HIRNode> {
+  siblings(): HIRNode[] {
     if (this.sibling) {
       return [this.sibling].concat(this.sibling.siblings());
     } else {
@@ -115,15 +106,15 @@ export default class HIRNode {
   }
 
   insertText(text: string): void {
-    if (this.type != 'root') {
+    if (this.type !== 'root') {
       throw new Error('temporary exception; this should only exist in the root node subclass');
     }
 
     let node = new HIRNode({
+      text,
       type: 'text',
       start: this.start,
-      end: this.end,
-      text: text
+      end: this.end
     });
 
     this.insertNode(node);
@@ -246,95 +237,10 @@ export default class HIRNode {
     }
 
     // nb move to HIRTextNode
-    if (newNode.type === 'text') {
+    if (newNode.type === 'text' && typeof(this.text) === 'string') {
       newNode.text = this.text.slice(newNode.start - this.start, newNode.end - this.start);
     }
 
     return newNode;
   }
-
-    /*
-  insertAnnotation(annotation: Annotation): Annotation|void {
-    if (this.end <= annotation.start) {
-      return annotation;
-
-    } else if (this.start > annotation.end) {
-      return annotation;
-
-    } else {
-      let remainingAnnotation = this.insertAnnotationIntoChildren(annotation);
-
-      if (remainingAnnotation === undefined) {
-        return;
-      } else if (remainingAnnotation.start < this.end) {
-        let childHIRNode = new HIRNode(remainingAnnotation);
-        let leftoverAnnotation = {...remainingAnnotation} as Annotation;
-
-        childHIRNode.end = Math.min(childHIRNode.end, this.end);
-        childHIRNode.start = Math.max(childHIRNode.start, this.start);
-        leftoverAnnotation.start = this.end; // is this right?
-
-        this.children.push(childHIRNode);
-
-        if (leftoverAnnotation.start > leftoverAnnotation.end) {
-          return;
-        } else {
-          if (leftoverAnnotation.end < this.end) {
-            return;
-          } else {
-            return leftoverAnnotation;
-          }
-        }
-      }
-    }
-  }
-
-  insertAnnotationIntoChildren(annotation: Annotation): Annotation {
-    if (this.children.length === 0) {
-      return annotation;
-    } else {
-      return this.children.reduce((resultAnnotation: Annotation, child: HIRNode|string) => {
-        if (typeof child === 'string') {
-          // Just skip for now. This annotation *should not* currently
-          // intersect with the string.
-          return resultAnnotation;
-        } else if (child instanceof HIRNode) {
-          return child.insertAnnotation(annotation);
-        } else {
-          throw new Error('this was not supposed to happen');
-        }
-      }, annotation);
-    }
-  }
-
-  insertText(text: string): string|void {
-
-    let strOffset = this.start;
-
-    let newChildren = [];
-
-    this.children.forEach((child, i) => {
-      if (strOffset < child.start) {
-        newChildren.push(text.slice(0, child.start - strOffset));
-        text = text.slice(child.start - strOffset);
-      }
-
-      if (strOffset < child.end) {
-        text = child.insertText(text);
-      }
-
-      newChildren.push(child);
-      strOffset = child.end;
-    });
-
-    if (text.length > 0 && strOffset < this.end) {
-      newChildren.push(text.slice(0, this.end - strOffset));
-      text = text.slice(this.end - strOffset);
-    }
-
-    this.children = newChildren;
-
-    return text;
-  }
-  */
 }

@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/entities@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/entities/-/entities-1.1.0.tgz#07ad60479dff7e1b61d95ce96697987d53a662cd"
+
 "@types/fs-extra@^4.0.0":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-4.0.2.tgz#7b9b1bbf85962cbe029b5a83c9b530d7c75af3ba"
