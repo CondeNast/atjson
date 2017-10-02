@@ -1,10 +1,13 @@
 import Renderer from '@atjson/renderer';
+import { HIRNode } from '@atjson/hir';
+
+type Rule = (...args: any[]) => IterableIterator<string>;
 
 interface AnnotationLookup {
-  [key: string]: *(any): string;
-}
+  [key: string]: Rule;
+};
 
-const MARKDOWN_RULES = {
+const MARKDOWN_RULES: AnnotationLookup = {
   /**
    * The root allows us to normalize the document
    * after all annotations have been rendered to
@@ -30,8 +33,8 @@ const MARKDOWN_RULES = {
    * > It can also span multiple lines.
    */
   *'blockquote'(): IterableIterator<string> {
-    let quote: string = yield;
-    return quote.split('\n').map(line => `> ${line}`).join('\n');
+    let quote: string[] = yield;
+    return quote.join('').split('\n').map(line => `> ${line}`).join('\n');
   },
 
   /**
@@ -89,16 +92,17 @@ const MARKDOWN_RULES = {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(): IterableIterator<string> {
-    let indent: string = new Array(this.indent + 1).join('   ');
-    let item: string = yield;
-    let indentedItem = item.split('\n').map(line => indent + line).join('\n').trim();
+  *'list-item'(this: any): IterableIterator<string> {
+    let indent: string = '   '.repeat(this.indent);
+    let item: string[] = yield;
+    let indentedItem: string = item.join('').split('\n').map(line => indent + line).join('\n').trim();
 
     if (this.type === 'ordered-list') {
       return `${indent}${this.index++}. ${indentedItem}`;
     } else if (this.type === 'unordered-list') {
       return `${indent}- ${indentedItem}`;
     }
+
     return item;
   },
 
@@ -107,7 +111,7 @@ const MARKDOWN_RULES = {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'ordered-list'(): IterableIterator<string> {
+  *'ordered-list'(this: any): IterableIterator<string> {
     this.pushScope({
       annotationLookup: this.annotationLookup,
       type: 'ordered-list',
@@ -129,7 +133,7 @@ const MARKDOWN_RULES = {
    * - A number
    * - Of things with dashes preceding them
    */
-  *'unordered-list'(): IterableIterator<string> {
+  *'unordered-list'(this: any): IterableIterator<string> {
     this.pushScope({
       annotationLookup: this.annotationLookup,
       type: 'unordered-list',
@@ -158,19 +162,19 @@ const MARKDOWN_RULES = {
 };
 
 export default class CommonmarkRenderer extends Renderer {
-  annotationLookup: AnnotationLookup
+  annotationLookup: AnnotationLookup;
 
-  constructor(annotationLookup: AnnotationLookup) {
+  constructor(annotationLookup?: AnnotationLookup) {
     super();
     this.annotationLookup = Object.assign(annotationLookup || {}, MARKDOWN_RULES);
   }
 
-  registerRule(type: string, rule: *(any): string) {
+  registerRule(type: string, rule: Rule) {
     this.annotationLookup[type] = rule;
   }
 
   unregisterRule(type: string) {
-    this.annotationLookup[type] = null;
+    delete this.annotationLookup[type];
   }
 
   willRender() {
@@ -179,7 +183,7 @@ export default class CommonmarkRenderer extends Renderer {
     });
   }
 
-  *renderAnnotation(annotation) {
+  *renderAnnotation(annotation: HIRNode) {
     let rule = this.annotationLookup[annotation.type];
     if (rule) {
       return yield* rule.call(this, annotation.attributes);
@@ -187,4 +191,4 @@ export default class CommonmarkRenderer extends Renderer {
       return `yield.join('')`;
     }
   }
-})
+}

@@ -1,6 +1,5 @@
 import { module, test, TestCase, QUnitAssert } from './support';
 import { AtJSON } from '@atjson/core';
-import { HIR } from '@atjson/hir';
 import CommonMarkRenderer from '@atjson/commonmark-renderer';
 
 @module("commonmark")
@@ -17,7 +16,7 @@ export class CommonMarkTest extends TestCase {
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  'Some text that is both **bold *and**** italic* plus something after.');
   }
 
@@ -27,14 +26,14 @@ export class CommonMarkTest extends TestCase {
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
         { type: 'paragraph', start: 0, end: 26 },
-        { type: 'parse-token': start: 26, end: 28 },
+        { type: 'parse-token', start: 26, end: 28 },
         { type: 'paragraph', start: 28, end: 62 },
         { type: 'bold', start: 22, end: 32 }
       ]
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  'A paragraph with some **bold**\n\n**text** that continues into the next.');
   }
 
@@ -55,7 +54,7 @@ export class CommonMarkTest extends TestCase {
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  `I have a list:
 
 1. First item plus **bold** text
@@ -78,7 +77,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  `I have a [link](https://example.com)`);
   }
 
@@ -95,7 +94,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  `![CommonMark](http://commonmark.org/images/markdown-mark.png)`);
   }
 
@@ -109,7 +108,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  `> This is a quote
 > 
 > That has some
@@ -128,7 +127,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(new HIR(document)),
+    assert.equal(renderer.render(document),
                  `# Banner
 ## Headline`);
   }
