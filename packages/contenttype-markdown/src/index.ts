@@ -20,7 +20,7 @@ interface TempAnnotation {
   type: string;
   start: number;
   __annotations: Annotation[];
-  attributes: AttributeList
+  attributes: AttributeList;
 }
 
 export class Parser {
@@ -162,11 +162,13 @@ export class Parser {
     }
   }
 
+  convertAttributesToAttributeList(attrs: AttributeList, [key, value]: [string, string]) {
+    attrs[key] = value;
+    return attrs;
+  }
+
   startToken(token: Token): void {
-    let attributes: AttributeList = (token.attrs || []).reduce(function (attrs: AttributeList, [key, value]: [string, any]) {
-      attrs[key] = value;
-      return attrs;
-    }, {});
+    let attributes: AttributeList = (token.attrs || []).reduce(this.convertAttributesToAttributeList, {});
 
     this.stack.push({
       type: token.tag,
