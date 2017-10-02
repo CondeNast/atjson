@@ -95,7 +95,6 @@ export class Parser {
 
       }
     } else {
-        debugger;
       // This is a self-closing tag, so we include the parse-token to remove
       // the markup, alongside the element itself to preserve it.
       return [
@@ -107,11 +106,20 @@ export class Parser {
     }
   }
 
-  attributesForNode(node: parse5.AST.Default.Element): any {
-    return node.attrs.reduce((attrs, { name, value }) => {
+  convertElementToAttrObject(attrs: { [key: string]: string }, attr: parse5.AST.Default.Attribute) {
+    attrs[attr.name] = attr.value;
+    return attrs;
+  }
+
+  attributesForNode(node: parse5.AST.Default.Element): object {
+    return node.attrs.reduce(this.convertElementToAttrObject, {})
+
+      /*
+    (attrs, { name, value }: { name: string, value: string }) => {
       attrs[name] = value;
       return attrs;
-    }, {});
+    }, {}: object);
+       */
   }
 
   convertSelfClosingNodeToAnnotations(type: string, node: parse5.AST.Default.Element): Annotation[] {
