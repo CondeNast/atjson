@@ -107,3 +107,34 @@ QUnit.test('<img src="https://example.com/test.png" /> ', assert => {
     }, ' ']
   });
 });
+
+QUnit.test('<h2></h2>\n<h1></h1>\n<h3></h3>', assert => {
+  let html = '<h2></h2>\n<h1></h1>\n<h3></h3>';
+  let parser = new Parser(html);
+  let parsedHtml = parser.parse();
+
+  let htmlAtJSON = new AtJSON({
+    content: html,
+    contentType: 'text/html',
+    annotations: parsedHtml
+  });
+
+  let hir = new HIR(htmlAtJSON).toJSON();
+  assert.deepEqual(hir, {
+    type: 'root',
+    attributes: undefined,
+    children: [{
+      type: 'h2',
+      attributes: {},
+      children: []
+    }, '\n', {
+      type: 'h1',
+      attributes: {},
+      children: []
+    }, '\n', {
+      type: 'h3',
+      attributes: {},
+      children: []
+    }]
+  });
+});
