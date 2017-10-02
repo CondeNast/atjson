@@ -1,10 +1,16 @@
-import { module, test, TestCase, QUnitAssert } from './support';
+import { Annotation, AtJSON } from '@atjson/core';
 import { HIR } from '@atjson/hir';
-import { AtJSON, Annotation } from '@atjson/core';
+import { QUnitAssert, TestCase, module, test } from './support';
+
+type node = {
+  type: string;
+  attributes: any;
+  children: node[];
+}|string;
 
 // HIR test helpers for quickly generating JSON for
 // the JSON output
-function root(...children) {
+function root(...children: node[]) {
   return {
     type: 'root',
     attributes: undefined,
@@ -12,7 +18,7 @@ function root(...children) {
   };
 }
 
-function bold(...children) {
+function bold(...children: node[]) {
   return {
     type: 'bold',
     attributes: undefined,
@@ -20,7 +26,7 @@ function bold(...children) {
   };
 }
 
-function italic(...children) {
+function italic(...children: node[]) {
   return {
     type: 'italic',
     attributes: undefined,
@@ -28,7 +34,7 @@ function italic(...children) {
   };
 }
 
-function ol(...children) {
+function ol(...children: node[]) {
   return {
     type: 'ordered-list',
     attributes: undefined,
@@ -36,7 +42,7 @@ function ol(...children) {
   };
 }
 
-function ul(...children) {
+function ul(...children: node[]) {
   return {
     type: 'unordered-list',
     attributes: undefined,
@@ -44,7 +50,7 @@ function ul(...children) {
   };
 }
 
-function li(...children) {
+function li(...children: node[]) {
   return {
     type: 'list-item',
     attributes: undefined,
@@ -52,7 +58,7 @@ function li(...children) {
   };
 }
 
-function paragraph(...children) {
+function paragraph(...children: node[]) {
   return {
     type: 'paragraph',
     attributes: undefined,
@@ -60,7 +66,7 @@ function paragraph(...children) {
   };
 }
 
-@module("hir")
+@module('hir')
 export class HIRTest extends TestCase {
 
   /*
@@ -68,14 +74,14 @@ export class HIRTest extends TestCase {
    * but we should test that invalid objects are in fact caught by the compiler. ???
    *
   @test
-  "rejects invalid documents"(assert: QUnitAssert) {
+  'rejects invalid documents'(assert: QUnitAssert) {
     let invalidDoc = { blah: 'x' };
     assert.raises(() => new HIR(invalidDoc));
   }
    */
 
   @test
-  "accepts atjson-shaped object"(assert: QUnitAssert) {
+  'accepts atjson-shaped object'(assert: QUnitAssert) {
     let validDoc = new AtJSON ({
       content: 'test\ndocument\n\nnew paragraph',
       annotations: []
@@ -87,15 +93,17 @@ export class HIRTest extends TestCase {
   }
 
   @test
-  "accepts a bare string"(assert: QUnitAssert) {
+  'accepts a bare string'(assert: QUnitAssert) {
     let expected = root('Look at this huge string');
 
-    assert.ok(new HIR("Look at this huge string"));
-    assert.deepEqual(new HIR("Look at this huge string").toJSON(), expected);
+    assert.ok(new HIR('Look at this huge string'));
+    assert.deepEqual(new HIR('Look at this huge string').toJSON(), expected);
   }
 
+  @module('constructs a valid hierarchy')
+
   @test
-  "constructs a valid heirarchy from a document without nesting"(assert: QUnitAssert) {
+  'from a document without nesting'(assert: QUnitAssert) {
     let noNesting = new AtJSON({
       content: 'A string with a bold and an italic annotation',
       annotations: [
@@ -117,9 +125,10 @@ export class HIRTest extends TestCase {
   }
 
   @test
-  "constructs a valid heirarchy from a document with nesting"(assert: QUnitAssert) {
+  'from a document with nesting'(assert: QUnitAssert) {
     let nested = new AtJSON({
-      content: 'I have a list:\n\nFirst item plus bold text\n\nSecond item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
+      content: 'I have a list:\n\nFirst item plus bold text\n\n' +
+               'Second item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
       annotations: [
         { type: 'bold', start: 32, end: 36 },
         { type: 'italic', start: 60, end: 66 },
@@ -150,7 +159,7 @@ export class HIRTest extends TestCase {
   }
 
   @test
-  "constructs a valid heirarchy from a document with overlapping annotations at the same level"(assert: QUnitAssert) {
+  'from a document with overlapping annotations at the same level'(assert: QUnitAssert) {
     let overlapping = new AtJSON({
       content: 'Some text that is both bold and italic plus something after.',
       annotations: [
@@ -170,7 +179,7 @@ export class HIRTest extends TestCase {
   }
 
   @test
-  "constructs a valid heirarchy from a document with overlapping annotations across heirarchical levels"(assert: QUnitAssert) {
+  'from a document with overlapping annotations across heirarchical levels'(assert: QUnitAssert) {
     let spanning = new AtJSON({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
@@ -195,13 +204,13 @@ export class HIRTest extends TestCase {
   }
 
   @test
-  "throws an error for invalid overlapping annotations"(assert: QUnitAssert) {
+  'throws an error for invalid overlapping annotations'(assert: QUnitAssert) {
     let content = 'My list\n\nitems bring\n\nall the boys\n\nto the yard';
     let invalidOverlaps = new AtJSON({
-      content: content,
+      content,
       annotations: [
-        { type: 'ordered-list', start: "My list\n\n".length, end: "My list\n\nitems bring\n\nall the boys\n\n".length },
-        { type: 'ordered-list', start: "My list\n\nitems bring\n\n".length, end: content.length }
+        { type: 'ordered-list', start: 'My list\n\n'.length, end: 'My list\n\nitems bring\n\nall the boys\n\n'.length },
+        { type: 'ordered-list', start: 'My list\n\nitems bring\n\n'.length, end: content.length }
       ]
     });
 
