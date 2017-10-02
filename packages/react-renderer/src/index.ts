@@ -1,16 +1,15 @@
+import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer';
-import React from 'react';
+import * as React from 'react';
 
 interface Component {
   new (...args: any[]): React.Component
 }
 
-interface StatelessComponent {
-  (...args: any[]): any
-}
+type StatelessComponent = (...args: any[]) => any;
 
 interface ComponentLookup {
-  [key: string]: Component|StatelessComponent
+  [key: string]: Component | StatelessComponent;
 }
 
 export default class ReactRenderer extends Renderer {
@@ -21,12 +20,12 @@ export default class ReactRenderer extends Renderer {
     this.componentLookup = componentLookup;
   }
 
-  registerComponent(type: string, component: Component|StatelessComponent) {
+  registerComponent(type: string, component: Component | StatelessComponent) {
     this.componentLookup[type] = component;
   }
 
   unregisterComponent(type: string) {
-    this.componentLookup[type] = null;
+    delete this.componentLookup[type];
   }
 
   willRender() {
@@ -35,7 +34,7 @@ export default class ReactRenderer extends Renderer {
     });
   }
 
-  *renderAnnotation(annotation) {
+  *renderAnnotation(annotation: HIRNode): IterableIterator<React.Component | void> {
     let AnnotationComponent = this.componentLookup[annotation.type];
     if (AnnotationComponent) {
       return React.createElement(
@@ -44,8 +43,8 @@ export default class ReactRenderer extends Renderer {
         ...yield
       );
     } else {
-      console.error(`No component found for "${annotation.type}"- content will be yielded`);
-      return ;
+      // console.warn(`No component found for "${annotation.type}"- content will be yielded`);
+      return;
     }
   }
 }

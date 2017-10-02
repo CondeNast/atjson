@@ -50,7 +50,7 @@ export default abstract class Renderer {
     this.popScope();
   }
 
-  render(atjson: AtJSON|HIR): string {
+  render(atjson: AtJSON|HIR): any {
 
     let annotationGraph;
     if (atjson instanceof AtJSON) {
