@@ -1,5 +1,5 @@
-import { AtJSON } from '@atjson/core';
 import { Parser } from '@atjson/contenttype-html';
+import { AtJSON } from '@atjson/core';
 import { HIR } from '@atjson/hir';
 
 QUnit.module('@atjson/contenttype-html tests');

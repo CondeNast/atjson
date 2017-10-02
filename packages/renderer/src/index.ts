@@ -1,23 +1,16 @@
-interface Annotation {
-  type: string;
-  attributes: Object;
-  children: (Annotation|string)[];
-}
+import { AtJSON } from '@atjson/core';
+import { HIR, HIRNode } from '@atjson/hir';
 
-interface Serializeable {
-  toJSON(): Annotation
-}
-
-function compile(scope: Renderer, node: Annotation): string {
+function compile(scope: Renderer, node: HIRNode): any {
   let generator = scope.invoke(scope.renderAnnotation, node);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  return generator.next(node.children.map(function (childNode) {
-    if (typeof childNode === 'string') {
-      return childNode;
+  return generator.next(node.children().map(childNode => {
+    if (childNode.type === 'text' && typeof childNode.text === 'string') {
+      return childNode.text;
     } else {
       return compile(scope, childNode);
     }
@@ -25,41 +18,51 @@ function compile(scope: Renderer, node: Annotation): string {
 }
 
 export default abstract class Renderer {
-  private scopes: Object[];
+  private scopes: object[];
 
   constructor() {
     this.scopes = [];
   }
 
-  pushScope(scope: any) {
+  pushScope(scope: any): void {
     this.scopes.push(Object.assign({
       popScope: () => this.popScope(),
-        pushScope: (scope: any) => this.pushScope(scope)
+      pushScope: (pushedScope: any) => this.pushScope(pushedScope)
     }, scope));
   }
 
-  popScope() {
+  popScope(): void {
     this.scopes.pop();
   }
 
-  invoke(fn, ...args: any[]) {
+  invoke(fn: (node: HIRNode) => IterableIterator<string>, ...args: any[]) {
     let scope = this.scopes[this.scopes.length - 1];
     return fn.call(scope, ...args);
   }
 
-  abstract *renderAnnotation();
+  abstract renderAnnotation(node: HIRNode): IterableIterator<any>;
 
-  willRender() {
+  willRender(): void {
     this.pushScope({});
   }
 
-  didRender() {
+  didRender(): void {
     this.popScope();
   }
 
-  render(annotationGraph: Serializeable) {
+  render(atjson: AtJSON | HIR): any {
+
+    let annotationGraph;
+    if (atjson instanceof AtJSON) {
+      annotationGraph = new HIR(atjson);
+    } else if (atjson instanceof HIR) {
+      annotationGraph = atjson;
+    } else {
+      throw new Error('Supplied arguments invalid.');
+    }
+
     this.willRender();
-    let renderedDocument = compile(this, annotationGraph.toJSON());
+    let renderedDocument = compile(this, annotationGraph.rootNode);
     this.didRender();
     return renderedDocument;
   }

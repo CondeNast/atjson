@@ -1,2 +1,2 @@
-import './hir-test';
 import './hir-node-test';
+import './hir-test';

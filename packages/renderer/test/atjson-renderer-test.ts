@@ -1,35 +1,28 @@
 import { AtJSON } from '@atjson/core';
-import { HIR } from '@atjson/hir';
+import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer';
 
 QUnit.module('@atjson/renderer tests');
 
-QUnit.test('renderAnnotation is required on the base class', function (assert) {
-  let renderer = new Renderer();
-  assert.throws(function () {
-    renderer.render(new HIR(new AtJSON('Hello')));
-  });
-});
-
-QUnit.test('renderer abstract interface', function (assert) {
-  let hir = new HIR(new AtJSON({
+QUnit.test('renderer abstract interface', assert => {
+  let atjson = new AtJSON({
     content: 'This is bold and italic text',
     annotations: [{
       type: 'bold', start: 8, end: 17
     }, {
       type: 'italic', start: 12, end: 23
     }]
-  }));
+  });
 
-  let root = hir.toJSON();
+  let root = atjson.rootNode;
   let callStack = [
     root,
-    root.children[1],
-    root.children[1].children[1],
-    root.children[2]
+    root.children()[1],
+    root.children()[1].children()[1],
+    root.children()[2]
   ];
 
-  let textBuilder = [
+  let textBuilder: string[] = [
     ' and ',
     'bold and ',
     'italic',
@@ -37,7 +30,7 @@ QUnit.test('renderer abstract interface', function (assert) {
   ];
 
   class ConcreteRenderer extends Renderer {
-    *renderAnnotation(annotation) {
+    *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
       assert.deepEqual(annotation, callStack.shift());
 
       let text: string[] = yield;
@@ -47,5 +40,5 @@ QUnit.test('renderer abstract interface', function (assert) {
   }
 
   let renderer = new ConcreteRenderer();
-  renderer.render(hir);
+  renderer.render(atjson);
 });

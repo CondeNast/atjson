@@ -1,12 +1,11 @@
 import ReactRenderer from '@atjson/react-renderer';
-import { AtJSON, Annotation } from '@atjson/core';
-import { HIR } from '@atjson/hir';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { AtJSON } from '@atjson/core';
+import * as React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 
 if (!QUnit.isLocal) {
-  function renderDocument(renderer: ReactRenderer, doc: AtJSON) {
-    return ReactDOMServer.renderToStaticMarkup(renderer.render(new HIR(doc)));
+  function renderDocument(renderer: ReactRenderer, doc: AtJSON): string {
+    return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
   }
 
   QUnit.module('ReactRenderer');
