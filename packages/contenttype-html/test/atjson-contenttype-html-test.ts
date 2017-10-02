@@ -99,7 +99,7 @@ QUnit.test('<img src="https://example.com/test.png" /> ', assert => {
     type: 'root',
     attributes: undefined,
     children: [{
-      type: 'img',
+      type: 'image',
       attributes: {
         src: 'https://example.com/test.png'
       },
