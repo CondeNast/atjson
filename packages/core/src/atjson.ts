@@ -55,7 +55,7 @@ export default class AtJSON {
         a.end += length;
       } else if (position > a.start && position < a.end) {
         a.end += length;
-      
+
       // In this case, however, the normal behaviour when inserting text at a
       // point adjacent to an annotation is to drag along the end of the
       // annotation, or push forward the beginning, i.e., the transform happens
@@ -105,7 +105,7 @@ export default class AtJSON {
 
       // We're deleting after the annotation, nothing needed to be done.
       //    [   ]
-      // -----------*---*--- 
+      // -----------*---*---
       if (a.end < start) continue;
 
       // If the annotation is wholly *after* the deleted text, just move
@@ -145,7 +145,7 @@ export default class AtJSON {
           //    ------*---------*--------
           if (start <= a.start) {
             a.start = start;
-            a.end -= length;
+            a.end = start;
 
           //       [        ]
           //    ------*---------*--------
