@@ -35,6 +35,6 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@atjson/renderer-text": "0.5.0"
+    "@atjson/renderer-hir": "0.5.0"
   }
 }

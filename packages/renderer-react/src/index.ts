@@ -1,5 +1,5 @@
 import { HIRNode } from '@atjson/hir';
-import Renderer from '@atjson/text-renderer';
+import Renderer from '@atjson/renderer-text';
 import * as React from 'react';
 
 interface Component {
