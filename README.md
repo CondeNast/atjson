@@ -6,14 +6,14 @@ Annotated JSON.
 
 FIXME intro docs here.
 
-[AtJSON](packages/atjson)
+[AtJSON](packages/core)
 
 ### Internals
 
-HIR (Heirarchical Intermediate Representation): [AtJSON-HIR](packages/atjson-hir)
-Text Renderer: [AtJSON Text Renderer](packages/atjson-text-renderer)
-CommonMark Renderer: [AtJSON CommonMark Renderer](packages/atjson-commonmark-renderer)
-React Renderer: [AtJSON React Renderer](packages/atjson-react-renderer)
+HIR (Heirarchical Intermediate Representation): [AtJSON-HIR](packages/atjson-hir)  
+Plain Text Renderer: [@atjson/plain-text-renderer](packages/plain-text-renderer)  
+CommonMark Renderer: [@atjson/commonmark-renderer](packages/commonmark-renderer)  
+React Renderer: [@atjson/react-renderer](packages/react-renderer)  
 
 ## Contributing
 
