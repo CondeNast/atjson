@@ -5,29 +5,30 @@
   "main": "dist/commonjs/src/index.js",
   "module": "dist/modules/src/index.js",
   "types": "dist/types/src/index.d.ts",
-  "ember-addon": {
-    "main": "ember-addon.js"
-  },
-  "keywords": [
-    "ember-addon"
-  ],
   "scripts": {
-    "problems": "node ./scripts/problems.js",
-    "preversion": "npm run test",
-    "prepack": "ember build -prod",
-    "build": "ember build -prod",
-    "build-tests": "ember build",
-    "test": "ember test",
-    "tdd": "ember test --server"
+    "build": "rm -rf dist; tsc -p . --module amd",
+    "test": "jest"
   },
   "license": "Apache 2.0",
   "devDependencies": {
+    "@types/jest": "^19.2.4",
     "@types/qunit": "^2.0.31",
-    "ember-cli": "^2.14.2",
-    "libkit": "^0.5.12",
-    "qunitjs": "^2.4.0",
-    "shelljs": "^0.7.8",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/test/*-test.(ts|tsx)"
+    ]
   }
 }
