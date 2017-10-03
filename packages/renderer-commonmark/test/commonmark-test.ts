@@ -1,4 +1,4 @@
-import CommonMarkRenderer from '@atjson/commonmark-renderer';
+import CommonMarkRenderer from '@atjson/renderer-commonmark';
 import { AtJSON } from '@atjson/core';
 import { QUnitAssert, TestCase, module, test } from './support';
 

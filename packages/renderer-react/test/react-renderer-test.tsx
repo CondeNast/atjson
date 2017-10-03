@@ -1,4 +1,4 @@
-import ReactRenderer from '@atjson/react-renderer';
+import ReactRenderer from '@atjson/renderer-react';
 import { AtJSON } from '@atjson/core';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';

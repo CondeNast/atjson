@@ -1,3 +1,3 @@
-# atjson-react-renderer
+# @atjson/renderer-react
 
 A brand new TypeScript library.
