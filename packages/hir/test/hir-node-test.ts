@@ -1,12 +1,9 @@
 import { Annotation } from '@atjson/core';
-import { HIRNode } from '@atjson/hir';
-import { QUnitAssert, TestCase, module, test } from './support';
+import { HIRNode } from '../src/index';
 
-@module('hir-node')
-export class HIRNodeTest extends TestCase {
+describe('@atjson/hir/hir-node', function () {
 
-  @test
-  'insert sibling simple case works'(assert: QUnitAssert) {
+  it('insert sibling simple case works', function () {
     let root = new HIRNode({type: 'root', start: 0, end: 10});
     let node = new HIRNode({ type: 'test', start: 0, end: 5});
     let sibling = new HIRNode({ type: 'test', start: 5, end: 10});
@@ -14,26 +11,24 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(node);
     root.insertNode(sibling);
 
-    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
       { type: 'test', children: [], attributes: undefined },
       { type: 'test', children: [], attributes: undefined }
     ] });
-  }
+  });
 
-  @test
-  'insert child simple case works'(assert: QUnitAssert) {
+  it('insert child simple case works', function () {
     let root = new HIRNode({type: 'root', start: 0, end: 10});
     let node = new HIRNode({ type: 'test', start: 0, end: 5});
 
     root.insertNode(node);
 
-    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
       { type: 'test', children: [], attributes: undefined },
     ] });
-  }
+  });
 
-  @test
-  'insert text simple case works'(assert: QUnitAssert) {
+  it('insert text simple case works', function () {
     let root = new HIRNode({type: 'root', start: 0, end: 10});
     let node = new HIRNode({ type: 'test', start: 0, end: 5});
     let sibling = new HIRNode({ type: 'test', start: 5, end: 10});
@@ -42,14 +37,13 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(sibling);
     root.insertText('some text.');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
       { type: 'test', children: ['some '], attributes: undefined },
       { type: 'test', children: ['text.'], attributes: undefined }
     ] });
-  }
+  });
 
-  @test
-  'insert text nested children case works'(assert: QUnitAssert) {
+  it('insert text nested children case works', function () {
     let root    = new HIRNode({type: 'root', start: 0, end: 10});
     let node    = new HIRNode({type: 'a', start: 0, end: 5});
     let child   = new HIRNode({type: 'b', start: 2, end: 4});
@@ -60,16 +54,15 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(sibling);
     root.insertText('some text.');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
       { type: 'a', children: [ 'so',
         { type: 'b', children: ['me'], attributes: undefined  },
         ' ' ], attributes: undefined },
       { type: 'c', children: ['text.'], attributes: undefined }
     ] });
-  }
+  });
 
-  @test
-  'out-of-order insertion of different rank nodes works'(assert: QUnitAssert) {
+  it('out-of-order insertion of different rank nodes works', function () {
     let root = new HIRNode({type: 'root', start: 0, end: 10});
     let block = new HIRNode({type: 'ordered-list', start: 4, end: 8});
     let paragraphOne = new HIRNode({type: 'paragraph', start: 0, end: 4});
@@ -83,17 +76,16 @@ export class HIRNodeTest extends TestCase {
 
     root.insertText('ab\n\nli\n\ncd');
 
-    assert.deepEqual(root.toJSON(), { type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
       { type: 'paragraph', children: ['ab\n\n'], attributes: undefined },
       { type: 'ordered-list', attributes: undefined, children: [
         { type: 'paragraph', children: ['li\n\n'], attributes: undefined }
       ]},
       { type: 'paragraph', children: ['cd'], attributes: undefined }
     ]});
-  }
+  });
 
-  @test
-  'insert paragraph after bold works'(assert: QUnitAssert) {
+  it('insert paragraph after bold works', function () {
     let root = new HIRNode({type: 'root', start: 0, end: 10 });
     let bold = new HIRNode({type: 'bold', start: 4, end: 6});
     let paragraph = new HIRNode({type: 'paragraph', start: 0, end: 10});
@@ -101,48 +93,45 @@ export class HIRNodeTest extends TestCase {
     root.insertNode(paragraph);
     root.insertText('abcdefghij');
 
-    assert.deepEqual(root.toJSON(), {type: 'root', attributes: undefined, children: [
+    expect(root.toJSON()).toEqual({type: 'root', attributes: undefined, children: [
       { type: 'paragraph', children: [
         'abcd',
         { type: 'bold', children: ['ef'], attributes: undefined },
         'ghij'], attributes: undefined }
     ]});
-  }
+  });
 
     /*
-  @test
-  'insert annotation contained within the node returns void'(assert: QUnitAssert) {
+  it('insert annotation contained within the node returns void', function () {
     let node = new HIRNode({ type: 'test', start: 5, end: 10 });
     let annotation = { type: 'bold', start: 6, end: 9 } as Annotation;
 
-    assert.equal(node.insertAnnotation(annotation), undefined);
-  };
+    expect(node.insertAnnotation(annotation)).toBeUndefined();
+  });
 
-  @test
-  'insert annotation partially contained within the node returns a trimmed annotation'(assert: QUnitAssert) {
+  it('insert annotation partially contained within the node returns a trimmed annotation', function () {
     let node = new HIRNode({ type: 'test', start: 5, end: 10 });
     let annotation: Annotation = { type: 'bold', start: 8, end: 15 };
 
     let expectedResult: Annotation = { type: 'bold', start: 10, end: 15 };
 
-    assert.deepEqual(node.insertAnnotation(annotation), expectedResult);
-  };
+    expect(node.insertAnnotation(annotation)).toEqual(expectedResult);
+  });
 
-  @test
-  'insert annotation not contained within the node' +
-  '(starts after) returns the original annotation'(assert: QUnitAssert) {
+  it('insert annotation not contained within the node' +
+  '(starts after) returns the original annotation', function () {
     let node = new HIRNode({ type: 'test', start: 0, end: 5 });
     let annotation: Annotation = { type: 'bold', start: 8, end: 10 };
 
-    assert.deepEqual(node.insertAnnotation(annotation), annotation);
-  }
+    expect(node.insertAnnotation(annotation)).toEqual(annotation);
+  });
 
-  @test
-  'insert annotation not contained within the node (starts before) throws an error'(assert: QUnitAssert) {
+  it('insert annotation not contained within the node (starts before) throws an error', function () {
     let node = new HIRNode({ type: 'test', start: 10, end: 15 });
     let annotation: Annotation = { type: 'bold', start: 3, end: 6 };
 
-    assert.raises(() => node.insertAnnotation(annotation));
-  }
+    expect(() => node.insertAnnotation(annotation)).toThrow();
+  });
      */
-}
+});
+
