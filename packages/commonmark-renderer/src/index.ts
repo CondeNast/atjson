@@ -1,5 +1,5 @@
 import { HIRNode } from '@atjson/hir';
-import Renderer from '@atjson/renderer';
+import Renderer from '@atjson/text-renderer';
 
 export type Rule = (...args: any[]) => IterableIterator<string>;
 

@@ -3,5 +3,5 @@
 const { addon } = require('libkit');
 
 module.exports = addon({
-  name: '@atjson/renderer'
+  name: '@atjson/text-renderer'
 });

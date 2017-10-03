@@ -1,8 +1,8 @@
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
-import Renderer from '@atjson/renderer';
+import TextRenderer from '@atjson/text-renderer';
 
-QUnit.module('@atjson/renderer tests');
+QUnit.module('@atjson/text-renderer tests');
 
 QUnit.test('renderer abstract interface', assert => {
   let atjson = new AtJSON({
@@ -29,7 +29,7 @@ QUnit.test('renderer abstract interface', assert => {
     'This is bold and italic text'
   ];
 
-  class ConcreteRenderer extends Renderer {
+  class ConcreteRenderer extends TextRenderer {
     *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
       assert.deepEqual(annotation, callStack.shift());
 

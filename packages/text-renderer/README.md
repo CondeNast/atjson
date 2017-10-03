@@ -1,3 +1,3 @@
-# atjson-renderer
+# @atjson/text-renderer
 
 A brand new TypeScript library.

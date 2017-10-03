@@ -29,7 +29,7 @@
     "@atjson/core": "0.5.0",
     "@atjson/contenttype-html": "0.5.0",
     "@atjson/hir": "0.5.0",
-    "@atjson/renderer": "0.5.0"
+    "@atjson/text-renderer": "0.5.0"
   },
   "dependencies": {
     "markdown-it": "^8.4.0"

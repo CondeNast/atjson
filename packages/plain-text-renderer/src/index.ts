@@ -1,6 +1,6 @@
-import Renderer from '@atjson/renderer';
+import Renderer from '@atjson/text-renderer';
 
-export default class TextRenderer extends Renderer {
+export default class PlainTextRenderer extends Renderer {
   *renderAnnotation(): IterableIterator<string> {
     let text: string[] = yield;
     return text.join('');
