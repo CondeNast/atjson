@@ -1,6 +1,6 @@
 import { Parser } from '@atjson/contenttype-html';
 import { Annotation, AtJSON } from '@atjson/core';
-import PlainTextRenderer from '@atjson/plain-text-renderer';
+import PlainTextRenderer from '@atjson/renderer-plain-text';
 
 QUnit.module('PlainTextRenderer');
 

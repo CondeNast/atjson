@@ -1,4 +1,4 @@
-import { Parser } from '@atjson/contenttype-markdown';
+import { Parser } from '@atjson/contenttype-commonmark';
 import { QUnitAssert, TestCase, module, test } from './support';
 
 @module('markdown -> atjson')

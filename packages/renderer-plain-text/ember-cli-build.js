@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = require('libkit').build({
-  name: '@atjson/contenttype-markdown'
+  name: '@atjson/renderer-plain-text'
 });

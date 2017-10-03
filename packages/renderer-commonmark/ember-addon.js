@@ -3,5 +3,5 @@
 const { addon } = require('libkit');
 
 module.exports = addon({
-  name: '@atjson/contenttype-markdown'
+  name: '@atjson/renderer-commonmark'
 });

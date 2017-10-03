@@ -1,5 +1,5 @@
 import { Parser as HTMLParser } from '@atjson/contenttype-html';
-import { Parser } from '@atjson/contenttype-markdown';
+import { Parser } from '@atjson/contenttype-commonmark';
 import { AtJSON } from '@atjson/core';
 import { HIR } from '@atjson/hir';
 import process from 'process';

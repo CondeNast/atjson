@@ -1,10 +1,16 @@
 {
-  "name": "@atjson/contenttype-markdown",
+  "name": "@atjson/renderer-plain-text",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/src/index.js",
   "module": "dist/modules/src/index.js",
   "types": "dist/types/src/index.d.ts",
+  "ember-addon": {
+    "main": "ember-addon.js"
+  },
+  "keywords": [
+    "ember-addon"
+  ],
   "scripts": {
     "problems": "node ./scripts/problems.js",
     "preversion": "npm run test",
@@ -17,21 +23,18 @@
   "license": "Apache 2.0",
   "devDependencies": {
     "@types/qunit": "^2.0.31",
-    "commonmark": "^0.28.1",
-    "commonmark-spec": "^0.28.0",
-    "ember-cli": "^2.14.2",
-    "libkit": "^0.5.12",
-    "qunitjs": "^2.4.0",
-    "shelljs": "^0.7.8",
-    "tslint": "^5.7.0",
-    "typescript": "^2.4.2",
-    "parse5": "^3.0.2",
     "@atjson/core": "0.5.0",
     "@atjson/contenttype-html": "0.5.0",
     "@atjson/hir": "0.5.0",
-    "@atjson/text-renderer": "0.5.0"
+    "ember-cli": "^2.14.2",
+    "libkit": "^0.5.12",
+    "parse5": "^3.0.2",
+    "qunitjs": "^2.4.0",
+    "shelljs": "^0.7.8",
+    "tslint": "^5.7.0",
+    "typescript": "^2.4.2"
   },
   "dependencies": {
-    "markdown-it": "^8.4.0"
+    "@atjson/renderer-text": "0.5.0"
   }
 }

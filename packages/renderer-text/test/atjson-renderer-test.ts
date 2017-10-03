@@ -1,8 +1,8 @@
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
-import TextRenderer from '@atjson/text-renderer';
+import TextRenderer from '@atjson/renderer-text';
 
-QUnit.module('@atjson/text-renderer tests');
+QUnit.module('@atjson/renderer-text tests');
 
 QUnit.test('renderer abstract interface', assert => {
   let atjson = new AtJSON({

@@ -1,5 +1,5 @@
 {
-  "name": "@atjson/react-renderer",
+  "name": "@atjson/commonmark-renderer",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/src/index.js",
@@ -22,21 +22,17 @@
   },
   "license": "Apache 2.0",
   "devDependencies": {
+    "@types/qunit": "^2.0.31",
     "@atjson/core": "0.5.0",
     "@atjson/hir": "0.5.0",
-    "@types/qunit": "^2.0.31",
-    "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.5",
     "ember-cli": "^2.14.2",
     "libkit": "^0.5.12",
     "qunitjs": "^2.4.0",
-    "react-dom": "^15.6.1",
     "shelljs": "^0.7.8",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@atjson/text-renderer": "0.5.0",
-    "react": "^15.6.1"
+    "@atjson/renderer-text": "0.5.0"
   }
 }

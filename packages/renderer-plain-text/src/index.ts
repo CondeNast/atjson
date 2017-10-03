@@ -1,4 +1,4 @@
-import Renderer from '@atjson/text-renderer';
+import Renderer from '@atjson/renderer-text';
 
 export default class PlainTextRenderer extends Renderer {
   *renderAnnotation(): IterableIterator<string> {
