@@ -10,7 +10,7 @@ FIXME intro docs here.
 
 ### Internals
 
-HIR (Heirarchical Intermediate Representation): [AtJSON-HIR](packages/atjson-hir)  
+HIR (Heirarchical Intermediate Representation): [@atjson/hir](packages/hir)  
 Plain Text Renderer: [@atjson/plain-text-renderer](packages/plain-text-renderer)  
 CommonMark Renderer: [@atjson/commonmark-renderer](packages/commonmark-renderer)  
 React Renderer: [@atjson/react-renderer](packages/react-renderer)  
