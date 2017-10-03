@@ -1,5 +1,5 @@
 {
-  "name": "@atjson/text-renderer",
+  "name": "@atjson/plain-text-renderer",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/src/index.js",
