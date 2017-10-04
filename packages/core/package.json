@@ -1,6 +1,6 @@
 {
   "name": "@atjson/core",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
