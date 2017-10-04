@@ -15,11 +15,10 @@ env:
   - PACKAGE=renderer-commonmark
   - PACKAGE=contenttype-html
   - PACKAGE=contenttype-commonmark
-  - PACKAGE=coverage
 
 install:
   - yarn
   - ./node_modules/lerna/bin/lerna.js bootstrap
 
 script:
-  - if $PACKAGE == coverage; ./node_modules/jest/bin/jest.js --coverage; else; ./node_modules/jest/bin/jest.js packages/$PACKAGE; fi
+  - ./node_modules/jest/bin/jest.js packages/$PACKAGE
