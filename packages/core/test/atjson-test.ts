@@ -1,4 +1,4 @@
-import { AtJSON } from '../src/index';
+import { AtJSON } from '@atjson/core';
 
 describe('new AtJSON', function () {
   it('constructor accepts a string', function () {

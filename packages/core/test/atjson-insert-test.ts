@@ -1,4 +1,4 @@
-import { AtJSON } from '../src/index';
+import { AtJSON } from '@atjson/core';
 
 describe('AtJSON.insertText', function () {
   it('insert text adds text to the content attribute', function () {

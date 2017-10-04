@@ -1,5 +1,5 @@
 import { Annotation, AtJSON } from '@atjson/core';
-import { HIR } from '../src/index';
+import { HIR } from '@atjson/hir';
 
 type node = {
   type: string;

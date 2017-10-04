@@ -1,5 +1,5 @@
 import { Annotation } from '@atjson/core';
-import { HIRNode } from '../src/index';
+import { HIRNode } from '@atjson/hir';
 
 describe('@atjson/hir/hir-node', function () {
 
