@@ -6,19 +6,17 @@ node_js:
 cache:
   yarn: true
 
-env:
-  - PACKAGE=core
-  - PACKAGE=hir
-  - PACKAGE=renderer-hir
-  - PACKAGE=renderer-plain-text
-  - PACKAGE=renderer-react
-  - PACKAGE=renderer-commonmark
-  - PACKAGE=contenttype-html
-  - PACKAGE=contenttype-commonmark
+addons:
+  code_climate:
+    repo_token: ec8a0df02a38df751e744b44699b97843229ab17c64ac82c0e5cd57498578ece
 
 install:
   - yarn
   - ./node_modules/lerna/bin/lerna.js bootstrap
 
 script:
-  - ./node_modules/jest/bin/jest.js packages/$PACKAGE
+  - ./node_modules/jest/bin/jest.js --coverage
+
+after_script:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < ./coverage/lcov.info
