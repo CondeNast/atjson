@@ -16,8 +16,5 @@
     "sourceRoot": "./",
     "inlineSourceMap": true,
     "experimentalDecorators": true
-  },
-  "files": [
-    "src/index.ts"
-  ]
+  }
 }

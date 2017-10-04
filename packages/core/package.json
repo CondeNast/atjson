@@ -2,12 +2,13 @@
   "name": "@atjson/core",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
-  "main": "dist/src/index.js",
-  "module": "dist/atjson.js",
-  "types": "dist/atjson.d.ts",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/amd/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc -p . --module amd --outFile dist/atjson.js",
-    "test": "jest"
+    "prepack": "npm run prepublish",
+    "build": "rm -rf dist; tsc -p . --module AMD --outFile dist/amd/index.js; tsc -p . --module CommonJS --outDir dist/commonjs/; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
+    "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
   "devDependencies": {

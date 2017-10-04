@@ -1,3 +1,4 @@
+/// <amd-module name="@atjson/renderer-commonmark"/>
 import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer-hir';
 

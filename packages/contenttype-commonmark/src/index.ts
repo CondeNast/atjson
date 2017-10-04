@@ -1,3 +1,4 @@
+/// <amd-module name="@atjson/contenttype-commonmark"/>
 import { Annotation, AtJSON } from '@atjson/core';
 import * as MarkdownIt from 'markdown-it';
 import { Token } from 'markdown-it';
