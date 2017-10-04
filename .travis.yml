@@ -21,6 +21,7 @@ before_install:
   - yarn global add jest
 
 install:
+  - yarn
   - lerna bootstrap
 
 script: jest packages/$PACKAGE
