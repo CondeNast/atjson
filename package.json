@@ -8,6 +8,9 @@
     "ts-jest": "^21.0.1",
     "typescript": "^2.5.3"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "jest": {
     "moduleFileExtensions": [
       "ts",

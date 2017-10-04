@@ -16,12 +16,8 @@ env:
   - PACKAGE=contenttype-html
   - PACKAGE=contenttype-commonmark
 
-before_install:
-  - yarn global add lerna
-  - yarn global add jest
-
 install:
   - yarn
-  - lerna bootstrap
+  - ./node_modules/lerna/bin/lerna.js bootstrap
 
-script: jest packages/$PACKAGE
+script: ./node_modules/jest/bin/jest.js packages/$PACKAGE
