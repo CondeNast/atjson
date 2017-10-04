@@ -19,7 +19,7 @@ Object.keys(testModules).forEach(moduleName => {
   if (moduleName.match(/html/i)) return;
   const moduleTests = testModules[moduleName];
 
-  describe(module, function() {
+  describe(moduleName, function() {
     moduleTests.forEach((test: any): void => {
       it('\n\n--- markdown --->' + test.markdown + '<---\n--- html --->' + test.html + '<---\n\n', function () {
         test.markdown = test.markdown.replace(/→/g, '\t');
@@ -46,7 +46,7 @@ Object.keys(testModules).forEach(moduleName => {
         let markdownHIR = new HIR(mdAtJSON).toJSON();
         let htmlHIR = new HIR(htmlAtJSON).toJSON();
 
-        expect(JSON.stringify(markdownHIR)).toEqual(JSON.stringify(htmlHIR));
+        expect(markdownHIR).toEqual(htmlHIR);
       });
     });
   });
