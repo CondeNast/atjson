@@ -16,6 +16,7 @@
     "packages/*"
   ],
   "jest": {
+    "mapCoverage": true,
     "moduleFileExtensions": [
       "ts",
       "tsx",
