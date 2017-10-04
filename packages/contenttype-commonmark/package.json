@@ -6,20 +6,23 @@
   "module": "dist/modules/index.js",
   "types": "dist/amd/index.d.ts",
   "scripts": {
-    "prepack": "npm run prepublish",
+    "prepack": "npm run build",
     "build": "rm -rf dist; tsc -p . --module AMD --outFile dist/amd/index.js; tsc -p . --module CommonJS --outDir dist/commonjs/; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
-    "typescript": "^2.4.2",
     "parse5": "^3.0.2",
     "@atjson/core": "0.5.1",
     "@atjson/contenttype-html": "0.5.1",
     "@atjson/hir": "0.5.1",
     "@atjson/renderer-hir": "0.5.1"
+    "typescript": "^2.4.2"
   },
   "dependencies": {
     "markdown-it": "^8.4.0"
