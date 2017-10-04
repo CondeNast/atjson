@@ -16,6 +16,9 @@
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"

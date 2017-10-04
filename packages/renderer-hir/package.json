@@ -11,6 +11,9 @@
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@atjson/core": "^0.5.0",
     "@atjson/hir": "^0.5.0",

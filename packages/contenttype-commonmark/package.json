@@ -11,6 +11,9 @@
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
