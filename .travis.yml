@@ -17,7 +17,8 @@ env:
   - PACKAGE=contenttype-commonmark
 
 before_install:
-  - npm install -g lerna
+  - yarn global add lerna
+  - yarn global add jest
 
 install:
   - lerna bootstrap
