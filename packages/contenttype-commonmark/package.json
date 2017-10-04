@@ -21,7 +21,7 @@
     "@atjson/core": "0.5.1",
     "@atjson/contenttype-html": "0.5.1",
     "@atjson/hir": "0.5.1",
-    "@atjson/renderer-hir": "0.5.1"
+    "@atjson/renderer-hir": "0.5.1",
     "typescript": "^2.4.2"
   },
   "dependencies": {
