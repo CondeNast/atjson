@@ -148,7 +148,7 @@ describe('@atjson/hir', function () {
         'After all the lists'
       );
 
-      expect((new HIR(nested).toJSON()).toEqual(expected);
+      expect(new HIR(nested).toJSON()).toEqual(expected);
     });
 
     it('from a document with overlapping annotations at the same level', function () {
@@ -191,7 +191,7 @@ describe('@atjson/hir', function () {
         )
       );
 
-        expect(new HIR(spanning).toJSON()).toEqual(expected);
+      expect(new HIR(spanning).toJSON()).toEqual(expected);
     });
   });
 });

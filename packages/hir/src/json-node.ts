@@ -1,4 +1,4 @@
-type node = JSONNode|string;
+export type node = JSONNode|string;
 
 export default interface JSONNode {
   type: string;

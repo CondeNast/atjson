@@ -1,7 +1,27 @@
 {
   "private": true,
-  "name":"atjson",
-	"devDependencies": {
-		"lerna": "^2.2.0"
-	}
+  "name": "atjson",
+  "devDependencies": {
+    "@types/jest": "^21.1.2",
+    "jest": "^21.2.1",
+    "lerna": "^2.2.0",
+    "ts-jest": "^21.0.1",
+    "typescript": "^2.5.3"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "moduleNameMapper": {
+      "@atjson/(.*)": "<rootDir>/packages/$1/src/index.ts"
+    },
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/*-test.(ts|tsx)"
+    ]
+  }
 }

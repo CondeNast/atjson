@@ -11,15 +11,11 @@
   "module": "dist/modules/src/index.js",
   "types": "dist/types/src/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist; tsc -p . --module amd",
+    "build": "rm -rf dist && tsc -p . --module amd --outFile dist/hir.js",
     "test": "jest"
   },
   "license": "Apache 2.0",
   "devDependencies": {
-    "@types/jest": "^19.2.4",
-    "@types/qunit": "^2.0.31",
-    "jest": "^21.2.1",
-    "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
@@ -27,18 +23,5 @@
     "@atjson/core": "0.5.0",
     "@types/entities": "^1.1.0",
     "entities": "^1.1.1"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testMatch": [
-      "**/test/*-test.(ts|tsx)"
-    ]
   }
 }
