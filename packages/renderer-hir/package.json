@@ -12,9 +12,11 @@
   },
   "license": "Apache 2.0",
   "devDependencies": {
-    "@atjson/core": "^0.5.0",
-    "@atjson/hir": "^0.5.0",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
+  },
+  "dependencies": {
+    "@atjson/core": "^0.5.0",
+    "@atjson/hir": "^0.5.0"
   }
 }
