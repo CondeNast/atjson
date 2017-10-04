@@ -1,23 +1,19 @@
 import { AtJSON } from '@atjson/core';
-import { QUnitAssert, TestCase, module, test } from './support';
 
-@module('atjson')
-export class AtJSONTest extends TestCase {
-  @test
-  'constructor accepts a string'(assert: QUnitAssert) {
-    assert.ok(new AtJSON('Hello World.'));
-  }
+describe('new AtJSON', function () {
+  it('constructor accepts a string', function () {
+    expect(new AtJSON('Hello World.')).toBeDefined();
+  });
 
-  @test
-  'constructor accepts an object'(assert: QUnitAssert) {
-    assert.ok(new AtJSON({content: 'Hello World.'}));
-  }
+  it('constructor accepts an object', function () {
+    expect(new AtJSON({content: 'Hello World.'})).toBeDefined();
+  });
 
-  @test
-  'constructor will set annotations'(assert: QUnitAssert) {
-    assert.ok(new AtJSON({
+  it('constructor will set annotations', function () {
+    expect(new AtJSON({
       content: 'Hello World.',
       annotations: [ { type: 'test', start: 0, end: 2 } ]
-    }));
-  }
-}
+    })).toBeDefined();
+  });
+});
+

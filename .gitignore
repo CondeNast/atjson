@@ -1,6 +1,7 @@
+coverage
 dist
-node_modules
 docs
+node_modules
 tmp
 *.log
 .*.swp

@@ -1,10 +1,7 @@
 import { Parser } from '@atjson/contenttype-commonmark';
-import { QUnitAssert, TestCase, module, test } from './support';
 
-@module('markdown -> atjson')
-export class MarkdownToAtJSONTest extends TestCase {
-  @test
-  'Correctly obtains annotations for simple inline elements'(assert: QUnitAssert) {
+describe('markdown -> atjson', function () {
+  it('Correctly obtains annotations for simple inline elements', function () {
     let markdown = '*hello* __world__';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 11, attributes: {} },
@@ -14,11 +11,10 @@ export class MarkdownToAtJSONTest extends TestCase {
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'Correctly handles multiple paragraphs'(assert: QUnitAssert) {
+  it('Correctly handles multiple paragraphs', function () {
     let markdown = '12345\n\n\n678\n910\n\neleventwelve\n\n';
 
     let expectedAnnotations = [
@@ -29,12 +25,11 @@ export class MarkdownToAtJSONTest extends TestCase {
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
-    assert.equal(atjson.content, '12345\n678\n910\neleventwelve\n');
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content).toBe('12345\n678\n910\neleventwelve\n');
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'Correctly handles escape sequences'(assert: QUnitAssert) {
+  it('Correctly handles escape sequences', function () {
     let markdown = 'foo __\\___';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 5, attributes: {} },
@@ -44,12 +39,11 @@ export class MarkdownToAtJSONTest extends TestCase {
     let parser = new Parser(markdown);
     let atjson = parser.parse();
 
-    assert.equal(atjson.content, 'foo _\n');
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content).toBe('foo _\n');
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'Correctly handles simple code spans'(assert: QUnitAssert) {
+  it('Correctly handles simple code spans', function () {
     let markdown = '`a b`';
 
     let expectedAnnotations = [
@@ -60,12 +54,11 @@ export class MarkdownToAtJSONTest extends TestCase {
     let parser = new Parser(markdown);
     let atjson = parser.parse();
 
-    assert.equal(atjson.content, 'a b\n');
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content).toBe('a b\n');
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  '`` foo ` bar  ``'(assert: QUnitAssert) {
+  it('`` foo ` bar  ``', function () {
     let markdown = '`` foo ` bar  ``';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 9, attributes: {} },
@@ -73,12 +66,11 @@ export class MarkdownToAtJSONTest extends TestCase {
     ];
     let parser = new Parser(markdown);
     let atjson = parser.parse();
-    assert.equal(atjson.content, 'foo ` bar\n');
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content).toBe('foo ` bar\n');
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'links'(assert: QUnitAssert) {
+  it('links', function () {
     let markdown = '[link](/url "title")\n[link](/url \'title\')\n[link](/url (title))';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 14, attributes: {} },
@@ -89,12 +81,11 @@ export class MarkdownToAtJSONTest extends TestCase {
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
-    assert.equal(atjson.content, 'link\nlink\nlink\n');
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content).toBe('link\nlink\nlink\n');
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'An ordered list with an embedded blockquote'(assert: QUnitAssert) {
+  it('An ordered list with an embedded blockquote', function () {
 
     let markdown = '1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.';
 
@@ -112,38 +103,36 @@ export class MarkdownToAtJSONTest extends TestCase {
       { type: 'paragraph', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6, attributes: {} }
     ];
 
-    assert.equal(atjson.content.replace(/\n/g, 'Z'), '\n\nA paragraph\nwith two lines.\nindented code\n\n\nA block quote.\n\n\n\n'.replace(/\n/g, 'Z'));
-    assert.deepEqual(atjson.annotations, expectedAnnotations);
-  }
+    expect(atjson.content.replace(/\n/g, 'Z')).toBe('\n\nA paragraph\nwith two lines.\nindented code\n\n\nA block quote.\n\n\n\n'.replace(/\n/g, 'Z'));
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 
-  @test
-  'html blocks'(assert: QUnitAssert) {
+  it('html blocks', function () {
     let markdown = '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>';
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
 
-    assert.equal(atjson.content, '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>\n');
-    assert.deepEqual(atjson.annotations, [{ type: 'html', start: 0, end: 49, attributes: {} }]);
-  }
+    expect(atjson.content).toBe('<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>\n');
+    expect(atjson.annotations).toEqual([{ type: 'html', start: 0, end: 49, attributes: {} }]);
+  });
 
-  @test
-  'tabs'(assert: QUnitAssert) {
+  it('tabs', function () {
     let markdown = '\tfoo\tbaz\t\tbim';
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
 
-    assert.equal(atjson.content, 'foo\tbaz\t\tbim\n');
-  }
+    expect(atjson.content).toBe('foo\tbaz\t\tbim\n');
+  });
 
-  @test
-  'hr'(assert: QUnitAssert) {
+  it('hr', function () {
     let markdown = '*\t*\t*\t\n';
 
     let parser = new Parser(markdown);
     let atjson = parser.parse();
 
-    assert.equal(atjson.content, '\n');
-  }
-}
+    expect(atjson.content).toBe('\n');
+  });
+});
+

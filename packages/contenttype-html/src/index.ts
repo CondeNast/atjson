@@ -1,3 +1,4 @@
+/// <amd-module name="@atjson/contenttype-html"/>
 import { Annotation } from '@atjson/core';
 
 import * as parse5 from 'parse5';

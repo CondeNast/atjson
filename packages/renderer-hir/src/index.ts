@@ -1,3 +1,4 @@
+/// <amd-module name="@atjson/renderer-hir"/>
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
 

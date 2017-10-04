@@ -8,20 +8,17 @@ cache:
 
 env:
   - PACKAGE=core
-  - PACKAGE=renderer
   - PACKAGE=hir
-  - PACKAGE=text-renderer
-  - PACKAGE=react-renderer
-  - PACKAGE=commonmark-renderer
+  - PACKAGE=renderer-hir
+  - PACKAGE=renderer-plain-text
+  - PACKAGE=renderer-react
+  - PACKAGE=renderer-commonmark
   - PACKAGE=contenttype-html
-  - PACKAGE=contenttype-markdown
-
-before_install:
-  - npm install -g lerna
-  - npm install -g ember-cli
+  - PACKAGE=contenttype-commonmark
 
 install:
-  - lerna bootstrap
-  - lerna run build-tests
+  - yarn
+  - ./node_modules/lerna/bin/lerna.js bootstrap
 
-script: pushd packages/$PACKAGE; npm test
+script:
+  - ./node_modules/jest/bin/jest.js packages/$PACKAGE

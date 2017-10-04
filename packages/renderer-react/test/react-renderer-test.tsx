@@ -3,14 +3,12 @@ import { AtJSON } from '@atjson/core';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 
-if (!QUnit.isLocal) {
-  function renderDocument(renderer: ReactRenderer, doc: AtJSON): string {
-    return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
-  }
+function renderDocument(renderer: ReactRenderer, doc: AtJSON): string {
+  return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
+}
 
-  QUnit.module('ReactRenderer');
-
-  QUnit.test('simple components are called', function (assert) {
+describe('ReactRenderer', function () {
+  it('renders simple components', function () {
     let renderer = new ReactRenderer({
       root({ children }) {
         return <article>{children}</article>
@@ -32,7 +30,7 @@ if (!QUnit.isLocal) {
       }]
     });
 
-    assert.equal(renderDocument(renderer, document),
+    expect(renderDocument(renderer, document)).toBe(
                  `<article>This is <strong>bold<em> and </em></strong><em>italic</em> text</article>`);
   });
 
@@ -77,7 +75,7 @@ if (!QUnit.isLocal) {
       }
     });
 
-    QUnit.test('nested components are rendered correctly', function (assert) {
+    it('renders nested components', function () {
       let doc = new AtJSON({
         content: 'Good boy\n ',
         annotations: [{
@@ -97,11 +95,11 @@ if (!QUnit.isLocal) {
         }]
       });
 
-      assert.equal(renderDocument(renderer, doc),
+      expect(renderDocument(renderer, doc)).toBe(
                    `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe></a></article>`);
     });
 
-    QUnit.test('renderers can be reused', function (assert) {
+    it('reuses renderers', function () {
       let doc = new AtJSON({
         content: 'Another good boy\n ',
         annotations: [{
@@ -118,7 +116,7 @@ if (!QUnit.isLocal) {
         }]
       });
 
-      assert.equal(renderDocument(renderer, doc),
+      expect(renderDocument(renderer, doc)).toBe(
                    `<article><a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a></article>`);
     });
 

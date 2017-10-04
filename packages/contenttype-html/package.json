@@ -2,28 +2,18 @@
   "name": "@atjson/contenttype-html",
   "version": "0.5.0",
   "description": "A brand new TypeScript library.",
-  "main": "dist/commonjs/src/index.js",
-  "module": "dist/modules/src/index.js",
-  "types": "dist/types/src/index.d.ts",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/amd/index.d.ts",
   "scripts": {
-    "problems": "node ./scripts/problems.js",
-    "preversion": "npm run test",
-    "prepack": "ember build -prod",
-    "build": "ember build -prod",
-    "build-tests": "ember build",
-    "test": "ember test",
-    "tdd": "ember test --server"
+    "prepack": "npm run prepublish",
+    "build": "rm -rf dist; tsc -p . --module AMD --outFile dist/amd/index.js; tsc -p . --module CommonJS --outDir dist/commonjs/; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
+    "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache 2.0",
   "devDependencies": {
-    "@types/qunit": "^2.0.31",
     "@atjson/hir": "0.5.0",
     "@atjson/renderer-hir": "0.5.0",
-    "ember-cli": "^2.14.2",
-    "libkit": "^0.5.12",
-    "qunitjs": "^2.4.0",
-    "shelljs": "^0.7.8",
-    "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   },
   "dependencies": {

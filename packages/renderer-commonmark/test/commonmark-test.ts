@@ -1,11 +1,8 @@
 import CommonMarkRenderer from '@atjson/renderer-commonmark';
 import { AtJSON } from '@atjson/core';
-import { QUnitAssert, TestCase, module, test } from './support';
 
-@module('commonmark')
-export class CommonMarkTest extends TestCase {
-  @test
-  'raw atjson document'(assert: QUnitAssert) {
+describe('commonmark', function () {
+  it('raw atjson document', function () {
     let document = new AtJSON({
       content: 'Some text that is both bold and italic plus something after.',
       contentType: 'text/atjson',
@@ -16,12 +13,11 @@ export class CommonMarkTest extends TestCase {
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  'Some text that is both **bold *and**** italic* plus something after.');
-  }
+  });
 
-  @test
-  'a plain text document with virtual paragraphs'(assert: QUnitAssert) {
+  it('a plain text document with virtual paragraphs', function () {
     let document = new AtJSON({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
@@ -33,12 +29,11 @@ export class CommonMarkTest extends TestCase {
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  'A paragraph with some **bold**\n\n**text** that continues into the next.');
-  }
+  });
 
-  @test
-  'a list'(assert: QUnitAssert) {
+  it('a list', function () {
     let document = new AtJSON({
       content: 'I have a list:\n\nFirst item plus bold text\nSecond item plus italic text\nItem 2a\nItem 2b\n\nAfter all the lists',
       annotations: [
@@ -54,7 +49,7 @@ export class CommonMarkTest extends TestCase {
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  `I have a list:
 
 1. First item plus **bold** text
@@ -63,10 +58,9 @@ export class CommonMarkTest extends TestCase {
    - Item 2b
 
 After all the lists`);
-  }
+  });
 
-  @test
-  'links'(assert: QUnitAssert) {
+  it('links', function () {
     let document = new AtJSON({
       content: 'I have a link',
       annotations: [{
@@ -77,12 +71,11 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  `I have a [link](https://example.com)`);
-  }
+  });
 
-  @test
-  'images'(assert: QUnitAssert) {
+  it('images', function () {
     let document = new AtJSON({
       content: ' ',
       annotations: [{
@@ -94,12 +87,11 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  `![CommonMark](http://commonmark.org/images/markdown-mark.png)`);
-  }
+  });
 
-  @test
-  'block quote'(assert: QUnitAssert) {
+  it('block quote', function () {
     let document = new AtJSON({
       content: 'This is a quote\n\nThat has some\nlines in it.',
       annotations: [{
@@ -108,14 +100,13 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  '> This is a quote\n> ' + `
 > That has some
 > lines in it.`);
-  }
+  });
 
-  @test
-  'headlines'(assert: QUnitAssert) {
+  it('headlines', function () {
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
       annotations: [{
@@ -126,8 +117,9 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    assert.equal(renderer.render(document),
+    expect(renderer.render(document)).toBe(
                  `# Banner
 ## Headline`);
-  }
-}
+  });
+});
+
