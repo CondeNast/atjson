@@ -30,7 +30,6 @@ const augmentEmbeddedHTML = (mdAtJSON) => {
     .reduce((acc, i) => acc.concat(i), []);
 
   if (embeddedHTMLAnnotations.length > 0) {
-    console.log('got embedded', embeddedHTMLAnnotations, mdAtJSON.content);
 
     mdAtJSON.annotations = mdAtJSON.annotations
       .concat(embeddedHTMLAnnotations.filter(v => v.type !== 'parse-token'))

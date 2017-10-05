@@ -179,7 +179,6 @@ describe('@atjson/contenttype-html', function () {
       contentType: 'text/html',
       annotations: parsedHtml
     });
-    console.log(htmlAtJSON);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
