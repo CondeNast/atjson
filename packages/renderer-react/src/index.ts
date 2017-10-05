@@ -1,4 +1,3 @@
-/// <amd-module name="@atjson/renderer-react"/>
 import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer-hir';
 import * as React from 'react';
@@ -35,16 +34,16 @@ export default class ReactRenderer extends Renderer {
     });
   }
 
-  *renderAnnotation(annotation: HIRNode): IterableIterator<React.Component | void> {
-    let AnnotationComponent = this.componentLookup[annotation.type];
+  *renderAnnotation(node: HIRNode): IterableIterator<React.Component | void> {
+    let AnnotationComponent = this.componentLookup[node.type];
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
-        annotation.attributes,
+        node.attributes,
         ...yield
       );
     } else {
-      // console.warn(`No component found for "${annotation.type}"- content will be yielded`);
+      // console.warn(`No component found for "${node.type}"- content will be yielded`);
       return;
     }
   }

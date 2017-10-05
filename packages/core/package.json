@@ -4,10 +4,10 @@
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
-  "types": "dist/amd/index.d.ts",
+  "types": "dist/commonjs/index.d.ts",
   "scripts": {
-    "prepack": "npm run build",
-    "build": "rm -rf dist; webpack; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017 --inlineSourceMap; ../../node_modules/dts-generator/bin/dts-generator --name $(cat ./package.json | jq '.name') --project ./ --out dist/types.d.ts",
+    "prepublish": "npm run build",
+    "build": "rm -rf dist; tsc -p . & tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache-2.0",
@@ -15,8 +15,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "dts-generator": "^2.1.0",
-    "ts-loader": "^2.3.7",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"
   }

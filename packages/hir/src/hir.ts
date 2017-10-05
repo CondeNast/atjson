@@ -1,4 +1,3 @@
-/// <amd-module name="@atjson/hir/hir"/>
 import { Annotation, AtJSON } from '@atjson/core';
 import * as entities from 'entities';
 import HIRNode from './hir-node';
