@@ -193,5 +193,18 @@ describe('@atjson/hir', function () {
 
       expect(new HIR(spanning).toJSON()).toEqual(expected);
     });
+
+    it('from a zero-length document with annotations', function () {
+      let zerolength = new AtJSON({
+        content: '',
+        annotations: [
+          { type: 'paragraph', start: 0, end: 0 },
+          { type: 'bold', start: 0, end: 0 }
+        ]
+      });
+
+    let expected = root( paragraph( bold() ) );
+
+    expect(new HIR(zerolength).toJSON()).toEqual(expected);
   });
 });

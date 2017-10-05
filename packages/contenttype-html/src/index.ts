@@ -62,7 +62,7 @@ export class Parser {
   }
 
   walkChildren(children: parse5.AST.Default.Node[]): Annotation[] {
-    return children.reduce((annotations, child): Annotation[] => {
+    return (children || []).reduce((annotations, child): Annotation[] => {
       if (isElement(child)) {
         return annotations.concat(this.walkNode(child));
       } else {
@@ -113,7 +113,7 @@ export class Parser {
   }
 
   attributesForNode(node: parse5.AST.Default.Element): object {
-    return node.attrs.reduce(this.convertElementToAttrObject, {});
+    return (node.attrs || []).reduce(this.convertElementToAttrObject, {});
 
       /*
     (attrs, { name, value }: { name: string, value: string }) => {

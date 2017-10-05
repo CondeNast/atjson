@@ -111,6 +111,8 @@ export default class HIRNode {
       throw new Error('temporary exception; this should only exist in the root node subclass');
     }
 
+    if (text.length === 0) return;
+
     let node = new HIRNode({
       text,
       type: 'text',
@@ -122,6 +124,11 @@ export default class HIRNode {
   }
 
   insertNode(node: HIRNode): void {
+    if (this.start === node.start && this.end === node.end) {
+      this.insertChild(node);
+      return;
+    }
+
     if (this.start <= node.start) {
       let childNode = node.trim(this.start, this.end);
       if (childNode) this.insertChild(childNode);

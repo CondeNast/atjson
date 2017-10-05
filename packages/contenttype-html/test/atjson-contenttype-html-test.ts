@@ -137,4 +137,35 @@ describe('@atjson/contenttype-html', function () {
       }]
     });
   });
+
+  it('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
+    let html = '<p><img src="/url" alt="Foo" title="title" /></p>';
+    let parser = new Parser(html);
+    let parsedHtml = parser.parse();
+
+    let htmlAtJSON = new AtJSON({
+      content: html,
+      contentType: 'text/html',
+      annotations: parsedHtml
+    });
+
+    let hir = new HIR(htmlAtJSON).toJSON();
+    expect(hir).toEqual({
+      type: 'root',
+      attributes: undefined,
+      children: [{
+        type: 'paragraph',
+        attributes: {},
+        children: [{
+          type: 'image',
+          attributes: {
+            src: '/url',
+            alt: 'Foo',
+            title: 'title'
+          },
+          children: []
+        }]
+      }]
+    });
+  });
 });
