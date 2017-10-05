@@ -1,4 +1,3 @@
-/// <amd-module name="@atjson/core/atjson"/>
 import Annotation from './annotation';
 
 export default class AtJSON {

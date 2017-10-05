@@ -1,4 +1,3 @@
-/// <amd-module name="@atjson/core/annotation"/>
 export default interface Annotation {
   type: string;
   start: number;
