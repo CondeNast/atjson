@@ -101,37 +101,27 @@ describe('@atjson/hir/hir-node', function () {
     ]});
   });
 
-    /*
-  it('insert annotation contained within the node returns void', function () {
-    let node = new HIRNode({ type: 'test', start: 5, end: 10 });
-    let annotation = { type: 'bold', start: 6, end: 9 } as Annotation;
+  it('correctly inserts zero-length elements at boundaries', function () {
+    let root = new HIRNode({type: 'root', start: 0, end: 3 });
+    let image = new HIRNode({type: 'image', start: 3, end: 3 });
+    let paragraph = new HIRNode({type: 'paragraph', start: 0, end: 3});
+    root.insertNode(paragraph);
+    root.insertNode(image);
+    root.insertText('abc');
 
-    expect(node.insertAnnotation(annotation)).toBeUndefined();
+    expect(root.toJSON()).toEqual(
+      { type: 'root', attributes: undefined,
+        children: [
+          { type: 'paragraph',
+            attributes: undefined,
+            children: [
+              "abc",
+              { type: 'image', attributes: undefined, children: [] }
+            ]
+          }
+        ]
+      }
   });
 
-  it('insert annotation partially contained within the node returns a trimmed annotation', function () {
-    let node = new HIRNode({ type: 'test', start: 5, end: 10 });
-    let annotation: Annotation = { type: 'bold', start: 8, end: 15 };
-
-    let expectedResult: Annotation = { type: 'bold', start: 10, end: 15 };
-
-    expect(node.insertAnnotation(annotation)).toEqual(expectedResult);
-  });
-
-  it('insert annotation not contained within the node' +
-  '(starts after) returns the original annotation', function () {
-    let node = new HIRNode({ type: 'test', start: 0, end: 5 });
-    let annotation: Annotation = { type: 'bold', start: 8, end: 10 };
-
-    expect(node.insertAnnotation(annotation)).toEqual(annotation);
-  });
-
-  it('insert annotation not contained within the node (starts before) throws an error', function () {
-    let node = new HIRNode({ type: 'test', start: 10, end: 15 });
-    let annotation: Annotation = { type: 'bold', start: 3, end: 6 };
-
-    expect(() => node.insertAnnotation(annotation)).toThrow();
-  });
-     */
 });
 

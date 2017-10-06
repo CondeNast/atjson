@@ -14,6 +14,35 @@ const testModules = spec.tests.reduce((modules: any, test: any) => {
   return modules;
 }, {});
 
+const augmentEmbeddedHTML = (mdAtJSON) => {
+
+  let embeddedHTMLAnnotations = mdAtJSON.annotations
+    .filter(a => a.type === 'html' || a.type === '')
+    .map(a => {
+      let p = new HTMLParser(mdAtJSON.content.substr(a.start, a.end));
+      let h = p.parse();
+      return h.map(v => {
+          v.start += a.start;
+          v.end += a.start;
+          return v;
+        });
+    })
+    .reduce((acc, i) => acc.concat(i), []);
+
+  if (embeddedHTMLAnnotations.length > 0) {
+
+    mdAtJSON.annotations = mdAtJSON.annotations
+      .concat(embeddedHTMLAnnotations.filter(v => v.type !== 'parse-token'))
+      .filter(v => v.type !== 'html' && v.type !== '');
+
+    embeddedHTMLAnnotations
+      .filter(v => v.type === 'parse-token')
+      .forEach(v => mdAtJSON.deleteText(v))
+  }
+
+  return mdAtJSON;
+}
+
 Object.keys(testModules).forEach(moduleName => {
 
   if (moduleName.match(/html/i)) return;
@@ -36,6 +65,8 @@ Object.keys(testModules).forEach(moduleName => {
           contentType: 'text/commonmark',
           annotations: parsedMarkdown.annotations
         });
+
+        mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
 
         let htmlAtJSON = new AtJSON({
           content: test.html,

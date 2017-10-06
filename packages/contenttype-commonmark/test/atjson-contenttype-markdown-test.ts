@@ -134,5 +134,55 @@ describe('markdown -> atjson', function () {
 
     expect(atjson.content).toBe('\n');
   });
+
+  it('simple images', function () {
+    let markdown = '![foo](/url "title")';
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    expect(atjson.content).toBe('\n');
+
+    let expectedAnnotations = [
+      { type: 'paragraph', start: 0, end: 0, attributes: {} },
+      { type: 'image', start: 0, end: 0, attributes: { src: '/url', title: 'title', alt: 'foo' } }
+    ];
+
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
+
+  it('Does not add extra paragraphs within list items', function () {
+    let markdown = '- foo\n-\n- bar\n';
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    expect(atjson.content).toBe('\nfoo\n\nbar\n\n');
+
+    let expectedAnnotations = [
+      { type: 'unordered-list', start: 0, end: atjson.content.length - 1, attributes: {} },
+      { type: 'list-item', start: 1, end: 4, attributes: {} },
+      { type: 'list-item', start: 5, end: 5, attributes: {} },
+      { type: 'list-item', start: 6, end: atjson.content.length - 2, attributes: {} }
+    ];
+
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
+
+  it('fenced code blocks2', function () {
+    let markdown = '``` ```\naaa\n';
+
+    let parser = new Parser(markdown);
+    let atjson = parser.parse();
+
+    expect(atjson.content).toBe('\naaa\n');
+
+    let expectedAnnotations = [
+      { type: 'paragraph', start: 0, end: atjson.content.length - 1, attributes: {} },
+      { type: 'code', start: 0, end: 0, attributes: {} }
+    ];
+
+    expect(atjson.annotations).toEqual(expectedAnnotations);
+  });
 });
 

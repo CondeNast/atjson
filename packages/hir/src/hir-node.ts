@@ -111,6 +111,8 @@ export default class HIRNode {
       throw new Error('temporary exception; this should only exist in the root node subclass');
     }
 
+    if (text.length === 0) return;
+
     let node = new HIRNode({
       text,
       type: 'text',
@@ -122,12 +124,31 @@ export default class HIRNode {
   }
 
   insertNode(node: HIRNode): void {
-    if (this.start <= node.start) {
-      let childNode = node.trim(this.start, this.end);
-      if (childNode) this.insertChild(childNode);
+    let insertedWholeNode = false;
+
+    /* Don't insert nodes into text nodes; always append them as siblings.
+     *
+     * FIXME this should probably check to see if the node in question overlaps
+     * with the text node, and if so, subsume the text node (this) into the
+     * given node (node)
+     */
+    if (this.type !== 'text') {
+      if (this.start === node.start && this.end === node.end) {
+        this.insertChild(node);
+        return;
+      }
+
+
+      if (this.start <= node.start) {
+        let childNode = node.trim(this.start, this.end);
+        if (childNode) {
+          this.insertChild(childNode);
+          if (childNode.end === node.end) insertedWholeNode = true;
+        }
+      }
     }
 
-    if (this.end <= node.end) {
+    if (this.end <= node.end && !insertedWholeNode) {
       let siblingNode = node.trim(this.end, node.end);
       if (siblingNode) this.insertSibling(siblingNode);
     }
