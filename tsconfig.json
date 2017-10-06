@@ -13,7 +13,6 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "baseUrl": "./",
-    "sourceRoot": "./",
     "inlineSourceMap": true,
     "experimentalDecorators": true
   }
