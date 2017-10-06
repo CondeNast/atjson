@@ -1,6 +1,6 @@
 {
   "name": "@atjson/contenttype-commonmark",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -12,17 +12,17 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@atjson/contenttype-html": "^0.5.2",
-    "@atjson/core": "^0.5.2",
-    "@atjson/hir": "^0.5.2",
-    "@atjson/renderer-hir": "^0.5.2",
+    "@atjson/contenttype-html": "^0.5.3",
+    "@atjson/core": "^0.5.3",
+    "@atjson/hir": "^0.5.3",
+    "@atjson/renderer-hir": "^0.5.3",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
     "parse5": "^3.0.2",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "markdown-it": "^8.4.0",
-    "entities": "1.1.1"
+    "entities": "1.1.1",
+    "markdown-it": "^8.4.0"
   }
 }
