@@ -1,4 +1,3 @@
-/// <amd-module name="@atjson/renderer-hir"/>
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
 
@@ -9,7 +8,7 @@ function compile(scope: Renderer, node: HIRNode): any {
     return result.value;
   }
 
-  return generator.next(node.children().map(childNode => {
+  return generator.next(node.children().map((childNode: HIRNode) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return childNode.text;
     } else {

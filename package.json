@@ -10,6 +10,8 @@
     "typescript": "^2.5.3"
   },
   "scripts": {
+    "build": "lerna run build",
+    "publish": "lerna publish",
     "test": "./node_modules/jest/bin/jest.js"
   },
   "workspaces": [
