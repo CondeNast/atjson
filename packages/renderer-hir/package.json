@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-hir",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -19,7 +19,7 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@atjson/core": "^0.5.3",
-    "@atjson/hir": "^0.5.3"
+    "@atjson/core": "^0.5.4",
+    "@atjson/hir": "^0.5.4"
   }
 }
