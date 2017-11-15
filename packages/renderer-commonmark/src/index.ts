@@ -74,7 +74,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * Into multiple sections.
    */
   *'horizontal-rule'(): IterableIterator<string> {
-    return '\n---\n';
+    return '\n\n---\n\n';
   },
 
   /**
