@@ -7,6 +7,7 @@ export interface AnnotationLookup {
   [key: string]: Rule;
 }
 
+
 const MARKDOWN_RULES: AnnotationLookup = {
   /**
    * The root allows us to normalize the document
@@ -42,10 +43,29 @@ const MARKDOWN_RULES: AnnotationLookup = {
    *
    * ###### and six `#` being the least important
    */
-  *'heading'(props: { size: number }): IterableIterator<string> {
-    let hashes = new Array((props.size || 0) + 1).join('#');
+  *'h1'(props: { size: number }): IterableIterator<string> {
     let heading = yield;
-    return `${hashes} ${heading.join('')}`;
+    return `# ${heading.join('')}`;
+  },
+  *'h2'(props: { size: number }): IterableIterator<string> {
+    let heading = yield;
+    return `## ${heading.join('')}`;
+  },
+  *'h3'(props: { size: number }): IterableIterator<string> {
+    let heading = yield;
+    return `### ${heading.join('')}`;
+  },
+  *'h4'(props: { size: number }): IterableIterator<string> {
+    let heading = yield;
+    return `#### ${heading.join('')}`;
+  },
+  *'h5'(props: { size: number }): IterableIterator<string> {
+    let heading = yield;
+    return `##### ${heading.join('')}`;
+  },
+  *'h6'(props: { size: number }): IterableIterator<string> {
+    let heading = yield;
+    return `###### ${heading.join('')}`;
   },
 
   /**
