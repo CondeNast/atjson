@@ -106,6 +106,22 @@ After all the lists`);
 > lines in it.`);
   });
 
+  it('block quote with a paragraph', function () {
+    let document = new AtJSON({
+      content: 'This is a quoteAnd this is not.',
+      annotations: [{
+        type: 'blockquote', start: 0, end: 15
+      }, {
+        type: 'paragraph', start: 0, end: 15
+      }, {
+        type: 'paragraph', start: 15, end: 31
+      }]
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+  });
+
   it('headlines', function () {
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
