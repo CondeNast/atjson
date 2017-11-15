@@ -208,7 +208,8 @@ export default class CommonmarkRenderer extends Renderer {
     if (rule) {
       return yield* rule.call(this, annotation.attributes);
     } else {
-      return `yield.join('')`;
+      let text = yield;
+      return text.join('');
     }
   }
 }
