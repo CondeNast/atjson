@@ -110,9 +110,9 @@ After all the lists`);
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
       annotations: [{
-        type: 'heading', start: 0, end: 6, attributes: { size: 1 }
+        type: 'h1', start: 0, end: 6, attributes: { size: 1 }
       }, {
-        type: 'heading', start: 7, end: 15, attributes: { size: 2 }
+        type: 'h2', start: 7, end: 15, attributes: { size: 2 }
       }]
     });
 
