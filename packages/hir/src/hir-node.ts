@@ -140,11 +140,6 @@ export default class HIRNode {
         return;
       }
 
-      if (this.type === 'paragraph' && node.type === 'paragraph') {
-        this.insertSibling(node);
-        return;
-      }
-
       if (this.start <= node.start) {
         let childNode = node.trim(this.start, this.end);
         if (childNode) {
@@ -206,7 +201,11 @@ export default class HIRNode {
 
   insertChild(node: HIRNode): void {
     if (!this.child) {
-      this.child = node;
+      if (this.type === 'paragraph' && node.type === 'paragraph') {
+        this.insertSibling(node);
+      } else {
+        this.child = node;
+      }
     } else {
       // FIXME FIXME FIXME this needs some refactoring for clarity / symmetry.
       if (node.rank < this.child.rank) {
