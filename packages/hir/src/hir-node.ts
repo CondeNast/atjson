@@ -57,6 +57,9 @@ export default class HIRNode {
       case 'unordered-list':
       case 'list-item':
       case 'blockquote':
+      case 'callout':
+      case 'embed':
+      case 'asset':
         this.rank = BLOCK_NODE_RANK;
         break;
 
