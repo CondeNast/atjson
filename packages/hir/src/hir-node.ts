@@ -140,6 +140,10 @@ export default class HIRNode {
         return;
       }
 
+      if (this.type === 'paragraph' && node.type === 'paragraph') {
+        this.insertSibling(node);
+        return;
+      }
 
       if (this.start <= node.start) {
         let childNode = node.trim(this.start, this.end);

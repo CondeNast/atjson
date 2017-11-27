@@ -203,8 +203,26 @@ describe('@atjson/hir', function () {
         ]
       });
 
-    let expected = root( paragraph( bold() ) );
+      let expected = root( paragraph( bold() ) );
 
-    expect(new HIR(zerolength).toJSON()).toEqual(expected);
+      expect(new HIR(zerolength).toJSON()).toEqual(expected);
+    });
+
+    it('from a document with zero-length paragraphs', function () {
+      let zerolength = new AtJSON({
+        content: 'Hello, world',
+        annotations: [
+          { type: 'paragraph', start: 0, end: 12 },
+          { type: 'paragraph', start: 12, end: 12 }
+        ]
+      });
+
+      let expected = root(
+        paragraph('Hello, world'),
+        paragraph()
+      );
+
+      expect(new HIR(zerolength).toJSON()).toEqual(expected);
+    });
   });
 });
