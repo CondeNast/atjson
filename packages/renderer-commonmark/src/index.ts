@@ -34,8 +34,15 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * > It can also span multiple lines.
    */
   *'blockquote'(): IterableIterator<string> {
-    let quote: string[] = yield;
-    return quote.join('').split('\n').map(line => `> ${line}`).join('\n');
+    let text: string[] = yield;
+    let lines: string[] = text.join('').split('\n');
+    let endOfQuote: number = lines.length;
+
+    while (lines[endOfQuote - 1] === '') {
+      endOfQuote--;
+    }
+
+    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n');
   },
 
   /**
