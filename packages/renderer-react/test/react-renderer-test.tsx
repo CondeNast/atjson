@@ -96,7 +96,7 @@ describe('ReactRenderer', function () {
       });
 
       expect(renderDocument(renderer, doc)).toBe(
-                   `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen=""></iframe></a></article>`);
+                   `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?rel=0&amp;controls=0&amp;showinfo=0" frameBorder="0" allowfullscreen=""></iframe></a></article>`);
     });
 
     it('reuses renderers', function () {
