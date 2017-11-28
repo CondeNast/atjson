@@ -210,16 +210,26 @@ describe('@atjson/hir', function () {
 
     it('from a document with zero-length paragraphs', function () {
       let zerolength = new AtJSON({
-        content: 'Hello, world',
+        content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
-          { type: 'paragraph', start: 0, end: 12 },
-          { type: 'paragraph', start: 12, end: 12 }
+          { type: 'paragraph', start: 0, end: 8 },
+          { type: 'parse-token', start: 8, end: 10 },
+          { type: 'paragraph', start: 10, end: 18 },
+          { type: 'parse-token', start: 18, end: 20 },
+          { type: 'paragraph', start: 20, end: 22 },
+          { type: 'parse-token', start: 20, end: 22 },
+          { type: 'paragraph', start: 22, end: 30 },
+          { type: 'parse-token', start: 30, end: 32 },
+          { type: 'paragraph', start: 32, end: 41 }
         ]
       });
 
       let expected = root(
-        paragraph('Hello, world'),
-        paragraph()
+        paragraph('One fish'),
+        paragraph('Two fish'),
+        paragraph(),
+        paragraph('Red fish'),
+        paragraph('Blue fish')
       );
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);

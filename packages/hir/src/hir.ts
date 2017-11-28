@@ -58,7 +58,11 @@ export default class HIR {
     atjson.annotations
       .sort((a: Annotation, b: Annotation) => {
         if (a.start === b.start) {
-          return (b.end - b.start) - (a.end - a.start);
+          if (a.type === b.type) {
+            return a.end - b.end;
+          } else {
+            return (b.end - b.start) - (a.end - a.start);
+          }
         } else {
           return a.start - b.start;
         }
