@@ -276,6 +276,9 @@ export default class HIRNode {
     // nb move to HIRTextNode
     if (newNode.type === 'text' && typeof(this.text) === 'string') {
       newNode.text = this.text.slice(newNode.start - this.start, newNode.end - this.start);
+      if (newNode.text === "\uFFFC") {
+        return;
+      }
     }
 
     return newNode;

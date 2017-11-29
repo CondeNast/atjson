@@ -36,22 +36,20 @@ export default class HIR {
   populateHIR(): void {
 
     let atjson = this.atjson;
-
-    // atjson.addAnnotations(this.parseContent());
-
-    // let annotations = this.atjson.annotations.concat(this.parseContent());
-
     atjson.annotations
       .filter(a => a.type === 'parse-token')
-      .forEach(a => atjson.replaceText(a, "\uFFFC"));
-
+      .forEach((a, idx) => {
+        atjson.objectReplacementSubstitution(a)
+      });
+    atjson.annotations
+      .filter(a => a.start === a.end)
+      .forEach(a => {
+         atjson.insertText(a.start, "\uFFFC")
+         a.start--;
+       });
     atjson.annotations
       .filter(a => a.type === 'parse-element')
       .forEach(a => atjson.removeAnnotation(a));
-    /*atjson.annotations
-      .filter(a => a.type === 'parse-token' || a.type === 'parse-element')
-      .forEach(a => atjson.removeAnnotation(a));
-     */
 
     this.rootNode = new HIRNode({
       type: 'root',

@@ -234,5 +234,35 @@ describe('@atjson/hir', function () {
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
-  });
+
+    it('from a document with a point annotation', function () {
+      let zerolength = new AtJSON({
+        content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
+        annotations: [
+          { type: 'paragraph', start: 0, end: 8 },
+          { type: 'parse-token', start: 8, end: 10 },
+          { type: 'paragraph', start: 10, end: 18 },
+          { type: 'parse-token', start: 18, end: 20 },
+          { type: 'paragraph', start: 20, end: 22 },
+          { type: 'parse-token', start: 20, end: 22 },
+          { type: 'paragraph', start: 22, end: 30 },
+          { type: 'parse-token', start: 30, end: 32 },
+          { type: 'paragraph', start: 32, end: 41 },
+          { type: 'bold', start: 21, end: 21 }
+        ]
+      });
+
+      let expected = root(
+        paragraph('One fish'),
+        paragraph('Two fish'),
+          paragraph(
+              bold()
+          ),
+        paragraph('Red fish'),
+        paragraph('Blue fish')
+      );
+
+      expect(new HIR(zerolength).toJSON()).toEqual(expected);
+    });
+});
 });
