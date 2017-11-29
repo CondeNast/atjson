@@ -43,11 +43,15 @@ export default class HIR {
 
     atjson.annotations
       .filter(a => a.type === 'parse-token')
-      .forEach(a => atjson.deleteText(a));
+      .forEach(a => atjson.replaceText(a, "\uFFFC"));
 
     atjson.annotations
+      .filter(a => a.type === 'parse-element')
+      .forEach(a => atjson.removeAnnotation(a));
+    /*atjson.annotations
       .filter(a => a.type === 'parse-token' || a.type === 'parse-element')
       .forEach(a => atjson.removeAnnotation(a));
+     */
 
     this.rootNode = new HIRNode({
       type: 'root',

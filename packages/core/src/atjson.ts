@@ -163,4 +163,14 @@ export default class AtJSON {
       }
     }
   }
+
+  replaceText(annotation: Annotation, replacementText: string): void {
+    const start = annotation.start;
+    const end = annotation.end;
+
+    this.deleteText(annotation);
+    this.insertText(annotation.start, replacementText, true);
+
+    //annotation.end += replacementText.length;
+  }
 }

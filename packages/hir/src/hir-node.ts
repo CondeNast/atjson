@@ -5,6 +5,7 @@ const ROOT_NODE_RANK = 0;
 const BLOCK_NODE_RANK = 1;
 const PARAGRAPH_NODE_RANK = 2;
 const SPAN_NODE_RANK = 3;
+const PARSE_NODE_RANK = Number.MAX_SAFE_INTEGER;
 const TEXT_NODE_RANK = Infinity;
 
 export default class HIRNode {
@@ -33,6 +34,10 @@ export default class HIRNode {
     switch (node.type) {
       case 'root':
         this.rank = ROOT_NODE_RANK;
+        break;
+
+      case 'parse-token':
+        this.rank = PARSE_NODE_RANK;
         break;
 
       case 'text':
@@ -89,7 +94,7 @@ export default class HIRNode {
 
   children(): HIRNode[] {
     if (this.child) {
-      return [this.child].concat(this.child.siblings());
+      return [this.child].concat(this.child.siblings()).filter((node) => node.type != 'parse-token');
     } else {
       return [];
     }
@@ -114,6 +119,9 @@ export default class HIRNode {
     }
 
     if (text.length === 0) return;
+
+    // Don't insert Object Replacement Characters.
+    if (text.length === 1 && this.end - this.start === 1 && text === "\uFFFC") return;
 
     let node = new HIRNode({
       text,
