@@ -74,6 +74,9 @@ Object.keys(testModules).forEach(moduleName => {
           annotations: parsedHtml
         });
 
+        //expect(htmlAtJSON.annotations).toEqual(mdAtJSON.annotations);
+        //expect(htmlAtJSON.content).toEqual(mdAtJSON.content);
+
         let markdownHIR = new HIR(mdAtJSON).toJSON();
         let htmlHIR = new HIR(htmlAtJSON).toJSON();
 

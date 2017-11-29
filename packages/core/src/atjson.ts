@@ -1,5 +1,7 @@
 import Annotation from './annotation';
 
+const OBJECT_REPLACEMENT = "\uFFFC";
+
 export default class AtJSON {
 
   content: string;
@@ -88,7 +90,6 @@ export default class AtJSON {
   }
 
   deleteText(annotation: Annotation) {
-
     // This should really not just truncate annotations, but rather tombstone
     // the modified annotations as an atjson sub-document inside the annotation
     // that's being used to delete stuff.
@@ -159,6 +160,32 @@ export default class AtJSON {
             a.end = start;
           }
 
+        }
+      }
+    }
+  }
+
+  /**
+    Replace parse tokens with object replacement characters.
+   */
+  objectReplacementSubstitution(annotation: Annotation): void {
+    const start = annotation.start;
+    const end = annotation.end;
+    const delta = end - start - 1;
+    const before = this.content.slice(0, start);
+    const after = this.content.slice(end);
+    this.content = before + OBJECT_REPLACEMENT + after;
+
+    for (let i = this.annotations.length - 1; i >= 0; i--) {
+      let a = this.annotations[i];
+      if (a === annotation) {
+        a.end = a.start + 1;
+      } else {
+        if (a.start >= end) {
+          a.start -= delta;
+        }
+        if (a.end >= end) {
+          a.end -= delta;
         }
       }
     }
