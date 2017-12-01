@@ -54,10 +54,11 @@ export default class HIRNode {
         this.rank = PARAGRAPH_NODE_RANK;
         break;
 
-      case 'callout':
       case 'embed':
       case 'image':
       case 'asset':
+      case 'horizontal-rule':
+      case 'section-break':
         this.rank = OBJECT_NODE_RANK;
         break;
 
