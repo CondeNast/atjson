@@ -5,6 +5,7 @@ const ROOT_NODE_RANK = 0;
 const BLOCK_NODE_RANK = 1;
 const PARAGRAPH_NODE_RANK = 2;
 const SPAN_NODE_RANK = 3;
+const OBJECT_NODE_RANK = 4;
 const PARSE_NODE_RANK = Number.MAX_SAFE_INTEGER;
 const TEXT_NODE_RANK = Infinity;
 
@@ -53,6 +54,13 @@ export default class HIRNode {
         this.rank = PARAGRAPH_NODE_RANK;
         break;
 
+      case 'callout':
+      case 'embed':
+      case 'image':
+      case 'asset':
+        this.rank = OBJECT_NODE_RANK;
+        break;
+
       case 'bold':
       case 'italic':
         this.rank = SPAN_NODE_RANK;
@@ -62,9 +70,6 @@ export default class HIRNode {
       case 'unordered-list':
       case 'list-item':
       case 'blockquote':
-      case 'callout':
-      case 'embed':
-      case 'asset':
         this.rank = BLOCK_NODE_RANK;
         break;
 
