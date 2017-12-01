@@ -149,7 +149,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
     let list = yield;
     this.popScope();
 
-    let markdown = `${list.join('\n')}\n`;
+    let markdown = `${list.join('\n')}\n\n`;
     if (this.type === 'ordered-list' || this.type === 'unordered-list') {
       return `\n${markdown}`;
     }
