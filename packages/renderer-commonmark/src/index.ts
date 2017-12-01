@@ -41,7 +41,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
       endOfQuote--;
     }
 
-    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n') + '\n\n';
+    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n');
   },
 
   /**

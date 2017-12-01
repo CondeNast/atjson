@@ -119,6 +119,8 @@ After all the lists`);
       annotations: [{
         type: 'blockquote', start: 0, end: 15
       }, {
+        type: 'paragraph', start: 0, end: 15
+      }, {
         type: 'paragraph', start: 15, end: 31
       }]
     });
