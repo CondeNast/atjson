@@ -165,7 +165,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
   *'paragraph'(): IterableIterator<string> {
     let rawText = yield;
     let text = rawText.join('');
-    if (text.lastIndexOf('\n\n') === text.length - 2) {
+    if (text.lastIndexOf('\n\n') === Math.max(text.length - 2, 0)) {
       return text;
     }
     return `${text}\n\n`;

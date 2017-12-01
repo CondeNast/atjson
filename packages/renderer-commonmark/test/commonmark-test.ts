@@ -127,6 +127,21 @@ After all the lists`);
     expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
   });
 
+  it('handles horizontal-rules annotations', () => {
+    let document = new AtJSON({
+      content: 'x\uFFFCy',
+      contentType: 'text/atjson',
+      annotations: [
+        { type: 'paragraph', start: 0, end: 1 },
+        { type: 'horizontal-rule', start: 1, end: 2 },
+        { type: 'paragraph', start: 2, end: 3 }
+      ]
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('x\n\n---\n\ny');
+  });
+
   it('headlines', function () {
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
