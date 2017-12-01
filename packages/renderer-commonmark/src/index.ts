@@ -7,7 +7,6 @@ export interface AnnotationLookup {
   [key: string]: Rule;
 }
 
-
 const MARKDOWN_RULES: AnnotationLookup = {
   /**
    * The root allows us to normalize the document
@@ -42,7 +41,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
       endOfQuote--;
     }
 
-    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n');
+    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n') + '\n\n';
   },
 
   /**
@@ -50,29 +49,10 @@ const MARKDOWN_RULES: AnnotationLookup = {
    *
    * ###### and six `#` being the least important
    */
-  *'h1'(props: { size: number }): IterableIterator<string> {
+  *'heading'(props: { level: number }): IterableIterator<string> {
     let heading = yield;
-    return `# ${heading.join('')}`;
-  },
-  *'h2'(props: { size: number }): IterableIterator<string> {
-    let heading = yield;
-    return `## ${heading.join('')}`;
-  },
-  *'h3'(props: { size: number }): IterableIterator<string> {
-    let heading = yield;
-    return `### ${heading.join('')}`;
-  },
-  *'h4'(props: { size: number }): IterableIterator<string> {
-    let heading = yield;
-    return `#### ${heading.join('')}`;
-  },
-  *'h5'(props: { size: number }): IterableIterator<string> {
-    let heading = yield;
-    return `##### ${heading.join('')}`;
-  },
-  *'h6'(props: { size: number }): IterableIterator<string> {
-    let heading = yield;
-    return `###### ${heading.join('')}`;
+    let level = new Array(props.level + 1).join('#');
+    return `${level} ${heading.join('')}\n`;
   },
 
   /**
@@ -81,7 +61,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * Into multiple sections.
    */
   *'horizontal-rule'(): IterableIterator<string> {
-    return '\n\n---\n\n';
+    return '---\n\n';
   },
 
   /**
@@ -102,10 +82,10 @@ const MARKDOWN_RULES: AnnotationLookup = {
 
   /**
    * A line break in Commonmark can be two white spaces at the end of the line  <--
-   * or it can be a backslack at the end of the line\
+   * or it can be a backslash at the end of the line\
    */
   *'line-break'(): IterableIterator<string> {
-    return '  ';
+    return '  \n';
   },
 
   /**
@@ -148,7 +128,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
     let list = yield;
     this.popScope();
 
-    let markdown = `${list.join('\n')}\n`;
+    let markdown = `${list.join('\n')}\n\n`;
     if (this.type === 'ordered-list' || this.type === 'unordered-list') {
       return `\n${markdown}`;
     }
@@ -183,8 +163,12 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * text.
    */
   *'paragraph'(): IterableIterator<string> {
-    let text = yield;
-    return `${text.join('')}\n\n`;
+    let rawText = yield;
+    let text = rawText.join('');
+    if (text.lastIndexOf('\n\n') === text.length - 2) {
+      return text;
+    }
+    return `${text}\n\n`;
   }
 };
 

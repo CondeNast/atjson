@@ -35,16 +35,23 @@ describe('commonmark', function () {
 
   it('a list', function () {
     let document = new AtJSON({
-      content: 'I have a list:\n\nFirst item plus bold text\nSecond item plus italic text\nItem 2a\nItem 2b\n\nAfter all the lists',
+      content: ['I have a list:',
+                'First item plus bold text',
+                'Second item plus italic text',
+                'Item 2a',
+                'Item 2b',
+                'After all the lists'].join(''),
       annotations: [
-        { type: 'bold', start: 32, end: 36 },
-        { type: 'italic', start: 59, end: 65 },
-        { type: 'ordered-list', start: 16, end: 87 },
-        { type: 'list-item', start: 16, end: 42 },
-        { type: 'list-item', start: 42, end: 87 },
-        { type: 'unordered-list', start: 70, end: 87 },
-        { type: 'list-item', start: 70, end: 78 },
-        { type: 'list-item', start: 78, end: 87 }
+        { type: 'paragraph', start: 0, end: 14 },
+        { type: 'bold', start: 30, end: 34 },
+        { type: 'italic', start: 56, end: 62 },
+        { type: 'ordered-list', start: 14, end: 81 },
+        { type: 'list-item', start: 14, end: 39 },
+        { type: 'list-item', start: 39, end: 81 },
+        { type: 'unordered-list', start: 67, end: 81 },
+        { type: 'list-item', start: 67, end: 74 },
+        { type: 'list-item', start: 74, end: 81 },
+        { type: 'paragraph', start: 81, end: 100 }
       ]
     });
 
@@ -112,8 +119,6 @@ After all the lists`);
       annotations: [{
         type: 'blockquote', start: 0, end: 15
       }, {
-        type: 'paragraph', start: 0, end: 15
-      }, {
         type: 'paragraph', start: 15, end: 31
       }]
     });
@@ -126,9 +131,13 @@ After all the lists`);
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
       annotations: [{
-        type: 'h1', start: 0, end: 6, attributes: { size: 1 }
+        type: 'heading', start: 0, end: 7, attributes: { level: 1 }
       }, {
-        type: 'h2', start: 7, end: 15, attributes: { size: 2 }
+        type: 'parse-token', start: 6, end: 7, attributes: { tokenType: 'newline' }
+      }, {
+        type: 'heading', start: 7, end: 16, attributes: { level: 2 }
+      }, {
+        type: 'parse-token', start: 15, end: 16, attributes: { tokenType: 'newline' }
       }]
     });
 
