@@ -1,6 +1,6 @@
 {
   "name": "@atjson/contenttype-html",
-  "version": "0.5.12",
+  "version": "0.5.15",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -15,8 +15,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/hir": "^0.5.12",
-    "@atjson/renderer-hir": "^0.5.12",
+    "@atjson/hir": "^0.5.15",
+    "@atjson/renderer-hir": "^0.5.15",
     "typescript": "^2.4.2"
   },
   "dependencies": {
