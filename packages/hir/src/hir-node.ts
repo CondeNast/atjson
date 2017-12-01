@@ -67,6 +67,7 @@ export default class HIRNode {
         this.rank = SPAN_NODE_RANK;
         break;
 
+      case 'callout':
       case 'ordered-list':
       case 'unordered-list':
       case 'list-item':
