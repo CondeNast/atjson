@@ -161,6 +161,7 @@ After all the lists`);
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
                  `# Banner
+
 ## Headline`);
   });
 });

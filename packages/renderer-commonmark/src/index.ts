@@ -52,7 +52,7 @@ const MARKDOWN_RULES: AnnotationLookup = {
   *'heading'(props: { level: number }): IterableIterator<string> {
     let heading = yield;
     let level = new Array(props.level + 1).join('#');
-    return `${level} ${heading.join('')}\n`;
+    return `${level} ${heading.join('')}\n\n`;
   },
 
   /**
