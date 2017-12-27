@@ -1,8 +1,8 @@
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
 
-function compile(scope: Renderer, node: HIRNode): any {
-  let generator = scope.invoke(scope.renderAnnotation, node);
+function compile(renderer: Renderer, node: HIRNode, state: State): any {
+  let generator = renderer.renderAnnotation(node, state);
   let result = generator.next();
   if (result.done) {
     return result.value;
@@ -12,46 +12,52 @@ function compile(scope: Renderer, node: HIRNode): any {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return childNode.text;
     } else {
-      return compile(scope, childNode);
+      return compile(renderer, childNode, state);
     }
   })).value;
 }
 
-export default abstract class Renderer {
-  private scopes: object[];
+interface StateList {
+  [key: string]: value: any;
+}
+
+export class State {
+  private _state: StateList[];
 
   constructor() {
-    this.scopes = [];
+    this._state = [];
   }
 
-  pushScope(scope: any): void {
-    this.scopes.push(Object.assign({
-      popScope: () => this.popScope(),
-      pushScope: (pushedScope: any) => this.pushScope(pushedScope)
-    }, scope));
+  push(list: StateList) {
+    this._state.push(list);
   }
 
-  popScope(): void {
-    this.scopes.pop();
+  pop() {
+    this._state.pop();
   }
 
-  invoke(fn: (node: HIRNode) => IterableIterator<string>, ...args: any[]) {
-    let scope = this.scopes[this.scopes.length - 1];
-    return fn.call(scope, ...args);
+  get(key: string): any {
+    let currentState: StateList | null = this._state[this._state.length - 1];
+    if (currentState) {
+      return currentState[key];
+    }
+    return null;
   }
 
-  abstract renderAnnotation(node: HIRNode): IterableIterator<any>;
-
-  willRender(): void {
-    this.pushScope({});
+  set(key: string, value: any) {
+    let currentState: StateList | null = this._state[this._state.length - 1];
+    if (currentState) {
+      currentState[key] = value;
+    } else {
+      this.push({ [key]: value });
+    }
   }
+}
 
-  didRender(): void {
-    this.popScope();
-  }
+export default abstract class Renderer {
+  abstract renderAnnotation(node: HIRNode, state: State): IterableIterator<any>;
 
   render(atjson: AtJSON | HIR): any {
-
     let annotationGraph;
     if (atjson instanceof AtJSON) {
       annotationGraph = new HIR(atjson);
@@ -61,9 +67,8 @@ export default abstract class Renderer {
       throw new Error('Supplied arguments invalid.');
     }
 
-    this.willRender();
-    let renderedDocument = compile(this, annotationGraph.rootNode);
-    this.didRender();
+    let state = new State();
+    let renderedDocument = compile(this, annotationGraph.rootNode, state);
     return renderedDocument;
   }
 }

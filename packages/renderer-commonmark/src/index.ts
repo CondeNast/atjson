@@ -1,13 +1,8 @@
 import { HIRNode } from '@atjson/hir';
-import Renderer from '@atjson/renderer-hir';
+import Renderer, { State } from '@atjson/renderer-hir';
 
-export type Rule = (...args: any[]) => IterableIterator<string>;
+export default class CommonmarkRenderer extends Renderer {
 
-export interface AnnotationLookup {
-  [key: string]: Rule;
-}
-
-const MARKDOWN_RULES: AnnotationLookup = {
   /**
    * The root allows us to normalize the document
    * after all annotations have been rendered to
@@ -99,15 +94,17 @@ const MARKDOWN_RULES: AnnotationLookup = {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(this: any): IterableIterator<string> {
-    let indent: string = '   '.repeat(this.indent);
-    let item: string[] = yield;
-    let indentedItem: string = item.join('').split('\n').map(line => indent + line).join('\n').trim();
+  *'list-item'(_, state: State): IterableIterator<string> {
+    let indent: string = '   '.repeat(state.get('indent'));
+    let rawItem: string[] = yield;
+    let index: number = state.get('index');
+    let item: string = rawItem.join('').split('\n').map(line => indent + line).join('\n').trim();
 
-    if (this.type === 'ordered-list') {
-      return `${indent}${this.index++}. ${indentedItem}`;
-    } else if (this.type === 'unordered-list') {
-      return `${indent}- ${indentedItem}`;
+    if (state.get('type') === 'ordered-list') {
+      item = `${indent}${index}. ${item}`;
+      state.set('index', index + 1);
+    } else if (state.get('type') === 'unordered-list') {
+      item = `${indent}- ${item}`;
     }
 
     return item;
@@ -118,18 +115,22 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'ordered-list'(this: any): IterableIterator<string> {
-    this.pushScope({
-      annotationLookup: this.annotationLookup,
+   *'ordered-list'(_, state: State): IterableIterator<string> {
+    let indent = state.get('indent');
+    if (indent == null) {
+      indent = -1;
+    }
+    state.push({
       type: 'ordered-list',
-      indent: (this.indent + 1) || 0,
+      indent: indent + 1,
       index: 1
     });
     let list = yield;
-    this.popScope();
+    state.pop();
 
     let markdown = `${list.join('\n')}\n\n`;
-    if (this.type === 'ordered-list' || this.type === 'unordered-list') {
+    if (state.get('type') === 'ordered-list' ||
+        state.get('type') === 'unordered-list') {
       return `\n${markdown}`;
     }
     return markdown;
@@ -140,17 +141,22 @@ const MARKDOWN_RULES: AnnotationLookup = {
    * - A number
    * - Of things with dashes preceding them
    */
-  *'unordered-list'(this: any): IterableIterator<string> {
-    this.pushScope({
-      annotationLookup: this.annotationLookup,
+  *'unordered-list'(_, state: State): IterableIterator<string> {
+    let indent = state.get('indent');
+    if (indent == null) {
+      indent = -1;
+    }
+
+    state.push({
       type: 'unordered-list',
-      indent: (this.indent + 1) || 0
+      indent: indent + 1,
     });
     let list = yield;
-    this.popScope();
+    state.pop();
 
     let markdown = `${list.join('\n')}\n\n`;
-    if (this.type === 'ordered-list' || this.type === 'unordered-list') {
+    if (state.get('type') === 'ordered-list' ||
+        state.get('type') === 'unordered-list') {
       return `\n${markdown}`;
     }
     return markdown;
@@ -170,34 +176,11 @@ const MARKDOWN_RULES: AnnotationLookup = {
     }
     return `${text}\n\n`;
   }
-};
 
-export default class CommonmarkRenderer extends Renderer {
-  annotationLookup: AnnotationLookup;
-
-  constructor(annotationLookup?: AnnotationLookup) {
-    super();
-    this.annotationLookup = Object.assign(annotationLookup || {}, MARKDOWN_RULES);
-  }
-
-  registerRule(type: string, rule: Rule) {
-    this.annotationLookup[type] = rule;
-  }
-
-  unregisterRule(type: string) {
-    delete this.annotationLookup[type];
-  }
-
-  willRender() {
-    this.pushScope({
-      annotationLookup: this.annotationLookup
-    });
-  }
-
-  *renderAnnotation(annotation: HIRNode) {
-    let rule = this.annotationLookup[annotation.type];
+  *renderAnnotation(annotation: HIRNode, state: State) {
+    let rule = this[annotation.type];
     if (rule) {
-      return yield* rule.call(this, annotation.attributes);
+      return yield* this[annotation.type](annotation.attributes, state);
     } else {
       let text = yield;
       return text.join('');

@@ -28,12 +28,6 @@ export default class ReactRenderer extends Renderer {
     delete this.componentLookup[type];
   }
 
-  willRender() {
-    this.pushScope({
-      componentLookup: this.componentLookup
-    });
-  }
-
   *renderAnnotation(node: HIRNode): IterableIterator<React.Component | void> {
     let AnnotationComponent = this.componentLookup[node.type];
     if (AnnotationComponent) {
