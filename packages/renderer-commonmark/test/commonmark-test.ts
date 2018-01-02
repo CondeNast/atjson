@@ -72,7 +72,7 @@ After all the lists`);
       content: 'I have a link',
       annotations: [{
         type: 'link', start: 9, end: 13, attributes: {
-          url: 'https://example.com'
+          href: 'https://example.com'
         }
       }]
     });

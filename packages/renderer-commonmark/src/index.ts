@@ -86,9 +86,9 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(props: { url: string }): IterableIterator<string> {
+  *'link'(props: { href: string }): IterableIterator<string> {
     let text = yield;
-    return `[${text.join('')}](${props.url})`;
+    return `[${text.join('')}](${props.href})`;
   },
 
   /**
