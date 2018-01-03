@@ -1,6 +1,22 @@
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
 
+const escape = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#x27;',
+  '`': '&#x60;',
+  '=': '&#x3D;'
+};
+
+export function escapeHTML(text: string): string {
+  return text.replace(/[&<>"'`=]/g, function (chr: keyof typeof escape) {
+    return escape[chr];
+  });
+}
+
 function compile(renderer: Renderer, node: HIRNode, state: State): any {
   let generator = renderer.renderAnnotation(node, state);
   let result = generator.next();
@@ -10,7 +26,7 @@ function compile(renderer: Renderer, node: HIRNode, state: State): any {
 
   return generator.next(node.children().map((childNode: HIRNode) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
-      return childNode.text;
+      return renderer.renderText(childNode.text);
     } else {
       return compile(renderer, childNode, state);
     }
@@ -56,6 +72,10 @@ export class State {
 
 export default abstract class Renderer {
   abstract renderAnnotation(node: HIRNode, state: State): IterableIterator<any>;
+
+  renderText(text: string): string {
+    return text;
+  },
 
   render(atjson: AtJSON | HIR): any {
     let annotationGraph;

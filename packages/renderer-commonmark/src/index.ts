@@ -115,7 +115,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-   *'ordered-list'(_, state: State): IterableIterator<string> {
+  *'ordered-list'(_, state: State): IterableIterator<string> {
     let indent = state.get('indent');
     if (indent == null) {
       indent = -1;

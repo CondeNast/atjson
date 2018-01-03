@@ -1,6 +1,6 @@
 import { AtJSON } from '@atjson/core';
 import { HIR, HIRNode } from '@atjson/hir';
-import HIRRenderer from '@atjson/renderer-hir';
+import HIRRenderer, { escapeHTML } from '@atjson/renderer-hir';
 
 describe('@atjson/renderer-hir', function () {
   it('defines an abstract rendering interface', function () {
@@ -40,5 +40,24 @@ describe('@atjson/renderer-hir', function () {
 
     let renderer = new ConcreteRenderer();
     renderer.render(atjson);
+  });
+
+  it('escapes HTML entities in text', function () {
+    let atjson = new AtJSON({
+      content: `This <html-element with="param" and-another='param'> should render as plain text`
+    });
+
+    class ConcreteRenderer extends HIRRenderer {
+      renderText(text: string): string {
+        return escapeHTML(text);
+      }
+      *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
+        let text: string[] = yield;
+        return text.join('');
+      }
+    }
+
+    let renderer = new ConcreteRenderer();
+    expect(renderer.render(atjson)).toBe('This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text');
   });
 });
