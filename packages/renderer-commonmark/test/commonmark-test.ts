@@ -14,7 +14,7 @@ describe('commonmark', function () {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
-                 'Some text that is both **bold *and**** italic* plus something after.');
+                 'Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   it('a plain text document with virtual paragraphs', function () {
@@ -164,5 +164,16 @@ After all the lists`);
 
 ## Headline`);
   });
-});
 
+   it('moves spaces at annotation boundaries to the outside', function () {
+    let document = new AtJSON({
+      content: 'This is bold text',
+      annotations: [{
+        type: 'bold', start: 8, end: 13
+      }]
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('This is **bold** text');
+  });
+});

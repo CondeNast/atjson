@@ -1,6 +1,22 @@
 import { HIRNode } from '@atjson/hir';
 import Renderer, { State } from '@atjson/renderer-hir';
 
+export function* split() {
+  let rawText = yield;
+  let text = rawText.join('');
+  let start = 0;
+  let end = text.length;
+
+  while (text[start] === ' ' && start < end) { start++; }
+  while (text[end - 1] === ' ' && end > start) { end--; }
+
+  return [
+    text.slice(0, start),
+    text.slice(start, end),
+    text.slice(end)
+  ];
+}
+
 export default class CommonmarkRenderer extends Renderer {
 
   /**
@@ -17,8 +33,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Bold text looks like **this** in Markdown.
    */
   *'bold'(): IterableIterator<string> {
-    let text = yield;
-    return `**${text.join('')}**`;
+    let [before, text, after] = yield* split();
+    return `${before}**${text}**${after}`;
   },
 
   /**
@@ -71,8 +87,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Italic text looks like *this* in Markdown.
    */
   *'italic'(): IterableIterator<string> {
-    let text = yield;
-    return `*${text.join('')}*`;
+    let [before, text, after] = yield* split();
+    return `${before}*${text}*${after}`;
   },
 
   /**
