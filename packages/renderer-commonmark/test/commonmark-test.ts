@@ -14,7 +14,7 @@ describe('commonmark', function () {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
-                 'Some text that is both **bold _and_** _italic_ plus something after.');
+                 'Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   it('a plain text document with virtual paragraphs', function () {
@@ -60,7 +60,7 @@ describe('commonmark', function () {
                  `I have a list:
 
 1. First item plus **bold** text
-2. Second item plus _italic_ text
+2. Second item plus *italic* text
    - Item 2a
    - Item 2b
 

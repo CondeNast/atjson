@@ -84,11 +84,11 @@ export default class CommonmarkRenderer extends Renderer {
   },
 
   /**
-   * Italic text looks like _this_ in Markdown.
+   * Italic text looks like *this* in Markdown.
    */
   *'italic'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    return `${before}_${text}_${after}`;
+    return `${before}*${text}*${after}`;
   },
 
   /**
