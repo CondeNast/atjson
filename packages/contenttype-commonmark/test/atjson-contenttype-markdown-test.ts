@@ -1,4 +1,4 @@
-import { Parser } from '@atjson/contenttype-commonmark';
+import Parser from '@atjson/contenttype-commonmark';
 
 describe('markdown -> atjson', function () {
   it('Correctly obtains annotations for simple inline elements', function () {
@@ -10,7 +10,7 @@ describe('markdown -> atjson', function () {
     ];
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
     expect(atjson.annotations).toEqual(expectedAnnotations);
   });
 
@@ -24,7 +24,7 @@ describe('markdown -> atjson', function () {
     ];
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
     expect(atjson.content).toBe('12345\n678\n910\neleventwelve\n');
     expect(atjson.annotations).toEqual(expectedAnnotations);
   });
@@ -37,7 +37,7 @@ describe('markdown -> atjson', function () {
     ];
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('foo _\n');
     expect(atjson.annotations).toEqual(expectedAnnotations);
@@ -52,7 +52,7 @@ describe('markdown -> atjson', function () {
     ];
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('a b\n');
     expect(atjson.annotations).toEqual(expectedAnnotations);
@@ -65,7 +65,7 @@ describe('markdown -> atjson', function () {
       { type: 'code', start: 0, end: 9, attributes: {} }
     ];
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
     expect(atjson.content).toBe('foo ` bar\n');
     expect(atjson.annotations).toEqual(expectedAnnotations);
   });
@@ -80,7 +80,7 @@ describe('markdown -> atjson', function () {
     ];
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
     expect(atjson.content).toBe('link\nlink\nlink\n');
     expect(atjson.annotations).toEqual(expectedAnnotations);
   });
@@ -90,7 +90,7 @@ describe('markdown -> atjson', function () {
     let markdown = '1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     let c = atjson.content;
     let expectedAnnotations = [
@@ -111,7 +111,7 @@ describe('markdown -> atjson', function () {
     let markdown = '<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('<DIV CLASS="foo">\n<p><em>Markdown</em></p>\n</DIV>\n');
     expect(atjson.annotations).toEqual([{ type: 'html', start: 0, end: 49, attributes: {} }]);
@@ -121,7 +121,7 @@ describe('markdown -> atjson', function () {
     let markdown = '\tfoo\tbaz\t\tbim';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('foo\tbaz\t\tbim\n');
   });
@@ -130,7 +130,7 @@ describe('markdown -> atjson', function () {
     let markdown = '*\t*\t*\t\n';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('\n');
   });
@@ -139,7 +139,7 @@ describe('markdown -> atjson', function () {
     let markdown = '![foo](/url "title")';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('\n');
 
@@ -155,7 +155,7 @@ describe('markdown -> atjson', function () {
     let markdown = '- foo\n-\n- bar\n';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('\nfoo\n\nbar\n\n');
 
@@ -173,7 +173,7 @@ describe('markdown -> atjson', function () {
     let markdown = '``` ```\naaa\n';
 
     let parser = new Parser(markdown);
-    let atjson = parser.parse();
+    let atjson = parser.toAtJSON();
 
     expect(atjson.content).toBe('\naaa\n');
 
@@ -185,4 +185,3 @@ describe('markdown -> atjson', function () {
     expect(atjson.annotations).toEqual(expectedAnnotations);
   });
 });
-

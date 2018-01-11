@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { Parser as HTMLParser } from '@atjson/contenttype-html';
-import { Parser } from '@atjson/contenttype-commonmark';
+import Parser from '@atjson/contenttype-commonmark';
 import { AtJSON } from '@atjson/core';
 import { HIR } from '@atjson/hir';
 import process from 'process';
@@ -57,7 +57,7 @@ Object.keys(testModules).forEach(moduleName => {
         let parser = new Parser(test.markdown);
         let htmlParser = new HTMLParser(test.html);
 
-        let parsedMarkdown = parser.parse();
+        let parsedMarkdown = parser.toAtJSON();
         let parsedHtml = htmlParser.parse();
 
         let mdAtJSON = new AtJSON({
