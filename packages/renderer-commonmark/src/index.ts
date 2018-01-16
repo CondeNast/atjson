@@ -46,13 +46,16 @@ export default class CommonmarkRenderer extends Renderer {
   *'blockquote'(): IterableIterator<string> {
     let text: string[] = yield;
     let lines: string[] = text.join('').split('\n');
-    let endOfQuote: number = lines.length;
+    let endOfQuote = lines.length;
+    let startOfQuote = 0;
 
-    while (lines[endOfQuote - 1] === '') {
-      endOfQuote--;
-    }
+    while (lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
+    while (lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
 
-    return lines.slice(0, endOfQuote).map(line => `> ${line}`).concat(lines.slice(endOfQuote)).join('\n');
+    return [
+      ...lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`),
+      '\n'
+    ].join('\n');
   },
 
   /**

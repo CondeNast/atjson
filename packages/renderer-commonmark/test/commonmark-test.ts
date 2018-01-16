@@ -98,35 +98,75 @@ After all the lists`);
                  `![CommonMark](http://commonmark.org/images/markdown-mark.png)`);
   });
 
-  it('block quote', function () {
-    let document = new AtJSON({
-      content: 'This is a quote\n\nThat has some\nlines in it.',
-      annotations: [{
-        type: 'blockquote', start: 0, end: 43
-      }]
-    });
+  describe('blockquote', () => {
+    it('single quote', () => {
+      let document = new AtJSON({
+        content: 'This is a quote\n\nThat has some\nlines in it.',
+        annotations: [{
+          type: 'blockquote', start: 0, end: 43
+        }]
+      });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
-                 '> This is a quote\n> ' + `
+      let renderer = new CommonMarkRenderer();
+      expect(renderer.render(document)).toBe(
+                   '> This is a quote\n> ' + `
 > That has some
 > lines in it.`);
-  });
-
-  it('block quote with a paragraph', function () {
-    let document = new AtJSON({
-      content: 'This is a quoteAnd this is not.',
-      annotations: [{
-        type: 'blockquote', start: 0, end: 15
-      }, {
-        type: 'paragraph', start: 0, end: 15
-      }, {
-        type: 'paragraph', start: 15, end: 31
-      }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+    it('with a paragraph', () => {
+      let document = new AtJSON({
+        content: 'This is a quoteAnd this is not.',
+        annotations: [{
+          type: 'blockquote', start: 0, end: 15
+        }, {
+          type: 'paragraph', start: 0, end: 15
+        }, {
+          type: 'paragraph', start: 15, end: 31
+        }]
+      });
+
+      let renderer = new CommonMarkRenderer();
+      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+    });
+
+    it('with flanking whitespace', () => {
+      let document = new AtJSON({
+        content: '\n\nThis is a quote\nAnd this is not.',
+        annotations: [{
+          type: 'blockquote', start: 0, end: 18
+        }, {
+          type: 'paragraph', start: 2, end: 18
+        }, {
+          type: 'paragraph', start: 18, end: 34
+        }]
+      });
+
+      let renderer = new CommonMarkRenderer();
+      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+    });
+
+    it('with surrounding paragraphs', () => {
+      let document = new AtJSON({
+        content: 'This is some text\n\nThis is a quote\n\nAnd this is not.',
+        annotations: [{
+          type: 'paragraph', start: 0, end: 19
+        }, {
+          type: 'parse-token', start: 17, end: 19
+        }, {
+          type: 'blockquote', start: 19, end: 36
+        }, {
+          type: 'paragraph', start: 19, end: 36
+        }, {
+          type: 'parse-token', start: 34, end: 36
+        }, {
+          type: 'paragraph', start: 36, end: 52
+        }]
+      });
+
+      let renderer = new CommonMarkRenderer();
+      expect(renderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.');
+    });
   });
 
   it('handles horizontal-rules annotations', () => {
