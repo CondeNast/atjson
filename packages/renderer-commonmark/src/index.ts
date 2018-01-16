@@ -27,7 +27,7 @@ export default class CommonmarkRenderer extends Renderer {
   *'root'(): IterableIterator<string> {
     let document = yield;
     return document.join('').trimRight();
-  },
+  }
 
   /**
    * Bold text looks like **this** in Markdown.
@@ -35,7 +35,7 @@ export default class CommonmarkRenderer extends Renderer {
   *'bold'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
     return `${before}**${text}**${after}`;
-  },
+  }
 
   /**
    * > A block quote has `>` in front of every line
@@ -56,7 +56,7 @@ export default class CommonmarkRenderer extends Renderer {
       ...lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`),
       '\n'
     ].join('\n');
-  },
+  }
 
   /**
    * # Headings have 6 levels, with a single `#` being the most important
@@ -67,7 +67,7 @@ export default class CommonmarkRenderer extends Renderer {
     let heading = yield;
     let level = new Array(props.level + 1).join('#');
     return `${level} ${heading.join('')}\n\n`;
-  },
+  }
 
   /**
    * A horizontal rule separates sections of a story
@@ -76,7 +76,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'horizontal-rule'(): IterableIterator<string> {
     return '---\n\n';
-  },
+  }
 
   /**
    * Images are embedded like links, but with a `!` in front.
@@ -84,7 +84,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'image'(props: { alt: string, url: string }): IterableIterator<string> {
     return `![${props.alt}](${props.url})`;
-  },
+  }
 
   /**
    * Italic text looks like *this* in Markdown.
@@ -92,7 +92,7 @@ export default class CommonmarkRenderer extends Renderer {
   *'italic'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
     return `${before}*${text}*${after}`;
-  },
+  }
 
   /**
    * A line break in Commonmark can be two white spaces at the end of the line  <--
@@ -100,7 +100,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'line-break'(): IterableIterator<string> {
     return '  \n';
-  },
+  }
 
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
@@ -108,7 +108,7 @@ export default class CommonmarkRenderer extends Renderer {
   *'link'(props: { href: string }): IterableIterator<string> {
     let [before, text, after] = yield* split();
     return `${before}[${text}](${props.href})${after}`;
-  },
+  }
 
   /**
    * A list item is part of an ordered list or an unordered list.
@@ -127,7 +127,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     return item;
-  },
+  }
 
   /**
    * 1. An ordered list contains
@@ -153,7 +153,7 @@ export default class CommonmarkRenderer extends Renderer {
       return `\n${markdown}`;
     }
     return markdown;
-  },
+  }
 
   /**
    * - An ordered list contains
@@ -179,7 +179,7 @@ export default class CommonmarkRenderer extends Renderer {
       return `\n${markdown}`;
     }
     return markdown;
-  },
+  }
 
   /**
    * A paragraph is the base unit of text.
