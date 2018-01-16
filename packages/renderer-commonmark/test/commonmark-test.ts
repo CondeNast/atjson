@@ -1,8 +1,8 @@
-import CommonMarkRenderer from '@atjson/renderer-commonmark';
 import { AtJSON } from '@atjson/core';
+import CommonMarkRenderer from '@atjson/renderer-commonmark';
 
-describe('commonmark', function () {
-  it('raw atjson document', function () {
+describe('commonmark', () => {
+  it('raw atjson document', () => {
     let document = new AtJSON({
       content: 'Some text that is both bold and italic plus something after.',
       contentType: 'text/atjson',
@@ -17,7 +17,7 @@ describe('commonmark', function () {
                  'Some text that is both **bold *and*** *italic* plus something after.');
   });
 
-  it('a plain text document with virtual paragraphs', function () {
+  it('a plain text document with virtual paragraphs', () => {
     let document = new AtJSON({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
@@ -33,7 +33,7 @@ describe('commonmark', function () {
                  'A paragraph with some **bold**\n\n**text** that continues into the next.');
   });
 
-  it('a list', function () {
+  it('a list', () => {
     let document = new AtJSON({
       content: ['I have a list:',
                 'First item plus bold text',
@@ -67,7 +67,7 @@ describe('commonmark', function () {
 After all the lists`);
   });
 
-  it('links', function () {
+  it('links', () => {
     let document = new AtJSON({
       content: 'I have a link',
       annotations: [{
@@ -82,7 +82,7 @@ After all the lists`);
                  `I have a [link](https://example.com)`);
   });
 
-  it('images', function () {
+  it('images', () => {
     let document = new AtJSON({
       content: ' ',
       annotations: [{
@@ -184,7 +184,7 @@ After all the lists`);
     expect(renderer.render(document)).toBe('x\n\n---\n\ny');
   });
 
-  it('headlines', function () {
+  it('headlines', () => {
     let document = new AtJSON({
       content: 'Banner\nHeadline\n',
       annotations: [{
