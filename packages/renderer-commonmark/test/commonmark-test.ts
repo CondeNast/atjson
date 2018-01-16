@@ -205,15 +205,17 @@ After all the lists`);
 ## Headline`);
   });
 
-   it('moves spaces at annotation boundaries to the outside', function () {
+  it('moves spaces at annotation boundaries to the outside', () => {
     let document = new AtJSON({
-      content: 'This is bold text',
+      content: 'This is bold text and a link.',
       annotations: [{
         type: 'bold', start: 8, end: 13
+      }, {
+        type: 'link', start: 23, end: 28, attributes: { href: 'https://example.com' }
       }]
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('This is **bold** text');
+    expect(renderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
   });
 });
