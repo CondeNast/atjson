@@ -1,5 +1,6 @@
 import { Annotation, AtJSON } from '@atjson/core';
-import { Token } from 'markdown-it';
+import ContentType from './index';
+import { Token, MarkdownIt } from 'markdown-it';
 
 export interface AttributeList {
   [key: string]: any;
@@ -17,9 +18,12 @@ export default class Parser {
   content: string;
   annotations: Annotation[];
 
+  private TAG_MAP: { [key: string]: string };
   private stack: TempAnnotation[];
+  private parser: MarkdownIt;
+  private contenttype: ContentType;
 
-  constructor(markdown: string, contenttype) {
+  constructor(markdown: string, contenttype: ContentType) {
     this.markdown = markdown;
     this.contenttype = contenttype;
     this.parser = this.contenttype.constructor.parser;
@@ -104,7 +108,7 @@ export default class Parser {
     }
   }
 
-  handleInlineToken(token) {
+  handleInlineToken(token: Token) {
     if (this.contenttype[token.type]) {
       this.contenttype[token.type](this, token);
     } else if (token.children) {
@@ -135,7 +139,8 @@ export default class Parser {
   }
 
   startToken(token: Token): void {
-    let attributes: AttributeList = (token.attrs || []).reduce(this.convertAttributesToAttributeList, {});
+    let attributes: AttributeList = {};
+    (token.attrs || []).reduce(this.convertAttributesToAttributeList, attributes);
 
     this.stack.push({
       type: token.tag,

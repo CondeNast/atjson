@@ -1,8 +1,12 @@
 import { AtJSON } from '@atjson/core';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
-import { Token } from 'markdown-it';
 import Parser from './parser';
+import { Token } from 'markdown-it';
+
+export interface AttributeList {
+  [key: string]: any;
+}
 
 export default class {
 
@@ -16,6 +20,8 @@ export default class {
     li: 'list-item'
   };
 
+  private parser: Parser;
+
   constructor(markdown: string) {
     this.parser = new Parser(markdown, this);
   }
@@ -24,7 +30,7 @@ export default class {
     return this.parser.parse();
   }
 
-  hardbreak(state, token) {
+  hardbreak(state: Parser, token: Token) {
     state.annotations.push({
       type: token.tag,
       start: state.content.length,
@@ -34,11 +40,11 @@ export default class {
     state.content += '\n';
   }
 
-  softbreak(state, token) {
+  softbreak(state: Parser) {
     state.content += '\n';
   }
 
-  hr(state, token) {
+  hr(state: Parser, token: Token) {
     state.annotations.push({
       type: token.tag,
       start: state.content.length,
@@ -47,7 +53,7 @@ export default class {
     });
   }
 
-  code_block(state, token) {
+  code_block(state: Parser, token: Token) {
     let attributes: AttributeList = (token.attrs || []).reduce(state.convertAttributesToAttributeList, {});
 
     state.annotations.push({
@@ -67,7 +73,7 @@ export default class {
     state.content += token.content;
   }
 
-  fence(state, token) {
+  fence(state: Parser, token: Token) {
     let attributes: AttributeList = (token.attrs || []).reduce(state.convertAttributesToAttributeList, {});
     let info = token.info ? token.info.trim() : '';
 
@@ -76,7 +82,7 @@ export default class {
       let ENTITY_RE       = /&([a-z#][a-z0-9]{1,31});/gi;
       let UNESCAPE_ALL_RE = new RegExp(UNESCAPE_MD_RE.source + '|' + ENTITY_RE.source, 'gi');
 
-      let unescapeAll = str => {
+      let unescapeAll = (str: string) => {
         if (str.indexOf('\\') < 0 && str.indexOf('&') < 0) { return str; }
 
         return str.replace(UNESCAPE_ALL_RE, (match, escaped, entity) => {
@@ -110,14 +116,14 @@ export default class {
     state.content += token.content;
   }
 
-  text(state, token) {
+  text(state: Parser, token: Token) {
     state.content += token.content;
   }
 
-  image(state, token) {
+  image(state: Parser, token: Token) {
     let attributes: AttributeList = (token.attrs || []).reduce(state.convertAttributesToAttributeList, {});
 
-    let getAltText = (imageToken, alt) => {
+    let getAltText = (imageToken: Token, alt: string) => {
       if (imageToken.children) {
         imageToken.children.forEach(child => {
           if (child.type === 'text') {

@@ -13,7 +13,6 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@atjson/contenttype-html": "^0.5.20",
-    "@atjson/core": "^0.5.12",
     "@atjson/hir": "^0.5.17",
     "@atjson/renderer-hir": "^0.5.20",
     "commonmark": "^0.28.1",
@@ -22,6 +21,7 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
+    "@atjson/core": "^0.5.12",
     "entities": "1.1.1",
     "markdown-it": "^8.4.0"
   }
