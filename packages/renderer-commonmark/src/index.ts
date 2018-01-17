@@ -30,11 +30,11 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   /**
-   * Bold text looks like **this** in Markdown.
+   * Bold text looks like __this__ in Markdown.
    */
   *'bold'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    return `${before}**${text}**${after}`;
+    return `${before}__${text}__${after}`;
   }
 
   /**

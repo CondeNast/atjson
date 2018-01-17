@@ -14,7 +14,7 @@ describe('commonmark', () => {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
-                 'Some text that is both **bold *and*** *italic* plus something after.');
+                 'Some text that is both __bold *and*__ *italic* plus something after.');
   });
 
   it('a plain text document with virtual paragraphs', () => {
@@ -30,7 +30,7 @@ describe('commonmark', () => {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
-                 'A paragraph with some **bold**\n\n**text** that continues into the next.');
+                 'A paragraph with some __bold__\n\n__text__ that continues into the next.');
   });
 
   it('a list', () => {
@@ -59,7 +59,7 @@ describe('commonmark', () => {
     expect(renderer.render(document)).toBe(
                  `I have a list:
 
-1. First item plus **bold** text
+1. First item plus __bold__ text
 2. Second item plus *italic* text
    - Item 2a
    - Item 2b
@@ -216,6 +216,6 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
+    expect(renderer.render(document)).toBe('This is __bold__ text and a [link](https://example.com).');
   });
 });
