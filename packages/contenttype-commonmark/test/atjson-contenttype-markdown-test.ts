@@ -5,8 +5,8 @@ describe('markdown -> atjson', function () {
     let markdown = '*hello* __world__';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 11, attributes: {} },
-      { type: 'em', start: 0, end: 5, attributes: {} },
-      { type: 'strong', start: 6, end: 11, attributes: {} }
+      { type: 'italic', start: 0, end: 5, attributes: {} },
+      { type: 'bold', start: 6, end: 11, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -33,7 +33,7 @@ describe('markdown -> atjson', function () {
     let markdown = 'foo __\\___';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 5, attributes: {} },
-      { type: 'strong', start: 4, end: 5, attributes: {} }
+      { type: 'bold', start: 4, end: 5, attributes: {} }
     ];
 
     let parser = new Parser(markdown);
@@ -74,9 +74,9 @@ describe('markdown -> atjson', function () {
     let markdown = '[link](/url "title")\n[link](/url \'title\')\n[link](/url (title))';
     let expectedAnnotations = [
       { type: 'paragraph', start: 0, end: 14, attributes: {} },
-      { type: 'a', start: 0, end: 4, attributes: { href: '/url', title: 'title' } },
-      { type: 'a', start: 5, end: 9, attributes: { href: '/url', title: 'title' } },
-      { type: 'a', start: 10, end: 14, attributes: { href: '/url', title: 'title' } }
+      { type: 'link', start: 0, end: 4, attributes: { href: '/url', title: 'title' } },
+      { type: 'link', start: 5, end: 9, attributes: { href: '/url', title: 'title' } },
+      { type: 'link', start: 10, end: 14, attributes: { href: '/url', title: 'title' } }
     ];
 
     let parser = new Parser(markdown);

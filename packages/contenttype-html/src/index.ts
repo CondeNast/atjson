@@ -7,7 +7,10 @@ const TAG_MAP: { [name: string]: string } = {
   ul: 'unordered-list',
   ol: 'ordered-list',
   li: 'list-item',
-  img: 'image'
+  img: 'image',
+  a: 'link',
+  em: 'italic',
+  strong: 'bold'
 };
 
 const isElement = (node: parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode): node is parse5.AST.Default.Element => {

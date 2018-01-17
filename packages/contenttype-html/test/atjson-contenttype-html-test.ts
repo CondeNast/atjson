@@ -73,7 +73,7 @@ describe('@atjson/contenttype-html', function () {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'a',
+        type: 'link',
         attributes: {
           href: 'https://example.com'
         },
@@ -189,7 +189,7 @@ describe('@atjson/contenttype-html', function () {
         attributes: {},
         children: [
           '**',
-          { type: 'a', attributes: {}, children: [] }
+          { type: 'link', attributes: {}, children: [] }
         ]
       }]
     });

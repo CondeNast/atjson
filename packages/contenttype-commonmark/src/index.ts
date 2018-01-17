@@ -17,7 +17,10 @@ export default class {
     img: 'image',
     ol: 'ordered-list',
     ul: 'unordered-list',
-    li: 'list-item'
+    li: 'list-item',
+    a: 'link',
+    em: 'italic',
+    strong: 'bold'
   };
 
   private parser: Parser;
