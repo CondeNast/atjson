@@ -103,6 +103,14 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   /**
+   * Fixed space in Commonmark is the unicode \u00A0 character
+   */
+  *'fixed-space'(): IterableIterator<string> {
+    let text = yield;
+    return '\u00A0';
+  },
+
+  /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
   *'link'(props: { href: string }): IterableIterator<string> {
