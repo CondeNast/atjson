@@ -157,6 +157,40 @@ A number of little notes distributed that morning by a footman in red livery had
 }]
 ```
 
+From here, we construct a hierarchical intermediate representation of the content. Loosely, this looks like:
+
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/tolstoy-hir.png)
+
+The output from this step allows us to generate output by walking the representation and having a class render the output for that node.
+
+Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annoations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
+
+Generating an HTML document from a document is all of this code:
+
+```js
+import Renderer, { escapeHTML } from '@atjson/renderer-hir';
+
+export default class HTMLOutput extends Renderer {
+  renderText(text: string): string {
+    return new Text(escapeHTML(text));
+  }
+
+  *renderAnnotation(annotation) {
+    let element = document.createElement(annotation.type);
+    Object.assign(element, annotation.attributes);
+    let children = yield;
+    for (let child in children) {
+      element.appendChild(child);
+    }
+    return element;
+  }
+};
+```
+
+The `renderText` method is called for every chunk of text in the document, to provide the ability to escape HTML or in the case above, create DOM text nodes from the text. `renderAnnotation` is a generator method that is called for each annotation in the document. When implementing this function, you must `yield` so annotations that are nested under the current one you're working on are surfaced.
+
+We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
+
 
 ## Core module
 
