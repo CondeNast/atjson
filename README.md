@@ -96,7 +96,7 @@ Objects can also be embedded in documents that can be expanded when the document
 
 We have a source document with annotations:
 
-![War and Peace](https://github.com/CondeNast-Copilot/atjson/tree/docs/public/tolstoy.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/tolstoy.png)
 
 This marked up document equates to:
 
