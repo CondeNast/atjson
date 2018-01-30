@@ -1,6 +1,6 @@
 import Document, { Annotation } from '@atjson/document';
+import { MarkdownIt, Token } from 'markdown-it';
 import ContentType from './index';
-import { Token, MarkdownIt } from 'markdown-it';
 
 export interface AttributeList {
   [key: string]: any;

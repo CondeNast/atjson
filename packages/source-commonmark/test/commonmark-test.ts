@@ -1,10 +1,10 @@
 /**
  * @jest-environment node
  */
-import Parser from '@atjson/contenttype-commonmark';
-import HTMLSource from '@atjson/source-html';
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
+import CommonMarkSource from '@atjson/source-commonmark';
+import HTMLSource from '@atjson/source-html';
 import * as spec from 'commonmark-spec';
 import process from 'process';
 
@@ -14,7 +14,7 @@ const testModules = spec.tests.reduce((modules: any, test: any) => {
   return modules;
 }, {});
 
-const augmentEmbeddedHTML = (mdAtJSON) => {
+const augmentEmbeddedHTML = mdAtJSON => {
 
   let embeddedHTMLAnnotations = mdAtJSON.annotations
     .filter(a => a.type === 'html' || a.type === '')
@@ -37,24 +37,24 @@ const augmentEmbeddedHTML = (mdAtJSON) => {
 
     embeddedHTMLAnnotations
       .filter(v => v.type === 'parse-token')
-      .forEach(v => mdAtJSON.deleteText(v))
+      .forEach(v => mdAtJSON.deleteText(v));
   }
 
   return mdAtJSON;
-}
+};
 
 Object.keys(testModules).forEach(moduleName => {
 
   if (moduleName.match(/html/i)) return;
   const moduleTests = testModules[moduleName];
 
-  describe(moduleName, function() {
+  describe(moduleName, () => {
     moduleTests.forEach((test: any): void => {
-      it('\n\n--- markdown --->' + test.markdown + '<---\n--- html --->' + test.html + '<---\n\n', function () {
+      it('\n\n--- markdown --->' + test.markdown + '<---\n--- html --->' + test.html + '<---\n\n', () => {
         test.markdown = test.markdown.replace(/→/g, '\t');
         test.html = test.html.replace(/→/g, '\t');
 
-        let parser = new Parser(test.markdown);
+        let parser = new CommonMarkSource(test.markdown);
         let htmlParser = new HTMLSource(test.html);
 
         let parsedMarkdown = parser.toAtJSON();

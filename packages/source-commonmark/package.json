@@ -1,7 +1,7 @@
 {
-  "name": "@atjson/contenttype-commonmark",
+  "name": "@atjson/source-commonmark",
   "version": "0.6.4",
-  "description": "A brand new TypeScript library.",
+  "description": "Create AtJSON documents from CommonMark.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
