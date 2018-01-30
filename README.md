@@ -6,7 +6,7 @@ AtJSON is a collection of repositories that together make up a fully-realized co
 |-------------|
 | [How does a document get rendered?](#how-does-a-document-get-rendered) |
 | [How do I use existing documents?](#how-do-i-use-existing-documents) |
-| [How do I create a new document?](#how-do-I-create-a-new-document) |
+| [How do I create a new document?](#how-do-i-create-a-new-document) |
 
 The breakdown of modules in this repository are:
 
