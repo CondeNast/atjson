@@ -1,9 +1,9 @@
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import CommonMarkRenderer from '@atjson/renderer-commonmark';
 
 describe('commonmark', () => {
   it('raw atjson document', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'Some text that is both bold and italic plus something after.',
       contentType: 'text/atjson',
       annotations: [
@@ -18,7 +18,7 @@ describe('commonmark', () => {
   });
 
   it('a plain text document with virtual paragraphs', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
         { type: 'paragraph', start: 0, end: 28 },
@@ -34,7 +34,7 @@ describe('commonmark', () => {
   });
 
   it('a list', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: ['I have a list:',
                 'First item plus bold text',
                 'Second item plus italic text',
@@ -68,7 +68,7 @@ After all the lists`);
   });
 
   it('links', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'I have a link',
       annotations: [{
         type: 'link', start: 9, end: 13, attributes: {
@@ -83,7 +83,7 @@ After all the lists`);
   });
 
   it('images', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: ' ',
       annotations: [{
         type: 'image', start: 0, end: 0, attributes: {
@@ -100,7 +100,7 @@ After all the lists`);
 
   describe('blockquote', () => {
     it('single quote', () => {
-      let document = new AtJSON({
+      let document = new Document({
         content: 'This is a quote\n\nThat has some\nlines in it.',
         annotations: [{
           type: 'blockquote', start: 0, end: 43
@@ -115,7 +115,7 @@ After all the lists`);
     });
 
     it('with a paragraph', () => {
-      let document = new AtJSON({
+      let document = new Document({
         content: 'This is a quoteAnd this is not.',
         annotations: [{
           type: 'blockquote', start: 0, end: 15
@@ -131,7 +131,7 @@ After all the lists`);
     });
 
     it('with flanking whitespace', () => {
-      let document = new AtJSON({
+      let document = new Document({
         content: '\n\nThis is a quote\nAnd this is not.',
         annotations: [{
           type: 'blockquote', start: 0, end: 18
@@ -147,7 +147,7 @@ After all the lists`);
     });
 
     it('with surrounding paragraphs', () => {
-      let document = new AtJSON({
+      let document = new Document({
         content: 'This is some text\n\nThis is a quote\n\nAnd this is not.',
         annotations: [{
           type: 'paragraph', start: 0, end: 19
@@ -170,7 +170,7 @@ After all the lists`);
   });
 
   it('handles horizontal-rules annotations', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'x\uFFFCy',
       contentType: 'text/atjson',
       annotations: [
@@ -185,7 +185,7 @@ After all the lists`);
   });
 
   it('headlines', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'Banner\nHeadline\n',
       annotations: [{
         type: 'heading', start: 0, end: 7, attributes: { level: 1 }
@@ -206,7 +206,7 @@ After all the lists`);
   });
 
   it('moves spaces at annotation boundaries to the outside', () => {
-    let document = new AtJSON({
+    let document = new Document({
       content: 'This is bold text and a link.',
       annotations: [{
         type: 'bold', start: 8, end: 13

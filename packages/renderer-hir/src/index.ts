@@ -1,4 +1,4 @@
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
 const escape = {
@@ -77,9 +77,9 @@ export default abstract class Renderer {
     return text;
   },
 
-  render(atjson: AtJSON | HIR): any {
+  render(atjson: Document | HIR): any {
     let annotationGraph;
-    if (atjson instanceof AtJSON) {
+    if (atjson instanceof Document) {
       annotationGraph = new HIR(atjson);
     } else if (atjson instanceof HIR) {
       annotationGraph = atjson;

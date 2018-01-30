@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/core';
+import { Annotation } from '@atjson/document';
 import { HIRNode } from '@atjson/hir';
 
 describe('@atjson/hir/hir-node', function () {

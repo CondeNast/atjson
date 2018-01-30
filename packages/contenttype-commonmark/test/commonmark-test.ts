@@ -3,7 +3,7 @@
  */
 import { Parser as HTMLParser } from '@atjson/contenttype-html';
 import Parser from '@atjson/contenttype-commonmark';
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
 import process from 'process';
 import * as spec from 'commonmark-spec';
@@ -60,7 +60,7 @@ Object.keys(testModules).forEach(moduleName => {
         let parsedMarkdown = parser.toAtJSON();
         let parsedHtml = htmlParser.parse();
 
-        let mdAtJSON = new AtJSON({
+        let mdAtJSON = new Document({
           content: parsedMarkdown.content,
           contentType: 'text/commonmark',
           annotations: parsedMarkdown.annotations
@@ -68,7 +68,7 @@ Object.keys(testModules).forEach(moduleName => {
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
 
-        let htmlAtJSON = new AtJSON({
+        let htmlAtJSON = new Document({
           content: test.html,
           contentType: 'text/html',
           annotations: parsedHtml

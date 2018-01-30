@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/core';
+import { Annotation } from '@atjson/document';
 import JSONNode from './json-node';
 
 const ROOT_NODE_RANK = 0;

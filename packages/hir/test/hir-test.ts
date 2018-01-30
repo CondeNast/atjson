@@ -1,11 +1,11 @@
-import { Annotation, AtJSON } from '@atjson/core';
+import Document, { Annotation } from '@atjson/document';
 import { HIR } from '@atjson/hir';
 
 type node = {
   type: string;
   attributes: any;
   children: node[];
-}|string;
+} | string;
 
 // HIR test helpers for quickly generating JSON for
 // the JSON output
@@ -78,7 +78,7 @@ describe('@atjson/hir', function () {
    */
 
   it('accepts atjson-shaped object', function () {
-    let validDoc = new AtJSON ({
+    let validDoc = new Document({
       content: 'test\ndocument\n\nnew paragraph',
       annotations: []
     });
@@ -98,7 +98,7 @@ describe('@atjson/hir', function () {
   describe('constructs a valid hierarchy', function () {
 
     it('from a document without nesting', function () {
-      let noNesting = new AtJSON({
+      let noNesting = new Document({
         content: 'A string with a bold and an italic annotation',
         annotations: [
           { type: 'bold', start: 16, end: 20 },
@@ -119,7 +119,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a document with nesting', function () {
-      let nested = new AtJSON({
+      let nested = new Document({
         content: 'I have a list:\n\nFirst item plus bold text\n\n' +
                  'Second item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
         annotations: [
@@ -152,7 +152,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a document with overlapping annotations at the same level', function () {
-      let overlapping = new AtJSON({
+      let overlapping = new Document({
         content: 'Some text that is both bold and italic plus something after.',
         annotations: [
           { type: 'bold', start: 23, end: 31 },
@@ -171,7 +171,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a document with overlapping annotations across heirarchical levels', function () {
-      let spanning = new AtJSON({
+      let spanning = new Document({
         content: 'A paragraph with some bold\n\ntext that continues into the next.',
         annotations: [
           { type: 'paragraph', start: 0, end: 28 },
@@ -195,7 +195,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a zero-length document with annotations', function () {
-      let zerolength = new AtJSON({
+      let zerolength = new Document({
         content: '',
         annotations: [
           { type: 'paragraph', start: 0, end: 0 },
@@ -209,7 +209,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a document with zero-length paragraphs', function () {
-      let zerolength = new AtJSON({
+      let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
           { type: 'paragraph', start: 0, end: 8 },
@@ -236,7 +236,7 @@ describe('@atjson/hir', function () {
     });
 
     it('from a document with a point annotation', function () {
-      let zerolength = new AtJSON({
+      let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
           { type: 'paragraph', start: 0, end: 8 },

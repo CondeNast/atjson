@@ -1,5 +1,5 @@
 import { Parser } from '@atjson/contenttype-html';
-import { Annotation, AtJSON } from '@atjson/core';
+import Document, { Annotation } from '@atjson/document';
 import PlainTextRenderer from '@atjson/renderer-plain-text';
 
 describe('PlainTextRenderer', function () {
@@ -16,7 +16,7 @@ describe('PlainTextRenderer', function () {
       }
     }];
 
-    let document = new AtJSON({
+    let document = new Document({
       content: '☎️👨🏻⛵️🐳👌🏼',
       contentType: 'text/plain',
       annotations
@@ -30,7 +30,7 @@ describe('PlainTextRenderer', function () {
     let parser = new Parser(html);
     let parsedHTML = parser.parse();
 
-    let document = new AtJSON({
+    let document = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHTML

@@ -1,5 +1,5 @@
 import { Parser } from '@atjson/contenttype-html';
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
 
 describe('@atjson/contenttype-html', function () {
@@ -9,7 +9,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -37,7 +37,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -62,7 +62,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -87,7 +87,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -112,7 +112,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -143,7 +143,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml
@@ -174,7 +174,7 @@ describe('@atjson/contenttype-html', function () {
     let parser = new Parser(html);
     let parsedHtml = parser.parse();
 
-    let htmlAtJSON = new AtJSON({
+    let htmlAtJSON = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHtml

@@ -1,4 +1,4 @@
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 import Parser from './parser';
@@ -29,7 +29,7 @@ export default class {
     this.parser = new Parser(markdown, this);
   }
 
-  toAtJSON(): AtJSON {
+  toAtJSON(): Document {
     return this.parser.parse();
   }
 

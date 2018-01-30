@@ -1,4 +1,4 @@
-import { Annotation, AtJSON } from '@atjson/core';
+import Document, { Annotation } from '@atjson/document';
 import ContentType from './index';
 import { Token, MarkdownIt } from 'markdown-it';
 
@@ -30,13 +30,13 @@ export default class Parser {
     this.TAG_MAP = this.contenttype.constructor.TAG_MAP;
   }
 
-  parse(): AtJSON {
+  parse(): Document {
     this.reset();
 
     let tokens = this.parser.parse(this.markdown, {});
     this.parseTokens(tokens);
 
-    return new AtJSON({
+    return new Document({
       content: this.content,
       annotations: this.annotations
     });

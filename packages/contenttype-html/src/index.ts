@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/core';
+import { Annotation } from '@atjson/document';
 
 import * as parse5 from 'parse5';
 
