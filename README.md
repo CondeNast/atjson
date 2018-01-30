@@ -96,7 +96,7 @@ Objects can also be embedded in documents that can be expanded when the document
 
 We have a source document with annotations:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/tolstoy.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/original-document.png)
 
 This marked up document equates to:
 
@@ -105,7 +105,7 @@ War and Peace
 Part First
 Chapter I.
 
-"Well, prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself. Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it."
+“Well, prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself. Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it.”
 
 It was on a July evening, 1805, that the famous Anna Pavlovna Scherer, maid of honor and confidant of the Empress Maria Feodorovna, thus greeted the influential statesman, Prince Vasili, who was the first to arrive at her reception.
 
@@ -113,9 +113,9 @@ Anna Pavlovna had been coughing for several days; she had the grippe, as she aff
 
 A number of little notes distributed that morning by a footman in red livery had been all couched in the same terms:—
 
-"If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. Annette Scherer"
+“If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. Annette Scherer”
 
-"Oh! what a savage attack!" rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren
+“Oh! what a savage attack!” rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren—
 ```
 
 
@@ -157,13 +157,76 @@ A number of little notes distributed that morning by a footman in red livery had
 }]
 ```
 
-From here, we construct a hierarchical intermediate representation of the content. Loosely, this looks like:
+This visually would look like:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/tolstoy-hir.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/annotated-document.png)
 
-The output from this step allows us to generate output by walking the representation and having a class render the output for that node.
+From here, we construct a hierarchical intermediate representation of the content.
 
-Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annoations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/hir-document.png)
+
+In JSON, this would roughly look like:
+
+```js
+{
+  type: "document",
+  children: [{
+    type: "title",
+    children: ["War and Peace"]
+  }, {
+    type: "horizontal-rule",
+    children: []
+  }, {
+    type: "part",
+    children: ["Part One"]
+  }, {
+    type: "chapter",
+    children: ["Chapter I."]
+  }, {
+    type: "paragraph",
+    children: ["“", {
+      type: "small-caps",
+      children: "Well"
+    }, ", prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself.", {
+      type: "footnote",
+      attributes: {  
+		    note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
+      }
+    }, Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it.”"
+  }, {  
+    type: "paragraph",
+    children: ["It was on a July evening, 1805, that the famous Anna Pavlovna Scherer, maid of honor and confidant of the Empress Maria Feodorovna, thus greeted the influential statesman, Prince Vasili, who was the first to arrive at her reception."]
+  }, {
+    type: "paragraph",
+    children: ["Anna Pavlovna had been coughing for several days; she had the ", {  
+      type: "italic",
+      children: ["grippe"]
+    }, ", as she affected to call her influenza — ", {  
+      type: "italic",
+      children: ["grippe"],
+    }, " at that time being a new word only occasionally employed."
+  }, {
+    type: "paragraph",
+    children: ["A number of little notes distributed that morning by a footman in red livery had been all couched in the same terms:—"]
+  }, {
+    type: "paragraph",
+    children: [{  
+      type: "blockquote",
+      children: ["“If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. ", {
+        type: "small-caps"
+        children: ["Annette Scherer"]
+      }, "”"]
+    }]
+  }, {
+    type: "paragraph",
+    children: ["“Oh! what a savage attack!” rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren—"]
+  }]
+]
+```
+
+This intermediate form allows us to generate output by walking the representation and having a class render the output for that node.
+
+Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annotations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
 
 Generating an HTML document from a document is all of this code:
 
