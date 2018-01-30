@@ -2,6 +2,26 @@
 
 AtJSON is a collection of repositories that together make up a fully-realized content format.
 
+| Quick Links |
+|-------------|
+| [How does a document get rendered?](#how-does-a-document-get-rendered) |
+| [How do I use existing documents?](#how-do-i-use-existing-documents) |
+| [How do I create a new document?](#how-do-I-create-a-new-document) |
+
+The breakdown of modules in this repository are:
+
+| Modules | Description|
+|---------|------------|
+| [@atjson/core](packages/core) | AtJSON document and annotation code |
+| [@atjson/hir](packages/hir) | HIR (Heirarchical Intermediate Representation) |
+| [@atjson/renderer-hir](packages/renderer-hir) | Abstract base class for text-based output |
+| [@atjson/renderer-plain-text](packages/renderer-plain-text) | Plain text output |
+| [@atjson/renderer-react](packages/renderer-react) | React output |
+| [@atjson/renderer-commonmark](packages/renderer-commonmark) | CommonMark output |
+| [@atjson/contenttype-commonmark](packages/contenttype-commonmark) | Conversion of CommonMark sources to AtJSON |
+| [@atjson/contenttype-html](packages/contenttype-html) | Conversion of HTML sources to AtJSON |
+
+
 #### Why another content format?
 
 Our goals at Condé Nast are to provide best-in-class content to our readers, and best-in-class tools for our editors. To do this, we need a format that can be rich, extensible, and portable. It is important that the content source provide little ambiguity about _how_ a story should be displayed.
@@ -254,19 +274,80 @@ The `renderText` method is called for every chunk of text in the document, to pr
 
 We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
 
+## How do I use existing documents? 
+AtJSON documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized AtJSON document.
 
-## Core module
+A markdown document, much like the one being written here, can be represented in AtJSON by annotating the document with the markup.
 
-FIXME intro docs here.
+This can be done using our built-in parser:
 
-[AtJSON](packages/core)
+```js
+import CommonMark from '@atjson/contenttype-commonmark';
 
-### Internals
+let document = new CommonMark("# Hello, world").toAtJSON();
+```
 
-HIR (Heirarchical Intermediate Representation): [@atjson/hir](packages/hir)  
-Plain Text Renderer: [@atjson/plain-text-renderer](packages/plain-text-renderer)  
-CommonMark Renderer: [@atjson/commonmark-renderer](packages/commonmark-renderer)  
-React Renderer: [@atjson/react-renderer](packages/react-renderer)  
+This will result in the following document:
+
+```js
+{
+  content: "# Hello, world",
+  annotations: [{
+    type: "heading",
+    attributes: {  
+      level: 1
+    },
+    start: 0,
+    end: 14
+  }, {  
+    type: "parse-token",
+    start: 0,
+    end: 2
+  }]
+}
+```
+
+The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `parse-token`, which we remove from the document during the output phase.
+
+When the intermediate representation is created, this document will be altered to look like:
+
+```js
+{
+  content: "Hello, world",
+  annotations: [{
+    type: "heading",
+    attributes: {  
+      level: 1
+    },
+    start: 0,
+    end: 12
+  }]
+}
+```
+
+## How do I create a new document?
+
+Documents can have annotations and text dynamically added and deleted from them. The APIs for this are designed to be easy-to-use (if they're not, please let us know :sweat_smile:)
+
+```js
+import { AtJSON } from '@atjson/core';
+
+let document = new AtJSON();
+document.insertText(0, 'Hello!');
+document.addAnnotations({
+  type: "bold",
+  start: 0,
+  end: 6
+});
+
+// This should extend the annotation
+document.insertText(5, " folks");
+
+// This will remove the text that covers this annotation,
+// resulting in an empty document
+document.removeText(document.annotations[0]);
+```
+
 
 ## Contributing
 
