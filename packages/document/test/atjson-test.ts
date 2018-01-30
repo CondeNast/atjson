@@ -1,19 +1,18 @@
-import { AtJSON } from '@atjson/core';
+import AtJSON from '@atjson/document';
 
-describe('new AtJSON', function () {
-  it('constructor accepts a string', function () {
+describe('new AtJSON', () => {
+  it('constructor accepts a string', () => {
     expect(new AtJSON('Hello World.')).toBeDefined();
   });
 
-  it('constructor accepts an object', function () {
+  it('constructor accepts an object', () => {
     expect(new AtJSON({content: 'Hello World.'})).toBeDefined();
   });
 
-  it('constructor will set annotations', function () {
+  it('constructor will set annotations', () => {
     expect(new AtJSON({
       content: 'Hello World.',
       annotations: [ { type: 'test', start: 0, end: 2 } ]
     })).toBeDefined();
   });
 });
-
