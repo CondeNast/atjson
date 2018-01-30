@@ -1,12 +1,12 @@
-import { Parser } from '@atjson/contenttype-html';
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
+import HTMLSource from '@atjson/source-html';
 
-describe('@atjson/contenttype-html', function () {
-  it('pre-code', function () {
+describe('@atjson/source-html', () => {
+  it('pre-code', () => {
     let html = '<pre><code>this <b>is</b> a test</code></pre>';
 
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -32,9 +32,9 @@ describe('@atjson/contenttype-html', function () {
     );
   });
 
-  it('<p>aaa<br />\nbbb</p>', function () {
+  it('<p>aaa<br />\nbbb</p>', () => {
     let html = '<p>aaa<br />\nbbb</p>';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -57,9 +57,9 @@ describe('@atjson/contenttype-html', function () {
     });
   });
 
-  it('<a href="https://example.com">example</a>', function () {
+  it('<a href="https://example.com">example</a>', () => {
     let html = '<a href="https://example.com">example</a>';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -82,9 +82,9 @@ describe('@atjson/contenttype-html', function () {
     });
   });
 
-  it('<img src="https://example.com/test.png" /> ', function () {
+  it('<img src="https://example.com/test.png" /> ', () => {
     let html = '<img src="https://example.com/test.png" /> ';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -107,9 +107,9 @@ describe('@atjson/contenttype-html', function () {
     });
   });
 
-  it('<h2></h2>\n<h1></h1>\n<h3></h3>', function () {
+  it('<h2></h2>\n<h1></h1>\n<h3></h3>', () => {
     let html = '<h2></h2>\n<h1></h1>\n<h3></h3>';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -140,7 +140,7 @@ describe('@atjson/contenttype-html', function () {
 
   it('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
     let html = '<p><img src="/url" alt="Foo" title="title" /></p>';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({
@@ -171,7 +171,7 @@ describe('@atjson/contenttype-html', function () {
 
   it('<p>**<a href="**"></p> CURRENT', () => {
     let html = '<p>**<a href="**"></p>';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHtml = parser.parse();
 
     let htmlAtJSON = new Document({

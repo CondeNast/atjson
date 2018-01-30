@@ -1,12 +1,12 @@
 /**
  * @jest-environment node
  */
-import { Parser as HTMLParser } from '@atjson/contenttype-html';
 import Parser from '@atjson/contenttype-commonmark';
+import HTMLSource from '@atjson/source-html';
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
-import process from 'process';
 import * as spec from 'commonmark-spec';
+import process from 'process';
 
 const testModules = spec.tests.reduce((modules: any, test: any) => {
   if (!modules[test.section]) modules[test.section] = [];
@@ -19,7 +19,7 @@ const augmentEmbeddedHTML = (mdAtJSON) => {
   let embeddedHTMLAnnotations = mdAtJSON.annotations
     .filter(a => a.type === 'html' || a.type === '')
     .map(a => {
-      let p = new HTMLParser(mdAtJSON.content.substr(a.start, a.end));
+      let p = new HTMLSource(mdAtJSON.content.substr(a.start, a.end));
       let h = p.parse();
       return h.map(v => {
           v.start += a.start;
@@ -55,7 +55,7 @@ Object.keys(testModules).forEach(moduleName => {
         test.html = test.html.replace(/→/g, '\t');
 
         let parser = new Parser(test.markdown);
-        let htmlParser = new HTMLParser(test.html);
+        let htmlParser = new HTMLSource(test.html);
 
         let parsedMarkdown = parser.toAtJSON();
         let parsedHtml = htmlParser.parse();
