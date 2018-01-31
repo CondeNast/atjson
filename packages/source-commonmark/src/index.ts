@@ -1,8 +1,8 @@
 import Document from '@atjson/document';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
-import Parser from './parser';
 import { Token } from 'markdown-it';
+import Parser from './parser';
 
 export interface AttributeList {
   [key: string]: any;

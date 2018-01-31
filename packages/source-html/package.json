@@ -1,7 +1,7 @@
 {
-  "name": "@atjson/contenttype-html",
+  "name": "@atjson/source-html",
   "version": "0.6.4",
-  "description": "A brand new TypeScript library.",
+  "description": "Create AtJSON documents from HTML source",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",

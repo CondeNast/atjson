@@ -1,6 +1,6 @@
-import { Parser } from '@atjson/contenttype-html';
 import Document, { Annotation } from '@atjson/document';
 import PlainTextRenderer from '@atjson/renderer-plain-text';
+import HTMLSource from '@atjson/source-html';
 
 describe('PlainTextRenderer', function () {
   it('returns the text from the atjson document', function () {
@@ -27,7 +27,7 @@ describe('PlainTextRenderer', function () {
 
   it('strips virtual annotations', function () {
     let html = '<p>This is some <em>fancy</em> <span class="fancy">text</span>.';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHTML = parser.parse();
 
     let document = new Document({
