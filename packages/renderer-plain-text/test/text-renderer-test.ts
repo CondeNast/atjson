@@ -1,6 +1,6 @@
-import { Parser } from '@atjson/contenttype-html';
-import { Annotation, AtJSON } from '@atjson/core';
+import Document, { Annotation } from '@atjson/document';
 import PlainTextRenderer from '@atjson/renderer-plain-text';
+import HTMLSource from '@atjson/source-html';
 
 describe('PlainTextRenderer', function () {
   it('returns the text from the atjson document', function () {
@@ -16,7 +16,7 @@ describe('PlainTextRenderer', function () {
       }
     }];
 
-    let document = new AtJSON({
+    let document = new Document({
       content: '☎️👨🏻⛵️🐳👌🏼',
       contentType: 'text/plain',
       annotations
@@ -27,10 +27,10 @@ describe('PlainTextRenderer', function () {
 
   it('strips virtual annotations', function () {
     let html = '<p>This is some <em>fancy</em> <span class="fancy">text</span>.';
-    let parser = new Parser(html);
+    let parser = new HTMLSource(html);
     let parsedHTML = parser.parse();
 
-    let document = new AtJSON({
+    let document = new Document({
       content: html,
       contentType: 'text/html',
       annotations: parsedHTML

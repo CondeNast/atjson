@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/core';
+import { Annotation } from '@atjson/document';
 
 import * as parse5 from 'parse5';
 
@@ -24,7 +24,7 @@ const isParentNode = (node: parse5.AST.Default.DocumentFragment | any): node is 
   return (node as parse5.AST.Default.DocumentFragment).nodeName === '#document-fragment';
 };
 
-export class Parser {
+export default class Parser {
 
   content: string;
 

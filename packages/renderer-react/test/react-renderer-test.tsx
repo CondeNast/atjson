@@ -1,9 +1,9 @@
 import ReactRenderer from '@atjson/renderer-react';
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 
-function renderDocument(renderer: ReactRenderer, doc: AtJSON): string {
+function renderDocument(renderer: ReactRenderer, doc: Document): string {
   return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
 }
 
@@ -21,7 +21,7 @@ describe('ReactRenderer', function () {
       }
     });
 
-    let document = new AtJSON({
+    let document = new Document({
       content: 'This is bold and italic text',
       annotations: [{
         type: 'bold', start: 8, end: 17
@@ -76,7 +76,7 @@ describe('ReactRenderer', function () {
     });
 
     it('renders nested components', function () {
-      let doc = new AtJSON({
+      let doc = new Document({
         content: 'Good boy\n ',
         annotations: [{
           type: 'link', start: 0, end: 10, attributes: {
@@ -100,7 +100,7 @@ describe('ReactRenderer', function () {
     });
 
     it('reuses renderers', function () {
-      let doc = new AtJSON({
+      let doc = new Document({
         content: 'Another good boy\n ',
         annotations: [{
           type: 'link', start: 0, end: 19, attributes: {

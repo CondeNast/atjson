@@ -15,7 +15,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/core": "^0.5.12",
+    "@atjson/document": "^0.5.12",
     "@atjson/hir": "^0.5.17",
     "tslint": "^5.7.0",
     "typescript": "^2.4.2"

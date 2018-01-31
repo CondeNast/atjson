@@ -1,4 +1,4 @@
-import { Annotation, AtJSON } from '@atjson/core';
+import AtJSON, { Annotation } from '@atjson/document';
 import * as entities from 'entities';
 import HIRNode from './hir-node';
 import JSONNode from './json-node';

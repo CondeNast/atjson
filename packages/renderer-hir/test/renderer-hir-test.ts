@@ -1,10 +1,10 @@
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 import HIRRenderer, { escapeHTML } from '@atjson/renderer-hir';
 
 describe('@atjson/renderer-hir', function () {
   it('defines an abstract rendering interface', function () {
-    let atjson = new AtJSON({
+    let atjson = new Document({
       content: 'This is bold and italic text',
       annotations: [{
         type: 'bold', start: 8, end: 17
@@ -43,7 +43,7 @@ describe('@atjson/renderer-hir', function () {
   });
 
   it('escapes HTML entities in text', function () {
-    let atjson = new AtJSON({
+    let atjson = new Document({
       content: `This <html-element with="param" and-another='param'> should render as plain text`
     });
 
