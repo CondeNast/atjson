@@ -12,14 +12,14 @@ The breakdown of modules in this repository are:
 
 | Modules | Description|
 |---------|------------|
-| [@atjson/core](packages/core) | AtJSON document and annotation code |
+| [@atjson/document](packages/document) | AtJSON document and annotation code |
 | [@atjson/hir](packages/hir) | HIR (Heirarchical Intermediate Representation) |
 | [@atjson/renderer-hir](packages/renderer-hir) | Abstract base class for text-based output |
 | [@atjson/renderer-plain-text](packages/renderer-plain-text) | Plain text output |
 | [@atjson/renderer-react](packages/renderer-react) | React output |
 | [@atjson/renderer-commonmark](packages/renderer-commonmark) | CommonMark output |
-| [@atjson/contenttype-commonmark](packages/contenttype-commonmark) | Conversion of CommonMark sources to AtJSON |
-| [@atjson/contenttype-html](packages/contenttype-html) | Conversion of HTML sources to AtJSON |
+| [@atjson/source-commonmark](packages/source-commonmark) | Conversion of CommonMark sources to AtJSON |
+| [@atjson/source-html](packages/source-html) | Conversion of HTML sources to AtJSON |
 
 
 #### Why another content format?
@@ -54,6 +54,18 @@ Stylistic annotations are easily layered on a document using a positional annota
 }
 ```
 
+This document looks like:
+
+> The _best_ writing anywhere, everywhere.
+
+Positions represent the space *in-between* characters in the document. That means an annotation that starts at 0 starts before any character in the document. How the indexing works is as the following:
+
+```
+ H e l l o
+^ ^ ^ ^ ^ ^
+0 1 2 3 4 5
+```
+
 #### What can I use annotations for?
 
 Annotations can be used for anything to describe the content.
@@ -61,13 +73,13 @@ Annotations can be used for anything to describe the content.
 Some common annotations for editorial purposes are comments and suggestions. Comments use annotation offsets to comment on a specific portion of the document:
 
 ```js
-{  
+{
   "content": "Cat Person",
-  "annotations": [{  
+  "annotations": [{
     type: "comment",
     start: 0,
     end: 9
-    attributes: {  
+    attributes: {
       author: "Eustace Tilley",
       writtenAt: "2018-01-05 21:00T"
       comment: "What about dog people?"
@@ -79,9 +91,9 @@ Some common annotations for editorial purposes are comments and suggestions. Com
 In addition to comments, suggestions can be made to the text in the same manner as comments:
 
 ```js
-{  
+{
   "content": "Reeducation",
-  "annotations": [{  
+  "annotations": [{
     type: "suggested-replacement",
     start: 2,
     end: 3
@@ -97,17 +109,17 @@ In addition to comments, suggestions can be made to the text in the same manner 
 Objects can also be embedded in documents that can be expanded when the document is reified to its final output:
 
 ```js
-{  
+{
   "content": "￼",
   "annotations": [{
     type: "image",
     start: 0,
     end: 1,
-    attributes: {  
+    attributes: {
       alt: "Logo",
       url: ""
     }
-  }] 
+  }]
 }
 ```
 
@@ -144,7 +156,7 @@ A number of little notes distributed that morning by a footman in red livery had
   type: "heading",
   start: 0,
   end: 13,
-  attributes: {  
+  attributes: {
     level: 1
   }
 }, {
@@ -155,10 +167,10 @@ A number of little notes distributed that morning by a footman in red livery had
   type: "footnote",
   start: 37,
   end: 478,
-  attributes: {  
+  attributes: {
     note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
   }
-}, {  
+}, {
   type: "italic",
   start: 863,
   end: 869
@@ -209,19 +221,19 @@ In JSON, this would roughly look like:
       children: "Well"
     }, ", prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself.", {
       type: "footnote",
-      attributes: {  
+      attributes: {
         note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
       }
     }, "Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it.”"
-  }, {  
+  }, {
     type: "paragraph",
     children: ["It was on a July evening, 1805, that the famous Anna Pavlovna Scherer, maid of honor and confidant of the Empress Maria Feodorovna, thus greeted the influential statesman, Prince Vasili, who was the first to arrive at her reception."]
   }, {
     type: "paragraph",
-    children: ["Anna Pavlovna had been coughing for several days; she had the ", {  
+    children: ["Anna Pavlovna had been coughing for several days; she had the ", {
       type: "italic",
       children: ["grippe"]
-    }, ", as she affected to call her influenza — ", {  
+    }, ", as she affected to call her influenza — ", {
       type: "italic",
       children: ["grippe"],
     }, " at that time being a new word only occasionally employed."
@@ -230,7 +242,7 @@ In JSON, this would roughly look like:
     children: ["A number of little notes distributed that morning by a footman in red livery had been all couched in the same terms:—"]
   }, {
     type: "paragraph",
-    children: [{  
+    children: [{
       type: "blockquote",
       children: ["“If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. ", {
         type: "small-caps"
@@ -282,9 +294,9 @@ A markdown document, much like the one being written here, can be represented in
 This can be done using our built-in parser:
 
 ```js
-import CommonMark from '@atjson/contenttype-commonmark';
+import CommonMarkSource from '@atjson/source-commonmark';
 
-let document = new CommonMark("# Hello, world").toAtJSON();
+let document = new CommonMarkSource("# Hello, world").toAtJSON();
 ```
 
 This will result in the following document:
@@ -294,12 +306,12 @@ This will result in the following document:
   content: "# Hello, world",
   annotations: [{
     type: "heading",
-    attributes: {  
+    attributes: {
       level: 1
     },
     start: 0,
     end: 14
-  }, {  
+  }, {
     type: "parse-token",
     start: 0,
     end: 2
@@ -316,7 +328,7 @@ When the intermediate representation is created, this document will be altered t
   content: "Hello, world",
   annotations: [{
     type: "heading",
-    attributes: {  
+    attributes: {
       level: 1
     },
     start: 0,
@@ -330,9 +342,9 @@ When the intermediate representation is created, this document will be altered t
 Documents can have annotations and text dynamically added and deleted from them. The APIs for this are designed to be easy-to-use (if they're not, please let us know :sweat_smile:)
 
 ```js
-import { AtJSON } from '@atjson/core';
+import Document from '@atjson/document';
 
-let document = new AtJSON();
+let document = new Document();
 document.insertText(0, 'Hello!');
 document.addAnnotations({
   type: "bold",
