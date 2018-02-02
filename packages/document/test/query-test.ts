@@ -58,6 +58,29 @@ describe('Document.where', () => {
     }]);
   });
 
+  it('set', () => {
+    let doc = new Document({
+      content: 'Hello',
+      annotations: []
+    });
+
+    doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } }).done();
+    doc.addAnnotations({
+      type: 'h1',
+      start: 0,
+      end: 5
+    });
+    expect(doc.content).toBe('Hello');
+    expect(doc.annotations).toEqual([{
+      type: 'heading',
+      attributes: {
+        level: 1
+      },
+      start: 0,
+      end: 5
+    }]);
+  });
+
   it('unset', () => {
     let doc = new Document({
       content: '\uFFFC\uFFFC',
