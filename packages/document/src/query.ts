@@ -96,7 +96,30 @@ export default class Query {
     return newAnnotation;
   }
 
-  addTransform(transform: Transform) {
+  set(patch: any): Query {
+    return this.then((annotation: Annotation) => {
+      return Object.assign(clone(annotation), clone(patch));
+    });
+  }
+
+  unset(...keys: string[]): Query {
+    return this.then((annotation: Annotation) => {
+      return without(annotation, keys);
+    });
+  }
+
+  map(mapping: Mapping): Query {
+    return this.then((annotation: Annotation) => {
+      let result = without(annotation, Object.keys(mapping));
+      Object.keys(mapping).forEach(key => {
+        let value = get(annotation, key);
+        set(result, mapping[key], value);
+      });
+      return result;
+    });
+  }
+
+  then(transform: Transform): Query {
     this.transforms.push(transform);
     this.currentAnnotations = this.currentAnnotations.map(annotation => {
       let alteredAnnotation = transform(annotation);
@@ -107,43 +130,10 @@ export default class Query {
       }
       return alteredAnnotation;
     });
-  }
-
-  set(patch: any): Query {
-    this.addTransform((annotation: Annotation) => {
-      return Object.assign(clone(annotation), clone(patch));
-    });
-    return this;
-  }
-
-  unset(...keys: string[]): Query {
-    this.addTransform((annotation: Annotation) => {
-      return without(annotation, keys);
-    });
-    return this;
-  }
-
-  map(mapping: Mapping): Query {
-    this.addTransform((annotation: Annotation) => {
-      let result = without(annotation, Object.keys(mapping));
-      Object.keys(mapping).forEach(key => {
-        let value = get(annotation, key);
-        set(result, mapping[key], value);
-      });
-      return result;
-    });
-    return this;
-  }
-
-  then(method: Transform): Query {
-    this.addTransform(method);
     return this;
   }
 
   remove(): Query {
-    this.addTransform(() => {
-      return null;
-    });
-    return this;
+    return this.then(() => null);
   }
 }
