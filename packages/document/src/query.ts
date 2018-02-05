@@ -10,7 +10,7 @@ export interface Filter {
 }
 
 interface Mapping {
-  [key: string]: string;
+  [key: string]: string | Mapping;
 }
 
 interface TransformsByType {
@@ -59,6 +59,25 @@ function set(object: any, key: string, value: any) {
     set(object[path], rest.join('.'), value);
   }
   return;
+}
+
+function flattenKeys(mapping: Mapping, prefix?: string): Mapping {
+  return Object.keys(mapping).reduce((result: Mapping, key: string) => {
+    let value = mapping[key];
+    let fullyQualifiedKey = key;
+    if (prefix) {
+      fullyQualifiedKey = `${prefix}.${key}`;
+      if (typeof value === 'string') {
+        value = `${prefix}.${value}`;
+      }
+    }
+    if (typeof value === 'string') {
+      result[fullyQualifiedKey] = value;
+    } else {
+      Object.assign(result, flattenKeys(value, fullyQualifiedKey));
+    }
+    return result;
+  }, {});
 }
 
 function matches(annotation: Annotation, filter: Filter) {
@@ -110,11 +129,12 @@ export default class Query {
 
   map(mapping: Mapping | Transform): Query {
     if (typeof mapping === 'object') {
+      let flattenedMapping = flattenKeys(mapping);
       return this.map((annotation: Annotation) => {
-        let result = without(annotation, Object.keys(mapping));
-        Object.keys(mapping).forEach(key => {
+        let result = without(annotation, Object.keys(flattenedMapping));
+        Object.keys(flattenedMapping).forEach(key => {
           let value = get(annotation, key);
-          set(result, mapping[key], value);
+          set(result, flattenedMapping[key], value);
         });
         return result;
       });

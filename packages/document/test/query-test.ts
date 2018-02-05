@@ -136,7 +136,7 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).map({ 'attributes.href': 'attributes.url' });
+    doc.where({ type: 'a' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
     doc.addAnnotations({
       type: 'a',
       attributes: {
