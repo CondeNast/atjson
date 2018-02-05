@@ -97,43 +97,43 @@ export default class Query {
   }
 
   set(patch: any): Query {
-    return this.then((annotation: Annotation) => {
+    return this.map((annotation: Annotation) => {
       return Object.assign(clone(annotation), clone(patch));
     });
   }
 
   unset(...keys: string[]): Query {
-    return this.then((annotation: Annotation) => {
+    return this.map((annotation: Annotation) => {
       return without(annotation, keys);
     });
   }
 
-  map(mapping: Mapping): Query {
-    return this.then((annotation: Annotation) => {
-      let result = without(annotation, Object.keys(mapping));
-      Object.keys(mapping).forEach(key => {
-        let value = get(annotation, key);
-        set(result, mapping[key], value);
+  map(mapping: Mapping | Transform): Query {
+    if (typeof mapping === 'object') {
+      return this.map((annotation: Annotation) => {
+        let result = without(annotation, Object.keys(mapping));
+        Object.keys(mapping).forEach(key => {
+          let value = get(annotation, key);
+          set(result, mapping[key], value);
+        });
+        return result;
       });
-      return result;
-    });
-  }
-
-  then(transform: Transform): Query {
-    this.transforms.push(transform);
-    this.currentAnnotations = this.currentAnnotations.map(annotation => {
-      let alteredAnnotation = transform(annotation);
-      if (alteredAnnotation == null) {
-        this.document.removeAnnotation(annotation);
-      } else {
-        this.document.replaceAnnotation(annotation, alteredAnnotation);
-      }
-      return alteredAnnotation;
-    });
-    return this;
+    } else {
+      this.transforms.push(mapping);
+      this.currentAnnotations = this.currentAnnotations.map(annotation => {
+        let alteredAnnotation = mapping(annotation);
+        if (alteredAnnotation == null) {
+          this.document.removeAnnotation(annotation);
+        } else {
+          this.document.replaceAnnotation(annotation, alteredAnnotation);
+        }
+        return alteredAnnotation;
+      });
+      return this;
+    }
   }
 
   remove(): Query {
-    return this.then(() => null);
+    return this.map(() => null);
   }
 }

@@ -163,6 +163,58 @@ describe('Document.where', () => {
     }]);
   });
 
+  it('map with function', () => {
+    let doc = new Document({
+      content: 'Conde Nast',
+      annotations: [{
+        type: 'a',
+        attributes: {
+          href: 'https://example.com'
+        },
+        start: 0,
+        end: 5
+      }]
+    });
+
+    doc.where({ type: 'a' }).map((annotation: Annotation) => {
+      return {
+        type: 'link',
+        start: annotation.start,
+        end: annotation.end,
+        attributes: {
+          url: annotation.attributes.href,
+          openInNewTab: true
+        }
+      };
+    });
+    doc.addAnnotations({
+      type: 'a',
+      attributes: {
+        href: 'https://condenast.com'
+      },
+      start: 6,
+      end: 10
+    });
+    expect(doc.content).toBe('Conde Nast');
+    expect(doc.annotations).toEqual([{
+      type: 'link',
+      attributes: {
+        url: 'https://example.com',
+        openInNewTab: true
+      },
+      start: 0,
+      end: 5
+    }, {
+      type: 'link',
+      attributes: {
+        url: 'https://condenast.com',
+        openInNewTab: true
+      },
+      start: 6,
+      end: 10
+    }]);
+  });
+
   it('remove', () => {
     let doc = new Document({
       content: 'function () {}',
