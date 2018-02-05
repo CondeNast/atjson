@@ -1,4 +1,5 @@
-import Document from '../index';
+import Annotation from './annotation';
+import Document from './index';
 
 interface AttributeList {
   [key: string]: any;
@@ -16,7 +17,7 @@ interface TransformsByType {
   [key: string]: DeferredTransform[];
 }
 
-type Transform = (annotation: Annotation, atjson: AtJSON) => Annotation;
+type Transform = (annotation: Annotation, document: Document) => Annotation;
 
 function clone(object) {
   return JSON.parse(JSON.stringify(object));
@@ -73,17 +74,21 @@ function matches(annotation: Annotation, filter: Filter) {
 export default class Query {
   filter: Filter;
   private transforms: Transform[];
+  private currentAnnotations: Annotation[];
 
   constructor(document: Document, filter: Filter) {
     this.document = document;
     this.filter = filter;
     this.transforms = [(annotation: Annotation) => annotation];
+    this.currentAnnotations = document.annotations.filter(annotation => matches(annotation, this.filter));
   }
 
   run(newAnnotation: Annotation) {
+    // Release the list of currently filtered annotations
+    this.currentAnnotations = [];
     if (matches(newAnnotation, this.filter)) {
       let alteredAnnotation = this.transforms.reduce((annotation: Annotation, transform: Transform) => {
-        return transform(annotation, document);
+        return transform(annotation);
       }, newAnnotation);
 
       return alteredAnnotation;
@@ -91,28 +96,35 @@ export default class Query {
     return newAnnotation;
   }
 
-  done() {
-    let newAnnotations = this.document.annotations.map(annotation => this.run(annotation))
-                                                  .filter(annotation => annotation != null);
-    this.document.annotations = newAnnotations;
+  addTransform(transform: Transform) {
+    this.transforms.push(transform);
+    this.currentAnnotations = this.currentAnnotations.map(annotation => {
+      let alteredAnnotation = transform(annotation);
+      if (alteredAnnotation == null) {
+        this.document.removeAnnotation(annotation);
+      } else {
+        this.document.replaceAnnotation(annotation, alteredAnnotation);
+      }
+      return alteredAnnotation;
+    });
   }
 
   set(patch: any): Query {
-    this.transforms.push((annotation: Annotation) => {
+    this.addTransform((annotation: Annotation) => {
       return Object.assign(clone(annotation), clone(patch));
     });
     return this;
   }
 
   unset(...keys: string[]): Query {
-    this.transforms.push((annotation: Annotation) => {
+    this.addTransform((annotation: Annotation) => {
       return without(annotation, keys);
     });
     return this;
   }
 
   map(mapping: Mapping): Query {
-    this.transforms.push((annotation: Annotation) => {
+    this.addTransform((annotation: Annotation) => {
       let result = without(annotation, Object.keys(mapping));
       Object.keys(mapping).forEach(key => {
         let value = get(annotation, key);
@@ -124,12 +136,12 @@ export default class Query {
   }
 
   then(method: Transform): Query {
-    this.transforms.push(method);
+    this.addTransform(method);
     return this;
   }
 
   remove(): Query {
-    this.transforms.push(() => {
+    this.addTransform(() => {
       return null;
     });
     return this;

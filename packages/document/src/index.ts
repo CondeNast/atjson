@@ -70,6 +70,13 @@ export default class AtJSON {
     }
   }
 
+  replaceAnnotation(annotation: Annotation, newAnnotation: Annotation): void {
+    let index = this.annotations.indexOf(annotation);
+    if (index > -1) {
+      this.annotations.splice(index, 1, newAnnotation);
+    }
+  }
+
   insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
     if (position < 0 || position > this.content.length) throw new Error('Invalid position.');
 

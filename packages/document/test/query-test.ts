@@ -15,8 +15,8 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'strong' }).set({ type: 'bold' }).done();
-    doc.where({ type: 'em' }).set({ type: 'italic' }).done();
+    doc.where({ type: 'strong' }).set({ type: 'bold' });
+    doc.where({ type: 'em' }).set({ type: 'italic' });
     expect(doc.content).toBe('Hello');
     expect(doc.annotations).toEqual([{
       type: 'bold',
@@ -35,8 +35,8 @@ describe('Document.where', () => {
       annotations: []
     });
 
-    doc.where({ type: 'strong' }).set({ type: 'bold' }).done();
-    doc.where({ type: 'em' }).set({ type: 'italic' }).done();
+    doc.where({ type: 'strong' }).set({ type: 'bold' });
+    doc.where({ type: 'em' }).set({ type: 'italic' });
     doc.addAnnotations({
       type: 'strong',
       start: 0,
@@ -64,7 +64,7 @@ describe('Document.where', () => {
       annotations: []
     });
 
-    doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } }).done();
+    doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } });
     doc.addAnnotations({
       type: 'h1',
       start: 0,
@@ -95,7 +95,7 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'embed', attributes: { type: 'instagram' } }).set({ type: 'instagram' }).unset('attributes.type').done();
+    doc.where({ type: 'embed', attributes: { type: 'instagram' } }).set({ type: 'instagram' }).unset('attributes.type');
     doc.addAnnotations({
       type: 'embed',
       attributes: {
@@ -136,7 +136,7 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).map({ 'attributes.href': 'attributes.url' }).done();
+    doc.where({ type: 'a' }).set({ type: 'link' }).map({ 'attributes.href': 'attributes.url' });
     doc.addAnnotations({
       type: 'a',
       attributes: {
@@ -173,7 +173,7 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'code' }).remove().done();
+    doc.where({ type: 'code' }).remove();
     doc.addAnnotations({
       type: 'code',
       start: 0,
