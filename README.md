@@ -128,7 +128,7 @@ Objects can also be embedded in documents that can be expanded when the document
 
 We have a source document with annotations:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/original-document.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/original-document.png)
 
 This marked up document equates to:
 
@@ -191,11 +191,11 @@ A number of little notes distributed that morning by a footman in red livery had
 
 This visually would look like:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/annotated-document.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/annotated-document.png)
 
 From here, we construct a hierarchical intermediate representation of the content.
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/docs/public/hir-document.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/hir-document.png)
 
 In JSON, this would roughly look like:
 
