@@ -1,4 +1,5 @@
 import Annotation from './annotation';
+import Query, { Filter } from './query';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
@@ -10,17 +11,56 @@ export default class AtJSON {
   contentType?: string;
   annotations: Annotation[];
 
+  private queries: Query[];
+
   constructor(options: { content: string, annotations?: Annotation[], contentType?: string } | string) {
     if (typeof options === 'string') {
       options = { content: options };
     }
     this.content = options.content;
-    this.annotations = options.annotations || [] as Annotation[];
+    this.annotations = options.annotations || [];
     this.contentType = options.contentType || 'text/plain';
   }
 
-  addAnnotations(annotations: Annotation | Annotation[]): void {
-    this.annotations = this.annotations.concat(annotations);
+  /**
+    Annotations must be explicitly allowed unless they
+    are added to the annotations array directly- this is
+    acceptable, but side-affects created by queries will
+    not be called.
+   */
+  addAnnotations(...annotations: Annotation[]): void {
+    annotations.forEach(newAnnotation => {
+      let finalizedAnnotation = this.queries.reduce((annotation, query) => {
+        return query.run(annotation);
+      }, newAnnotation);
+      if (finalizedAnnotation != null) {
+        this.annotations.push(finalizedAnnotation);
+      }
+    });
+  }
+
+  /**
+    Add imperitive queries here. These are used to dynamically
+    change annotations before they get inserted into the document,
+    making the process of reconciliation easier.
+
+    A simple example of this is transforming a document parsed from
+    an HTML document into a common format:
+
+    html.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 }});
+
+    When the attribute for `h1` is added to the document, it will
+    be swapped out for a `heading` with a level of 1.
+
+    Other options available are renaming variables:
+
+    html.where({ type: 'img' }).set({ 'attributes.src': 'attributes.url' });
+   */
+  where(filter: Filter): Query {
+    let query = new Query(this, filter);
+    this.queries = this.queries || [];
+    this.queries.push(query);
+    return query;
   }
 
   removeAnnotation(annotation: Annotation): Annotation | void {
@@ -30,8 +70,14 @@ export default class AtJSON {
     }
   }
 
-  insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
+  replaceAnnotation(annotation: Annotation, newAnnotation: Annotation): void {
+    let index = this.annotations.indexOf(annotation);
+    if (index > -1) {
+      this.annotations.splice(index, 1, newAnnotation);
+    }
+  }
 
+  insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
     if (position < 0 || position > this.content.length) throw new Error('Invalid position.');
 
     const length = text.length;
