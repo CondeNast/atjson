@@ -2,12 +2,12 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@types/jest": "^21.1.2",
-    "jest": "^21.2.1",
-    "lerna": "^2.2.0",
-    "ts-jest": "^21.0.1",
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.3"
+    "@types/jest": "^22.1.1",
+    "jest": "^22.2.1",
+    "lerna": "^2.8.0",
+    "ts-jest": "^22.0.3",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2"
   },
   "scripts": {
     "build": "lerna run build",

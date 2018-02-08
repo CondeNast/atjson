@@ -17,8 +17,8 @@
     "@atjson/renderer-hir": "^0.5.20",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
-    "parse5": "^3.0.2",
-    "typescript": "^2.4.2"
+    "parse5": "^4.0.0",
+    "typescript": "^2.6.2"
   },
   "dependencies": {
     "@atjson/document": "^0.5.12",

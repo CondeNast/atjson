@@ -18,9 +18,9 @@
     "@atjson/source-html": "^0.6.4",
     "@atjson/document": "^0.5.12",
     "@atjson/hir": "^0.5.17",
-    "parse5": "^3.0.2",
-    "tslint": "^5.7.0",
-    "typescript": "^2.4.2"
+    "parse5": "^4.0.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.6.2"
   },
   "dependencies": {
     "@atjson/renderer-hir": "^0.5.20"
