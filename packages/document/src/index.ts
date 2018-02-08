@@ -1,5 +1,5 @@
 import Annotation from './annotation';
-import Query, { Filter } from './query';
+import Query, { Filter, flatten } from './query';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
@@ -11,7 +11,7 @@ export default class AtJSON {
   contentType?: string;
   annotations: Annotation[];
 
-  private queries: Query[];
+  protected queries: Query[];
 
   constructor(options: { content: string, annotations?: Annotation[], contentType?: string } | string) {
     if (typeof options === 'string') {
@@ -20,6 +20,7 @@ export default class AtJSON {
     this.content = options.content;
     this.annotations = options.annotations || [];
     this.contentType = options.contentType || 'text/plain';
+    this.queries = [];
   }
 
   /**
@@ -30,11 +31,11 @@ export default class AtJSON {
    */
   addAnnotations(...annotations: Annotation[]): void {
     annotations.forEach(newAnnotation => {
-      let finalizedAnnotation = this.queries.reduce((annotation, query) => {
-        return query.run(annotation);
-      }, newAnnotation);
-      if (finalizedAnnotation != null) {
-        this.annotations.push(finalizedAnnotation);
+      let finalizedAnnotations: Annotation[] = this.queries.reduce((newAnnotations: Annotation[], query) => {
+        return flatten(newAnnotations.map(annotation => query.run(annotation));
+      }, [newAnnotation]);
+      if (finalizedAnnotations) {
+        this.annotations.push(...finalizedAnnotations);
       }
     });
   }
@@ -58,7 +59,6 @@ export default class AtJSON {
    */
   where(filter: Filter): Query {
     let query = new Query(this, filter);
-    this.queries = this.queries || [];
     this.queries.push(query);
     return query;
   }
@@ -70,10 +70,10 @@ export default class AtJSON {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, newAnnotation: Annotation): void {
+  replaceAnnotation(annotation: Annotation, ...newAnnotations: Annotation[]): void {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      this.annotations.splice(index, 1, newAnnotation);
+      this.annotations.splice(index, 1, ...newAnnotations);
     }
   }
 

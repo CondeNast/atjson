@@ -19,6 +19,19 @@ interface TransformsByType {
 
 type Transform = (annotation: Annotation, document: Document) => Annotation;
 
+export function flatten(array) {
+  let flattenedArray = [];
+  for (let i = 0, len = array.length; i < len; i++) {
+    let item = array[i];
+    if (Array.isArray(item)) {
+      flattenedArray.push(...flatten(item));
+    } else if (item != null) {
+      flattenedArray.push(item);
+    }
+  }
+  return flattenedArray;
+}
+
 function clone(object) {
   return JSON.parse(JSON.stringify(object));
 }
@@ -102,17 +115,17 @@ export default class Query {
     this.currentAnnotations = document.annotations.filter(annotation => matches(annotation, this.filter));
   }
 
-  run(newAnnotation: Annotation) {
+  run(newAnnotation: Annotation): Annotation[] {
     // Release the list of currently filtered annotations
     this.currentAnnotations = [];
     if (matches(newAnnotation, this.filter)) {
-      let alteredAnnotation = this.transforms.reduce((annotation: Annotation, transform: Transform) => {
-        return transform(annotation);
-      }, newAnnotation);
+      let alteredAnnotations = this.transforms.reduce((annotations: Annotation[], transform: Transform) => {
+        return flatten(annotations.map(transform));
+      }, [newAnnotation]);
 
-      return alteredAnnotation;
+      return alteredAnnotations;
     }
-    return newAnnotation;
+    return [newAnnotation];
   }
 
   set(patch: any): Query {
@@ -140,15 +153,17 @@ export default class Query {
       });
     } else {
       this.transforms.push(mapping);
-      this.currentAnnotations = this.currentAnnotations.map(annotation => {
+      this.currentAnnotations = flatten(this.currentAnnotations.map(annotation => {
         let alteredAnnotation = mapping(annotation);
         if (alteredAnnotation == null) {
           this.document.removeAnnotation(annotation);
+        } else if (Array.isArray(alteredAnnotation)) {
+          this.document.replaceAnnotation(annotation, ...alteredAnnotation);
         } else {
           this.document.replaceAnnotation(annotation, alteredAnnotation);
         }
         return alteredAnnotation;
-      });
+      }));
       return this;
     }
   }

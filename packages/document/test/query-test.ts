@@ -234,4 +234,70 @@ describe('Document.where', () => {
     expect(doc.content).toBe('function () {}');
     expect(doc.annotations).toEqual([]);
   });
+
+  it('annotation expansion', () => {
+    let doc = new Document({
+      content: 'string.trim();\nstring.strip',
+      annotations: [{
+        type: 'code',
+        start: 0,
+        end: 14,
+        attributes: {
+          class: 'language-js',
+          language: 'js'
+        }
+      }]
+    });
+
+    doc.where({ type: 'code' }).map((annotation: Annotation) => {
+      return [{
+        type: 'pre',
+        start: annotation.start,
+        end: annotation.end,
+        attributes: annotation.attributes
+      }, {
+        type: 'code',
+        start: annotation.start,
+        end: annotation.end,
+        attributes: {}
+      }];
+    }).unset('attributes.class');
+
+    doc.addAnnotations({
+      type: 'code',
+      start: 16,
+      end: 28,
+      attributes: {
+        class: 'language-rb',
+        language: 'rb'
+      }
+    });
+
+    expect(doc.content).toBe('string.trim();\nstring.strip');
+    expect(doc.annotations).toEqual([{
+      type: 'pre',
+      start: 0,
+      end: 14,
+      attributes: {
+        language: 'js'
+      }
+    }, {
+      type: 'code',
+      start: 0,
+      end: 14,
+      attributes: {}
+    }, {
+      type: 'pre',
+      start: 16,
+      end: 28,
+      attributes: {
+        language: 'rb'
+      }
+    }, {
+      type: 'code',
+      start: 16,
+      end: 28,
+      attributes: {}
+    }]);
+  });
 });
