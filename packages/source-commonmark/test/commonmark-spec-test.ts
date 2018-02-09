@@ -41,8 +41,7 @@ const augmentEmbeddedHTML = mdAtJSON => {
   let embeddedHTMLAnnotations = mdAtJSON.annotations
     .filter(a => a.type === 'html' || a.type === '')
     .map(a => {
-      let p = new HTMLSource(mdAtJSON.content.substr(a.start, a.end));
-      let h = p.parse();
+      let h = new HTMLSource(mdAtJSON.content.substr(a.start, a.end)).annotations;
       return h.map(v => {
           v.start += a.start;
           v.end += a.start;
@@ -78,10 +77,9 @@ Object.keys(testModules).forEach(moduleName => {
         test.html = test.html.replace(/→/g, '\t');
 
         let parser = new CommonMarkSource(test.markdown);
-        let htmlParser = new HTMLSource(test.html);
+        let htmlAtJSON = new HTMLSource(test.html);
 
         let parsedMarkdown = parser.toAtJSON();
-        let parsedHtml = htmlParser.parse();
 
         let mdAtJSON = new Document({
           content: parsedMarkdown.content,
@@ -90,12 +88,6 @@ Object.keys(testModules).forEach(moduleName => {
         });
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
-
-        let htmlAtJSON = new Document({
-          content: test.html,
-          contentType: 'text/html',
-          annotations: parsedHtml
-        });
 
         let markdownHIR = new HIR(mdAtJSON).toJSON();
         let htmlHIR = new HIR(htmlAtJSON).toJSON();

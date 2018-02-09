@@ -50,20 +50,25 @@ export default class HIRNode {
         }
         break;
 
+      case 'p':
       case 'paragraph':
         this.rank = PARAGRAPH_NODE_RANK;
         break;
 
       case 'embed':
       case 'image':
+      case 'img':
       case 'asset':
       case 'horizontal-rule':
+      case 'hr':
       case 'section-break':
         this.rank = OBJECT_NODE_RANK;
         break;
 
       case 'bold':
       case 'italic':
+      case 'em':
+      case 'strong':
         this.rank = SPAN_NODE_RANK;
         break;
 
@@ -71,6 +76,9 @@ export default class HIRNode {
       case 'ordered-list':
       case 'unordered-list':
       case 'list-item':
+      case 'ol':
+      case 'ul':
+      case 'li':
       case 'blockquote':
         this.rank = BLOCK_NODE_RANK;
         break;

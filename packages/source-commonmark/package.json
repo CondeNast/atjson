@@ -12,7 +12,6 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@atjson/source-html": "^0.6.4",
     "@atjson/hir": "^0.5.17",
     "@atjson/renderer-hir": "^0.5.20",
     "commonmark": "^0.28.1",
@@ -22,7 +21,7 @@
   },
   "dependencies": {
     "@atjson/document": "^0.5.12",
-    "entities": "1.1.1",
+    "@atjson/source-html": "^0.6.4",
     "markdown-it": "^8.4.0"
   }
 }

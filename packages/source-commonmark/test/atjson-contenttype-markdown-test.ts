@@ -4,9 +4,9 @@ describe('markdown -> atjson', () => {
   it('Correctly obtains annotations for simple inline elements', () => {
     let markdown = '*hello* __world__';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 11, attributes: {} },
-      { type: 'italic', start: 0, end: 5, attributes: {} },
-      { type: 'bold', start: 6, end: 11, attributes: {} }
+      { type: 'p', start: 0, end: 11, attributes: {} },
+      { type: 'em', start: 0, end: 5, attributes: {} },
+      { type: 'strong', start: 6, end: 11, attributes: {} }
     ];
 
     let parser = new CommonMarkSource(markdown);
@@ -18,9 +18,9 @@ describe('markdown -> atjson', () => {
     let markdown = '12345\n\n\n678\n910\n\neleventwelve\n\n';
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 5, attributes: {} },
-      { type: 'paragraph', start: 6, end: 13, attributes: {} },
-      { type: 'paragraph', start: 14, end: 26, attributes: {} }
+      { type: 'p', start: 0, end: 5, attributes: {} },
+      { type: 'p', start: 6, end: 13, attributes: {} },
+      { type: 'p', start: 14, end: 26, attributes: {} }
     ];
 
     let parser = new CommonMarkSource(markdown);
@@ -32,8 +32,8 @@ describe('markdown -> atjson', () => {
   it('Correctly handles escape sequences', () => {
     let markdown = 'foo __\\___';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 5, attributes: {} },
-      { type: 'bold', start: 4, end: 5, attributes: {} }
+      { type: 'p', start: 0, end: 5, attributes: {} },
+      { type: 'strong', start: 4, end: 5, attributes: {} }
     ];
 
     let parser = new CommonMarkSource(markdown);
@@ -47,7 +47,7 @@ describe('markdown -> atjson', () => {
     let markdown = '`a b`';
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 3, attributes: {} },
+      { type: 'p', start: 0, end: 3, attributes: {} },
       { type: 'code', start: 0, end: 3, attributes: {} }
     ];
 
@@ -61,7 +61,7 @@ describe('markdown -> atjson', () => {
   it('`` foo ` bar  ``', () => {
     let markdown = '`` foo ` bar  ``';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 9, attributes: {} },
+      { type: 'p', start: 0, end: 9, attributes: {} },
       { type: 'code', start: 0, end: 9, attributes: {} }
     ];
     let parser = new CommonMarkSource(markdown);
@@ -73,10 +73,10 @@ describe('markdown -> atjson', () => {
   it('links', () => {
     let markdown = '[link](/url "title")\n[link](/url \'title\')\n[link](/url (title))';
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 14, attributes: {} },
-      { type: 'link', start: 0, end: 4, attributes: { href: '/url', title: 'title' } },
-      { type: 'link', start: 5, end: 9, attributes: { href: '/url', title: 'title' } },
-      { type: 'link', start: 10, end: 14, attributes: { href: '/url', title: 'title' } }
+      { type: 'p', start: 0, end: 14, attributes: {} },
+      { type: 'a', start: 0, end: 4, attributes: { href: '/url', title: 'title' } },
+      { type: 'a', start: 5, end: 9, attributes: { href: '/url', title: 'title' } },
+      { type: 'a', start: 10, end: 14, attributes: { href: '/url', title: 'title' } }
     ];
 
     let parser = new CommonMarkSource(markdown);
@@ -94,13 +94,13 @@ describe('markdown -> atjson', () => {
 
     let c = atjson.content;
     let expectedAnnotations = [
-      { type: 'ordered-list', start: 0, end: c.length - 1, attributes: {} },
-      { type: 'list-item', start: 1, end: c.length - 2, attributes: {} },
-      { type: 'paragraph', start: 2, end: c.indexOf('nes.') + 4, attributes: {} },
+      { type: 'ol', start: 0, end: c.length - 1, attributes: {} },
+      { type: 'li', start: 1, end: c.length - 2, attributes: {} },
+      { type: 'p', start: 2, end: c.indexOf('nes.') + 4, attributes: {} },
       { type: 'pre', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5, attributes: {} },
       { type: 'code', start: c.indexOf('inden'), end: c.indexOf('code\n') + 5, attributes: {} },
       { type: 'blockquote', start: c.indexOf('\nA block'), end: c.indexOf('quote.\n') + 7, attributes: {} },
-      { type: 'paragraph', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6, attributes: {} }
+      { type: 'p', start: c.indexOf('A block'), end: c.indexOf('quote.') + 6, attributes: {} }
     ];
 
     expect(atjson.content.replace(/\n/g, 'Z')).toBe('\n\nA paragraph\nwith two lines.\nindented code\n\n\nA block quote.\n\n\n\n'.replace(/\n/g, 'Z'));
@@ -144,8 +144,8 @@ describe('markdown -> atjson', () => {
     expect(atjson.content).toBe('\n');
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: 0, attributes: {} },
-      { type: 'image', start: 0, end: 0, attributes: { src: '/url', title: 'title', alt: 'foo' } }
+      { type: 'p', start: 0, end: 0, attributes: {} },
+      { type: 'img', start: 0, end: 0, attributes: { src: '/url', title: 'title', alt: 'foo' } }
     ];
 
     expect(atjson.annotations).toEqual(expectedAnnotations);
@@ -160,10 +160,10 @@ describe('markdown -> atjson', () => {
     expect(atjson.content).toBe('\nfoo\n\nbar\n\n');
 
     let expectedAnnotations = [
-      { type: 'unordered-list', start: 0, end: atjson.content.length - 1, attributes: {} },
-      { type: 'list-item', start: 1, end: 4, attributes: {} },
-      { type: 'list-item', start: 5, end: 5, attributes: {} },
-      { type: 'list-item', start: 6, end: atjson.content.length - 2, attributes: {} }
+      { type: 'ul', start: 0, end: atjson.content.length - 1, attributes: {} },
+      { type: 'li', start: 1, end: 4, attributes: {} },
+      { type: 'li', start: 5, end: 5, attributes: {} },
+      { type: 'li', start: 6, end: atjson.content.length - 2, attributes: {} }
     ];
 
     expect(atjson.annotations).toEqual(expectedAnnotations);
@@ -178,7 +178,7 @@ describe('markdown -> atjson', () => {
     expect(atjson.content).toBe('\naaa\n');
 
     let expectedAnnotations = [
-      { type: 'paragraph', start: 0, end: atjson.content.length - 1, attributes: {} },
+      { type: 'p', start: 0, end: atjson.content.length - 1, attributes: {} },
       { type: 'code', start: 0, end: 0, attributes: {} }
     ];
 

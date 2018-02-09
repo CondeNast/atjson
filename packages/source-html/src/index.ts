@@ -1,17 +1,6 @@
-import { Annotation } from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
 
 import * as parse5 from 'parse5';
-
-const TAG_MAP: { [name: string]: string } = {
-  p: 'paragraph',
-  ul: 'unordered-list',
-  ol: 'ordered-list',
-  li: 'list-item',
-  img: 'image',
-  a: 'link',
-  em: 'italic',
-  strong: 'bold'
-};
 
 const isElement = (node: parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode): node is parse5.AST.Default.Element => {
   return ((node as parse5.AST.Default.Element).nodeName !== undefined &&
@@ -24,12 +13,11 @@ const isParentNode = (node: parse5.AST.Default.DocumentFragment | any): node is 
   return (node as parse5.AST.Default.DocumentFragment).nodeName === '#document-fragment';
 };
 
-export default class Parser {
+class Parser {
 
   content: string;
-
-  constructor(content: string) {
-    this.content = content;
+  constructor(html: string) {
+    this.content = html;
   }
 
   parse(): Annotation[] {
@@ -77,13 +65,7 @@ export default class Parser {
    * Convert the node to annotations!
    */
   convertNodeToAnnotations(node: parse5.AST.Default.Element): Annotation[] {
-    let type;
-
-    if (TAG_MAP[node.tagName]) {
-      type = TAG_MAP[node.tagName];
-    } else {
-      type = node.tagName;
-    }
+    let type = node.tagName;
 
     // annotations.push(this.parseElement(type, node.__location));
 
@@ -154,5 +136,17 @@ export default class Parser {
     }
 
     return annotations;
+  }
+}
+
+export default class HTMLSource extends Document {
+
+  constructor(content: string) {
+    let parser = new Parser(content);
+    super({
+      content,
+      contentType: 'text/html',
+      annotations: parser.parse()
+    });
   }
 }

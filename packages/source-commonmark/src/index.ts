@@ -12,16 +12,7 @@ export default class {
 
   static parser = MarkdownIt('commonmark');
 
-  static TAG_MAP = {
-    p: 'paragraph',
-    img: 'image',
-    ol: 'ordered-list',
-    ul: 'unordered-list',
-    li: 'list-item',
-    a: 'link',
-    em: 'italic',
-    strong: 'bold'
-  };
+  static TAG_MAP = {};
 
   private parser: Parser;
 

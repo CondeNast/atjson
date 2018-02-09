@@ -6,14 +6,7 @@ describe('@atjson/source-html', () => {
   it('pre-code', () => {
     let html = '<pre><code>this <b>is</b> a test</code></pre>';
 
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
 
@@ -34,21 +27,13 @@ describe('@atjson/source-html', () => {
 
   it('<p>aaa<br />\nbbb</p>', () => {
     let html = '<p>aaa<br />\nbbb</p>';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
-
+    let htmlAtJSON = new HTMLSource(html);
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'paragraph',
+        type: 'p',
         attributes: {},
         children: [
           'aaa', { type: 'br', attributes: {}, children: [] }, '\nbbb'
@@ -59,21 +44,14 @@ describe('@atjson/source-html', () => {
 
   it('<a href="https://example.com">example</a>', () => {
     let html = '<a href="https://example.com">example</a>';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'link',
+        type: 'a',
         attributes: {
           href: 'https://example.com'
         },
@@ -84,21 +62,14 @@ describe('@atjson/source-html', () => {
 
   it('<img src="https://example.com/test.png" /> ', () => {
     let html = '<img src="https://example.com/test.png" /> ';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'image',
+        type: 'img',
         attributes: {
           src: 'https://example.com/test.png'
         },
@@ -109,14 +80,7 @@ describe('@atjson/source-html', () => {
 
   it('<h2></h2>\n<h1></h1>\n<h3></h3>', () => {
     let html = '<h2></h2>\n<h1></h1>\n<h3></h3>';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
@@ -140,24 +104,17 @@ describe('@atjson/source-html', () => {
 
   it('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
     let html = '<p><img src="/url" alt="Foo" title="title" /></p>';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'paragraph',
+        type: 'p',
         attributes: {},
         children: [{
-          type: 'image',
+          type: 'img',
           attributes: {
             src: '/url',
             alt: 'Foo',
@@ -171,25 +128,18 @@ describe('@atjson/source-html', () => {
 
   it('<p>**<a href="**"></p> CURRENT', () => {
     let html = '<p>**<a href="**"></p>';
-    let parser = new HTMLSource(html);
-    let parsedHtml = parser.parse();
-
-    let htmlAtJSON = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHtml
-    });
+    let htmlAtJSON = new HTMLSource(html);
 
     let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'paragraph',
+        type: 'p',
         attributes: {},
         children: [
           '**',
-          { type: 'link', attributes: {}, children: [] }
+          { type: 'a', attributes: {}, children: [] }
         ]
       }]
     });
