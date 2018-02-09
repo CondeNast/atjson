@@ -1,4 +1,7 @@
 import Document, { Annotation } from '@atjson/document';
+import schema from './schema';
+
+export { schema };
 
 import * as parse5 from 'parse5';
 
@@ -146,7 +149,8 @@ export default class HTMLSource extends Document {
     super({
       content,
       contentType: 'text/html',
-      annotations: parser.parse()
+      annotations: parser.parse(),
+      schema
     });
   }
 }
