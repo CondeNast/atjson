@@ -5,6 +5,9 @@ export default {
   a: {
     type: 'inline'
   },
+  blockquote: {
+    type: 'block'
+  },
   img: {
     type: 'object'
   },
