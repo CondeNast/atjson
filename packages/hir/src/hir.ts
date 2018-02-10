@@ -35,9 +35,6 @@ export default class HIR {
   populateHIR(): void {
 
     let document = this.document;
-    document.where({ type: 'parse-token' }).map(a => {
-      document.objectReplacementSubstitution(a);
-    });
     document.annotations
       .filter(a => a.start === a.end)
       .forEach(a => {
