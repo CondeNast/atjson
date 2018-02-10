@@ -4,6 +4,7 @@ import JSONNode from './json-node';
 const RANK = {
   root: 0,
   block: 1,
+  paragraph: 2,
   inline: 3,
   object: 4,
   parse: Number.MAX_SAFE_INTEGER,
@@ -38,13 +39,13 @@ export default class HIRNode {
     // Handle built-in types first
     if (node.type === 'text' && typeof node.text === 'string') {
       this.rank = RANK.text;
+      this.text = node.text;
     } else if (node.type === 'parse-token') {
       this.rank = RANK.parse;
     } else if (node.type === 'root') {
       this.rank = RANK.root;
     } else if (this.schema[this.type]) {
       this.rank = RANK[this.schema[this.type].type];
-      this.precedence = this.schema[this.type].precedence;
     }
   }
 
