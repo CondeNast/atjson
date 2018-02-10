@@ -4,31 +4,34 @@ import HTMLSource from '@atjson/source-html';
 
 describe('@atjson/source-html', () => {
   it('pre-code', () => {
-    let html = '<pre><code>this <b>is</b> a test</code></pre>';
-
-    let htmlAtJSON = new HTMLSource(html);
-
-    let hir = new HIR(htmlAtJSON).toJSON();
+    let doc = new HTMLSource('<pre><code>this <b>is</b> a test</code></pre>');
+    let hir = new HIR(doc).toJSON();
 
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
-      children: [
-        { type: 'pre',
+      children: [{
+        type: 'pre',
+        attributes: {},
+        children: [{
+          type: 'code',
           attributes: {},
-          children: [{
-            type: 'code',
-            attributes: {},
-            children: [ 'this ', { type: 'b', attributes: {}, children: ['is'] }, ' a test' ]
-          }]
-        }]}
-    );
+          children: [
+            'this ', {
+              type: 'b',
+              attributes: {},
+              children: ['is']
+            },
+            ' a test'
+          ]
+        }]
+      }]
+    });
   });
 
   it('<p>aaa<br />\nbbb</p>', () => {
-    let html = '<p>aaa<br />\nbbb</p>';
-    let htmlAtJSON = new HTMLSource(html);
-    let hir = new HIR(htmlAtJSON).toJSON();
+    let doc = new HTMLSource('<p>aaa<br />\nbbb</p>');
+    let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
@@ -43,10 +46,9 @@ describe('@atjson/source-html', () => {
   });
 
   it('<a href="https://example.com">example</a>', () => {
-    let html = '<a href="https://example.com">example</a>';
-    let htmlAtJSON = new HTMLSource(html);
+    let doc = new HTMLSource('<a href="https://example.com">example</a>');
+    let hir = new HIR(doc).toJSON();
 
-    let hir = new HIR(htmlAtJSON).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
@@ -61,10 +63,8 @@ describe('@atjson/source-html', () => {
   });
 
   it('<img src="https://example.com/test.png" /> ', () => {
-    let html = '<img src="https://example.com/test.png" /> ';
-    let htmlAtJSON = new HTMLSource(html);
-
-    let hir = new HIR(htmlAtJSON).toJSON();
+    let doc = new HTMLSource('<img src="https://example.com/test.png" /> ');
+    let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
@@ -79,10 +79,8 @@ describe('@atjson/source-html', () => {
   });
 
   it('<h2></h2>\n<h1></h1>\n<h3></h3>', () => {
-    let html = '<h2></h2>\n<h1></h1>\n<h3></h3>';
-    let htmlAtJSON = new HTMLSource(html);
-
-    let hir = new HIR(htmlAtJSON).toJSON();
+    let doc = new HTMLSource('<h2></h2>\n<h1></h1>\n<h3></h3>');
+    let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
@@ -103,10 +101,8 @@ describe('@atjson/source-html', () => {
   });
 
   it('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
-    let html = '<p><img src="/url" alt="Foo" title="title" /></p>';
-    let htmlAtJSON = new HTMLSource(html);
-
-    let hir = new HIR(htmlAtJSON).toJSON();
+    let doc = new HTMLSource('<p><img src="/url" alt="Foo" title="title" /></p>');
+    let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
@@ -126,11 +122,9 @@ describe('@atjson/source-html', () => {
     });
   });
 
-  it('<p>**<a href="**"></p> CURRENT', () => {
-    let html = '<p>**<a href="**"></p>';
-    let htmlAtJSON = new HTMLSource(html);
-
-    let hir = new HIR(htmlAtJSON).toJSON();
+  it('<p>**<a href="**"></p>', () => {
+    let doc = new HTMLSource('<p>**<a href="**"></p>');
+    let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
       attributes: undefined,
