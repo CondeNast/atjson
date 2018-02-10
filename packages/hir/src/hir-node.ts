@@ -33,7 +33,6 @@ export default class HIRNode {
     this.end = node.end;
     this.attributes = node.attributes;
     this.rank = RANK.inline;
-    this.precedence = 0;
     this.schema = schema || {};
 
     // Handle built-in types first
