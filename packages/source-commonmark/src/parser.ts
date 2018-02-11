@@ -141,6 +141,9 @@ export default class Parser {
   startToken(token: Token): void {
     let attributes: AttributeList = {};
     (token.attrs || []).reduce(this.convertAttributesToAttributeList, attributes);
+    if (token.tag === 'a' && attributes.href) {
+      attributes.href = decodeURI(attributes.href);
+    }
 
     this.stack.push({
       type: token.tag,
