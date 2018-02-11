@@ -131,10 +131,12 @@ describe('@atjson/source-html', () => {
       children: [{
         type: 'p',
         attributes: {},
-        children: [
-          '**',
-          { type: 'a', attributes: {}, children: [] }
-        ]
+        children: ['**', {
+          type: 'a',
+          attributes: {
+            href: '**'
+          }, children: []
+        }]
       }]
     });
   });
