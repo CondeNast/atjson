@@ -1,5 +1,4 @@
 import Document, { Annotation } from '@atjson/document';
-import * as entities from 'entities';
 import HIRNode from './hir-node';
 import JSONNode from './json-node';
 
@@ -20,16 +19,7 @@ export default class HIR {
   }
 
   toJSON(): JSONNode | string {
-    if (this.document.contentType === 'text/html') {
-      return this.rootNode.toJSON((node: HIRNode): HIRNode => {
-        if (node.type === 'text' && typeof(node.text) === 'string') {
-          node.text = entities.decodeHTML5(node.text);
-        }
-        return node;
-      });
-    } else {
-      return this.rootNode.toJSON();
-    }
+    return this.rootNode.toJSON();
   }
 
   populateHIR(): void {
