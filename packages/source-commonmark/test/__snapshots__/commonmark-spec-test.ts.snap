@@ -1862,7 +1862,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://example.com/%5C%5B%5C",
+            "href": "http://example.com/\\\\[\\\\",
           },
           "children": Array [
             "http://example.com/\\\\[\\\\",
@@ -1895,7 +1895,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://example.com/%5C%5B%5C",
+            "href": "http://example.com/\\\\[\\\\",
           },
           "children": Array [
             "http://example.com/\\\\[\\\\",
@@ -2524,7 +2524,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://example.com?find=%5C*",
+            "href": "http://example.com?find=\\\\*",
           },
           "children": Array [
             "http://example.com?find=\\\\*",
@@ -2557,7 +2557,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://example.com?find=%5C*",
+            "href": "http://example.com?find=\\\\*",
           },
           "children": Array [
             "http://example.com?find=\\\\*",
@@ -5846,7 +5846,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://foo.bar.%60baz",
+            "href": "http://foo.bar.\`baz",
           },
           "children": Array [
             "http://foo.bar.\`baz",
@@ -5880,7 +5880,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "http://foo.bar.%60baz",
+            "href": "http://foo.bar.\`baz",
           },
           "children": Array [
             "http://foo.bar.\`baz",
@@ -15178,7 +15178,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/f%C3%B6%C3%B6",
+            "href": "/föö",
             "title": "föö",
           },
           "children": Array [
@@ -15214,7 +15214,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/f%C3%B6%C3%B6",
+            "href": "/föö",
             "title": "föö",
           },
           "children": Array [
@@ -15248,7 +15248,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/f%C3%B6%C3%B6",
+            "href": "/föö",
             "title": "föö",
           },
           "children": Array [
@@ -15282,7 +15282,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/f%C3%B6%C3%B6",
+            "href": "/föö",
             "title": "föö",
           },
           "children": Array [
@@ -21430,7 +21430,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "my%20url",
+            "href": "my url",
             "title": "title",
           },
           "children": Array [
@@ -21468,7 +21468,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "my%20url",
+            "href": "my url",
             "title": "title",
           },
           "children": Array [
@@ -22392,7 +22392,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/url%5Cbar*baz",
+            "href": "/url\\\\bar*baz",
             "title": "foo\\"bar\\\\baz",
           },
           "children": Array [
@@ -22428,7 +22428,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/url%5Cbar*baz",
+            "href": "/url\\\\bar*baz",
             "title": "foo\\"bar\\\\baz",
           },
           "children": Array [
@@ -22464,7 +22464,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/%CF%86%CE%BF%CF%85",
+            "href": "/φου",
           },
           "children": Array [
             "αγω",
@@ -22499,7 +22499,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/%CF%86%CE%BF%CF%85",
+            "href": "/φου",
           },
           "children": Array [
             "αγω",
@@ -24609,7 +24609,7 @@ Object {
         "[foo",
         Object {
           "attributes": Object {
-            "href": "http://example.com/?search=%5D(uri)",
+            "href": "http://example.com/?search=](uri)",
           },
           "children": Array [
             "http://example.com/?search=](uri)",
@@ -24643,7 +24643,7 @@ Object {
         "[foo",
         Object {
           "attributes": Object {
-            "href": "http://example.com/?search=%5D(uri)",
+            "href": "http://example.com/?search=](uri)",
           },
           "children": Array [
             "http://example.com/?search=](uri)",
@@ -24679,7 +24679,7 @@ Object {
         "[foo",
         Object {
           "attributes": Object {
-            "href": "http://example.com/?search=%5D%5Bref%5D",
+            "href": "http://example.com/?search=][ref]",
           },
           "children": Array [
             "http://example.com/?search=][ref]",
@@ -24715,7 +24715,7 @@ Object {
         "[foo",
         Object {
           "attributes": Object {
-            "href": "http://example.com/?search=%5D%5Bref%5D",
+            "href": "http://example.com/?search=][ref]",
           },
           "children": Array [
             "http://example.com/?search=][ref]",
@@ -27020,7 +27020,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "%22title%22",
+            "href": "\\"title\\"",
           },
           "children": Array [
             "link",
@@ -27053,7 +27053,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "%22title%22",
+            "href": "\\"title\\"",
           },
           "children": Array [
             "link",
@@ -27792,7 +27792,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/url%C2%A0%22title%22",
+            "href": "/url \\"title\\"",
           },
           "children": Array [
             "link",
@@ -27825,7 +27825,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "/url%C2%A0%22title%22",
+            "href": "/url \\"title\\"",
           },
           "children": Array [
             "link",
@@ -28162,7 +28162,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "foo%20b%C3%A4",
+            "href": "foo bä",
           },
           "children": Array [
             "link",
@@ -28195,7 +28195,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "foo%20b%C3%A4",
+            "href": "foo bä",
           },
           "children": Array [
             "link",
@@ -28426,7 +28426,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "foo%5Cbar",
+            "href": "foo\\\\bar",
           },
           "children": Array [
             "link",
@@ -28459,7 +28459,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "href": "foo%5Cbar",
+            "href": "foo\\\\bar",
           },
           "children": Array [
             "link",
