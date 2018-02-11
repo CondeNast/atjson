@@ -4,7 +4,7 @@
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
 import CommonMarkSource from '@atjson/source-commonmark';
-import HTMLSource from '@atjson/source-html';
+import HTMLSource, { schema } from '@atjson/source-html';
 import * as spec from 'commonmark-spec';
 import process from 'process';
 
@@ -84,7 +84,8 @@ Object.keys(testModules).forEach(moduleName => {
         let mdAtJSON = new Document({
           content: parsedMarkdown.content,
           contentType: 'text/commonmark',
-          annotations: parsedMarkdown.annotations
+          annotations: parsedMarkdown.annotations,
+          schema
         });
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
