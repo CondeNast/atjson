@@ -1,144 +1,148 @@
 import Document, { Annotation } from '@atjson/document';
+import * as parse5 from 'parse5';
 import schema from './schema';
 
 export { schema };
 
-import * as parse5 from 'parse5';
+type Node = parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode;
+type DocumentFragment = parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode;
 
-const isElement = (node: parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode): node is parse5.AST.Default.Element => {
-  return ((node as parse5.AST.Default.Element).nodeName !== undefined &&
-          (node as parse5.AST.Default.Element).nodeName !== '#text' &&
-          (node as parse5.AST.Default.Element).nodeName !== ''
-         );
-};
+function isElement(node: Node) {
+  return node.nodeName !== undefined &&
+         node.nodeName !== '#text' &&
+         node.nodeName !== '';
+}
 
-const isParentNode = (node: parse5.AST.Default.DocumentFragment | any): node is parse5.AST.Default.DocumentFragment => {
-  return (node as parse5.AST.Default.DocumentFragment).nodeName === '#document-fragment';
-};
+function isParentNode(node: DocumentFragment | any) {
+  return node.nodeName === '#document-fragment';
+}
+
+function isText(node: Node) {
+  return node.nodeName === '#text';
+}
+
+type Attributes = { [key: string]: string };
+type Attribute = parse5.AST.Default.Attribute;
+
+function getAttributes(node: Node): Attributes {
+  let attrs: Attributes = (node.attrs || []).reduce((attrs: Attributes, attr: Attribute) => {
+    attrs[attr.name] = attr.value;
+    return attrs;
+  }, {});
+
+  if (node.tagName === 'a' && attrs.href) {
+    attrs.href = decodeURI(attrs.href);
+  }
+  return attrs;
+}
 
 class Parser {
 
   content: string;
-  constructor(html: string) {
-    this.content = html;
-  }
 
-  parse(): Annotation[] {
-    let tree = parse5.parseFragment(this.content, {locationInfo: true});
-    if (isParentNode(tree)) return this.walkChildren(tree.childNodes);
+  annotations: Annotation[];
+
+  private html: string;
+
+  private offset: number;
+
+  constructor(html: string) {
+    this.html = html;
+    this.content = '';
+    this.annotations = [];
+    this.offset = 0;
+
+    let tree = parse5.parseFragment(html, { locationInfo: true });
+    if (isParentNode(tree)) {
+      return this.walk(tree.childNodes);
+    }
     throw new Error('Invalid return from parser. Failing.');
   }
 
-  newAnnotation(type: string, location: parse5.MarkupData.Location, extra?: {}) {
-    return Object.assign({
-      type,
-      attributes: {},
-      start: location.startOffset,
-      end: location.endOffset
-    }, extra);
-  }
-
-  parseElement(type: string, location: parse5.MarkupData.Location ) {
-    return this.newAnnotation('parse-element', location, { htmlType: type });
-  }
-
-  parseToken(type: string, location: parse5.MarkupData.Location ) {
-    return this.newAnnotation('parse-token', location, { htmlType: type });
-  }
-
-  /*
-   * Walk the node, converting it and any children to annotations.
-   */
-  walkNode(node: parse5.AST.Default.Element): Annotation[] {
-    let annotations = this.convertNodeToAnnotations(node);
-    return annotations.concat(this.walkChildren(node.childNodes));
-  }
-
-  walkChildren(children: parse5.AST.Default.Node[]): Annotation[] {
-    return (children || []).reduce((annotations, child): Annotation[] => {
-      if (isElement(child)) {
-        return annotations.concat(this.walkNode(child));
-      } else {
-        return annotations;
+  walk(nodes: Node[]) {
+    return (nodes || []).forEach((node: Node) => {
+      if (isElement(node)) {
+        let annotationGenerator = this.convertNodeToAnnotation(node);
+        // <tag>
+        annotationGenerator.next();
+        this.walk(node.childNodes);
+        // </tag>
+        annotationGenerator.next();
+      } else if (isText(node)) {
+        let html = this.html.slice(node.__location.startOffset, node.__location.endOffset);
+        let text = node.value;
+        this.content += text;
+        this.offset += html.length - text.length;
       }
-    }, [] as Annotation[]);
+    });
   }
 
-  /*
-   * Convert the node to annotations!
-   */
-  convertNodeToAnnotations(node: parse5.AST.Default.Element): Annotation[] {
-    let type = node.tagName;
-
-    // annotations.push(this.parseElement(type, node.__location));
-
-    if (node.__location === undefined) return [];
-
-    if (node.__location.startTag) {
-      if (node.__location.endTag) {
-        return this.convertEnclosedNodeToAnnotations(type, node);
-
-      } else {
-        return this.convertSelfClosingNodeToAnnotations(type, node);
-
-      }
-    } else {
-      // This is a self-closing tag, so we include the parse-token to remove
-      // the markup, alongside the element itself to preserve it.
-      return [
-        this.parseToken(type, node.__location),
-        this.newAnnotation(type, node.__location, {
-          attributes: this.attributesForNode(node)
-        })
-      ];
-    }
+  convertTag(node: Node, which: "startTag" | "endTag"): number {
+    let { startOffset: start, endOffset: end } = node.__location[which];
+    this.annotations.push({
+      type: 'parse-token',
+      attributes: { tagName: node.tagName },
+      start: start - this.offset,
+      end: end - this.offset
+    });
+    this.content += this.html.slice(start, end);
+    return end - this.offset;
   }
 
-  convertElementToAttrObject(attrs: { [key: string]: string }, attr: parse5.AST.Default.Attribute) {
-    attrs[attr.name] = attr.value;
-    return attrs;
-  }
+  *convertNodeToAnnotation(node: Node) {
+    let location = node.__location;
+    let tagName = node.tagName;
 
-  attributesForNode(node: parse5.AST.Default.Element): object {
-    return (node.attrs || []).reduce(this.convertElementToAttrObject, {});
-
-      /*
-    (attrs, { name, value }: { name: string, value: string }) => {
-      attrs[name] = value;
-      return attrs;
-    }, {}: object);
-       */
-  }
-
-  convertSelfClosingNodeToAnnotations(type: string, node: parse5.AST.Default.Element): Annotation[] {
-    let annotations = [];
-
-    if (node.__location !== undefined) {
-      annotations.push(this.parseToken(type, node.__location.startTag));
-      annotations.push(this.newAnnotation(type, node.__location));
-    } else {
-      throw new Error('We really need location data here.');
+    if (location == null) {
+      yield;
+      return;
     }
 
-    return annotations;
-  }
+    if (location.startTag && location.endTag) {
+      let start = this.convertTag(node, 'startTag');
 
-  convertEnclosedNodeToAnnotations(type: string, node: parse5.AST.Default.Element) {
-    let annotations = [];
+      yield;
 
-    if (node.__location) {
-      annotations.push(this.parseToken(type, node.__location.startTag));
-      annotations.push(this.parseToken(type, node.__location.endTag));
-
-      annotations.push({
-        type,
-        attributes: this.attributesForNode(node),
-        start: node.__location.startTag.endOffset,
-        end: node.__location.endTag.startOffset
+      this.annotations.push({
+        type: tagName,
+        attributes: getAttributes(node),
+        start,
+        end: location.endTag.startOffset - this.offset
       });
-    }
 
-    return annotations;
+      this.convertTag(node, 'endTag');
+
+    } else if (location.startTag) {
+      let start = this.convertTag(node, 'startTag');
+
+      yield;
+
+      this.annotations.push({
+        type: tagName,
+        attributes: getAttributes(node),
+        start,
+        end: location.endOffset - this.offset
+      });
+
+    } else {
+      let start = location.startOffset - this.offset;
+      let end = location.endOffset - this.offset;
+
+      this.content += this.html.slice(location.startOffset, location.endOffset);
+      this.annotations.push({
+        type: 'parse-token',
+        attributes: { tagName },
+        start,
+        end
+      }, {
+        type: tagName,
+        attributes: getAttributes(node),
+        start,
+        end
+      });
+
+      yield;
+    }
   }
 }
 
@@ -147,9 +151,9 @@ export default class HTMLSource extends Document {
   constructor(content: string) {
     let parser = new Parser(content);
     super({
-      content,
+      content: parser.content,
       contentType: 'text/html',
-      annotations: parser.parse(),
+      annotations: parser.annotations,
       schema
     });
   }
