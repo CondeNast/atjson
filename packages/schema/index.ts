@@ -2,7 +2,7 @@ export default {
   'link': {
     type: 'inline',
     attributes: [
-      'destination',
+      'url',
       'title'
     ]
   },
@@ -40,7 +40,7 @@ export default {
   'image': {
     type: 'object',
     attributes: [
-      'destination',
+      'url',
       'description'
     ]
   }
