@@ -17,6 +17,15 @@ export function* split() {
   ];
 }
 
+function escapeText(text: string) {
+  return text.replace(/\[/g, '\\[')
+             .replace(/\]/g, '\\]');
+}
+function escapeAttribute(text: string) {
+  return text.replace(/\(/g, '\\(')
+             .replace(/\)/g, '\\)');
+}
+
 export default class CommonmarkRenderer extends Renderer {
 
   /**
@@ -113,9 +122,43 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(props: { href: string }): IterableIterator<string> {
+  *'link'(props: { href: string, title?: string }): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    return `${before}[${text}](${props.href})${after}`;
+    text = escapeText(text);
+    let href = escapeAttribute(props.href);
+    if (props.title) {
+      let title = props.title.replace('"', '\\"');
+      return `${before}[${text}](${href} "${title}")${after}`;
+    }
+    return `${before}[${text}](${href})${after}`;
+  }
+
+  /**
+   * A `code` span can be inline or as a block:
+   *
+   * ```js
+   * function () {}
+   * ```
+   */
+  *'code'(props: { language?: string }, state: State): IterableIterator<string> {
+    if (state.get('isCodeBlock')) {
+      let text = yield;
+      let fence = '```';
+      if (props.language) {
+        fence += props.language;
+      }
+      return `${fence}\n${text.join('')}\`\`\``;
+    } else {
+      let [before, text, after] = yield* split();
+      return `${before}\`${text}\`${after}`;
+    }
+  }
+
+  *'pre'(_, state: State): IterableIterator<string> {
+    state.push({ isCodeBlock: true });
+    let text = yield;
+    state.pop();
+    return text.join('');
   }
 
   /**
@@ -125,16 +168,17 @@ export default class CommonmarkRenderer extends Renderer {
     let indent: string = '   '.repeat(state.get('indent'));
     let rawItem: string[] = yield;
     let index: number = state.get('index');
-    let item: string = rawItem.join('').split('\n').map(line => indent + line).join('\n').trim();
+    let [firstLine, ...lines]: string[] = rawItem.join('').split('\n');
+    let text = [firstLine, ...lines.map(line => indent + line)].join('\n').trim();
 
     if (state.get('type') === 'ordered-list') {
-      item = `${indent}${index}. ${item}`;
+      text = `${indent}${index}. ${text}`;
       state.set('index', index + 1);
     } else if (state.get('type') === 'unordered-list') {
-      item = `${indent}- ${item}`;
+      text = `${indent}- ${text}`;
     }
 
-    return item;
+    return text;
   }
 
   /**
@@ -181,6 +225,7 @@ export default class CommonmarkRenderer extends Renderer {
     let list = yield;
     state.pop();
 
+    console.log(list.join('\n'));
     let markdown = `${list.join('\n')}\n\n`;
     if (state.get('type') === 'ordered-list' ||
         state.get('type') === 'unordered-list') {
