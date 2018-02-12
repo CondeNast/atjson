@@ -6,7 +6,6 @@ import { HIR } from '@atjson/hir';
 import CommonMarkSource from '@atjson/source-commonmark';
 import HTMLSource, { schema } from '@atjson/source-html';
 import * as spec from 'commonmark-spec';
-import process from 'process';
 
 const skippedTests = [
   181, // missing whitespace
