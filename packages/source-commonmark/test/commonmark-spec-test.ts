@@ -9,25 +9,9 @@ import * as spec from 'commonmark-spec';
 import process from 'process';
 
 const skippedTests = [
-  107, // ambiguous paragraph nesting
   181, // missing whitespace
   202, // newline removed
-  203, // ambiguous newline location
-  271, // additional newline added
-  272, // additional newline added
-  298, // additional newline added
-  308, // additional newline added
-  325, // unclosed HTML fragment
-  388, // duplicate italic annotation added
-  403, // duplicate bold annotation added
-  453, // incorrect HTML annotation; includes nested link annotations
-  454, // incorrect HTML annotation; includes nested link annotations
-  466, // incorrect HTML annotation; implicitly closed tag has an additional annotation
-  495, // ambiguous nesting with unclosed HTML
-  507, // ambiguous nesting with unclosed HTML
-  558, // unwrapped image in a paragraph
-  614, // unclosed HTML element
-  615  // unclosed HTML element
+  203  // ambiguous newline location
 ];
 
 const testModules = spec.tests.reduce((modules: any, test: any) => {
@@ -76,17 +60,8 @@ Object.keys(testModules).forEach(moduleName => {
         test.markdown = test.markdown.replace(/→/g, '\t');
         test.html = test.html.replace(/→/g, '\t');
 
-        let parser = new CommonMarkSource(test.markdown);
+        let mdAtJSON = new CommonMarkSource(test.markdown);
         let htmlAtJSON = new HTMLSource(test.html);
-
-        let parsedMarkdown = parser.toAtJSON();
-
-        let mdAtJSON = new Document({
-          content: parsedMarkdown.content,
-          contentType: 'text/commonmark',
-          annotations: parsedMarkdown.annotations,
-          schema
-        });
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
 

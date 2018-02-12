@@ -2510,6 +2510,58 @@ Object {
 
 exports[`Backslash escapes 
 
+--- markdown ---><a href="/bar\\/)">
+<---
+--- html ---><a href="/bar\\/)">
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "href": "/bar\\\\/)",
+      },
+      "children": Array [
+        "
+",
+      ],
+      "type": "a",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Backslash escapes 
+
+--- markdown ---><a href="/bar\\/)">
+<---
+--- html ---><a href="/bar\\/)">
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "href": "/bar\\\\/)",
+      },
+      "children": Array [
+        "
+",
+      ],
+      "type": "a",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Backslash escapes 
+
 --- markdown ---><http://example.com?find=\\*>
 <---
 --- html ---><p><a href="http://example.com?find=%5C*">http://example.com?find=\\*</a></p>
@@ -3496,6 +3548,112 @@ baz",
           ],
           "type": "p",
         },
+        "
+",
+      ],
+      "type": "blockquote",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes 
+
+--- markdown --->>
+<---
+--- html ---><blockquote>
+</blockquote>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes 
+
+--- markdown --->>
+<---
+--- html ---><blockquote>
+</blockquote>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+      ],
+      "type": "blockquote",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes 
+
+--- markdown --->>
+>  
+> 
+<---
+--- html ---><blockquote>
+</blockquote>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes 
+
+--- markdown --->>
+>  
+> 
+<---
+--- html ---><blockquote>
+</blockquote>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
         "
 ",
       ],
@@ -5832,6 +5990,122 @@ Object {
 
 exports[`Code spans 
 
+--- markdown ---><a href="\`">\`
+<---
+--- html ---><p><a href="\`">\`</p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "\`",
+          },
+          "children": Array [
+            Object {
+              "attributes": Object {
+                "href": "\`",
+              },
+              "children": Array [
+                "\`",
+              ],
+              "type": "a",
+            },
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "\`",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "\`",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"\`\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Code spans 
+
+--- markdown ---><a href="\`">\`
+<---
+--- html ---><p><a href="\`">\`</p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "\`",
+          },
+          "children": Array [
+            Object {
+              "attributes": Object {
+                "href": "\`",
+              },
+              "children": Array [
+                "\`",
+              ],
+              "type": "a",
+            },
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "\`",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "\`",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"\`\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Code spans 
+
 --- markdown ---><http://foo.bar.\`baz>\`
 <---
 --- html ---><p><a href="http://foo.bar.%60baz">http://foo.bar.\`baz</a>\`</p>
@@ -7674,6 +7948,90 @@ Object {
       "type": "p",
     },
     "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->**<a href="**">
+<---
+--- html ---><p>**<a href="**"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "**",
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "**",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "**",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"**\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->**<a href="**">
+<---
+--- html ---><p>**<a href="**"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "**",
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "**",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "**",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"**\\">
 ",
   ],
   "type": "root",
@@ -11288,6 +11646,90 @@ Object {
 
 exports[`Emphasis and strong emphasis 
 
+--- markdown --->__<a href="__">
+<---
+--- html ---><p>__<a href="__"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "__",
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "__",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "__",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"__\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->__<a href="__">
+<---
+--- html ---><p>__<a href="__"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "__",
+      ],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "__",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "__",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"__\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
 --- markdown --->____ is not an empty strong emphasis
 <---
 --- html ---><p>____ is not an empty strong emphasis</p>
@@ -11475,6 +11917,82 @@ Object {
             "foo",
           ],
           "type": "em",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->____foo__ bar__
+<---
+--- html ---><p><strong><strong>foo</strong> bar</strong></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "strong",
+            },
+            " bar",
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->____foo__ bar__
+<---
+--- html ---><p><strong><strong>foo</strong> bar</strong></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "strong",
+            },
+            " bar",
+          ],
+          "type": "strong",
         },
       ],
       "type": "p",
@@ -12089,6 +12607,82 @@ Object {
           "attributes": Object {},
           "children": Array [
             "foo",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->__foo_ bar_
+<---
+--- html ---><p><em><em>foo</em> bar</em></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "em",
+            },
+            " bar",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis 
+
+--- markdown --->__foo_ bar_
+<---
+--- html ---><p><em><em>foo</em> bar</em></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "em",
+            },
+            " bar",
           ],
           "type": "em",
         },
@@ -15162,6 +15756,58 @@ Object {
 
 exports[`Entity and numeric character references 
 
+--- markdown ---><a href="&ouml;&ouml;.html">
+<---
+--- html ---><a href="&ouml;&ouml;.html">
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "href": "öö.html",
+      },
+      "children": Array [
+        "
+",
+      ],
+      "type": "a",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references 
+
+--- markdown ---><a href="&ouml;&ouml;.html">
+<---
+--- html ---><a href="&ouml;&ouml;.html">
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "href": "öö.html",
+      },
+      "children": Array [
+        "
+",
+      ],
+      "type": "a",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references 
+
 --- markdown --->[foo]
 
 [foo]: /f&ouml;&ouml; "f&ouml;&ouml;"
@@ -16568,6 +17214,72 @@ Object {
 
 exports[`Fenced code blocks 
 
+--- markdown --->\`\`\` \`\`\`
+aaa
+<---
+--- html ---><p><code></code>
+aaa</p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "type": "code",
+        },
+        "
+aaa",
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Fenced code blocks 
+
+--- markdown --->\`\`\` \`\`\`
+aaa
+<---
+--- html ---><p><code></code>
+aaa</p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "type": "code",
+        },
+        "
+aaa",
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Fenced code blocks 
+
 --- markdown --->\`\`\` aa \`\`\`
 foo
 <---
@@ -17814,6 +18526,186 @@ bar",
       "type": "p",
     },
     "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Hard line breaks 
+
+--- markdown ---><a href="foo  
+bar">
+<---
+--- html ---><p><a href="foo  
+bar"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "foo  
+bar",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "foo  
+bar",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"foo  
+bar\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Hard line breaks 
+
+--- markdown ---><a href="foo  
+bar">
+<---
+--- html ---><p><a href="foo  
+bar"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "foo  
+bar",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "foo  
+bar",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"foo  
+bar\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Hard line breaks 
+
+--- markdown ---><a href="foo\\
+bar">
+<---
+--- html ---><p><a href="foo\\
+bar"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "foo\\\\
+bar",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "foo\\\\
+bar",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"foo\\\\
+bar\\">
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Hard line breaks 
+
+--- markdown ---><a href="foo\\
+bar">
+<---
+--- html ---><p><a href="foo\\
+bar"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "p",
+    },
+    Object {
+      "attributes": Object {
+        "href": "foo\\\\
+bar",
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "foo\\\\
+bar",
+          },
+          "children": Array [
+            "<",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "a",
+    },
+    "a href=\\"foo\\\\
+bar\\">
 ",
   ],
   "type": "root",
@@ -19204,6 +20096,84 @@ Object {
           "children": Array [],
           "type": "img",
         },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Images 
+
+--- markdown --->![foo] 
+[]
+
+[foo]: /url "title"
+<---
+--- html ---><p><img src="/url" alt="foo" title="title" />
+[]</p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "alt": "foo",
+            "src": "/url",
+            "title": "title",
+          },
+          "children": Array [],
+          "type": "img",
+        },
+        "
+[]",
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Images 
+
+--- markdown --->![foo] 
+[]
+
+[foo]: /url "title"
+<---
+--- html ---><p><img src="/url" alt="foo" title="title" />
+[]</p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "alt": "foo",
+            "src": "/url",
+            "title": "title",
+          },
+          "children": Array [],
+          "type": "img",
+        },
+        "
+[]",
       ],
       "type": "p",
     },
@@ -21550,6 +22520,97 @@ Object {
         },
       ],
       "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions 
+
+--- markdown --->[foo]
+
+> [foo]: /url
+<---
+--- html ---><p><a href="/url">foo</a></p>
+<blockquote>
+</blockquote>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions 
+
+--- markdown --->[foo]
+
+> [foo]: /url
+<---
+--- html ---><p><a href="/url">foo</a></p>
+<blockquote>
+</blockquote>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+      ],
+      "type": "blockquote",
     },
     "
 ",
@@ -24347,6 +25408,138 @@ Object {
             "foo *bar",
           ],
           "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[foo <bar attr="](baz)">
+<---
+--- html ---><p>[foo <bar attr="](baz)"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo ",
+        Object {
+          "attributes": Object {
+            "attr": "](baz)",
+          },
+          "children": Array [],
+          "type": "bar",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[foo <bar attr="](baz)">
+<---
+--- html ---><p>[foo <bar attr="](baz)"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo ",
+        Object {
+          "attributes": Object {
+            "attr": "](baz)",
+          },
+          "children": Array [],
+          "type": "bar",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[foo <bar attr="][ref]">
+
+[ref]: /uri
+<---
+--- html ---><p>[foo <bar attr="][ref]"></p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo ",
+        Object {
+          "attributes": Object {
+            "attr": "][ref]",
+          },
+          "children": Array [],
+          "type": "bar",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[foo <bar attr="][ref]">
+
+[ref]: /uri
+<---
+--- html ---><p>[foo <bar attr="][ref]"></p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo ",
+        Object {
+          "attributes": Object {
+            "attr": "][ref]",
+          },
+          "children": Array [],
+          "type": "bar",
         },
       ],
       "type": "p",
@@ -27947,6 +29140,78 @@ Object {
             "link",
           ],
           "type": "a",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[link](<foo
+bar>)
+<---
+--- html ---><p>[link](<foo
+bar>)</p>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[link](",
+        Object {
+          "attributes": Object {
+            "bar": "",
+          },
+          "children": Array [
+            ")",
+          ],
+          "type": "foo",
+        },
+      ],
+      "type": "p",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Links 
+
+--- markdown --->[link](<foo
+bar>)
+<---
+--- html ---><p>[link](<foo
+bar>)</p>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[link](",
+        Object {
+          "attributes": Object {
+            "bar": "",
+          },
+          "children": Array [
+            ")",
+          ],
+          "type": "foo",
         },
       ],
       "type": "p",
@@ -35338,6 +36603,236 @@ Object {
 
 exports[`Lists 
 
+--- markdown --->-   foo
+
+    notcode
+
+-   foo
+
+<!-- -->
+
+    code
+<---
+--- html ---><ul>
+<li>
+<p>foo</p>
+<p>notcode</p>
+</li>
+<li>
+<p>foo</p>
+</li>
+</ul>
+<!-- -->
+<pre><code>code
+</code></pre>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "p",
+            },
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "notcode",
+              ],
+              "type": "p",
+            },
+            "
+",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "p",
+            },
+            "
+",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": undefined,
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "code
+",
+          ],
+          "type": "code",
+        },
+      ],
+      "type": "pre",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists 
+
+--- markdown --->-   foo
+
+    notcode
+
+-   foo
+
+<!-- -->
+
+    code
+<---
+--- html ---><ul>
+<li>
+<p>foo</p>
+<p>notcode</p>
+</li>
+<li>
+<p>foo</p>
+</li>
+</ul>
+<!-- -->
+<pre><code>code
+</code></pre>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "p",
+            },
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "notcode",
+              ],
+              "type": "p",
+            },
+            "
+",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "
+",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "p",
+            },
+            "
+",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": undefined,
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "code
+",
+          ],
+          "type": "code",
+        },
+      ],
+      "type": "pre",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists 
+
 --- markdown --->- a
   > b
   \`\`\`
@@ -37627,6 +39122,192 @@ Object {
             },
             "
 ",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists 
+
+--- markdown --->- foo
+- bar
+
+<!-- -->
+
+- baz
+- bim
+<---
+--- html ---><ul>
+<li>foo</li>
+<li>bar</li>
+</ul>
+<!-- -->
+<ul>
+<li>baz</li>
+<li>bim</li>
+</ul>
+<---
+
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": undefined,
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "baz",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bim",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists 
+
+--- markdown --->- foo
+- bar
+
+<!-- -->
+
+- baz
+- bim
+<---
+--- html ---><ul>
+<li>foo</li>
+<li>bar</li>
+</ul>
+<!-- -->
+<ul>
+<li>baz</li>
+<li>bim</li>
+</ul>
+<---
+
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar",
+          ],
+          "type": "li",
+        },
+        "
+",
+      ],
+      "type": "ul",
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": undefined,
+    },
+    "
+",
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "baz",
+          ],
+          "type": "li",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bim",
           ],
           "type": "li",
         },

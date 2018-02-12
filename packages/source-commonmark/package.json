@@ -16,12 +16,11 @@
     "@atjson/renderer-hir": "^0.5.20",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
-    "parse5": "^4.0.0",
-    "typescript": "^2.6.2"
+    "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@atjson/document": "^0.5.12",
     "@atjson/source-html": "^0.6.4",
+    "@types/markdown-it": "^0.0.4",
     "markdown-it": "^8.4.0"
   }
 }
