@@ -135,7 +135,7 @@ class Parser {
 export default class extends Document {
   constructor(markdown: string) {
     let md = MarkdownIt('commonmark');
-    let parser = new Parser(md.parse(markdown, {}), {
+    let parser = new Parser(md.parse(markdown, { linkify: false}), {
       heading(token: MarkdownIt.Token): Attributes {
         let level = parseInt(token.tag.match(/h(\d)/)[1], 10);
         return { level };

@@ -62,8 +62,6 @@ Object.keys(testModules).forEach(moduleName => {
 
         let mdAtJSON = new CommonMarkSource(test.markdown);
         let htmlAtJSON = new HTMLSource(test.html);
-        mdAtJSON.annotations.forEach(a => annotationNames.add(a.type));
-        console.log(annotationNames.values());
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
 

@@ -17,16 +17,49 @@ export function* split() {
   ];
 }
 
+// http://spec.commonmark.org/0.28/#backslash-escapes
+function escapePunctuation(text: string) {
+  return text.replace(/([#$%'"!()*+,=?@\\\[\]\^_`{|}~-])/g, '\\$1')
+             .replace(/(\d+)\./g, '$1\\.')
+             .replace(/&/g, '&amp;')
+             .replace(/</g, '&lt;')
+             .replace(/>/g, '&gt;');
+}
+
 function escapeText(text: string) {
   return text.replace(/\[/g, '\\[')
              .replace(/\]/g, '\\]');
 }
+
 function escapeAttribute(text: string) {
   return text.replace(/\(/g, '\\(')
              .replace(/\)/g, '\\)');
 }
 
+function join(...stanzas: string[]): string {
+  let text = '';
+  let lastStanza = '';
+  for (let i = 0, len = stanzas.length; i < len; i++) {
+    let stanza = stanzas[i];
+    text += stanza;
+    if (lastStanza[lastStanza.length - 1] !== '\n' &&
+        stanza[0] !== '\n') {
+      text += '\n';
+    }
+    lastStanza = stanza;
+  }
+
+  return text + '\n\n';
+}
+
 export default class CommonmarkRenderer extends Renderer {
+
+  renderText(text: string, state: State) {
+    if (state.get('isPreformatted')) {
+      return text;
+    }
+    return escapePunctuation(text);
+  }
 
   /**
    * The root allows us to normalize the document
@@ -39,11 +72,11 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   /**
-   * Bold text looks like __this__ in Markdown.
+   * Bold text looks like **this** in Markdown.
    */
   *'bold'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    return `${before}__${text}__${after}`;
+    return `${before}**${text}**${after}`;
   }
 
   /**
@@ -61,10 +94,7 @@ export default class CommonmarkRenderer extends Renderer {
     while (lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
     while (lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
 
-    return [
-      ...lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`),
-      '\n'
-    ].join('\n');
+    return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`)).join('\n') + '\n';
   }
 
   /**
@@ -75,32 +105,40 @@ export default class CommonmarkRenderer extends Renderer {
   *'heading'(props: { level: number }): IterableIterator<string> {
     let heading = yield;
     let level = new Array(props.level + 1).join('#');
-    return `${level} ${heading.join('')}\n\n`;
+    return `${level} ${heading.join('')}\n`;
   }
 
   /**
    * A horizontal rule separates sections of a story
-   * ---
+   * ***
    * Into multiple sections.
    */
   *'horizontal-rule'(): IterableIterator<string> {
-    return '---\n\n';
+    return '***\n';
   }
 
   /**
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *'image'(props: { alt: string, url: string }): IterableIterator<string> {
-    return `![${props.alt}](${props.url})`;
+  *'image'(props: { alt: string, title?: string, url: string }): IterableIterator<string> {
+    let title = '';
+    if (props.title) {
+      title = ` "${props.title.replace(/"/g, '\\"')}"`;
+    }
+    return `![${props.alt}](${props.url}${title})`;
   }
 
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(): IterableIterator<string> {
+  *'italic'(_, state: State): IterableIterator<string> {
+    let isItalicized = state.get('isItalicized');
+    state.set('isItalicized', true);
     let [before, text, after] = yield* split();
-    return `${before}*${text}*${after}`;
+    state.set('isItalicized', isItalicized);
+    let markup = isItalicized ? '_' : '*';
+    return `${before}${markup}${text}${markup}${after}`;
   }
 
   /**
@@ -124,10 +162,9 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'link'(props: { href: string, title?: string }): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    text = escapeText(text);
     let href = escapeAttribute(props.href);
     if (props.title) {
-      let title = props.title.replace('"', '\\"');
+      let title = props.title.replace(/"/g, '\\"');
       return `${before}[${text}](${href} "${title}")${after}`;
     }
     return `${before}[${text}](${href})${after}`;
@@ -140,25 +177,40 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(props: { language?: string }, state: State): IterableIterator<string> {
-    if (state.get('isCodeBlock')) {
-      let text = yield;
-      let fence = '```';
-      if (props.language) {
-        fence += props.language;
-      }
-      return `${fence}\n${text.join('')}\`\`\``;
+  *'code'(props: { type?: string, language?: string }, state: State): IterableIterator<string> {
+    state.set('isPreformatted', true);
+    let code = yield;
+    state.set('isPreformatted', false);
+    if (props.type === 'block') {
+      return code.join('').split('\n').map(line => `    ${line}`).join('\n') + '\n';
     } else {
-      let [before, text, after] = yield* split();
-      return `${before}\`${text}\`${after}`;
+      return `\`${code.join('')}\``;
     }
   }
 
-  *'pre'(_, state: State): IterableIterator<string> {
-    state.push({ isCodeBlock: true });
+  *'html_inline'(_, state: State): IterableIterator<string> {
+    state.set('isPreformatted', true);
     let text = yield;
-    state.pop();
+    state.set('isPreformatted', false);
     return text.join('');
+  }
+
+  *'html_block'(_, state: State): IterableIterator<string> {
+    state.set('isPreformatted', true);
+    let text = yield;
+    state.set('isPreformatted', false);
+    return text.join('');
+  }
+
+  *'fence'(props: { language?: string }, state: State): IterableIterator<string> {
+    state.set('isPreformatted', true);
+    let text = yield;
+    let fence = '```';
+    if (props.language) {
+      fence += props.language;
+    }
+    state.set('isPreformatted', false);
+    return join(fence, text.join(''), '```');
   }
 
   /**
@@ -186,20 +238,24 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'ordered-list'(_, state: State): IterableIterator<string> {
+  *'ordered-list'(props: { start?: number }, state: State): IterableIterator<string> {
     let indent = state.get('indent');
+    let start = 1;
     if (indent == null) {
       indent = -1;
+    }
+    if (props.start) {
+      start = props.start;
     }
     state.push({
       type: 'ordered-list',
       indent: indent + 1,
-      index: 1
+      index: start
     });
     let list = yield;
     state.pop();
 
-    let markdown = `${list.join('\n')}\n\n`;
+    let markdown = join(...list);
     if (state.get('type') === 'ordered-list' ||
         state.get('type') === 'unordered-list') {
       return `\n${markdown}`;
@@ -220,13 +276,12 @@ export default class CommonmarkRenderer extends Renderer {
 
     state.push({
       type: 'unordered-list',
-      indent: indent + 1,
+      indent: indent + 1
     });
     let list = yield;
     state.pop();
 
-    console.log(list.join('\n'));
-    let markdown = `${list.join('\n')}\n\n`;
+    let markdown = join(...list);
     if (state.get('type') === 'ordered-list' ||
         state.get('type') === 'unordered-list') {
       return `\n${markdown}`;
@@ -235,21 +290,16 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   /**
-   * A paragraph is the base unit of text.
-   *
-   * They are created by adding two newlines between
-   * text.
+   * - An ordered list contains
+   * - A number
+   * - Of things with dashes preceding them
    */
   *'paragraph'(): IterableIterator<string> {
-    let rawText = yield;
-    let text = rawText.join('');
-    if (text.lastIndexOf('\n\n') === Math.max(text.length - 2, 0)) {
-      return text;
-    }
-    return `${text}\n\n`;
+    let text = yield;
+    return text.join('') + '\n\n';
   }
 
-  *renderAnnotation(annotation: HIRNode, state: State) {
+  *renderAnnotation(annotation: HIRNode, state: State, schema: Schema) {
     let rule = this[annotation.type];
     if (rule) {
       return yield* this[annotation.type](annotation.attributes, state);
