@@ -28,7 +28,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
   let currentNode = rootNode;
   tokens.forEach(token => {
     // Ignore softbreak as per markdown-it defaults
-    if (token.tagName === 'br' && token.type === 'softbreak') {
+    if (token.tag === 'br' && token.type === 'softbreak') {
       currentNode.children.push('\n');
     } else if (token.type === 'text') {
       currentNode.children.push(token.content);
@@ -59,7 +59,10 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
     } else {
       currentNode.children.push({
         name: token.type,
-        value: token
+        open: token,
+        close: token,
+        parent: currentNode,
+        children: [token.content]
       });
     }
   });
@@ -67,8 +70,9 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
 }
 
 class Parser {
-  constructor(tokens: MarkdownIt.Token[]) {
+  constructor(tokens: MarkdownIt.Token[], handlers: any) {
     this.content = '';
+    this.handlers = handlers;
     this.annotations = [];
     this.walk(toTree(tokens, { children: [] }).children);
   }
@@ -77,28 +81,28 @@ class Parser {
     return nodes.forEach((node: Node | string) => {
       if (typeof node === 'string') {
         this.content += node;
-      } else if (node.name === 'image') {
-        let token = node.open;
-        token.atts.push(['alt', node.children.filter(node => typeof node === 'string').join('')]);
-        this.convertTokenToAnnotation(node.name, token);
-      } else if (node.children) {
-        let annotationGenerator = this.convertBlockAnnotation(node.name, node.open, node.close);
+      } else {
+        if (node.name === 'image') {
+          let token = node.open;
+          token.attrs = token.attrs || [];
+          token.attrs.push(['alt', node.children.filter(node => typeof node === 'string').join('')]);
+          node.children = [];
+        }
+        let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, node.close);
         annotationGenerator.next();
         this.walk(node.children);
         annotationGenerator.next();
-      } else {
-        this.convertTokenToAnnotation(node.name, node.value);
       }
     });
   }
 
-  *convertBlockAnnotation(name: string, open: MarkdownIt.Token, close: MarkdownIt.Token) {
+  *convertTokenToAnnotation(name: string, open: MarkdownIt.Token, close: MarkdownIt.Token) {
     let start = this.content.length;
     this.content += '\uFFFC';
     this.annotations.push({
       type: 'parse-token',
       attributes: {
-        type: open.type
+        type: `${name}_open`
       },
       start,
       end: start + 1
@@ -108,35 +112,20 @@ class Parser {
     this.content += '\uFFFC';
 
     let end = this.content.length;
+    let attributes = getAttributes(open);
+    if (this.handlers[name]) {
+      Object.assign(attributes, this.handlers[name](open));
+    }
     this.annotations.push({
       type: 'parse-token',
       attributes: {
-        type: close.type
+        type: `${name}_close`
       },
       start: end - 1,
       end
     }, {
       type: name,
-      attributes: getAttributes(open),
-      start,
-      end
-    });
-  }
-
-  convertTokenToAnnotation(name: string, token: MarkdownIt.Token) {
-    let start = this.content.length;
-    let end = start + 1;
-    this.content += '\uFFFC';
-    this.annotations.push({
-      type: 'parse-token',
-      attributes: {
-        type: token.type
-      },
-      start,
-      end
-    }, {
-      type: name,
-      attributes: getAttributes(token),
+      attributes,
       start,
       end
     });
@@ -146,7 +135,12 @@ class Parser {
 export default class extends Document {
   constructor(markdown: string) {
     let md = MarkdownIt('commonmark');
-    let parser = new Parser(md.parse(markdown, {}));
+    let parser = new Parser(md.parse(markdown, {}), {
+      heading(token: MarkdownIt.Token): Attributes {
+        let level = parseInt(token.tag.match(/h(\d)/)[1], 10);
+        return { level };
+      }
+    });
     super({
       content: parser.content,
       contentType: 'text/commonmark',
@@ -154,4 +148,5 @@ export default class extends Document {
       schema
     });
   }
+
 }
