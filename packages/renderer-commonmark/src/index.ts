@@ -290,14 +290,4 @@ export default class CommonmarkRenderer extends Renderer {
     let text = yield;
     return text.join('') + '\n\n';
   }
-
-  *renderAnnotation(annotation: HIRNode, state: State, schema: Schema) {
-    let rule = this[annotation.type];
-    if (rule) {
-      return yield* this[annotation.type](annotation.attributes, state);
-    } else {
-      let text = yield;
-      return text.join('');
-    }
-  }
 }
