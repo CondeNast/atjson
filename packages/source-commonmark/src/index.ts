@@ -1,4 +1,5 @@
 import Document, { Annotation } from '@atjson/document';
+import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 import schema from './schema';
 
@@ -31,7 +32,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
     if (token.tag === 'br' && token.type === 'softbreak') {
       currentNode.children.push('\n');
     } else if (token.type === 'text') {
-      currentNode.children.push(token.content);
+      currentNode.children.push(entities.decodeHTML5(token.content));
     } else if (token.type === 'inline') {
       toTree(token.children, currentNode);
     } else if (token.children && token.children.length > 0) {
@@ -57,12 +58,23 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       currentNode.close = token;
       currentNode = currentNode.parent;
     } else {
+      let text = entities.decodeHTML5(token.content);
+      // Fix edge case where spaces in inline code blocks
+      // are not retained by MarkdownIt
+      if (token.type === 'code_inline') {
+        if (text[0] === '`') {
+          text = ' ' + text;
+        }
+        if (text[text.length - 1] === '`') {
+          text += ' ';
+        }
+      }
       currentNode.children.push({
         name: token.type,
         open: token,
         close: token,
         parent: currentNode,
-        children: [token.content]
+        children: [text]
       });
     }
   });
