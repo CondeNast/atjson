@@ -22,6 +22,7 @@ export default {
     type: 'block',
     attributes: [
       'type',
+      'level',
       'startsAt'
     ]
   },
@@ -41,6 +42,7 @@ export default {
     type: 'object',
     attributes: [
       'url',
+      'title',
       'description'
     ]
   }
