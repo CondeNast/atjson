@@ -58,7 +58,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (state.get('isPreformatted')) {
       return text;
     }
-    return escapePunctuation(text);
+    return escapePunctuation(text).replace(/\u00A0/gu, '&nbsp;');
   }
 
   /**
@@ -148,14 +148,6 @@ export default class CommonmarkRenderer extends Renderer {
   *'line-break'(): IterableIterator<string> {
     return '  \n';
   }
-
-  /**
-   * Fixed space in Commonmark is the unicode \u00A0 character
-   */
-  *'fixed-space'(): IterableIterator<string> {
-    let text = yield;
-    return '\u00A0';
-  },
 
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
