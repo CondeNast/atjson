@@ -15,24 +15,37 @@ export function escapeHTML(text: string): string {
   return text.replace(/[&<>"'`=]/g, (chr: keyof typeof escape) => escape[chr]);
 }
 
-function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema): any {
+function flatten(array) {
+  let flattenedArray = [];
+  for (let i = 0, len = array.length; i < len; i++) {
+    let item = array[i];
+    if (Array.isArray(item)) {
+      flattenedArray.push(...flatten(item));
+    } else if (item != null) {
+      flattenedArray.push(item);
+    }
+  }
+  return flattenedArray;
+}
+
+function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema) {
   let generator = renderer.renderAnnotation(node, state, schema);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  return generator.next(node.children().map((childNode: HIRNode) => {
+  return generator.next(flatten(node.children().map((childNode: HIRNode) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return renderer.renderText(childNode.text, state);
     } else {
-      return compile(renderer, childNode, state, schema);
+      return compile<T>(renderer, childNode, state, schema);
     }
-  })).value;
+  }))).value;
 }
 
 interface StateList {
-  [key: string]: value: any;
+  [key: string]: any;
 }
 
 export class State {
@@ -68,14 +81,19 @@ export class State {
   }
 }
 
-export default abstract class Renderer {
-  abstract renderAnnotation(node: HIRNode, state: State, schema: Schema): IterableIterator<any>;
+export default class Renderer {
+  *renderAnnotation(annotation: HIRNode, state: State, schema: Schema) {
+    if (this[annotation.type]) {
+      return yield* this[annotation.type](annotation.attributes, state, schema);
+    }
+    return yield;
+  }
 
   renderText(text: string): string {
     return text;
-  },
+  }
 
-  render(document: Document): any {
+  render(document: Document): T {
     let annotationGraph;
     if (document instanceof Document) {
       annotationGraph = new HIR(document);
@@ -84,7 +102,7 @@ export default abstract class Renderer {
     }
 
     let state = new State();
-    let renderedDocument = compile(this, annotationGraph.rootNode, state, document.schema);
+    let renderedDocument = compile<T>(this, annotationGraph.rootNode, state, document.schema);
     return renderedDocument;
   }
 }
