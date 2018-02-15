@@ -15,8 +15,7 @@ describe('commonmark', () => {
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
-                 'Some text that is both __bold *and*__ *italic* plus something after.');
+    expect(renderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   it('a plain text document with virtual paragraphs', () => {
@@ -33,7 +32,7 @@ describe('commonmark', () => {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe(
-                 'A paragraph with some __bold__\n\n__text__ that continues into the next.');
+                 'A paragraph with some **bold**\n\n**text** that continues into the next.\n\n');
   });
 
   it('a list', () => {
@@ -63,12 +62,15 @@ describe('commonmark', () => {
     expect(renderer.render(document)).toBe(
                  `I have a list:
 
-1. First item plus __bold__ text
+1. First item plus **bold** text
 2. Second item plus *italic* text
    - Item 2a
    - Item 2b
 
-After all the lists`);
+
+After all the lists
+
+`);
   });
 
   it('links', () => {
@@ -83,15 +85,14 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
-                 `I have a [link](https://example.com)`);
+    expect(renderer.render(document)).toBe('I have a [link](https://example.com)');
   });
 
   it('images', () => {
     let document = new Document({
-      content: ' ',
+      content: '\uFFFC',
       annotations: [{
-        type: 'image', start: 0, end: 0, attributes: {
+        type: 'image', start: 0, end: 1, attributes: {
           alt: 'CommonMark',
           url: 'http://commonmark.org/images/markdown-mark.png'
         }
@@ -100,8 +101,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
-                 `![CommonMark](http://commonmark.org/images/markdown-mark.png)`);
+    expect(renderer.render(document)).toBe('![CommonMark](http://commonmark.org/images/markdown-mark.png)');
   });
 
   describe('blockquote', () => {
@@ -114,10 +114,7 @@ After all the lists`);
       });
 
       let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe(
-                   '> This is a quote\n> ' + `
-> That has some
-> lines in it.`);
+      expect(renderer.render(document)).toBe('> This is a quote\n> \n> That has some\n> lines in it.\n\n');
     });
 
     it('with a paragraph', () => {
@@ -134,7 +131,7 @@ After all the lists`);
       });
 
       let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     it('with flanking whitespace', () => {
@@ -151,7 +148,7 @@ After all the lists`);
       });
 
       let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.');
+      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     it('with surrounding paragraphs', () => {
@@ -174,7 +171,7 @@ After all the lists`);
       });
 
       let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.');
+      expect(renderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.\n\n');
     });
   });
 
@@ -191,7 +188,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('x\n\n---\n\ny');
+    expect(renderer.render(document)).toBe('x\n\n***\ny\n\n');
   });
 
   it('headlines', () => {
@@ -210,10 +207,7 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
-                 `# Banner
-
-## Headline`);
+    expect(renderer.render(document)).toBe('# Banner\n## Headline\n');
   });
 
   it('moves spaces at annotation boundaries to the outside', () => {
@@ -228,6 +222,6 @@ After all the lists`);
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('This is __bold__ text and a [link](https://example.com).');
+    expect(renderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
   });
 });

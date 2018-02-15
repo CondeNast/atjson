@@ -17,6 +17,8 @@ export function* split() {
   ];
 }
 
+type CodeStyle = "block" | "inline" | "fence";
+
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
   return text.replace(/([#$%'"!()*+,=?@\\\[\]\^_`{|}~-])/g, '\\$1')
@@ -68,7 +70,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'root'(): IterableIterator<string> {
     let document = yield;
-    return document.join('').trimRight();
+    return document.join('');
   }
 
   /**
@@ -94,7 +96,7 @@ export default class CommonmarkRenderer extends Renderer {
     while (lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
     while (lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
 
-    return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`)).join('\n') + '\n';
+    return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n\n';
   }
 
   /**
@@ -122,11 +124,11 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *'image'(props: { alt: string, title?: string, url: string }): IterableIterator<string> {
-    let title = '';
     if (props.title) {
-      title = ` "${props.title.replace(/"/g, '\\"')}"`;
+      let title = props.title.replace(/"/g, '\\"');
+      return `![${props.alt}](${props.url} "${title}")`;
     }
-    return `![${props.alt}](${props.url}${title})`;
+    return `![${props.alt}](${props.url})`;
   }
 
   /**
@@ -169,11 +171,14 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(props: { type?: string, language?: string }, state: State): IterableIterator<string> {
+  *'code'(props: { style: CodeStyle, language?: string }, state: State): IterableIterator<string> {
     state.set('isPreformatted', true);
     let code = yield;
     state.set('isPreformatted', false);
-    if (props.type === 'block') {
+    if (props.style === 'fence') {
+      let language = props.language || '';
+      return `\`\`\`${language}\n${code.join('')}\`\`\``;
+    } else if (props.style === 'block') {
       return code.join('').split('\n').map(line => `    ${line}`).join('\n') + '\n';
     } else {
       return `\`${code.join('')}\``;
@@ -192,17 +197,6 @@ export default class CommonmarkRenderer extends Renderer {
     let text = yield;
     state.set('isPreformatted', false);
     return text.join('');
-  }
-
-  *'fence'(props: { language?: string }, state: State): IterableIterator<string> {
-    state.set('isPreformatted', true);
-    let text = yield;
-    let fence = '```';
-    if (props.language) {
-      fence += props.language;
-    }
-    state.set('isPreformatted', false);
-    return join(fence, text.join(''), '```');
   }
 
   /**
@@ -236,7 +230,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (indent == null) {
       indent = -1;
     }
-    if (props.start) {
+    if (props && props.start) {
       start = props.start;
     }
     state.push({
