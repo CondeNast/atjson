@@ -21492,19 +21492,25 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "one",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "one",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "two",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
               ],
               "type": "ordered_list",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "two",
-              ],
-              "type": "paragraph",
             },
           ],
           "type": "blockquote",
@@ -21600,28 +21606,29 @@ with two lines.",
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "A block quote.",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "A block quote.",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
     },
   ],
   "type": "root",
@@ -21763,28 +21770,29 @@ with two lines.",
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "A block quote.",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "A block quote.",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
     },
   ],
   "type": "root",
@@ -21924,28 +21932,29 @@ with two lines.",
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "A block quote.",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "A block quote.",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
     },
   ],
   "type": "root",
@@ -22263,9 +22272,23 @@ with two lines.",
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "A block quote.",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
@@ -22273,19 +22296,6 @@ with two lines.",
       ],
       "type": "ordered_list",
     },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "A block quote.",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
-    },
   ],
   "type": "root",
 }
@@ -22397,7 +22407,8 @@ Object {
                     Object {
                       "attributes": Object {},
                       "children": Array [
-                        "Blockquote",
+                        "Blockquote
+continued here.",
                       ],
                       "type": "paragraph",
                     },
@@ -22409,19 +22420,6 @@ Object {
             },
           ],
           "type": "ordered_list",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "continued here.",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "blockquote",
         },
       ],
       "type": "blockquote",
@@ -22495,7 +22493,8 @@ Object {
                     Object {
                       "attributes": Object {},
                       "children": Array [
-                        "Blockquote",
+                        "Blockquote
+continued here.",
                       ],
                       "type": "paragraph",
                     },
@@ -22507,19 +22506,6 @@ Object {
             },
           ],
           "type": "ordered_list",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "continued here.",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "blockquote",
         },
       ],
       "type": "blockquote",
@@ -22763,8 +22749,8 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "
-bar
+                " 
+ bar
 ",
               ],
               "type": "fence",
@@ -23228,10 +23214,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar
-
-
-baz
+                " bar
+ 
+ 
+ baz
 ",
               ],
               "type": "code_block",
@@ -23387,7 +23373,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar
+                " bar
 ",
               ],
               "type": "code_block",
@@ -23510,31 +23496,14 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "  - baz
-    
-             - boo
+                "- bar
+   
+         - baz
+            
+                     - boo
 ",
-                      ],
-                      "type": "code_block",
-                    },
-                  ],
-                  "type": "list_item",
-                },
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -24177,27 +24146,33 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "indented code",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "indented code",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "paragraph",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "more code
+",
+              ],
+              "type": "code_block",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "paragraph",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "  more code
-",
-      ],
-      "type": "code_block",
     },
   ],
   "type": "root",
@@ -24268,27 +24243,33 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "indented code",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "indented code",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "paragraph",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "more code
+",
+              ],
+              "type": "code_block",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "paragraph",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "  more code
-",
-      ],
-      "type": "code_block",
     },
   ],
   "type": "root",
@@ -24378,28 +24359,29 @@ with two lines.",
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "A block quote.",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "A block quote.",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
     },
   ],
   "type": "root",
@@ -24490,24 +24472,30 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "
 bar
 \`\`\`baz
 
 > bam
 ",
+              ],
+              "type": "fence",
+            },
+          ],
+          "type": "list_item",
+        },
       ],
-      "type": "fence",
+      "type": "ordered_list",
     },
   ],
   "type": "root",
@@ -25342,15 +25330,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "bar",
-                  ],
-                  "type": "list_item",
-                },
+                "- bar
+",
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
             Object {
               "attributes": Object {},
@@ -25720,28 +25703,12 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "c",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
+                "- b
+   
+   c
+",
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -25876,22 +25843,11 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "b",
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "c",
-                  ],
-                  "type": "list_item",
-                },
+                "- b
+- c
+",
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -25909,22 +25865,11 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "e",
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "f",
-                  ],
-                  "type": "list_item",
-                },
+                "- e
+- f
+",
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -26002,15 +25947,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "b",
-                  ],
-                  "type": "list_item",
-                },
+                "- b
+",
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -26322,10 +26262,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "
-b
-
-
+                " 
+ b
+ 
+ 
 ",
               ],
               "type": "fence",
@@ -26807,31 +26747,14 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "  - baz
-    
-    bim
+                "- bar
+   
+         - baz
+            
+            bim
 ",
-                      ],
-                      "type": "code_block",
-                    },
-                  ],
-                  "type": "list_item",
-                },
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -27116,6 +27039,8 @@ Object {
               "attributes": Object {},
               "children": Array [
                 "
+foo
+\`\`\`bar
 ",
               ],
               "type": "fence",
@@ -27125,18 +27050,6 @@ Object {
         },
       ],
       "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "foo",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [],
-      "type": "fence",
     },
   ],
   "type": "root",
@@ -29815,29 +29728,12 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "  - baz
+                "- bar
+   
+         - baz
 ",
-                      ],
-                      "type": "code_block",
-                    },
-                  ],
-                  "type": "list_item",
-                },
               ],
-              "type": "bullet_list",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -30028,7 +29924,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "  bar
+                "   bar
 ",
               ],
               "type": "code_block",

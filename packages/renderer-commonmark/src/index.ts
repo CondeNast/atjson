@@ -206,7 +206,7 @@ export default class CommonmarkRenderer extends Renderer {
     let indent: string = '   '.repeat(state.get('indent'));
     let text: string[] = yield;
     let index: number = state.get('index');
-    let item: string = text.join('').split('\n').map(line => indent + '  ' + line).join('\n').trim();
+    let item: string = text.join('').split('\n').map(line => indent + '   ' + line).join('\n').trim();
 
     console.log(text);
     if (state.get('type') === 'numbered') {
