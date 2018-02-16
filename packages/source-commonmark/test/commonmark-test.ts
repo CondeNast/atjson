@@ -40,3 +40,10 @@ describe('code blocks', () => {
     expect(render(doc)).toBe(' `` \n\n');
   });
 });
+
+describe('list', () => {
+  test('nested lists', () => {
+    let doc = new CommonMarkSource('- 1\n  - 2\n    - 3');
+    expect(render(doc)).toBe('1\n2\n3\n');
+  });
+});

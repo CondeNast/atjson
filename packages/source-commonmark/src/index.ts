@@ -30,9 +30,9 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
   tokens.forEach(token => {
     // Ignore softbreak as per markdown-it defaults
     if (token.tag === 'br' && token.type === 'softbreak') {
-      currentNode.children.push('\n');
+      currentNode.children.push({ text: '\n', parent: currentNode });
     } else if (token.type === 'text') {
-      currentNode.children.push(entities.decodeHTML5(token.content));
+      currentNode.children.push({ text: entities.decodeHTML5(token.content), parent: currentNode });
     } else if (token.type === 'inline') {
       toTree(token.children, currentNode);
     } else if (token.children && token.children.length > 0) {
@@ -74,7 +74,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
         open: token,
         close: token,
         parent: currentNode,
-        children: [text]
+        children: [{ text, parent: currentNode }]
       });
     }
   });
@@ -91,14 +91,19 @@ class Parser {
 
   walk(nodes: Node[]) {
     return nodes.forEach((node: Node | string) => {
-      if (typeof node === 'string') {
-        this.content += node;
+      if (typeof node.text === 'string') {
+        this.content += node.text;
       } else {
         if (node.name === 'image') {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push(['alt', node.children.filter(node => typeof node === 'string').join('')]);
+          token.attrs.push(['alt', node.children.filter(n => typeof n === 'string').join('')]);
           node.children = [];
+        }
+        // Remove paragraph annotations when it's the only child
+        if (node.name === 'list_item' &&
+            node.children.length === 1 && node.children[0].name === 'paragraph') {
+          node.children = node.children[0].children;
         }
         let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, node.close);
         annotationGenerator.next();
