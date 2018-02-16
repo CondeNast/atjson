@@ -22885,7 +22885,6 @@ Object {
       "children": Array [
         "- baz
 
-
 ",
       ],
       "type": "fence",
@@ -24807,7 +24806,6 @@ Object {
 \`\`\`baz
 
 > bam
-
 
 ",
       ],
@@ -27029,7 +27027,6 @@ Object {
       "children": Array [
         "- c
 
-
 ",
       ],
       "type": "fence",
@@ -28047,7 +28044,6 @@ Object {
       "attributes": Object {},
       "children": Array [
         "
-
 ",
       ],
       "type": "fence",

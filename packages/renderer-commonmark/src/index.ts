@@ -38,22 +38,6 @@ function escapeAttribute(text: string) {
              .replace(/\)/g, '\\)');
 }
 
-function join(...stanzas: string[]): string {
-  let text = '';
-  let lastStanza = '';
-  for (let i = 0, len = stanzas.length; i < len; i++) {
-    let stanza = stanzas[i];
-    text += stanza;
-    if (lastStanza[lastStanza.length - 1] !== '\n' &&
-        stanza[0] !== '\n') {
-      text += '\n';
-    }
-    lastStanza = stanza;
-  }
-
-  return text + '\n\n';
-}
-
 export default class CommonmarkRenderer extends Renderer {
 
   renderText(text: string, state: State) {
@@ -204,16 +188,16 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'list-item'(_, state: State): IterableIterator<string> {
     let indent: string = '   '.repeat(state.get('indent'));
-    let rawItem: string[] = yield;
+    let text: string[] = yield;
     let index: number = state.get('index');
-    let [firstLine, ...lines]: string[] = rawItem.join('').split('\n');
-    let text = [firstLine, ...lines.map(line => indent + line)].join('\n').trim();
+    let [firstLine, ...lines]: string[] = text.join('').split('\n');
+    let item = [firstLine, ...lines.map(line => indent + line)].join('\n').trim();
 
     if (state.get('type') === 'ordered-list') {
-      text = `${indent}${index}. ${text}`;
+      text = `${indent}${index}. ${item}`;
       state.set('index', index + 1);
     } else if (state.get('type') === 'unordered-list') {
-      text = `${indent}- ${text}`;
+      text = `${indent}- ${item}`;
     }
 
     return text;
@@ -241,7 +225,7 @@ export default class CommonmarkRenderer extends Renderer {
     let list = yield;
     state.pop();
 
-    let markdown = join(...list);
+    let markdown = list.join('\n') + '\n\n';
     if (state.get('type') === 'ordered-list' ||
         state.get('type') === 'unordered-list') {
       return `\n${markdown}`;
@@ -267,7 +251,7 @@ export default class CommonmarkRenderer extends Renderer {
     let list = yield;
     state.pop();
 
-    let markdown = join(...list);
+    let markdown = list.join('\n') + '\n\n';
     if (state.get('type') === 'ordered-list' ||
         state.get('type') === 'unordered-list') {
       return `\n${markdown}`;

@@ -67,7 +67,6 @@ describe('commonmark', () => {
    - Item 2a
    - Item 2b
 
-
 After all the lists
 
 `);
