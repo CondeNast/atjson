@@ -39,6 +39,8 @@ function translate(document) {
   doc.where({ type: 'code_block' }).set({ type: 'code', attributes: { style: 'block' } });
   doc.where({ type: 'fence' }).set({ type: 'code', attributes: { style: 'fence' } });
   doc.where({ type: 'image' }).map({ attributes: { src: 'url' } });
+  doc.where({ type: 'html_inline' }).set({ type: 'html' });
+  doc.where({ type: 'html_block' }).set({ type: 'html' });
 
   return doc;
 }

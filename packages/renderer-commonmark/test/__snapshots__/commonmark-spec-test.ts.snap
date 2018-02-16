@@ -3086,13 +3086,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "foo",
-                  ],
-                  "type": "paragraph",
-                },
+                "foo",
               ],
               "type": "list_item",
             },
@@ -3108,13 +3102,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -3141,13 +3129,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    "foo",
-                  ],
-                  "type": "paragraph",
-                },
+                "foo",
               ],
               "type": "list_item",
             },
@@ -3163,13 +3145,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -12297,13 +12273,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         "aaa
+\`\`\`
 ",
       ],
-      "type": "fence",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [],
       "type": "fence",
     },
   ],
@@ -12378,20 +12350,10 @@ Object {
       "attributes": Object {},
       "children": Array [
         "
+\`\`\`
+aaa
 ",
       ],
-      "type": "fence",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "aaa",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [],
       "type": "fence",
     },
   ],
@@ -12525,13 +12487,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         "aaa
+\`\`\`
 ",
       ],
-      "type": "fence",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [],
       "type": "fence",
     },
   ],
@@ -13526,7 +13484,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": " bar",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13553,7 +13511,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": " bar",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13580,7 +13538,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": " bar",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13607,7 +13565,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": " bar",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13734,7 +13692,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "Foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13761,7 +13719,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "Foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13788,7 +13746,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "Foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13815,7 +13773,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "Foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -13840,7 +13798,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "/url2",
           },
           "children": Array [],
@@ -13864,7 +13822,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "/url2",
           },
           "children": Array [],
@@ -13890,7 +13848,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -13917,7 +13875,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -13944,7 +13902,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -13971,7 +13929,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -13998,7 +13956,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -14025,7 +13983,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -14050,7 +14008,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "/url2",
           },
           "children": Array [],
@@ -14074,7 +14032,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo ",
+            "alt": "",
             "src": "/url2",
           },
           "children": Array [],
@@ -14100,7 +14058,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14127,7 +14085,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14155,7 +14113,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14185,7 +14143,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14212,7 +14170,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14237,7 +14195,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14262,7 +14220,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "url",
           },
           "children": Array [],
@@ -14286,7 +14244,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "url",
           },
           "children": Array [],
@@ -14310,7 +14268,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "train.jpg",
           },
           "children": Array [],
@@ -14334,7 +14292,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "train.jpg",
           },
           "children": Array [],
@@ -14360,7 +14318,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14387,7 +14345,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
             "title": "title",
           },
@@ -14414,7 +14372,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -14440,7 +14398,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -14466,7 +14424,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -14492,7 +14450,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -14613,7 +14571,7 @@ Object {
         "My ",
         Object {
           "attributes": Object {
-            "alt": "foo bar",
+            "alt": "",
             "src": "/path/to/train.jpg",
             "title": "title",
           },
@@ -14639,7 +14597,7 @@ Object {
         "My ",
         Object {
           "attributes": Object {
-            "alt": "foo bar",
+            "alt": "",
             "src": "/path/to/train.jpg",
             "title": "title",
           },
@@ -15076,18 +15034,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "bar",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -15228,13 +15186,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "bar",
                   ],
                   "type": "list_item",
                 },
@@ -15278,13 +15230,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "bar",
                   ],
                   "type": "list_item",
                 },
@@ -16643,7 +16589,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[](uri2)",
+            "alt": "",
             "src": "uri3",
           },
           "children": Array [],
@@ -16912,7 +16858,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "moon",
+                "alt": "",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -16944,7 +16890,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "moon",
+                "alt": "",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -16978,7 +16924,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "moon",
+                "alt": "",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -17012,7 +16958,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "moon",
+                "alt": "",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -21546,13 +21492,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "one",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "one",
                   ],
                   "type": "list_item",
                 },
@@ -21863,14 +21803,8 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "A paragraph
+            "A paragraph
 with two lines.",
-              ],
-              "type": "paragraph",
-            },
           ],
           "type": "list_item",
         },
@@ -21894,14 +21828,8 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "A paragraph
+            "A paragraph
 with two lines.",
-              ],
-              "type": "paragraph",
-            },
           ],
           "type": "list_item",
         },
@@ -22163,18 +22091,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "two",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "two",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -22194,13 +22122,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "one",
-              ],
-              "type": "paragraph",
-            },
+            "one",
           ],
           "type": "list_item",
         },
@@ -22626,13 +22548,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "one",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "one",
                   ],
                   "type": "list_item",
                 },
@@ -22676,13 +22592,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "one",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "one",
                   ],
                   "type": "list_item",
                 },
@@ -22785,13 +22695,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -22849,13 +22753,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -22864,30 +22762,25 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {},
-              "children": Array [],
+              "children": Array [
+                "
+bar
+",
+              ],
               "type": "fence",
             },
           ],
           "type": "list_item",
         },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "baz",
+          ],
+          "type": "list_item",
+        },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "bar",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "- baz
-
-",
-      ],
-      "type": "fence",
     },
   ],
   "type": "root",
@@ -22906,13 +22799,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -22936,13 +22823,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -22967,13 +22848,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -23005,13 +22880,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -23088,18 +22957,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "bar",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -23200,18 +23069,18 @@ Object {
               ],
               "type": "heading",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "baz",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -23235,13 +23104,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "foo",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "foo",
                   ],
                   "type": "list_item",
                 },
@@ -23276,13 +23139,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "foo",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "foo",
                   ],
                   "type": "list_item",
                 },
@@ -23371,16 +23228,13 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar",
+                "bar
+
+
+baz
+",
               ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -23453,18 +23307,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "bar",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -23533,9 +23387,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar",
+                "bar
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -23601,13 +23456,7 @@ Object {
                                 Object {
                                   "attributes": Object {},
                                   "children": Array [
-                                    Object {
-                                      "attributes": Object {},
-                                      "children": Array [
-                                        "boo",
-                                      ],
-                                      "type": "paragraph",
-                                    },
+                                    "boo",
                                   ],
                                   "type": "list_item",
                                 },
@@ -23674,10 +23523,9 @@ Object {
                     Object {
                       "attributes": Object {},
                       "children": Array [
-                        "- baz
-
-
-         - boo
+                        "  - baz
+    
+             - boo
 ",
                       ],
                       "type": "code_block",
@@ -23713,52 +23561,28 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "boo",
-              ],
-              "type": "paragraph",
-            },
+            "boo",
           ],
           "type": "list_item",
         },
@@ -23784,52 +23608,28 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "boo",
-              ],
-              "type": "paragraph",
-            },
+            "boo",
           ],
           "type": "list_item",
         },
@@ -23854,13 +23654,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -23872,13 +23666,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -23903,13 +23691,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -23921,13 +23703,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -23952,13 +23728,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -23970,13 +23740,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -24001,13 +23765,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -24019,13 +23777,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -24095,18 +23847,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "two",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "two",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -24126,13 +23878,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "one",
-              ],
-              "type": "paragraph",
-            },
+            "one",
           ],
           "type": "list_item",
         },
@@ -24164,13 +23910,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "one",
-              ],
-              "type": "paragraph",
-            },
+            "one",
           ],
           "type": "list_item",
         },
@@ -24288,13 +24028,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -24317,13 +24051,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -24348,13 +24076,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -24379,13 +24101,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -24461,13 +24177,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "indented code",
-              ],
-              "type": "paragraph",
-            },
+            "indented code",
           ],
           "type": "list_item",
         },
@@ -24484,7 +24194,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "more code
+        "  more code
 ",
       ],
       "type": "code_block",
@@ -24558,13 +24268,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "indented code",
-              ],
-              "type": "paragraph",
-            },
+            "indented code",
           ],
           "type": "list_item",
         },
@@ -24581,7 +24285,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "more code
+        "  more code
 ",
       ],
       "type": "code_block",
@@ -24786,13 +24490,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -24802,11 +24500,11 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "bar
+        "
+bar
 \`\`\`baz
 
 > bam
-
 ",
       ],
       "type": "fence",
@@ -24841,13 +24539,7 @@ Object {
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            Object {
-                              "attributes": Object {},
-                              "children": Array [
-                                "foo",
-                              ],
-                              "type": "paragraph",
-                            },
+                            "foo",
                           ],
                           "type": "list_item",
                         },
@@ -24896,13 +24588,7 @@ Object {
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            Object {
-                              "attributes": Object {},
-                              "children": Array [
-                                "foo",
-                              ],
-                              "type": "paragraph",
-                            },
+                            "foo",
                           ],
                           "type": "list_item",
                         },
@@ -24939,13 +24625,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -24957,13 +24637,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -24988,13 +24662,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -25006,13 +24674,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -25051,13 +24713,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "bar",
                   ],
                   "type": "list_item",
                 },
@@ -25096,30 +24752,24 @@ Object {
               ],
               "type": "paragraph",
             },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "ordered_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "bar",
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "paragraph",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
         },
       ],
-      "type": "bullet_list",
+      "type": "ordered_list",
     },
   ],
   "type": "root",
@@ -25140,13 +24790,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -25159,13 +24803,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -25191,13 +24829,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -25210,13 +24842,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -25241,13 +24867,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -25272,13 +24892,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "ok",
-              ],
-              "type": "paragraph",
-            },
+            "ok",
           ],
           "type": "list_item",
         },
@@ -25512,13 +25126,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -25551,38 +25159,26 @@ Object {
               ],
               "type": "paragraph",
             },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "b",
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "c",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "paragraph",
+                },
               ],
-              "type": "paragraph",
+              "type": "blockquote",
             },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "c",
           ],
           "type": "list_item",
         },
@@ -25608,13 +25204,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -25626,13 +25216,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -25658,13 +25242,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -25676,13 +25254,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -25721,13 +25293,7 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "bar",
                   ],
                   "type": "list_item",
                 },
@@ -25779,31 +25345,25 @@ Object {
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "bar",
-                      ],
-                      "type": "paragraph",
-                    },
+                    "bar",
                   ],
                   "type": "list_item",
                 },
               ],
               "type": "bullet_list",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "baz",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -25849,13 +25409,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -25909,32 +25463,20 @@ Object {
               ],
               "type": "paragraph",
             },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "notcode",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "foo",
+                "notcode",
               ],
               "type": "paragraph",
             },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
           ],
           "type": "list_item",
         },
@@ -26012,13 +25554,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
@@ -26053,653 +25589,516 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "
+c
+",
+              ],
+              "type": "fence",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "d",
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
     },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+
+    c
+- d
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
     Object {
       "attributes": Object {},
       "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "c",
+                      ],
+                      "type": "paragraph",
+                    },
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "d",
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+
+    c
+- d
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "c",
+                      ],
+                      "type": "paragraph",
+                    },
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "d",
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+  - c
+
+- d
+  - e
+  - f
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "c",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "e",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "f",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+  - c
+
+- d
+  - e
+  - f
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "c",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "e",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "f",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+  - b
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
+              ],
+              "type": "bullet_list",
+            },
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+ - b
+  - c
+   - d
+    - e
+   - f
+  - g
+ - h
+- i
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "a",
+          ],
+          "type": "list_item",
+        },
         Object {
           "attributes": Object {},
           "children": Array [
             "b",
           ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "c
-",
-      ],
-      "type": "fence",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-          ],
           "type": "list_item",
         },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
-
-    c
-- d
- 1`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "c",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
+            "c",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
-
-    c
-- d
- 2`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
-  - c
-
-- d
-  - e
-  - f
- 1`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "c",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
+            "e",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "e",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "f",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
-  - c
-
-- d
-  - e
-  - f
- 2`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "c",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
+            "f",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "e",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "f",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
- 1`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
-  - b
- 2`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                Object {
-                  "attributes": Object {},
-                  "children": Array [
-                    Object {
-                      "attributes": Object {},
-                      "children": Array [
-                        "b",
-                      ],
-                      "type": "paragraph",
-                    },
-                  ],
-                  "type": "list_item",
-                },
-              ],
-              "type": "bullet_list",
-            },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`Lists - a
- - b
-  - c
-   - d
-    - e
-   - f
-  - g
- - h
-- i
- 1`] = `
-Object {
-  "attributes": undefined,
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "g",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "h",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "e",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "f",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "g",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "h",
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "i",
-              ],
-              "type": "paragraph",
-            },
+            "i",
           ],
           "type": "list_item",
         },
@@ -26730,117 +26129,63 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "e",
-              ],
-              "type": "paragraph",
-            },
+            "e",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "f",
-              ],
-              "type": "paragraph",
-            },
+            "f",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "g",
-              ],
-              "type": "paragraph",
-            },
+            "g",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "h",
-              ],
-              "type": "paragraph",
-            },
+            "h",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "i",
-              ],
-              "type": "paragraph",
-            },
+            "i",
           ],
           "type": "list_item",
         },
@@ -26863,13 +26208,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -26892,13 +26231,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -26927,13 +26260,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -26956,13 +26283,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -26991,13 +26312,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -27006,30 +26321,27 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {},
-              "children": Array [],
+              "children": Array [
+                "
+b
+
+
+",
+              ],
               "type": "fence",
             },
           ],
           "type": "list_item",
         },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "c",
+          ],
+          "type": "list_item",
+        },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "b",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "- c
-
-",
-      ],
-      "type": "fence",
     },
   ],
   "type": "root",
@@ -27051,39 +26363,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
@@ -27110,39 +26404,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
@@ -27169,13 +26445,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -27202,13 +26472,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "d",
-              ],
-              "type": "paragraph",
-            },
+            "d",
           ],
           "type": "list_item",
         },
@@ -27235,13 +26499,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
@@ -27255,32 +26513,20 @@ Object {
               ],
               "type": "paragraph",
             },
-          ],
-          "type": "list_item",
-        },
-      ],
-      "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "c",
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "d",
+                "c",
               ],
               "type": "paragraph",
             },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "d",
           ],
           "type": "list_item",
         },
@@ -27306,39 +26552,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -27364,39 +26592,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -27424,39 +26634,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -27484,39 +26676,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -27646,9 +26820,9 @@ Object {
                     Object {
                       "attributes": Object {},
                       "children": Array [
-                        "- baz
-
-bim
+                        "  - baz
+    
+    bim
 ",
                       ],
                       "type": "code_block",
@@ -27687,26 +26861,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -27727,26 +26889,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bim",
-              ],
-              "type": "paragraph",
-            },
+            "bim",
           ],
           "type": "list_item",
         },
@@ -27775,26 +26925,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -27815,26 +26953,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bim",
-              ],
-              "type": "paragraph",
-            },
+            "bim",
           ],
           "type": "list_item",
         },
@@ -27859,26 +26985,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -27891,13 +27005,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -27922,39 +27030,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -28024,7 +27114,10 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {},
-              "children": Array [],
+              "children": Array [
+                "
+",
+              ],
               "type": "fence",
             },
           ],
@@ -28042,10 +27135,7 @@ Object {
     },
     Object {
       "attributes": Object {},
-      "children": Array [
-        "
-",
-      ],
+      "children": Array [],
       "type": "fence",
     },
   ],
@@ -28068,39 +27158,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -28127,39 +27199,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "a",
-              ],
-              "type": "paragraph",
-            },
+            "a",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "b",
-              ],
-              "type": "paragraph",
-            },
+            "b",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "c",
-              ],
-              "type": "paragraph",
-            },
+            "c",
           ],
           "type": "list_item",
         },
@@ -28184,26 +27238,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -28218,13 +27260,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -28249,39 +27285,21 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -28313,26 +27331,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -28364,26 +27370,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "baz",
-              ],
-              "type": "paragraph",
-            },
+            "baz",
           ],
           "type": "list_item",
         },
@@ -28414,13 +27408,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "The number of doors is 6.",
-              ],
-              "type": "paragraph",
-            },
+            "The number of doors is 6.",
           ],
           "type": "list_item",
         },
@@ -28451,13 +27439,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "The number of doors is 6.",
-              ],
-              "type": "paragraph",
-            },
+            "The number of doors is 6.",
           ],
           "type": "list_item",
         },
@@ -28903,26 +27885,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "\`one",
-              ],
-              "type": "paragraph",
-            },
+            "\`one",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "two\`",
-              ],
-              "type": "paragraph",
-            },
+            "two\`",
           ],
           "type": "list_item",
         },
@@ -28946,26 +27916,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "\`one",
-              ],
-              "type": "paragraph",
-            },
+            "\`one",
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "two\`",
-              ],
-              "type": "paragraph",
-            },
+            "two\`",
           ],
           "type": "list_item",
         },
@@ -29527,13 +28485,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -29562,13 +28514,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -29597,13 +28543,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -29632,13 +28572,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -30105,16 +29039,10 @@ Object {
         "level": 2,
       },
       "children": Array [
-        "Foo",
+        "Foo
+Bar",
       ],
       "type": "heading",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "Bar",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -30384,16 +29312,17 @@ Object {
         "level": 1,
       },
       "children": Array [
-        "Foo *bar",
+        "Foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar
+baz",
+          ],
+          "type": "em",
+        },
       ],
       "type": "heading",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "baz*",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -30746,18 +29675,18 @@ Object {
               ],
               "type": "paragraph",
             },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
-    },
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        "bar",
-      ],
-      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -30839,13 +29768,7 @@ Object {
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            Object {
-                              "attributes": Object {},
-                              "children": Array [
-                                "baz",
-                              ],
-                              "type": "paragraph",
-                            },
+                            "baz",
                           ],
                           "type": "list_item",
                         },
@@ -30905,7 +29828,7 @@ Object {
                     Object {
                       "attributes": Object {},
                       "children": Array [
-                        "- baz
+                        "  - baz
 ",
                       ],
                       "type": "code_block",
@@ -31105,7 +30028,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar
+                "  bar
 ",
               ],
               "type": "code_block",
@@ -31162,13 +30085,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -31527,13 +30444,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -31551,13 +30462,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Bar",
-              ],
-              "type": "paragraph",
-            },
+            "Bar",
           ],
           "type": "list_item",
         },
@@ -31582,13 +30487,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -31606,13 +30505,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Bar",
-              ],
-              "type": "paragraph",
-            },
+            "Bar",
           ],
           "type": "list_item",
         },
@@ -31918,13 +30811,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -31959,13 +30846,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "Foo",
-              ],
-              "type": "paragraph",
-            },
+            "Foo",
           ],
           "type": "list_item",
         },
@@ -32001,13 +30882,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -32025,13 +30900,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
@@ -32056,13 +30925,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "foo",
-              ],
-              "type": "paragraph",
-            },
+            "foo",
           ],
           "type": "list_item",
         },
@@ -32080,13 +30943,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "bar",
-              ],
-              "type": "paragraph",
-            },
+            "bar",
           ],
           "type": "list_item",
         },
