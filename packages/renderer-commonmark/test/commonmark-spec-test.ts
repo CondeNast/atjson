@@ -55,7 +55,7 @@ Object.keys(testModules).forEach(moduleName => {
         let original = new CommonMarkSource(test.markdown.replace(/→/g, '\t'));
         let generatedMarkdown = renderer.render(translate(original));
         let output = new CommonMarkSource(generatedMarkdown);
-        console.log('`' + test.markdown.replace(/→/g, '\t') + '`', '`' + generatedMarkdown + '`');
+        console.log('\u001B[45m' + test.markdown.replace(/→/g, '\t') + '\u001B[49m\n\n\u001B[44m' + generatedMarkdown + '\u001B[49m');
 //          console.log(test.markdown.replace(/→/g, '\t'));
 //          console.log(original);
 //          console.log(generatedMarkdown);
