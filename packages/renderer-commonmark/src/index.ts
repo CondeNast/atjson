@@ -71,7 +71,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *'blockquote'(): IterableIterator<string> {
+  *'blockquote'(_, state: State): IterableIterator<string> {
     let text: string[] = yield;
     let lines: string[] = text.join('').split('\n');
     let endOfQuote = lines.length;
@@ -80,6 +80,9 @@ export default class CommonmarkRenderer extends Renderer {
     while (lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
     while (lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
 
+    if (state.get('isList')) {
+      return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
+    }
     return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n\n';
   }
 
@@ -89,9 +92,19 @@ export default class CommonmarkRenderer extends Renderer {
    * ###### and six `#` being the least important
    */
   *'heading'(props: { level: number }): IterableIterator<string> {
-    let heading = yield;
+    let text = yield;
     let level = new Array(props.level + 1).join('#');
-    return `${level} ${heading.join('')}\n`;
+    let heading = text.join('');
+
+    // Multiline headings are supported for level 1 and 2
+    if (heading.indexOf('\n') !== -1) {
+      if (props.level === 1) {
+        return `${heading}\n====\n`;
+      } else if (props.level === 2) {
+        return `${heading}\n----\n`;
+      }
+    }
+    return `${level} ${heading}\n`;
   }
 
   /**
@@ -156,30 +169,33 @@ export default class CommonmarkRenderer extends Renderer {
    * ```
    */
   *'code'(props: { style: CodeStyle, language?: string }, state: State): IterableIterator<string> {
-    state.set('isPreformatted', true);
-    let code = yield;
-    state.set('isPreformatted', false);
+    state.push({ isPreformatted: true });
+    let text = yield;
+    state.pop();
+    let code = text.join('');
+    if (state.get('isList')) {
+      code = '\n' + code;
+    }
     if (props.style === 'fence') {
       let language = props.language || '';
-      return `\`\`\`${language}\n${code.join('')}\`\`\``;
+      if (code.indexOf('```') !== -1) {
+        return `~~~${language}\n${code}~~~`;
+      } else {
+        return `\`\`\`${language}\n${code}\`\`\``;
+      }
     } else if (props.style === 'block') {
-      return code.join('').split('\n').map(line => `    ${line}`).join('\n') + '\n';
+      return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';
     } else {
-      return `\`${code.join('')}\``;
+      return `\`${code}\``;
     }
   }
 
-  *'html_inline'(_, state: State): IterableIterator<string> {
-    state.set('isPreformatted', true);
+  *'html'(_, state: State): IterableIterator<string> {
+    console.log('html start');
+    state.push({ isPreformatted: true, isHTML: true });
     let text = yield;
-    state.set('isPreformatted', false);
-    return text.join('');
-  }
-
-  *'html_block'(_, state: State): IterableIterator<string> {
-    state.set('isPreformatted', true);
-    let text = yield;
-    state.set('isPreformatted', false);
+    state.pop();
+    console.log('html end');
     return text.join('');
   }
 
@@ -190,13 +206,13 @@ export default class CommonmarkRenderer extends Renderer {
     let indent: string = '   '.repeat(state.get('indent'));
     let text: string[] = yield;
     let index: number = state.get('index');
-    let [firstLine, ...lines]: string[] = text.join('').split('\n');
-    let item = [firstLine, ...lines.map(line => indent + line)].join('\n').trim();
+    let item: string = text.join('').split('\n').map(line => indent + '  ' + line).join('\n').trim();
 
-    if (state.get('type') === 'ordered-list') {
+    console.log(text);
+    if (state.get('type') === 'numbered') {
       text = `${indent}${index}. ${item}`;
       state.set('index', index + 1);
-    } else if (state.get('type') === 'unordered-list') {
+    } else if (state.get('type') === 'bulleted') {
       text = `${indent}- ${item}`;
     }
 
@@ -218,19 +234,15 @@ export default class CommonmarkRenderer extends Renderer {
       start = props.start;
     }
     state.push({
-      type: 'ordered-list',
+      isList: true,
+      type: 'numbered',
       indent: indent + 1,
       index: start
     });
     let list = yield;
     state.pop();
 
-    let markdown = list.join('\n') + '\n\n';
-    if (state.get('type') === 'ordered-list' ||
-        state.get('type') === 'unordered-list') {
-      return `\n${markdown}`;
-    }
-    return markdown;
+    return list.join('\n') + '\n';
   }
 
   /**
@@ -245,18 +257,14 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     state.push({
-      type: 'unordered-list',
+      isList: true,
+      type: 'bulleted',
       indent: indent + 1
     });
     let list = yield;
     state.pop();
 
-    let markdown = list.join('\n') + '\n\n';
-    if (state.get('type') === 'ordered-list' ||
-        state.get('type') === 'unordered-list') {
-      return `\n${markdown}`;
-    }
-    return markdown;
+    return list.join('\n') + '\n\n';
   }
 
   /**
@@ -264,7 +272,7 @@ export default class CommonmarkRenderer extends Renderer {
    * - A number
    * - Of things with dashes preceding them
    */
-  *'paragraph'(): IterableIterator<string> {
+  *'paragraph'(_, state: State): IterableIterator<string> {
     let text = yield;
     return text.join('') + '\n\n';
   }
