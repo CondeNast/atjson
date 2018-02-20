@@ -11,8 +11,23 @@ export default class PlainTextRenderer extends Renderer {
   *hardbreak() {
     return '\n';
   }
-  *paragraph() {
+  *bullet_list({ tight }, state) {
+    state.push({ tight });
     let text = yield;
+    state.pop();
+    return text;
+  }
+  *ordered_list({ tight }, state) {
+    state.push({ tight });
+    let text = yield;
+    state.pop();
+    return text;
+  }
+  *paragraph(_, state) {
+    let text = yield;
+    if (state.get('tight')) {
+      return `${text.join('')}\n`;
+    }
     return `${text.join('')}\n\n`;
   }
 }
@@ -45,5 +60,15 @@ describe('list', () => {
   test('nested lists', () => {
     let doc = new CommonMarkSource('- 1\n  - 2\n    - 3');
     expect(render(doc)).toBe('1\n2\n3\n');
+  });
+
+  test('tight', () => {
+    let tight = new CommonMarkSource('- 1\n  - 2\n    - 3');
+    let list = tight.annotations.find(annotation => annotation.type === 'bullet_list');
+    expect(list.attributes).toEqual({ tight: true });
+
+    let loose = new CommonMarkSource('1. 1\n\n  2. 2\n    3. 3');
+    list = loose.annotations.find(annotation => annotation.type === 'ordered_list');
+    expect(list.attributes).toEqual({ tight: false });
   });
 });

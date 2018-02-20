@@ -251,7 +251,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'ordered-list'(props: { start?: number }, state: State): IterableIterator<string> {
+  *'ordered-list'(props: { start?: number, tight: boolean }, state: State): IterableIterator<string> {
     let start = 1;
 
     if (props && props.start != null) {
@@ -273,7 +273,8 @@ export default class CommonmarkRenderer extends Renderer {
       index: start,
       previous: state.get('previous'),
       delimiter,
-      hasCodeBlockFollowing
+      hasCodeBlockFollowing,
+      tight: props.tight
     });
     let list = yield;
     state.pop();
@@ -294,7 +295,7 @@ export default class CommonmarkRenderer extends Renderer {
    * - A number
    * - Of things with dashes preceding them
    */
-  *'unordered-list'(_, state: State): IterableIterator<string> {
+  *'unordered-list'(props: { tight: boolean }, state: State): IterableIterator<string> {
     let delimiter = '-';
     if (state.get('previous.type') === 'bulleted' && state.get('previous.delimiter') === '-') {
       delimiter = '+';
@@ -310,6 +311,7 @@ export default class CommonmarkRenderer extends Renderer {
       type: 'bulleted',
       previous: state.get('previous'),
       delimiter,
+      tight: props.tight,
       hasCodeBlockFollowing
     });
 
@@ -335,6 +337,9 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *'paragraph'(_, state: State): IterableIterator<string> {
     let text = yield;
+    if (state.get('tight')) {
+      return text.join('') + '\n';
+    }
     return text.join('') + '\n\n';
   }
 }

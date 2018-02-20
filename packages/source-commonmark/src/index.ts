@@ -100,10 +100,12 @@ class Parser {
           token.attrs.push(['alt', node.children.filter(n => typeof n === 'string').join('')]);
           node.children = [];
         }
-        // Remove paragraph annotations when it's the only child
-        if (node.name === 'list_item' &&
-            node.children.length === 1 && node.children[0].name === 'paragraph') {
-          node.children = node.children[0].children;
+        // Identify whether the list is tight (paragraphs collapse)
+        if (node.name === 'bullet_list' ||
+            node.name === 'ordered_list') {
+          let isTight = node.children.some(items => items.children.filter(child => child.name === 'paragraph').some(child => child.open.hidden));
+          node.open.attrs = node.open.attrs || [];
+          node.open.attrs.push(['tight', isTight]);
         }
         let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, node.close);
         annotationGenerator.next();

@@ -3144,12 +3144,20 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": true,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "foo",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "foo",
+                  ],
+                  "type": "paragraph",
+                },
               ],
               "type": "list_item",
             },
@@ -3160,12 +3168,20 @@ Object {
       "type": "blockquote",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -3187,12 +3203,20 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": true,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
               "children": Array [
-                "foo",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "foo",
+                  ],
+                  "type": "paragraph",
+                },
               ],
               "type": "list_item",
             },
@@ -3203,12 +3227,20 @@ Object {
       "type": "blockquote",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -15308,7 +15340,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -15327,7 +15361,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -15346,7 +15386,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -15365,7 +15407,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -17707,7 +17755,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -17745,7 +17795,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -17891,7 +17943,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -17904,12 +17958,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -17935,7 +17997,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -17948,12 +18012,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -24229,7 +24301,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -24279,7 +24353,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -24326,7 +24402,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24382,7 +24460,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24490,7 +24570,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24546,7 +24628,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24598,13 +24682,21 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "A paragraph
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "A paragraph
 with two lines.",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -24623,13 +24715,21 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "A paragraph
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "A paragraph
 with two lines.",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -24652,7 +24752,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24708,7 +24810,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24763,6 +24867,7 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -24804,6 +24909,7 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -24843,7 +24949,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24881,7 +24989,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24919,12 +25029,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -24952,12 +25070,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -24988,7 +25114,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25044,7 +25172,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25095,7 +25225,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25116,7 +25248,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25141,7 +25275,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": false,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
@@ -25184,7 +25320,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": false,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
@@ -25227,7 +25365,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": false,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
@@ -25270,7 +25410,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "tight": false,
+          },
           "children": Array [
             Object {
               "attributes": Object {},
@@ -25317,12 +25459,20 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "one",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "one",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -25361,12 +25511,20 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "one",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "one",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -25399,7 +25557,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25429,7 +25589,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25464,12 +25626,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25522,12 +25692,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25574,12 +25752,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25598,12 +25784,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25623,12 +25817,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25655,12 +25857,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -25687,7 +25897,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25725,7 +25937,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25764,7 +25978,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25820,7 +26036,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25873,18 +26091,28 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "foo",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "foo",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -25908,18 +26136,28 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "foo",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "foo",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -25948,7 +26186,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -25993,7 +26233,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26036,7 +26278,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26075,7 +26319,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26113,7 +26359,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26152,7 +26400,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26192,7 +26442,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26205,7 +26457,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -26218,7 +26472,9 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": true,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
@@ -26231,12 +26487,20 @@ Object {
                               "type": "paragraph",
                             },
                             Object {
-                              "attributes": Object {},
+                              "attributes": Object {
+                                "tight": true,
+                              },
                               "children": Array [
                                 Object {
                                   "attributes": Object {},
                                   "children": Array [
-                                    "boo",
+                                    Object {
+                                      "attributes": Object {},
+                                      "children": Array [
+                                        "boo",
+                                      ],
+                                      "type": "paragraph",
+                                    },
                                   ],
                                   "type": "list_item",
                                 },
@@ -26275,7 +26539,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26288,7 +26554,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -26301,7 +26569,9 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": false,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
@@ -26314,12 +26584,20 @@ Object {
                               "type": "paragraph",
                             },
                             Object {
-                              "attributes": Object {},
+                              "attributes": Object {
+                                "tight": true,
+                              },
                               "children": Array [
                                 Object {
                                   "attributes": Object {},
                                   "children": Array [
-                                    "boo",
+                                    Object {
+                                      "attributes": Object {},
+                                      "children": Array [
+                                        "boo",
+                                      ],
+                                      "type": "paragraph",
+                                    },
                                   ],
                                   "type": "list_item",
                                 },
@@ -26358,33 +26636,59 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "boo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "boo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26405,33 +26709,59 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "boo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "boo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26451,12 +26781,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26468,7 +26806,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26488,12 +26832,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26505,7 +26857,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26525,12 +26883,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26542,7 +26908,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26562,12 +26934,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26579,7 +26959,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26599,7 +26985,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26637,7 +27025,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26675,12 +27065,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26707,12 +27105,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26825,12 +27231,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 0,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26850,12 +27263,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 0,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26875,12 +27295,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 3,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26900,12 +27327,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 3,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -26927,7 +27361,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -26976,7 +27412,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27025,7 +27463,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27074,7 +27514,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27124,7 +27566,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27180,7 +27624,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27239,7 +27685,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27304,7 +27752,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27361,13 +27811,17 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -27375,12 +27829,19 @@ Object {
                     Object {
                       "attributes": Object {
                         "start": 2,
+                        "tight": true,
                       },
                       "children": Array [
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            "foo",
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "foo",
+                              ],
+                              "type": "paragraph",
+                            },
                           ],
                           "type": "list_item",
                         },
@@ -27410,13 +27871,17 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -27424,12 +27889,19 @@ Object {
                     Object {
                       "attributes": Object {
                         "start": 2,
+                        "tight": true,
                       },
                       "children": Array [
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            "foo",
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "foo",
+                              ],
+                              "type": "paragraph",
+                            },
                           ],
                           "type": "list_item",
                         },
@@ -27461,12 +27933,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27478,7 +27958,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27498,12 +27984,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27515,7 +28009,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27536,6 +28036,7 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -27549,12 +28050,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -27581,6 +28090,7 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -27594,12 +28104,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -27626,12 +28144,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27639,12 +28164,20 @@ Object {
       "type": "ordered_list",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27665,12 +28198,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27678,12 +28218,20 @@ Object {
       "type": "ordered_list",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27703,12 +28251,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 123456789,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27728,12 +28283,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 123456789,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "ok",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "ok",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27936,7 +28498,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -27967,7 +28531,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -27988,7 +28558,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28019,7 +28591,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28040,12 +28618,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28057,7 +28643,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28078,12 +28670,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28095,7 +28695,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28116,7 +28722,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28129,12 +28737,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28168,7 +28784,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28181,12 +28799,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "bar",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28225,7 +28851,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28250,7 +28878,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28292,7 +28926,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28317,7 +28953,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28356,7 +28998,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28395,7 +29039,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28418,7 +29068,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28457,7 +29109,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28479,7 +29137,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28492,7 +29152,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -28523,7 +29185,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28545,7 +29213,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28558,7 +29228,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -28589,7 +29261,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28613,7 +29291,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28626,19 +29306,33 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "b",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "c",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "c",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28659,19 +29353,33 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "e",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "e",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "f",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "f",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28701,7 +29409,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28714,19 +29424,33 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "b",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "c",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "c",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28747,19 +29471,33 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "e",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "e",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "f",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "f",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28784,7 +29522,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28797,12 +29537,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "b",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28827,7 +29575,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -28840,12 +29590,20 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
                   "children": Array [
-                    "b",
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
                   ],
                   "type": "list_item",
                 },
@@ -28877,68 +29635,124 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "e",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "e",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "f",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "f",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "g",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "g",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "h",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "h",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "i",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "i",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -28964,68 +29778,124 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "e",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "e",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "f",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "f",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "g",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "g",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "h",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "h",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "i",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "i",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29043,12 +29913,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29066,12 +29944,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29095,12 +29981,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29123,7 +30017,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29147,12 +30047,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29175,7 +30083,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29197,26 +30111,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29238,26 +30172,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29279,12 +30233,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29311,7 +30273,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29333,12 +30301,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29365,7 +30341,13 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "d",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29386,26 +30368,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29426,26 +30428,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29468,26 +30490,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29510,26 +30552,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29552,7 +30614,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -29565,7 +30629,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -29578,7 +30644,9 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": false,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
@@ -29631,7 +30699,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -29644,7 +30714,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -29657,7 +30729,9 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": false,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
@@ -29711,19 +30785,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29739,19 +30827,33 @@ Object {
       "type": "html_block",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bim",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bim",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29775,19 +30877,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29803,19 +30919,33 @@ Object {
       "type": "html_block",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bim",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bim",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29835,19 +30965,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29855,12 +30999,20 @@ Object {
       "type": "bullet_list",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29880,19 +31032,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29900,12 +31066,20 @@ Object {
       "type": "bullet_list",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -29927,7 +31101,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -29968,7 +31144,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -30009,26 +31187,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30050,26 +31248,46 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "a",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "b",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "c",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30089,19 +31307,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30111,12 +31343,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 3,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30136,19 +31375,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30158,12 +31411,19 @@ Object {
     Object {
       "attributes": Object {
         "start": 3,
+        "tight": true,
       },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30190,19 +31450,33 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30229,19 +31503,33 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30267,12 +31555,20 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "The number of doors is 6.",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "The number of doors is 6.",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30298,12 +31594,20 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "The number of doors is 6.",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "The number of doors is 6.",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30744,19 +32048,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "\`one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "\`one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "two\`",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "two\`",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -30775,19 +32093,33 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "\`one",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "\`one",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
         Object {
           "attributes": Object {},
           "children": Array [
-            "two\`",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "two\`",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -32320,12 +33652,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -32349,12 +33689,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -32378,12 +33726,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -32407,12 +33763,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -33465,7 +34829,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33503,7 +34869,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33577,7 +34945,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33590,7 +34960,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": true,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -33603,12 +34975,20 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": true,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            "baz",
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "baz",
+                              ],
+                              "type": "paragraph",
+                            },
                           ],
                           "type": "list_item",
                         },
@@ -33640,7 +35020,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33653,7 +35035,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "tight": false,
+              },
               "children": Array [
                 Object {
                   "attributes": Object {},
@@ -33666,12 +35050,20 @@ Object {
                       "type": "paragraph",
                     },
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "tight": true,
+                      },
                       "children": Array [
                         Object {
                           "attributes": Object {},
                           "children": Array [
-                            "baz",
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "baz",
+                              ],
+                              "type": "paragraph",
+                            },
                           ],
                           "type": "list_item",
                         },
@@ -33819,7 +35211,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33858,7 +35252,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33895,7 +35291,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -33925,7 +35323,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": false,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -34291,12 +35691,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34309,12 +35717,20 @@ Object {
       "type": "hr",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34334,12 +35750,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34352,12 +35776,20 @@ Object {
       "type": "hr",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34658,12 +36090,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34693,12 +36133,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "Foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "Foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34729,12 +36177,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34747,12 +36203,20 @@ Object {
       "type": "hr",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34772,12 +36236,20 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
@@ -34790,12 +36262,20 @@ Object {
       "type": "hr",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "tight": true,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
-            "bar",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
+            },
           ],
           "type": "list_item",
         },
