@@ -9,9 +9,7 @@ import * as spec from 'commonmark-spec';
 import schema from './schema';
 
 const skippedTests = [
-  181, // missing whitespace
-  202, // newline removed
-  203  // ambiguous newline location
+  140 // Additional newline in HTML block
 ];
 
 const testModules = spec.tests.reduce((modules: any, test: any) => {
@@ -39,14 +37,13 @@ function translate(document) {
   doc.where({ type: 'code_block' }).set({ type: 'code', attributes: { style: 'block' } });
   doc.where({ type: 'fence' }).set({ type: 'code', attributes: { style: 'fence' } });
   doc.where({ type: 'image' }).map({ attributes: { src: 'url' } });
-  doc.where({ type: 'html_inline' }).set({ type: 'html' });
-  doc.where({ type: 'html_block' }).set({ type: 'html' });
+  doc.where({ type: 'html_inline' }).set({ type: 'html', attributes: { type: 'inline' } });
+  doc.where({ type: 'html_block' }).set({ type: 'html', attributes: { type: 'block' } });
 
   return doc;
 }
 
 Object.keys(testModules).forEach(moduleName => {
-  if (moduleName.match(/html/i)) return;
   const moduleTests = testModules[moduleName];
 
   describe(moduleName, () => {
@@ -57,10 +54,6 @@ Object.keys(testModules).forEach(moduleName => {
         let original = new CommonMarkSource(test.markdown.replace(/→/g, '\t'));
         let generatedMarkdown = renderer.render(translate(original));
         let output = new CommonMarkSource(generatedMarkdown);
-        console.log('\u001B[45m' + test.markdown.replace(/→/g, '\t') + '\u001B[49m\n\n\u001B[44m' + generatedMarkdown + '\u001B[49m');
-//          console.log(test.markdown.replace(/→/g, '\t'));
-//          console.log(original);
-//          console.log(generatedMarkdown);
 
         let originalHIR = new HIR(original).toJSON();
         let outputHIR = new HIR(output).toJSON();

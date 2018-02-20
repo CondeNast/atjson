@@ -35,7 +35,10 @@ function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema
     return result.value;
   }
 
-  return generator.next(flatten(node.children().map((childNode: HIRNode) => {
+  let children = node.children();
+  return generator.next(flatten(children.map((childNode: HIRNode, index: number) => {
+    state.set('previousAnnotation', children[index - 1]);
+    state.set('nextAnnotation', children[index + 1]);
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return renderer.renderText(childNode.text, state);
     } else {
@@ -46,6 +49,16 @@ function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema
 
 interface StateList {
   [key: string]: any;
+}
+
+function get(object: any, key: string): any {
+  if (key === '') return object;
+
+  let [path, ...rest] = key.split('.');
+  if (object) {
+    return get(object[path], rest.join('.'));
+  }
+  return null;
 }
 
 export class State {
@@ -64,11 +77,7 @@ export class State {
   }
 
   get(key: string): any {
-    let currentState: StateList | null = this._state[this._state.length - 1];
-    if (currentState) {
-      return currentState[key];
-    }
-    return null;
+    return get(this._state[this._state.length - 1], key);
   }
 
   set(key: string, value: any) {

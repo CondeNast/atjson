@@ -17,7 +17,7 @@ export function* split() {
   ];
 }
 
-type CodeStyle = "block" | "inline" | "fence";
+type CodeStyle = 'block' | 'inline' | 'fence';
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
@@ -28,14 +28,29 @@ function escapePunctuation(text: string) {
              .replace(/>/g, '&gt;');
 }
 
-function escapeText(text: string) {
-  return text.replace(/\[/g, '\\[')
-             .replace(/\]/g, '\\]');
-}
-
 function escapeAttribute(text: string) {
   return text.replace(/\(/g, '\\(')
              .replace(/\)/g, '\\)');
+}
+
+function getNumberOfRequiredBackticks(text: string) {
+  let index = 0;
+  let counts = [0];
+  for (let i = 0, len = text.length; i < len; i++) {
+    if (text[i] === '`') {
+      counts[index] = counts[index] + 1;
+    } else if (counts[index] !== 0) {
+      counts.push(0);
+      index++;
+    }
+  }
+
+  return counts.sort().reduce((result, count) => {
+    if (count === result) {
+      return result + 1;
+    }
+    return result;
+  }, 1);
 }
 
 export default class CommonmarkRenderer extends Renderer {
@@ -77,8 +92,8 @@ export default class CommonmarkRenderer extends Renderer {
     let endOfQuote = lines.length;
     let startOfQuote = 0;
 
-    while (lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
-    while (lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
+    while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
+    while (endOfQuote > startOfQuote + 1 && lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
 
     if (state.get('isList')) {
       return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
@@ -169,54 +184,66 @@ export default class CommonmarkRenderer extends Renderer {
    * ```
    */
   *'code'(props: { style: CodeStyle, language?: string }, state: State): IterableIterator<string> {
-    state.push({ isPreformatted: true });
+    state.push({ isPreformatted: true, htmlSafe: false });
     let text = yield;
     state.pop();
     let code = text.join('');
-    if (state.get('isList')) {
-      code = '\n' + code;
-    }
+
     if (props.style === 'fence') {
+      code = '\n' + code;
       let language = props.language || '';
       if (code.indexOf('```') !== -1) {
-        return `~~~${language}\n${code}~~~`;
+        return `~~~${language}${code}~~~\n`;
       } else {
-        return `\`\`\`${language}\n${code}\`\`\``;
+        return `\`\`\`${language}${code}\`\`\`\n`;
       }
     } else if (props.style === 'block') {
       return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';
     } else {
-      return `\`${code}\``;
+      // Inline code must be at least 1 letter
+      if (code.length === 0) {
+        return '` `';
+      } else {
+        let backticks = '`'.repeat(getNumberOfRequiredBackticks(code));
+        return `${backticks}${code}${backticks}`;
+      }
     }
   }
 
-  *'html'(_, state: State): IterableIterator<string> {
-    console.log('html start');
-    state.push({ isPreformatted: true, isHTML: true });
+  *'html'(props: { type: string }, state: State): IterableIterator<string> {
+    state.push({ isPreformatted: true, htmlSafe: true });
     let text = yield;
     state.pop();
-    console.log('html end');
-    return text.join('');
+    let html = text.join('');
+    if (props.type === 'block') {
+      return html + '\n';
+    }
+    return html;
   }
 
   /**
    * A list item is part of an ordered list or an unordered list.
    */
   *'list-item'(_, state: State): IterableIterator<string> {
-    let indent: string = '   '.repeat(state.get('indent'));
-    let text: string[] = yield;
     let index: number = state.get('index');
-    let item: string = text.join('').split('\n').map(line => indent + '   ' + line).join('\n').trim();
-
-    console.log(text);
+    let delimiter = state.get('delimiter');
+    let marker: string = delimiter;
     if (state.get('type') === 'numbered') {
-      text = `${indent}${index}. ${item}`;
+      marker = `${index}${delimiter}`;
       state.set('index', index + 1);
-    } else if (state.get('type') === 'bulleted') {
-      text = `${indent}- ${item}`;
     }
+    let indent = ' '.repeat(marker.length + 1);
+    let text: string[] = yield;
+    let item: string = text.join('');
+    let firstCharacter = 0;
+    while (item[firstCharacter] === ' ') firstCharacter++;
 
-    return text;
+    item = ' '.repeat(firstCharacter) + item.split('\n').map(line => indent + line).join('\n').trim();
+
+    if (state.get('hasCodeBlockFollowing')) {
+      return ` ${marker}    ${item}`;
+    }
+    return `${marker} ${item}`;
   }
 
   /**
@@ -225,24 +252,41 @@ export default class CommonmarkRenderer extends Renderer {
    * 3. Of things with numbers preceding them
    */
   *'ordered-list'(props: { start?: number }, state: State): IterableIterator<string> {
-    let indent = state.get('indent');
     let start = 1;
-    if (indent == null) {
-      indent = -1;
-    }
-    if (props && props.start) {
+
+    if (props && props.start != null) {
       start = props.start;
     }
+    let delimiter = '.';
+    if (state.get('previous.type') === 'numbered' && state.get('previous.delimiter') === '.') {
+      delimiter = ')';
+    }
+
+    // Handle indendation for code blocks that immediately follow
+    // a list.
+    let hasCodeBlockFollowing = state.get('nextAnnotation.type') === 'code' &&
+                                state.get('nextAnnotation.attributes.style') === 'block');
+
     state.push({
       isList: true,
       type: 'numbered',
-      indent: indent + 1,
-      index: start
+      index: start,
+      previous: state.get('previous'),
+      delimiter,
+      hasCodeBlockFollowing
     });
     let list = yield;
     state.pop();
 
-    return list.join('\n') + '\n';
+    state.set('previous', {
+      isList: true,
+      type: 'numbered',
+      delimiter
+    });
+    if (state.get('isList') {
+      list.unshift('');
+    }
+    return list.join('\n') + '\n\n';
   }
 
   /**
@@ -251,19 +295,36 @@ export default class CommonmarkRenderer extends Renderer {
    * - Of things with dashes preceding them
    */
   *'unordered-list'(_, state: State): IterableIterator<string> {
-    let indent = state.get('indent');
-    if (indent == null) {
-      indent = -1;
+    let delimiter = '-';
+    if (state.get('previous.type') === 'bulleted' && state.get('previous.delimiter') === '-') {
+      delimiter = '+';
     }
+
+    // Handle indendation for code blocks that immediately follow
+    // a list.
+    let hasCodeBlockFollowing = state.get('nextAnnotation.type') === 'code' &&
+                                state.get('nextAnnotation.attributes.style') === 'block');
 
     state.push({
       isList: true,
       type: 'bulleted',
-      indent: indent + 1
+      previous: state.get('previous'),
+      delimiter,
+      hasCodeBlockFollowing
     });
+
     let list = yield;
     state.pop();
 
+    state.set('previous', {
+      isList: true,
+      type: 'bulleted',
+      delimiter
+    });
+
+    if (state.get('isList') {
+      list.unshift('');
+    }
     return list.join('\n') + '\n\n';
   }
 

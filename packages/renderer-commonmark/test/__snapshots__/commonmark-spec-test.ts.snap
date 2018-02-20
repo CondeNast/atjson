@@ -2272,11 +2272,10 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "\\\\[\\\\",
+            "\\\\[\\\\\` ",
           ],
           "type": "code_inline",
         },
-        " \`",
       ],
       "type": "paragraph",
     },
@@ -2586,6 +2585,70 @@ baz",
           "type": "paragraph",
         },
       ],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes >
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes >
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes >
+>  
+> 
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Block quotes >
+>  
+> 
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [],
       "type": "blockquote",
     },
   ],
@@ -4407,11 +4470,10 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            "foo \` bar",
           ],
           "type": "code_inline",
         },
-        " bar\`",
       ],
       "type": "paragraph",
     },
@@ -12177,7 +12239,12 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "\`\`
+        Object {
+          "attributes": Object {},
+          "children": Array [],
+          "type": "code_inline",
+        },
+        "
 aaa",
       ],
       "type": "paragraph",
@@ -12687,11 +12754,16 @@ Object {
       "attributes": Object {},
       "children": Array [
         "bar
-\`\`\`baz
-
 ",
       ],
       "type": "fence",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "baz",
+      ],
+      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -12762,10 +12834,2661 @@ Object {
       "attributes": Object {},
       "children": Array [
         "bar
-\`\`\`# baz
 ",
       ],
       "type": "fence",
+    },
+    Object {
+      "attributes": Object {
+        "level": 1,
+      },
+      "children": Array [
+        "baz",
+      ],
+      "type": "heading",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks   <!-- foo -->
+
+    <!-- foo -->
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <!-- foo -->
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- foo -->
+",
+      ],
+      "type": "code_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks   <!-- foo -->
+
+    <!-- foo -->
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <!-- foo -->
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- foo -->
+",
+      ],
+      "type": "code_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks   <div>
+
+    <div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <div>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+",
+      ],
+      "type": "code_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks   <div>
+
+    <div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <div>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+",
+      ],
+      "type": "code_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks  <div>
+  *hello*
+         <foo><a>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        " <div>
+  *hello*
+         <foo><a>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks  <div>
+  *hello*
+         <foo><a>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        " <div>
+  *hello*
+         <foo><a>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <![CDATA[
+function matchwo(a,b)
+{
+  if (a < b && a < 0) then {
+    return 1;
+
+  } else {
+
+    return 0;
+  }
+}
+]]>
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<![CDATA[
+function matchwo(a,b)
+{
+  if (a < b && a < 0) then {
+    return 1;
+
+  } else {
+
+    return 0;
+  }
+}
+]]>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <![CDATA[
+function matchwo(a,b)
+{
+  if (a < b && a < 0) then {
+    return 1;
+
+  } else {
+
+    return 0;
+  }
+}
+]]>
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<![CDATA[
+function matchwo(a,b)
+{
+  if (a < b && a < 0) then {
+    return 1;
+
+  } else {
+
+    return 0;
+  }
+}
+]]>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!-- Foo
+
+bar
+   baz -->
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- Foo
+
+bar
+   baz -->
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!-- Foo
+
+bar
+   baz -->
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- Foo
+
+bar
+   baz -->
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!-- foo -->*bar*
+*baz*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- foo -->*bar*
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "baz",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!-- foo -->*bar*
+*baz*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!-- foo -->*bar*
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "baz",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!DOCTYPE html>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!DOCTYPE html>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <!DOCTYPE html>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<!DOCTYPE html>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks </div>
+*foo*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks </div>
+*foo*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks </ins>
+*bar*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</ins>
+*bar*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks </ins>
+*bar*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</ins>
+*bar*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <?php
+
+  echo '>';
+
+?>
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<?php
+
+  echo '>';
+
+?>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <?php
+
+  echo '>';
+
+?>
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<?php
+
+  echo '>';
+
+?>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <DIV CLASS="foo">
+
+*Markdown*
+
+</DIV>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<DIV CLASS=\\"foo\\">
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "Markdown",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</DIV>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <DIV CLASS="foo">
+
+*Markdown*
+
+</DIV>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<DIV CLASS=\\"foo\\">
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "Markdown",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</DIV>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <Warning>
+*bar*
+</Warning>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<Warning>
+*bar*
+</Warning>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <Warning>
+*bar*
+</Warning>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<Warning>
+*bar*
+</Warning>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <a href="foo">
+*bar*
+</a>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"foo\\">
+*bar*
+</a>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <a href="foo">
+*bar*
+</a>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"foo\\">
+*bar*
+</a>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>
+
+*foo*
+
+</del>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<del>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</del>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>
+
+*foo*
+
+</del>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<del>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</del>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>
+*foo*
+</del>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<del>
+*foo*
+</del>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>
+*foo*
+</del>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<del>
+*foo*
+</del>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>*foo*</del>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<del>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</del>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <del>*foo*</del>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<del>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</del>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div *???-&&&-<---
+*foo*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div *???-&&&-<---
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div *???-&&&-<---
+*foo*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div *???-&&&-<---
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div class
+foo
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div class
+foo
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div class
+foo
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div class
+foo
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo"
+  class="bar">
+</div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\"
+  class=\\"bar\\">
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo"
+  class="bar">
+</div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\"
+  class=\\"bar\\">
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo"
+*hi*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\"
+*hi*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo"
+*hi*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\"
+*hi*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo" class="bar
+  baz">
+</div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\" class=\\"bar
+  baz\\">
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div id="foo" class="bar
+  baz">
+</div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div id=\\"foo\\" class=\\"bar
+  baz\\">
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+
+*Emphasized* text.
+
+</div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "Emphasized",
+          ],
+          "type": "em",
+        },
+        " text.",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+
+*Emphasized* text.
+
+</div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "Emphasized",
+          ],
+          "type": "em",
+        },
+        " text.",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+*Emphasized* text.
+</div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+*Emphasized* text.
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+*Emphasized* text.
+</div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+*Emphasized* text.
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+*foo*
+
+*bar*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+*foo*
+
+*bar*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+bar
+</div>
+*foo*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+bar
+</div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div>
+bar
+</div>
+*foo*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+bar
+</div>
+*foo*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div></div>
+\`\`\` c
+int x = 33;
+\`\`\`
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div></div>
+\`\`\` c
+int x = 33;
+\`\`\`
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div></div>
+\`\`\` c
+int x = 33;
+\`\`\`
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div></div>
+\`\`\` c
+int x = 33;
+\`\`\`
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div><a href="bar">*foo*</a></div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div><a href=\\"bar\\">*foo*</a></div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <div><a href="bar">*foo*</a></div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div><a href=\\"bar\\">*foo*</a></div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <i class="foo">
+*bar*
+</i>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<i class=\\"foo\\">
+*bar*
+</i>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <i class="foo">
+*bar*
+</i>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<i class=\\"foo\\">
+*bar*
+</i>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <pre language="haskell"><code>
+import Text.HTML.TagSoup
+
+main :: IO ()
+main = print $ parseTags tags
+</code></pre>
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<pre language=\\"haskell\\"><code>
+import Text.HTML.TagSoup
+
+main :: IO ()
+main = print $ parseTags tags
+</code></pre>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <pre language="haskell"><code>
+import Text.HTML.TagSoup
+
+main :: IO ()
+main = print $ parseTags tags
+</code></pre>
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<pre language=\\"haskell\\"><code>
+import Text.HTML.TagSoup
+
+main :: IO ()
+main = print $ parseTags tags
+</code></pre>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <script type="text/javascript">
+// JavaScript example
+
+document.getElementById("demo").innerHTML = "Hello JavaScript!";
+</script>
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<script type=\\"text/javascript\\">
+// JavaScript example
+
+document.getElementById(\\"demo\\").innerHTML = \\"Hello JavaScript!\\";
+</script>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <script type="text/javascript">
+// JavaScript example
+
+document.getElementById("demo").innerHTML = "Hello JavaScript!";
+</script>
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<script type=\\"text/javascript\\">
+// JavaScript example
+
+document.getElementById(\\"demo\\").innerHTML = \\"Hello JavaScript!\\";
+</script>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <script>
+foo
+</script>1. *bar*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<script>
+foo
+</script>1. *bar*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <script>
+foo
+</script>1. *bar*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<script>
+foo
+</script>1. *bar*
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style
+  type="text/css">
+
+foo
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style
+  type=\\"text/css\\">
+
+foo
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style
+  type="text/css">
+
+foo
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style
+  type=\\"text/css\\">
+
+foo
+
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style
+  type="text/css">
+h1 {color:red;}
+
+p {color:blue;}
+</style>
+okay
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style
+  type=\\"text/css\\">
+h1 {color:red;}
+
+p {color:blue;}
+</style>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style
+  type="text/css">
+h1 {color:red;}
+
+p {color:blue;}
+</style>
+okay
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style
+  type=\\"text/css\\">
+h1 {color:red;}
+
+p {color:blue;}
+</style>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style>p{color:red;}</style>
+*foo*
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style>p{color:red;}</style>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <style>p{color:red;}</style>
+*foo*
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<style>p{color:red;}</style>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "em",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+
+  <tr>
+
+    <td>
+      Hi
+    </td>
+
+  </tr>
+
+</table>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<td>
+  Hi
+</td>
+",
+      ],
+      "type": "code_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  </tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+
+  <tr>
+
+    <td>
+      Hi
+    </td>
+
+  </tr>
+
+</table>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  <tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<td>
+  Hi
+</td>
+",
+      ],
+      "type": "code_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "  </tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+
+<tr>
+
+<td>
+Hi
+</td>
+
+</tr>
+
+</table>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<td>
+Hi
+</td>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+
+<tr>
+
+<td>
+Hi
+</td>
+
+</tr>
+
+</table>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<td>
+Hi
+</td>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</tr>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+  <tr>
+    <td>
+           hi
+    </td>
+  </tr>
+</table>
+
+okay.
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+  <tr>
+    <td>
+           hi
+    </td>
+  </tr>
+</table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay.",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table>
+  <tr>
+    <td>
+           hi
+    </td>
+  </tr>
+</table>
+
+okay.
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table>
+  <tr>
+    <td>
+           hi
+    </td>
+  </tr>
+</table>
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "okay.",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table><tr><td>
+<pre>
+**Hello**,
+
+_world_.
+</pre>
+</td></tr></table>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table><tr><td>
+<pre>
+**Hello**,
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "world",
+          ],
+          "type": "em",
+        },
+        ".
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</pre>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</td></tr></table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table><tr><td>
+<pre>
+**Hello**,
+
+_world_.
+</pre>
+</td></tr></table>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table><tr><td>
+<pre>
+**Hello**,
+",
+      ],
+      "type": "html_block",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "world",
+          ],
+          "type": "em",
+        },
+        ".
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</pre>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</td></tr></table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table><tr><td>
+foo
+</td></tr></table>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table><tr><td>
+foo
+</td></tr></table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks <table><tr><td>
+foo
+</td></tr></table>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<table><tr><td>
+foo
+</td></tr></table>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks > <div>
+> foo
+
+bar
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<div>
+foo
+",
+          ],
+          "type": "html_block",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "bar",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks > <div>
+> foo
+
+bar
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<div>
+foo
+",
+          ],
+          "type": "html_block",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "bar",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks - <div>
+- foo
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "<div>
+",
+              ],
+              "type": "html_block",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks - <div>
+- foo
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "<div>
+",
+              ],
+              "type": "html_block",
+            },
+          ],
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "type": "list_item",
+        },
+      ],
+      "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks Foo
+<a href="bar">
+baz
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"bar\\">",
+          ],
+          "type": "html_inline",
+        },
+        "
+baz",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks Foo
+<a href="bar">
+baz
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"bar\\">",
+          ],
+          "type": "html_inline",
+        },
+        "
+baz",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks Foo
+<div>
+bar
+</div>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+bar
+</div>
+",
+      ],
+      "type": "html_block",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`HTML blocks Foo
+<div>
+bar
+</div>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<div>
+bar
+</div>
+",
+      ],
+      "type": "html_block",
     },
   ],
   "type": "root",
@@ -15746,6 +18469,70 @@ Object {
 
 exports[`Link reference definitions [foo]
 
+> [foo]: /url
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "type": "link",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]
+
+> [foo]: /url
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "type": "link",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [],
+      "type": "blockquote",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]
+
 [foo]: first
 [foo]: second
  1`] = `
@@ -16512,11 +19299,16 @@ Object {
       "attributes": Object {},
       "children": Array [
         "[foo]: /url
-\`\`\`\\\\[foo\\\\]
-
 ",
       ],
       "type": "fence",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo]",
+      ],
+      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -22027,9 +24819,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "bar",
+                "bar
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
             },
           ],
           "type": "list_item",
@@ -22164,25 +24957,20 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "one",
-              ],
-              "type": "paragraph",
-            },
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "two",
-              ],
-              "type": "paragraph",
-            },
+            "one",
           ],
           "type": "list_item",
         },
       ],
       "type": "bullet_list",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        " two
+",
+      ],
+      "type": "code_block",
     },
   ],
   "type": "root",
@@ -22749,8 +25537,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                " 
- bar
+                "bar
 ",
               ],
               "type": "fence",
@@ -22761,7 +25548,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "baz",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz
+",
+              ],
+              "type": "code_block",
+            },
           ],
           "type": "list_item",
         },
@@ -23214,10 +26008,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                " bar
- 
- 
- baz
+                "bar
+
+
+baz
 ",
               ],
               "type": "code_block",
@@ -23373,7 +26167,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                " bar
+                "bar
 ",
               ],
               "type": "code_block",
@@ -23496,14 +26290,53 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- bar
-   
-         - baz
-            
-                     - boo
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        Object {
+                          "attributes": Object {},
+                          "children": Array [
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "baz",
+                              ],
+                              "type": "paragraph",
+                            },
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                Object {
+                                  "attributes": Object {},
+                                  "children": Array [
+                                    "boo",
+                                  ],
+                                  "type": "list_item",
+                                },
+                              ],
+                              "type": "bullet_list",
+                            },
+                          ],
+                          "type": "list_item",
+                        },
+                      ],
+                      "type": "bullet_list",
+                    },
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -24015,7 +26848,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "start": 0,
+      },
       "children": Array [
         Object {
           "attributes": Object {},
@@ -24149,9 +26984,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                " indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
             },
             Object {
               "attributes": Object {},
@@ -24246,9 +27082,10 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "indented code",
+                "indented code
+",
               ],
-              "type": "paragraph",
+              "type": "code_block",
             },
             Object {
               "attributes": Object {},
@@ -24482,14 +27319,30 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "
-bar
-\`\`\`baz
-
-> bam
+                "bar
 ",
               ],
               "type": "fence",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "baz",
+              ],
+              "type": "paragraph",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "bam",
+                  ],
+                  "type": "paragraph",
+                },
+              ],
+              "type": "blockquote",
             },
           ],
           "type": "list_item",
@@ -25330,10 +28183,15 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- bar
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "bar",
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
             Object {
               "attributes": Object {},
@@ -25588,8 +28446,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "
-c
+                "c
 ",
               ],
               "type": "fence",
@@ -25703,12 +28560,28 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- b
-   
-   c
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "b",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "c",
+                      ],
+                      "type": "paragraph",
+                    },
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -25843,11 +28716,22 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- b
-- c
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "c",
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -25865,11 +28749,22 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- e
-- f
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "e",
+                  ],
+                  "type": "list_item",
+                },
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "f",
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -25947,10 +28842,15 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- b
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "b",
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -26262,10 +29162,9 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                " 
- b
- 
- 
+                "b
+
+
 ",
               ],
               "type": "fence",
@@ -26747,14 +29646,47 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- bar
-   
-         - baz
-            
-            bim
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        Object {
+                          "attributes": Object {},
+                          "children": Array [
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "baz",
+                              ],
+                              "type": "paragraph",
+                            },
+                            Object {
+                              "attributes": Object {},
+                              "children": Array [
+                                "bim",
+                              ],
+                              "type": "paragraph",
+                            },
+                          ],
+                          "type": "list_item",
+                        },
+                      ],
+                      "type": "bullet_list",
+                    },
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -26964,6 +29896,12 @@ Object {
           ],
           "type": "list_item",
         },
+      ],
+      "type": "bullet_list",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
@@ -27038,12 +29976,17 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "
-foo
-\`\`\`bar
+                "foo
 ",
               ],
               "type": "fence",
+            },
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "type": "paragraph",
             },
           ],
           "type": "list_item",
@@ -27209,6 +30152,14 @@ Object {
           ],
           "type": "list_item",
         },
+      ],
+      "type": "ordered_list",
+    },
+    Object {
+      "attributes": Object {
+        "start": 3,
+      },
+      "children": Array [
         Object {
           "attributes": Object {},
           "children": Array [
@@ -27842,6 +30793,982 @@ Object {
         },
       ],
       "type": "bullet_list",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML < a><
+foo><bar/ >
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "< a><
+foo><bar/ >",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML < a><
+foo><bar/ >
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "< a><
+foo><bar/ >",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML </a href="foo">
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</a href=\\"foo\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML </a href="foo">
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "</a href=\\"foo\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML </a></foo >
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</a>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</foo >",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML </a></foo >
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</a>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "</foo >",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <33> <__>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<33> <__>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <33> <__>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<33> <__>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a  /><b2
+data="foo" >
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a  />",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b2
+data=\\"foo\\" >",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a  /><b2
+data="foo" >
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a  />",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b2
+data=\\"foo\\" >",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a foo="bar" bam = 'baz <em>"</em>'
+_boolean zoop:33=zoop:33 />
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a foo=\\"bar\\" bam = 'baz <em>\\"</em>'
+_boolean zoop:33=zoop:33 />",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a foo="bar" bam = 'baz <em>"</em>'
+_boolean zoop:33=zoop:33 />
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a foo=\\"bar\\" bam = 'baz <em>\\"</em>'
+_boolean zoop:33=zoop:33 />",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a h*#ref="hi">
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a h*#ref=\\"hi\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a h*#ref="hi">
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a h*#ref=\\"hi\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href="\\"">
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"\\"\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href="\\"">
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"\\"\\">",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href="hi'> <a href=hi'>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"hi'> <a href=hi'>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href="hi'> <a href=hi'>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href=\\"hi'> <a href=hi'>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href='bar'title=title>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href='bar'title=title>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a href='bar'title=title>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "<a href='bar'title=title>",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a/><b2/>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a/>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b2/>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a/><b2/>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a/>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b2/>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a><bab><c2c>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<bab>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<c2c>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML <a><bab><c2c>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<bab>",
+          ],
+          "type": "html_inline",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<c2c>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML Foo <responsive-image src="foo.jpg" />
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<responsive-image src=\\"foo.jpg\\" />",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML Foo <responsive-image src="foo.jpg" />
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "Foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<responsive-image src=\\"foo.jpg\\" />",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <![CDATA[>&<]]>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<![CDATA[>&<]]>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <![CDATA[>&<]]>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<![CDATA[>&<]]>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!-- not a comment -- two hyphens -->",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!-- not a comment -- two hyphens -->",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!-- this is a
+comment - with hyphen -->
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<!-- this is a
+comment - with hyphen -->",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!-- this is a
+comment - with hyphen -->
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<!-- this is a
+comment - with hyphen -->",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!--> foo -->
+
+foo <!-- foo--->
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!--> foo -->",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!-- foo--->",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!--> foo -->
+
+foo <!-- foo--->
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!--> foo -->",
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo <!-- foo--->",
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!ELEMENT br EMPTY>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<!ELEMENT br EMPTY>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <!ELEMENT br EMPTY>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<!ELEMENT br EMPTY>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <?php echo $a; ?>
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<?php echo $a; ?>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <?php echo $a; ?>
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<?php echo $a; ?>",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <a href="&ouml;">
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"ö\\">",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <a href="&ouml;">
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"ö\\">",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <a href="\\*">
+ 1`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"\\\\*\\">",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`Raw HTML foo <a href="\\*">
+ 2`] = `
+Object {
+  "attributes": undefined,
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<a href=\\"\\\\*\\">",
+          ],
+          "type": "html_inline",
+        },
+      ],
+      "type": "paragraph",
     },
   ],
   "type": "root",
@@ -29728,12 +33655,34 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "- bar
-   
-         - baz
-",
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        "bar",
+                      ],
+                      "type": "paragraph",
+                    },
+                    Object {
+                      "attributes": Object {},
+                      "children": Array [
+                        Object {
+                          "attributes": Object {},
+                          "children": Array [
+                            "baz",
+                          ],
+                          "type": "list_item",
+                        },
+                      ],
+                      "type": "bullet_list",
+                    },
+                  ],
+                  "type": "list_item",
+                },
               ],
-              "type": "code_block",
+              "type": "bullet_list",
             },
           ],
           "type": "list_item",
@@ -29924,7 +33873,7 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "   bar
+                "  bar
 ",
               ],
               "type": "code_block",
@@ -29981,7 +33930,14 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "  foo
+",
+              ],
+              "type": "code_block",
+            },
           ],
           "type": "list_item",
         },
