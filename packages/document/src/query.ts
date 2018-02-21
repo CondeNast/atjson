@@ -80,6 +80,22 @@ function flattenKeys(mapping: Mapping, prefix?: string): Mapping {
     let fullyQualifiedKey = key;
     if (prefix) {
       fullyQualifiedKey = `${prefix}.${key}`;
+    }
+    if (typeof value !== 'object') {
+      result[fullyQualifiedKey] = value;
+    } else {
+      Object.assign(result, flattenKeys(value, fullyQualifiedKey));
+    }
+    return result;
+  }, {});
+}
+
+function flattenKeysAndValues(mapping: Mapping, prefix?: string): Mapping {
+  return Object.keys(mapping).reduce((result: Mapping, key: string) => {
+    let value = mapping[key];
+    let fullyQualifiedKey = key;
+    if (prefix) {
+      fullyQualifiedKey = `${prefix}.${key}`;
       if (typeof value === 'string') {
         value = `${prefix}.${value}`;
       }
@@ -87,7 +103,7 @@ function flattenKeys(mapping: Mapping, prefix?: string): Mapping {
     if (typeof value === 'string') {
       result[fullyQualifiedKey] = value;
     } else {
-      Object.assign(result, flattenKeys(value, fullyQualifiedKey));
+      Object.assign(result, flattenKeysAndValues(value, fullyQualifiedKey));
     }
     return result;
   }, {});
@@ -129,8 +145,13 @@ export default class Query {
   }
 
   set(patch: any): Query {
+    let flattenedPatch = flattenKeys(patch);
     return this.map((annotation: Annotation) => {
-      return Object.assign(clone(annotation), clone(patch));
+      let result = clone(annotation);
+      Object.keys(flattenedPatch).forEach(key => {
+        set(result, key, flattenedPatch[key]);
+      });
+      return result;
     });
   }
 
@@ -142,7 +163,7 @@ export default class Query {
 
   map(mapping: Mapping | Transform): Query {
     if (typeof mapping === 'object') {
-      let flattenedMapping = flattenKeys(mapping);
+      let flattenedMapping = flattenKeysAndValues(mapping);
       return this.map((annotation: Annotation) => {
         let result = without(annotation, Object.keys(flattenedMapping));
         Object.keys(flattenedMapping).forEach(key => {
