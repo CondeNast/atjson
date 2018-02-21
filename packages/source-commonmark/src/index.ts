@@ -20,7 +20,7 @@ interface Node {
   name: string;
   open?: MarkdownIt.Token;
   close?: MarkdownIt.Token;
-  value?: MarkdownIt.Token;
+  value?: MarkdownIt.Token | string;
   parent?: Node;
   children?: (Node | string)[];
 }
@@ -30,9 +30,17 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
   tokens.forEach(token => {
     // Ignore softbreak as per markdown-it defaults
     if (token.tag === 'br' && token.type === 'softbreak') {
-      currentNode.children.push({ text: '\n', parent: currentNode });
+      currentNode.children.push({
+        name: 'text',
+        value: '\n',
+        parent: currentNode
+      });
     } else if (token.type === 'text') {
-      currentNode.children.push({ text: entities.decodeHTML5(token.content), parent: currentNode });
+      currentNode.children.push({
+        name: 'text',
+        value: token.content,
+        parent: currentNode
+      });
     } else if (token.type === 'inline') {
       toTree(token.children, currentNode);
     } else if (token.children && token.children.length > 0) {
@@ -58,7 +66,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       currentNode.close = token;
       currentNode = currentNode.parent;
     } else {
-      let text = entities.decodeHTML5(token.content);
+      let text = token.content;
       // Fix edge case where spaces in inline code blocks
       // are not retained by MarkdownIt
       if (token.type === 'code_inline') {
@@ -74,11 +82,26 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
         open: token,
         close: token,
         parent: currentNode,
-        children: [{ text, parent: currentNode }]
+        children: [{
+          name: 'text',
+          value: text,
+          parent: currentNode
+        }]
       });
     }
   });
   return rootNode;
+}
+
+function getText(node: Node) {
+  return node.children.reduce((textNodes, child) => {
+    if (child.name === 'text') {
+      textNodes.push(child);
+    } else if (child.children) {
+      textNodes.push(...getText(child));
+    }
+    return textNodes;
+  }, []);
 }
 
 class Parser {
@@ -90,14 +113,14 @@ class Parser {
   }
 
   walk(nodes: Node[]) {
-    return nodes.forEach((node: Node | string) => {
-      if (typeof node.text === 'string') {
-        this.content += node.text;
+    return nodes.forEach((node: Node) => {
+      if (node.name === 'text') {
+        this.content += node.value;
       } else {
         if (node.name === 'image') {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push(['alt', node.children.filter(n => n.text != null).join('')]);
+          token.attrs.push(['alt', getText(node).map(n => n.value).join('')]);
           node.children = [];
         }
         // Identify whether the list is tight (paragraphs collapse)

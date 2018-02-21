@@ -11122,7 +11122,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "föfö
+        "f&ouml;f&ouml;
 ",
       ],
       "type": "code_block",
@@ -11140,7 +11140,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "föfö
+        "f&ouml;f&ouml;
 ",
       ],
       "type": "code_block",
@@ -11260,7 +11260,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "©",
+        "&copy",
       ],
       "type": "paragraph",
     },
@@ -11277,7 +11277,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "©",
+        "&copy",
       ],
       "type": "paragraph",
     },
@@ -11295,7 +11295,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "  &x; &#; &#x;
+        "&nbsp &x; &#; &#x;
 &ThisIsNotDefined; &hi?;",
       ],
       "type": "paragraph",
@@ -11314,7 +11314,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "  &x; &#; &#x;
+        "&nbsp &x; &#; &#x;
 &ThisIsNotDefined; &hi?;",
       ],
       "type": "paragraph",
@@ -11374,7 +11374,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "<a href=\\"öö.html\\">
+        "<a href=\\"&ouml;&ouml;.html\\">
 ",
       ],
       "type": "html_block",
@@ -11392,7 +11392,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "<a href=\\"öö.html\\">
+        "<a href=\\"&ouml;&ouml;.html\\">
 ",
       ],
       "type": "html_block",
@@ -11565,7 +11565,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "föö",
+            "f&ouml;&ouml;",
           ],
           "type": "code_inline",
         },
@@ -11588,7 +11588,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "föö",
+            "f&ouml;&ouml;",
           ],
           "type": "code_inline",
         },
@@ -16371,7 +16371,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url",
             "title": "title",
           },
@@ -16398,7 +16398,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url",
             "title": "title",
           },
@@ -16425,7 +16425,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url",
             "title": "title",
           },
@@ -16452,7 +16452,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url",
             "title": "title",
           },
@@ -16529,7 +16529,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -16553,7 +16553,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "",
             "src": "/url",
           },
           "children": Array [],
@@ -16579,7 +16579,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "Foo",
             "src": "/url",
             "title": "title",
           },
@@ -16606,7 +16606,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "Foo",
             "src": "/url",
             "title": "title",
           },
@@ -16633,7 +16633,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "Foo",
             "src": "/url",
             "title": "title",
           },
@@ -16660,7 +16660,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "Foo",
             "src": "/url",
             "title": "title",
           },
@@ -16685,7 +16685,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url2",
           },
           "children": Array [],
@@ -16709,7 +16709,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url2",
           },
           "children": Array [],
@@ -16735,7 +16735,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16762,7 +16762,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16789,7 +16789,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16816,7 +16816,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16843,7 +16843,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16870,7 +16870,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "train.jpg",
             "title": "train & tracks",
           },
@@ -16895,7 +16895,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url2",
           },
           "children": Array [],
@@ -16919,7 +16919,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/url2",
           },
           "children": Array [],
@@ -16945,7 +16945,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -16972,7 +16972,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17000,7 +17000,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17030,7 +17030,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17057,7 +17057,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17082,7 +17082,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17107,7 +17107,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "url",
           },
           "children": Array [],
@@ -17131,7 +17131,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "url",
           },
           "children": Array [],
@@ -17155,7 +17155,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "train.jpg",
           },
           "children": Array [],
@@ -17179,7 +17179,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "train.jpg",
           },
           "children": Array [],
@@ -17205,7 +17205,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17232,7 +17232,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
             "title": "title",
           },
@@ -17259,7 +17259,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
           },
           "children": Array [],
@@ -17285,7 +17285,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
           },
           "children": Array [],
@@ -17311,7 +17311,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
           },
           "children": Array [],
@@ -17337,7 +17337,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "/url",
           },
           "children": Array [],
@@ -17458,7 +17458,7 @@ Object {
         "My ",
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/path/to/train.jpg",
             "title": "title",
           },
@@ -17484,7 +17484,7 @@ Object {
         "My ",
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo bar",
             "src": "/path/to/train.jpg",
             "title": "title",
           },
@@ -19573,7 +19573,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object][object Object]",
+            "alt": "[foo](uri2)",
             "src": "uri3",
           },
           "children": Array [],
@@ -19597,7 +19597,7 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "[object Object]",
+            "alt": "foo",
             "src": "uri3",
           },
           "children": Array [],
@@ -19842,7 +19842,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "[object Object]",
+                "alt": "moon",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -19874,7 +19874,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "[object Object]",
+                "alt": "moon",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -19908,7 +19908,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "[object Object]",
+                "alt": "moon",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -19942,7 +19942,7 @@ Object {
           "children": Array [
             Object {
               "attributes": Object {
-                "alt": "[object Object]",
+                "alt": "moon",
                 "src": "moon.jpg",
               },
               "children": Array [],
@@ -33163,7 +33163,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "<a href=\\"ö\\">",
+            "<a href=\\"&ouml;\\">",
           ],
           "type": "html_inline",
         },
@@ -33187,7 +33187,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "<a href=\\"ö\\">",
+            "<a href=\\"&ouml;\\">",
           ],
           "type": "html_inline",
         },
