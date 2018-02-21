@@ -158,6 +158,9 @@ export default class extends Document {
       heading(token: MarkdownIt.Token): Attributes {
         let level = parseInt(token.tag.match(/h(\d)/)[1], 10);
         return { level };
+      },
+      fence(token: MarkdownIt.Token): Attributes {
+        return { info: entities.decodeHTML5(token.info.trim()) };
       }
     });
     super({

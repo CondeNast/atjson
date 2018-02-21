@@ -183,7 +183,7 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(props: { style: CodeStyle, language?: string }, state: State): IterableIterator<string> {
+  *'code'(props: { style: CodeStyle, info?: string }, state: State): IterableIterator<string> {
     state.push({ isPreformatted: true, htmlSafe: false });
     let text = yield;
     state.pop();
@@ -191,16 +191,16 @@ export default class CommonmarkRenderer extends Renderer {
 
     if (props.style === 'fence') {
       code = '\n' + code;
-      let language = props.language || '';
+      let info = props.info || '';
       let newlines = '\n';
       if (state.get('isList') && state.get('nextAnnotation')) {
         newlines += '\n';
       }
 
       if (code.indexOf('```') !== -1) {
-        return `~~~${language}${code}~~~${newlines}`;
+        return `~~~${info}${code}~~~${newlines}`;
       } else {
-        return `\`\`\`${language}${code}\`\`\`${newlines}`;
+        return `\`\`\`${info}${code}\`\`\`${newlines}`;
       }
     } else if (props.style === 'block') {
       return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';

@@ -32,6 +32,9 @@ export default {
     code_inline: {
         type: 'inline'
     },
+    fence: {
+        type: 'block'
+    },
     code_block: {
         type: 'block'
     },

@@ -2292,7 +2292,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "foo\\\\+bar",
+      },
       "children": Array [
         "foo
 ",
@@ -2312,7 +2314,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "foo\\\\+bar",
+      },
       "children": Array [
         "foo
 ",
@@ -2332,7 +2336,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "\\\\[\\\\]
 ",
@@ -2352,7 +2358,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "\\\\[\\\\]
 ",
@@ -3075,7 +3083,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "info": "",
+          },
           "children": Array [],
           "type": "fence",
         },
@@ -3090,7 +3100,9 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -3110,7 +3122,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "info": "",
+          },
           "children": Array [],
           "type": "fence",
         },
@@ -3125,7 +3139,9 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -11502,7 +11518,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "föö",
+      },
       "children": Array [
         "foo
 ",
@@ -11522,7 +11540,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "föö",
+      },
       "children": Array [
         "foo
 ",
@@ -11634,7 +11654,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
  aaa
@@ -11658,7 +11680,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
  aaa
@@ -11680,7 +11704,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ",
@@ -11700,7 +11726,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ",
@@ -11722,7 +11750,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 aaa
@@ -11746,7 +11776,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 aaa
@@ -11769,7 +11801,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 aaa
@@ -11791,7 +11825,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 aaa
@@ -11816,7 +11852,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "info": "",
+          },
           "children": Array [
             "aaa
 ",
@@ -11850,7 +11888,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "info": "",
+          },
           "children": Array [
             "aaa
 ",
@@ -11931,7 +11971,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "
   
@@ -11953,7 +11995,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "
   
@@ -11972,7 +12016,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -11987,7 +12033,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -12005,7 +12053,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "<
  >
@@ -12027,7 +12077,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "<
  >
@@ -12047,7 +12099,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -12063,7 +12117,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -12080,7 +12136,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "\`\`\` aaa
 ",
@@ -12100,7 +12158,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "\`\`\` aaa
 ",
@@ -12120,7 +12180,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
     \`\`\`
@@ -12141,7 +12203,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
     \`\`\`
@@ -12162,7 +12226,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ",
@@ -12182,7 +12248,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ",
@@ -12203,7 +12271,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~
@@ -12225,7 +12295,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~
@@ -12347,7 +12419,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 \`\`\`
@@ -12369,7 +12443,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 \`\`\`
@@ -12389,7 +12465,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": ";",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -12405,7 +12483,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": ";",
+      },
       "children": Array [],
       "type": "fence",
     },
@@ -12423,7 +12503,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "
 \`\`\`
@@ -12446,7 +12528,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "
 \`\`\`
@@ -12470,7 +12554,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "ruby",
+      },
       "children": Array [
         "def foo(x)
   return 3
@@ -12494,7 +12580,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "ruby",
+      },
       "children": Array [
         "def foo(x)
   return 3
@@ -12517,7 +12605,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "<
  >
@@ -12539,7 +12629,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "<
  >
@@ -12561,7 +12653,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 \`\`\`
@@ -12583,7 +12677,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 \`\`\`
@@ -12605,7 +12701,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~
@@ -12627,7 +12725,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~
@@ -12650,7 +12750,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "ruby startline=3 $%@#$",
+      },
       "children": Array [
         "def foo(x)
   return 3
@@ -12674,7 +12776,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "ruby startline=3 $%@#$",
+      },
       "children": Array [
         "def foo(x)
   return 3
@@ -12696,7 +12800,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~ ~~
@@ -12717,7 +12823,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "aaa
 ~~~ ~~
@@ -12747,7 +12855,9 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "bar
 ",
@@ -12783,7 +12893,9 @@ Object {
       "type": "paragraph",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "bar
 ",
@@ -12822,7 +12934,9 @@ Object {
       "type": "heading",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "bar
 ",
@@ -12863,7 +12977,9 @@ Object {
       "type": "heading",
     },
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "bar
 ",
@@ -19339,7 +19455,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "[foo]: /url
 ",
@@ -19368,7 +19486,9 @@ Object {
   "attributes": undefined,
   "children": Array [
     Object {
-      "attributes": Object {},
+      "attributes": Object {
+        "info": "",
+      },
       "children": Array [
         "[foo]: /url
 ",
@@ -25647,7 +25767,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "bar
 ",
@@ -25713,7 +25835,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "bar
 ",
@@ -27700,7 +27824,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "bar
 ",
@@ -27767,7 +27893,9 @@ Object {
               "type": "paragraph",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "bar
 ",
@@ -29026,7 +29154,9 @@ Object {
               "type": "blockquote",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "c
 ",
@@ -29096,7 +29226,9 @@ Object {
               "type": "blockquote",
             },
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "c
 ",
@@ -30002,7 +30134,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "b
 
@@ -30068,7 +30202,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "b
 
@@ -31109,7 +31245,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "foo
 ",
@@ -31152,7 +31290,9 @@ Object {
           "attributes": Object {},
           "children": Array [
             Object {
-              "attributes": Object {},
+              "attributes": Object {
+                "info": "",
+              },
               "children": Array [
                 "foo
 ",
