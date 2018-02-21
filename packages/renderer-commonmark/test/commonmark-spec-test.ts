@@ -5,6 +5,7 @@ import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
 import CommonMarkRenderer from '@atjson/renderer-commonmark';
 import CommonMarkSource from '@atjson/source-commonmark';
+import * as MarkdownIt from 'markdown-it';
 import * as spec from 'commonmark-spec';
 import schema from './schema';
 
@@ -51,17 +52,23 @@ Object.keys(testModules).forEach(moduleName => {
     moduleTests.forEach((test: any): void => {
       let shouldSkip = skippedTests.includes(test.number);
       let renderer = new CommonMarkRenderer();
+
       (shouldSkip ? xit : it)(test.markdown, () => {
-        let original = new CommonMarkSource(test.markdown.replace(/→/g, '\t'));
+        let markdown = test.markdown.replace(/→/g, '\t');
+        let original = new CommonMarkSource(markdown);
         let generatedMarkdown = renderer.render(translate(original));
         let output = new CommonMarkSource(generatedMarkdown);
 
+        // Assert that our internal representations (AtJSON) match
         let originalHIR = new HIR(original).toJSON();
         let outputHIR = new HIR(output).toJSON();
         expect(originalHIR).toMatchSnapshot();
         expect(outputHIR).toMatchSnapshot();
-
         expect(outputHIR).toEqual(originalHIR);
+
+        // Assert that external representations (HTML) match
+        let md = MarkdownIt('commonmark');
+        expect(md.render(generatedMarkdown)).toEqual(md.render(markdown));
       });
     });
   });
