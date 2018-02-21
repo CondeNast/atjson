@@ -26540,7 +26540,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -26555,7 +26555,7 @@ Object {
             },
             Object {
               "attributes": Object {
-                "tight": false,
+                "tight": true,
               },
               "children": Array [
                 Object {
@@ -26570,7 +26570,7 @@ Object {
                     },
                     Object {
                       "attributes": Object {
-                        "tight": false,
+                        "tight": true,
                       },
                       "children": Array [
                         Object {
@@ -28090,7 +28090,7 @@ Object {
     Object {
       "attributes": Object {
         "start": 10,
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -28671,7 +28671,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -29214,7 +29214,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -29576,7 +29576,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -30173,7 +30173,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -30429,7 +30429,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -30553,7 +30553,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -30700,7 +30700,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -30715,7 +30715,7 @@ Object {
             },
             Object {
               "attributes": Object {
-                "tight": false,
+                "tight": true,
               },
               "children": Array [
                 Object {
@@ -31145,7 +31145,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -31249,7 +31249,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": true,
+        "tight": false,
       },
       "children": Array [
         Object {
@@ -35021,7 +35021,7 @@ Object {
   "children": Array [
     Object {
       "attributes": Object {
-        "tight": false,
+        "tight": true,
       },
       "children": Array [
         Object {
@@ -35036,7 +35036,7 @@ Object {
             },
             Object {
               "attributes": Object {
-                "tight": false,
+                "tight": true,
               },
               "children": Array [
                 Object {

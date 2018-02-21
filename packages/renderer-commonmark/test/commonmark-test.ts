@@ -47,12 +47,16 @@ describe('commonmark', () => {
         { type: 'paragraph', start: 0, end: 14 },
         { type: 'bold', start: 30, end: 34 },
         { type: 'italic', start: 56, end: 62 },
-        { type: 'ordered-list', start: 14, end: 81 },
+        { type: 'ordered-list', attributes: { tight: true }, start: 14, end: 81 },
         { type: 'list-item', start: 14, end: 39 },
+        { type: 'paragraph', start: 14, end: 39 },
         { type: 'list-item', start: 39, end: 81 },
-        { type: 'unordered-list', start: 67, end: 81 },
+        { type: 'paragraph', start: 39, end: 67 },
+        { type: 'unordered-list', attributes: { tight: true }, start: 67, end: 81 },
         { type: 'list-item', start: 67, end: 74 },
+        { type: 'paragraph', start: 67, end: 74 },
         { type: 'list-item', start: 74, end: 81 },
+        { type: 'paragraph', start: 74, end: 81 },
         { type: 'paragraph', start: 81, end: 100 }
       ],
       schema

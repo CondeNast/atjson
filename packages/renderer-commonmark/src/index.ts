@@ -192,10 +192,15 @@ export default class CommonmarkRenderer extends Renderer {
     if (props.style === 'fence') {
       code = '\n' + code;
       let language = props.language || '';
+      let newlines = '\n';
+      if (state.get('isList') && state.get('nextAnnotation')) {
+        newlines += '\n';
+      }
+
       if (code.indexOf('```') !== -1) {
-        return `~~~${language}${code}~~~\n`;
+        return `~~~${language}${code}~~~${newlines}`;
       } else {
-        return `\`\`\`${language}${code}\`\`\`\n`;
+        return `\`\`\`${language}${code}\`\`\`${newlines}`;
       }
     } else if (props.style === 'block') {
       return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';
@@ -237,9 +242,12 @@ export default class CommonmarkRenderer extends Renderer {
     let item: string = text.join('');
     let firstCharacter = 0;
     while (item[firstCharacter] === ' ') firstCharacter++;
+    let lines = item.split('\n');
+    lines.push(lines.pop().replace(/( )+$/, ''));
+    lines.unshift(lines.shift().replace(/^( )+/, ''));
+    let [first, ...rest] = lines;
 
-    item = ' '.repeat(firstCharacter) + item.split('\n').map(line => indent + line).join('\n').trim();
-
+    item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/( )+$/, '');
     if (state.get('hasCodeBlockFollowing')) {
       return ` ${marker}    ${item}`;
     }
@@ -274,24 +282,26 @@ export default class CommonmarkRenderer extends Renderer {
       previous: state.get('previous'),
       delimiter,
       hasCodeBlockFollowing,
-      tight: props.tight
+      tight: props && props.tight
     });
     let list = yield;
     state.pop();
+
+    if (props && props.tight) {
+      list = list.map(item => item.replace(/([ \n])+$/, '\n');
+    }
 
     state.set('previous', {
       isList: true,
       type: 'numbered',
       delimiter
     });
-    if (state.get('isList') {
-      list.unshift('');
-    }
-    return list.join('\n') + '\n\n';
+
+    return list.join('') + '\n';
   }
 
   /**
-   * - An ordered list contains
+   * - An unordered list contains
    * - A number
    * - Of things with dashes preceding them
    */
@@ -311,7 +321,7 @@ export default class CommonmarkRenderer extends Renderer {
       type: 'bulleted',
       previous: state.get('previous'),
       delimiter,
-      tight: props.tight,
+      tight: props && props.tight,
       hasCodeBlockFollowing
     });
 
@@ -324,16 +334,15 @@ export default class CommonmarkRenderer extends Renderer {
       delimiter
     });
 
-    if (state.get('isList') {
-      list.unshift('');
+    if (props && props.tight) {
+      list = list.map(item => item.replace(/([ \n])+$/, '\n');
     }
-    return list.join('\n') + '\n\n';
+
+    return list.join('') + '\n';
   }
 
   /**
-   * - An ordered list contains
-   * - A number
-   * - Of things with dashes preceding them
+   * Paragraphs are delimited by two or more newlines in markdown.
    */
   *'paragraph'(_, state: State): IterableIterator<string> {
     let text = yield;
