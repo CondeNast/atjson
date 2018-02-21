@@ -9,7 +9,8 @@ import * as spec from 'commonmark-spec';
 import schema from './schema';
 
 const skippedTests = [
-  140 // Additional newline in HTML block
+  140, // Additional newline in HTML block
+  491  // Alt text that is never used
 ];
 
 const testModules = spec.tests.reduce((modules: any, test: any) => {
@@ -59,6 +60,7 @@ Object.keys(testModules).forEach(moduleName => {
         let outputHIR = new HIR(output).toJSON();
         expect(originalHIR).toMatchSnapshot();
         expect(outputHIR).toMatchSnapshot();
+
         expect(outputHIR).toEqual(originalHIR);
       });
     });

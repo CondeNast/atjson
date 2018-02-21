@@ -97,7 +97,7 @@ class Parser {
         if (node.name === 'image') {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push(['alt', node.children.filter(n => typeof n === 'string').join('')]);
+          token.attrs.push(['alt', node.children.filter(n => n.text != null).join('')]);
           node.children = [];
         }
         // Identify whether the list is tight (paragraphs collapse)
