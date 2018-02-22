@@ -3,6 +3,8 @@ import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 import schema from './schema';
 
+export { default as schema } from './schema';
+
 interface Attributes {
   [key: string]: string;
 }
