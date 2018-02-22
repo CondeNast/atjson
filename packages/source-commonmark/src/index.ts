@@ -104,7 +104,7 @@ function getText(node: Node) {
   }, []);
 }
 
-class Parser {
+export class Parser {
   constructor(tokens: MarkdownIt.Token[], handlers: any) {
     this.content = '';
     this.handlers = handlers;
@@ -155,6 +155,13 @@ class Parser {
 
     let end = this.content.length;
     let attributes = getAttributes(open);
+    if (name === 'heading') {
+      attributes.level = parseInt(open.tag.match(/h(\d)/)[1], 10);
+    }
+    if (name === 'fence') {
+      attributes.info = entities.decodeHTML5(open.info.trim());
+    }
+
     if (this.handlers[name]) {
       Object.assign(attributes, this.handlers[name](open));
     }
@@ -177,15 +184,7 @@ class Parser {
 export default class extends Document {
   constructor(markdown: string) {
     let md = MarkdownIt('commonmark');
-    let parser = new Parser(md.parse(markdown, { linkify: false}), {
-      heading(token: MarkdownIt.Token): Attributes {
-        let level = parseInt(token.tag.match(/h(\d)/)[1], 10);
-        return { level };
-      },
-      fence(token: MarkdownIt.Token): Attributes {
-        return { info: entities.decodeHTML5(token.info.trim()) };
-      }
-    });
+    let parser = new Parser(md.parse(markdown, { linkify: false }), {});
     super({
       content: parser.content,
       contentType: 'text/commonmark',
@@ -193,5 +192,4 @@ export default class extends Document {
       schema
     });
   }
-
 }
