@@ -1,5 +1,6 @@
 import Document from '@atjson/document';
 import CommonMarkRenderer from '@atjson/renderer-commonmark';
+import schema from './schema';
 
 describe('commonmark', () => {
   it('raw atjson document', () => {
@@ -9,7 +10,8 @@ describe('commonmark', () => {
       annotations: [
         { type: 'bold', start: 23, end: 31 },
         { type: 'italic', start: 28, end: 38 }
-      ]
+      ],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -25,7 +27,8 @@ describe('commonmark', () => {
         { type: 'parse-token', start: 26, end: 28 },
         { type: 'paragraph', start: 28, end: 62 },
         { type: 'bold', start: 22, end: 32 }
-      ]
+      ],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -52,7 +55,8 @@ describe('commonmark', () => {
         { type: 'list-item', start: 67, end: 74 },
         { type: 'list-item', start: 74, end: 81 },
         { type: 'paragraph', start: 81, end: 100 }
-      ]
+      ],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -74,7 +78,8 @@ After all the lists`);
         type: 'link', start: 9, end: 13, attributes: {
           href: 'https://example.com'
         }
-      }]
+      }],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -90,7 +95,8 @@ After all the lists`);
           alt: 'CommonMark',
           url: 'http://commonmark.org/images/markdown-mark.png'
         }
-      }]
+      }],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -123,7 +129,8 @@ After all the lists`);
           type: 'paragraph', start: 0, end: 15
         }, {
           type: 'paragraph', start: 15, end: 31
-        }]
+        }],
+        schema
       });
 
       let renderer = new CommonMarkRenderer();
@@ -139,7 +146,8 @@ After all the lists`);
           type: 'paragraph', start: 2, end: 18
         }, {
           type: 'paragraph', start: 18, end: 34
-        }]
+        }],
+        schema
       });
 
       let renderer = new CommonMarkRenderer();
@@ -161,7 +169,8 @@ After all the lists`);
           type: 'parse-token', start: 34, end: 36
         }, {
           type: 'paragraph', start: 36, end: 52
-        }]
+        }],
+        schema
       });
 
       let renderer = new CommonMarkRenderer();
@@ -177,7 +186,8 @@ After all the lists`);
         { type: 'paragraph', start: 0, end: 1 },
         { type: 'horizontal-rule', start: 1, end: 2 },
         { type: 'paragraph', start: 2, end: 3 }
-      ]
+      ],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -195,7 +205,8 @@ After all the lists`);
         type: 'heading', start: 7, end: 16, attributes: { level: 2 }
       }, {
         type: 'parse-token', start: 15, end: 16, attributes: { tokenType: 'newline' }
-      }]
+      }],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();
@@ -212,7 +223,8 @@ After all the lists`);
         type: 'bold', start: 8, end: 13
       }, {
         type: 'link', start: 23, end: 28, attributes: { href: 'https://example.com' }
-      }]
+      }],
+      schema
     });
 
     let renderer = new CommonMarkRenderer();

@@ -24,8 +24,6 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@atjson/document": "^0.5.12",
-    "@types/entities": "^1.1.0",
-    "entities": "^1.1.1"
+    "@atjson/document": "^0.5.12"
   }
 }

@@ -1,19 +1,21 @@
 import Annotation from './annotation';
+import Schema from './schema';
 import Query, { Filter, flatten } from './query';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
-export { Annotation };
+export { Annotation, Schema };
 
 export default class AtJSON {
 
   content: string;
   contentType?: string;
   annotations: Annotation[];
+  schema?: Schema;
 
   protected queries: Query[];
 
-  constructor(options: { content: string, annotations?: Annotation[], contentType?: string } | string) {
+  constructor(options: { content: string, annotations?: Annotation[], contentType?: string, schema?: Schema } | string) {
     if (typeof options === 'string') {
       options = { content: options };
     }
@@ -21,6 +23,7 @@ export default class AtJSON {
     this.annotations = options.annotations || [];
     this.contentType = options.contentType || 'text/plain';
     this.queries = [];
+    this.schema = options.schema || {};
   }
 
   /**

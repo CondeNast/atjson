@@ -1,13 +1,15 @@
-import { Annotation } from '@atjson/document';
+import { Annotation, Schema } from '@atjson/document';
 import JSONNode from './json-node';
 
-const ROOT_NODE_RANK = 0;
-const BLOCK_NODE_RANK = 1;
-const PARAGRAPH_NODE_RANK = 2;
-const SPAN_NODE_RANK = 3;
-const OBJECT_NODE_RANK = 4;
-const PARSE_NODE_RANK = Number.MAX_SAFE_INTEGER;
-const TEXT_NODE_RANK = Infinity;
+const RANK = {
+  root: 0,
+  block: 1,
+  paragraph: 2,
+  inline: 3,
+  object: 4,
+  parse: Number.MAX_SAFE_INTEGER,
+  text: Infinity
+};
 
 export default class HIRNode {
 
@@ -23,85 +25,46 @@ export default class HIRNode {
 
   private child: HIRNode | undefined;
   private sibling: HIRNode | undefined;
+  private schema: Schema;
 
-  constructor(node: {type: string, start: number, end: number, attributes?: object, text?: string}) {
-
+  constructor(node: {type: string, start: number, end: number, attributes?: object, text?: string}, schema: Schema) {
     this.type = node.type;
-
     this.start = node.start;
     this.end = node.end;
     this.attributes = node.attributes;
+    this.rank = RANK.inline;
+    this.schema = schema || {};
 
-    switch (node.type) {
-      case 'root':
-        this.rank = ROOT_NODE_RANK;
-        break;
-
-      case 'parse-token':
-        this.rank = PARSE_NODE_RANK;
-        break;
-
-      case 'text':
-        if (typeof(node.text) === 'string') {
-          this.text = node.text.slice(node.start, node.end);
-          this.rank = TEXT_NODE_RANK;
-        } else {
-          throw new Error('Encountered a text node with no text.');
-        }
-        break;
-
-      case 'paragraph':
-        this.rank = PARAGRAPH_NODE_RANK;
-        break;
-
-      case 'embed':
-      case 'image':
-      case 'asset':
-      case 'horizontal-rule':
-      case 'section-break':
-        this.rank = OBJECT_NODE_RANK;
-        break;
-
-      case 'bold':
-      case 'italic':
-        this.rank = SPAN_NODE_RANK;
-        break;
-
-      case 'callout':
-      case 'ordered-list':
-      case 'unordered-list':
-      case 'list-item':
-      case 'blockquote':
-        this.rank = BLOCK_NODE_RANK;
-        break;
-
-      default:
-        this.rank = SPAN_NODE_RANK;
+    // Handle built-in types first
+    if (node.type === 'text' && typeof node.text === 'string') {
+      this.rank = RANK.text;
+      this.text = node.text;
+    } else if (node.type === 'parse-token') {
+      this.rank = RANK.parse;
+    } else if (node.type === 'root') {
+      this.rank = RANK.root;
+    } else if (this.schema[this.type]) {
+      this.rank = RANK[this.schema[this.type].type];
     }
   }
 
-  toJSON(filter?: (node: HIRNode) => HIRNode): JSONNode|string {
-    let thisNode: HIRNode = this;
-    if (filter) {
-      thisNode = filter(this);
-    }
-
-    if (thisNode.type === 'text' && typeof(thisNode.text) === 'string') {
-      return thisNode.text;
+  toJSON(): JSONNode | string {
+    if (this.type === 'text' && typeof this.text === 'string') {
+      return this.text;
     }
 
     return {
-      type: thisNode.type,
-      attributes: thisNode.attributes,
-      children: thisNode.children().map(child => {
-        return child.toJSON(filter);
+      type: this.type,
+      attributes: this.attributes,
+      children: this.children().map(child => {
+        return child.toJSON();
       })
     };
   }
 
   children(): HIRNode[] {
     if (this.child) {
-      return [this.child].concat(this.child.siblings()).filter((node) => node.type != 'parse-token');
+      return [this.child].concat(this.child.siblings()).filter(node => node.type !== 'parse-token');
     } else {
       return [];
     }
@@ -116,7 +79,7 @@ export default class HIRNode {
   }
 
   insertAnnotation(annotation: Annotation): void {
-    let hirNode = new HIRNode(annotation);
+    let hirNode = new HIRNode(annotation, this.schema);
     this.insertNode(hirNode);
   }
 
@@ -128,7 +91,7 @@ export default class HIRNode {
     if (text.length === 0) return;
 
     // Don't insert Object Replacement Characters.
-    if (text.length === 1 && this.end - this.start === 1 && text === "\uFFFC") return;
+    if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
 
     let node = new HIRNode({
       text,
@@ -262,7 +225,7 @@ export default class HIRNode {
     }
   }
 
-  trim(start: number, end: number): HIRNode|void {
+  trim(start: number, end: number): HIRNode | void {
     let newStart = Math.max(this.start, start);
     let newEnd = Math.min(this.end, end);
 
@@ -283,7 +246,7 @@ export default class HIRNode {
     // nb move to HIRTextNode
     if (newNode.type === 'text' && typeof(this.text) === 'string') {
       newNode.text = this.text.slice(newNode.start - this.start, newNode.end - this.start);
-      if (newNode.text === "\uFFFC") {
+      if (newNode.text === '\uFFFC') {
         return;
       }
     }

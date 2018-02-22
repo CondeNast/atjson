@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@atjson/document": "^0.5.12",
-    "entities": "^1.1.1",
     "parse5": "^4.0.0"
   }
 }

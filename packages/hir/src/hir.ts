@@ -1,5 +1,4 @@
-import AtJSON, { Annotation } from '@atjson/document';
-import * as entities from 'entities';
+import Document, { Annotation } from '@atjson/document';
 import HIRNode from './hir-node';
 import JSONNode from './json-node';
 
@@ -8,127 +7,50 @@ export default class HIR {
   atjson: AtJSON;
   rootNode: HIRNode;
 
-  constructor(atjson: string | AtJSON) {
-    if (atjson instanceof AtJSON) {
-      this.atjson = atjson;
-    } else if (typeof atjson === 'string') {
-      this.atjson = new AtJSON(atjson);
-    } else {
-      throw new Error('Invalid argument');
-    }
+  constructor(document: Document) {
+    this.document = new Document({
+      content: document.content,
+      contentType: document.contentType,
+      annotations: [...document.annotations],
+      schema: document.schema
+    });
 
     this.populateHIR();
   }
 
-  toJSON(): JSONNode|string {
-    if (this.atjson.contentType === 'text/html') {
-      return this.rootNode.toJSON((node: HIRNode): HIRNode => {
-        if (node.type === 'text' && typeof(node.text) === 'string') {
-          node.text = entities.decodeHTML5(node.text);
-        }
-        return node;
-      });
-    } else {
-      return this.rootNode.toJSON();
-    }
+  toJSON(): JSONNode | string {
+    return this.rootNode.toJSON();
   }
 
   populateHIR(): void {
 
-    let atjson = this.atjson;
-    atjson.annotations
-      .filter(a => a.type === 'parse-token')
-      .forEach((a, idx) => {
-        atjson.objectReplacementSubstitution(a)
-      });
-    atjson.annotations
+    let document = this.document;
+    document.annotations
       .filter(a => a.start === a.end)
       .forEach(a => {
-         atjson.insertText(a.start, "\uFFFC")
+         document.insertText(a.start, "\uFFFC");
          a.start--;
-       });
-    atjson.annotations
-      .filter(a => a.type === 'parse-element')
-      .forEach(a => atjson.removeAnnotation(a));
+      });
+    document.where({ type: 'parse-element' }).remove();
 
     this.rootNode = new HIRNode({
       type: 'root',
       start: 0,
-      end: atjson.content.length
-    });
+      end: document.content.length
+    }, document.schema);
 
-    atjson.annotations
-      .sort((a: Annotation, b: Annotation) => {
-        if (a.start === b.start) {
-          if (a.type === b.type) {
-            return a.end - b.end;
-          } else {
-            return (b.end - b.start) - (a.end - a.start);
-          }
+    document.annotations.sort((a: Annotation, b: Annotation) => {
+      if (a.start === b.start) {
+        if (a.type === b.type) {
+          return a.end - b.end;
         } else {
-          return a.start - b.start;
+          return (b.end - b.start) - (a.end - a.start);
         }
-      }).forEach(annotation => this.rootNode.insertAnnotation(annotation));
-
-    this.rootNode.insertText(atjson.content);
-  }
-
-  parseContent(): Annotation[] {
-    return this.getParser().parse(this.atjson.content);
-  }
-
-  getParser() {
-    switch (this.atjson.contentType) {
-      case undefined:
-      case 'text/plain': {
-        return { parse: this.plainTextParser };
+      } else {
+        return a.start - b.start;
       }
-      case 'text/atjson': {
-        return { parse() { return []; } };
-      }
-      default: {
-        throw new Error('Unsupported Content-Type');
-      }
-    }
-  }
+    }).forEach(annotation => this.rootNode.insertAnnotation(annotation));
 
-  plainTextParser(content: string): Annotation[] {
-    let prevIdx = 0;
-    let breakIdx = content.indexOf('\n\n', 0);
-
-    let annotations = [];
-
-    while (breakIdx !== -1) {
-      annotations.push({
-        type: 'paragraph',
-        start: prevIdx,
-        end: breakIdx
-      } as Annotation);
-
-      annotations.push({
-        type: 'parse-element',
-        start: prevIdx,
-        end: breakIdx + 2,
-      } as Annotation);
-
-      annotations.push({
-        type: 'parse-token',
-        start: breakIdx,
-        end: breakIdx + 2
-      } as Annotation);
-
-      prevIdx = breakIdx + 2;
-      breakIdx = content.indexOf('\n\n', breakIdx + 2);
-    }
-
-    if (prevIdx < content.length) {
-      annotations.push({
-        type: 'paragraph',
-        start: prevIdx,
-        end: content.length
-      } as Annotation);
-    }
-
-    return annotations;
+    this.rootNode.insertText(document.content);
   }
 }

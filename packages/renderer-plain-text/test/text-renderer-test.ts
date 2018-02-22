@@ -27,17 +27,10 @@ describe('PlainTextRenderer', function () {
 
   it('strips virtual annotations', function () {
     let html = '<p>This is some <em>fancy</em> <span class="fancy">text</span>.';
-    let parser = new HTMLSource(html);
-    let parsedHTML = parser.parse();
-
-    let document = new Document({
-      content: html,
-      contentType: 'text/html',
-      annotations: parsedHTML
-    });
+    let doc = new HTMLSource(html);
 
     let renderer = new PlainTextRenderer();
-    let text = renderer.render(document);
+    let text = renderer.render(doc);
     expect(text).toBe('This is some fancy text.');
   });
 });

@@ -1,5 +1,6 @@
 import Document, { Annotation } from '@atjson/document';
 import { HIR } from '@atjson/hir';
+import schema from './schema';
 
 type node = {
   type: string;
@@ -80,19 +81,13 @@ describe('@atjson/hir', function () {
   it('accepts atjson-shaped object', function () {
     let validDoc = new Document({
       content: 'test\ndocument\n\nnew paragraph',
-      annotations: []
+      annotations: [],
+      schema
     });
 
     let expected = root('test\ndocument\n\nnew paragraph');
     expect(new HIR(validDoc)).toBeDefined();
     expect(new HIR(validDoc).toJSON()).toEqual(expected);
-  });
-
-  it('accepts a bare string', function () {
-    let expected = root('Look at this huge string');
-
-    expect(new HIR('Look at this huge string')).toBeDefined();
-    expect(new HIR('Look at this huge string').toJSON()).toEqual(expected);
   });
 
   describe('constructs a valid hierarchy', function () {
@@ -103,7 +98,8 @@ describe('@atjson/hir', function () {
         annotations: [
           { type: 'bold', start: 16, end: 20 },
           { type: 'italic', start: 28, end: 34 }
-        ]
+        ],
+        schema
       });
 
       let hir = new HIR(noNesting).toJSON();
@@ -131,7 +127,8 @@ describe('@atjson/hir', function () {
           { type: 'ordered-list', start: 73, end: 91 },
           { type: 'list-item', start: 73, end: 82 },
           { type: 'list-item', start: 82, end: 91 }
-        ]
+        ],
+        schema
       });
 
       let expected = root(
@@ -157,7 +154,8 @@ describe('@atjson/hir', function () {
         annotations: [
           { type: 'bold', start: 23, end: 31 },
           { type: 'italic', start: 28, end: 38 }
-        ]
+        ],
+        schema
       });
 
       let expected = root(
@@ -177,7 +175,8 @@ describe('@atjson/hir', function () {
           { type: 'paragraph', start: 0, end: 28 },
           { type: 'paragraph', start: 28, end: 62 },
           { type: 'bold', start: 22, end: 32 }
-        ]
+        ],
+        schema
       });
 
       let expected = root(
@@ -200,7 +199,8 @@ describe('@atjson/hir', function () {
         annotations: [
           { type: 'paragraph', start: 0, end: 0 },
           { type: 'bold', start: 0, end: 0 }
-        ]
+        ],
+        schema
       });
 
       let expected = root( paragraph( bold() ) );
@@ -221,7 +221,8 @@ describe('@atjson/hir', function () {
           { type: 'paragraph', start: 22, end: 30 },
           { type: 'parse-token', start: 30, end: 32 },
           { type: 'paragraph', start: 32, end: 41 }
-        ]
+        ],
+        schema
       });
 
       let expected = root(
@@ -249,14 +250,15 @@ describe('@atjson/hir', function () {
           { type: 'parse-token', start: 30, end: 32 },
           { type: 'paragraph', start: 32, end: 41 },
           { type: 'bold', start: 21, end: 21 }
-        ]
+        ],
+        schema
       });
 
       let expected = root(
         paragraph('One fish'),
         paragraph('Two fish'),
           paragraph(
-              bold()
+            bold()
           ),
         paragraph('Red fish'),
         paragraph('Blue fish')
@@ -264,5 +266,5 @@ describe('@atjson/hir', function () {
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
-});
+  });
 });

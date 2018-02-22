@@ -4,30 +4,13 @@
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
 import CommonMarkSource from '@atjson/source-commonmark';
-import HTMLSource from '@atjson/source-html';
+import HTMLSource, { schema } from '@atjson/source-html';
 import * as spec from 'commonmark-spec';
-import process from 'process';
 
 const skippedTests = [
-  107, // ambiguous paragraph nesting
   181, // missing whitespace
   202, // newline removed
-  203, // ambiguous newline location
-  271, // additional newline added
-  272, // additional newline added
-  298, // additional newline added
-  308, // additional newline added
-  325, // unclosed HTML fragment
-  388, // duplicate italic annotation added
-  403, // duplicate bold annotation added
-  453, // incorrect HTML annotation; includes nested link annotations
-  454, // incorrect HTML annotation; includes nested link annotations
-  466, // incorrect HTML annotation; implicitly closed tag has an additional annotation
-  495, // ambiguous nesting with unclosed HTML
-  507, // ambiguous nesting with unclosed HTML
-  558, // unwrapped image in a paragraph
-  614, // unclosed HTML element
-  615  // unclosed HTML element
+  203  // ambiguous newline location
 ];
 
 const testModules = spec.tests.reduce((modules: any, test: any) => {
@@ -41,8 +24,7 @@ const augmentEmbeddedHTML = mdAtJSON => {
   let embeddedHTMLAnnotations = mdAtJSON.annotations
     .filter(a => a.type === 'html' || a.type === '')
     .map(a => {
-      let p = new HTMLSource(mdAtJSON.content.substr(a.start, a.end));
-      let h = p.parse();
+      let h = new HTMLSource(mdAtJSON.content.substr(a.start, a.end)).annotations;
       return h.map(v => {
           v.start += a.start;
           v.end += a.start;
@@ -77,25 +59,10 @@ Object.keys(testModules).forEach(moduleName => {
         test.markdown = test.markdown.replace(/→/g, '\t');
         test.html = test.html.replace(/→/g, '\t');
 
-        let parser = new CommonMarkSource(test.markdown);
-        let htmlParser = new HTMLSource(test.html);
-
-        let parsedMarkdown = parser.toAtJSON();
-        let parsedHtml = htmlParser.parse();
-
-        let mdAtJSON = new Document({
-          content: parsedMarkdown.content,
-          contentType: 'text/commonmark',
-          annotations: parsedMarkdown.annotations
-        });
+        let mdAtJSON = new CommonMarkSource(test.markdown);
+        let htmlAtJSON = new HTMLSource(test.html);
 
         mdAtJSON = augmentEmbeddedHTML(mdAtJSON);
-
-        let htmlAtJSON = new Document({
-          content: test.html,
-          contentType: 'text/html',
-          annotations: parsedHtml
-        });
 
         let markdownHIR = new HIR(mdAtJSON).toJSON();
         let htmlHIR = new HIR(htmlAtJSON).toJSON();
