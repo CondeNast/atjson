@@ -21,7 +21,7 @@ export default {
   'list': {
     display: 'block',
     attributes: [
-      'display',
+      'type',
       'level',
       'startsAt'
     ]
