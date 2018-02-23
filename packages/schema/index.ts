@@ -1,45 +1,45 @@
 export default {
   'link': {
-    type: 'inline',
+    display: 'inline',
     attributes: [
       'url',
       'title'
     ]
   },
   'paragraph': {
-    type: 'paragraph'
+    display: 'paragraph'
   },
   'heading': {
-    type: 'block',
+    display: 'block',
     attributes: [
       'level'
     ]
   },
   'item': {
-    type: 'block'
+    display: 'block'
   },
   'list': {
-    type: 'block',
+    display: 'block',
     attributes: [
-      'type',
+      'display',
       'level',
       'startsAt'
     ]
   },
   'bold': {
-    type: 'inline'
+    display: 'inline'
   },
   'italic': {
-    type: 'inline'
+    display: 'inline'
   },
   'quotation': {
-    type: 'block'
+    display: 'block'
   },
   'line-break': {
-    type: 'object'
+    display: 'object'
   },
   'image': {
-    type: 'object',
+    display: 'object',
     attributes: [
       'url',
       'title',

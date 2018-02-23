@@ -1,6 +1,6 @@
 import Annotation from './annotation';
-import Schema from './schema';
 import Query, { Filter, flatten } from './query';
+import Schema from './schema';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
