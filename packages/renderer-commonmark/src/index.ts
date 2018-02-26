@@ -230,12 +230,12 @@ export default class CommonmarkRenderer extends Renderer {
    * A list item is part of an ordered list or an unordered list.
    */
   *'list-item'(_, state: State): IterableIterator<string> {
-    let index: number = state.get('index');
+    let digit: number = state.get('digit');
     let delimiter = state.get('delimiter');
     let marker: string = delimiter;
     if (state.get('type') === 'numbered') {
-      marker = `${index}${delimiter}`;
-      state.set('index', index + 1);
+      marker = `${digit}${delimiter}`;
+      state.set('digit', digit + 1);
     }
     let indent = ' '.repeat(marker.length + 1);
     let text: string[] = yield;
@@ -278,7 +278,7 @@ export default class CommonmarkRenderer extends Renderer {
     state.push({
       isList: true,
       type: 'numbered',
-      index: start,
+      digit: start,
       previous: state.get('previous'),
       delimiter,
       hasCodeBlockFollowing,
