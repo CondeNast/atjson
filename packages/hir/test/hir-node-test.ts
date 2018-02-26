@@ -1,111 +1,131 @@
 import { Annotation } from '@atjson/document';
 import { HIRNode } from '@atjson/hir';
 import schema from './schema';
+import { bold, document, image, li, node, ol, paragraph } from './utils';
 
-describe('@atjson/hir/hir-node', function () {
+let test = node('test');
+let a = node('a');
+let b = node('b');
+let c = node('c');
 
-  it('insert sibling simple case works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'test', start: 0, end: 5 });
-    root.insertAnnotation({ type: 'test', start: 5, end: 10 });
+describe('@atjson/hir/hir-node', () => {
 
-    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
-      { type: 'test', children: [], attributes: undefined },
-      { type: 'test', children: [], attributes: undefined }
-    ] });
+  it('insert sibling simple case works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
+    hir.insertAnnotation({ type: 'test', start: 5, end: 10 });
+
+    expect(hir.toJSON()).toEqual(
+      document(
+        test(),
+        test()
+      )
+    );
   });
 
-  it('insert child simple case works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'test', start: 0, end: 5 });
+  it('insert child simple case works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
 
-    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
-      { type: 'test', children: [], attributes: undefined },
-    ] });
+    expect(hir.toJSON()).toEqual(document(test()));
   });
 
-  it('insert text simple case works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'test', start: 0, end: 5 });
-    root.insertAnnotation({ type: 'test', start: 5, end: 10 });
+  it('insert text simple case works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
+    hir.insertAnnotation({ type: 'test', start: 5, end: 10 });
 
-    root.insertText('some text.');
+    hir.insertText('some text.');
 
-    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
-      { type: 'test', children: ['some '], attributes: undefined },
-      { type: 'test', children: ['text.'], attributes: undefined }
-    ] });
+    expect(hir.toJSON()).toEqual(
+      document(
+        test('some '),
+        test('text.')
+      )
+    );
   });
 
-  it('insert text nested children case works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'a', start: 0, end: 5 });
-    root.insertAnnotation({ type: 'b', start: 2, end: 4 });
-    root.insertAnnotation({ type: 'c', start: 5, end: 10 });
+  it('insert text nested children case works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'a', start: 0, end: 5 });
+    hir.insertAnnotation({ type: 'b', start: 2, end: 4 });
+    hir.insertAnnotation({ type: 'c', start: 5, end: 10 });
 
-    root.insertText('some text.');
+    hir.insertText('some text.');
 
-    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
-      { type: 'a', children: [ 'so',
-        { type: 'b', children: ['me'], attributes: undefined  },
-        ' ' ], attributes: undefined },
-      { type: 'c', children: ['text.'], attributes: undefined }
-    ] });
+    expect(hir.toJSON()).toEqual(
+      document(
+        a('so', b('me'), ' '),
+        c('text.')
+      )
+    );
   });
 
-  it('out-of-order insertion of different rank nodes works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'ordered-list', start: 4, end: 8 });
-    root.insertAnnotation({ type: 'paragraph', start: 0, end: 4 });
-    root.insertAnnotation({ type: 'paragraph', start: 4, end: 8 });
-    root.insertAnnotation({ type: 'paragraph', start: 8, end: 10 });
+  it('out-of-order insertion of different rank nodes works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'paragraph', start: 4, end: 8 });
+    hir.insertAnnotation({ type: 'ordered-list', start: 4, end: 8 });
+    hir.insertAnnotation({ type: 'paragraph', start: 8, end: 10 });
+    hir.insertAnnotation({ type: 'list-item', start: 4, end: 8 });
+    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 4 });
 
-    root.insertText('ab\n\nli\n\ncd');
+    hir.insertText('ab\n\nli\n\ncd');
 
-    expect(root.toJSON()).toEqual({ type: 'root', attributes: undefined, children: [
-      { type: 'paragraph', children: ['ab\n\n'], attributes: undefined },
-      { type: 'ordered-list', attributes: undefined, children: [
-        { type: 'paragraph', children: ['li\n\n'], attributes: undefined }
-      ]},
-      { type: 'paragraph', children: ['cd'], attributes: undefined }
-    ]});
+    expect(hir.toJSON()).toEqual(
+      document(
+        paragraph('ab\n\n'),
+        ol(
+          li(
+            paragraph('li\n\n')
+          )
+        ),
+        paragraph('cd')
+      )
+    );
   });
 
-  it('insert paragraph after bold works', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
-    root.insertAnnotation({ type: 'bold', start: 4, end: 6 });
-    root.insertAnnotation({ type: 'paragraph', start: 0, end: 10 });
+  it('insert paragraph after bold works', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'bold', start: 4, end: 6 });
+    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 10 });
 
-    root.insertText('abcdefghij');
+    hir.insertText('abcdefghij');
 
-    expect(root.toJSON()).toEqual({type: 'root', attributes: undefined, children: [
-      { type: 'paragraph', children: [
-        'abcd',
-        { type: 'bold', children: ['ef'], attributes: undefined },
-        'ghij'], attributes: undefined }
-    ]});
+    expect(hir.toJSON()).toEqual(
+      document(
+        paragraph('abcd', bold('ef'), 'ghij')
+      )
+    );
   });
 
-  it('correctly inserts zero-length elements at boundaries', function () {
-    let root = new HIRNode({ type: 'root', start: 0, end: 3 }, schema);
-    root.insertAnnotation({ type: 'paragraph', start: 0, end: 3 });
-    root.insertAnnotation({ type: 'image', start: 3, end: 3 });
+  it('annotations can override display properties', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema);
+    hir.insertAnnotation({ type: 'b', display: 'inline', start: 0, end: 1 });
+    hir.insertAnnotation({ type: 'c', display: 'object', start: 0, end: 1 });
+    hir.insertAnnotation({ type: 'a', display: 'block', start: 0, end: 1 });
 
-    root.insertText('abc');
+    expect(hir.toJSON()).toEqual(
+      document(
+        a(b(c()))
+      )
+    );
+  });
 
-    expect(root.toJSON()).toEqual(
-      { type: 'root', attributes: undefined,
-        children: [
-          { type: 'paragraph',
-            attributes: undefined,
-            children: [
-              "abc",
-              { type: 'image', attributes: undefined, children: [] }
-            ]
-          }
-        ]
-      }
+  it('correctly inserts zero-length elements at boundaries', () => {
+    let hir = new HIRNode({ type: 'root', start: 0, end: 3 }, schema);
+    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 3 });
+    hir.insertAnnotation({ type: 'image', start: 3, end: 3 });
+
+    hir.insertText('abc');
+
+    expect(hir.toJSON()).toEqual(
+      document(
+        paragraph(
+          'abc',
+          image()
+        )
+      )
+    );
   });
 
 });
-

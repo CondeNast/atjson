@@ -35,8 +35,12 @@ export default class HIRNode {
     this.rank = RANK.inline;
     this.schema = schema || {};
 
+    // Overrides on annotations are used first
+    if (node.display) {
+      this.rank = RANK[node.display];
+
     // Handle built-in types first
-    if (node.type === 'text' && typeof node.text === 'string') {
+    } else if (node.type === 'text' && typeof node.text === 'string') {
       this.rank = RANK.text;
       this.text = node.text;
     } else if (node.type === 'parse-token') {
@@ -44,7 +48,7 @@ export default class HIRNode {
     } else if (node.type === 'root') {
       this.rank = RANK.root;
     } else if (this.schema[this.type]) {
-      this.rank = RANK[this.schema[this.type].type];
+      this.rank = RANK[this.schema[this.type].display];
     }
   }
 

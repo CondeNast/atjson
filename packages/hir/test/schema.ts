@@ -1,23 +1,23 @@
 export default {
   'ordered-list': {
-    type: 'block'
+    display: 'block'
   },
   'unordered-list': {
-    type: 'block'
+    display: 'block'
   },
   'list-item': {
-    type: 'block'
+    display: 'block'
   },
   'paragraph': {
-    type: 'paragraph'
+    display: 'paragraph'
   },
   'bold': {
-    type: 'inline'
+    display: 'inline'
   },
   'italic': {
-    type: 'inline'
+    display: 'inline'
   },
   'image': {
-    type: 'object'
+    display: 'object'
   }
 };

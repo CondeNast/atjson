@@ -1,35 +1,35 @@
 export default {
   a: {
-    type: 'inline'
+    display: 'inline'
   },
   blockquote: {
-    type: 'block'
+    display: 'block'
   },
   br: {
-    type: 'object'
+    display: 'object'
   },
   em: {
-    type: 'inline'
+    display: 'inline'
   },
   hr: {
-    type: 'object'
+    display: 'object'
   },
   img: {
-    type: 'object'
+    display: 'object'
   },
   li: {
-    type: 'block'
+    display: 'block'
   },
   ol: {
-    type: 'block'
+    display: 'block'
   },
   p: {
-    type: 'paragraph'
+    display: 'paragraph'
   },
   strong: {
-    type: 'inline'
+    display: 'inline'
   },
   ul: {
-    type: 'block'
+    display: 'block'
   }
 };

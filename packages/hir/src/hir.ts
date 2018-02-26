@@ -28,7 +28,7 @@ export default class HIR {
     document.annotations
       .filter(a => a.start === a.end)
       .forEach(a => {
-         document.insertText(a.start, "\uFFFC");
+         document.insertText(a.start, '\uFFFC');
          a.start--;
       });
     document.where({ type: 'parse-element' }).remove();

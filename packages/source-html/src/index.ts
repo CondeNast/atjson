@@ -21,13 +21,16 @@ function isText(node: Node) {
   return node.nodeName === '#text';
 }
 
-type Attributes = { [key: string]: string };
+interface Attributes {
+  [key: string]: string;
+}
+
 type Attribute = parse5.AST.Default.Attribute;
 
 function getAttributes(node: Node): Attributes {
-  let attrs: Attributes = (node.attrs || []).reduce((attrs: Attributes, attr: Attribute) => {
-    attrs[attr.name] = attr.value;
-    return attrs;
+  let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: Attribute) => {
+    attributes[attr.name] = attr.value;
+    return attributes;
   }, {});
 
   if (node.tagName === 'a' && attrs.href) {
@@ -77,7 +80,7 @@ class Parser {
     });
   }
 
-  convertTag(node: Node, which: "startTag" | "endTag"): number {
+  convertTag(node: Node, which: 'startTag' | 'endTag'): number {
     let { startOffset: start, endOffset: end } = node.__location[which];
     this.annotations.push({
       type: 'parse-token',
