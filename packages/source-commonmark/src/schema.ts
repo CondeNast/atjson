@@ -1,47 +1,47 @@
 export default {
-    list_item: {
-        type: 'block'
-    },
-    bullet_list: {
-        type: 'block'
-    },
-    blockquote: {
-        type: 'block'
-    },
-    heading: {
-        type: 'block'
-    },
-    hr: {
-        type: 'object'
-    },
-    em: {
-        type: 'inline'
-    },
-    ordered_list: {
-        type: 'block'
-    },
-    paragraph: {
-        type: 'paragraph'
-    },
-    link: {
-        type: 'inline'
-    },
-    image: {
-        type: 'object'
-    },
-    code_inline: {
-        type: 'inline'
-    },
-    fence: {
-        type: 'block'
-    },
-    code_block: {
-        type: 'block'
-    },
-    hardbreak: {
-        type: 'object'
-    },
-    strong: {
-        type: 'inline'
-    }
+  list_item: {
+    display: 'block'
+  },
+  bullet_list: {
+    display: 'block'
+  },
+  blockquote: {
+    display: 'block'
+  },
+  heading: {
+    display: 'block'
+  },
+  hr: {
+    display: 'object'
+  },
+  em: {
+    display: 'inline'
+  },
+  ordered_list: {
+    display: 'block'
+  },
+  paragraph: {
+    display: 'paragraph'
+  },
+  link: {
+    display: 'inline'
+  },
+  image: {
+    display: 'object'
+  },
+  code_inline: {
+    display: 'inline'
+  },
+  fence: {
+    display: 'block'
+  },
+  code_block: {
+    display: 'block'
+  },
+  hardbreak: {
+    display: 'object'
+  },
+  strong: {
+    display: 'inline'
+  }
 };
