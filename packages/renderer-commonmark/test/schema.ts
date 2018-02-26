@@ -1,44 +1,44 @@
 export default {
   'link': {
-    type: 'inline'
+    display: 'inline'
   },
   'paragraph': {
-    type: 'paragraph'
+    display: 'paragraph'
   },
   'heading': {
-    type: 'block'
+    display: 'block'
   },
   'list-item': {
-    type: 'block'
+    display: 'block'
   },
   'ordered-list': {
-    type: 'block'
+    display: 'block'
   },
   'unordered-list': {
-    type: 'block'
+    display: 'block'
   },
   'bold': {
-    type: 'inline'
+    display: 'inline'
   },
   'italic': {
-    type: 'inline'
+    display: 'inline'
   },
   'code-block': {
-    type: 'block'
+    display: 'block'
   },
   'code': {
-    type: 'inline'
+    display: 'inline'
   },
   'blockquote': {
-    type: 'block'
+    display: 'block'
   },
   'horizontal-rule': {
-    type: 'object'
+    display: 'object'
   },
   'line-break': {
-    type: 'object'
+    display: 'object'
   },
   'image': {
-    type: 'object'
+    display: 'object'
   }
 };

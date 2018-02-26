@@ -1,5 +1,6 @@
 export default interface Annotation {
   type: string;
+  display?: Display;
   start: number;
   end: number;
 

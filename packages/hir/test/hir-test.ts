@@ -1,98 +1,35 @@
 import Document, { Annotation } from '@atjson/document';
 import { HIR } from '@atjson/hir';
 import schema from './schema';
+import { bold, document, italic, li, ol, paragraph, ul } from './utils';
 
-type node = {
-  type: string;
-  attributes: any;
-  children: node[];
-} | string;
-
-// HIR test helpers for quickly generating JSON for
-// the JSON output
-function root(...children: node[]) {
-  return {
-    type: 'root',
-    attributes: undefined,
-    children
-  };
-}
-
-function bold(...children: node[]) {
-  return {
-    type: 'bold',
-    attributes: undefined,
-    children
-  };
-}
-
-function italic(...children: node[]) {
-  return {
-    type: 'italic',
-    attributes: undefined,
-    children
-  };
-}
-
-function ol(...children: node[]) {
-  return {
-    type: 'ordered-list',
-    attributes: undefined,
-    children
-  };
-}
-
-function ul(...children: node[]) {
-  return {
-    type: 'unordered-list',
-    attributes: undefined,
-    children
-  };
-}
-
-function li(...children: node[]) {
-  return {
-    type: 'list-item',
-    attributes: undefined,
-    children
-  };
-}
-
-function paragraph(...children: node[]) {
-  return {
-    type: 'paragraph',
-    attributes: undefined,
-    children
-  };
-}
-
-describe('@atjson/hir', function () {
+describe('@atjson/hir', () => {
 
   /**
    * FIXME I don't know how to test types. This just throws in compile time,
    * but we should test that invalid objects are in fact caught by the compiler. ???
    *
-  it('rejects invalid documents', function () {
+  it('rejects invalid documents', () => {
     let invalidDoc = { blah: 'x' };
     expect(() => new HIR(invalidDoc)).toThrow();
   });
    */
 
-  it('accepts atjson-shaped object', function () {
+  it('accepts atjson-shaped object', () => {
     let validDoc = new Document({
       content: 'test\ndocument\n\nnew paragraph',
       annotations: [],
       schema
     });
 
-    let expected = root('test\ndocument\n\nnew paragraph');
+    let expected = document('test\ndocument\n\nnew paragraph');
     expect(new HIR(validDoc)).toBeDefined();
     expect(new HIR(validDoc).toJSON()).toEqual(expected);
   });
 
-  describe('constructs a valid hierarchy', function () {
+  describe('constructs a valid hierarchy', () => {
 
-    it('from a document without nesting', function () {
+    it('from a document without nesting', () => {
       let noNesting = new Document({
         content: 'A string with a bold and an italic annotation',
         annotations: [
@@ -103,7 +40,7 @@ describe('@atjson/hir', function () {
       });
 
       let hir = new HIR(noNesting).toJSON();
-      let expected = root(
+      let expected = document(
         'A string with a ',
         bold('bold'),
         ' and an ',
@@ -114,7 +51,7 @@ describe('@atjson/hir', function () {
       expect(hir).toEqual(expected);
     });
 
-    it('from a document with nesting', function () {
+    it('from a document with nesting', () => {
       let nested = new Document({
         content: 'I have a list:\n\nFirst item plus bold text\n\n' +
                  'Second item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
@@ -131,7 +68,7 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root(
+      let expected = document(
         'I have a list:\n\n',
         ol(
           li('First item plus ', bold('bold'), ' text\n\n'),
@@ -148,7 +85,7 @@ describe('@atjson/hir', function () {
       expect(new HIR(nested).toJSON()).toEqual(expected);
     });
 
-    it('from a document with overlapping annotations at the same level', function () {
+    it('from a document with overlapping annotations at the same level', () => {
       let overlapping = new Document({
         content: 'Some text that is both bold and italic plus something after.',
         annotations: [
@@ -158,7 +95,7 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root(
+      let expected = document(
         'Some text that is both ',
         bold('bold ', italic('and')),
         italic(' italic'),
@@ -168,7 +105,7 @@ describe('@atjson/hir', function () {
       expect(new HIR(overlapping).toJSON()).toEqual(expected);
     });
 
-    it('from a document with overlapping annotations across heirarchical levels', function () {
+    it('from a document with overlapping annotations across heirarchical levels', () => {
       let spanning = new Document({
         content: 'A paragraph with some bold\n\ntext that continues into the next.',
         annotations: [
@@ -179,7 +116,7 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root(
+      let expected = document(
         paragraph(
           'A paragraph with some ',
           bold('bold\n\n'),
@@ -193,7 +130,7 @@ describe('@atjson/hir', function () {
       expect(new HIR(spanning).toJSON()).toEqual(expected);
     });
 
-    it('from a zero-length document with annotations', function () {
+    it('from a zero-length document with annotations', () => {
       let zerolength = new Document({
         content: '',
         annotations: [
@@ -203,12 +140,12 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root( paragraph( bold() ) );
+      let expected = document( paragraph( bold() ) );
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
 
-    it('from a document with zero-length paragraphs', function () {
+    it('from a document with zero-length paragraphs', () => {
       let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
@@ -225,7 +162,7 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root(
+      let expected = document(
         paragraph('One fish'),
         paragraph('Two fish'),
         paragraph(),
@@ -236,7 +173,7 @@ describe('@atjson/hir', function () {
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
 
-    it('from a document with a point annotation', function () {
+    it('from a document with a point annotation', () => {
       let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
@@ -254,7 +191,7 @@ describe('@atjson/hir', function () {
         schema
       });
 
-      let expected = root(
+      let expected = document(
         paragraph('One fish'),
         paragraph('Two fish'),
           paragraph(
