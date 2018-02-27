@@ -110,6 +110,10 @@ export default class CommonmarkRenderer extends Renderer {
    * # Headings have 6 levels, with a single `#` being the most important
    *
    * ###### and six `#` being the least important
+   *
+   * If the heading spans multiple lines, then we will use the underline
+   * style, using a series of `=` or `-` markers. This only works for
+   * headings of level 1 or 2, so any other level will be broken.
    */
   *'heading'(props: { level: number }): IterableIterator<string> {
     let text = yield;
