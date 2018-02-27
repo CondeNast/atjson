@@ -156,6 +156,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Italic text looks like *this* in Markdown.
    */
   *'italic'(_, state: State): IterableIterator<string> {
+    // This adds support for strong emphasis (per Commonmark)
+    // Strong emphasis includes _*two*_ emphasis markers around text.
     let isItalicized = state.get('isItalicized');
     state.set('isItalicized', true);
     let [before, text, after] = yield* split();
