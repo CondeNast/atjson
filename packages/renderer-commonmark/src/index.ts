@@ -74,6 +74,9 @@ export default class CommonmarkRenderer extends Renderer {
 
   /**
    * Bold text looks like **this** in Markdown.
+   *
+   * Asterisks are used here because they can split
+   * words; underscores cannot split words.
    */
   *'bold'(): IterableIterator<string> {
     let [before, text, after] = yield* split();
