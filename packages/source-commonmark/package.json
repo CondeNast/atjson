@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-commonmark",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "Create AtJSON documents from CommonMark.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -12,14 +12,14 @@
   },
   "license": "Apache-2.0",
   "devDependencies": {
-    "@atjson/hir": "^0.5.17",
-    "@atjson/renderer-hir": "^0.5.20",
+    "@atjson/hir": "^0.7.0",
+    "@atjson/renderer-hir": "^0.7.0",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "@atjson/source-html": "^0.6.4",
+    "@atjson/source-html": "^0.7.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",
     "markdown-it": "^8.4.0"

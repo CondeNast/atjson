@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-react",
-  "version": "0.5.20",
+  "version": "0.7.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -15,8 +15,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "^0.5.12",
-    "@atjson/hir": "^0.5.17",
+    "@atjson/document": "^0.7.0",
+    "@atjson/hir": "^0.7.0",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
     "react-dom": "^16.2.0",
@@ -24,7 +24,7 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "^0.5.20",
+    "@atjson/renderer-hir": "^0.7.0",
     "react": "^16.2.0"
   }
 }

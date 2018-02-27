@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-plain-text",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -15,14 +15,14 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/source-html": "^0.6.4",
-    "@atjson/document": "^0.5.12",
-    "@atjson/hir": "^0.5.17",
+    "@atjson/document": "^0.7.0",
+    "@atjson/hir": "^0.7.0",
+    "@atjson/source-html": "^0.7.0",
     "parse5": "^4.0.0",
     "tslint": "^5.9.1",
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "^0.5.20"
+    "@atjson/renderer-hir": "^0.7.0"
   }
 }
