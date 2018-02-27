@@ -216,9 +216,13 @@ export default class CommonmarkRenderer extends Renderer {
     } else if (props.style === 'block') {
       return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';
     } else {
-      // Inline code must be at least 1 letter
+      // MarkdownIt strips all leading and trailing whitespace from code blocks,
+      // which means that we get an empty string for a single whitespace (` `).
       if (code.length === 0) {
         return '` `';
+
+      // We need to properly escape backticks inside of code blocks
+      // by using variable numbers of backticks.
       } else {
         let backticks = '`'.repeat(getNumberOfRequiredBackticks(code));
         return `${backticks}${code}${backticks}`;
