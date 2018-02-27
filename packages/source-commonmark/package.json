@@ -21,6 +21,7 @@
   "dependencies": {
     "@atjson/source-html": "^0.6.4",
     "@types/markdown-it": "^0.0.4",
+    "entities": "^1.1.1",
     "markdown-it": "^8.4.0"
   }
 }

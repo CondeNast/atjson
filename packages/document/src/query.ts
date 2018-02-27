@@ -74,20 +74,20 @@ function set(object: any, key: string, value: any) {
   return;
 }
 
-function flattenKeys(mapping: Mapping, prefix?: string): Mapping {
+function flattenPropertyPaths(mapping: Mapping, options: { keys: boolean, values: boolean }, prefix?: string): Mapping {
   return Object.keys(mapping).reduce((result: Mapping, key: string) => {
     let value = mapping[key];
     let fullyQualifiedKey = key;
     if (prefix) {
       fullyQualifiedKey = `${prefix}.${key}`;
-      if (typeof value === 'string') {
+      if (options.values) {
         value = `${prefix}.${value}`;
       }
     }
-    if (typeof value === 'string') {
+    if (typeof value !== 'object') {
       result[fullyQualifiedKey] = value;
     } else {
-      Object.assign(result, flattenKeys(value, fullyQualifiedKey));
+      Object.assign(result, flattenPropertyPaths(value, options, fullyQualifiedKey));
     }
     return result;
   }, {});
@@ -129,8 +129,13 @@ export default class Query {
   }
 
   set(patch: any): Query {
+    let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
     return this.map((annotation: Annotation) => {
-      return Object.assign(clone(annotation), clone(patch));
+      let result = clone(annotation);
+      Object.keys(flattenedPatch).forEach(key => {
+        set(result, key, flattenedPatch[key]);
+      });
+      return result;
     });
   }
 
@@ -142,7 +147,7 @@ export default class Query {
 
   map(mapping: Mapping | Transform): Query {
     if (typeof mapping === 'object') {
-      let flattenedMapping = flattenKeys(mapping);
+      let flattenedMapping = flattenPropertyPaths(mapping, { keys: true, values: true });
       return this.map((annotation: Annotation) => {
         let result = without(annotation, Object.keys(flattenedMapping));
         Object.keys(flattenedMapping).forEach(key => {
