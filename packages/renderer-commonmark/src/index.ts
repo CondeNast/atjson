@@ -95,13 +95,15 @@ export default class CommonmarkRenderer extends Renderer {
     let endOfQuote = lines.length;
     let startOfQuote = 0;
 
-    while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^(\s)*$/)) startOfQuote++;
-    while (endOfQuote > startOfQuote + 1 && lines[endOfQuote - 1].match(/^(\s)*$/)) endOfQuote--;
+    while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/)) startOfQuote++;
+    while (endOfQuote > startOfQuote + 1 && lines[endOfQuote - 1].match(/^\s*$/)) endOfQuote--;
 
-    if (state.get('isList')) {
-      return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
+    let quote = lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
+
+    if (!state.get('tight')) {
+      quote += '\n';
     }
-    return lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n\n';
+    return quote;
   }
 
   /**
