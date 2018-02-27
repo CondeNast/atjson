@@ -158,7 +158,7 @@ export class Parser {
     let end = this.content.length;
     let attributes = getAttributes(open);
     if (name === 'heading') {
-      attributes.level = parseInt(open.tag.match(/h(\d)/)[1], 10);
+      attributes.level = parseInt(open.tag[1], 10);
     }
     if (name === 'fence') {
       attributes.info = entities.decodeHTML5(open.info.trim());
