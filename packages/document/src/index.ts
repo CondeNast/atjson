@@ -27,10 +27,10 @@ export default class AtJSON {
   }
 
   /**
-    Annotations must be explicitly allowed unless they
-    are added to the annotations array directly- this is
-    acceptable, but side-affects created by queries will
-    not be called.
+   * Annotations must be explicitly allowed unless they
+   * are added to the annotations array directly- this is
+   * acceptable, but side-affects created by queries will
+   * not be called.
    */
   addAnnotations(...annotations: Annotation[]): void {
     annotations.forEach(newAnnotation => {
@@ -44,21 +44,21 @@ export default class AtJSON {
   }
 
   /**
-    Add imperitive queries here. These are used to dynamically
-    change annotations before they get inserted into the document,
-    making the process of reconciliation easier.
-
-    A simple example of this is transforming a document parsed from
-    an HTML document into a common format:
-
-    html.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 }});
-
-    When the attribute for `h1` is added to the document, it will
-    be swapped out for a `heading` with a level of 1.
-
-    Other options available are renaming variables:
-
-    html.where({ type: 'img' }).set({ 'attributes.src': 'attributes.url' });
+   * Add imperitive queries here. These are used to dynamically
+   * change annotations before they get inserted into the document,
+   * making the process of reconciliation easier.
+   *
+   * A simple example of this is transforming a document parsed from
+   * an HTML document into a common format:
+   *
+   * html.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 }});
+   *
+   * When the attribute for `h1` is added to the document, it will
+   * be swapped out for a `heading` with a level of 1.
+   *
+   * Other options available are renaming variables:
+   *
+   * html.where({ type: 'img' }).set({ 'attributes.src': 'attributes.url' });
    */
   where(filter: Filter): Query {
     let query = new Query(this, filter);
@@ -217,7 +217,7 @@ export default class AtJSON {
   }
 
   /**
-    Replace parse tokens with object replacement characters.
+   * Replace parse tokens with object replacement characters.
    */
   objectReplacementSubstitution(annotation: Annotation): void {
     const start = annotation.start;
