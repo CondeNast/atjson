@@ -117,7 +117,7 @@ export class Parser {
   }
 
   walk(nodes: Node[]) {
-    return nodes.forEach((node: Node) => {
+    nodes.forEach((node: Node) => {
       if (node.name === 'text') {
         this.content += node.value;
       } else {
@@ -130,7 +130,10 @@ export class Parser {
         // Identify whether the list is tight (paragraphs collapse)
         if (node.name === 'bullet_list' ||
             node.name === 'ordered_list') {
-          let isTight = node.children.some(items => items.children.filter(child => child.name === 'paragraph').some(child => child.open.hidden));
+          let isTight = node.children.some(items => {
+            return items.children.filter(child => child.name === 'paragraph')
+                                 .some(child => child.open.hidden);
+          });
           node.open.attrs = node.open.attrs || [];
           node.open.attrs.push(['tight', isTight]);
         }
