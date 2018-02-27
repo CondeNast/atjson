@@ -1,12 +1,24 @@
 export default {
-  list_item: {
-    display: 'block'
-  },
   bullet_list: {
     display: 'block'
   },
   blockquote: {
     display: 'block'
+  },
+  code_block: {
+    display: 'block'
+  },
+  code_inline: {
+    display: 'inline'
+  },
+  em: {
+    display: 'inline'
+  },
+  fence: {
+    display: 'block'
+  },
+  hardbreak: {
+    display: 'object'
   },
   heading: {
     display: 'block'
@@ -14,32 +26,20 @@ export default {
   hr: {
     display: 'object'
   },
-  em: {
+  image: {
+    display: 'object'
+  },
+  link: {
     display: 'inline'
+  },
+  list_item: {
+    display: 'block'
   },
   ordered_list: {
     display: 'block'
   },
   paragraph: {
     display: 'paragraph'
-  },
-  link: {
-    display: 'inline'
-  },
-  image: {
-    display: 'object'
-  },
-  code_inline: {
-    display: 'inline'
-  },
-  fence: {
-    display: 'block'
-  },
-  code_block: {
-    display: 'block'
-  },
-  hardbreak: {
-    display: 'object'
   },
   strong: {
     display: 'inline'
