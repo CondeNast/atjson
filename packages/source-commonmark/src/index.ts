@@ -69,8 +69,10 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       currentNode = currentNode.parent;
     } else {
       let text = token.content;
-      // Fix edge case where spaces in inline code blocks
-      // are not retained by MarkdownIt
+      // If there is a backtick as the first or last
+      // character, we need to provide spaces around
+      // the code, otherwise we'll get two code blocks
+      // instead of one code block with backticks in it
       if (token.type === 'code_inline') {
         if (text[0] === '`') {
           text = ' ' + text;
