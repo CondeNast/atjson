@@ -258,11 +258,17 @@ export default class CommonmarkRenderer extends Renderer {
     let firstCharacter = 0;
     while (item[firstCharacter] === ' ') firstCharacter++;
     let lines = item.split('\n');
-    lines.push(lines.pop().replace(/( )+$/, ''));
-    lines.unshift(lines.shift().replace(/^( )+/, ''));
+    lines.push(lines.pop().replace(/[ ]+$/, ''));
+    lines.unshift(lines.shift().replace(/^[ ]+/, ''));
     let [first, ...rest] = lines;
 
-    item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/( )+$/, '');
+    item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/[ ]+$/, '');
+
+    // Code blocks using spaces can follow lists,
+    // however, they will be included in the list
+    // if we don't adjust spacing on the list item
+    // to force the code block outside of the list
+    // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
     if (state.get('hasCodeBlockFollowing')) {
       return ` ${marker}    ${item}`;
     }
