@@ -63,7 +63,6 @@ function getNodeAndOffset(node: Element | null, offset: number): { node: Element
   }
 }
 
-
 function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): Element[] {
   return nodes.map((node: HIRNode) => {
     let children = node.children();
@@ -79,10 +78,6 @@ function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): 
     hir.set(text, node);
     return text;
   });
-}
-
-class Bold extends HTMLElement {
-
 }
 
 export default class Editor extends HTMLElement {
@@ -115,7 +110,6 @@ export default class Editor extends HTMLElement {
     let start = editor.hir.get(base.node).start + base.offset;
     let end = editor.hir.get(extent.node).end + extent.offset;
 
-    console.log(evt.data, evt.inputType, start, end);
     switch (evt.inputType) {
     case 'insertText':
       this.document.insertText(start, evt.data);
@@ -179,8 +173,4 @@ export default class Editor extends HTMLElement {
     });
     this.listeners = {};
   }
-}
-
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
 }
