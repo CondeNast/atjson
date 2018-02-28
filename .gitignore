@@ -5,3 +5,4 @@ node_modules
 tmp
 *.log
 .*.swp
+.cache
