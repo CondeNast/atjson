@@ -1,6 +1,9 @@
 export default {
   bullet_list: {
-    display: 'block'
+    display: 'block',
+    attributes: [
+      'tight'
+    ]
   },
   blockquote: {
     display: 'block'
@@ -15,28 +18,50 @@ export default {
     display: 'inline'
   },
   fence: {
-    display: 'block'
+    display: 'block',
+    attributes: [
+      'info'
+    ]
   },
   hardbreak: {
     display: 'object'
   },
   heading: {
-    display: 'block'
+    display: 'block',
+    attributes: [
+      'level'
+    ]
   },
   hr: {
     display: 'object'
   },
+  html: {
+    display: 'block'
+  },
   image: {
-    display: 'object'
+    display: 'object',
+    attributes: [
+      'src',
+      'alt',
+      'title'
+    ]
   },
   link: {
-    display: 'inline'
+    display: 'inline',
+    attributes: [
+      'href',
+      'title'
+    ]
   },
   list_item: {
     display: 'block'
   },
   ordered_list: {
-    display: 'block'
+    display: 'block',
+    attributes: [
+      'start',
+      'tight'
+    ]
   },
   paragraph: {
     display: 'paragraph'

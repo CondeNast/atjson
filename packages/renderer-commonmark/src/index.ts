@@ -89,7 +89,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *'blockquote'(_, state: State): IterableIterator<string> {
+  *'quotation'(_, state: State): IterableIterator<string> {
     let text: string[] = yield;
     let lines: string[] = text.join('').split('\n');
     let endOfQuote = lines.length;
@@ -144,12 +144,12 @@ export default class CommonmarkRenderer extends Renderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *'image'(props: { alt: string, title?: string, url: string }): IterableIterator<string> {
+  *'image'(props: { description: string, title?: string, url: string }): IterableIterator<string> {
     if (props.title) {
       let title = props.title.replace(/"/g, '\\"');
-      return `![${props.alt}](${props.url} "${title}")`;
+      return `![${props.description}](${props.url} "${title}")`;
     }
-    return `![${props.alt}](${props.url})`;
+    return `![${props.description}](${props.url})`;
   }
 
   /**
@@ -177,14 +177,14 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(props: { href: string, title?: string }): IterableIterator<string> {
+  *'link'(props: { url: string, title?: string }): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    let href = escapeAttribute(props.href);
+    let url = escapeAttribute(props.url);
     if (props.title) {
       let title = props.title.replace(/"/g, '\\"');
-      return `${before}[${text}](${href} "${title}")${after}`;
+      return `${before}[${text}](${url} "${title}")${after}`;
     }
-    return `${before}[${text}](${href})${after}`;
+    return `${before}[${text}](${url})${after}`;
   }
 
   /**
@@ -252,11 +252,13 @@ export default class CommonmarkRenderer extends Renderer {
       marker = `${digit}${delimiter}`;
       state.set('digit', digit + 1);
     }
+
     let indent = ' '.repeat(marker.length + 1);
     let text: string[] = yield;
     let item: string = text.join('');
     let firstCharacter = 0;
     while (item[firstCharacter] === ' ') firstCharacter++;
+
     let lines = item.split('\n');
     lines.push(lines.pop().replace(/[ ]+$/, ''));
     lines.unshift(lines.shift().replace(/^[ ]+/, ''));
@@ -280,15 +282,28 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'ordered-list'(props: { start?: number, tight: boolean }, state: State): IterableIterator<string> {
+  *'list'(props: { type: string, startsAt?: number, tight: boolean }, state: State): IterableIterator<string> {
     let start = 1;
 
-    if (props && props.start != null) {
-      start = props.start;
+    if (props && props.startsAt != null) {
+      start = props.startsAt;
     }
-    let delimiter = '.';
-    if (state.get('previous.type') === 'numbered' && state.get('previous.delimiter') === '.') {
-      delimiter = ')';
+
+    let delimiter = '';
+    if (props.type === 'numbered') {
+      delimiter = '.';
+
+      if (state.get('previous.type') === 'numbered' &&
+          state.get('previous.delimiter') === '.') {
+        delimiter = ')';
+      }
+    } else if (props.type === 'bulleted') {
+      delimiter = '-';
+
+      if (state.get('previous.type') === 'bulleted' &&
+          state.get('previous.delimiter') === '-') {
+        delimiter = '+';
+      }
     }
 
     // Handle indendation for code blocks that immediately follow
@@ -298,7 +313,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     state.push({
       isList: true,
-      type: 'numbered',
+      type: props.type,
       digit: start,
       previous: state.get('previous'),
       delimiter,
@@ -314,50 +329,9 @@ export default class CommonmarkRenderer extends Renderer {
 
     state.set('previous', {
       isList: true,
-      type: 'numbered',
+      type: props.type,
       delimiter
     });
-
-    return list.join('') + '\n';
-  }
-
-  /**
-   * - An unordered list contains
-   * - A number
-   * - Of things with dashes preceding them
-   */
-  *'unordered-list'(props: { tight: boolean }, state: State): IterableIterator<string> {
-    let delimiter = '-';
-    if (state.get('previous.type') === 'bulleted' && state.get('previous.delimiter') === '-') {
-      delimiter = '+';
-    }
-
-    // Handle indendation for code blocks that immediately follow
-    // a list.
-    let hasCodeBlockFollowing = state.get('nextAnnotation.type') === 'code' &&
-                                state.get('nextAnnotation.attributes.style') === 'block');
-
-    state.push({
-      isList: true,
-      type: 'bulleted',
-      previous: state.get('previous'),
-      delimiter,
-      tight: props && props.tight,
-      hasCodeBlockFollowing
-    });
-
-    let list = yield;
-    state.pop();
-
-    state.set('previous', {
-      isList: true,
-      type: 'bulleted',
-      delimiter
-    });
-
-    if (props && props.tight) {
-      list = list.map(item => item.replace(/([ \n])+$/, '\n');
-    }
 
     return list.join('') + '\n';
   }

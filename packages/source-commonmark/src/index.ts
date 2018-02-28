@@ -1,7 +1,8 @@
 import Document, { Annotation } from '@atjson/document';
+import schema from '@atjson/schema';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
-import schema from './schema';
+import markdownSchema from './schema';
 
 export { default as schema } from './schema';
 
@@ -196,7 +197,34 @@ export default class extends Document {
       content: parser.content,
       contentType: 'text/commonmark',
       annotations: parser.annotations,
+      schema: markdownSchema
+    });
+  }
+
+  toCommonSchema() {
+    let doc = new Document({
+      content: this.content,
+      contentType: 'text/atjson',
+      annotations: [...this.annotations],
       schema
     });
+
+    doc.where({ type: 'bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });
+    doc.where({ type: 'blockquote' }).set({ type: 'quotation' });
+    doc.where({ type: 'code_block' }).set({ type: 'code', display: 'block', attributes: { style: 'block' } });
+    doc.where({ type: 'code_inline' }).set({ type: 'code', display: 'inline', attributes: { style: 'inline' } });
+    doc.where({ type: 'em' }).set({ type: 'italic' });
+    doc.where({ type: 'fence' }).set({ type: 'code', display: 'block', attributes: { style: 'fence' } });
+    doc.where({ type: 'hardbreak' }).set({ type: 'line-break' });
+    doc.where({ type: 'hr' }).set({ type: 'horizontal-rule' });
+    doc.where({ type: 'html_block' }).set({ type: 'html', display: 'block', attributes: { type: 'block' } });
+    doc.where({ type: 'html_inline' }).set({ type: 'html', display: 'inline', attributes: { type: 'inline' } });
+    doc.where({ type: 'image' }).set({ type: 'image' }).map({ attributes: { src: 'url', alt: 'description' } });
+    doc.where({ type: 'link' }).map({ attributes: { href: 'url' } });
+    doc.where({ type: 'list_item' }).set({ type: 'list-item' });
+    doc.where({ type: 'ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).map({ attributes: { start: 'startsAt' } });
+    doc.where({ type: 'strong' }).set({ type: 'bold' });
+
+    return doc;
   }
 }
