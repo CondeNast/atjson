@@ -1,12 +1,10 @@
 import { HIR } from '@atjson/hir';
+import events from './mixins/events';
+import './text-selection';
 
 const TEXT_NODE_TYPE = 3;
 
 type Element = TextNode | HTMLElement;
-
-interface ListenerLookup {
-  [key: string]: any;
-}
 
 function getNodeAndOffset(node: Element | null, offset: number): { node: Element | null, offset: number } | never {
   if (node == null) {
@@ -80,7 +78,13 @@ function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): 
   });
 }
 
-export default class Editor extends HTMLElement {
+export default class Editor extends events(HTMLElement) {
+  static template = '<text-selection><div class="editor" contenteditable></div></text-selection><hr><div class="output"></div>';
+  static events = {
+    'beforeinput': 'beforeinput',
+    'change text-selection': 'updateSelection'
+  };
+
   text({ text }) {
     return document.createTextNode(text);
   }
@@ -145,8 +149,6 @@ export default class Editor extends HTMLElement {
     this.render(this.querySelector('.output'));
   }
 
-  listeners: ListenerLookup;
-
   render(editor) {
     editor.innerHTML = '';
     editor.hir = new Map<Element, HIRNode>();
@@ -157,20 +159,15 @@ export default class Editor extends HTMLElement {
     });
   }
 
-  connectedCallback() {
-    this.listeners = {};
-    this.listeners.beforeinput = (evt) => this.beforeinput(evt);
-    this.addEventListener('beforeinput', this.listeners.beforeinput);
-
-    this.innerHTML = '<div class="editor" contenteditable="true"></div><div class="output"></div>';
-    this.render(this.querySelector('.editor'));
-    this.render(this.querySelector('.output'));
+  updateSelection(evt) {
+    console.log(evt.detail);
+    this.cursor = evt.detail;
   }
 
-  disconnectedCallback() {
-    Object.keys(this.listeners).forEach((eventName) => {
-      this.removeEventListener(eventName, this.listeners[eventName]);
-    });
-    this.listeners = {};
+  connectedCallback() {
+    this.innerHTML = this.constructor.template;
+    super.connectedCallback();
+    this.render(this.querySelector('.editor'));
+    this.render(this.querySelector('.output'));
   }
 }
