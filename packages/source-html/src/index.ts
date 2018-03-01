@@ -1,6 +1,7 @@
 import Document, { Annotation } from '@atjson/document';
 import * as parse5 from 'parse5';
 import schema from './schema';
+import HTMLSchemaTranslator from './translator';
 
 export { schema };
 
@@ -159,5 +160,10 @@ export default class HTMLSource extends Document {
       annotations: parser.annotations,
       schema
     });
+  }
+
+  toCommonSchema(): Document {
+    translator = new HTMLSchemaTranslator()
+    return translator.translate(this);
   }
 }
