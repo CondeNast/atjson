@@ -92,6 +92,12 @@ class TextSelection extends events(HTMLElement) {
     } else if (node.nodeType === TEXT_NODE_TYPE) {
       return { node, offset };
     } else if (node.childNodes.length > 0) {
+      // Firefox can return an offset that is the length
+      // of the node list, which signifies that the node
+      // and offset is the last node at the last character :/
+      if (offset === node.childNodes.length) {
+        return { node: node.childNodes[offset - 1], offset: node.childNodes[offset - 1].length };
+      }
       let offsetNode = node.childNodes[offset];
 
       // If the offset node has a single child node,
@@ -175,9 +181,17 @@ class TextSelection extends events(HTMLElement) {
 
     let range = document.getSelection();
     let nodes = this.textNodes;
+
+    let basePrefix = 'base';
+    let extentPrefix = 'extent';
+    if (range.anchorNode != null) {
+      basePrefix = 'anchor';
+      extentPrefix = 'focus';
+    }
+
     let [base, extent] = [
-      this.getNodeAndOffset(range.baseNode, range.baseOffset),
-      this.getNodeAndOffset(range.extentNode, range.extentOffset)
+      this.getNodeAndOffset(range[`${basePrefix}Node`], range[`${basePrefix}Offset`]),
+      this.getNodeAndOffset(range[`${extentPrefix}Node`], range[`${extentPrefix}Offset`])
     ].sort((a, b) => {
       if (!a.node || !b.node) return 0;
 

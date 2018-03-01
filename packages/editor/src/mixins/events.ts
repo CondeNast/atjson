@@ -2,7 +2,7 @@ type Constructor<T = {}> = new (...args: any[]) => T;
 
 interface EventCallback {
   (evt: Event): boolean;
-} 
+}
 
 interface EventHandlerDefinitions {
   [key: string]: string;
@@ -86,6 +86,6 @@ export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
       });
       this.eventHandlers = {};
     }
-  } 
+  }
 };
 
