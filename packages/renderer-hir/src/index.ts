@@ -42,7 +42,7 @@ function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return renderer.renderText(childNode.text, state);
     } else {
-      return compile<T>(renderer, childNode, state, schema);
+      return compile(renderer, childNode, state, schema);
     }
   }))).value;
 }
@@ -102,16 +102,10 @@ export default class Renderer {
     return text;
   }
 
-  render(document: Document): T {
-    let annotationGraph;
-    if (document instanceof Document) {
-      annotationGraph = new HIR(document);
-    } else {
-      throw new Error('Supplied arguments invalid.');
-    }
-
+  render(document: Document) {
+    let annotationGraph = new HIR(document);
     let state = new State();
-    let renderedDocument = compile<T>(this, annotationGraph.rootNode, state, document.schema);
+    let renderedDocument = compile(this, annotationGraph.rootNode, state, document.schema);
     return renderedDocument;
   }
 }
