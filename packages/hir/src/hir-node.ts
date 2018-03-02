@@ -1,4 +1,4 @@
-import { Annotation, Schema } from '@atjson/document';
+import { Annotation, Schema, Display } from '@atjson/document';
 import JSONNode from './json-node';
 
 const RANK = {
@@ -27,7 +27,7 @@ export default class HIRNode {
   private sibling: HIRNode | undefined;
   private schema: Schema;
 
-  constructor(node: {type: string, start: number, end: number, attributes?: object, text?: string}, schema: Schema) {
+  constructor(node: {type: string, start: number, end: number, display?: Display, attributes?: object, text?: string}, schema?: Schema) {
     this.type = node.type;
     this.start = node.start;
     this.end = node.end;

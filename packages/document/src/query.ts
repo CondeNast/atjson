@@ -9,17 +9,17 @@ export interface Filter {
   [key: string]: any;
 }
 
-interface Mapping {
-  [key: string]: string | Mapping;
+export interface Renaming {
+  [key: string]: string | Renaming;
 }
+
+export type Transform = (annotation: Annotation) => Annotation | null;
 
 interface TransformsByType {
-  [key: string]: DeferredTransform[];
+  [key: string]: Transform[];
 }
 
-type Transform = (annotation: Annotation, document: Document) => Annotation;
-
-export function flatten(array) {
+export function flatten(array: any[]): any[] {
   let flattenedArray = [];
   for (let i = 0, len = array.length; i < len; i++) {
     let item = array[i];
@@ -32,17 +32,17 @@ export function flatten(array) {
   return flattenedArray;
 }
 
-function clone(object) {
+function clone(object: any) {
   return JSON.parse(JSON.stringify(object));
 }
 
 function without(object: any, attributes: string[]): any {
-  let copy = {};
+  let copy: { [key: string]: any } = {};
   Object.keys(object).forEach((key: string) => {
     let activeAttributes = attributes.filter(attribute => attribute.split('.')[0] === key);
     if (activeAttributes.length === 0) {
       copy[key] = object[key];
-    } else if (!activeAttributes.includes(key)) {
+    } else if (activeAttributes.indexOf(key) === -1) {
       copy[key] = without(object[key], activeAttributes.map(attribute => attribute.split('.').slice(1).join('.')));
     }
   });
@@ -74,8 +74,8 @@ function set(object: any, key: string, value: any) {
   return;
 }
 
-function flattenPropertyPaths(mapping: Mapping, options: { keys: boolean, values: boolean }, prefix?: string): Mapping {
-  return Object.keys(mapping).reduce((result: Mapping, key: string) => {
+function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): Renaming {
+  return Object.keys(mapping).reduce((result: Renaming, key: string) => {
     let value = mapping[key];
     let fullyQualifiedKey = key;
     if (prefix) {
@@ -93,7 +93,7 @@ function flattenPropertyPaths(mapping: Mapping, options: { keys: boolean, values
   }, {});
 }
 
-function matches(annotation: Annotation, filter: Filter) {
+function matches(annotation: any, filter: Filter): boolean {
   return Object.keys(filter).every(key => {
     let value = filter[key];
     if (typeof value === 'object') {
@@ -105,6 +105,7 @@ function matches(annotation: Annotation, filter: Filter) {
 
 export default class Query {
   filter: Filter;
+  private document: Document;
   private transforms: Transform[];
   private currentAnnotations: Annotation[];
 
@@ -145,7 +146,7 @@ export default class Query {
     });
   }
 
-  map(mapping: Mapping | Transform): Query {
+  map(mapping: Renaming | Transform): Query {
     if (typeof mapping === 'object') {
       let flattenedMapping = flattenPropertyPaths(mapping, { keys: true, values: true });
       return this.map((annotation: Annotation) => {
@@ -174,6 +175,6 @@ export default class Query {
   }
 
   remove(): Query {
-    return this.map(() => null);
+    return this.map((_: Annotation) => null);
   }
 }

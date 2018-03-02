@@ -15,7 +15,7 @@ export function escapeHTML(text: string): string {
   return text.replace(/[&<>"'`=]/g, (chr: keyof typeof escape) => escape[chr]);
 }
 
-function flatten(array) {
+function flatten(array: any[]): any[] {
   let flattenedArray = [];
   for (let i = 0, len = array.length; i < len; i++) {
     let item = array[i];
@@ -47,7 +47,7 @@ function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema
   }))).value;
 }
 
-interface StateList {
+export interface StateList {
   [key: string]: any;
 }
 

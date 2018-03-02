@@ -4,27 +4,17 @@ import JSONNode from './json-node';
 
 export default class HIR {
 
-  atjson: AtJSON;
+  document: Document;
   rootNode: HIRNode;
 
-  constructor(document: Document) {
-    this.document = new Document({
-      content: document.content,
-      contentType: document.contentType,
-      annotations: [...document.annotations],
-      schema: document.schema
+  constructor(doc: Document) {
+    let document = this.document = new Document({
+      content: doc.content,
+      contentType: doc.contentType,
+      annotations: [...doc.annotations],
+      schema: doc.schema
     });
 
-    this.populateHIR();
-  }
-
-  toJSON(): JSONNode | string {
-    return this.rootNode.toJSON();
-  }
-
-  populateHIR(): void {
-
-    let document = this.document;
     document.annotations
       .filter(a => a.start === a.end)
       .forEach(a => {
@@ -52,5 +42,9 @@ export default class HIR {
     }).forEach(annotation => this.rootNode.insertAnnotation(annotation));
 
     this.rootNode.insertText(document.content);
+  }
+
+  toJSON(): JSONNode | string {
+    return this.rootNode.toJSON();
   }
 }

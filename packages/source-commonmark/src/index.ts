@@ -7,7 +7,7 @@ import markdownSchema from './schema';
 export { default as schema } from './schema';
 
 interface Attributes {
-  [key: string]: string;
+  [key: string]: string | number | null;
 }
 
 type Tuple = [string, string];
@@ -110,11 +110,15 @@ function getText(node: Node) {
 }
 
 export class Parser {
+  content: string;
+  annotations: Annotation[];
+  private handlers: any;
+
   constructor(tokens: MarkdownIt.Token[], handlers: any) {
     this.content = '';
     this.handlers = handlers;
     this.annotations = [];
-    this.walk(toTree(tokens, { children: [] }).children);
+    this.walk(toTree(tokens, { name: 'root', children: [] }).children);
   }
 
   walk(nodes: Node[]) {

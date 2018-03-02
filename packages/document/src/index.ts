@@ -1,10 +1,10 @@
 import Annotation from './annotation';
 import Query, { Filter, flatten } from './query';
-import Schema from './schema';
+import Schema, { Display } from './schema';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
-export { Annotation, Schema };
+export { Annotation, Schema, Display };
 
 export default class AtJSON {
 
@@ -35,7 +35,7 @@ export default class AtJSON {
   addAnnotations(...annotations: Annotation[]): void {
     annotations.forEach(newAnnotation => {
       let finalizedAnnotations: Annotation[] = this.queries.reduce((newAnnotations: Annotation[], query) => {
-        return flatten(newAnnotations.map(annotation => query.run(annotation));
+        return flatten(newAnnotations.map(annotation => query.run(annotation)));
       }, [newAnnotation]);
       if (finalizedAnnotations) {
         this.annotations.push(...finalizedAnnotations);

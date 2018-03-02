@@ -1,7 +1,7 @@
 import { HIRNode } from '@atjson/hir';
 import Renderer, { State } from '@atjson/renderer-hir';
 
-export function* split() {
+export function* split(): IterableIterator<string> {
   let rawText = yield;
   let text = rawText.join('');
   let start = 0;
@@ -17,7 +17,7 @@ export function* split() {
   ];
 }
 
-type CodeStyle = 'block' | 'inline' | 'fence';
+export type CodeStyle = 'block' | 'inline' | 'fence';
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
@@ -89,7 +89,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *'quotation'(_, state: State): IterableIterator<string> {
+  *'quotation'(_: any, state: State): IterableIterator<string> {
     let text: string[] = yield;
     let lines: string[] = text.join('').split('\n');
     let endOfQuote = lines.length;
@@ -155,7 +155,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(_, state: State): IterableIterator<string> {
+  *'italic'(_: any, state: State): IterableIterator<string> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let isItalicized = state.get('isItalicized');
@@ -214,7 +214,7 @@ export default class CommonmarkRenderer extends Renderer {
         return `\`\`\`${info}${code}\`\`\`${newlines}`;
       }
     } else if (props.style === 'block') {
-      return code.split('\n').map(line => `    ${line}`).join('\n') + '\n';
+      return code.split('\n').map((line: string) => `    ${line}`).join('\n') + '\n';
     } else {
       // MarkdownIt strips all leading and trailing whitespace from code blocks,
       // which means that we get an empty string for a single whitespace (` `).
@@ -244,7 +244,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(_, state: State): IterableIterator<string> {
+  *'list-item'(_: any, state: State): IterableIterator<string> {
     let digit: number = state.get('digit');
     let delimiter = state.get('delimiter');
     let marker: string = delimiter;
@@ -259,9 +259,9 @@ export default class CommonmarkRenderer extends Renderer {
     let firstCharacter = 0;
     while (item[firstCharacter] === ' ') firstCharacter++;
 
-    let lines = item.split('\n');
-    lines.push(lines.pop().replace(/[ ]+$/, ''));
-    lines.unshift(lines.shift().replace(/^[ ]+/, ''));
+    let lines: string[] = item.split('\n');
+    lines.push((lines.pop() || '').replace(/[ ]+$/, ''));
+    lines.unshift((lines.shift() || '').replace(/^[ ]+/, ''));
     let [first, ...rest] = lines;
 
     item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/[ ]+$/, '');
@@ -309,7 +309,7 @@ export default class CommonmarkRenderer extends Renderer {
     // Handle indendation for code blocks that immediately follow
     // a list.
     let hasCodeBlockFollowing = state.get('nextAnnotation.type') === 'code' &&
-                                state.get('nextAnnotation.attributes.style') === 'block');
+                                state.get('nextAnnotation.attributes.style') === 'block';
 
     state.push({
       isList: true,
@@ -320,11 +320,11 @@ export default class CommonmarkRenderer extends Renderer {
       hasCodeBlockFollowing,
       tight: props && props.tight
     });
-    let list = yield;
+    let list: string[] = yield;
     state.pop();
 
     if (props && props.tight) {
-      list = list.map(item => item.replace(/([ \n])+$/, '\n');
+      list = list.map(item => item.replace(/([ \n])+$/, '\n'));
     }
 
     state.set('previous', {
@@ -339,7 +339,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *'paragraph'(_, state: State): IterableIterator<string> {
+  *'paragraph'(_: any, state: State): IterableIterator<string> {
     let text = yield;
     if (state.get('tight')) {
       return text.join('') + '\n';
