@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-html",
-  "version": "0.7.0",
+  "version": "0.7.2",
   "description": "Create AtJSON documents from HTML source",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -15,12 +15,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/hir": "^0.7.0",
-    "@atjson/renderer-hir": "^0.7.0",
+    "@atjson/hir": "^0.7.2",
+    "@atjson/renderer-hir": "^0.7.2",
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@atjson/document": "^0.7.0",
+    "@atjson/document": "^0.7.2",
     "parse5": "^4.0.0"
   }
 }
