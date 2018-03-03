@@ -1,11 +1,31 @@
 import events from './mixins/events';
+import { debug } from 'util';
 
 const TEXT_NODE_TYPE = 3;
 const DOCUMENT_POSITION_PRECEDING = 2;
 const DOCUMENT_POSITION_FOLLOWING = 4;
 
-function sum(a, b) {
+function sum(a: number, b: number) {
   return a + b;
+}
+
+interface RangeEdge {
+  node: Node | null;
+  offset: number;
+}
+
+function getTextNode(node: Node, trailing?: boolean): Text | null {
+  while (node.nodeType !== TEXT_NODE_TYPE && node != null) {
+    if (trailing) {
+      node = node.childNodes[node.childNodes.length - 1];
+    } else {
+      node = node.childNodes[0];
+    }
+  }
+  if (node) {
+    return node as Text;
+  }
+  return null;
 }
 
 /**
@@ -17,12 +37,16 @@ function sum(a, b) {
 class TextSelection extends events(HTMLElement) {
   static observedAttributes = ['start', 'end'];
   static events = {
-    'selectionchange document': 'selectedTextDidChange',
-    'mousedown': 'willSelectText',
-    'mouseup': 'didSelectText'
+    'selectionchange document': 'selectedTextDidChange'
   };
 
-  private textNodes: Text[] | null;
+  private textNodes: Text[];
+  private observer?: MutationObserver | null;
+
+  constructor() {
+    super();
+    this.textNodes = [];
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -39,21 +63,23 @@ class TextSelection extends events(HTMLElement) {
   disconnectedCallback() {
     super.disconnectedCallback();
 
-    this.observer.disconnect();
-    this.observer = null;
-    this.textNodes = null;
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
+    this.textNodes = [];
   }
 
-  getTextNodes(element?: Element): Text[] {
-    let nodes = [];
-    element = element || this;
+  getTextNodes(node?: Node): Text[] {
+    let nodes: Text[] = [];
+    node = node || this;
 
-    if (element.hasChildNodes()) {
-      element.childNodes.forEach((node) => {
-        nodes = nodes.concat(this.getTextNodes(node));
+    if (node.hasChildNodes()) {
+      node.childNodes.forEach((child: Node) => {
+        nodes = nodes.concat(this.getTextNodes(child));
       });
-    } else if (element.nodeType === TEXT_NODE_TYPE) {
-      nodes.push(element);
+    } else if (node.nodeType === TEXT_NODE_TYPE) {
+      nodes.push(node as Text);
     }
 
     return nodes;
@@ -64,7 +90,7 @@ class TextSelection extends events(HTMLElement) {
     let start = 0;
 
     let node = nodes.find(function (node) {
-      let end = start + node.nodeValue.length;
+      let end = start + (node.nodeValue || '').length;
       if (position >= start && position < end) {
         return true;
       }
@@ -78,25 +104,19 @@ class TextSelection extends events(HTMLElement) {
     };
   }
 
-  willSelectText() {
-    this.isSelecting = true;
-  }
-
-  didSelectText() {
-    this.isSelecting = false;
-  }
-
-  getNodeAndOffset(node: Element | null, offset: number): { node: Element | null, offset: number } | never {
+  getNodeAndOffset({ node, offset }: RangeEdge): { node: Text | null, offset: number } | never {
     if (node == null) {
       return { node: null, offset };
     } else if (node.nodeType === TEXT_NODE_TYPE) {
-      return { node, offset };
+      return { node: node as Text, offset };
     } else if (node.childNodes.length > 0) {
+      let textNode;
       // Firefox can return an offset that is the length
       // of the node list, which signifies that the node
       // and offset is the last node at the last character :/
       if (offset === node.childNodes.length) {
-        return { node: node.childNodes[offset - 1], offset: node.childNodes[offset - 1].length };
+        textNode = getTextNode(node, true);
+        return { node: textNode, offset: (textNode ? textNode.length : 0) };
       }
       let offsetNode = node.childNodes[offset];
 
@@ -109,35 +129,39 @@ class TextSelection extends events(HTMLElement) {
 
       // The offset node is a text node; quickly return
       if (offsetNode.nodeType === TEXT_NODE_TYPE) {
-        return { node: offsetNode, offset: 0 };
+        return { node: offsetNode as Text, offset: 0 };
+
+      // If the selected node is wholly outside of the
+      // component, it's a nil selection
+      } else if (!this.contains(offsetNode)) {
+        return { node: null, offset: 0 };
 
       // Find the closest text node and return that
       } else if (!offsetNode.hasChildNodes()) {
         let adjustedOffset = offset - 1;
 
         // Look for the nearest preceding text node
-        while (offsetNode.nodeType !== TEXT_NODE_TYPE &&
-               adjustedOffset > 0) {
-          offsetNode = node.childNodes[adjustedOffset--];
-        }
-
-        if (offsetNode.nodeType === TEXT_NODE_TYPE) {
-          offset = offsetNode.length;
+        do { 
+          textNode = getTextNode(node.childNodes[adjustedOffset--], true);
+        } while (textNode && this.contains(textNode) && adjustedOffset > 0);
 
         // Look for the next text node following the offset
+        if (textNode) {
+          offset = textNode.length;
         } else {
           adjustedOffset = offset;
           offset = 0;
-          while (offsetNode.nodeType !== TEXT_NODE_TYPE &&
-                 adjustedOffset < node.childNodes.length) {
-            offsetNode = node.childNodes[adjustedOffset++];
-          }
+
+          do {
+            textNode = getTextNode(node.childNodes[adjustedOffset++]);
+          } while (textNode && this.contains(textNode) && adjustedOffset < node.childNodes.length);
         }
 
-        if (offsetNode.nodeType !== TEXT_NODE_TYPE) {
-          throw new Error("A node / offset pair couldn't be found for the selection.");
+        if (textNode) {
+          return { node: textNode, offset };
+
         } else {
-          return { node: offsetNode, offset };
+          throw new Error("A node / offset pair couldn't be found for the selection.");
         }
       } else {
         throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
@@ -147,15 +171,7 @@ class TextSelection extends events(HTMLElement) {
     }
   }
 
-  clearSelection(): number {
-    return setTimeout(() => {
-      this.removeAttribute('start');
-      this.removeAttribute('end');
-      this.dispatchEvent(new CustomEvent('clear'));
-    }, 10);
-  }
-
-  clampRangePoint(edge: { node: Element, offset: number }): { node: Element, offset: number } {
+  clampRangePoint(edge: { node: Text, offset: number }): { node: Text, offset: number } {
     let firstNode = this.textNodes[0];
     let lastNode = this.textNodes[this.textNodes.length - 1];
 
@@ -173,25 +189,26 @@ class TextSelection extends events(HTMLElement) {
     return edge;
   }
 
-  selectedTextDidChange() {
-    if (this.didSetSelection) {
-      this.didSetSelection = false;
-      return true;
-    }
+  clearSelection() {
+    this.removeAttribute('start');
+    this.removeAttribute('end');
+    this.dispatchEvent(new CustomEvent('clear'));
+  }
 
+  selectedTextDidChange() {
     let range = document.getSelection();
     let nodes = this.textNodes;
 
-    let basePrefix = 'base';
-    let extentPrefix = 'extent';
-    if (range.anchorNode != null) {
-      basePrefix = 'anchor';
-      extentPrefix = 'focus';
+    let startOfSelection = { node: range.baseNode, offset: range.baseOffset };
+    let endOfSelection = { node: range.extentNode, offset: range.extentOffset };
+    if (range.anchorNode) {
+      startOfSelection = { node: range.anchorNode, offset: range.anchorOffset };
+      endOfSelection = { node: range.focusNode, offset: range.focusOffset };
     }
 
     let [base, extent] = [
-      this.getNodeAndOffset(range[`${basePrefix}Node`], range[`${basePrefix}Offset`]),
-      this.getNodeAndOffset(range[`${extentPrefix}Node`], range[`${extentPrefix}Offset`])
+      this.getNodeAndOffset(startOfSelection),
+      this.getNodeAndOffset(endOfSelection)
     ].sort((a, b) => {
       if (!a.node || !b.node) return 0;
 
@@ -211,7 +228,7 @@ class TextSelection extends events(HTMLElement) {
     // The selection range returned a selection with no base or extent;
     // This means that a node was selected that is not selectable
     if (base.node == null || extent.node == null) {
-      this._clearTimer = this.clearSelection();
+      this.clearSelection();
       return true;
     }
 
@@ -222,7 +239,7 @@ class TextSelection extends events(HTMLElement) {
     let commonAncestor = domRange.commonAncestorContainer;
 
     if (!this.contains(commonAncestor) && !commonAncestor.contains(this)) {
-      this._clearTimer = this.clearSelection();
+      this.clearSelection();
       return true;
     }
 
@@ -232,19 +249,17 @@ class TextSelection extends events(HTMLElement) {
       extent = this.clampRangePoint(extent);
     }
 
-    let lengths = nodes.map((node) => node.nodeValue.length);
+    let lengths = nodes.map((node) => (node.nodeValue || '').length);
     let start = lengths.slice(0, nodes.indexOf(base.node)).reduce(sum, base.offset);
     let end = lengths.slice(0, nodes.indexOf(extent.node)).reduce(sum, extent.offset);
 
     if (start === end && isNonZeroRange) {
-      this._clearTimer = this.clearSelection();
       return true;
     }
-    clearTimeout(this._clearTimer);
 
-    this.setAttribute('start', start);
-    this.setAttribute('end', end);
-    this.dispatchEvent(new CustomEvent('change', { detail: { start, end } }));
+    this.setAttribute('start', start.toString());
+    this.setAttribute('end', end.toString());
+    this.dispatchEvent(new CustomEvent('change', { detail: { start, end, collapsed: start === end } }));
     return true;
   }
 }
