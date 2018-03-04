@@ -14,12 +14,11 @@ if (module.hot) {
 }
 
 let doc = new Document({
-  content: 'Hello, world',
-  annotations: [{
-    type: 'bold',
-    start: 0,
-    end: 5
-  }]
+  content: 'Some text that is both bold and italic plus something after.',
+  annotations: [
+    { type: 'bold', start: 23, end: 31 },
+    { type: 'italic', start: 28, end: 38 }
+  ]
 });
 
 let editor = document.createElement('text-editor');
