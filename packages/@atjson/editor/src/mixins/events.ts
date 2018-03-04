@@ -5,7 +5,7 @@ interface EventCallback {
 }
 
 interface EventHandlerDefinitions {
-  [key: string]: string;
+  [key: string]: string | EventCallback;
 }
 
 interface EventHandlerReferences {
@@ -68,13 +68,19 @@ export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
       Object.keys(events).forEach((definition: string) => {
         let { eventName, element } = getEventNameAndElement(this, definition);
         let method = events[definition];
-        this.eventHandlers[definition] = (evt): EventCallback | never => {
-          if (this[method]) {
-            return this[method](evt);
-          } else {
-            throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
-          }
-        };
+        if (typeof method === 'string') {
+          this.eventHandlers[definition] = (evt): EventCallback | never => {
+            if (this[method]) {
+              return this[method](evt);
+            } else {
+              throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
+            }
+          };
+        } else {
+          this.eventHandlers[definition] = (evt): EventCallback => {
+            return method.call(this, evt);
+          };
+        }
         element.addEventListener(eventName, this.eventHandlers[definition]);
       });
     }
@@ -88,4 +94,3 @@ export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
     }
   }
 };
-
