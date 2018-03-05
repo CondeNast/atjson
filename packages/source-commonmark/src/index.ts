@@ -195,14 +195,26 @@ export class Parser {
 
 export default class extends Document {
   constructor(markdown: string) {
-    let md = MarkdownIt('commonmark');
-    let parser = new Parser(md.parse(markdown, { linkify: false }), {});
     super({
-      content: parser.content,
+      content: '',
       contentType: 'text/commonmark',
-      annotations: parser.annotations,
+      annotations: [],
       schema: markdownSchema
     });
+
+    let md = this.constructor.markdownParser();
+    let parser = new Parser(md.parse(markdown, { linkify: false }), this.constructor.contentHandlers());
+
+    this.content = parser.content;
+    this.annotations = parser.annotations;
+  }
+
+  static markdownParser() {
+    return MarkdownIt('commonmark');
+  }
+
+  static contentHandlers() {
+    return {};
   }
 
   toCommonSchema() {
