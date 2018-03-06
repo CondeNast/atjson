@@ -19,7 +19,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('does not throw an error when instantiating with KIXSource', () => {
-      expect(new KIXSource(atjson)).toBeTruthy();
+      expect(new KIXSource(atjson)).toBeDefined();
     });
 
     it('correctly sets the content');
