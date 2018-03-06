@@ -1,5 +1,36 @@
 import { Annotation } from '@atjson/document';
 
+/*
+ * Import paragraph styles.
+ *
+ * from gdoc.dsl_styleslices[stsl_Type='paragraph']
+ *
+ * Paragraph style attributes are:
+ *
+ *   ps_al: unknown
+ *   ps_awao: unknown
+ *   ps_bb: unknown
+ *   ps_bbtw: unknown
+ *   ps_bl: unknown
+ *   ps_br: unknown
+ *   ps_bt: unknown
+ *   ps_hd: header (integer, 0 = none, 1+ = header level)
+ *   ps_hdid: header id (?)
+ *   ps_ifl: unknown
+ *   ps_il: unknown
+ *   ps_ir: unknown
+ *   ps_klt: unknown
+ *   ps_kwn: unknown
+ *   ps_ls: unknown
+ *   ps_ltr: unknown
+ *   ps_rd: unknown
+ *   ps_sa: unknown
+ *   ps_sb: unknown
+ *   ps_sd: unknown
+ *   ps_shd: unknown
+ *   ps_sm: unknown
+ *
+ */
 export default function extractParagraphStyles(styles): Annotation[] {
   let lastParagraphStart = 0;
   let annotations = [];
