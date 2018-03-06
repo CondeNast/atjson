@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@atjson/source-gdocs-paste relatively complex document correctly sets the content 1`] = `
+"This is a simple test.
+*
+Here is some text
+
+Here’s a numbered list
+And another item
+
+Here is a poem
+  With some text ahead
+    Four spaces this time and a suggestion
+Now no spaces
+Here’s a line with some different line spacing (1.5)
+And here’s a double spaced line
+Heading 1
+Heading 2
+Title
+Subtitle
+UPPER CASE
+Title Case is fun
+This is superscript!
+This is subscript
+abdsfdf
+"
+`;

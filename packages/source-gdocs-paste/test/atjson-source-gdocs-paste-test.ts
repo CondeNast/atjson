@@ -22,7 +22,11 @@ describe('@atjson/source-gdocs-paste', () => {
       expect(new KIXSource(atjson)).toBeDefined();
     });
 
-    it('correctly sets the content');
+    it('correctly sets the content', () => {
+      let gdocs = new KIXSource(atjson);
+      expect(gdocs.getContent().length).toEqual(384);
+      expect(gdocs.getContent()).toMatchSnapshot();
+    });
 
     it('extracts bold', () => {
       let gdocs = new KIXSource(atjson);
