@@ -33,8 +33,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let annotations = gdocs.getAnnotations().filter(a => a.type === 'ts_bd');
       expect(annotations.length).toEqual(2);
 
-      let a0 = annotations[0];
-      let a1 = annotations[1];
+      let [a0, a1] = annotations;
       expect(gdocs.getContent().substring(a0.start, a0.end)).toEqual('simple te');
       expect(gdocs.getContent().substring(a1.start, a1.end)).toEqual('re is so');
     });
@@ -44,8 +43,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let annotations = gdocs.getAnnotations().filter(a => a.type === 'ts_it');
       expect(annotations.length).toEqual(2);
 
-      let a0 = annotations[0];
-      let a1 = annotations[1];
+      let [a0, a1] = annotations;
       expect(gdocs.getContent().substring(a0.start, a0.end)).toEqual('simple ');
       expect(gdocs.getContent().substring(a1.start, a1.end)).toEqual('some ');
     });
@@ -55,10 +53,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let annotations = gdocs.getAnnotations().filter(a => a.type === 'ps_hd').sort((a,b) => a.start - b.start);
       expect(annotations.length).toEqual(4);
 
-      let a0 = annotations[0];
-      let a1 = annotations[1];
-      let a2 = annotations[2];
-      let a3 = annotations[3];
+      let [a0, a1, a2, a3] = annotations;
 
       expect(gdocs.getContent().substring(a0.start, a0.end)).toEqual('Heading 1');
       expect(a0.level).toEqual(1);
@@ -90,8 +85,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let annotations = gdocs.getAnnotations().filter(a => a.type === 'list-item');
       expect(annotations.length).toEqual(2);
 
-      let a0 = annotations[0];
-      let a1 = annotations[1];
+      let [a0, a1] = annotations;
 
       expect(gdocs.getContent().substring(a0.start, a0.end)).toEqual('Here’s a numbered list');
       expect(a0.ls_id).toEqual('kix.r139o3ivf8cd');
