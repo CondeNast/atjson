@@ -1,35 +1,40 @@
-import { Annotation } from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
+import schema from '@atjson/schema';
+import gdocsSchema from './schema';
 
-import extractTextStyles from './text-styles';
-import extractParagraphStyles from './paragraph-styles';
-import extractListStyles from './list-styles';
+import GDocsParser from './gdocs-parser';
 
-export default class Parser {
-
-  gdocsSource: string;
-
+export default class extends Document {
   constructor(gdocsSource: string) {
-    this.gdocsSource = gdocsSource;
+
+    let gdocsParser = new GDocsParser(gdocsSource);
+
+    super({
+      content: gdocsParser.getContent(),
+      contentType: 'text/google-docs',
+      annotations: gdocsParser.getAnnotations(),
+      schema: gdocsSchema
+    });
   }
 
-  getContent(): string {
-    return this.gdocsSource.resolved.dsl_spacers;
-  }
-
-  getAnnotations(): Annotation[] {
-    let transforms = {
-      'text': extractTextStyles,
-      'paragraph': extractParagraphStyles,
-      'list': extractListStyles
-    }
-
-    let annotations = this.gdocsSource.resolved.dsl_styleslices.map(styleSlice => {
-      if (transforms[styleSlice.stsl_type]) {
-        return transforms[styleSlice.stsl_type](styleSlice.stsl_styles, this.gdocsSource.resolved.dsl_entitymap);
-      }
+  toCommonSchema(): Document {
+    let doc = new Document({
+      content: this.content,
+      contentType: 'text/atjson',
+      annotations: [...this.annotations],
+      schema
     });
 
-    return [].concat.apply([], annotations).filter(a => a !== undefined);
-  }
+    doc.where({ type: '-gdocs-ts_bd' }).set({ type: 'bold' });
+    doc.where({ type: '-gdocs-ts_it' }).set({ type: 'italic' });
 
+    doc.where({ type: '-gdocs-ps_hd' }).set({ type: 'heading' });
+    doc.where({ type: '-gdocs-ps_hd' }).map({ attributes: { '-gdocs-level': 'level' });
+
+    // FIXME list conversion is incomplete, needs fixing.
+    doc.where({ type: '-gdocs-list' }).set({ type: 'ordered-list' });
+    doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
+    
+    return doc;
+  }
 }
