@@ -18,17 +18,17 @@ export default {
     attributes: [
       '-gdocs-level'
     ]
-  }
+  },
 
   '-gdocs-ts_bd': {
     display: 'inline'
-  }
+  },
 
   '-gdocs-ts_it': {
     display: 'inline'
-  }
+  },
 
   '-gdocs-ts_un': {
     display: 'inline'
   }
-}
+};

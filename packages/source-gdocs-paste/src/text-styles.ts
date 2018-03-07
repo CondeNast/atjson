@@ -1,12 +1,17 @@
 import { Annotation } from '@atjson/document';
+import { GDocsStyleSlice } from './types';
 
-export default function extractTextStyles(styles): Annotation[] {
-  let state = {}
-  let annotations = [];
+interface parseState {
+  [key: string]: Annotation
+}
+
+export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation[] {
+  let state: parseState = {};
+  let annotations: Annotation[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];
-    
+
     if (style === null) continue;
 
     for (let styleType of ['ts_bd', 'ts_it', 'ts_un']) {

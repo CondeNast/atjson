@@ -1,12 +1,26 @@
-import extractTextStyles from './text-styles';
-import extractParagraphStyles from './paragraph-styles';
+import { Annotation } from '@atjson/document';
+
+import { GDocsStyleSlice } from './types';
+
 import extractListStyles from './list-styles';
+import extractParagraphStyles from './paragraph-styles';
+import extractTextStyles from './text-styles';
+
+export interface gdocsSource {
+  [key: string]: any
+}
 
 export default class GDocsParser {
 
-  gdocsSource: string;
+  gdocsSource: gdocsSource;
 
-  constructor(gdocsSource: string) {
+  static transforms = {
+    text: extractTextStyles,
+    paragraph: extractParagraphStyles,
+    list: extractListStyles
+  }
+
+  constructor(gdocsSource: gdocsSource) {
     this.gdocsSource = gdocsSource;
   }
 
@@ -15,19 +29,20 @@ export default class GDocsParser {
   }
 
   getAnnotations(): Annotation[] {
-    let transforms = {
-      'text': extractTextStyles,
-      'paragraph': extractParagraphStyles,
-      'list': extractListStyles
-    }
 
-    let annotations = this.gdocsSource.resolved.dsl_styleslices.map(styleSlice => {
-      if (transforms[styleSlice.stsl_type]) {
-        return transforms[styleSlice.stsl_type](styleSlice.stsl_styles, this.gdocsSource.resolved.dsl_entitymap);
+    const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
+    const transforms = GDocsParser.transforms;
+
+    let annotations = styleSlices.map((styleSlice) => {
+
+      let type: string = styleSlice.stsl_type;
+      let styles: GDocsStyleSlice = styleSlice.stsl_styles;
+
+      if (transforms[type]) {
+        return transforms[type](styles);
       }
     });
 
-    return [].concat.apply([], annotations).filter(a => a !== undefined);
+    return [].concat.apply([], annotations).filter((a: Annotation|undefined) => a !== undefined);
   }
-
 }

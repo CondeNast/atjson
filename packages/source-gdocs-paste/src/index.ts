@@ -1,4 +1,4 @@
-import Document, { Annotation } from '@atjson/document';
+import Document from '@atjson/document';
 import schema from '@atjson/schema';
 import gdocsSchema from './schema';
 
@@ -30,7 +30,7 @@ export default class extends Document {
 
     doc.where({ type: '-gdocs-ps_hd' })
       .set({ type: 'heading' })
-      .map({ attributes: { '-gdocs-level': 'level' });
+      .map({ attributes: { '-gdocs-level': 'level' } });
 
     // FIXME list conversion is incomplete, needs fixing.
     doc.where({ type: '-gdocs-list' }).set(
@@ -38,7 +38,7 @@ export default class extends Document {
       { attributes: { type: 'numbered' } }
     );
     doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
-    
+
     return doc;
   }
 }

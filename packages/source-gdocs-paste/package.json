@@ -18,6 +18,7 @@
     "typescript": "^2.6.2"
   },
   "dependencies": {
-    "@atjson/document": "0.7.2"
+    "@atjson/document": "0.7.2",
+    "@atjson/schema": "0.7.3"
   }
 }
