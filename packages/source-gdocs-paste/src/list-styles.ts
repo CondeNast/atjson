@@ -17,21 +17,25 @@ export default function extractListStyles(lists): Annotation[] {
 
     if (!listAnnotations[list['ls_id']]) {
       listAnnotations[list['ls_id']] = {
-        type: 'list',
-        ls_id: list['ls_id'],
+        type: '-gdocs-list',
         start: lastParagraphStart,
-        end: i
+        end: i,
+        attributes: {
+          '-gdocs-ls_id': list['ls_id']
+        }
       }
     } else {
       listAnnotations[list['ls_id']].end = i;
     }
 
     annotations.push({
-      type: 'list-item',
-      ls_nest: list['ls_nest'],
-      ls_id: list['ls_id'],
+      type: '-gdocs-list-item',
       start: lastParagraphStart,
-      end: i
+      end: i,
+      attributes: {
+        '-gdocs-ls_nest': list['ls_nest'],
+        '-gdocs-ls_id': list['ls_id']
+      }
     });
 
     lastParagraphStart = i + 1;

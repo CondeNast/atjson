@@ -42,10 +42,12 @@ export default function extractParagraphStyles(styles): Annotation[] {
 
     if (style['ps_hd'] !== 0) {
       annotations.push({
-        type: 'ps_hd',
-        level: style['ps_hd'],
+        type: '-gdocs-ps_hd',
         start: lastParagraphStart,
-        end: i
+        end: i,
+        attributes: {
+          '-gdocs-level': style['ps_hd']
+        }
       });
     }
 
