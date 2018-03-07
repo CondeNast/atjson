@@ -28,11 +28,15 @@ export default class extends Document {
     doc.where({ type: '-gdocs-ts_bd' }).set({ type: 'bold' });
     doc.where({ type: '-gdocs-ts_it' }).set({ type: 'italic' });
 
-    doc.where({ type: '-gdocs-ps_hd' }).set({ type: 'heading' });
-    doc.where({ type: '-gdocs-ps_hd' }).map({ attributes: { '-gdocs-level': 'level' });
+    doc.where({ type: '-gdocs-ps_hd' })
+      .set({ type: 'heading' })
+      .map({ attributes: { '-gdocs-level': 'level' });
 
     // FIXME list conversion is incomplete, needs fixing.
-    doc.where({ type: '-gdocs-list' }).set({ type: 'ordered-list' });
+    doc.where({ type: '-gdocs-list' }).set(
+      { type: 'list' },
+      { attributes: { type: 'numbered' } }
+    );
     doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
     
     return doc;

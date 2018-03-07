@@ -1,5 +1,4 @@
 import Document from '@atjson/document';
-import { HIR } from '@atjson/hir';
 import GDocsSource from '@atjson/source-gdocs-paste';
 import * as fs from 'fs';
 import * as path from 'path';
