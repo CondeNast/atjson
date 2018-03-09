@@ -227,4 +227,31 @@ After all the lists
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
   });
+
+  test('unambiguous nesting of bold and italic', () => {
+    let document = new Document({
+      content: '\uFFFCbold then italic\uFFFC \uFFFCitalic then bold\uFFFC',
+      annotations: [{
+        type: 'parse-token', start: 0, end: 1
+      }, {
+        type: 'bold', start: 0, end: 18
+      }, {
+        type: 'italic', start: 1, end: 17
+      }, {
+        type: 'parse-token', start: 17, end: 18
+      }, {
+        type: 'parse-token', start: 19, end: 20
+      }, {
+        type: 'italic', start: 19, end: 37
+      }, {
+        type: 'bold', start: 20, end: 36
+      }, {
+        type: 'parse-token', start: 36, end: 37
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
+  });
 });
