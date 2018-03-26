@@ -1,9 +1,9 @@
-import { HIRNode } from '@atjson/hir';
+import Document from '@atjson/document';
+import { HIR, HIRNode } from '@atjson/hir';
 import Renderer, { State } from '@atjson/renderer-hir';
 
 export function* split(): IterableIterator<string> {
-  let rawText = yield;
-  let text = rawText.join('');
+  let text = yield;
   let start = 0;
   let end = text.length;
 
@@ -53,23 +53,53 @@ function getNumberOfRequiredBackticks(text: string) {
   }, 1);
 }
 
-export default class CommonmarkRenderer extends Renderer {
+function render(renderer: CommonMarkRenderer, node: HIRNode, parent?: HIRNode, index?: number): string {
+  if (index > 0) {
+    node.previous = parent.children[index - 1];
+  }
+  if (parent && index < parent.children.length) {
+    node.next = parent.children[index + 1];
+  }
+  node.parent = parent;
+  node.children = node.children();
 
-  renderText(text: string, state: State) {
-    if (state.get('isPreformatted')) {
+  if (renderer[node.type]) {
+    let generator = renderer[node.type](node, parent);
+    let result = generator.next();
+    if (result.done) {
+      return result.value;
+    }
+    return generator.next(node.children.map((childNode: HIRNode, idx: number) => {
+      if (childNode.type === 'text' && typeof childNode.text === 'string') {
+        return renderer.text(childNode.text);
+      } else {
+        return render(renderer, childNode, node, idx);
+      }
+    }).join('')).value;
+  } else {
+    return node.children.map((childNode: HIRNode, idx: number) => {
+      if (childNode.type === 'text' && typeof childNode.text === 'string') {
+        return renderer.text(childNode.text);
+      } else {
+        return render(renderer, childNode, node, idx);
+      }
+    }).join('');
+  }
+}
+
+export default class CommonmarkRenderer {
+
+  state: any;
+
+  constructor() {
+    this.state = {};
+  }
+
+  text(text: string) {
+    if (this.state.isPreformatted) {
       return text;
     }
     return escapePunctuation(text).replace(/\u00A0/gu, '&nbsp;');
-  }
-
-  /**
-   * The root allows us to normalize the document
-   * after all annotations have been rendered to
-   * CommonMark.
-   */
-  *'root'(): IterableIterator<string> {
-    let document = yield;
-    return document.join('');
   }
 
   /**
@@ -78,8 +108,12 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *'bold'(): IterableIterator<string> {
+  *'bold'(node: HIRNode): IterableIterator<string> {
     let [before, text, after] = yield* split();
+    if (node.parent && !node.previous && !node.next &&
+        node.parent.type === 'italic') {
+      return `${before}__${text}__${after}`;
+    }
     return `${before}**${text}**${after}`;
   }
 
@@ -89,9 +123,9 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *'quotation'(_: any, state: State): IterableIterator<string> {
-    let text: string[] = yield;
-    let lines: string[] = text.join('').split('\n');
+  *'quotation'(): IterableIterator<string> {
+    let text = yield;
+    let lines: string[] = text.split('\n');
     let endOfQuote = lines.length;
     let startOfQuote = 0;
 
@@ -100,7 +134,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     let quote = lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
 
-    if (!state.get('tight')) {
+    if (!this.state.tight) {
       quote += '\n';
     }
     return quote;
@@ -115,16 +149,15 @@ export default class CommonmarkRenderer extends Renderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *'heading'(props: { level: number }): IterableIterator<string> {
-    let text = yield;
-    let level = new Array(props.level + 1).join('#');
-    let heading = text.join('');
+  *'heading'(node: HIRNode): IterableIterator<string> {
+    let heading = yield;
+    let level = new Array(node.attributes.level + 1).join('#');
 
     // Multiline headings are supported for level 1 and 2
     if (heading.indexOf('\n') !== -1) {
-      if (props.level === 1) {
+      if (node.attributes.level === 1) {
         return `${heading}\n====\n`;
-      } else if (props.level === 2) {
+      } else if (node.attributes.level === 2) {
         return `${heading}\n----\n`;
       }
     }
@@ -144,25 +177,32 @@ export default class CommonmarkRenderer extends Renderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *'image'(props: { description: string, title?: string, url: string }): IterableIterator<string> {
-    if (props.title) {
-      let title = props.title.replace(/"/g, '\\"');
-      return `![${props.description}](${props.url} "${title}")`;
+  *'image'(node: HIRNode): IterableIterator<string> {
+    if (node.attributes.title) {
+      let title = node.attributes.title.replace(/"/g, '\\"');
+      return `![${node.attributes.description}](${node.attributes.url} "${title}")`;
     }
-    return `![${props.description}](${props.url})`;
+    return `![${node.attributes.description}](${node.attributes.url})`;
   }
 
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(_: any, state: State): IterableIterator<string> {
+  *'italic'(node: HIRNode): IterableIterator<string> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
-    let isItalicized = state.get('isItalicized');
-    state.set('isItalicized', true);
+    let state = Object.assign({}, this.state);
+    this.state.isItalicized = true;
+
     let [before, text, after] = yield* split();
-    state.set('isItalicized', isItalicized);
-    let markup = isItalicized ? '_' : '*';
+    let markup = state.isItalicized ? '_' : '*';
+    if (node.parent && !node.previous && !node.next &&
+        node.parent.type === 'bold') {
+      markup = '_';
+    }
+
+    this.state = state;
+
     return `${before}${markup}${text}${markup}${after}`;
   }
 
@@ -177,11 +217,11 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(props: { url: string, title?: string }): IterableIterator<string> {
+  *'link'(node: HIRNode): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    let url = escapeAttribute(props.url);
-    if (props.title) {
-      let title = props.title.replace(/"/g, '\\"');
+    let url = escapeAttribute(node.attributes.url);
+    if (node.attributes.title) {
+      let title = node.attributes.title.replace(/"/g, '\\"');
       return `${before}[${text}](${url} "${title}")${after}`;
     }
     return `${before}[${text}](${url})${after}`;
@@ -194,17 +234,18 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(props: { style: CodeStyle, info?: string }, state: State): IterableIterator<string> {
-    state.push({ isPreformatted: true, htmlSafe: false });
-    let text = yield;
-    state.pop();
-    let code = text.join('');
+  *'code'(node: HIRNode): IterableIterator<string> {
+    let state = Object.assign({}, this.state);
+    Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
-    if (props.style === 'fence') {
+    let code = yield;
+    this.state = state;
+
+    if (node.attributes.style === 'fence') {
       code = '\n' + code;
-      let info = props.info || '';
+      let info = node.attributes.info || '';
       let newlines = '\n';
-      if (state.get('isList') && state.get('nextAnnotation')) {
+      if (this.state.isList && node.next) {
         newlines += '\n';
       }
 
@@ -213,7 +254,7 @@ export default class CommonmarkRenderer extends Renderer {
       } else {
         return `\`\`\`${info}${code}\`\`\`${newlines}`;
       }
-    } else if (props.style === 'block') {
+    } else if (node.attributes.style === 'block') {
       return code.split('\n').map((line: string) => `    ${line}`).join('\n') + '\n';
     } else {
       // MarkdownIt strips all leading and trailing whitespace from code blocks,
@@ -230,12 +271,15 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *'html'(props: { type: string }, state: State): IterableIterator<string> {
-    state.push({ isPreformatted: true, htmlSafe: true });
-    let text = yield;
-    state.pop();
-    let html = text.join('');
-    if (props.type === 'block') {
+  *'html'(node: HIRNode): IterableIterator<string> {
+    let state = Object.assign({}, this.state);
+    Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
+
+    let html = yield;
+
+    this.state = state;
+
+    if (node.attributes.type === 'block') {
       return html + '\n';
     }
     return html;
@@ -244,18 +288,17 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(_: any, state: State): IterableIterator<string> {
-    let digit: number = state.get('digit');
-    let delimiter = state.get('delimiter');
+  *'list-item'(node: HIRNode, state: State): IterableIterator<string> {
+    let digit: number = this.state.digit;
+    let delimiter = this.state.delimiter;
     let marker: string = delimiter;
-    if (state.get('type') === 'numbered') {
+    if (this.state.type === 'numbered') {
       marker = `${digit}${delimiter}`;
-      state.set('digit', digit + 1);
+      this.state.digit++;
     }
 
     let indent = ' '.repeat(marker.length + 1);
-    let text: string[] = yield;
-    let item: string = text.join('');
+    let item: string = yield;
     let firstCharacter = 0;
     while (item[firstCharacter] === ' ') firstCharacter++;
 
@@ -266,12 +309,16 @@ export default class CommonmarkRenderer extends Renderer {
 
     item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/[ ]+$/, '');
 
+    if (this.state.tight) {
+      item = item.replace(/([ \n])+$/, '\n');
+    }
+
     // Code blocks using spaces can follow lists,
     // however, they will be included in the list
     // if we don't adjust spacing on the list item
     // to force the code block outside of the list
     // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
-    if (state.get('hasCodeBlockFollowing')) {
+    if (this.state.hasCodeBlockFollowing) {
       return ` ${marker}    ${item}`;
     }
     return `${marker} ${item}`;
@@ -282,68 +329,69 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'list'(props: { type: string, startsAt?: number, tight: boolean }, state: State): IterableIterator<string> {
+  *'list'(node: HIRNode): IterableIterator<string> {
     let start = 1;
 
-    if (props && props.startsAt != null) {
-      start = props.startsAt;
+    if (node.attributes.startsAt != null) {
+      start = node.attributes.startsAt;
     }
 
     let delimiter = '';
-    if (props.type === 'numbered') {
+    if (node.attributes.type === 'numbered') {
       delimiter = '.';
 
-      if (state.get('previous.type') === 'numbered' &&
-          state.get('previous.delimiter') === '.') {
+      if (node.previous &&
+          node.previous.type === 'list' &&
+          node.previous.attributes.type === 'numbered' &&
+          node.previous.delimiter === '.') {
         delimiter = ')';
       }
-    } else if (props.type === 'bulleted') {
+    } else if (node.attributes.type === 'bulleted') {
       delimiter = '-';
 
-      if (state.get('previous.type') === 'bulleted' &&
-          state.get('previous.delimiter') === '-') {
+      if (node.previous &&
+          node.previous.type === 'list' &&
+          node.previous.attributes.type === 'bulleted' &&
+          node.previous.delimiter === '-') {
         delimiter = '+';
       }
     }
+    node.delimiter = delimiter;
 
-    // Handle indendation for code blocks that immediately follow
-    // a list.
-    let hasCodeBlockFollowing = state.get('nextAnnotation.type') === 'code' &&
-                                state.get('nextAnnotation.attributes.style') === 'block';
+    let state = Object.assign({}, this.state);
 
-    state.push({
+    // Handle indendation for code blocks that immediately follow a list.
+    let hasCodeBlockFollowing = node.next &&
+                                node.next.type === 'code' &&
+                                node.next.attributes.style === 'block';
+    Object.assign(this.state, {
       isList: true,
-      type: props.type,
+      type: node.attributes.type,
       digit: start,
-      previous: state.get('previous'),
       delimiter,
-      hasCodeBlockFollowing,
-      tight: props && props.tight
-    });
-    let list: string[] = yield;
-    state.pop();
-
-    if (props && props.tight) {
-      list = list.map(item => item.replace(/([ \n])+$/, '\n'));
-    }
-
-    state.set('previous', {
-      isList: true,
-      type: props.type,
-      delimiter
+      tight: node.attributes.tight,
+      hasCodeBlockFollowing
     });
 
-    return list.join('') + '\n';
+    let list = yield;
+
+    this.state = state;
+    return list + '\n';
   }
 
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *'paragraph'(_: any, state: State): IterableIterator<string> {
+  *'paragraph'(): IterableIterator<string> {
     let text = yield;
-    if (state.get('tight')) {
-      return text.join('') + '\n';
+    if (this.state.tight) {
+      return text + '\n';
     }
-    return text.join('') + '\n\n';
+    return text + '\n\n';
+  },
+
+  render(document: Document): string {
+    let graph = new HIR(document);
+    return render(this, graph.rootNode);
   }
 }
