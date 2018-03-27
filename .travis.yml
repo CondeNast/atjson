@@ -6,17 +6,21 @@ node_js:
 cache:
   yarn: true
 
-addons:
-  code_climate:
-    repo_token: ec8a0df02a38df751e744b44699b97843229ab17c64ac82c0e5cd57498578ece
+env:
+  global:
+    - CC_TEST_REPORTER_ID=68bca34aea101c23f266a7a8c38cea0891f1fc517618d28f7329992afd6a44d8
 
 install:
   - yarn
   - ./node_modules/lerna/bin/lerna.js bootstrap
 
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
 script:
   - ./node_modules/jest/bin/jest.js --no-cache --coverage
 
 after_script:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < ./coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
