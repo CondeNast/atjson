@@ -56,10 +56,16 @@ function getNumberOfRequiredBackticks(text: string) {
 function render(renderer: CommonMarkRenderer, node: HIRNode, parent?: HIRNode, index?: number): string {
   if (index > 0) {
     node.previous = parent.children[index - 1];
+  } else {
+    node.previous = null;
   }
+
   if (parent && index < parent.children.length) {
     node.next = parent.children[index + 1];
+  } else {
+    node.next = null;
   }
+
   node.parent = parent;
   node.children = node.children();
 
