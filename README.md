@@ -1,4 +1,5 @@
-# AtJSON [![Build Status](https://travis-ci.org/CondeNast-Copilot/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast-Copilot/atjson)
+# AtJSON [![Build Status](https://travis-ci.org/CondeNast-Copilot/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast-Copilot/atjson) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 
 AtJSON is a collection of repositories that together make up a fully-realized content format.
 
