@@ -69,27 +69,27 @@ function render(renderer: CommonMarkRenderer, node: HIRNode, parent?: HIRNode, i
   node.parent = parent;
   node.children = node.children();
 
+  let generator;
   if (renderer[node.type]) {
-    let generator = renderer[node.type](node, parent);
+    generator = renderer[node.type](node, parent);
     let result = generator.next();
     if (result.done) {
       return result.value;
     }
-    return generator.next(node.children.map((childNode: HIRNode, idx: number) => {
-      if (childNode.type === 'text' && typeof childNode.text === 'string') {
-        return renderer.text(childNode.text);
-      } else {
-        return render(renderer, childNode, node, idx);
-      }
-    }).join('')).value;
+  }
+
+  let fragment = node.children.map((childNode: HIRNode, idx: number) => {
+    if (childNode.type === 'text' && typeof childNode.text === 'string') {
+      return renderer.text(childNode.text);
+    } else {
+      return render(renderer, childNode, node, idx);
+    }
+  }).join('');
+
+  if (generator) {
+    return generator.next(fragment).value;
   } else {
-    return node.children.map((childNode: HIRNode, idx: number) => {
-      if (childNode.type === 'text' && typeof childNode.text === 'string') {
-        return renderer.text(childNode.text);
-      } else {
-        return render(renderer, childNode, node, idx);
-      }
-    }).join('');
+    return fragment;
   }
 }
 
