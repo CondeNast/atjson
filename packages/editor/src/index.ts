@@ -1,4 +1,5 @@
 import { HIR } from '@atjson/hir';
+import Document from '@atjson/document';
 import events from './mixins/events';
 import './text-selection';
 
@@ -164,10 +165,20 @@ export default class Editor extends events(HTMLElement) {
     this.cursor = evt.detail;
   }
 
+  setDocument(value: Document) {
+    this.document = value;
+    if (this.isConnected) {
+      this.render(this.querySelector('.editor'));
+      this.render(this.querySelector('.output'));
+    }
+  }
+
   connectedCallback() {
     this.innerHTML = this.constructor.template;
     super.connectedCallback();
-    this.render(this.querySelector('.editor'));
-    this.render(this.querySelector('.output'));
+    if (this.document) {
+      this.render(this.querySelector('.editor'));
+      this.render(this.querySelector('.output'));
+    }
   }
 }
