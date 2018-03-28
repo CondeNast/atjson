@@ -22,7 +22,7 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
     }
 
     // If the linkStyles[i] entry is not null, then we have a new link starting here.
-    if (link['lnks_link'] !== null) {
+    if (link.lnks_link !== null) {
       currentLink = {
         type: '-gdocs-lnks_link',
         start: i,
@@ -30,7 +30,7 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
           '-gdocs-ulnk_url': link.lnks_link.ulnk_url,
           '-gdocs-lnk_type': link.lnks_link.lnk_type
         }
-      }
+      };
     }
 
   }
