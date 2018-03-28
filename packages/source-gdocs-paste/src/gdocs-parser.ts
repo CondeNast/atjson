@@ -2,28 +2,28 @@ import { Annotation } from '@atjson/document';
 
 import { GDocsStyleSlice } from './types';
 
+import extractLinkStyles from './link-styles';
 import extractListStyles from './list-styles';
 import extractParagraphStyles from './paragraph-styles';
 import extractTextStyles from './text-styles';
-import extractLinkStyles from './link-styles';
 
-export interface gdocsSource {
-  [key: string]: any
+export interface GDocsSource {
+  [key: string]: any;
 }
 
 export default class GDocsParser {
-
-  gdocsSource: gdocsSource;
 
   static transforms = {
     text: extractTextStyles,
     paragraph: extractParagraphStyles,
     list: extractListStyles,
     link: extractLinkStyles
-  }
+  };
 
-  constructor(gdocsSource: gdocsSource) {
-    this.gdocsSource = gdocsSource;
+  gdocsSource: GDocsSource;
+
+  constructor(source: GDocsSource) {
+    this.gdocsSource = source;
   }
 
   getContent(): string {
@@ -35,7 +35,7 @@ export default class GDocsParser {
     const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
     const transforms = GDocsParser.transforms;
 
-    let annotations = styleSlices.map((styleSlice) => {
+    let annotations = styleSlices.map(styleSlice => {
 
       let type: string = styleSlice.stsl_type;
       let styles: GDocsStyleSlice = styleSlice.stsl_styles;
@@ -45,6 +45,6 @@ export default class GDocsParser {
       }
     });
 
-    return [].concat.apply([], annotations).filter((a: Annotation|undefined) => a !== undefined);
+    return [].concat.apply([], annotations).filter((a: Annotation | undefined) => a !== undefined);
   }
 }

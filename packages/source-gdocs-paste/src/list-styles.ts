@@ -1,14 +1,14 @@
 import { Annotation } from '@atjson/document';
 import { GDocsStyleSlice } from './types';
 
-interface annotationCollection {
-  [key: string]: Annotation
+interface AnnotationCollection {
+  [key: string]: Annotation;
 }
 
 export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[] {
 
   let lastParagraphStart = 0;
-  let listAnnotations: annotationCollection = {};
+  let listAnnotations: AnnotationCollection = {};
   let annotations: Annotation[] = [];
 
   for (let i = 0; i < lists.length; i++) {
