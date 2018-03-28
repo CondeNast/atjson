@@ -95,6 +95,18 @@ describe('@atjson/source-gdocs-paste', () => {
       expect(a1.attributes['-gdocs-ls_nest']).toEqual(0);
     });
 
+    it('extracts links', () => {
+      let gdocs = new GDocsSource(atjson);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-lnks_link');
+      expect(annotations.length).toEqual(1);
+
+      let link = annotations[0];
+
+      expect(gdocs.content.substring(link.start, link.end)).toEqual(' is ');
+      expect(link.attributes['-gdocs-ulnk_url']).toEqual('https://www.google.com/');
+      expect(link.attributes['-gdocs-lnk_type']).toEqual(0);
+    });
+
     it('extracts images');
 
     it('extracts subscript');

@@ -20,6 +20,13 @@ export default {
     ]
   },
 
+  'gdocs-lnks_link': {
+    display: 'inline',
+    attributes: [
+      '-gdocs-ulnk_url', '-gdocs-lnk-type'
+    ]
+  },
+
   '-gdocs-ts_bd': {
     display: 'inline'
   },

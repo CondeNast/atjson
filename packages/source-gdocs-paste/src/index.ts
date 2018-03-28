@@ -39,6 +39,10 @@ export default class extends Document {
     );
     doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
 
+    doc.where({ type: '-gdocs-lnks_link' })
+      .set({ type: 'link' })
+      .map({ attributes: { '-gdocs-ulnk_url': 'url' } });
+
     return doc;
   }
 }

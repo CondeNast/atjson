@@ -5,6 +5,7 @@ import { GDocsStyleSlice } from './types';
 import extractListStyles from './list-styles';
 import extractParagraphStyles from './paragraph-styles';
 import extractTextStyles from './text-styles';
+import extractLinkStyles from './link-styles';
 
 export interface gdocsSource {
   [key: string]: any
@@ -17,7 +18,8 @@ export default class GDocsParser {
   static transforms = {
     text: extractTextStyles,
     paragraph: extractParagraphStyles,
-    list: extractListStyles
+    list: extractListStyles,
+    link: extractLinkStyles
   }
 
   constructor(gdocsSource: gdocsSource) {

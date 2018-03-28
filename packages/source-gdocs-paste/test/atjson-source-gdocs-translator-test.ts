@@ -37,4 +37,10 @@ describe('@atjson/source-gdocs-paste', () => {
     let listItems = atjson.annotations.filter(a => a.type === 'list-item');
     expect(listItems.length).toEqual(2);
   });
+
+  it('correctly converts links', () => {
+    let links = atjson.annotations.filter(a => a.type === 'link');
+    expect(links.length).toEqual(1);
+    expect(links[0].attributes.url).toEqual('https://www.google.com/');
+  });
 });
