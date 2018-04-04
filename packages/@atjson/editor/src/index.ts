@@ -26,7 +26,7 @@ function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): 
 }
 
 export default class Editor extends events(HTMLElement) {
-  static template = '<text-input><text-selection><div class="editor" contenteditable></div></text-selection></text-input><hr><div class="output"></div>';
+  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap" contenteditable></div></text-selection></text-input><hr><div class="output" style="white-space: pre-wrap"></div>';
   static events = {
     'change text-selection'(evt) {
       this.selection = evt.detail;
