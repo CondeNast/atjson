@@ -92,9 +92,9 @@ class TextInput extends events(HTMLElement) {
 
     case 'insertLineBreak':
       this.dispatchEvent(new CustomEvent('insertText', [start, '\u2028', true]));
-      this.dispatchEvent(new CustomEvent('addAnnotation', {
+      new CustomEvent('addAnnotation', {
         detail: { type: 'line-break', start, end: end + 1 }
-      }));
+      });
       break;
 
     case 'deleteContentBackward':
@@ -106,7 +106,7 @@ class TextInput extends events(HTMLElement) {
       }));
       break;
 
-    case 'deleteWordBackward':
+    case 'deleteContentForward':
       if (this.selection.collapsed) {
         end++;
       }
