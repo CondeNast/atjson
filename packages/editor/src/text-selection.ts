@@ -97,10 +97,13 @@ class TextSelection extends events(HTMLElement) {
 
     // Setup observers so when the underlying text changes,
     // we update the text nodes that we want to map our selection from
-    this.observer = new MutationObserver(() => {
-      this.textNodes = getTextNodes(this);
-    });
+    this.observer = new MutationObserver(() => this.reset());
     this.observer.observe(this, { childList: true, characterData: true, subtree: true });
+
+    this.reset();
+  }
+
+  reset() {
     this.textNodes = getTextNodes(this);
   }
 
