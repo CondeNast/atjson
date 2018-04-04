@@ -92,6 +92,26 @@ class TextSelection extends events(HTMLElement) {
     this.textNodes = [];
   }
 
+  setSelection(range) {
+    let l = this.textNodes.length;
+    let offset = 0;
+
+    for (let i = 0; i < l; i++) {
+      let node = this.textNodes[i];
+
+      if (offset + (node.nodeValue || '').length >= range.start) {
+        let selection = document.getSelection();
+        let r = document.createRange();
+        r.setStart(node, range.start - offset);
+        selection.removeAllRanges();
+        selection.addRange(r);
+        break;
+      }
+
+      offset += (node.nodeValue || '').length;
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
 
