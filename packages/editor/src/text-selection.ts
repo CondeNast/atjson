@@ -81,7 +81,13 @@ function previousTextNode(node: Node): TextRangePoint {
 class TextSelection extends events(HTMLElement) {
   static observedAttributes = ['start', 'end'];
   static events = {
-    'selectionchange document': 'selectedTextDidChange'
+    'selectionchange document': 'selectedTextDidChange',
+    'compositionstart'(evt) {
+      this.composing = true;
+    },
+    'compositionend'(evt) {
+      this.composing = false;
+    }
   };
 
   private textNodes: Text[];
@@ -193,6 +199,9 @@ class TextSelection extends events(HTMLElement) {
   }
 
   private selectedTextDidChange() {
+
+    if (this.composing) return;
+
     let selectionRange = document.getSelection();
     let nodes = this.textNodes;
 
