@@ -57,37 +57,33 @@ class TextInput extends events(HTMLElement) {
     if (evt.isComposing) return;
     let ranges = evt.getTargetRanges();
     let { start, end } = this.selection;
-    console.log(this.selection);
-     debugger;
     switch (evt.inputType) {
     case 'insertText':
-      this.dispatchEvent(new CustomEvent('insertText', [start, evt.data]));
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
       break;
+
     case 'insertLineBreak':
       this.dispatchEvent(new CustomEvent('insertText', [start, '\u2028', true]));
       new CustomEvent('addAnnotation', {
-        type: 'line-break',
-        start,
-        end: end + 1
+        detail: { type: 'line-break', start, end: end + 1 }
       });
       break;
+
     case 'deleteContentBackward':
       if (this.selection.collapsed) {
         start--;
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
-        start,
-        end
+        detail: { start, end }
       }));
       break;
-    case 'deleteContentForward':
 
+    case 'deleteContentForward':
       if (this.selection.collapsed) {
         end++;
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
-        start,
-        end
+        detail: { start, end }
       }));
       break;
     }
