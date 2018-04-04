@@ -86,6 +86,18 @@ class TextInput extends events(HTMLElement) {
         detail: { start, end }
       }));
       break;
+
+    case 'formatBold':
+      this.dispatchEvent(new CustomEvent('addAnnotation', {
+        detail: { start, end, type: 'bold' }
+      }));
+      break;
+
+    case 'formatItalic':
+      this.dispatchEvent(new CustomEvent('addAnnotation', {
+        detail: { start, end, type: 'italic' }
+      }));
+      break;
     }
   }
 };
