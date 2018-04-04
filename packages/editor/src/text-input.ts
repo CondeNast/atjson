@@ -39,6 +39,11 @@ function getRangeFrom() {
 class TextInput extends events(HTMLElement) {
   static events = {
     'beforeinput': 'beforeinput',
+    'compositionend'(evt) {
+      let { start } = this.selection;
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+      this.composing = false;
+    },
     'change text-selection'(evt) {
       this.selection = evt.detail;
     }
@@ -49,6 +54,7 @@ class TextInput extends events(HTMLElement) {
   private selection?: { start: number, end: number, collapsed: boolean } | null;
 
   beforeinput(evt: InputEvent) {
+    if (evt.isComposing) return;
     let ranges = evt.getTargetRanges();
     let { start, end } = this.selection;
     console.log(this.selection);
