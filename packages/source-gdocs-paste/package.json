@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-gdocs-paste",
-  "version": "0.7.8",
+  "version": "0.7.9",
   "description": "Create AtJSON documents from Google Docs (KIX) paste buffers",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -19,6 +19,6 @@
   },
   "dependencies": {
     "@atjson/document": "0.7.2",
-    "@atjson/schema": "0.7.3"
+    "@atjson/schema": "^0.7.9"
   }
 }
