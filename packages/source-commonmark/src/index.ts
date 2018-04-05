@@ -226,7 +226,6 @@ export default class extends Document {
     });
 
     doc.where({ type: 'bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });
-    doc.where({ type: 'blockquote' }).set({ type: 'quotation' });
     doc.where({ type: 'code_block' }).set({ type: 'code', display: 'block', attributes: { style: 'block' } });
     doc.where({ type: 'code_inline' }).set({ type: 'code', display: 'inline', attributes: { style: 'inline' } });
     doc.where({ type: 'em' }).set({ type: 'italic' });

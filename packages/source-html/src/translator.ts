@@ -35,7 +35,5 @@ export default class HTMLSchemaTranslator extends Document {
 
     this.where({type: 'img'}).set({type: 'image'});
     this.where({type: 'img'}).map({attributes: { src: 'url', alt: 'title' });
-
-    this.where({type: 'blockquote'}).set({type: 'quotation'});
   }
 }

@@ -112,7 +112,7 @@ After all the lists
       let document = new Document({
         content: 'This is a quote\n\nThat has some\nlines in it.',
         annotations: [{
-          type: 'quotation', start: 0, end: 43
+          type: 'blockquote', start: 0, end: 43
         }]
       });
 
@@ -124,7 +124,7 @@ After all the lists
       let document = new Document({
         content: 'This is a quoteAnd this is not.',
         annotations: [{
-          type: 'quotation', start: 0, end: 15
+          type: 'blockquote', start: 0, end: 15
         }, {
           type: 'paragraph', start: 0, end: 15
         }, {
@@ -141,7 +141,7 @@ After all the lists
       let document = new Document({
         content: '\n\nThis is a quote\nAnd this is not.',
         annotations: [{
-          type: 'quotation', start: 0, end: 18
+          type: 'blockquote', start: 0, end: 18
         }, {
           type: 'paragraph', start: 2, end: 18
         }, {
@@ -162,7 +162,7 @@ After all the lists
         }, {
           type: 'parse-token', start: 17, end: 19
         }, {
-          type: 'quotation', start: 19, end: 36
+          type: 'blockquote', start: 19, end: 36
         }, {
           type: 'paragraph', start: 19, end: 36
         }, {

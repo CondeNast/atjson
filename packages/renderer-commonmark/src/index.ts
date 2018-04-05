@@ -129,7 +129,7 @@ export default class CommonmarkRenderer {
    * >
    * > It can also span multiple lines.
    */
-  *'quotation'(): IterableIterator<string> {
+  *'blockquote'(): IterableIterator<string> {
     let text = yield;
     let lines: string[] = text.split('\n');
     let endOfQuote = lines.length;

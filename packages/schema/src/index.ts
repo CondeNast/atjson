@@ -2,6 +2,9 @@ export default {
   'bold': {
     display: 'inline'
   },
+  'blockquote': {
+    display: 'block'
+  },
   'code': {
     display: 'inline',
     attributes: [
@@ -55,8 +58,5 @@ export default {
   },
   'paragraph': {
     display: 'paragraph'
-  },
-  'quotation': {
-    display: 'block'
   }
 };
