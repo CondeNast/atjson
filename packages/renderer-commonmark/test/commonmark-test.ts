@@ -254,4 +254,19 @@ After all the lists
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
   });
+
+  test('empty format strings are removed', () => {
+    let document = new Document({
+      content: 'Some formatting on empty spaces',
+      annotations: [{
+        type: 'bold', start: 0, end: 0
+      }, {
+        type: 'italic', start: 4, end: 5
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('Some formatting on empty spaces');
+  });
 });

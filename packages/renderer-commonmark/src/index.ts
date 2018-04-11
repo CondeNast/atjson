@@ -116,11 +116,15 @@ export default class CommonmarkRenderer {
    */
   *'bold'(node: HIRNode): IterableIterator<string> {
     let [before, text, after] = yield* split();
-    if (node.parent && !node.previous && !node.next &&
-        node.parent.type === 'italic') {
-      return `${before}__${text}__${after}`;
+    if (text.length === 0) {
+      return before + after;
+    } else {
+      if (node.parent && !node.previous && !node.next &&
+          node.parent.type === 'italic') {
+        return `${before}__${text}__${after}`;
+      }
+      return `${before}**${text}**${after}`;
     }
-    return `${before}**${text}**${after}`;
   }
 
   /**
@@ -201,15 +205,18 @@ export default class CommonmarkRenderer {
     this.state.isItalicized = true;
 
     let [before, text, after] = yield* split();
-    let markup = state.isItalicized ? '_' : '*';
-    if (node.parent && !node.previous && !node.next &&
-        node.parent.type === 'bold') {
-      markup = '_';
-    }
-
     this.state = state;
 
-    return `${before}${markup}${text}${markup}${after}`;
+    if (text.length === 0) {
+      return before + after;
+    } else {
+      let markup = state.isItalicized ? '_' : '*';
+      if (node.parent && !node.previous && !node.next &&
+          node.parent.type === 'bold') {
+        markup = '_';
+      }
+      return `${before}${markup}${text}${markup}${after}`;
+    }
   }
 
   /**
