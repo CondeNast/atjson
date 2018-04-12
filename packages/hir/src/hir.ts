@@ -39,7 +39,7 @@ export default class HIR {
       } else {
         return a.start - b.start;
       }
-    }).forEach(annotation => this.rootNode.insertAnnotation(annotation));
+    }).forEach((annotation: Annotation) => this.rootNode.insertAnnotation(annotation));
 
     this.rootNode.insertText(document.content);
   }

@@ -13,6 +13,10 @@ export interface Renaming {
   [key: string]: string | Renaming;
 }
 
+export interface FlattenedRenaming {
+  [key: string]: string;
+}
+
 export type Transform = (annotation: Annotation) => Annotation | null;
 
 interface TransformsByType {
@@ -74,7 +78,7 @@ function set(object: any, key: string, value: any) {
   return;
 }
 
-function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): Renaming {
+function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): FlattenedRenaming {
   return Object.keys(mapping).reduce((result: Renaming, key: string) => {
     let value = mapping[key];
     let fullyQualifiedKey = key;
