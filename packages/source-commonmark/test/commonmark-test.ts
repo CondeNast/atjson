@@ -28,11 +28,11 @@ describe('list', () => {
 
   test('tight', () => {
     let tight = new CommonMarkSource('- 1\n  - 2\n    - 3');
-    let list = tight.annotations.find(annotation => annotation.type === 'bullet_list');
+    let list = tight.annotations.find(annotation => annotation.type === '-md-bullet_list');
     expect(list.attributes).toEqual({ tight: true });
 
     let loose = new CommonMarkSource('1. 1\n\n  2. 2\n    3. 3');
-    list = loose.annotations.find(annotation => annotation.type === 'ordered_list');
+    list = loose.annotations.find(annotation => annotation.type === '-md-ordered_list');
     expect(list.attributes).toEqual({ tight: false });
   });
 });

@@ -110,14 +110,18 @@ function getText(node: Node) {
 }
 
 export class Parser {
+
   content: string;
   annotations: Annotation[];
-  private handlers: any;
 
-  constructor(tokens: MarkdownIt.Token[], handlers: any) {
+  private handlers: any;
+  private namespace: string;
+
+  constructor(tokens: MarkdownIt.Token[], handlers: any, namespace: string) {
     this.content = '';
     this.handlers = handlers;
     this.annotations = [];
+    this.namespace = namespace;
     this.walk(toTree(tokens, { name: 'root', children: [] }).children);
   }
 
@@ -185,7 +189,7 @@ export class Parser {
       start: end - 1,
       end
     }, {
-      type: name,
+      type: `-${this.namespace}-${name}`,
       attributes,
       start,
       end
@@ -194,6 +198,16 @@ export class Parser {
 }
 
 export default class extends Document {
+  static namespace = 'md';
+
+  static markdownParser() {
+    return MarkdownIt('commonmark');
+  }
+
+  static contentHandlers() {
+    return {};
+  }
+
   constructor(markdown: string) {
     super({
       content: '',
@@ -203,18 +217,14 @@ export default class extends Document {
     });
 
     let md = this.constructor.markdownParser();
-    let parser = new Parser(md.parse(markdown, { linkify: false }), this.constructor.contentHandlers());
+    let parser = new Parser(
+      md.parse(markdown, { linkify: false }),
+      this.constructor.contentHandlers(),
+      this.constructor.namespace
+    );
 
     this.content = parser.content;
     this.annotations = parser.annotations;
-  }
-
-  static markdownParser() {
-    return MarkdownIt('commonmark');
-  }
-
-  static contentHandlers() {
-    return {};
   }
 
   toCommonSchema() {
@@ -225,20 +235,23 @@ export default class extends Document {
       schema
     });
 
-    doc.where({ type: 'bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });
-    doc.where({ type: 'code_block' }).set({ type: 'code', display: 'block', attributes: { style: 'block' } });
-    doc.where({ type: 'code_inline' }).set({ type: 'code', display: 'inline', attributes: { style: 'inline' } });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
-    doc.where({ type: 'fence' }).set({ type: 'code', display: 'block', attributes: { style: 'fence' } });
-    doc.where({ type: 'hardbreak' }).set({ type: 'line-break' });
-    doc.where({ type: 'hr' }).set({ type: 'horizontal-rule' });
-    doc.where({ type: 'html_block' }).set({ type: 'html', display: 'block', attributes: { type: 'block' } });
-    doc.where({ type: 'html_inline' }).set({ type: 'html', display: 'inline', attributes: { type: 'inline' } });
-    doc.where({ type: 'image' }).set({ type: 'image' }).map({ attributes: { src: 'url', alt: 'description' } });
-    doc.where({ type: 'link' }).map({ attributes: { href: 'url' } });
-    doc.where({ type: 'list_item' }).set({ type: 'list-item' });
-    doc.where({ type: 'ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).map({ attributes: { start: 'startsAt' } });
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
+    doc.where({ type: '-md-bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });
+    doc.where({ type: '-md-blockquote' }).set({ type: 'blockquote' });
+    doc.where({ type: '-md-code_block' }).set({ type: 'code', display: 'block', attributes: { style: 'block' } });
+    doc.where({ type: '-md-code_inline' }).set({ type: 'code', display: 'inline', attributes: { style: 'inline' } });
+    doc.where({ type: '-md-em' }).set({ type: 'italic' });
+    doc.where({ type: '-md-fence' }).set({ type: 'code', display: 'block', attributes: { style: 'fence' } });
+    doc.where({ type: '-md-hardbreak' }).set({ type: 'line-break' });
+    doc.where({ type: '-md-heading' }).set({ type: 'heading' });
+    doc.where({ type: '-md-hr' }).set({ type: 'horizontal-rule' });
+    doc.where({ type: '-md-html_block' }).set({ type: 'html', display: 'block', attributes: { type: 'block' } });
+    doc.where({ type: '-md-html_inline' }).set({ type: 'html', display: 'inline', attributes: { type: 'inline' } });
+    doc.where({ type: '-md-image' }).set({ type: 'image' }).map({ attributes: { src: 'url', alt: 'description' } });
+    doc.where({ type: '-md-link' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
+    doc.where({ type: '-md-list_item' }).set({ type: 'list-item' });
+    doc.where({ type: '-md-ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).map({ attributes: { start: 'startsAt' } });
+    doc.where({ type: '-md-paragraph' }).set({ type: 'paragraph' });
+    doc.where({ type: '-md-strong' }).set({ type: 'bold' });
 
     return doc;
   }

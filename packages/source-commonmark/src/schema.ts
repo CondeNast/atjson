@@ -1,44 +1,44 @@
 export default {
-  bullet_list: {
+  '-md-bullet_list': {
     display: 'block',
     attributes: [
       'tight'
     ]
   },
-  blockquote: {
+  '-md-blockquote': {
     display: 'block'
   },
-  code_block: {
+  '-md-code_block': {
     display: 'block'
   },
-  code_inline: {
+  '-md-code_inline': {
     display: 'inline'
   },
-  em: {
+  '-md-em': {
     display: 'inline'
   },
-  fence: {
+  '-md-fence': {
     display: 'block',
     attributes: [
       'info'
     ]
   },
-  hardbreak: {
+  '-md-hardbreak': {
     display: 'object'
   },
-  heading: {
+  '-md-heading': {
     display: 'block',
     attributes: [
       'level'
     ]
   },
-  hr: {
+  '-md-hr': {
     display: 'object'
   },
-  html: {
+  '-md-html': {
     display: 'block'
   },
-  image: {
+  '-md-image': {
     display: 'object',
     attributes: [
       'src',
@@ -46,27 +46,27 @@ export default {
       'title'
     ]
   },
-  link: {
+  '-md-link': {
     display: 'inline',
     attributes: [
       'href',
       'title'
     ]
   },
-  list_item: {
+  '-md-list_item': {
     display: 'block'
   },
-  ordered_list: {
+  '-md-ordered_list': {
     display: 'block',
     attributes: [
       'start',
       'tight'
     ]
   },
-  paragraph: {
+  '-md-paragraph': {
     display: 'paragraph'
   },
-  strong: {
+  '-md-strong': {
     display: 'inline'
   }
 };

@@ -5,22 +5,22 @@ class PlainTextRenderer extends Renderer {
     let text: string[] = yield;
     return text.join('');
   }
-  *hardbreak() {
+  *'-md-hardbreak'() {
     return '\n';
   }
-  *bullet_list({ tight }, state) {
+  *'-md-bullet_list'({ tight }, state) {
     state.push({ tight });
     let text = yield;
     state.pop();
     return text;
   }
-  *ordered_list({ tight }, state) {
+  *'-md-ordered_list'({ tight }, state) {
     state.push({ tight });
     let text = yield;
     state.pop();
     return text;
   }
-  *paragraph(_, state) {
+  *'-md-paragraph'(_, state) {
     let text = yield;
     if (state.get('tight')) {
       return `${text.join('')}\n`;
