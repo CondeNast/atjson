@@ -123,6 +123,46 @@ describe('Document.where', () => {
     }]);
   });
 
+  it('rename', () => {
+    let doc = new Document({
+      content: 'Conde Nast',
+      annotations: [{
+        type: 'a',
+        attributes: {
+          href: 'https://example.com'
+        },
+        start: 0,
+        end: 5
+      }]
+    });
+
+    doc.where({ type: 'a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
+    doc.addAnnotations({
+      type: 'a',
+      attributes: {
+        href: 'https://condenast.com'
+      },
+      start: 6,
+      end: 10
+    });
+    expect(doc.content).toBe('Conde Nast');
+    expect(doc.annotations).toEqual([{
+      type: 'link',
+      attributes: {
+        url: 'https://example.com'
+      },
+      start: 0,
+      end: 5
+    }, {
+      type: 'link',
+      attributes: {
+        url: 'https://condenast.com'
+      },
+      start: 6,
+      end: 10
+    }]);
+  });
+
   it('map', () => {
     let doc = new Document({
       content: 'Conde Nast',
