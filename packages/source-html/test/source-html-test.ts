@@ -303,6 +303,20 @@ describe('@atjson/source-html', () => {
       });
     });
 
+    test('blockquote', () => {
+      let doc = new HTMLSource('<blockquote>This is a quote</blockquote>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: [{
+          type: 'blockquote',
+          attributes: {},
+          children: ['This is a quote']
+        }]
+      });
+    });
+
     test('ul, ol, li', () => {
       let doc = new HTMLSource('<ol starts="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
       let hir = new HIR(doc.toCommonSchema()).toJSON();

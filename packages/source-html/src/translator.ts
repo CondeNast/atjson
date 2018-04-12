@@ -12,6 +12,8 @@ export default class HTMLSchemaTranslator extends Document {
 
     this.where({ type: '-html-a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
 
+    this.where({ type: '-html-blockquote' }).set({ type: 'blockquote' });
+
     this.where({ type: '-html-h1' }).set({ type: 'heading', attributes: { level: 1 } });
     this.where({ type: '-html-h2' }).set({ type: 'heading', attributes: { level: 2 } });
     this.where({ type: '-html-h3' }).set({ type: 'heading', attributes: { level: 3 } });
