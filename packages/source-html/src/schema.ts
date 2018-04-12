@@ -1,35 +1,59 @@
 export default {
-  a: {
+  '-html-a': {
     display: 'inline'
   },
-  blockquote: {
-    display: 'block'
-  },
-  br: {
-    display: 'object'
-  },
-  em: {
+  '-html-b': {
     display: 'inline'
   },
-  hr: {
-    display: 'object'
-  },
-  img: {
-    display: 'object'
-  },
-  li: {
+  '-html-blockquote': {
     display: 'block'
   },
-  ol: {
+  '-html-br': {
+    display: 'object'
+  },
+  '-html-em': {
+    display: 'inline'
+  },
+  '-html-hr': {
+    display: 'object'
+  },
+  '-html-h1': {
     display: 'block'
   },
-  p: {
+  '-html-h2': {
+    display: 'block'
+  },
+  '-html-h3': {
+    display: 'block'
+  },
+  '-html-h4': {
+    display: 'block'
+  },
+  '-html-h5': {
+    display: 'block'
+  },
+  '-html-h6': {
+    display: 'block'
+  },
+  '-html-i': {
+    display: 'inline'
+  },
+  '-html-img': {
+    display: 'object'
+  },
+  '-html-li': {
+    display: 'block'
+  },
+  '-html-ol': {
+    display: 'block'
+  },
+  '-html-p': {
     display: 'paragraph'
   },
-  strong: {
+  '-html-strong': {
     display: 'inline'
   },
-  ul: {
+  '-html-ul': {
     display: 'block'
   }
 };
