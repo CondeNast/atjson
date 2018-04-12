@@ -108,7 +108,7 @@ class Parser {
       yield;
 
       this.annotations.push({
-        type: tagName,
+        type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
         end: location.endTag.startOffset - this.offset
@@ -122,7 +122,7 @@ class Parser {
       yield;
 
       this.annotations.push({
-        type: tagName,
+        type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
         end: location.endOffset - this.offset
@@ -139,7 +139,7 @@ class Parser {
         start,
         end
       }, {
-        type: tagName,
+        type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
         end

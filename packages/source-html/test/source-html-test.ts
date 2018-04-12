@@ -11,14 +11,14 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'pre',
+        type: '-html-pre',
         attributes: {},
         children: [{
-          type: 'code',
+          type: '-html-code',
           attributes: {},
           children: [
             'this ', {
-              type: 'b',
+              type: '-html-b',
               attributes: {},
               children: ['is']
             },
@@ -36,10 +36,10 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'p',
+        type: '-html-p',
         attributes: {},
         children: [
-          'aaa', { type: 'br', attributes: {}, children: [] }, '\nbbb'
+          'aaa', { type: '-html-br', attributes: {}, children: [] }, '\nbbb'
         ]
       }]
     });
@@ -53,7 +53,7 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'a',
+        type: '-html-a',
         attributes: {
           href: 'https://example.com'
         },
@@ -69,7 +69,7 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'img',
+        type: '-html-img',
         attributes: {
           src: 'https://example.com/test.png'
         },
@@ -85,15 +85,15 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'h2',
+        type: '-html-h2',
         attributes: {},
         children: []
       }, '\n', {
-        type: 'h1',
+        type: '-html-h1',
         attributes: {},
         children: []
       }, '\n', {
-        type: 'h3',
+        type: '-html-h3',
         attributes: {},
         children: []
       }]
@@ -107,10 +107,10 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'p',
+        type: '-html-p',
         attributes: {},
         children: [{
-          type: 'img',
+          type: '-html-img',
           attributes: {
             src: '/url',
             alt: 'Foo',
@@ -129,10 +129,10 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'p',
+        type: '-html-p',
         attributes: {},
         children: ['**', {
-          type: 'a',
+          type: '-html-a',
           attributes: {
             href: '**'
           }, children: []
@@ -158,12 +158,188 @@ describe('@atjson/source-html', () => {
       type: 'root',
       attributes: undefined,
       children: [{
-        type: 'a',
+        type: '-html-a',
         attributes {
           href: 'https://en.wiktionary.org/wiki/日本人'
         },
         children: []
       }]
+    });
+  });
+
+  describe('translator to common schema', () => {
+    test('bold, strong', () => {
+      let doc = new HTMLSource('This <b>text</b> is <strong>bold</strong>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: ['This ', {
+          type: 'bold',
+          attributes: {},
+          children: ['text']
+        }, ' is ', {
+          type: 'bold',
+          attributes: {},
+          children: ['bold']
+        }]
+      });
+    });
+
+    test('i, em', () => {
+      let doc = new HTMLSource('This <i>text</i> is <em>italic</em>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: ['This ', {
+          type: 'italic',
+          attributes: {},
+          children: ['text']
+        }, ' is ', {
+          type: 'italic',
+          attributes: {},
+          children: ['italic']
+        }]
+      });
+    });
+
+    test('h1, h2, h3, h4, h5, h6', () => {
+      let doc = new HTMLSource('<h1>Title</h1><h2>Byline</h2><h3>Section</h3><h4>Normal heading</h4><h5>Small heading</h5><h6>Tiny heading</h6>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: [{
+          type: 'heading',
+          attributes: { level: 1 },
+          children: ['Title']
+        }, {
+          type: 'heading',
+          attributes: { level: 2 },
+          children: ['Byline']
+        }, {
+          type: 'heading',
+          attributes: { level: 3 },
+          children: ['Section']
+        }, {
+          type: 'heading',
+          attributes: { level: 4 },
+          children: ['Normal heading']
+        }, {
+          type: 'heading',
+          attributes: { level: 5 },
+          children: ['Small heading']
+        }, {
+          type: 'heading',
+          attributes: { level: 6 },
+          children: ['Tiny heading']
+        }]
+      });
+    });
+
+    test('p, br', () => {
+      let doc = new HTMLSource('<p>This paragraph has a<br>line break</p>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: [{
+          type: 'paragraph',
+          attributes: {},
+          children: ['This paragraph has a', {
+            type: 'line-break',
+            attributes: {},
+            children: []
+          }, 'line break']
+        }]
+      });
+    });
+
+    test('a', () => {
+      let doc = new HTMLSource('This <a href="https://condenast.com">is a link</a>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: ['This ', {
+          type: 'link',
+          attributes: {
+            url: 'https://condenast.com'
+          },
+          children: ['is a link']
+        }]
+      });
+    });
+
+    test('hr', () => {
+      let doc = new HTMLSource('Horizontal <hr> rules!');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: ['Horizontal ', {
+          type: 'horizontal-rule',
+          attributes: {},
+          children: []
+        }, ' rules!']
+      });
+    });
+
+    test('img', () => {
+      let doc = new HTMLSource('<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86">');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: [{
+          type: 'image',
+          attributes: {
+            url: 'https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg',
+            title: 'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86'
+          },
+          children: []
+        }]
+      });
+    });
+
+    test('ul, ol, li', () => {
+      let doc = new HTMLSource('<ol starts="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
+      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      expect(hir).toEqual({
+        type: 'root',
+        attributes: undefined,
+        children: [{
+          type: 'list',
+          attributes: {
+            type: 'numbered',
+            startsAt: 2
+          },
+          children: [{
+            type: 'list-item',
+            attributes: {},
+            children: ['Second']
+          }, {
+            type: 'list-item',
+            attributes: {},
+            children: ['Third']
+          }]
+        }, {
+          type: 'list',
+          attributes: {
+            type: 'bulleted'
+          },
+          children: [{
+            type: 'list-item',
+            attributes: {},
+            children: ['First']
+          }, {
+            type: 'list-item',
+            attributes: {},
+            children: ['Second']
+          }]
+        }]
+      });
     });
   });
 });

@@ -146,17 +146,21 @@ export default class Query {
     });
   }
 
+  rename(renaming: Renaming): Query {
+    let flattenedRenaming = flattenPropertyPaths(renaming, { keys: true, values: true });
+    return this.map((annotation: Annotation) => {
+      let result = without(annotation, Object.keys(flattenedRenaming));
+      Object.keys(flattenedRenaming).forEach(key => {
+        let value = get(annotation, key);
+        set(result, flattenedRenaming[key], value);
+      });
+      return result;
+    });
+  }
+
   map(mapping: Renaming | Transform): Query {
     if (typeof mapping === 'object') {
-      let flattenedMapping = flattenPropertyPaths(mapping, { keys: true, values: true });
-      return this.map((annotation: Annotation) => {
-        let result = without(annotation, Object.keys(flattenedMapping));
-        Object.keys(flattenedMapping).forEach(key => {
-          let value = get(annotation, key);
-          set(result, flattenedMapping[key], value);
-        });
-        return result;
-      });
+      return this.rename(mapping);
     } else {
       this.transforms.push(mapping);
       this.currentAnnotations = flatten(this.currentAnnotations.map(annotation => {
