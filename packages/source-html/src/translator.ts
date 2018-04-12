@@ -40,6 +40,6 @@ export default class HTMLSchemaTranslator extends Document {
     this.where({ type: '-html-strong' }).set({ type: 'bold' });
     this.where({ type: '-html-b' }).set({ type: 'bold' });
 
-    this.where({ type: '-html-img' }).set({ type: 'image'}).rename({ attributes: { src: 'url', alt: 'title' } });
+    this.where({ type: '-html-img' }).set({ type: 'image'}).rename({ attributes: { src: 'url', alt: 'description' } });
   }
 }

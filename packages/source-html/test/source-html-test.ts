@@ -287,7 +287,7 @@ describe('@atjson/source-html', () => {
     });
 
     test('img', () => {
-      let doc = new HTMLSource('<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86">');
+      let doc = new HTMLSource('<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86" title="Miles Davis & Andy Warhol">');
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
@@ -296,7 +296,8 @@ describe('@atjson/source-html', () => {
           type: 'image',
           attributes: {
             url: 'https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg',
-            title: 'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86'
+            description: 'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86',
+            title: 'Miles Davis & Andy Warhol'
           },
           children: []
         }]
