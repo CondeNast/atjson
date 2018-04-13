@@ -216,6 +216,11 @@ export default class AtJSON {
     }
   }
 
+  /**
+   * Slices return part of a document from the parent
+   * document. All queries are inherited from the parent
+   * document.
+   */
   slice(start: number, end: number): Document {
     let doc = new this.constructor({
       content: this.content,
@@ -223,7 +228,7 @@ export default class AtJSON {
       annotations: this.annotations,
       schema: this.schema
     });
-    doc.queries = this.queries;
+    doc.queries = this.queries.slice();
     doc.deleteText({
       start: 0,
       end: start
