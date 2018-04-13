@@ -57,13 +57,13 @@ function render(renderer: CommonMarkRenderer, node: HIRNode, parent?: HIRNode, i
   if (index > 0) {
     node.previous = parent.children[index - 1];
   } else {
-    node.previous = null;
+    node.previous = undefined;
   }
 
   if (parent && index < parent.children.length) {
     node.next = parent.children[index + 1];
   } else {
-    node.next = null;
+    node.next = undefined;
   }
 
   node.parent = parent;
@@ -401,7 +401,7 @@ export default class CommonmarkRenderer {
       return text + '\n';
     }
     return text + '\n\n';
-  },
+  }
 
   render(document: Document): string {
     let graph = new HIR(document);
