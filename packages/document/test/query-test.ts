@@ -340,4 +340,33 @@ describe('Document.where', () => {
       attributes: {}
     }]);
   });
+
+  it('sliced documents inherit queries', () => {
+    let doc = new Document({
+      content: 'This is ~my caption~\nNext paragraph',
+      annotations: [{
+        type: 'photo',
+        start: 0,
+        end: 20
+      }]
+    });
+
+    doc.where({ type: 'em' }).set({ type: 'italic' });
+    let caption = doc.slice(0, 20);
+    caption.addAnnotations({
+      type: 'em',
+      start: 0,
+      end: 4
+    });
+    expect(caption.content).toBe('This is ~my caption~');
+    expect(doc.annotations).toEqual([{
+      type: 'photo',
+      start: 0,
+      end: 20
+    }, {
+      type: 'italic',
+      start: 0,
+      end: 4
+    }]);
+  });
 });

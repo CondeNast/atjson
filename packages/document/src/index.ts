@@ -216,6 +216,26 @@ export default class AtJSON {
     }
   }
 
+  slice(start: number, end: number): Document {
+    let doc = new this.constructor({
+      content: this.content,
+      contentType: this.contentType,
+      annotations: this.annotations,
+      schema: this.schema
+    });
+    doc.queries = this.queries;
+    doc.deleteText({
+      start: 0,
+      end: start
+    });
+    doc.deleteText({
+      start: end,
+      end: doc.content.length
+    });
+
+    return doc;
+  }
+
   /**
    * Replace parse tokens with object replacement characters.
    */
