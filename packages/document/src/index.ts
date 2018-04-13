@@ -6,7 +6,7 @@ const OBJECT_REPLACEMENT = '\uFFFC';
 
 export { Annotation, Schema, Display };
 
-export default class AtJSON {
+export default class Document {
 
   content: string;
   contentType?: string;
@@ -222,7 +222,7 @@ export default class AtJSON {
    * document.
    */
   slice(start: number, end: number): Document {
-    let doc = new this.constructor({
+    let doc = new Document({
       content: this.content,
       contentType: this.contentType,
       annotations: this.annotations,
@@ -232,11 +232,11 @@ export default class AtJSON {
     doc.deleteText({
       start: 0,
       end: start
-    });
+    } as Annotation);
     doc.deleteText({
       start: end,
       end: doc.content.length
-    });
+    } as Annotation);
 
     return doc;
   }

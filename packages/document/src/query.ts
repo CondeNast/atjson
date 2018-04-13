@@ -1,10 +1,6 @@
 import Annotation from './annotation';
 import Document from './index';
 
-interface AttributeList {
-  [key: string]: any;
-}
-
 export interface Filter {
   [key: string]: any;
 }
@@ -18,10 +14,6 @@ export interface FlattenedRenaming {
 }
 
 export type Transform = (annotation: Annotation) => Annotation | null;
-
-interface TransformsByType {
-  [key: string]: Transform[];
-}
 
 export function flatten(array: any[]): any[] {
   let flattenedArray = [];
