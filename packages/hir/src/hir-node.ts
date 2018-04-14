@@ -22,6 +22,10 @@ export default class HIRNode {
   text?: string;
 
   rank: number;
+  delimiter?: string;
+  next?: HIRNode;
+  parent?: HIRNode;
+  previous?: HIRNode;
 
   private child: HIRNode | undefined;
   private sibling: HIRNode | undefined;
