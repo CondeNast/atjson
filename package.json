@@ -2,6 +2,7 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
+    "@condenast/typescript": "0.0.2",
     "@types/jest": "^22.1.1",
     "jest": "^22.2.1",
     "lerna": "^2.8.0",

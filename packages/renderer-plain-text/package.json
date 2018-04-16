@@ -6,8 +6,9 @@
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "rm -rf dist; tsc -p . & tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
+    "build": "../../node_modules/@condenast/typescript/bin/dirty-tsc.sh $PWD",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache-2.0",
