@@ -2,13 +2,13 @@ import { HIRNode } from '@atjson/hir';
 import Renderer from '@atjson/renderer-hir';
 import * as React from 'react';
 
-interface Component {
+export interface Component {
   new (...args: any[]): React.Component;
 }
 
-type StatelessComponent = (...args: any[]) => any;
+export type StatelessComponent = (...args: any[]) => any;
 
-interface ComponentLookup {
+export interface ComponentLookup {
   [key: string]: Component | StatelessComponent;
 }
 

@@ -6,7 +6,7 @@ const OBJECT_REPLACEMENT = '\uFFFC';
 
 export { Annotation, Schema, Display };
 
-export default class Document {
+export default class AtJSON {
 
   content: string;
   contentType?: string;
@@ -221,8 +221,8 @@ export default class Document {
    * document. All queries are inherited from the parent
    * document.
    */
-  slice(start: number, end: number): Document {
-    let doc = new Document({
+  slice(start: number, end: number): AtJSON {
+    let doc = new AtJSON({
       content: this.content,
       contentType: this.contentType,
       annotations: this.annotations,

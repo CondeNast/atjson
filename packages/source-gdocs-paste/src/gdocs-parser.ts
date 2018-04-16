@@ -11,9 +11,13 @@ export interface GDocsSource {
   [key: string]: any;
 }
 
+export interface Transforms {
+  [key: string]: (styles: GDocsStyleSlice[]) => Annotation[];
+}
+
 export default class GDocsParser {
 
-  static transforms = {
+  static transforms: Transforms = {
     text: extractTextStyles,
     paragraph: extractParagraphStyles,
     list: extractListStyles,
@@ -31,20 +35,19 @@ export default class GDocsParser {
   }
 
   getAnnotations(): Annotation[] {
-
     const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
     const transforms = GDocsParser.transforms;
 
-    let annotations = styleSlices.map(styleSlice => {
-
+    let annotations = styleSlices.map((styleSlice: GDocsStyleSlice) => {
       let type: string = styleSlice.stsl_type;
-      let styles: GDocsStyleSlice = styleSlice.stsl_styles;
+      let styles: GDocsStyleSlice[] = styleSlice.stsl_styles;
 
       if (transforms[type]) {
         return transforms[type](styles);
       }
+      return null;
     });
 
-    return [].concat.apply([], annotations).filter((a: Annotation | undefined) => a !== undefined);
+    return [].concat.apply([], annotations).filter((a: Annotation | null) => a != null);
   }
 }

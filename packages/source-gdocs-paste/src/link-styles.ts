@@ -1,10 +1,11 @@
 import { Annotation } from '@atjson/document';
-import { GDocsStylesSlice } from './types';
+import { GDocs } from './schema';
+import { GDocsStyleSlice } from './types';
 
 export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annotation[] {
 
-  let currentLink: Annotation | null = null;
-  let links: Annotation[] = [];
+  let currentLink: GDocs.Link | null = null;
+  let links: GDocs.Link[] = [];
 
   for (let i = 0; i < linkStyles.length; i++) {
     let link = linkStyles[i];
@@ -26,6 +27,7 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
       currentLink = {
         type: '-gdocs-lnks_link',
         start: i,
+        end: -1,
         attributes: {
           '-gdocs-ulnk_url': link.lnks_link.ulnk_url,
           '-gdocs-lnk_type': link.lnks_link.lnk_type

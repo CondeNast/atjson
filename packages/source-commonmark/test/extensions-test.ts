@@ -1,18 +1,11 @@
 import Document from '@atjson/document';
-import { Parser, schema } from '@atjson/source-commonmark';
+import CommonMarkSource from '@atjson/source-commonmark';
 import * as MarkdownIt from 'markdown-it';
 import { render } from './utils';
 
-class MarkdownItSource extends Document {
-  constructor(markdown: string) {
-    let md = MarkdownIt();
-    let parser = new Parser(md.parse(markdown, {}), {});
-    super({
-      content: parser.content,
-      contentType: 'text/commonmark',
-      annotations: parser.annotations,
-      schema
-    });
+class MarkdownItSource extends CommonMarkSource {
+  markdownParser() {
+    return MarkdownIt();
   }
 }
 

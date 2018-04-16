@@ -1,24 +1,21 @@
-import Document, { Annotation } from '@atjson/document';
+import Document, { Annotation, Schema } from '@atjson/document';
 import * as parse5 from 'parse5';
 import schema from './schema';
 import HTMLSchemaTranslator from './translator';
 
 export { schema };
 
-type Node = parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode;
-type DocumentFragment = parse5.AST.Default.Node | parse5.AST.Default.Element | parse5.AST.Default.ParentNode;
-
-function isElement(node: Node) {
+function isElement(node: parse5.AST.Default.Node) {
   return node.nodeName !== undefined &&
          node.nodeName !== '#text' &&
          node.nodeName !== '';
 }
 
-function isParentNode(node: DocumentFragment | any) {
+function isParentNode(node: parse5.AST.Default.DocumentFragment | any) {
   return node.nodeName === '#document-fragment';
 }
 
-function isText(node: Node) {
+function isText(node: parse5.AST.Default.Node) {
   return node.nodeName === '#text';
 }
 
@@ -26,10 +23,8 @@ interface Attributes {
   [key: string]: string;
 }
 
-type Attribute = parse5.AST.Default.Attribute;
-
-function getAttributes(node: Node): Attributes {
-  let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: Attribute) => {
+function getAttributes(node: parse5.AST.Default.Element): Attributes {
+  let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: parse5.AST.Default.Attribute) => {
     attributes[attr.name] = attr.value;
     return attributes;
   }, {});
@@ -56,33 +51,42 @@ class Parser {
     this.annotations = [];
     this.offset = 0;
 
-    let tree = parse5.parseFragment(html, { locationInfo: true });
+    let tree = parse5.parseFragment(html, { locationInfo: true }) as parse5.AST.Default.DocumentFragment;
     if (isParentNode(tree)) {
-      return this.walk(tree.childNodes);
+      this.walk(tree.childNodes);
+    } else {
+      throw new Error('Invalid return from parser. Failing.');
     }
-    throw new Error('Invalid return from parser. Failing.');
   }
 
-  walk(nodes: Node[]) {
-    return (nodes || []).forEach((node: Node) => {
+  walk(nodes: parse5.AST.Default.Node[]) {
+    return (nodes || []).forEach((node: parse5.AST.Default.Node) => {
       if (isElement(node)) {
-        let annotationGenerator = this.convertNodeToAnnotation(node);
+        let elementNode = node as parse5.AST.Default.Element;
+        let annotationGenerator = this.convertNodeToAnnotation(elementNode);
         // <tag>
         annotationGenerator.next();
-        this.walk(node.childNodes);
+        this.walk(elementNode.childNodes);
         // </tag>
         annotationGenerator.next();
       } else if (isText(node)) {
-        let html = this.html.slice(node.__location.startOffset, node.__location.endOffset);
-        let text = node.value;
-        this.content += text;
-        this.offset += html.length - text.length;
+        let textNode = node as parse5.AST.Default.TextNode;
+        let location = textNode.__location;
+        if (location) {
+          let html = this.html.slice(location.startOffset, location.endOffset);
+          let text = textNode.value;
+          this.content += text;
+          this.offset += html.length - text.length;
+        }
       }
     });
   }
 
-  convertTag(node: Node, which: 'startTag' | 'endTag'): number {
-    let { startOffset: start, endOffset: end } = node.__location[which];
+  convertTag(node: parse5.AST.Default.Element, which: 'startTag' | 'endTag'): number {
+    let location = node.__location;
+    if (location == null) return -1;
+    
+    let { startOffset: start, endOffset: end } = location[which];
     this.annotations.push({
       type: 'parse-token',
       attributes: { tagName: node.tagName },
@@ -93,7 +97,7 @@ class Parser {
     return end - this.offset;
   }
 
-  *convertNodeToAnnotation(node: Node) {
+  *convertNodeToAnnotation(node: parse5.AST.Default.Element): IterableIterator<void> {
     let location = node.__location;
     let tagName = node.tagName;
 
@@ -158,7 +162,7 @@ export default class HTMLSource extends Document {
       content: parser.content,
       contentType: 'text/html',
       annotations: parser.annotations,
-      schema
+      schema: schema as Schema
     });
   }
 

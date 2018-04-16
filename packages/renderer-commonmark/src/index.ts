@@ -1,8 +1,7 @@
 import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
-import Renderer, { State } from '@atjson/renderer-hir';
 
-export function* split(): IterableIterator<string> {
+export function* split(): Iterable<any> {
   let text = yield;
   let start = 0;
   let end = text.length;
@@ -53,36 +52,58 @@ function getNumberOfRequiredBackticks(text: string) {
   }, 1);
 }
 
-function render(renderer: CommonMarkRenderer, node: HIRNode, parent?: HIRNode, index?: number): string {
-  if (index > 0) {
-    node.previous = parent.children[index - 1];
-  } else {
-    node.previous = null;
+export interface Annotation {
+  type: string;
+  attributes?: any;
+  previous: Annotation | null;
+  next: Annotation | null;
+  parent: Annotation | null;
+  text?: string;
+  children: Annotation[];
+}
+
+function hirNodeToMarkdownNode(node: HIRNode, parent: Annotation | null): Annotation {
+  let markdownNode: Annotation = {
+    type: node.type,
+    attributes: node.attributes,
+    parent,
+    previous: null,
+    next: null,
+    text: node.text,
+    children: []
+  };
+
+  markdownNode.children.push(...node.children().map((childNode: HIRNode) => {
+    return hirNodeToMarkdownNode(childNode, markdownNode);
+  }));
+
+  return markdownNode;
+}
+
+function render(renderer: CommonmarkRenderer, node: Annotation, index: number): string {
+  if (node.parent && index > 0) {
+    node.previous = node.parent.children[index - 1];
   }
 
-  if (parent && index < parent.children.length) {
-    node.next = parent.children[index + 1];
-  } else {
-    node.next = null;
+  if (node.parent && index < node.parent.children.length) {
+    node.next = node.parent.children[index + 1];
   }
 
-  node.parent = parent;
-  node.children = node.children();
-
+  let factory = (<any>renderer)[node.type];
   let generator;
-  if (renderer[node.type]) {
-    generator = renderer[node.type](node, parent);
+  if (factory) {
+    generator = factory.call(renderer, node);
     let result = generator.next();
     if (result.done) {
       return result.value;
     }
   }
 
-  let fragment = node.children.map((childNode: HIRNode, idx: number) => {
+  let fragment = node.children.map((childNode: Annotation, index: number) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return renderer.text(childNode.text);
     } else {
-      return render(renderer, childNode, node, idx);
+      return render(renderer, childNode, index);
     }
   }).join('');
 
@@ -114,7 +135,7 @@ export default class CommonmarkRenderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *'bold'(node: HIRNode): IterableIterator<string> {
+  *'bold'(node: Annotation): Iterable<any> {
     let [before, text, after] = yield* split();
     if (text.length === 0) {
       return before + after;
@@ -133,7 +154,7 @@ export default class CommonmarkRenderer {
    * >
    * > It can also span multiple lines.
    */
-  *'blockquote'(): IterableIterator<string> {
+  *'blockquote'(): Iterable<any> {
     let text = yield;
     let lines: string[] = text.split('\n');
     let endOfQuote = lines.length;
@@ -159,7 +180,7 @@ export default class CommonmarkRenderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *'heading'(node: HIRNode): IterableIterator<string> {
+  *'heading'(node: Annotation): Iterable<any> {
     let heading = yield;
     let level = new Array(node.attributes.level + 1).join('#');
 
@@ -179,7 +200,7 @@ export default class CommonmarkRenderer {
    * ***
    * Into multiple sections.
    */
-  *'horizontal-rule'(): IterableIterator<string> {
+  *'horizontal-rule'(): Iterable<any> {
     return '***\n';
   }
 
@@ -187,7 +208,7 @@ export default class CommonmarkRenderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *'image'(node: HIRNode): IterableIterator<string> {
+  *'image'(node: Annotation): Iterable<any> {
     if (node.attributes.title) {
       let title = node.attributes.title.replace(/"/g, '\\"');
       return `![${node.attributes.description}](${node.attributes.url} "${title}")`;
@@ -198,7 +219,7 @@ export default class CommonmarkRenderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(node: HIRNode): IterableIterator<string> {
+  *'italic'(node: Annotation): Iterable<any> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -223,14 +244,14 @@ export default class CommonmarkRenderer {
    * A line break in Commonmark can be two white spaces at the end of the line  <--
    * or it can be a backslash at the end of the line\
    */
-  *'line-break'(): IterableIterator<string> {
+  *'line-break'(): Iterable<any> {
     return '  \n';
   }
 
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(node: HIRNode): IterableIterator<string> {
+  *'link'(node: Annotation): Iterable<any> {
     let [before, text, after] = yield* split();
     let url = escapeAttribute(node.attributes.url);
     if (node.attributes.title) {
@@ -247,7 +268,7 @@ export default class CommonmarkRenderer {
    * function () {}
    * ```
    */
-  *'code'(node: HIRNode): IterableIterator<string> {
+  *'code'(node: Annotation): Iterable<any> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -284,7 +305,7 @@ export default class CommonmarkRenderer {
     }
   }
 
-  *'html'(node: HIRNode): IterableIterator<string> {
+  *'html'(node: Annotation): Iterable<any> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -301,7 +322,7 @@ export default class CommonmarkRenderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(node: HIRNode, state: State): IterableIterator<string> {
+  *'list-item'(): Iterable<any> {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -342,7 +363,7 @@ export default class CommonmarkRenderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'list'(node: HIRNode): IterableIterator<string> {
+  *'list'(node: Annotation): Iterable<any> {
     let start = 1;
 
     if (node.attributes.startsAt != null) {
@@ -356,7 +377,7 @@ export default class CommonmarkRenderer {
       if (node.previous &&
           node.previous.type === 'list' &&
           node.previous.attributes.type === 'numbered' &&
-          node.previous.delimiter === '.') {
+          node.previous.attributes.delimiter === '.') {
         delimiter = ')';
       }
     } else if (node.attributes.type === 'bulleted') {
@@ -365,11 +386,11 @@ export default class CommonmarkRenderer {
       if (node.previous &&
           node.previous.type === 'list' &&
           node.previous.attributes.type === 'bulleted' &&
-          node.previous.delimiter === '-') {
+          node.previous.attributes.delimiter === '-') {
         delimiter = '+';
       }
     }
-    node.delimiter = delimiter;
+    node.attributes.delimiter = delimiter;
 
     let state = Object.assign({}, this.state);
 
@@ -395,16 +416,16 @@ export default class CommonmarkRenderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *'paragraph'(): IterableIterator<string> {
+  *'paragraph'(): Iterable<any> {
     let text = yield;
     if (this.state.tight) {
       return text + '\n';
     }
     return text + '\n\n';
-  },
+  }
 
   render(document: Document): string {
     let graph = new HIR(document);
-    return render(this, graph.rootNode);
+    return render(this, hirNodeToMarkdownNode(graph.rootNode, null), -1);
   }
 }

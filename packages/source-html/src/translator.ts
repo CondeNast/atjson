@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document, { Annotation, Schema } from '@atjson/document';
 import schema from '@atjson/schema';
 
 export default class HTMLSchemaTranslator extends Document {
@@ -7,7 +7,7 @@ export default class HTMLSchemaTranslator extends Document {
       content: document.content,
       contentType: 'text/atjson',
       annotations: [...document.annotations],
-      schema
+      schema: schema as Schema
     });
 
     this.where({ type: '-html-a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
@@ -27,8 +27,8 @@ export default class HTMLSchemaTranslator extends Document {
 
     this.where({ type: '-html-ul' }).set({ type: 'list', attributes: { type: 'bulleted' } });
     this.where({ type: '-html-ol' }).set({ type: 'list', attributes: { type: 'numbered' } })
-      .rename({ attributes: { starts: 'startsAt' } }).map(list => {
-        if (list.attributes.startsAt) {
+      .rename({ attributes: { starts: 'startsAt' } }).map((list: Annotation) => {
+        if (list.attributes && list.attributes.startsAt) {
           list.attributes.startsAt = parseInt(list.attributes.startsAt, 10);
         }
         return list;
