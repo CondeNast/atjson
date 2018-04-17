@@ -7,7 +7,7 @@
   "types": "dist/commonjs/index.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "rm -rf dist; tsc -p . & tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
+    "build": "rm -rf dist; tsc -p . & tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache-2.0",
@@ -17,10 +17,12 @@
   "devDependencies": {
     "@atjson/hir": "^0.7.12",
     "@atjson/renderer-hir": "^0.7.12",
+    "@types/node": "^9.6.5",
     "typescript": "^2.6.2"
   },
   "dependencies": {
     "@atjson/document": "^0.7.12",
+    "@atjson/schema": "^0.7.9",
     "parse5": "^4.0.0"
   }
 }

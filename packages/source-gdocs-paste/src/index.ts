@@ -1,19 +1,18 @@
-import Document from '@atjson/document';
+import Document, { Schema } from '@atjson/document';
 import schema from '@atjson/schema';
 import gdocsSchema from './schema';
 
-import GDocsParser from './gdocs-parser';
+import GDocsParser, { GDocsSource } from './gdocs-parser';
 
 export default class extends Document {
-  constructor(gdocsSource: string) {
-
+  constructor(gdocsSource: GDocsSource) {
     let gdocsParser = new GDocsParser(gdocsSource);
 
     super({
       content: gdocsParser.getContent(),
       contentType: 'text/google-docs',
       annotations: gdocsParser.getAnnotations(),
-      schema: gdocsSchema
+      schema: gdocsSchema as Schema
     });
   }
 
@@ -22,7 +21,7 @@ export default class extends Document {
       content: this.content,
       contentType: 'text/atjson',
       annotations: [...this.annotations],
-      schema
+      schema: schema as Schema
     });
 
     doc.where({ type: '-gdocs-ts_bd' }).set({ type: 'bold' });
@@ -33,10 +32,7 @@ export default class extends Document {
       .map({ attributes: { '-gdocs-level': 'level' } });
 
     // FIXME list conversion is incomplete, needs fixing.
-    doc.where({ type: '-gdocs-list' }).set(
-      { type: 'list' },
-      { attributes: { type: 'numbered' } }
-    );
+    doc.where({ type: '-gdocs-list' }).set({ type: 'list', attributes: { type: 'numbered' } });
     doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
 
     doc.where({ type: '-gdocs-lnks_link' })

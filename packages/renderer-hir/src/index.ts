@@ -1,7 +1,11 @@
-import Document, { Schema } from '@atjson/document';
+import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
-const escape = {
+type Mapping = {
+  [key: string]: string;
+};
+
+const escape: Mapping = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',
@@ -11,8 +15,10 @@ const escape = {
   '=': '&#x3D;'
 };
 
+type EscapeCharacter = keyof Mapping;
+
 export function escapeHTML(text: string): string {
-  return text.replace(/[&<>"'`=]/g, (chr: keyof typeof escape) => escape[chr]);
+  return text.replace(/[&<>"'`=]/g, (chr: EscapeCharacter) => escape[chr]);
 }
 
 function flatten(array: any[]): any[] {
@@ -28,72 +34,29 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
-function compile(renderer: Renderer, node: HIRNode, state: State, schema: Schema) {
-  let generator = renderer.renderAnnotation(node, state, schema);
+function compile(renderer: Renderer, node: HIRNode): any {
+  let generator = renderer.renderAnnotation(node);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
   let children = node.children();
-  return generator.next(flatten(children.map((childNode: HIRNode, index: number) => {
-    state.set('previousAnnotation', children[index - 1]);
-    state.set('nextAnnotation', children[index + 1]);
+  return generator.next(flatten(children.map((childNode: HIRNode) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
-      return renderer.renderText(childNode.text, state);
+      return renderer.renderText(childNode.text);
     } else {
-      return compile(renderer, childNode, state, schema);
+      return compile(renderer, childNode);
     }
   }))).value;
 }
 
-export interface StateList {
-  [key: string]: any;
-}
-
-function get(object: any, key: string): any {
-  if (key === '') return object;
-
-  let [path, ...rest] = key.split('.');
-  if (object) {
-    return get(object[path], rest.join('.'));
-  }
-  return null;
-}
-
-export class State {
-  private _state: StateList[];
-
-  constructor() {
-    this._state = [];
-  }
-
-  push(list: StateList) {
-    this._state.push(list);
-  }
-
-  pop() {
-    this._state.pop();
-  }
-
-  get(key: string): any {
-    return get(this._state[this._state.length - 1], key);
-  }
-
-  set(key: string, value: any) {
-    let currentState: StateList | null = this._state[this._state.length - 1];
-    if (currentState) {
-      currentState[key] = value;
-    } else {
-      this.push({ [key]: value });
-    }
-  }
-}
-
 export default class Renderer {
-  *renderAnnotation(annotation: HIRNode, state: State, schema: Schema) {
-    if (this[annotation.type]) {
-      return yield* this[annotation.type](annotation.attributes, state, schema);
+
+  *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
+    let generator = (<any>this)[annotation.type];
+    if (generator) {
+      return yield* generator.call(this, annotation.attributes);
     }
     return yield;
   }
@@ -103,9 +66,6 @@ export default class Renderer {
   }
 
   render(document: Document) {
-    let annotationGraph = new HIR(document);
-    let state = new State();
-    let renderedDocument = compile(this, annotationGraph.rootNode, state, document.schema);
-    return renderedDocument;
+    return compile(this, new HIR(document).rootNode);
   }
 }

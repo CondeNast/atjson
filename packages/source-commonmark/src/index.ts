@@ -1,4 +1,4 @@
-import Document, { Annotation } from '@atjson/document';
+import Document, { Annotation, Schema } from '@atjson/document';
 import schema from '@atjson/schema';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
@@ -7,13 +7,11 @@ import markdownSchema from './schema';
 export { default as schema } from './schema';
 
 interface Attributes {
-  [key: string]: string | number | null;
+  [key: string]: string | number | boolean | null;
 }
 
-type Tuple = [string, string];
-
 function getAttributes(token: MarkdownIt.Token): Attributes {
-  return (token.attrs || []).reduce((attributes: Attributes, attribute: Tuple) => {
+  return (token.attrs || []).reduce((attributes: Attributes, attribute: string[]) => {
     attributes[attribute[0]] = attribute[1];
     return attributes;
   }, {});
@@ -25,7 +23,7 @@ interface Node {
   close?: MarkdownIt.Token;
   value?: MarkdownIt.Token | string;
   parent?: Node;
-  children?: (Node | string)[];
+  children: Node[];
 }
 
 function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
@@ -36,13 +34,15 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       currentNode.children.push({
         name: 'text',
         value: '\n',
-        parent: currentNode
+        parent: currentNode,
+        children: []
       });
     } else if (token.type === 'text') {
       currentNode.children.push({
         name: 'text',
         value: token.content,
-        parent: currentNode
+        parent: currentNode,
+        children: []
       });
     } else if (token.type === 'inline') {
       toTree(token.children, currentNode);
@@ -65,9 +65,12 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       };
       currentNode.children.push(node);
       currentNode = node;
+
     } else if (token.nesting === -1) {
       currentNode.close = token;
-      currentNode = currentNode.parent;
+      if (currentNode.parent) {
+        currentNode = currentNode.parent;
+      }
     } else {
       let text = token.content;
       // If there is a backtick as the first or last
@@ -90,7 +93,8 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
         children: [{
           name: 'text',
           value: text,
-          parent: currentNode
+          parent: currentNode,
+          children: []
         }]
       });
     }
@@ -98,8 +102,8 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
   return rootNode;
 }
 
-function getText(node: Node) {
-  return node.children.reduce((textNodes, child) => {
+function getText(node: Node): Node[] {
+  return node.children.reduce((textNodes: Node[], child: Node) => {
     if (child.name === 'text') {
       textNodes.push(child);
     } else if (child.children) {
@@ -109,7 +113,7 @@ function getText(node: Node) {
   }, []);
 }
 
-export class Parser {
+class Parser {
   content: string;
   annotations: Annotation[];
   private handlers: any;
@@ -125,24 +129,23 @@ export class Parser {
     nodes.forEach((node: Node) => {
       if (node.name === 'text') {
         this.content += node.value;
-      } else {
-        if (node.name === 'image') {
+      } else if (node.open) {
+        if (node.name === 'image' && node.open) {
           let token = node.open;
           token.attrs = token.attrs || [];
           token.attrs.push(['alt', getText(node).map(n => n.value).join('')]);
           node.children = [];
         }
+        let attrs: Attributes = {};
         // Identify whether the list is tight (paragraphs collapse)
-        if (node.name === 'bullet_list' ||
-            node.name === 'ordered_list') {
+        if ((node.name === 'bullet_list' || node.name === 'ordered_list') && node.open) {
           let isTight = node.children.some(items => {
             return items.children.filter(child => child.name === 'paragraph')
-                                 .some(child => child.open.hidden);
+                                 .some(child => !!(child.open && child.open.hidden));
           });
-          node.open.attrs = node.open.attrs || [];
-          node.open.attrs.push(['tight', isTight]);
+          attrs.tight = isTight;
         }
-        let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, node.close);
+        let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, attrs);
         annotationGenerator.next();
         this.walk(node.children);
         annotationGenerator.next();
@@ -150,7 +153,7 @@ export class Parser {
     });
   }
 
-  *convertTokenToAnnotation(name: string, open: MarkdownIt.Token, close: MarkdownIt.Token) {
+  *convertTokenToAnnotation(name: string, open: MarkdownIt.Token, attrs: Attributes): IterableIterator<void> {
     let start = this.content.length;
     this.content += '\uFFFC';
     this.annotations.push({
@@ -166,7 +169,7 @@ export class Parser {
     this.content += '\uFFFC';
 
     let end = this.content.length;
-    let attributes = getAttributes(open);
+    let attributes = Object.assign(getAttributes(open), attrs);
     if (name === 'heading') {
       attributes.level = parseInt(open.tag[1], 10);
     }
@@ -193,27 +196,28 @@ export class Parser {
   }
 }
 
-export default class extends Document {
+export default class CommonMarkSource extends Document {
+
   constructor(markdown: string) {
     super({
       content: '',
       contentType: 'text/commonmark',
       annotations: [],
-      schema: markdownSchema
+      schema: markdownSchema as Schema
     });
 
-    let md = this.constructor.markdownParser();
-    let parser = new Parser(md.parse(markdown, { linkify: false }), this.constructor.contentHandlers());
+    let md = this.markdownParser();
+    let parser = new Parser(md.parse(markdown, { linkify: false }), this.contentHandlers());
 
     this.content = parser.content;
-    this.annotations = parser.annotations;
+    this.addAnnotations(...parser.annotations);
   }
 
-  static markdownParser() {
+  markdownParser() {
     return MarkdownIt('commonmark');
   }
 
-  static contentHandlers() {
+  contentHandlers() {
     return {};
   }
 
@@ -222,7 +226,7 @@ export default class extends Document {
       content: this.content,
       contentType: 'text/atjson',
       annotations: [...this.annotations],
-      schema
+      schema: schema as Schema
     });
 
     doc.where({ type: 'bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });

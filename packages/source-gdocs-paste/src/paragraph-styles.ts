@@ -1,4 +1,5 @@
 import { Annotation } from '@atjson/document';
+import { GDocs } from './schema';
 import { GDocsStyleSlice } from './types';
 
 /*
@@ -34,7 +35,7 @@ import { GDocsStyleSlice } from './types';
  */
 export default function extractParagraphStyles(styles: GDocsStyleSlice[]): Annotation[] {
   let lastParagraphStart = 0;
-  let annotations = [];
+  let annotations: GDocs.Heading[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];

@@ -5,6 +5,7 @@
     "module": "commonjs",
     "removeComments": true,
     "downlevelIteration": true,
+    "skipDefaultLibCheck": true,
     "strict": true,
     "alwaysStrict": true,
     "noUnusedLocals": true,

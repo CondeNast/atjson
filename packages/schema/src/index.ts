@@ -1,30 +1,32 @@
+import { Display } from "@atjson/document";
+
 export default {
   'bold': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   'blockquote': {
-    display: 'block'
+    display: 'block' as Display
   },
   'code': {
-    display: 'inline',
+    display: 'inline' as Display,
     attributes: [
       'language'
     ]
   },
   'heading': {
-    display: 'block',
+    display: 'block' as Display,
     attributes: [
       'level'
     ]
   },
   'horizontal-rule': {
-    display: 'object'
+    display: 'object' as Display
   },
   'html': {
-    display: 'block'
+    display: 'block' as Display
   },
   'image': {
-    display: 'object',
+    display: 'object' as Display,
     attributes: [
       'url',
       'title',
@@ -32,20 +34,20 @@ export default {
     ]
   },
   'italic': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   'link': {
-    display: 'inline',
+    display: 'inline' as Display,
     attributes: [
       'url',
       'title'
     ]
   },
   'line-break': {
-    display: 'object'
+    display: 'object' as Display
   },
   'list': {
-    display: 'block',
+    display: 'block' as Display,
     attributes: [
       'type',
       'tight',
@@ -54,9 +56,9 @@ export default {
     ]
   },
   'list-item': {
-    display: 'block'
+    display: 'block' as Display
   },
   'paragraph': {
-    display: 'paragraph'
+    display: 'paragraph' as Display
   }
 };
