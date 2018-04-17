@@ -1,4 +1,4 @@
-import { Display } from "@atjson/document";
+import { Display } from '@atjson/document';
 
 export default {
   'bold': {

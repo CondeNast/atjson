@@ -1,16 +1,16 @@
 import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
-type Mapping = {
+interface Mapping {
   [key: string]: string;
-};
+}
 
 const escape: Mapping = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',
   '"': '&quot;',
-  "'": '&#x27;',
+  '\'': '&#x27;',
   '`': '&#x60;',
   '=': '&#x3D;'
 };
@@ -54,7 +54,7 @@ function compile(renderer: Renderer, node: HIRNode): any {
 export default class Renderer {
 
   *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
-    let generator = (<any>this)[annotation.type];
+    let generator = (this as any)[annotation.type];
     if (generator) {
       return yield* generator.call(this, annotation.attributes);
     }

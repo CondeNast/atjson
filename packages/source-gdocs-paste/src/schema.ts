@@ -1,48 +1,45 @@
 import { Annotation } from '@atjson/document';
 
-export namespace GDocs {
+export interface Bold extends Annotation {
+  type: '-gdocs-ts_bd';
+}
 
-  export interface Bold extends Annotation {
-    type: '-gdocs-ts_bd';
-  }
+export interface Italic extends Annotation {
+  type: '-gdocs-ts_it';
+}
 
-  export interface Italic extends Annotation {
-    type: '-gdocs-ts_it';
-  }
+export interface Underline extends Annotation {
+  type: '-gdocs-ts_un';
+}
 
-  export interface Underline extends Annotation {
-    type: '-gdocs-ts_un';
-  }
+export interface Heading extends Annotation {
+  type: '-gdocs-ps_hd';
+  attributes: {
+    '-gdocs-level': number;
+  };
+}
 
-  export interface Heading extends Annotation {
-    type: '-gdocs-ps_hd';
-    attributes: {
-      '-gdocs-level': number;
-    } 
-  }
+export interface Link extends Annotation {
+  type: '-gdocs-lnks_link';
+  attributes: {
+    '-gdocs-ulnk_url': string;
+    '-gdocs-lnk_type': string;
+  };
+}
 
-  export interface Link extends Annotation {
-    type: '-gdocs-lnks_link';
-    attributes: {
-      '-gdocs-ulnk_url': string;
-      '-gdocs-lnk_type': string;
-    }
-  }
+export interface List extends Annotation {
+  type: '-gdocs-list';
+  attributes: {
+    '-gdocs-ls_id': string;
+  };
+}
 
-  export interface List extends Annotation {
-    type: '-gdocs-list';
-    attributes: {
-      '-gdocs-ls_id': string;
-    }
-  }
-
-  export interface ListItem extends Annotation {
-    type: '-gdocs-list-item';
-    attributes: {
-      '-gdocs-ls_nest': string;
-      '-gdocs-ls_id': string;
-    }
-  }
+export interface ListItem extends Annotation {
+  type: '-gdocs-list-item';
+  attributes: {
+    '-gdocs-ls_nest': string;
+    '-gdocs-ls_id': string;
+  };
 }
 
 export default {

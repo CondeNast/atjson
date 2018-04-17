@@ -89,7 +89,7 @@ function render(renderer: CommonmarkRenderer, node: Annotation, index: number): 
     node.next = node.parent.children[index + 1];
   }
 
-  let factory = (<any>renderer)[node.type];
+  let factory = (renderer as any)[node.type];
   let generator;
   if (factory) {
     generator = factory.call(renderer, node);
@@ -99,11 +99,11 @@ function render(renderer: CommonmarkRenderer, node: Annotation, index: number): 
     }
   }
 
-  let fragment = node.children.map((childNode: Annotation, index: number) => {
+  let fragment = node.children.map((childNode: Annotation, idx: number) => {
     if (childNode.type === 'text' && typeof childNode.text === 'string') {
       return renderer.text(childNode.text);
     } else {
-      return render(renderer, childNode, index);
+      return render(renderer, childNode, idx);
     }
   }).join('');
 

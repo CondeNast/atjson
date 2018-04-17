@@ -85,7 +85,7 @@ class Parser {
   convertTag(node: parse5.AST.Default.Element, which: 'startTag' | 'endTag'): number {
     let location = node.__location;
     if (location == null) return -1;
-    
+
     let { startOffset: start, endOffset: end } = location[which];
     this.annotations.push({
       type: 'parse-token',
