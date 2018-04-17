@@ -1,11 +1,53 @@
-FIXME iirc, @tswicegood had some good pointers on good defaults for CONTRIBUTING.md
+:tipping_hand_woman: AtJSON has a [Code of Conduct](https://github.com/CondeNast-Copilot/atjson/blob/latest/CODE_OF_CONDUCT.md) that we expect all of our contributors to abide by, please check it out before contributing!
 
-This is a Lerna repository, with a bunch of sub-modules. To build and get started, do the following:
+***
 
+AtJSON is comprised of a bunch of packages, monorepo style. We use [lerna](https://lernajs.io) to manage these dependencies.
+
+:computer: To get started contributing, you'll need to install the TypeScript compiler and lerna installed on your computer:
+
+If you have `npm` installed, the following commands should suffice:
+
+```bash
+npm install -g typescript
+npm install -g lerna
 ```
-yarn install
-lerna bootstrap
-jest
+
+After installing these, clone atjson onto your computer and navigate into the project.
+
+```bash
+git clone https://github.com/CondeNast-Copilot/atjson.git
+cd atjson
 ```
 
-All of the tests should pass.
+Now install the dependencies :sparkles:
+
+```bash
+lerna bootstrap --hoist
+```
+
+And run the tests: :woman_scientist:
+
+```bash
+npm test
+```
+
+We use [:black_joker: Jest](https://facebook.github.io/jest) to run our tests, which is \~fantastic\~, if you ask us. We recommend looking at the Jest's documentation for [expectations](https://facebook.github.io/jest/docs/en/expect.html) to get started writing these. If you want to run tests for a specific package, you can do so by navigating to that package and running:
+
+```bash
+npm test
+```
+
+If you're doing some test driven development, you can continuously run this by running:
+
+```bash
+npm test -- --watch
+```
+
+And if you've caused some snapshots to become invalid, you can regenerate the snapshots by running:
+
+```bash
+npm test -- -u
+```
+
+:heart: Happy Contributing :heart:
