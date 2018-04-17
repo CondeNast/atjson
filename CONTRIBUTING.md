@@ -42,4 +42,16 @@ And if you've caused some snapshots to become invalid, you can regenerate the sn
 npm test -- -u
 ```
 
+To build the TypeScript into JavaScript for `npm`, use `lerna`:
+
+```bash
+lerna run build
+```
+
+You can also run the TypeScript linter to check your code for style issues:
+
+```bash
+lerna run lint
+```
+
 :heart: Happy Contributing :heart:
