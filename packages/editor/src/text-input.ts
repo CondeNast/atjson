@@ -10,6 +10,25 @@ function getRangeFrom() {
 
 }
 
+// n.b. this is duplicated from text-selection and should be refactored to be
+// included from a shared base.
+const TEXT_NODE_TYPE = 3;
+
+function getTextNodes(node: Node): Text[] {
+  let nodes: Text[] = [];
+
+  if (node.hasChildNodes()) {
+    node.childNodes.forEach((child: Node) => {
+      nodes = nodes.concat(getTextNodes(child));
+    });
+  } else if (node.nodeType === TEXT_NODE_TYPE) {
+    nodes.push(node as Text);
+  }
+
+  return nodes;
+}
+
+
 /**
  * The keyboard mixin normalizes keyboard input across browsers.
  * This is due to varying levels of support by browser vendors
@@ -54,19 +73,28 @@ class TextInput extends events(HTMLElement) {
   private selection?: { start: number, end: number, collapsed: boolean } | null;
 
   beforeinput(evt: InputEvent) {
+
     if (evt.isComposing) return;
+
     let ranges = evt.getTargetRanges();
     let { start, end } = this.selection;
+
+    console.log('here is a thing', evt);
+
     switch (evt.inputType) {
     case 'insertText':
       this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
       break;
 
+    case 'insertParagraph':
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: "\n" } }));
+      break;
+
     case 'insertLineBreak':
       this.dispatchEvent(new CustomEvent('insertText', [start, '\u2028', true]));
-      new CustomEvent('addAnnotation', {
+      this.dispatchEvent(new CustomEvent('addAnnotation', {
         detail: { type: 'line-break', start, end: end + 1 }
-      });
+      }));
       break;
 
     case 'deleteContentBackward':
@@ -78,6 +106,20 @@ class TextInput extends events(HTMLElement) {
       }));
       break;
 
+    case 'deleteWordBackward':
+      if (this.selection.collapsed) {
+        end++;
+      }
+
+      var target = evt.getTargetRanges()[0];
+      let deletionStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
+      let deletionEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
+
+      this.dispatchEvent(new CustomEvent('deleteText', {
+        detail: { start: deletionStart, end: deletionEnd }
+      }));
+      break;
+
     case 'deleteContentForward':
       if (this.selection.collapsed) {
         end++;
@@ -85,6 +127,27 @@ class TextInput extends events(HTMLElement) {
       this.dispatchEvent(new CustomEvent('deleteText', {
         detail: { start, end }
       }));
+      break;
+
+    case 'insertReplacementText':
+      console.log('in here with evt', evt);
+      // n.b. this assumes that there is only one target range.
+      if (evt.getTargetRanges().length !== 1) {
+        throw new Error('Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got', evt.getTargetRanges().length);
+      }
+
+      var target = evt.getTargetRanges()[0];
+      let replaceStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
+      let replaceEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
+
+      console.log('found', {start: replaceStart, end: replaceEnd}, 'for target', target);
+
+      evt.dataTransfer.items[0].getAsString(replString => {
+        this.dispatchEvent(new CustomEvent('replaceText', {
+          detail: { start: replaceStart, end: replaceEnd, text: replString }
+        }));
+      });
+
       break;
 
     case 'formatBold':
@@ -99,6 +162,30 @@ class TextInput extends events(HTMLElement) {
       }));
       break;
     }
+  }
+
+  // This could be better implemented by tagging each parent node (i.e.,
+  // not-text node) with its start offset, so that we could go from text node +
+  // offset to document offset directly. Not going to do it now to minimize
+  // impact across the codebase, but flagging here as a potential and desirable
+  // separate refactor.
+  nodeAndOffsetToDocumentOffset(node, offset): number {
+    let textNodes = getTextNodes(this);
+
+    let l = textNodes.length;
+    let currOffset = 0;
+
+    for (let i = 0; i < l; i++) {
+      let currNode = textNodes[i];
+
+      if (currNode === node) {
+        return currOffset + offset;
+      } else {
+        currOffset += (currNode.nodeValue || '').length
+      }
+    }
+
+    throw new Error('Did not find a matching node. Was matching against', node, textNodes);
   }
 };
 

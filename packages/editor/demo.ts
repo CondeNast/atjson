@@ -14,10 +14,13 @@ if (module.hot) {
 }
 
 let doc = new Document({
-  content: 'Some text that is both bold and italic plus something after.',
+  content: 'Some text that is both bold and italic plus something after.\nA second paragraph.',
   annotations: [
-    { type: 'bold', start: 23, end: 31 },
-    { type: 'italic', start: 28, end: 38 }
+    { type: 'bold', display: 'inline', start: 23, end: 31 },
+    { type: 'italic', display: 'inline', start: 28, end: 38 },
+    { type: 'underline', display: 'inline', start: 28, end: 38 },
+    { type: 'paragraph', display: 'block', start: 0, end: 61 },
+    { type: 'paragraph', display: 'block', start: 61, end: 80 }
   ]
 });
 
