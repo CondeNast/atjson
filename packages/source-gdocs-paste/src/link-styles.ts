@@ -3,9 +3,9 @@ import { GDocs } from './schema';
 import { GDocsStyleSlice } from './types';
 
 export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annotation[] {
-
-  let currentLink: GDocs.Link | null = null;
-  let links: GDocs.Link[] = [];
+  type Link = GDocs.Link;
+  let currentLink: Partial<Link> | null = null;
+  let links: Link[] = [];
 
   for (let i = 0; i < linkStyles.length; i++) {
     let link = linkStyles[i];
@@ -17,7 +17,7 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
     // push it into the list of found links.
     if (currentLink !== null) {
       currentLink.end = i;
-      links.push(currentLink);
+      links.push(<Link>currentLink);
 
       currentLink = null;
     }
@@ -27,7 +27,6 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
       currentLink = {
         type: '-gdocs-lnks_link',
         start: i,
-        end: -1,
         attributes: {
           '-gdocs-ulnk_url': link.lnks_link.ulnk_url,
           '-gdocs-lnk_type': link.lnks_link.lnk_type
