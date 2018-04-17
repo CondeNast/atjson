@@ -19,9 +19,7 @@
     "@atjson/hir": "^0.7.14",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
-    "react-dom": "^16.2.0",
-    "tslint": "^5.9.1",
-    "typescript": "^2.6.2"
+    "react-dom": "^16.2.0"
   },
   "dependencies": {
     "@atjson/renderer-hir": "^0.7.14",

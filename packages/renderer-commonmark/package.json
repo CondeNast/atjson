@@ -17,9 +17,7 @@
   "devDependencies": {
     "@atjson/source-commonmark": "^0.7.14",
     "commonmark-spec": "^0.28.0",
-    "markdown-it": "^8.4.1",
-    "tslint": "^5.9.1",
-    "typescript": "^2.6.2"
+    "markdown-it": "^8.4.1"
   },
   "dependencies": {
     "@atjson/document": "^0.7.14",

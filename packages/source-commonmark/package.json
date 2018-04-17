@@ -18,8 +18,7 @@
     "@atjson/hir": "^0.7.14",
     "@atjson/renderer-hir": "^0.7.14",
     "commonmark": "^0.28.1",
-    "commonmark-spec": "^0.28.0",
-    "typescript": "^2.4.2"
+    "commonmark-spec": "^0.28.0"
   },
   "dependencies": {
     "@atjson/document": "^0.7.14",
@@ -28,6 +27,6 @@
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",
-    "markdown-it": "^8.4.0"
+    "markdown-it": "^8.4.1"
   }
 }

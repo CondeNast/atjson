@@ -14,9 +14,5 @@
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "tslint": "^5.9.1",
-    "typescript": "^2.6.2"
   }
 }

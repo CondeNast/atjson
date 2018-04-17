@@ -17,8 +17,7 @@
   "devDependencies": {
     "@atjson/hir": "^0.7.14",
     "@atjson/renderer-hir": "^0.7.14",
-    "@types/node": "^9.6.5",
-    "typescript": "^2.6.2"
+    "@types/node": "^9.6.5"
   },
   "dependencies": {
     "@atjson/document": "^0.7.14",

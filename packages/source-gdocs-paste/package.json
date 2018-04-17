@@ -14,9 +14,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "typescript": "^2.6.2"
-  },
   "dependencies": {
     "@atjson/document": "^0.7.14",
     "@atjson/schema": "^0.7.14"
