@@ -92,9 +92,9 @@ class TextInput extends events(HTMLElement) {
 
     case 'insertLineBreak':
       this.dispatchEvent(new CustomEvent('insertText', [start, '\u2028', true]));
-      new CustomEvent('addAnnotation', {
+      this.dispatchEvent(new CustomEvent('addAnnotation', {
         detail: { type: 'line-break', start, end: end + 1 }
-      });
+      }));
       break;
 
     case 'deleteContentBackward':
@@ -103,6 +103,20 @@ class TextInput extends events(HTMLElement) {
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
         detail: { start, end }
+      }));
+      break;
+
+    case 'deleteWordBackward':
+      if (this.selection.collapsed) {
+        end++;
+      }
+
+      var target = evt.getTargetRanges()[0];
+      let deletionStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
+      let deletionEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
+
+      this.dispatchEvent(new CustomEvent('deleteText', {
+        detail: { start: deletionStart, end: deletionEnd }
       }));
       break;
 
