@@ -11,8 +11,8 @@ env:
     - CC_TEST_REPORTER_ID=68bca34aea101c23f266a7a8c38cea0891f1fc517618d28f7329992afd6a44d8
 
 install:
-  - yarn
-  - ./node_modules/lerna/bin/lerna.js bootstrap
+  - npm install -g lerna
+  - ./node_modules/lerna/bin/lerna.js bootstrap --hoist --ci
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -20,6 +20,7 @@ before_script:
   - ./cc-test-reporter before-build
 
 script:
+  - ./node_modules/lerna/bin/lerna.js run lint
   - ./node_modules/jest/bin/jest.js --no-cache --coverage
 
 after_script:
