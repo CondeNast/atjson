@@ -11,8 +11,9 @@
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "rm -rf dist; tsc -p . & tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "../../node_modules/.bin/tslint -c ../../tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
     "test": "../../node_modules/jest/bin/jest.js packages/$(basename $PWD) --config=../../package.json"
   },
   "license": "Apache-2.0",
