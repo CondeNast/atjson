@@ -4,16 +4,7 @@
 
 AtJSON is comprised of a bunch of packages, monorepo style. We use [lerna](https://lernajs.io) to manage these dependencies.
 
-:computer: To get started contributing, you'll need to install the TypeScript compiler and lerna installed on your computer:
-
-If you have `npm` installed, the following commands should suffice:
-
-```bash
-npm install -g typescript
-npm install -g lerna
-```
-
-After installing these, clone atjson onto your computer and navigate into the project.
+:computer: To get started, clone atjson onto your computer and navigate into the project.
 
 ```bash
 git clone https://github.com/CondeNast-Copilot/atjson.git
@@ -23,6 +14,7 @@ cd atjson
 Now install the dependencies :sparkles:
 
 ```bash
+npm install
 lerna bootstrap --hoist
 ```
 
