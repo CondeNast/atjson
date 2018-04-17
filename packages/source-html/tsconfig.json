@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./dist/commonjs",
     "paths": {
       "parse5": ["./node_modules/parse5/lib/index.d.ts"]
