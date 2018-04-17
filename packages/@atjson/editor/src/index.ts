@@ -26,10 +26,13 @@ function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): 
 }
 
 export default class Editor extends events(HTMLElement) {
-  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap" contenteditable></div></text-selection></text-input><hr><div class="output" style="white-space: pre-wrap"></div>';
+  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap; padding: 1em;" contenteditable></div></text-selection></text-input>' +
+                    '<hr/><div class="output" style="white-space: pre-wrap"></div>' +
+                    '<hr/><div class="json"></div>';
   static events = {
     'change text-selection'(evt) {
       this.selection = evt.detail;
+      this.scheduleRender();
     },
 
     'insertText text-input'(evt) {
@@ -55,6 +58,16 @@ export default class Editor extends events(HTMLElement) {
       this.scheduleRender();
     },
 
+    'replaceText text-input'(evt) {
+      let replacement = evt.detail;
+
+      this.document.deleteText(replacement);
+      this.document.insertText(replacement.start, replacement.text);
+      this.selection.start = replacement.start + replacement.text.length;
+
+      this.scheduleRender();
+    },
+
     'addAnnotation text-input'(evt) {
       this.document.addAnnotations(evt.detail);
       this.scheduleRender();
@@ -66,10 +79,36 @@ export default class Editor extends events(HTMLElement) {
     window.requestAnimationFrame(() => {
       this.render(this.querySelector('.editor'));
       this.render(this.querySelector('.output'));
+      this.renderJson(this.querySelector('.json'));
     });
   }
 
   text({ text }) {
+    if (text[text.length - 1] == "\n") {
+      var nonBreakStrings = text.split("\n");
+      console.log('+++--->' + text + '<---+++', '->',nonBreakStrings);
+      if (nonBreakStrings[nonBreakStrings.length - 1] == '') {
+        nonBreakStrings.pop();
+      }
+      var children = nonBreakStrings.map((str) => {
+        var span = document.createElement('span');
+        span.style.whiteSpace = 'normal';
+        span.style.display = 'none';
+        span.contentEditable = false;
+        span.appendChild(document.createTextNode("\n"));
+        console.log(span);
+        return [document.createTextNode(str), span]
+      }).reduce((a, b) => a.concat(b));
+
+      console.log(children);
+
+      var textParentNode = document.createElement('span');
+      children.forEach((child) => {
+        textParentNode.appendChild(child);
+      })
+
+      return textParentNode;
+    }
     return document.createTextNode(text);
   }
 
@@ -83,6 +122,16 @@ export default class Editor extends events(HTMLElement) {
 
   italic() {
     return document.createElement('em');
+  }
+
+  underline() {
+    return document.createElement('u');
+  }
+
+  link(attributes) {
+    let link = document.createElement('a');
+    link.setAttribute('href', attributes.uri);
+    return link;
   }
 
   'line-break'() {
@@ -104,7 +153,7 @@ export default class Editor extends events(HTMLElement) {
     // prevent flickering of OS UI elements (e.g., spell check) while typing
     // characters that don't result in changes outside of text elements.
     if (placeholder.innerHTML != editor.innerHTML) {
-      console.log('not match', placeholder.innerHTML, '\n---\n', editor.innerHTML);
+      console.log('not match', placeholder.innerHTML, '\n---\n', editor.innerHTML, this.document);
       editor.innerHTML = placeholder.innerHTML;
 
       // We need to do a force-reset here in order to avoid waiting for a full
@@ -120,5 +169,59 @@ export default class Editor extends events(HTMLElement) {
         this.querySelector('text-selection').setSelection(this.selection);
       }
     }
+  }
+
+  renderJson(container) {
+    window.requestAnimationFrame(() => {
+      container.innerHTML = '';
+      var counter = document.createElement('pre');
+      var top = '';
+      var bottom = '';
+      for (var x = 0; x < 100; x++) {
+        if (this.selection.start == x) {
+          bottom += '<span style="background-color: blue">'
+        }
+        bottom += x % 10;
+        if (this.selection.end == x) {
+          bottom += '</span>';
+        }
+
+        if (x % 10 == 0) {
+          top += x / 10;
+        } else {
+          top += ' ';
+        }
+      }
+      top += '\n';
+      counter.innerHTML = top + bottom;
+      container.appendChild(counter);
+      var rawText = document.createElement('pre');
+      rawText.appendChild(document.createTextNode(this.document.content.replace(/\n/g, "¶"));
+      container.appendChild(rawText);
+      let table = '<table><thead><tr><th>type</th><th>start</th><th>end</th><th>display</th><th>attributes</th></tr></thead>';
+      this.document.annotations.forEach((a) => {
+        table += '<tr>';
+        ['type', 'start', 'end', 'display'].forEach(attr => {
+          table += '<td>' + a[attr] + '</td>';
+        });
+        if (a.attributes) {
+          table += '<td>' + a.attributes.toJSON() + '</td>';
+        } else {
+          table += '<td></td>';
+        }
+        table += '</tr>';
+      });
+      table += '</table>';
+      let tableContainer = document.createElement('div');
+      tableContainer.innerHTML = table;
+      container.appendChild(tableContainer);
+    });
+  }
+
+  connectedCallback() {
+    this.innerHTML = this.constructor.template;
+    super.connectedCallback();
+    this.render(this.querySelector('.editor'));
+    this.render(this.querySelector('.output'));
   }
 }
