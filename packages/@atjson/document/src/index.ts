@@ -77,8 +77,8 @@ export default class Document {
     const after = this.content.slice(position);
     this.content = before + text + after;
 
-    for (let i = this.annotations.length - 1; i >= 0; i--) {
-      let a = this.annotations[i];
+    for (var i = this.annotations.length - 1; i >= 0; i--) {
+      var a = this.annotations[i];
 
       // annotation types that implement the Annotation transform interface can
       // override the default behaviour. This is desirable for e.g., links or
@@ -107,10 +107,12 @@ export default class Document {
 
       // Default edge behaviour.
       } else if (!preserveAdjacentBoundaries) {
-        if (position === a.start) {
+        if (position === a.start && a.type !== 'paragraph') {
           a.start += length;
           a.end += length;
-        } else if (position === a.end) {
+        } else if (position === a.start && a.type === 'paragraph') {
+          a.end += length;
+        } else if (position === a.end && a.type !== 'paragraph') {
           a.end += length;
         }
 
@@ -124,6 +126,27 @@ export default class Document {
       // n.b. the += 0 is just to silence tslint ;-)
       } else if (position === a.end)  {
         a.end += 0;
+      }
+
+      if (text.indexOf("\n") > -1) {
+        console.log('new line fun!!');
+        for (var i = this.annotations.length - 1; i >= 0; i--) {
+          var a = this.annotations[i];
+          if (a.type === 'paragraph') {
+            // This doesn't affect us.
+            if (a.end < position) continue;
+            if (position < a.start) continue;
+
+            console.log('going to add a new annotation');
+            var prevEnd = a.end;
+            a.end = position + 1;
+            this.addAnnotations({
+              type: 'paragraph',
+              start: position + 1,
+              end: prevEnd + 1
+            });
+          }
+        }
       }
     }
   }
