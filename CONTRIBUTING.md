@@ -24,7 +24,7 @@ And run the tests: :woman_scientist:
 npm test
 ```
 
-We use [:black_joker:Jest](https://facebook.github.io/jest) to run our tests, which is \~fantastic\~, if you ask us. We recommend looking at the Jest's documentation for [expectations](https://facebook.github.io/jest/docs/en/expect.html) to get started writing these. If you want to run tests for a specific package, you can do so by navigating to that package and running:
+We use [:black_joker:Jest](https://facebook.github.io/jest) to run our tests, which is \~fantastic\~, if you ask us. We recommend looking at Jest's documentation for [expectations](https://facebook.github.io/jest/docs/en/expect.html) to get started writing these. If you want to run tests for a specific package, you can do so by navigating to that package and running:
 
 ```bash
 npm test
