@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/document';
+import { Annotation, Display } from '@atjson/document';
 
 export interface Bold extends Annotation {
   type: '-gdocs-ts_bd';
@@ -44,42 +44,42 @@ export interface ListItem extends Annotation {
 
 export default {
   '-gdocs-list': {
-    display: 'block',
+    display: 'block' as Display,
     attributes: [
       '-gdocs-ls-id'
     ]
   },
 
   '-gdocs-list-item': {
-    display: 'block',
+    display: 'block' as Display,
     attributes: [
       '-gdocs-ls_nest', '-gdocs-ls_id'
     ]
   },
 
   '-gdocs-ps_hd': {
-    display: 'block',
+    display: 'block' as Display,
     attributes: [
       '-gdocs-level'
     ]
   },
 
   'gdocs-lnks_link': {
-    display: 'inline',
+    display: 'inline' as Display,
     attributes: [
       '-gdocs-ulnk_url', '-gdocs-lnk-type'
     ]
   },
 
   '-gdocs-ts_bd': {
-    display: 'inline'
+    display: 'inline' as Display
   },
 
   '-gdocs-ts_it': {
-    display: 'inline'
+    display: 'inline' as Display
   },
 
   '-gdocs-ts_un': {
-    display: 'inline'
+    display: 'inline' as Display
   }
 };
