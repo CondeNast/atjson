@@ -4,6 +4,12 @@
 
 AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:lerna](https://lernajs.io) to manage these dependencies.
 
+Before getting started, we need to install lerna:
+
+```bash
+npm install -g lerna
+```
+
 :computer: To get started, clone atjson onto your computer and navigate into the project.
 
 ```bash
