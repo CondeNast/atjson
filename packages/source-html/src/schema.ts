@@ -1,59 +1,61 @@
+import { Display } from '@atjson/document';
+
 export default {
   '-html-a': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   '-html-b': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   '-html-blockquote': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-br': {
-    display: 'object'
+    display: 'object' as Display
   },
   '-html-em': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   '-html-hr': {
-    display: 'object'
+    display: 'object' as Display
   },
   '-html-h1': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-h2': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-h3': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-h4': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-h5': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-h6': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-i': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   '-html-img': {
-    display: 'object'
+    display: 'object' as Display
   },
   '-html-li': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-ol': {
-    display: 'block'
+    display: 'block' as Display
   },
   '-html-p': {
-    display: 'paragraph'
+    display: 'paragraph' as Display
   },
   '-html-strong': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   '-html-ul': {
-    display: 'block'
+    display: 'block' as Display
   }
 };
