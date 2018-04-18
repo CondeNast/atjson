@@ -2,9 +2,9 @@
 
 ***
 
-AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:lerna](https://lernajs.io) to manage these dependencies.
+AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:Lerna](https://lernajs.io) to manage these dependencies.
 
-Before getting started, we need to install lerna:
+Before getting started, we need to install Lerna:
 
 ```bash
 npm install -g lerna
