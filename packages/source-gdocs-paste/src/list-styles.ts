@@ -1,11 +1,11 @@
 import { Annotation } from '@atjson/document';
-import { GDocs } from './schema';
+import { List, ListItem } from './schema';
 import { GDocsStyleSlice } from './types';
 
 export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[] {
   let lastParagraphStart = 0;
-  let listAnnotations: { [key: string]: GDocs.List } = {};
-  let listItems: GDocs.ListItem[] = [];
+  let listAnnotations: { [key: string]: List } = {};
+  let listItems: ListItem[] = [];
 
   for (let i = 0; i < lists.length; i++) {
     let list = lists[i];
