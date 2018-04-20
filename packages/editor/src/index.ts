@@ -218,10 +218,16 @@ export default class Editor extends events(HTMLElement) {
     });
   }
 
+  setDocument(value: Document) {
+    this.document = value;
+    if (this.isConnected) {
+      this.scheduleRender();
+    }
+  }
+
   connectedCallback() {
     this.innerHTML = this.constructor.template;
     super.connectedCallback();
-    this.render(this.querySelector('.editor'));
-    this.render(this.querySelector('.output'));
+    this.scheduleRender();
   }
 }
