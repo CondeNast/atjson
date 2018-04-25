@@ -3,9 +3,6 @@ language: node_js
 node_js:
   - "8"
 
-cache:
-  yarn: true
-
 env:
   global:
     - CC_TEST_REPORTER_ID=68bca34aea101c23f266a7a8c38cea0891f1fc517618d28f7329992afd6a44d8
@@ -27,41 +24,44 @@ after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 after_success:
-  - if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
-    # Start the ssh agent with the deploy key for the documentation
-    echo $DEPLOY_KEY > /tmp/deploy-key
-    chmod 600 /tmp/deploy-key
-    ssh-add "/tmp/deploy-key"
+  - |
+    if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
 
-    # Create a new worktree where we create documentation
-    # We set the branch as gh-pages and remove all files from
-    # the git repo
-    git worktree prune
-    git worktree add deploy-atjson gh-pages
+      # Start the ssh agent with the deploy key for the documentation
+      echo $DEPLOY_KEY > /tmp/deploy-key
+      chmod 600 /tmp/deploy-key
+      ssh-add "/tmp/deploy-key"
 
-    # Clean up old documentation for latest
-    if [[ $TRAVIS_BRANCH == latest ]]; then
+      # Create a new worktree where we create documentation
+      # We set the branch as gh-pages and remove all files from
+      # the git repo
+      git worktree prune
+      git worktree add deploy-atjson gh-pages
+
+      # Clean up old documentation for latest
+      if [[ $TRAVIS_BRANCH == latest ]]; then
+        pushd deploy-atjson
+        git rm --ignore-unmatch -r latest
+        popd
+      fi
+
+      # Then, we build the documentation and copy it into the branch
+      npm run build
+      npm run docs
+      if [[ -n $TRAVIS_TAG ]]; then
+        cp -R docs deploy-atjson/$TRAVIS_TAG
+      else
+        cp -R docs deploy-atjson/latest
+      fi
+
       pushd deploy-atjson
-      git rm --ignore-unmatch -r latest
-      popd
-    fi
 
-    # Then, we build the documentation and copy it into the branch
-    npm run build
-    npm run docs
-    if [[ -n $TRAVIS_TAG ]]; then
-      cp -R docs deploy-atjson/$TRAVIS_TAG
-    else
-      cp -R docs deploy-atjson/latest
+      # We commit the changes, then push to gh-pages
+      git add -A .
+      if [[ -n $TRAVIS_TAG ]]; then
+        git commit -m ":package::books: Release documentation for $TRAVIS_TAG."
+      else
+        git commit -m ":package::books: Release documentation for latest."
+      fi
+      git push https://github.com/CondeNast-Copilot/atjson.git gh-pages
     fi
-
-    pushd deploy-atjson
-
-    # We commit the changes, then push to gh-pages
-    git add -A .
-    if [[ -n $TRAVIS_TAG ]]; then
-      git commit -m ":package::books: Release documentation for $TRAVIS_TAG."
-    else
-      git commit -m ":package::books: Release documentation for latest."
-    fi
-    git push https://github.com/CondeNast-Copilot/atjson.git gh-pages
