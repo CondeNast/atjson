@@ -2,20 +2,23 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@types/jest": "^22.1.1",
-    "jest": "^22.2.1",
+    "@types/jest": "^22.2.3",
+    "jest": "^22.4.2",
     "lerna": "^2.8.0",
-    "ts-jest": "^22.0.3",
+    "ts-jest": "^22.4.4",
     "tslint": "^5.9.1",
-    "typescript": "^2.6.2"
+    "typedoc": "^0.11.1",
+    "typedoc-plugin-monorepo": "^0.1.0",
+    "typescript": "^2.8.1"
   },
   "scripts": {
     "build": "lerna run build",
+    "docs": "typedoc",
     "publish": "lerna publish",
     "test": "./node_modules/jest/bin/jest.js"
   },
   "workspaces": [
-    "packages/*"
+    "packages/@atjson/*"
   ],
   "jest": {
     "moduleFileExtensions": [
@@ -24,7 +27,7 @@
       "js"
     ],
     "moduleNameMapper": {
-      "@atjson/(.*)": "<rootDir>/packages/$1/src/index.ts"
+      "(@atjson/.*)": "<rootDir>/packages/$1/src/index.ts"
     },
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"

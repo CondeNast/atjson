@@ -1,0 +1,27 @@
+{
+  "name": "@atjson/renderer-commonmark",
+  "version": "0.7.15",
+  "description": "A brand new TypeScript library.",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@atjson/source-commonmark": "^0.7.15",
+    "commonmark-spec": "^0.28.0",
+    "markdown-it": "^8.4.1"
+  },
+  "dependencies": {
+    "@atjson/document": "^0.7.15",
+    "@atjson/hir": "^0.7.15"
+  }
+}
