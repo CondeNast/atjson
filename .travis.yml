@@ -28,9 +28,9 @@ after_success:
     if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
 
       # Start the ssh agent with the deploy key for the documentation
-      eval "$(ssh-agent -s)" > /dev/null
       echo $DEPLOY_KEY > /tmp/deploy-key
       chmod 600 /tmp/deploy-key
+      eval "$(ssh-agent)" > /dev/null
       ssh-add /tmp/deploy-key
 
       # Create a new worktree where we create documentation
