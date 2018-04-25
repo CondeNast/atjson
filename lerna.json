@@ -2,7 +2,7 @@
   "lerna": "2.2.0",
   "version": "0.7.15",
   "packages": [
-    "packages/*"
+    "packages/@atjson/*"
   ],
   "command": {
     "bootstrap": {
