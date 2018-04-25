@@ -28,10 +28,10 @@ after_success:
     if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
 
       # Start the ssh agent with the deploy key for the documentation
-      echo -e $DEPLOY_KEY > /tmp/deploy-key
-      chmod 600 /tmp/deploy-key
+      echo "$DEPLOY_KEY" > /tmp/deploy_key
+      chmod 600 /tmp/deploy_key
       eval "$(ssh-agent -s)"
-      ssh-add /tmp/deploy-key
+      ssh-add /tmp/deploy_key
 
       # Create a new worktree where we create documentation
       # We set the branch as gh-pages and remove all files from
