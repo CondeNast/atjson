@@ -30,7 +30,7 @@ after_success:
       # Start the ssh agent with the deploy key for the documentation
       echo -e $DEPLOY_KEY > /tmp/deploy-key
       chmod 600 /tmp/deploy-key
-      eval "$(ssh-agent -s)" > /dev/null
+      eval "$(ssh-agent -s)"
       ssh-add /tmp/deploy-key
 
       # Create a new worktree where we create documentation
