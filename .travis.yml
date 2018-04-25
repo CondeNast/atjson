@@ -38,17 +38,30 @@ after_success:
     # the git repo
     git worktree prune
     git worktree add deploy-atjson gh-pages
-    pushd deploy-atjson
-    git rm --ignore-unmatch -r .
-    popd
+
+    # Clean up old documentation for latest
+    if [[ $TRAVIS_BRANCH == latest ]]; then
+      pushd deploy-atjson
+      git rm --ignore-unmatch -r latest
+      popd
+    fi
 
     # Then, we build the documentation and copy it into the branch
     npm run build
     npm run docs
-    cp -R docs/* deploy-atjson/
+    if [[ -n $TRAVIS_TAG ]]; then
+      cp -R docs deploy-atjson/$TRAVIS_TAG
+    else
+      cp -R docs deploy-atjson/latest
+    fi
+
     pushd deploy-atjson
 
     # We commit the changes, then push to gh-pages
     git add -A .
-    git commit -m ':package::books: Release documentation.'
+    if [[ -n $TRAVIS_TAG ]]; then
+      git commit -m ":package::books: Release documentation for $TRAVIS_TAG."
+    else
+      git commit -m ":package::books: Release documentation for latest."
+    fi
     git push https://github.com/CondeNast-Copilot/atjson.git gh-pages
