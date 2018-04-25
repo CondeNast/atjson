@@ -28,9 +28,9 @@ after_success:
     if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
 
       # Start the ssh agent with the deploy key for the documentation
-      echo $DEPLOY_KEY > /tmp/deploy-key
+      echo -e $DEPLOY_KEY > /tmp/deploy-key
       chmod 600 /tmp/deploy-key
-      eval "$(ssh-agent)" > /dev/null
+      eval "$(ssh-agent -s)" > /dev/null
       ssh-add /tmp/deploy-key
 
       # Create a new worktree where we create documentation
@@ -64,5 +64,5 @@ after_success:
       else
         git commit -m ":package::books: Release documentation for latest."
       fi
-      git push https://github.com/CondeNast-Copilot/atjson.git gh-pages
+      git push git@github.com:CondeNast-Copilot/atjson.git gh-pages
     fi
