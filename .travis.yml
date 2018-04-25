@@ -25,3 +25,30 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+after_success:
+  - if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
+    # Start the ssh agent with the deploy key for the documentation
+    echo $DEPLOY_KEY > /tmp/deploy-key
+    chmod 600 /tmp/deploy-key
+    ssh-add "/tmp/deploy-key"
+
+    # Create a new worktree where we create documentation
+    # We set the branch as gh-pages and remove all files from
+    # the git repo
+    git worktree prune
+    git worktree add deploy-atjson gh-pages
+    pushd deploy-atjson
+    git rm --ignore-unmatch -r .
+    popd
+
+    # Then, we build the documentation and copy it into the branch
+    npm run build
+    npm run docs
+    cp -R docs/* deploy-atjson/
+    pushd deploy-atjson
+
+    # We commit the changes, then push to gh-pages
+    git add -A .
+    git commit -m ':package::books: Release documentation.'
+    git push https://github.com/CondeNast-Copilot/atjson.git gh-pages
