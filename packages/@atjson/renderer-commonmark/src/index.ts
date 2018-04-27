@@ -5,9 +5,14 @@ export function* split(): Iterable<any> {
   let text = yield;
   let start = 0;
   let end = text.length;
+  let match;
 
-  while (text[start] === ' ' && start < end) { start++; }
-  while (text[end - 1] === ' ' && end > start) { end--; }
+  while ((match = text.slice(start).match(/^(\s|&nbsp;){1}/)) && start < end) {
+    start += match[1].length;
+  }
+  while ((match = text.slice(0, end).match(/(\s|&nbsp;){1}$/)) && end > start) {
+    end -= match[1].length;
+  }
 
   return [
     text.slice(0, start),
