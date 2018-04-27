@@ -1,6 +1,6 @@
 {
   "name": "@atjson/schema",
-  "version": "0.7.15",
+  "version": "0.7.16",
   "description": "The common schema used to render AtJSON documents",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -16,6 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/document": "^0.7.15"
+    "@atjson/document": "^0.7.16"
   }
 }
