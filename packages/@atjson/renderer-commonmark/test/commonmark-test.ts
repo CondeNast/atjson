@@ -269,4 +269,46 @@ After all the lists
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe('Some formatting on empty spaces');
   });
+
+  test('non-breaking spaces don\'t recieve formatting', () => {
+    let document = new Document({
+      content: '\u00A0\ntext\n',
+      annotations: [{
+        type: 'bold', start: 0, end: 7
+      }, {
+        type: 'paragraph', start: 0, end: 2
+      }, {
+        type: 'parse-token', start: 1, end: 2
+      }, {
+        type: 'paragraph', start: 2, end: 7
+      }, {
+        type: 'parse-token', start: 6, end: 7
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n');
+  });
+
+  test('line feed characters don\'t recieve formatting', () => {
+    let document = new Document({
+      content: '\u000b\ntext\n',
+      annotations: [{
+        type: 'bold', start: 0, end: 7
+      }, {
+        type: 'paragraph', start: 0, end: 2
+      }, {
+        type: 'parse-token', start: 1, end: 2
+      }, {
+        type: 'paragraph', start: 2, end: 7
+      }, {
+        type: 'parse-token', start: 6, end: 7
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('\u000b\n\n**text**\n\n');
+  });
 });
