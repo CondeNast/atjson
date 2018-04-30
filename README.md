@@ -14,7 +14,7 @@ The breakdown of modules in this repository are:
 | Modules | Description|
 |---------|------------|
 | [@atjson/document](packages/document) | AtJSON document and annotation code |
-| [@atjson/hir](packages/hir) | HIR (Heirarchical Intermediate Representation) |
+| [@atjson/hir](packages/hir) | HIR (Hierarchical Intermediate Representation) |
 | [@atjson/renderer-hir](packages/renderer-hir) | Abstract base class for text-based output |
 | [@atjson/renderer-plain-text](packages/renderer-plain-text) | Plain text output |
 | [@atjson/renderer-react](packages/renderer-react) | React output |
