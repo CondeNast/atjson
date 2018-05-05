@@ -91,7 +91,8 @@ class TextInput extends events(HTMLElement) {
       break;
 
     case 'insertLineBreak':
-      this.dispatchEvent(new CustomEvent('insertText', [start, '\u2028', true]));
+      console.log('start is', start, end);
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: '\u2028' } }));
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         detail: { type: 'line-break', start, end: end + 1 }
       }));
