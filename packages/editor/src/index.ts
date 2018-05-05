@@ -135,7 +135,10 @@ export default class Editor extends events(HTMLElement) {
   }
 
   'line-break'() {
-    return document.createElement('br');
+    var parentElement = document.createElement('span');
+    parentElement.appendChild(document.createElement('br'));
+
+    return parentElement;
   }
 
   render(editor) {
