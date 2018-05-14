@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-commonmark",
-  "version": "0.7.16",
+  "version": "0.8.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -16,12 +16,12 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/source-commonmark": "^0.7.16",
+    "@atjson/source-commonmark": "^0.8.0",
     "commonmark-spec": "^0.28.0",
     "markdown-it": "^8.4.1"
   },
   "dependencies": {
     "@atjson/document": "^0.7.16",
-    "@atjson/hir": "^0.7.16"
+    "@atjson/hir": "^0.8.0"
   }
 }

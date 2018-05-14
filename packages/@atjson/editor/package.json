@@ -1,6 +1,6 @@
 {
   "name": "@atjson/editor",
-  "version": "0.7.16",
+  "version": "0.8.0",
   "description": "AtJSON Editor",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@atjson/document": "^0.7.16",
-    "@atjson/hir": "^0.7.16"
+    "@atjson/hir": "^0.8.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.6.2",
