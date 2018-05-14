@@ -1,5 +1,6 @@
-import { Annotation, Display, Schema } from '@atjson/document';
+import Document, { Annotation, Display, Schema } from '@atjson/document';
 import JSONNode from './json-node';
+import { HIR } from '.';
 
 const RANK = {
   root: 0,
@@ -31,7 +32,15 @@ export default class HIRNode {
     this.type = node.type;
     this.start = node.start;
     this.end = node.end;
-    this.attributes = node.attributes;
+    this.attributes = Object.keys(node.attributes || {}).reduce((attrs: any, key: string) => {
+      let value = (node.attributes as any)[key];
+      if (value instanceof Document) {
+        attrs[key] = new HIR(value);
+      } else {
+        attrs[key] = value;
+      }
+      return attrs;
+    }, {});
     this.rank = RANK.inline;
     this.schema = schema || {};
 
@@ -57,9 +66,19 @@ export default class HIRNode {
       return this.text;
     }
 
+    let attributes = Object.keys(this.attributes || {}).reduce((attributes: any, key: string) => {
+      let value = (this.attributes as any)[key];
+      if (value instanceof HIR) {
+        attributes[key] = value.toJSON();
+      } else {
+        attributes[key] = value;
+      }
+      return attributes;
+    }, {});
+
     return {
       type: this.type,
-      attributes: this.attributes,
+      attributes,
       children: this.children().map(child => {
         return child.toJSON();
       })

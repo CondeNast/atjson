@@ -3,7 +3,7 @@
  */
 import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
-import CommonMarkRenderer from '@atjson/renderer-commonmark';
+import CommonMarkRenderer from '../src/index';
 import CommonMarkSource from '@atjson/source-commonmark';
 import * as MarkdownIt from 'markdown-it';
 import * as spec from 'commonmark-spec';

@@ -1,7 +1,7 @@
-import Document, { Annotation } from '@atjson/document';
-import { HIR } from '@atjson/hir';
+import Document, { Annotation, Schema } from '@atjson/document';
+import { HIR } from '../src/index';
 import schema from './schema';
-import { bold, document, italic, li, ol, paragraph, ul } from './utils';
+import { bold, document, image, italic, li, ol, paragraph, ul } from './utils';
 
 describe('@atjson/hir', () => {
 
@@ -9,17 +9,17 @@ describe('@atjson/hir', () => {
    * FIXME I don't know how to test types. This just throws in compile time,
    * but we should test that invalid objects are in fact caught by the compiler. ???
    *
-  it('rejects invalid documents', () => {
+  test('rejects invalid documents', () => {
     let invalidDoc = { blah: 'x' };
     expect(() => new HIR(invalidDoc)).toThrow();
   });
    */
 
-  it('accepts atjson-shaped object', () => {
+  test('accepts atjson-shaped object', () => {
     let validDoc = new Document({
       content: 'test\ndocument\n\nnew paragraph',
       annotations: [],
-      schema
+      schema: schema as Schema
     });
 
     let expected = document('test\ndocument\n\nnew paragraph');
@@ -29,14 +29,14 @@ describe('@atjson/hir', () => {
 
   describe('constructs a valid hierarchy', () => {
 
-    it('from a document without nesting', () => {
+    test('from a document without nesting', () => {
       let noNesting = new Document({
         content: 'A string with a bold and an italic annotation',
         annotations: [
           { type: 'bold', start: 16, end: 20 },
           { type: 'italic', start: 28, end: 34 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let hir = new HIR(noNesting).toJSON();
@@ -51,7 +51,7 @@ describe('@atjson/hir', () => {
       expect(hir).toEqual(expected);
     });
 
-    it('from a document with nesting', () => {
+    test('from a document with nesting', () => {
       let nested = new Document({
         content: 'I have a list:\n\nFirst item plus bold text\n\n' +
                  'Second item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
@@ -65,7 +65,7 @@ describe('@atjson/hir', () => {
           { type: 'list-item', start: 73, end: 82 },
           { type: 'list-item', start: 82, end: 91 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let expected = document(
@@ -85,14 +85,14 @@ describe('@atjson/hir', () => {
       expect(new HIR(nested).toJSON()).toEqual(expected);
     });
 
-    it('from a document with overlapping annotations at the same level', () => {
+    test('from a document with overlapping annotations at the same level', () => {
       let overlapping = new Document({
         content: 'Some text that is both bold and italic plus something after.',
         annotations: [
           { type: 'bold', start: 23, end: 31 },
           { type: 'italic', start: 28, end: 38 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let expected = document(
@@ -105,7 +105,7 @@ describe('@atjson/hir', () => {
       expect(new HIR(overlapping).toJSON()).toEqual(expected);
     });
 
-    it('from a document with overlapping annotations across heirarchical levels', () => {
+    test('from a document with overlapping annotations across heirarchical levels', () => {
       let spanning = new Document({
         content: 'A paragraph with some bold\n\ntext that continues into the next.',
         annotations: [
@@ -113,7 +113,7 @@ describe('@atjson/hir', () => {
           { type: 'paragraph', start: 28, end: 62 },
           { type: 'bold', start: 22, end: 32 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let expected = document(
@@ -130,22 +130,22 @@ describe('@atjson/hir', () => {
       expect(new HIR(spanning).toJSON()).toEqual(expected);
     });
 
-    it('from a zero-length document with annotations', () => {
+    test('from a zero-length document with annotations', () => {
       let zerolength = new Document({
         content: '',
         annotations: [
           { type: 'paragraph', start: 0, end: 0 },
           { type: 'bold', start: 0, end: 0 }
         ],
-        schema
+        schema: schema as Schema
       });
 
-      let expected = document( paragraph( bold() ) );
+      let expected = document(paragraph(bold()));
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
 
-    it('from a document with zero-length paragraphs', () => {
+    test('from a document with zero-length paragraphs', () => {
       let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
@@ -159,7 +159,7 @@ describe('@atjson/hir', () => {
           { type: 'parse-token', start: 30, end: 32 },
           { type: 'paragraph', start: 32, end: 41 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let expected = document(
@@ -173,7 +173,7 @@ describe('@atjson/hir', () => {
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
 
-    it('from a document with a point annotation', () => {
+    test('from a document with a point annotation', () => {
       let zerolength = new Document({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
@@ -188,7 +188,7 @@ describe('@atjson/hir', () => {
           { type: 'paragraph', start: 32, end: 41 },
           { type: 'bold', start: 21, end: 21 }
         ],
-        schema
+        schema: schema as Schema
       });
 
       let expected = document(
@@ -203,5 +203,43 @@ describe('@atjson/hir', () => {
 
       expect(new HIR(zerolength).toJSON()).toEqual(expected);
     });
+  });
+
+  test('sub-documents', () => {
+    let subdocument = new Document({
+      content: '\uFFFC',
+      annotations: [{
+        type: 'image',
+        start: 0,
+        end: 1,
+        attributes: {
+          url: 'http://www.example.com/test.jpg',
+          caption: new Document({
+            content: 'An example caption',
+            schema: schema as Schema,
+            annotations: [{
+              type: 'italic',
+              start: 3,
+              end: 10,
+            }]
+          })
+        }
+      }],
+      schema: schema as Schema
+    });
+
+    let hir = new HIR(subdocument).toJSON();
+    let expected = document(
+      image({
+        url: 'http://www.example.com/test.jpg',
+        caption: document(
+          'An ',
+          italic('example'),
+          ' caption'
+        )
+      })
+    );
+
+    expect(hir).toEqual(expected);
   });
 });
