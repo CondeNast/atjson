@@ -1,5 +1,5 @@
 import Document from '@atjson/document';
-import CommonMarkRenderer from '@atjson/renderer-commonmark';
+import CommonMarkRenderer from '../src/index';
 import schema from '@atjson/schema';
 
 describe('commonmark', () => {
@@ -16,6 +16,35 @@ describe('commonmark', () => {
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
+  });
+
+  it('sub-documents', () => {
+    let document = new Document({
+      content: '\uFFFC',
+      contentType: 'text/atjson',
+      annotations: [{ 
+        type: 'image',
+        start: 0,
+        end: 1,
+        attributes: {
+          url: 'http://commonmark.org/images/markdown-mark.png',
+          description: new Document({
+            content: 'Hello!',
+            contentType: 'text/atjson',
+            annotations: [{
+              type: 'bold',
+              start: 0,
+              end: 5
+            }],
+            schema
+          })
+        }
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('![**Hello**\\!](http://commonmark.org/images/markdown-mark.png)');
   });
 
   it('a plain text document with virtual paragraphs', () => {

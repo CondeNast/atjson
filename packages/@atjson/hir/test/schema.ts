@@ -1,23 +1,25 @@
+import { Display } from '@atjson/document';
+
 export default {
   'ordered-list': {
-    display: 'block'
+    display: 'block' as Display
   },
   'unordered-list': {
-    display: 'block'
+    display: 'block' as Display
   },
   'list-item': {
-    display: 'block'
+    display: 'block' as Display
   },
   'paragraph': {
-    display: 'paragraph'
+    display: 'paragraph' as Display
   },
   'bold': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   'italic': {
-    display: 'inline'
+    display: 'inline' as Display
   },
   'image': {
-    display: 'object'
+    display: 'object' as Display
   }
 };

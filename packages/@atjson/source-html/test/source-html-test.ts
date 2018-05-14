@@ -9,7 +9,7 @@ describe('@atjson/source-html', () => {
 
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-pre',
         attributes: {},
@@ -34,7 +34,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-p',
         attributes: {},
@@ -51,7 +51,7 @@ describe('@atjson/source-html', () => {
 
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-a',
         attributes: {
@@ -67,7 +67,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-img',
         attributes: {
@@ -83,7 +83,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-h2',
         attributes: {},
@@ -105,7 +105,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-p',
         attributes: {},
@@ -127,7 +127,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-p',
         attributes: {},
@@ -146,7 +146,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: ['<>']
     });
   });
@@ -156,7 +156,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
     expect(hir).toEqual({
       type: 'root',
-      attributes: undefined,
+      attributes: {},
       children: [{
         type: '-html-a',
         attributes {
@@ -173,7 +173,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: ['This ', {
           type: 'bold',
           attributes: {},
@@ -191,7 +191,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: ['This ', {
           type: 'italic',
           attributes: {},
@@ -209,7 +209,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'heading',
           attributes: { level: 1 },
@@ -243,7 +243,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'paragraph',
           attributes: {},
@@ -261,7 +261,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: ['This ', {
           type: 'link',
           attributes: {
@@ -277,7 +277,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: ['Horizontal ', {
           type: 'horizontal-rule',
           attributes: {},
@@ -291,7 +291,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'image',
           attributes: {
@@ -309,7 +309,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'blockquote',
           attributes: {},
@@ -323,7 +323,7 @@ describe('@atjson/source-html', () => {
       let hir = new HIR(doc.toCommonSchema()).toJSON();
       expect(hir).toEqual({
         type: 'root',
-        attributes: undefined,
+        attributes: {},
         children: [{
           type: 'list',
           attributes: {

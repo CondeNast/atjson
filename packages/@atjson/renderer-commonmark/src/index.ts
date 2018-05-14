@@ -59,7 +59,7 @@ function getNumberOfRequiredBackticks(text: string) {
 
 export interface Annotation {
   type: string;
-  attributes?: any;
+  attributes: any;
   previous: Annotation | null;
   next: Annotation | null;
   parent: Annotation | null;
@@ -70,7 +70,7 @@ export interface Annotation {
 function hirNodeToMarkdownNode(node: HIRNode, parent: Annotation | null): Annotation {
   let markdownNode: Annotation = {
     type: node.type,
-    attributes: node.attributes,
+    attributes: node.attributes || {},
     parent,
     previous: null,
     next: null,
@@ -93,6 +93,16 @@ function render(renderer: CommonmarkRenderer, node: Annotation, index: number): 
   if (node.parent && index < node.parent.children.length) {
     node.next = node.parent.children[index + 1];
   }
+
+  node.attributes = Object.keys(node.attributes).reduce((attrs: any, key: string) => {
+    let value = node.attributes[key];
+    if (value instanceof HIR) {
+      attrs[key] = render(renderer, hirNodeToMarkdownNode(value.rootNode, null), -1);
+    } else {
+      attrs[key] = value;
+    }
+    return attrs;
+  }, {});
 
   let factory = (renderer as any)[node.type];
   let generator;

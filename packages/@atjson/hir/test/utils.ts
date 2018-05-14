@@ -10,7 +10,7 @@ function node(type: string) {
   return (...children: node[]) => {
     return {
       type,
-      attributes: undefined,
+      attributes: {},
       children
     };
   };
@@ -18,7 +18,13 @@ function node(type: string) {
 
 let bold = node('bold');
 let document = node('root');
-let image = node('image');
+let image = (attributes={}) => {
+  return {
+    type: 'image',
+    attributes,
+    children: []
+  }
+};
 let italic = node('italic');
 let li = node('list-item');
 let ol = node('ordered-list');
