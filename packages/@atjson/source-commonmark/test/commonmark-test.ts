@@ -13,25 +13,57 @@ describe('whitespace', () => {
     expect(render(doc)).toBe('1\n2\n\n');
   });
 
-  test('non-breaking space unicode characters are converted to fixed-space annotations', () => {
-    let doc = new CommonMarkSource('1\n\n\u202F\n\n2');
-    let hir = new HIR(doc);
-    expect(hir.toJSON()).toEqual({
-      type: 'root',
-      attributes: {},
-      children: [{
-        type: 'paragraph',
+  describe('non-breaking spaces', () => {
+    test('html entities are converted to unicode characters', () => {
+      let doc = new CommonMarkSource('1\n\n&#8239;\n\n&nbsp;\n\n2');
+      let hir = new HIR(doc);
+      expect(hir.toJSON()).toEqual({
+        type: 'root',
         attributes: {},
-        children: ['1']
-      }, {
-        type: 'paragraph',
+        children: [{
+          type: 'paragraph',
+          attributes: {},
+          children: ['1']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['\u202F']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['\u00A0']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['2']
+        }]
+      });
+    });
+
+    test('unicode characters are retained', () => {
+      let doc = new CommonMarkSource('1\n\n\u202F\n\n\u00A0\n\n2');
+      let hir = new HIR(doc);
+      expect(hir.toJSON()).toEqual({
+        type: 'root',
         attributes: {},
-        children: ['\u00A0']
-      }, {
-        type: 'paragraph',
-        attributes: {},
-        children: ['2']
-      }]
+        children: [{
+          type: 'paragraph',
+          attributes: {},
+          children: ['1']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['\u00A0']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['\u00A0']
+        }, {
+          type: 'paragraph',
+          attributes: {},
+          children: ['2']
+        }]
+      });
     });
   });
 });

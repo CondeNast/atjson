@@ -301,7 +301,7 @@ After all the lists
 
   test('non-breaking spaces don\'t recieve formatting', () => {
     let document = new Document({
-      content: '\u00A0\ntext\n',
+      content: '\u00A0\ntext\n\u202F',
       annotations: [{
         type: 'bold', start: 0, end: 7
       }, {
@@ -317,7 +317,7 @@ After all the lists
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n');
+    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n&#8239;');
   });
 
   test('line feed characters don\'t recieve formatting', () => {

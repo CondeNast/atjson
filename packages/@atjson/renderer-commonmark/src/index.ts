@@ -141,7 +141,7 @@ export default class CommonmarkRenderer {
     if (this.state.isPreformatted) {
       return text;
     }
-    return escapePunctuation(text).replace(/\u00A0/gu, '&nbsp;');
+    return escapePunctuation(text).replace(/\u00A0/gu, '&nbsp;').replace(/\u202F/gu, '&#8239;');
   }
 
   /**
