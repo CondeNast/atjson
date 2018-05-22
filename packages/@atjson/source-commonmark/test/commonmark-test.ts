@@ -1,4 +1,5 @@
-import CommonMarkSource, { schema } from '@atjson/source-commonmark';
+import { HIR } from '@atjson/hir';
+import CommonMarkSource, { schema } from '../src/index';
 import { render } from './utils';
 
 describe('whitespace', () => {
@@ -10,6 +11,28 @@ describe('whitespace', () => {
   test('  \\n is converted to a hardbreak', () => {
     let doc = new CommonMarkSource('1  \n2');
     expect(render(doc)).toBe('1\n2\n\n');
+  });
+
+  test('non-breaking space unicode characters are converted to fixed-space annotations', () => {
+    let doc = new CommonMarkSource('1\n\n\u202F\n\n2');
+    let hir = new HIR(doc);
+    expect(hir.toJSON()).toEqual({
+      type: 'root',
+      attributes: {},
+      children: [{
+        type: 'paragraph',
+        attributes: {},
+        children: ['1']
+      }, {
+        type: 'paragraph',
+        attributes: {},
+        children: ['\u00A0']
+      }, {
+        type: 'paragraph',
+        attributes: {},
+        children: ['2']
+      }]
+    });
   });
 });
 

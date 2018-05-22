@@ -130,7 +130,16 @@ class Parser {
       if (node.name === 'text') {
         this.content += node.value;
       } else if (node.open) {
-        if (node.name === 'image' && node.open) {
+        // Markdown-it strips non-breaking spaces from paragraphs;
+        // we need to re-insert them :(
+        if (node.name === 'paragraph' && node.children.length === 0) {
+          node.children = [{
+            name: 'text',
+            parent: node,
+            value: '\u00A0',
+            children: []
+          }];
+        } else if (node.name === 'image' && node.open) {
           let token = node.open;
           token.attrs = token.attrs || [];
           token.attrs.push(['alt', getText(node).map(n => n.value).join('')]);
