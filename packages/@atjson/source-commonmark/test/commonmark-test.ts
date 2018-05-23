@@ -40,7 +40,7 @@ describe('whitespace', () => {
       });
     });
 
-    test('unicode characters are retained', () => {
+    test('empty paragraphs are created using narrow no-break unicode characters', () => {
       let doc = new CommonMarkSource('1\n\n\u202F\n\n\u00A0\n\n2');
       let hir = new HIR(doc);
       expect(hir.toJSON()).toEqual({
@@ -53,11 +53,11 @@ describe('whitespace', () => {
         }, {
           type: 'paragraph',
           attributes: {},
-          children: ['\u00A0']
+          children: ['\u202F']
         }, {
           type: 'paragraph',
           attributes: {},
-          children: ['\u00A0']
+          children: ['\u202F']
         }, {
           type: 'paragraph',
           attributes: {},

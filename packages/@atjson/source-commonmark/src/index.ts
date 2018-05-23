@@ -130,11 +130,12 @@ class Parser {
       if (node.name === 'text') {
         this.content += node.value;
       } else if (node.open) {
+        // Markdown-It strips out all unicode whitespace characters.
         if (node.name === 'paragraph' && node.children.length === 0) {
           node.children.push({
             name: 'text',
             parent: node,
-            value: '\u00A0',
+            value: '\u202F',
             children: []
           });
         } else if (node.name === 'image' && node.open) {
@@ -213,11 +214,6 @@ export default class CommonMarkSource extends Document {
       schema: markdownSchema as Schema
     });
 
-    // Markdown-It strips out all unicode whitespace characters.
-    // Instead of varying between narrow non-breaking space and
-    // non-breaking spaces, we use U+00A0 (No-Break Space)
-    // for consistency
-    markdown = markdown.replace(/\u202F/gu, '\u00A0');
     let md = this.markdownParser();
     let parser = new Parser(md.parse(markdown, { linkify: false }), this.contentHandlers());
 

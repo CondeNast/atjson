@@ -317,7 +317,7 @@ After all the lists
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n&#8239;');
+    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n\u202F');
   });
 
   test('line feed characters don\'t recieve formatting', () => {
