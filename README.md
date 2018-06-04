@@ -16,11 +16,13 @@ The breakdown of modules in this repository are:
 | [@atjson/document](packages/document) | AtJSON document and annotation code |
 | [@atjson/hir](packages/hir) | HIR (Hierarchical Intermediate Representation) |
 | [@atjson/renderer-hir](packages/renderer-hir) | Abstract base class for text-based output |
+| [@atjson/renderer-graphviz](packages/renderer-graphviz) | Used to visualise the HIR of a document |
 | [@atjson/renderer-plain-text](packages/renderer-plain-text) | Plain text output |
 | [@atjson/renderer-react](packages/renderer-react) | React output |
 | [@atjson/renderer-commonmark](packages/renderer-commonmark) | CommonMark output |
 | [@atjson/source-commonmark](packages/source-commonmark) | Conversion of CommonMark sources to AtJSON |
 | [@atjson/source-html](packages/source-html) | Conversion of HTML sources to AtJSON |
+| [@atjson/source-gdocs-paste](packages/source-gdocs-paste) | A source used to transform Google Docs Paste buffers into AtJSON |
 
 
 #### Why another content format?

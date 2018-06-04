@@ -1,0 +1,16 @@
+digraph atjson{
+  node [shape=record];
+  root1 [label="{root|{}}"];
+  emoji2 [label="{emoji|{\"emoji\":\"👋\"}}"];
+  text3 [label="{text|Hello}"];
+  text4 [label="{text|, }"];
+  emoji5 [label="{emoji|{\"emoji\":\"🌎\"}}"];
+  text6 [label="{text|world}"];
+  text7 [label="{text|!}"];
+  emoji2 -> text3;
+  root1 -> emoji2;
+  root1 -> text4;
+  emoji5 -> text6;
+  root1 -> emoji5;
+  root1 -> text7;
+}
