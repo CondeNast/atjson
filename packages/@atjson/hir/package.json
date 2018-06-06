@@ -1,0 +1,26 @@
+{
+  "name": "@atjson/hir",
+  "version": "0.8.0",
+  "description": "Libraries for annotated JSON documents",
+  "contributors": [
+    "Blaine Cook <blaine_cook@condenast.com>",
+    "Tim Evans <tim_evans@condenast.com>"
+  ],
+  "repository": "https://github.com/CondeNast-Copilot/atjson",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@atjson/document": "^0.7.16"
+  }
+}

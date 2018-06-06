@@ -1,0 +1,33 @@
+{
+  "name": "@atjson/source-commonmark",
+  "version": "0.8.2",
+  "description": "Create AtJSON documents from CommonMark.",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@atjson/hir": "^0.8.0",
+    "@atjson/renderer-hir": "^0.8.0",
+    "commonmark": "^0.28.1",
+    "commonmark-spec": "^0.28.0"
+  },
+  "dependencies": {
+    "@atjson/document": "^0.7.16",
+    "@atjson/schema": "^0.7.16",
+    "@atjson/source-html": "^0.8.0",
+    "@types/entities": "^1.1.0",
+    "@types/markdown-it": "^0.0.4",
+    "entities": "^1.1.1",
+    "markdown-it": "^8.4.1"
+  }
+}

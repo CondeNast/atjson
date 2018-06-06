@@ -13,14 +13,16 @@ The breakdown of modules in this repository are:
 
 | Modules | Description|
 |---------|------------|
-| [@atjson/document](packages/document) | AtJSON document and annotation code |
-| [@atjson/hir](packages/hir) | HIR (Heirarchical Intermediate Representation) |
-| [@atjson/renderer-hir](packages/renderer-hir) | Abstract base class for text-based output |
-| [@atjson/renderer-plain-text](packages/renderer-plain-text) | Plain text output |
-| [@atjson/renderer-react](packages/renderer-react) | React output |
-| [@atjson/renderer-commonmark](packages/renderer-commonmark) | CommonMark output |
-| [@atjson/source-commonmark](packages/source-commonmark) | Conversion of CommonMark sources to AtJSON |
-| [@atjson/source-html](packages/source-html) | Conversion of HTML sources to AtJSON |
+| [@atjson/document](packages/@atjson/document) | AtJSON document and annotation code |
+| [@atjson/hir](packages/@atjson/hir) | HIR (Hierarchical Intermediate Representation) |
+| [@atjson/renderer-hir](packages/@atjson/renderer-hir) | Abstract base class for text-based output |
+| [@atjson/renderer-graphviz](packages/@atjson/renderer-graphviz) | Used to visualise the HIR of a document |
+| [@atjson/renderer-plain-text](packages/@atjson/renderer-plain-text) | Plain text output |
+| [@atjson/renderer-react](packages/@atjson/renderer-react) | React output |
+| [@atjson/renderer-commonmark](packages/@atjson/renderer-commonmark) | CommonMark output |
+| [@atjson/source-commonmark](packages/@atjson/source-commonmark) | Conversion of CommonMark sources to AtJSON |
+| [@atjson/source-html](packages/@atjson/source-html) | Conversion of HTML sources to AtJSON |
+| [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste) | A source used to transform Google Docs Paste buffers into AtJSON |
 
 
 #### Why another content format?

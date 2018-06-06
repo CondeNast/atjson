@@ -1,0 +1,22 @@
+{
+  "name": "@atjson/source-gdocs-paste",
+  "version": "0.7.16",
+  "description": "Create AtJSON documents from Google Docs (KIX) paste buffers",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@atjson/document": "^0.7.16",
+    "@atjson/schema": "^0.7.16"
+  }
+}
