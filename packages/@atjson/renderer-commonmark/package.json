@@ -16,6 +16,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@atjson/schema": "^0.7.16",
     "@atjson/source-commonmark": "^0.8.2",
     "commonmark-spec": "^0.28.0",
     "markdown-it": "^8.4.1"
