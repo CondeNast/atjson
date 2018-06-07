@@ -108,11 +108,6 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts images');
-
-    it('extracts subscript');
-
-    it('extracts superscript');
-
   });
 
   describe('a grab-bag of Google Docs features', () => {
