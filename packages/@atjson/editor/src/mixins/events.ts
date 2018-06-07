@@ -1,14 +1,14 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-interface EventCallback {
+export interface EventCallback {
   (evt: Event): boolean;
 }
 
-interface EventHandlerDefinitions {
+export interface EventHandlerDefinitions {
   [key: string]: string | EventCallback;
 }
 
-interface EventHandlerReferences {
+export interface EventHandlerReferences {
   [key: string]: EventCallback;
 }
 

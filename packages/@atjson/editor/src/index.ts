@@ -196,7 +196,7 @@ export default class Editor extends events(HTMLElement) {
       counter.innerHTML = top + bottom;
       container.appendChild(counter);
       var rawText = document.createElement('pre');
-      rawText.appendChild(document.createTextNode(this.document.content.replace(/\n/g, "¶"));
+      rawText.appendChild(document.createTextNode(this.document.content.replace(/\n/g, "¶")));
       container.appendChild(rawText);
       let table = '<table><thead><tr><th>type</th><th>start</th><th>end</th><th>display</th><th>attributes</th></tr></thead>';
       this.document.annotations.forEach((a) => {

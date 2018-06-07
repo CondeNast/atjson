@@ -1,4 +1,5 @@
 import Renderer, { escapeHTML } from '@atjson/renderer-hir';
+import { HIRNode } from '@atjson/hir';
 
 export default class WebComponentRenderer extends Renderer {
 
@@ -6,7 +7,7 @@ export default class WebComponentRenderer extends Renderer {
     return escapeHTML(text);
   }
   
-  *renderAnnotation(node): IterableIterator<string> {
+  *renderAnnotation(node: HIRNode): IterableIterator<string> {
     let text = yield;
     let attributes = node.attributes;
     let attrs = '';

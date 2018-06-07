@@ -79,13 +79,16 @@ function previousTextNode(node: Node): TextRangePoint {
   - `clear`- called when the text selecton is cleared
  */
 class TextSelection extends events(HTMLElement) {
+
+  composing: boolean;
+
   static observedAttributes = ['start', 'end'];
   static events = {
     'selectionchange document': 'selectedTextDidChange',
-    'compositionstart'(evt) {
+    'compositionstart'() {
       this.composing = true;
     },
-    'compositionend'(evt) {
+    'compositionend'() {
       this.composing = false;
     }
   };
@@ -96,6 +99,7 @@ class TextSelection extends events(HTMLElement) {
   constructor() {
     super();
     this.textNodes = [];
+    this.composing = false;
   }
 
   setSelection(range) {
