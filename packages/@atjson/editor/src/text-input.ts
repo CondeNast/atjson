@@ -65,7 +65,7 @@ class TextInput extends events(HTMLElement) {
     },
     'change text-selection'(evt) {
       this.selection = evt.detail;
-    }
+    },
     'clear text-selection'() {
       this.selection = null;
     }
