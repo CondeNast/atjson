@@ -12,6 +12,14 @@ export interface Underline extends Annotation {
   type: '-gdocs-ts_un';
 }
 
+export interface Strikethrough extends Annotation {
+  type: '-gdocs-ts_st';
+}
+
+export interface HorizontalRule extends Annotation {
+  type: '-gdocs-horizontal_rule';
+}
+
 export interface Heading extends Annotation {
   type: '-gdocs-ps_hd';
   attributes: {

@@ -2,6 +2,7 @@ import { Annotation } from '@atjson/document';
 
 import { GDocsStyleSlice } from './types';
 
+import extractHorizontalRule from './horizontal-rule';
 import extractLinkStyles from './link-styles';
 import extractListStyles from './list-styles';
 import extractParagraphStyles from './paragraph-styles';
@@ -20,6 +21,7 @@ export default class GDocsParser {
   static transforms: Transforms = {
     text: extractTextStyles,
     paragraph: extractParagraphStyles,
+    horizontal_rule: extractHorizontalRule,
     list: extractListStyles,
     link: extractLinkStyles
   };
