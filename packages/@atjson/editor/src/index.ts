@@ -1,34 +1,20 @@
-import { HIR } from '@atjson/hir';
 import Document from '@atjson/document';
+import WebComponentRenderer from './webcomponent-renderer';
 import events from './mixins/events';
 import './text-selection';
 import './text-input';
 
 const TEXT_NODE_TYPE = 3;
+type Range = { start: number, end: number };
 
 type Element = TextNode | HTMLElement;
 
-function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): Element[] {
-  return nodes.map((node: HIRNode) => {
-    let children = node.children();
-    if (children.length > 0) {
-      let element = editor[node.type](node);
-      hir.set(element, node);
-      compile(editor, hir, children).forEach((child: Element) => {
-        element.appendChild(child);
-      });
-      return element;
-    }
-    let text = editor[node.type](node);
-    hir.set(text, node);
-    return text;
-  });
-}
-
 export default class Editor extends events(HTMLElement) {
-  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap; padding: 1em;" contenteditable></div></text-selection></text-input>' +
-                    '<hr/><div class="output" style="white-space: pre-wrap"></div>' +
-                    '<hr/><div class="json"></div>';
+
+  selection: Range;
+
+  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap; padding: 1em;" contenteditable></div></text-selection></text-input>';
+
   static events = {
     'change text-selection'(evt) {
       this.selection = evt.detail;
@@ -39,7 +25,6 @@ export default class Editor extends events(HTMLElement) {
       this.document.insertText(evt.detail.position, evt.detail.text);
       this.selection.start += evt.detail.text.length;
       this.selection.end += evt.detail.text.length;
-      this.scheduleRender();
     },
 
     'deleteText text-input'(evt) {
@@ -55,7 +40,6 @@ export default class Editor extends events(HTMLElement) {
         this.selection.start -= l;
         this.selection.end -= l;
       }
-      this.scheduleRender();
     },
 
     'replaceText text-input'(evt) {
@@ -64,100 +48,42 @@ export default class Editor extends events(HTMLElement) {
       this.document.deleteText(replacement);
       this.document.insertText(replacement.start, replacement.text);
       this.selection.start = replacement.start + replacement.text.length;
-
-      this.scheduleRender();
     },
 
     'addAnnotation text-input'(evt) {
-      this.document.addAnnotations(evt.detail);
-      this.scheduleRender();
-    }
 
-  };
+
+
+
+
+
+
+
 
   scheduleRender() {
+    console.log('schedule render called.');
     window.requestAnimationFrame(() => {
       this.render(this.querySelector('.editor'));
-      this.render(this.querySelector('.output'));
-      this.renderJson(this.querySelector('.json'));
+      let evt = new CustomEvent('change', { bubbles: true, detail: { document: this.document } });
+      console.log('dispatching event', evt);
+      this.dispatchEvent(evt);
     });
-  }
-
-  text({ text }) {
-    if (text[text.length - 1] == "\n") {
-      var nonBreakStrings = text.split("\n");
-      console.log('+++--->' + text + '<---+++', '->',nonBreakStrings);
-      if (nonBreakStrings[nonBreakStrings.length - 1] == '') {
-        nonBreakStrings.pop();
-      }
-      var children = nonBreakStrings.map((str) => {
-        var span = document.createElement('span');
-        span.style.whiteSpace = 'normal';
-        span.style.display = 'none';
-        span.contentEditable = false;
-        span.appendChild(document.createTextNode("\n"));
-        console.log(span);
-        return [document.createTextNode(str), span]
-      }).reduce((a, b) => a.concat(b));
-
-      console.log(children);
-
-      var textParentNode = document.createElement('span');
-      children.forEach((child) => {
-        textParentNode.appendChild(child);
-      })
-
-      return textParentNode;
-    }
-    return document.createTextNode(text);
-  }
-
-  paragraph() {
-    return document.createElement('p');
-  }
-
-  bold() {
-    return document.createElement('strong');
-  }
-
-  italic() {
-    return document.createElement('em');
-  }
-
-  underline() {
-    return document.createElement('u');
-  }
-
-  link(attributes) {
-    let link = document.createElement('a');
-    link.setAttribute('href', attributes.uri);
-    return link;
-  }
-
-  'line-break'() {
-    var parentElement = document.createElement('span');
-    parentElement.appendChild(document.createElement('br'));
-
-    return parentElement;
   }
 
   render(editor) {
-    editor.hir = new Map<Element, HIRNode>();
-    let annotationGraph = new HIR(this.document);
-
-    let placeholder = document.createElement('div');
-    let children = compile(this, editor.hir, annotationGraph.rootNode.children());
-    children.forEach((element: Element) => {
-      placeholder.appendChild(element);
-    });
+    let rendered = new WebComponentRenderer(this.document).render();
 
     // This can be improved by doing the comparison on an element-by-element
     // basis (or by rendering incrementally via the HIR), but for now this will
     // prevent flickering of OS UI elements (e.g., spell check) while typing
     // characters that don't result in changes outside of text elements.
-    if (placeholder.innerHTML != editor.innerHTML) {
-      console.log('not match', placeholder.innerHTML, '\n---\n', editor.innerHTML, this.document);
-      editor.innerHTML = placeholder.innerHTML;
+    if (rendered.innerHTML != editor.innerHTML) {
+      console.table({
+        current: rendered.innerHTML,
+        updated: editor.innerHTML
+      });
+      console.info('Rendering', this.document);
+      editor.innerHTML = rendered.innerHTML;
 
       // We need to do a force-reset here in order to avoid waiting for a full
       // cycle of the browser event loop. The DOM has changed, but if we wait
@@ -174,58 +100,13 @@ export default class Editor extends events(HTMLElement) {
     }
   }
 
-  renderJson(container) {
-    window.requestAnimationFrame(() => {
-      container.innerHTML = '';
-      var counter = document.createElement('pre');
-      var top = '';
-      var bottom = '';
-      for (var x = 0; x < 100; x++) {
-        if (this.selection.start == x) {
-          bottom += '<span style="background-color: blue">'
-        }
-        bottom += x % 10;
-        if (this.selection.end == x) {
-          bottom += '</span>';
-        }
-
-        if (x % 10 == 0) {
-          top += x / 10;
-        } else {
-          top += ' ';
-        }
-      }
-      top += '\n';
-      counter.innerHTML = top + bottom;
-      container.appendChild(counter);
-      var rawText = document.createElement('pre');
-      rawText.appendChild(document.createTextNode(this.document.content.replace(/\n/g, "¶")));
-      container.appendChild(rawText);
-      let table = '<table><thead><tr><th>type</th><th>start</th><th>end</th><th>display</th><th>attributes</th></tr></thead>';
-      this.document.annotations.forEach((a) => {
-        table += '<tr>';
-        ['type', 'start', 'end', 'display'].forEach(attr => {
-          table += '<td>' + a[attr] + '</td>';
-        });
-        if (a.attributes) {
-          table += '<td>' + a.attributes.toJSON() + '</td>';
-        } else {
-          table += '<td></td>';
-        }
-        table += '</tr>';
-      });
-      table += '</table>';
-      let tableContainer = document.createElement('div');
-      tableContainer.innerHTML = table;
-      container.appendChild(tableContainer);
-    });
-  }
-
   setDocument(value: Document) {
     this.document = value;
-    if (this.isConnected) {
-      this.scheduleRender();
-    }
+    this.document.addEventListener('change', (_ => this.scheduleRender() ));
+  }
+
+  getSelection() {
+    return this.querySelector('text-selection');
   }
 
   connectedCallback() {
@@ -233,4 +114,8 @@ export default class Editor extends events(HTMLElement) {
     super.connectedCallback();
     this.scheduleRender();
   }
+}
+
+if (!window.customElements.get('text-editor')) {
+  window.customElements.define('text-editor', Editor);
 }
