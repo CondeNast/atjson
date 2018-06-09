@@ -51,14 +51,39 @@ export default class Editor extends events(HTMLElement) {
     },
 
     'addAnnotation text-input'(evt) {
+      if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
+        const contained = (a, b) => a.start >= b.start && a.end <= b.end
+        const offset = (a, b) => a.start <= b.end && a.end >= b.start
+        let overlapping = this.document.annotations.filter(a => a.type === evt.detail.type)
+                                                   .filter(a => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
 
+        let min = overlapping.reduce((a, b) => { return Math.min(a, b.start) }, this.document.content.length)
+        let max = overlapping.reduce((a, b) => { return Math.max(a, b.end) }, 0)
 
+        if (overlapping.length === 0) {
+          this.document.addAnnotations(evt.detail);
 
+        } else if (min <= evt.detail.start && evt.detail.end <= max && overlapping.length === 1) {
+          // invert the state.
+          let prev = overlapping[0];
+          let newFirst = Object.assign({}, prev, evt.detail, { start: prev.start, end: evt.detail.start });
+          let newLast = Object.assign({}, prev, evt.detail, { start: evt.detail.end, end: prev.end });
+          if (min !== evt.detail.start) this.document.addAnnotations(newFirst)
+          if (max !== evt.detail.end) this.document.addAnnotations(newLast);
 
+        } else {
+          this.document.addAnnotations(Object.assign({}, overlapping[0], evt.detail, { start: Math.min(min, evt.detail.start), end: Math.max(max, evt.detail.end) }));
+        }
 
+        overlapping.forEach(o => this.document.removeAnnotation(o));
 
+      } else {
+        this.document.addAnnotations(evt.detail);
+      }
+    }
 
+  };
 
   scheduleRender() {
     console.log('schedule render called.');
