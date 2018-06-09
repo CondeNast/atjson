@@ -12,6 +12,8 @@ export default class AtJSON {
   contentType?: string;
   annotations: Annotation[];
   schema?: Schema;
+  changeListeners: Function[];
+  private pendingChangeEvent: any;
 
   protected queries: Query[];
 
@@ -24,6 +26,40 @@ export default class AtJSON {
     this.contentType = options.contentType || 'text/plain';
     this.queries = [];
     this.schema = options.schema || {};
+
+    this.changeListeners = [];
+  }
+
+  /**
+   * I'm on a plane; I'm not sure the best approach to cross-platform event
+   * listeners and don't have internet access at the moment, so I'm just going
+   * to quickly roll my own here. To be updated.
+   */
+  addEventListener(eventName: string, func: Function): void {
+    if (eventName !== 'change') throw new Error('Unsupported event. `change` is the only constant.');
+    this.changeListeners.push(func);
+  }
+
+  /*
+  removeEventListener(eventName: string, func: Function): void {
+    throw new Error('Unimplemented.');
+  }
+  */
+
+  /**
+   * This is really coarse, just enough to allow different code in the editor to detect
+   * changes in the document without handling that change management separately.
+   *
+   * Eventually it should be possible to handle this transactionally, but for
+   * now we batch all changes enacted within one cycle of the event loop and
+   * fire the change event only once. n.b that we don't send any information
+   * about the changes here yet, but that's not to say we couldn't, but rather
+   * it's not clear right now what the best approach would be so it's left
+   * undefined.
+   */
+  private triggerChange() {
+    if (this.pendingChangeEvent) return;
+    this.pendingChangeEvent = setTimeout(_ => this.changeListeners.forEach(l => l()), 0)
   }
 
   /**
@@ -41,6 +77,7 @@ export default class AtJSON {
         this.annotations.push(...finalizedAnnotations);
       }
     });
+    this.triggerChange();
   }
 
   /**
@@ -71,6 +108,7 @@ export default class AtJSON {
     if (index > -1) {
       return this.annotations.splice(index, 1)[0];
     }
+    this.triggerChange();
   }
 
   replaceAnnotation(annotation: Annotation, ...newAnnotations: Annotation[]): void {
@@ -78,6 +116,7 @@ export default class AtJSON {
     if (index > -1) {
       this.annotations.splice(index, 1, ...newAnnotations);
     }
+    this.triggerChange();
   }
 
   insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
@@ -161,6 +200,8 @@ export default class AtJSON {
         }
       }
     }
+
+    this.triggerChange();
   }
 
   deleteText(annotation: Annotation) {
@@ -237,6 +278,8 @@ export default class AtJSON {
         }
       }
     }
+
+    this.triggerChange();
   }
 
   /**
@@ -288,5 +331,7 @@ export default class AtJSON {
         }
       }
     }
+
+    this.triggerChange();
   }
 }
