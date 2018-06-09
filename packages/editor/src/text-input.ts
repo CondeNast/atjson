@@ -58,7 +58,7 @@ function getTextNodes(node: Node): Text[] {
 class TextInput extends events(HTMLElement) {
   static events = {
     'beforeinput': 'beforeinput',
-    'compositionend'(evt) {
+    'compositionend'() {
       let { start } = this.selection;
       this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
       this.composing = false;

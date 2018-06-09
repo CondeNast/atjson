@@ -1,8 +1,8 @@
 import Document from '@atjson/document';
-import Editor from '../src/index';
+import EditorDemo from '../src/editor-demo';
 
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
+if (!window.customElements.get('text-editor-demo')) {
+  window.customElements.define('text-editor-demo', EditorDemo);
 }
 
 // Web components in the registry can't be redefined,
@@ -14,7 +14,7 @@ if (module.hot) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  let editor: Editor = document.querySelector('text-editor');
+  let editor: EditorDemo = document.querySelector('text-editor-demo');
   let doc = new URL(location.toString()).searchParams.get('document');
   if (doc) {
     editor.setDocument(new Document(JSON.parse(doc)));
