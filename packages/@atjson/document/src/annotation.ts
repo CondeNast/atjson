@@ -81,7 +81,7 @@ export function toJSON(annotation: { vendorPrefix: string, type: string, start: 
   };
 }
 
-export default class Annotation {
+export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
   readonly type: string;
@@ -96,6 +96,8 @@ export default class Annotation {
     this.end = attrs.end;
     this.attributes = unprefixAttributes(AnnotationClass.vendorPrefix, attrs.attributes, this);
   }
+
+  abstract rank(): number;
 
   /**
    * nb. Currently, changes are applied directly to the document.
