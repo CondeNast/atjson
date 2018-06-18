@@ -17,9 +17,11 @@ export interface AnnotationJSON {
 
 export { AdjacentBoundaryBehaviour, Annotation, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, ObjectAnnotation, ParseAnnotation };
 
+export type Schema<T extends Annotation> = T[];
+
 export default class AtJSON {
   static contentType: string;
-  static schema: Array<typeof Annotation>;
+  static schema: Schema<any>;
 
   content: string;
   readonly contentType: string;
