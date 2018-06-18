@@ -4,7 +4,7 @@ import { Attributes } from '../attributes';
 export default class UnknownAnnotation extends Annotation {
   static vendorPrefix = 'atjson';
   static type = 'unknown';
-  attributes!: {
+  attributes: {
     type: string;
     attributes: Attributes;
   };
