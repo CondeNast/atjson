@@ -17,7 +17,7 @@ export function unprefix(vendorPrefix: string, attribute: Attribute): Attribute 
     return null;
   } else if (typeof attribute === 'object') {
     return Object.keys(attribute).reduce((attrs: Attributes, key: string) => {
-      let value = attrs[key];
+      let value = attribute[key];
       if (key.indexOf(`-${vendorPrefix}-`) === 0 && value !== undefined) {
         attrs[key.slice(`-${vendorPrefix}-`.length)] = unprefix(vendorPrefix, value);
       }
@@ -42,7 +42,7 @@ export function toJSON(vendorPrefix: string, attribute: Attribute): JSON {
     return Object.keys(attribute).reduce((copy: JSONObject, key: string) => {
       let value = attribute[key];
       if (value !== undefined) {
-        copy[key] = toJSON(vendorPrefix, value);
+        copy[`-${vendorPrefix}-${key}`] = toJSON(vendorPrefix, value);
       }
       return copy;
     }, {});
