@@ -173,7 +173,7 @@ describe('Document.insertText', () => {
     }]);
   });
 
-  test.skip('insert text at the right boundary of an annotation preserving boundaries', () => {
+  test('insert text at the right boundary of an annotation preserving boundaries', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
@@ -186,15 +186,15 @@ describe('Document.insertText', () => {
 
     atjson.insertText(2, 'zzz', AdjacentBoundaryBehaviour.preserve);
     expect(atjson.content).toBe('abzzzcd');
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual({
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-italic',
       start: 0,
       end: 2,
       attributes: {}
-    });
+    }]);
   });
 
-  test.skip('insert text at the boundary of two adjacent annotations preserving boundaries', () => {
+  test('insert text at the boundary of two adjacent annotations preserving boundaries', () => {
     let atjson = new TestSource({
       content: 'ac',
       annotations: [{
@@ -226,7 +226,7 @@ describe('Document.insertText', () => {
     }]);
   });
 
-  test.skip('insert text at the boundary with a custom transform', () => {
+  test('insert text at the boundary with a custom transform', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
