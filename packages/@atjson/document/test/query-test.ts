@@ -1,7 +1,7 @@
 import { AnnotationJSON } from '../src';
 import TestSource from './test-source';
 
-describe.skip('Document.where', () => {
+describe('Document.where', () => {
   it('runs queries against existing annotations', () => {
     let doc = new TestSource({
       content: 'Hello',
@@ -11,7 +11,7 @@ describe.skip('Document.where', () => {
         end: 5,
         attributes: {}
       }, {
-        type: '-test-emphasis',
+        type: '-test-em',
         start: 0,
         end: 5,
         attributes: {}
@@ -74,18 +74,18 @@ describe.skip('Document.where', () => {
       annotations: []
     });
 
-    doc.where({ type: '-test-h1' }).set({ type: '-test-heading', attributes: { level: 1 } });
+    doc.where({ type: '-test-h1' }).set({ type: '-test-heading', attributes: { '-test-level': 1 } });
     doc.addAnnotations({
-      type: 'h1',
+      type: '-test-h1',
       start: 0,
       end: 5,
       attributes: {}
     });
     expect(doc.content).toBe('Hello');
-    expect(doc.annotations).toEqual([{
-      type: 'heading',
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-heading',
       attributes: {
-        level: 1
+        '-test-level': 1
       },
       start: 0,
       end: 5
@@ -138,9 +138,9 @@ describe.skip('Document.where', () => {
     let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
-        type: 'a',
+        type: '-test-a',
         attributes: {
-          href: 'https://example.com'
+          '-test-href': 'https://example.com'
         },
         start: 0,
         end: 5
@@ -188,12 +188,13 @@ describe.skip('Document.where', () => {
     });
 
     doc.where({ type: '-test-a' }).map((annotation: AnnotationJSON) => {
+      let href = annotation.attributes['-test-href'] as string;
       return {
         type: '-test-link',
         start: annotation.start,
         end: annotation.end,
         attributes: {
-          '-test-url': annotation.attributes['-test-href'].replace('http://', 'https://')
+          '-test-url': href.replace('http://', 'https://')
         }
       };
     });
@@ -206,7 +207,7 @@ describe.skip('Document.where', () => {
       end: 10
     });
     expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-link',
       attributes: {
         '-test-url': 'https://example.com'
@@ -259,7 +260,7 @@ describe.skip('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'code' }).map((annotation: AnnotationJSON) => {
+    doc.where({ type: '-test-code' }).map((annotation: AnnotationJSON) => {
       return [{
         type: '-test-pre',
         start: annotation.start,
@@ -284,7 +285,7 @@ describe.skip('Document.where', () => {
     });
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
-    expect(doc.annotations).toEqual([{
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-pre',
       start: 0,
       end: 14,
@@ -304,7 +305,7 @@ describe.skip('Document.where', () => {
         '-test-language': 'rb'
       }
     }, {
-      type: 'code',
+      type: '-test-code',
       start: 16,
       end: 28,
       attributes: {}
@@ -315,7 +316,7 @@ describe.skip('Document.where', () => {
     let doc = new TestSource({
       content: 'This is ~my caption~\nNext paragraph',
       annotations: [{
-        type: 'photo',
+        type: '-test-photo',
         start: 0,
         end: 20,
         attributes: {}
@@ -331,14 +332,16 @@ describe.skip('Document.where', () => {
       attributes: {}
     });
     expect(caption.content).toBe('This is ~my caption~');
-    expect(doc.annotations).toEqual([{
+    expect(caption.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-photo',
       start: 0,
-      end: 20
+      end: 20,
+      attributes: {}
     }, {
       type: '-test-italic',
       start: 0,
-      end: 4
+      end: 4,
+      attributes: {}
     }]);
   });
 });
