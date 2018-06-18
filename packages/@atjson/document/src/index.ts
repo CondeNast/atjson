@@ -5,7 +5,6 @@ import InlineAnnotation from './inline-annotation';
 import ObjectAnnotation from './object-annotation';
 import ParseAnnotation from './parse-annotation';
 import Query, { Filter, flatten } from './query';
-import UnknownAnnotation from './unknown-annotation';
 
 export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
 
@@ -16,7 +15,7 @@ export interface AnnotationJSON {
   attributes: Attributes;
 }
 
-export { AdjacentBoundaryBehaviour, Annotation, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, ObjectAnnotation, ParseAnnotation, UnknownAnnotation };
+export { AdjacentBoundaryBehaviour, Annotation, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, ObjectAnnotation, ParseAnnotation };
 
 export default class AtJSON {
   static contentType: string;
