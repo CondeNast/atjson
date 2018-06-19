@@ -139,11 +139,7 @@ export default class AtJSON {
    * document.
    */
   slice(start: number, end: number): AtJSON {
-    let Document: any = this.constructor;
-    let doc = new Document({
-      content: this.content,
-      annotations: this.annotations.map(a => a.toJSON())
-    });
+    let doc = this.clone();
     doc.queries = this.queries.slice();
     doc.deleteText(0, start);
     doc.deleteText(end, doc.content.length);
@@ -161,6 +157,20 @@ export default class AtJSON {
       annotations: this.annotations.map(a => a.toJSON()),
       schema: schema.map(AnnotationClass => `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`)
     };
+  }
+
+  clone() {
+    let DocumentClass = this.constructor as typeof AtJSON;
+    let contentType = this.contentType;
+    let schema = DocumentClass.schema;
+
+    class Clone extends AtJSON {
+      static contentType = contentType;
+      static schema = schema;
+    }
+
+    let copy: AtJSON = new Clone(this.toJSON());
+    return copy;
   }
 
   private createAnnotation(json: AnnotationJSON): Annotation {
