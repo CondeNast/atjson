@@ -21,7 +21,9 @@
   ],
   "dependencies": {
     "@atjson/document": "0.8.7",
-    "@atjson/hir": "0.8.10"
+    "@atjson/hir": "0.8.10",
+    "@atjson/renderer-commonmark": "",
+    "node-sass": "^4.9.0"
   },
   "devDependencies": {
     "parcel-bundler": "1.8.1",
