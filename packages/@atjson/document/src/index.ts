@@ -56,7 +56,10 @@ export default class Document {
    */
   private triggerChange() {
     if (this.pendingChangeEvent) return;
-    this.pendingChangeEvent = setTimeout(_ => this.changeListeners.forEach(l => l()), 0)
+    this.pendingChangeEvent = setTimeout(_ => {
+      this.changeListeners.forEach(l => l());
+      delete this.pendingChangeEvent;
+    }, 0)
   }
 
   /**
@@ -94,9 +97,9 @@ export default class Document {
   removeAnnotation(annotation: Annotation): Annotation | void {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
+      this.triggerChange();
       return this.annotations.splice(index, 1)[0];
     }
-    this.triggerChange();
   }
 
   replaceAnnotation(annotation: Annotation, ...newAnnotations: Annotation[]): void {
