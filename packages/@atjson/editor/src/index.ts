@@ -3,6 +3,7 @@ import WebComponentRenderer from './webcomponent-renderer';
 import events from './mixins/events';
 import './text-selection';
 import './text-input';
+import './selection-toolbar';
 
 const TEXT_NODE_TYPE = 3;
 type Range = { start: number, end: number };
@@ -13,12 +14,14 @@ export default class Editor extends events(HTMLElement) {
 
   selection: Range;
 
-  static template = '<text-input><text-selection><div class="editor" style="white-space: pre-wrap; padding: 1em;" contenteditable></div></text-selection></text-input>';
+  static template = '<text-input><text-selection><selection-toolbar slot="toolbar"></selection-toolbar><div class="editor" style="white-space: pre-wrap; padding: 1em; border: 1px solid black; border-radius: 5px; outline: none; font-size: 1.5em;" contenteditable></div></text-selection></text-input>';
 
   static events = {
     'change text-selection'(evt) {
       this.selection = evt.detail;
-      this.scheduleRender();
+      let toolbar = this.querySelector('selection-toolbar');
+      toolbar.setAttribute('start', evt.detail.start);
+      toolbar.setAttribute('end', evt.detail.end);
     },
 
     'insertText text-input'(evt) {
@@ -50,7 +53,8 @@ export default class Editor extends events(HTMLElement) {
       this.selection.start = replacement.start + replacement.text.length;
     },
 
-    'addAnnotation text-input'(evt) {
+    'addAnnotation'(evt) {
+      console.log('got annotation', evt);
       if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
         const contained = (a, b) => a.start >= b.start && a.end <= b.end
