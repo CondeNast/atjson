@@ -113,6 +113,13 @@ class TextSelection extends events(HTMLElement) {
         let selection = document.getSelection();
         let r = document.createRange();
         r.setStart(node, range.start - offset);
+        if (node.nodeType === 1) {
+          console.log('attempting to focus', node)
+          node.focus();
+        } else if (node.nodeType === 3) {
+          console.log('attempting to focus', node.parentNode)
+          node.parentNode.focus();
+        }
         selection.removeAllRanges();
         selection.addRange(r);
         break;
@@ -191,7 +198,8 @@ class TextSelection extends events(HTMLElement) {
         return nextTextNode(node);
       }
 
-      throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
+      //throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
+      return null
 
     // Firefox can return an offset that is the length
     // of the node list, which signifies that the node
