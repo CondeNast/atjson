@@ -1,8 +1,10 @@
 import Document from '@atjson/document';
-import Editor from './index';
-import WebComponentRenderer from './webcomponent-renderer';
-import InspectorGadget from './inspector-gadget';
-import events from './mixins/events';
+import Editor from '../index';
+import WebComponentRenderer from '../webcomponent-renderer';
+import CommonmarkRenderer from '@atjson/renderer-commonmark';
+import InspectorGadget from '../inspector-gadget';
+import OffsetLogo from './logo';
+import events from '../mixins/events';
 
 if (!window.customElements.get('text-editor')) {
   window.customElements.define('text-editor', Editor);
@@ -12,22 +14,33 @@ if (!window.customElements.get('inspector-gadget')) {
   window.customElements.define('inspector-gadget', InspectorGadget);
 }
 
+if (!window.customElements.get('offset-logo')) {
+  window.customElements.define('offset-logo', OffsetLogo);
+}
+
 export default class EditorDemo extends events(HTMLElement) {
-  static template = '<text-editor></text-editor>' +
-                    '<div class="output"></div>' + 
+  static template = '<h1><offset-logo offset="0"></offset-logo></h1><text-editor></text-editor>' +
+                    '<h1>HTML Output</h1><div class="output"></div>' + 
+                    '<h1>Commonmark Output</h1><div class="markdown"></div>' +
                     '<inspector-gadget></inspector-gadget>';
 
   static events = {
     'change text-editor'(evt) {
-      console.log('got change event');
       this.renderOutput(evt.detail.document);
+      this.renderMarkdown(evt.detail.document);
     }
   }
 
   renderOutput(doc) {
     let outputElement = this.querySelector('.output');
     let rendered = new WebComponentRenderer(doc).render();
-    this.querySelector('.output').innerHTML = rendered.innerHTML;
+    outputElement.innerHTML = rendered.innerHTML;
+  }
+
+  renderMarkdown(doc) {
+    let outputElement = this.querySelector('.markdown');
+    let rendered = new CommonmarkRenderer().render(doc);
+    outputElement.innerHTML = rendered;
   }
 
   setDocument(doc: Document) {
@@ -36,6 +49,11 @@ export default class EditorDemo extends events(HTMLElement) {
     let inspectorGadget = this.querySelector('inspector-gadget');
     inspectorGadget.setDocument(doc);
     inspectorGadget.setSelection(editor.getSelection());
+
+    doc.addEventListener('change', _ => {
+			let logo = this.querySelector('offset-logo');
+			logo.setAttribute('offset', doc.content.length)
+    });
   }
 
   connectedCallback() {
@@ -44,8 +62,6 @@ export default class EditorDemo extends events(HTMLElement) {
   }
 }
 
-console.log('loaded yo');
 if (!window.customElements.get('text-editor-demo')) {
-  console.log('defineingadfj');
   window.customElements.define('text-editor-demo', EditorDemo);
 }
