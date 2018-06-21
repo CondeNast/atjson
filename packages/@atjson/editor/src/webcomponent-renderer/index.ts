@@ -1,4 +1,9 @@
 import { HIR } from '@atjson/hir';
+import EditableLink from './components/editable-link';
+
+if (!window.customElements.get('editable-link')) {
+  window.customElements.define('editable-link', EditableLink);
+}
 
 export default class WebComponentRenderer {
 
@@ -9,7 +14,6 @@ export default class WebComponentRenderer {
   text({ text }) {
     if (text[text.length - 1] == "\n") {
       var nonBreakStrings = text.split("\n");
-      console.log('+++--->' + text + '<---+++', '->',nonBreakStrings);
       if (nonBreakStrings[nonBreakStrings.length - 1] == '') {
         nonBreakStrings.pop();
       }
@@ -19,11 +23,8 @@ export default class WebComponentRenderer {
         span.style.display = 'none';
         span.contentEditable = false;
         span.appendChild(document.createTextNode("\n"));
-        console.log(span);
         return [document.createTextNode(str), span]
       }).reduce((a, b) => a.concat(b));
-
-      console.log(children);
 
       var textParentNode = document.createElement('span');
       children.forEach((child) => {
@@ -43,6 +44,10 @@ export default class WebComponentRenderer {
     return document.createElement('strong');
   }
 
+  strikethrough() {
+    return document.createElement('del');
+  }
+
   italic() {
     return document.createElement('em');
   }
@@ -51,9 +56,12 @@ export default class WebComponentRenderer {
     return document.createElement('u');
   }
 
-  link(attributes) {
-    let link = document.createElement('a');
-    link.setAttribute('href', attributes.uri);
+  link(node) {
+    let link = document.createElement('editable-link');
+    link.setAttribute('url', node.attributes.url);
+    if (node.attributes.nofollow) {
+      link.setAttribute('nofollow', '');
+    }
     return link;
   }
 
@@ -80,7 +88,11 @@ export default class WebComponentRenderer {
     return nodes.map((node: HIRNode) => {
       let children = node.children();
       if (children.length > 0) {
-        let element = this[node.type](node);
+        let element = document.createElement('span');
+        if (this[node.type]) {
+          element = this[node.type](node);
+          element.setAttribute('data-annotation-id', node.id);
+        }
         hir.set(element, node);
         this.compile(hir, children).forEach((child: Element) => {
           element.appendChild(child);
@@ -92,6 +104,4 @@ export default class WebComponentRenderer {
       return text;
     });
   }
-
-
 }
