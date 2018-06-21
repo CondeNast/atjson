@@ -1,85 +1,5 @@
+import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
-import Document from './index';
-import JSON, { JSONObject } from './json';
-
-export type AttributeValue = string | number | boolean | null | Document;
-export interface AttributeObject {
-  [key: string]: AttributeValue | AttributeValue[] | undefined;
-}
-export type AttributeList = Array<AttributeValue | AttributeObject>;
-export type Attribute = AttributeValue | AttributeObject | AttributeList;
-
-export interface Attributes {
-  [key: string]: Attribute;
-}
-
-function serializeAttributes(vendorPrefix: string, attribute: Attribute): JSON {
-  if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
-      let result = serializeAttributes(vendorPrefix, attr);
-      return result;
-    });
-  } else if (attribute instanceof Document) {
-    return attribute.toJSON();
-  } else if (attribute == null) {
-    return null;
-  } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: JSONObject, key: string) => {
-      let value = attribute[key];
-      if (value !== undefined) {
-        copy[key] = serializeAttributes(vendorPrefix, value);
-      }
-      return copy;
-    }, {});
-  } else {
-    return attribute;
-  }
-}
-
-function unprefixAttribute(vendorPrefix: string, attribute: Attribute, annotation: Annotation): Attribute {
-  if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
-      let result = unprefixAttribute(vendorPrefix, attr, annotation) as AttributeValue | AttributeObject;
-      return result;
-    });
-  } else if (attribute instanceof Document) {
-    return attribute;
-  } else if (attribute == null) {
-    return null;
-  } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: AttributeObject, key: string) => {
-      let value = attribute[key];
-      if (key.indexOf(`-${vendorPrefix}-`) === 0) {
-        copy[key.slice(`-${vendorPrefix}-`.length)] = unprefixAttribute(vendorPrefix, value, annotation) as AttributeValue | AttributeValue[] | undefined;
-      }
-      return copy;
-    }, {});
-  } else {
-    return attribute;
-  }
-}
-
-function unprefixAttributes(vendorPrefix: string, attributes: Attributes, annotation: Annotation): Attributes {
-  return Object.keys(attributes).reduce((attrs: Attributes, key: string) => {
-    let value = attrs[key];
-    if (key.indexOf(`-${vendorPrefix}-`) === 0) {
-      attrs[key.slice(`-${vendorPrefix}-`.length)] = unprefixAttribute(vendorPrefix, value, annotation);
-    }
-    return attrs;
-  }, {});
-}
-
-export function toJSON(annotation: { vendorPrefix: string, type: string, start: number, end: number, attributes: Attributes }) {
-  return {
-    type: `-${annotation.vendorPrefix}-${annotation.type}`,
-    start: annotation.start,
-    end: annotation.end,
-    attributes: Object.keys(annotation.attributes).reduce((json: JSONObject, key: string) => {
-      json[`-${annotation.vendorPrefix}-${key}`] = serializeAttributes(annotation.vendorPrefix, annotation.attributes[key]);
-      return json;
-    }, {})
-  };
-}
 
 export default abstract class Annotation {
   static vendorPrefix: string;
@@ -94,7 +14,7 @@ export default abstract class Annotation {
     this.type = AnnotationClass.type;
     this.start = attrs.start;
     this.end = attrs.end;
-    this.attributes = unprefixAttributes(AnnotationClass.vendorPrefix, attrs.attributes, this);
+    this.attributes = unprefix(AnnotationClass.vendorPrefix, attrs.attributes) as Attributes;
   }
 
   abstract rank(): number;
@@ -212,6 +132,11 @@ export default abstract class Annotation {
   toJSON() {
     let AnnotationClass = this.constructor as typeof Annotation;
     let vendorPrefix = AnnotationClass.vendorPrefix;
-    return toJSON({ vendorPrefix, start: this.start, end: this.end, type: this.type, attributes: this.attributes });
+    return {
+      type: `-${vendorPrefix}-${this.type}`,
+      start: this.start,
+      end: this.end,
+      attributes: toJSON(vendorPrefix, this.attributes)
+    };
   }
 }

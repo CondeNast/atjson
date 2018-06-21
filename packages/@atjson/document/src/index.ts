@@ -1,4 +1,5 @@
-import Annotation, { Attributes } from './annotation';
+import Annotation from './annotation';
+import { Attributes } from './attributes';
 import BlockAnnotation from './block-annotation';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import InlineAnnotation from './inline-annotation';
