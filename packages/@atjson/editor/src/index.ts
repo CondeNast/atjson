@@ -87,14 +87,22 @@ export default class Editor extends events(HTMLElement) {
       }
     }
 
+    'attributechange text-input'(evt) {
+      let annotationId = evt.target.getAttribute('data-annotation-id');
+      let annotation = this.document.annotations.find(a => a.id.toString(10) === annotationId);
+      this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+    }
+
   };
 
+  get value() {
+    return this.document;
+  }
+
   scheduleRender() {
-    console.log('schedule render called.');
     window.requestAnimationFrame(() => {
       this.render(this.querySelector('.editor'));
       let evt = new CustomEvent('change', { bubbles: true, detail: { document: this.document } });
-      console.log('dispatching event', evt);
       this.dispatchEvent(evt);
     });
   }
@@ -111,7 +119,6 @@ export default class Editor extends events(HTMLElement) {
         current: rendered.innerHTML,
         updated: editor.innerHTML
       });
-      console.info('Rendering', this.document);
       editor.innerHTML = rendered.innerHTML;
 
       // We need to do a force-reset here in order to avoid waiting for a full
@@ -131,6 +138,16 @@ export default class Editor extends events(HTMLElement) {
 
   setDocument(value: Document) {
     this.document = value;
+
+    // n.b., would be good to have a way to query for existence of id on
+    // annotation (or to make ids required globally)
+    this.document.where({}).map(a => {
+      if (a.id !== undefined) return a;
+
+      // this is not safe.
+      let id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+      return Object.assign(a, {id});
+    });
     this.document.addEventListener('change', (_ => this.scheduleRender() ));
   }
 
