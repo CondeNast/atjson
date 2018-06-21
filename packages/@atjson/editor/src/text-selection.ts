@@ -124,6 +124,10 @@ class TextSelection extends events(HTMLElement) {
 
   connectedCallback() {
     super.connectedCallback();
+    let shadowRoot = this.attachShadow({mode: 'open'});
+    let template = document.createElement('template');
+    template.innerHTML = '<style>.toolbar { position: absolute; display: none; }</style><div class="toolbar"><slot name="toolbar"></slot></div><slot></slot>';
+    shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Setup observers so when the underlying text changes,
     // we update the text nodes that we want to map our selection from
