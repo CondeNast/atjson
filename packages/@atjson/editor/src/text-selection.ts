@@ -261,7 +261,14 @@ class TextSelection extends events(HTMLElement) {
       this.getNodeAndOffset(nodeRange[1], false)
     ];
 
-    let isNonZeroRange = start[0] !== end[0] || start[1] !== end[1];
+    // getNodeAndOffset throws in case the node doesn't exist in the
+    // document. Often, this happens if we've entered a context inside of a
+    // web component whose text nodes are not exposed via slots, so just do
+    // nothing. We don't want to clear the selection here because that may
+    // trigger unexpected problems in the state of editable components.
+    if (start === null || end === null) {
+      return;
+    }
 
     // The selection range returned a selection with no base or extent;
     // This means that a node was selected that is not selectable
@@ -269,6 +276,9 @@ class TextSelection extends events(HTMLElement) {
       this.clearSelection();
       return true;
     }
+
+    let isNonZeroRange = start[0] !== end[0] || start[1] !== end[1];
+
 
     let domRange = document.createRange();
     domRange.setStart(start[0], start[1]);
