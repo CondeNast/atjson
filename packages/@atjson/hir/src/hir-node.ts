@@ -20,6 +20,8 @@ export default class HIRNode {
   start: number;
   end: number;
 
+  id?: number|string;
+
   text?: string;
 
   rank: number;
@@ -28,10 +30,11 @@ export default class HIRNode {
   private sibling: HIRNode | undefined;
   private schema: Schema;
 
-  constructor(node: {type: string, start: number, end: number, display?: Display, attributes?: object, text?: string}, schema?: Schema) {
+  constructor(node: {type: string, start: number, end: number, display?: Display, id?: number|string, attributes?: object, text?: string}, schema?: Schema) {
     this.type = node.type;
     this.start = node.start;
     this.end = node.end;
+    this.id = node.id;
     this.attributes = Object.keys(node.attributes || {}).reduce((attrs: any, key: string) => {
       let value = (node.attributes as any)[key];
       if (value instanceof Document) {
@@ -78,6 +81,7 @@ export default class HIRNode {
 
     return {
       type: this.type,
+      id: this.id,
       attributes,
       children: this.children().map(child => {
         return child.toJSON();
