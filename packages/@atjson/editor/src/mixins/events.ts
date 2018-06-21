@@ -22,7 +22,13 @@ function getEventNameAndElement(element: HTMLElement, definition: string) {
   } else if (selector === '') {
     return { eventName, element };
   } else {
-    return { eventName, element: element.querySelector(selector) };
+    let querySelector;
+    if (element.shadowRoot) {
+      querySelector = element.shadowRoot.querySelector(selector) || element.querySelector(selector);
+    } else {
+      querySelector = element.querySelector(selector);
+    }
+    return { eventName, element: querySelector };
   }
 }
 
