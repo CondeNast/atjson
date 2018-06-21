@@ -58,9 +58,16 @@ function getTextNodes(node: Node): Text[] {
 class TextInput extends events(HTMLElement) {
   static events = {
     'beforeinput': 'beforeinput',
-    'compositionend'() {
-      let { start } = this.selection;
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+    'drag'(evt) {
+      this.lastDragEvent = evt;
+    },
+    'compositionend'(evt) {
+      let { start, end } = this.selection;
+      if (start === end) {
+        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+      } else {
+        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
+      }
       this.composing = false;
     },
     'change text-selection'(evt) {
@@ -83,20 +90,40 @@ class TextInput extends events(HTMLElement) {
 
     switch (evt.inputType) {
     case 'insertText':
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
-      break;
-
-    case 'insertParagraph':
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: "\n" } }));
+      if (start === end) {
+        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+      } else {
+        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
+      }
       break;
 
     case 'insertLineBreak':
-      console.log('start is', start, end);
       this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: '\u2028' } }));
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         detail: { type: 'line-break', start, end: end + 1 }
       }));
       break;
+
+    case 'insertFromPaste':
+      var text = evt.dataTransfer.getData('text/plain');
+
+      if (start === end) {
+        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: text } }));
+      } else {
+        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start: start, end: end, text: text } }));
+      }
+      break;
+
+    case 'insertFromDrop':
+      var text = evt.dataTransfer.getData('text/plain');
+
+      var target = evt.getTargetRanges()[0];
+      start = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
+
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: text } }));
+
+      break;
+
 
     case 'deleteContentBackward':
       if (this.selection.collapsed) {
@@ -108,7 +135,8 @@ class TextInput extends events(HTMLElement) {
       break;
 
     case 'deleteWordBackward':
-      if (this.selection.collapsed) {
+    case 'deleteWordForward':
+      if (evt.inputType === 'deleteWordBackward' && this.selection.collapsed) {
         end++;
       }
 
@@ -139,6 +167,14 @@ class TextInput extends events(HTMLElement) {
       if (this.selection.collapsed) {
         end++;
       }
+      this.dispatchEvent(new CustomEvent('deleteText', {
+        detail: { start, end }
+      }));
+      break;
+
+    case 'deleteByCut':
+    case 'deleteContent':
+    case 'deleteByDrag':
       this.dispatchEvent(new CustomEvent('deleteText', {
         detail: { start, end }
       }));
@@ -175,6 +211,52 @@ class TextInput extends events(HTMLElement) {
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         detail: { start, end, type: 'italic' }
       }));
+      break;
+
+    case 'formatUnderline':
+      evt.preventDefault();
+      break;
+
+    case 'insertParagraph':
+    case 'insertOrderedList':
+    case 'insertUnorderedList':
+    case 'insertHorizontalRule':
+    case 'insertFromYank':
+    case 'insertTranspose':
+    case 'insertCompositionText':
+    case 'insertFromComposition':
+    case 'insertLink':
+    case 'deleteByComposition':
+    case 'deleteCompositionText':
+    case 'deleteSoftLineBackward':
+    case 'deleteSoftLineForward':
+    case 'deleteEntireSoftLine':
+    case 'deleteHardLineBackward':
+    case 'deleteHardLineForward':
+    case 'deleteContentBackward':
+    case 'deleteContentForward':
+    case 'historyUndo':
+    case 'historyRedo':
+    case 'formatStrikeThrough':
+    case 'formatSuperscript':
+    case 'formatSubscript':
+    case 'formatJustifyFull':
+    case 'formatJustifyCenter':
+    case 'formatJustifyRight':
+    case 'formatJustifyLeft':
+    case 'formatIndent':
+    case 'formatOutdent':
+    case 'formatRemove':
+    case 'formatSetBlockTextDirection':
+    case 'formatSetInlineTextDirection':
+    case 'formatBackColor':
+    case 'formatFontColor':
+    case 'formatFontName':
+      console.log('Unsupported Input Event: ', evt);
+      break;
+
+    default
+      console.log('Unknown Input Event: ', evt);
       break;
     }
   }
