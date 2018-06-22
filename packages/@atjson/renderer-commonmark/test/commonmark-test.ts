@@ -1,6 +1,7 @@
 import Document from '@atjson/document';
-import CommonMarkRenderer from '../src/index';
 import schema from '@atjson/schema';
+import CommonMarkSource from '@atjson/source-commonmark';
+import CommonMarkRenderer from '../src/index';
 
 describe('commonmark', () => {
   it('raw atjson document', () => {
@@ -339,5 +340,24 @@ After all the lists
 
     let renderer = new CommonMarkRenderer();
     expect(renderer.render(document)).toBe('\u000b\n\n**text**\n\n');
+  });
+
+  test('tabs and leading / trailing spaces are stripped from output', () => {
+    let document = new Document({
+      content: '\tHello \n    This is my text',
+      annotations: [{
+        type: 'paragraph', start: 0, end: 8
+      }, {
+        type: 'paragraph', start: 8, end: 27
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    let markdown = renderer.render(document);
+
+    expect(renderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
+    // Make sure we're not generating code in the round-trip
+    expect(markdown).toEqual(renderer.render(new CommonMarkSource(markdown).toCommonSchema()));
   });
 });

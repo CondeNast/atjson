@@ -433,6 +433,15 @@ export default class CommonmarkRenderer {
    */
   *'paragraph'(): Iterable<any> {
     let text = yield;
+
+    // Remove leading and trailing newlines from paragraphs
+    // with text in them.
+    // This ensures that paragraphs preceded with tabs or spaces
+    // will not turn into code blocks
+    if (!text.match(/^\s+$/g)) {
+      text = text.replace(/^\s+/g, '').replace(/\s+$/g, '');
+    }
+
     if (this.state.tight) {
       return text + '\n';
     }
