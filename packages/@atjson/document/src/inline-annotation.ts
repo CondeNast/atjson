@@ -1,7 +1,7 @@
 import Annotation from './annotation';
 
 export default abstract class InlineAnnotation extends Annotation {
-  rank() {
+  get rank() {
     return 100;
   }
 }

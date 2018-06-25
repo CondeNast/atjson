@@ -5,6 +5,7 @@ export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
   readonly type: string;
+  abstract rank: number;
   start: number;
   end: number;
   attributes: Attributes;
@@ -16,8 +17,6 @@ export default abstract class Annotation {
     this.end = attrs.end;
     this.attributes = unprefix(AnnotationClass.vendorPrefix, attrs.attributes) as Attributes;
   }
-
-  abstract rank(): number;
 
   /**
    * nb. Currently, changes are applied directly to the document.
