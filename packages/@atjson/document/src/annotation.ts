@@ -152,7 +152,7 @@ export default abstract class Annotation {
       type: `-${vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes)
+      attributes: toJSON(vendorPrefix, this.attributes) as any
     };
   }
 }
