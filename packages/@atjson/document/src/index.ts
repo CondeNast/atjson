@@ -1,13 +1,9 @@
 import Annotation from './annotation';
+import { Block, Inline, Object, Parse, Unknown } from './annotations';
 import { Attributes } from './attributes';
-import BlockAnnotation from './block-annotation';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import AnnotationCollection from './collection';
-import InlineAnnotation from './inline-annotation';
 import Join from './join';
-import ObjectAnnotation from './object-annotation';
-import ParseAnnotation from './parse-annotation';
-
 
 export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
 
@@ -18,7 +14,20 @@ export interface AnnotationJSON {
   attributes: Attributes;
 }
 
-export { AdjacentBoundaryBehaviour, Annotation, AnnotationCollection, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, Join, ObjectAnnotation, ParseAnnotation };
+export {
+  AdjacentBoundaryBehaviour,
+  Annotation,
+  AnnotationCollection,
+  Block as BlockAnnotation,
+  Change,
+  Deletion,
+  Inline as InlineAnnotation,
+  Insertion,
+  Object as ObjectAnnotation,
+  Join,
+  Parse as ParseAnnotation,
+  Unknown as UnknownAnnotation
+};
 
 export type Schema<T extends Annotation> = T[];
 
@@ -209,16 +218,25 @@ export default class Document {
     };
   }
 
-  private createAnnotation(json: AnnotationJSON): Annotation | void {
+  private createAnnotation(json: AnnotationJSON): Annotation {
     let DocumentClass = this.constructor as typeof Document;
-    let schema = DocumentClass.schema.slice().concat([ParseAnnotation]);
+    let schema = DocumentClass.schema.slice().concat([Parse]);
     let ConcreteAnnotation = schema.find(AnnotationClass => {
       let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
       return json.type === fullyQualifiedType;
     });
 
     if (ConcreteAnnotation) {
-      return new ConcreteAnnotation(json);
+      return ConcreteAnnotation.hydrate(json);
+    } else {
+      return new Unknown({
+        start: json.start,
+        end: json.end,
+        attributes: {
+          type: json.type,
+          attributes: json.attributes
+        }
+      });
     }
 
     this.triggerChange();

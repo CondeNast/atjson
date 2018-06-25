@@ -1,50 +1,57 @@
-import Document, { Annotation } from '../src/';
+import { AnnotationJSON } from '../src';
+import TestSource from './test-source';
 
 describe.skip('Document.where', () => {
   it('runs queries against existing annotations', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello',
       annotations: [{
-        type: 'strong',
+        type: '-test-strong',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }, {
-        type: 'em',
+        type: '-test-emphasis',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
+    doc.where({ type: '-test-strong' }).set({ type: '-test-bold' });
+    doc.where({ type: '-test-em' }).set({ type: '-test-italic' });
     expect(doc.content).toBe('Hello');
-    expect(doc.annotations).toEqual([{
-      type: 'bold',
+
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-bold',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }, {
-      type: 'italic',
+      type: '-test-italic',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }]);
   });
 
   it('set', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello',
       annotations: [{
-        type: 'h1',
+        type: '-test-h1',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } });
+    doc.where({ type: '-test-h1' }).set({ type: '-test-heading', attributes: { level: 1 } });
     expect(doc.content).toBe('Hello');
     expect(doc.annotations).toEqual([{
-      type: 'heading',
+      type: '-test-heading',
       attributes: {
-        level: 1
+        '-test-level': 1
       },
       start: 0,
       end: 5
@@ -52,82 +59,66 @@ describe.skip('Document.where', () => {
   });
 
   it('unset', () => {
-    let doc = new Document({
-      content: '\uFFFC\uFFFC',
+    let doc = new TestSource({
+      content: '\uFFFC',
       annotations: [{
-        type: 'embed',
+        type: '-test-social',
         attributes: {
-          type: 'instagram',
-          url: 'https://www.instagram.com/p/BeW0pqZDUuK/'
+          '-test-type': 'instagram',
+          '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
         },
         start: 0,
         end: 1
-      },
-      {
-        type: 'embed',
-        attributes: {
-          type: 'instagram',
-          url: 'https://www.instagram.com/p/BdyySYBDvpm/'
-        },
-        start: 1,
-        end: 2
       }]
     });
 
-    doc.where({ type: 'embed', attributes: { type: 'instagram' } }).set({ type: 'instagram' }).unset('attributes.type');
-    expect(doc.content).toBe('\uFFFC\uFFFC');
-    expect(doc.annotations).toEqual([{
-      type: 'instagram',
+    doc.where({ type: '-test-social', attributes: { '-test-type': 'instagram' } }).set({ type: '-test-instagram' }).unset('attributes.-test-type');
+
+    expect(doc.content).toBe('\uFFFC');
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-instagram',
       attributes: {
-        url: 'https://www.instagram.com/p/BeW0pqZDUuK/'
+        '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
       },
       start: 0,
       end: 1
-    }, {
-      type: 'instagram',
-      attributes: {
-        url: 'https://www.instagram.com/p/BdyySYBDvpm/'
-      },
-      start: 1,
-      end: 2
     }]);
   });
 
   it('rename', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
-        type: 'a',
+        type: '-test-a',
         attributes: {
-          href: 'https://example.com'
+          '-test-href': 'https://example.com'
         },
         start: 0,
         end: 5
       },
       {
-        type: 'a',
+        type: '-test-a',
         attributes: {
-          href: 'https://condenast.com'
+          '-test-href': 'https://condenast.com'
         },
         start: 6,
         end: 10
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
-    doc.addAnnotations();
+    doc.where({ type: '-test-a' }).set({ type: '-test-link' }).rename({ attributes: { '-test-href': '-test-url' } });
     expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
-      type: 'link',
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-link',
       attributes: {
-        url: 'https://example.com'
+        '-test-url': 'https://example.com'
       },
       start: 0,
       end: 5
     }, {
-      type: 'link',
+      type: '-test-link',
       attributes: {
-        url: 'https://condenast.com'
+        '-test-url': 'https://condenast.com'
       },
       start: 6,
       end: 10
@@ -135,109 +126,87 @@ describe.skip('Document.where', () => {
   });
 
   it('update with function', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
-        type: 'a',
+        type: '-test-a',
         attributes: {
-          href: 'https://example.com'
+          '-test-href': 'http://example.com'
         },
         start: 0,
         end: 5
-      },
-      {
-        type: 'a',
-        attributes: {
-          href: 'https://condenast.com'
-        },
-        start: 6,
-        end: 10
       }]
     });
 
-    doc.where({ type: 'a' }).update(annotation => {
+    doc.where({ type: '-test-a' }).update((annotation: AnnotationJSON) => {
       doc.replaceAnnotation(annotation, {
-        type: 'link',
+        type: '-test-link',
         start: annotation.start,
         end: annotation.end,
         attributes: {
-          url: annotation.attributes ? annotation.attributes.href : '',
-          openInNewTab: true
+          '-test-url': annotation.attributes['-test-href'].replace('http://', 'https://')
         }
       });
     });
 
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
-      type: 'link',
+      type: '-test-link',
       attributes: {
-        url: 'https://example.com',
-        openInNewTab: true
+        '-test-url': 'https://example.com'
       },
       start: 0,
       end: 5
-    }, {
-      type: 'link',
-      attributes: {
-        url: 'https://condenast.com',
-        openInNewTab: true
-      },
-      start: 6,
-      end: 10
     }]);
   });
 
   it('remove', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'function () {}',
       annotations: [{
-        type: 'code',
+        type: '-test-code',
         start: 0,
-        end: 14
-      },
-      {
-        type: 'code',
-        start: 0,
-        end: 14
+        end: 14,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'code' }).remove();
+    doc.where({ type: '-test-code' }).remove();
     expect(doc.content).toBe('function () {}');
     expect(doc.annotations).toEqual([]);
   });
 
   it('annotation expansion', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'string.trim();\nstring.strip',
       annotations: [{
-        type: 'code',
+        type: '-test-code',
         start: 0,
         end: 14,
         attributes: {
-          class: 'language-js',
-          language: 'js'
+          '-test-class': 'language-js',
+          '-test-language': 'js'
         }
       },
       {
-        type: 'code',
+        type: '-test-code',
         start: 16,
         end: 28,
         attributes: {
-          class: 'language-rb',
-          language: 'rb'
+          '-test-class': 'language-rb',
+          '-test-language': 'rb'
         }
       }]
     });
 
-    doc.where({ type: 'code' }).update(annotation => {
+    doc.where({ type: '-test-code' }).update(annotation => {
       let annotations = [{
-        type: 'pre',
+        type: '-test-pre',
         start: annotation.start,
         end: annotation.end,
         attributes: annotation.attributes
       }, {
-        type: 'code',
+        type: '-test-code',
         start: annotation.start,
         end: annotation.end,
         attributes: {}
@@ -249,27 +218,27 @@ describe.skip('Document.where', () => {
         add: annotations,
         remove: [annotation]
       };
-    }).unset('attributes.class');
+    }).unset('attributes.-test-class');
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
     expect(doc.annotations).toEqual([{
-      type: 'pre',
+      type: '-test-pre',
       start: 0,
       end: 14,
       attributes: {
-        language: 'js'
+        '-test-language': 'js'
       }
     }, {
-      type: 'code',
+      type: '-test-code',
       start: 0,
       end: 14,
       attributes: {}
     }, {
-      type: 'pre',
+      type: '-test-pre',
       start: 16,
       end: 28,
       attributes: {
-        language: 'rb'
+        '-test-language': 'rb'
       }
     }, {
       type: 'code',
@@ -281,7 +250,7 @@ describe.skip('Document.where', () => {
 
   describe('AnnotationCollection.join', () => {
     test('simple join', () => {
-      let doc = new Document({
+      let doc = new TestSource({
         content: 'string.trim();\nstring.strip\nextra',
         annotations: [{
           type: 'code',
@@ -296,18 +265,19 @@ describe.skip('Document.where', () => {
           type: 'pre',
           start: 0,
           end: 14,
-          attributes: { }
+          attributes: {}
         },
         {
           type: 'pre',
           start: 16,
           end: 28,
-          attributes: { }
+          attributes: {}
         },
         {
           type: 'code',
           start: 30,
-          end: 35
+          end: 35,
+          attributes:{}
         }]
       });
       let codeBlocks = doc.where({ type: 'code' }).as('code');
@@ -338,7 +308,7 @@ describe.skip('Document.where', () => {
         let newCode = Object.assign(code, { attributes: newAttributes });
 
         doc.replaceAnnotation(code, newCode);
-        doc.deleteText({start: 2, end: 4} as Annotation);
+        doc.deleteText(2, 4);
       });
 
       expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
@@ -347,7 +317,7 @@ describe.skip('Document.where', () => {
     });
 
     test('complex (three-way) join', () => {
-      let doc = new Document({
+      let doc = new TestSource({
         content: 'string.trim();\nstring.strip\nextra',
         annotations: [{
           type: 'code',
@@ -362,18 +332,19 @@ describe.skip('Document.where', () => {
           type: 'pre',
           start: 0,
           end: 14,
-          attributes: { }
+          attributes: {}
         },
         {
           type: 'pre',
           start: 16,
           end: 28,
-          attributes: { }
+          attributes: {}
         },
         {
           type: 'code',
           start: 30,
-          end: 35
+          end: 35,
+          attributes: {}
         }, {
           type: 'locale',
           start: 0,
@@ -427,7 +398,7 @@ describe.skip('Document.where', () => {
         doc.insertText(0, 'Hello!\n');
 
         let newAttributes = {};
-        pre.forEach((x: Annotation) => {
+        pre.forEach(x => {
           Object.assign(newAttributes, x.attributes);
           doc.removeAnnotation(x);
         });

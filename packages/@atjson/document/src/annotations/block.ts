@@ -1,4 +1,4 @@
-import Annotation from './annotation';
+import Annotation from '../annotation';
 
 export default abstract class BlockAnnotation extends Annotation {
   get rank() {
