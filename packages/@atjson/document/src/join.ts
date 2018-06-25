@@ -1,5 +1,6 @@
 import Annotation from './annotation';
 import { NamedCollection } from './collection';
+import { JSONArray, JSONObject } from './json';
 
 /**
  * Joins are a way to identify related annotations and be able to do
@@ -91,6 +92,22 @@ export default class Join<Left extends string, Right extends string> {
 
   toArray() {
     return [...this];
+  }
+
+  toJSON(): JSONArray {
+    return [...this].map(join => {
+      let json: JSONObject = {};
+      Object.keys(join).forEach(key => {
+        let annotation = (join as any)[key] as Annotation | Annotation[];
+        if (Array.isArray(annotation)) {
+          json[key] = annotation.map(a => a.toJSON());
+        } else {
+          json[key] = annotation.toJSON();
+        }
+        return json;
+      });
+      return json;
+    });
   }
 
   join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left, Annotation> & Record<Right, Annotation[]>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {

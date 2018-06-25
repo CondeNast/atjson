@@ -18,6 +18,7 @@ export {
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationCollection,
+  Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,
@@ -106,12 +107,16 @@ export default class Document {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, ...newAnnotations: Annotation[]): void {
+  replaceAnnotation(annotation: Annotation, ...newAnnotations: AnnotationJSON[]): Annotation[] {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      this.annotations.splice(index, 1, ...newAnnotations);
+      let annotations = newAnnotations.map(json => this.createAnnotation(json));
+      this.annotations.splice(index, 1, ...annotations);
+      return annotations;
     }
+
     this.triggerChange();
+    return [];
   }
 
   insertText(start: number, text: string, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
@@ -155,7 +160,7 @@ export default class Document {
       }
     }
     */
-   this.triggerChange();
+    this.triggerChange();
   }
 
   deleteText(start: number, end: number, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {

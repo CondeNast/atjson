@@ -1,4 +1,4 @@
-import Document, { Annotation } from './index';
+import Document, { Annotation, AnnotationJSON } from './index';
 import Join from './join';
 
 function matches(annotation: any, filter: { [key: string]: any; }): boolean {
@@ -32,7 +32,7 @@ class Collection {
     }
 
     let annotations = this.annotations.filter(annotation => {
-      return matches(annotation, filter);
+      return matches(annotation.toJSON(), filter);
     });
     return new AnnotationCollection(this.document, annotations);
   }
@@ -69,10 +69,6 @@ export interface Renaming {
 
 export interface FlattenedRenaming {
   [key: string]: string;
-}
-
-function clone(object: any) {
-  return JSON.parse(JSON.stringify(object));
 }
 
 function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): FlattenedRenaming {
@@ -136,23 +132,23 @@ export default class AnnotationCollection extends Collection {
   set(patch: any) {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
     return this.update(annotation => {
-      let result = clone(annotation) as Annotation;
+      let result = annotation.toJSON() as AnnotationJSON;
       Object.keys(flattenedPatch).forEach(key => {
         set(result, key, flattenedPatch[key]);
       });
-      this.document.replaceAnnotation(annotation, result);
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
       return {
-        update: [[annotation, result]]
+        update: [[annotation, newAnnotation[0]]]
       };
     });
   }
 
   unset(...keys: string[]) {
     return this.update(annotation => {
-      let result = without(annotation, keys) as Annotation;
-      this.document.replaceAnnotation(annotation, result);
+      let result = without(annotation.toJSON(), keys) as AnnotationJSON;
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
       return {
-        update: [[annotation, result]]
+        update: [[annotation, newAnnotation[0]]]
       };
     });
   }
@@ -160,15 +156,16 @@ export default class AnnotationCollection extends Collection {
   rename(renaming: Renaming) {
     let flattenedRenaming = flattenPropertyPaths(renaming, { keys: true, values: true });
     return this.update(annotation => {
-      let result = without(annotation, Object.keys(flattenedRenaming)) as Annotation;
+      let json = annotation.toJSON() as AnnotationJSON;
+      let result = without(annotation.toJSON(), Object.keys(flattenedRenaming));
       Object.keys(flattenedRenaming).forEach(key => {
-        let value = get(annotation, key);
+        let value = get(json, key);
         set(result, flattenedRenaming[key], value);
       });
-      this.document.replaceAnnotation(annotation, result);
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
 
       return {
-        update: [[annotation, result]]
+        update: [[annotation, newAnnotation[0]]]
       };
     });
   }

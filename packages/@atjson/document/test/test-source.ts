@@ -1,5 +1,13 @@
 import Document, { AdjacentBoundaryBehaviour, Change, InlineAnnotation, Insertion, ObjectAnnotation } from '../src';
 
+export class Anchor extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'a';
+  attributes!: {
+    href: string;
+  };
+}
+
 export class Bold extends InlineAnnotation {
   static vendorPrefix = 'test';
   static type = 'bold';
@@ -13,6 +21,32 @@ export class Italic extends InlineAnnotation {
 export class Instagram extends ObjectAnnotation {
   static vendorPrefix = 'test';
   static type = 'instagram';
+}
+
+export class Code extends ObjectAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'code';
+  attributes!: {
+    class: string;
+    language?: string;
+    textStyle?: string;
+  };
+}
+
+export class Locale extends ObjectAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'locale';
+  attributes!: {
+    locale: string;
+  };
+}
+
+export class Preformatted extends ObjectAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'pre';
+  attributes!: {
+    style: string;
+  };
 }
 
 export class Manual extends ObjectAnnotation {
@@ -35,5 +69,5 @@ export class Manual extends ObjectAnnotation {
 
 export default class TestDocument extends Document {
   static contentType = 'application/vnd.atjson+test';
-  static schema = [Bold, Instagram, Italic, Manual];
+  static schema = [Anchor, Bold, Code, Instagram, Italic, Locale, Manual, Preformatted];
 }
