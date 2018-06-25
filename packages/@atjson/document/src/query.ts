@@ -1,5 +1,5 @@
 import Annotation from './annotation';
-import Document from './index';
+import Document, { AnnotationJSON } from './index';
 
 export interface Filter {
   [key: string]: any;
@@ -13,7 +13,7 @@ export interface FlattenedRenaming {
   [key: string]: string;
 }
 
-export type Transform = (annotation: Annotation) => Annotation | null;
+export type Transform = (annotation: AnnotationJSON) => AnnotationJSON | AnnotationJSON[] | null;
 
 export function flatten(array: any[]): any[] {
   let flattenedArray = [];
@@ -26,10 +26,6 @@ export function flatten(array: any[]): any[] {
     }
   }
   return flattenedArray;
-}
-
-function clone(object: any) {
-  return JSON.parse(JSON.stringify(object));
 }
 
 function without(object: any, attributes: string[]): any {
@@ -108,15 +104,15 @@ export default class Query {
   constructor(document: Document, filter: Filter) {
     this.document = document;
     this.filter = filter;
-    this.transforms = [(annotation: Annotation) => annotation];
-    this.currentAnnotations = document.annotations.filter(annotation => matches(annotation, this.filter));
+    this.transforms = [(annotation: AnnotationJSON) => annotation];
+    this.currentAnnotations = document.annotations.filter(annotation => matches(annotation.toJSON(), this.filter));
   }
 
-  run(newAnnotation: Annotation): Annotation[] {
+  run(newAnnotation: AnnotationJSON): AnnotationJSON[] {
     // Release the list of currently filtered annotations
     this.currentAnnotations = [];
     if (matches(newAnnotation, this.filter)) {
-      let alteredAnnotations = this.transforms.reduce((annotations: Annotation[], transform: Transform) => {
+      let alteredAnnotations = this.transforms.reduce((annotations: AnnotationJSON[], transform: Transform) => {
         return flatten(annotations.map(transform));
       }, [newAnnotation]);
 
@@ -127,8 +123,7 @@ export default class Query {
 
   set(patch: any): Query {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
-    return this.map((annotation: Annotation) => {
-      let result = clone(annotation);
+    return this.map((result: AnnotationJSON) => {
       Object.keys(flattenedPatch).forEach(key => {
         set(result, key, flattenedPatch[key]);
       });
@@ -137,14 +132,14 @@ export default class Query {
   }
 
   unset(...keys: string[]): Query {
-    return this.map((annotation: Annotation) => {
+    return this.map((annotation: AnnotationJSON) => {
       return without(annotation, keys);
     });
   }
 
   rename(renaming: Renaming): Query {
     let flattenedRenaming = flattenPropertyPaths(renaming, { keys: true, values: true });
-    return this.map((annotation: Annotation) => {
+    return this.map((annotation: AnnotationJSON) => {
       let result = without(annotation, Object.keys(flattenedRenaming));
       Object.keys(flattenedRenaming).forEach(key => {
         let value = get(annotation, key);
@@ -154,27 +149,22 @@ export default class Query {
     });
   }
 
-  map(mapping: Renaming | Transform): Query {
-    if (typeof mapping === 'object') {
-      return this.rename(mapping);
-    } else {
-      this.transforms.push(mapping);
-      this.currentAnnotations = flatten(this.currentAnnotations.map(annotation => {
-        let alteredAnnotation = mapping(annotation);
-        if (alteredAnnotation == null) {
-          this.document.removeAnnotation(annotation);
-        } else if (Array.isArray(alteredAnnotation)) {
-          this.document.replaceAnnotation(annotation, ...alteredAnnotation);
-        } else {
-          this.document.replaceAnnotation(annotation, alteredAnnotation);
-        }
-        return alteredAnnotation;
-      }));
-      return this;
-    }
+  map(mapping: Transform): Query {
+    this.transforms.push(mapping);
+    this.currentAnnotations = flatten(this.currentAnnotations.map((annotation: Annotation) => {
+      let alteredAnnotation = mapping(annotation.toJSON());
+      if (alteredAnnotation == null) {
+        return this.document.replaceAnnotation(annotation);
+      } else if (Array.isArray(alteredAnnotation)) {
+        return this.document.replaceAnnotation(annotation, ...alteredAnnotation);
+      } else {
+        return this.document.replaceAnnotation(annotation, alteredAnnotation);
+      }
+    }));
+    return this;
   }
 
   remove(): Query {
-    return this.map((_: Annotation) => null);
+    return this.map(_ => null);
   }
 }

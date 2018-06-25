@@ -28,6 +28,8 @@ export {
 
 export type Schema<T extends Annotation> = T[];
 
+export type Schema<T extends Annotation> = T[];
+
 export default class AtJSON {
   static contentType: string;
   static schema: Schema<any>;
@@ -93,11 +95,14 @@ export default class AtJSON {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, ...newAnnotations: Annotation[]): void {
+  replaceAnnotation(annotation: Annotation, ...newAnnotations: AnnotationJSON[]): Annotation[] {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      this.annotations.splice(index, 1, ...newAnnotations);
+      let annotations = newAnnotations.map(json => this.createAnnotation(json));
+      this.annotations.splice(index, 1, ...annotations);
+      return annotations;
     }
+    return [];
   }
 
   insertText(start: number, text: string, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
