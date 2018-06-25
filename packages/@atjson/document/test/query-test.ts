@@ -1,6 +1,6 @@
 import Document, { Annotation } from '../src/';
 
-describe('Document.where', () => {
+describe.skip('Document.where', () => {
   it('runs queries against existing annotations', () => {
     let doc = new Document({
       content: 'Hello',

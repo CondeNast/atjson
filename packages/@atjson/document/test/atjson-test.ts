@@ -1,49 +1,78 @@
-import Document from '../src/';
+import TestSource from './test-source';
 
 describe('new Document', () => {
-  it('constructor accepts a string', () => {
-    expect(new Document('Hello World.')).toBeDefined();
-  });
-
-  it('constructor accepts an object', () => {
-    expect(new Document({content: 'Hello World.'})).toBeDefined();
-  });
-
-  it('constructor will set annotations', () => {
-    expect(new Document({
+  test('constructor accepts an object', () => {
+    expect(new TestSource({
       content: 'Hello World.',
-      annotations: [ { type: 'test', start: 0, end: 2 } ]
+      annotations: []
+    })).toBeDefined();
+  });
+
+  test('constructor will set annotations', () => {
+    expect(new TestSource({
+      content: 'Hello World.',
+      annotations: [{
+        type: '-test-bold',
+        start: 0,
+        end: 2,
+        attributes: {}
+      }]
     })).toBeDefined();
   });
 
   describe('slice', () => {
-    let document = new Document({
+    let document = new TestSource({
       content: 'Hello, world!',
-      contentType: 'text/atjson',
       annotations: [{
-        type: 'bold',
+        type: '-test-bold',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }, {
-        type: 'italic',
+        type: '-test-italic',
         start: 0,
-        end: 13
+        end: 13,
+        attributes: {}
       }]
     });
 
-    it('will return a sub-document with only', () => {
+    test('source documents are unaltered', () => {
       let doc = document.slice(1, 13);
       expect(doc.content).toBe('ello, world!');
-      expect(doc.annotations).toEqual([{
-        type: 'bold',
-        start: 0,
-        end: 4
-      }, {
-        type: 'italic',
-        start: 0,
-        end: 12
-      }]);
-      expect(doc.contentType).toEqual(document.contentType);
+
+      expect(doc.toJSON()).toEqual({
+        content: 'ello, world!',
+        contentType: 'application/vnd.atjson+test',
+        schema: ['-test-bold', '-test-instagram', '-test-italic', '-test-manual'],
+        annotations: [{
+          type: '-test-bold',
+          start: 0,
+          end: 4,
+          attributes: {}
+        }, {
+          type: '-test-italic',
+          start: 0,
+          end: 12,
+          attributes: {}
+        }]
+      });
+
+      expect(document.toJSON()).toEqual({
+        content: 'Hello, world!',
+        contentType: 'application/vnd.atjson+test',
+        schema: ['-test-bold', '-test-instagram', '-test-italic', '-test-manual'],
+        annotations: [{
+          type: '-test-bold',
+          start: 0,
+          end: 5,
+          attributes: {}
+        }, {
+          type: '-test-italic',
+          start: 0,
+          end: 13,
+          attributes: {}
+        }]
+      });
     });
   });
 });
