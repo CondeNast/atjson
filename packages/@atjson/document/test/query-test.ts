@@ -1,74 +1,85 @@
-import Document from '@atjson/document';
+import { AnnotationJSON } from '../src';
+import TestSource from './test-source';
 
 describe.skip('Document.where', () => {
   it('runs queries against existing annotations', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello',
       annotations: [{
-        type: 'strong',
+        type: '-test-strong',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }, {
-        type: 'em',
+        type: '-test-emphasis',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
+    doc.where({ type: '-test-strong' }).set({ type: '-test-bold' });
+    doc.where({ type: '-test-em' }).set({ type: '-test-italic' });
     expect(doc.content).toBe('Hello');
-    expect(doc.annotations).toEqual([{
-      type: 'bold',
+
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-bold',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }, {
-      type: 'italic',
+      type: '-test-italic',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }]);
   });
 
   it('runs queries against new annotations', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello',
       annotations: []
     });
 
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
+    doc.where({ type: '-test-strong' }).set({ type: '-test-bold' });
+    doc.where({ type: '-test-emphasis' }).set({ type: '-test-italic' });
     doc.addAnnotations({
-      type: 'strong',
+      type: '-test-strong',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }, {
-      type: 'em',
+      type: '-test-emphasis',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     });
     expect(doc.content).toBe('Hello');
-    expect(doc.annotations).toEqual([{
-      type: 'bold',
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-bold',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }, {
-      type: 'italic',
+      type: '-test-italic',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     }]);
   });
 
   it('set', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello',
       annotations: []
     });
 
-    doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } });
+    doc.where({ type: '-test-h1' }).set({ type: '-test-heading', attributes: { level: 1 } });
     doc.addAnnotations({
       type: 'h1',
       start: 0,
-      end: 5
+      end: 5,
+      attributes: {}
     });
     expect(doc.content).toBe('Hello');
     expect(doc.annotations).toEqual([{
@@ -82,41 +93,41 @@ describe.skip('Document.where', () => {
   });
 
   it('unset', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: '\uFFFC\uFFFC',
       annotations: [{
-        type: 'embed',
+        type: '-test-social',
         attributes: {
-          type: 'instagram',
-          url: 'https://www.instagram.com/p/BeW0pqZDUuK/'
+          '-test-type': 'instagram',
+          '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
         },
         start: 0,
         end: 1
       }]
     });
 
-    doc.where({ type: 'embed', attributes: { type: 'instagram' } }).set({ type: 'instagram' }).unset('attributes.type');
+    doc.where({ type: '-test-social', attributes: { '-test-type': 'instagram' } }).set({ type: '-test-instagram' }).unset('attributes.-test-type');
     doc.addAnnotations({
-      type: 'embed',
+      type: '-test-social',
       attributes: {
-        type: 'instagram',
-        url: 'https://www.instagram.com/p/BdyySYBDvpm/'
+        '-test-type': 'instagram',
+        '-test-uri': 'https://www.instagram.com/p/BdyySYBDvpm/'
       },
       start: 1,
       end: 2
     });
     expect(doc.content).toBe('\uFFFC\uFFFC');
-    expect(doc.annotations).toEqual([{
-      type: 'instagram',
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-instagram',
       attributes: {
-        url: 'https://www.instagram.com/p/BeW0pqZDUuK/'
+        '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
       },
       start: 0,
       end: 1
     }, {
-      type: 'instagram',
+      type: '-test-instagram',
       attributes: {
-        url: 'https://www.instagram.com/p/BdyySYBDvpm/'
+        '-test-uri': 'https://www.instagram.com/p/BdyySYBDvpm/'
       },
       start: 1,
       end: 2
@@ -124,7 +135,7 @@ describe.skip('Document.where', () => {
   });
 
   it('rename', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
         type: 'a',
@@ -136,67 +147,27 @@ describe.skip('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
+    doc.where({ type: '-test-a' }).set({ type: '-test-link' }).rename({ attributes: { '-test-href': '-test-url' } });
     doc.addAnnotations({
-      type: 'a',
+      type: '-test-a',
       attributes: {
-        href: 'https://condenast.com'
+        '-test-href': 'https://condenast.com'
       },
       start: 6,
       end: 10
     });
     expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
-      type: 'link',
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-link',
       attributes: {
-        url: 'https://example.com'
+        '-test-url': 'https://example.com'
       },
       start: 0,
       end: 5
     }, {
-      type: 'link',
+      type: '-test-link',
       attributes: {
-        url: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    }]);
-  });
-
-  it('map', () => {
-    let doc = new Document({
-      content: 'Conde Nast',
-      annotations: [{
-        type: 'a',
-        attributes: {
-          href: 'https://example.com'
-        },
-        start: 0,
-        end: 5
-      }]
-    });
-
-    doc.where({ type: 'a' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
-    doc.addAnnotations({
-      type: 'a',
-      attributes: {
-        href: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    });
-    expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
-      type: 'link',
-      attributes: {
-        url: 'https://example.com'
-      },
-      start: 0,
-      end: 5
-    }, {
-      type: 'link',
-      attributes: {
-        url: 'https://condenast.com'
+        '-test-url': 'https://condenast.com'
       },
       start: 6,
       end: 10
@@ -204,51 +175,48 @@ describe.skip('Document.where', () => {
   });
 
   it('map with function', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
-        type: 'a',
+        type: '-test-a',
         attributes: {
-          href: 'https://example.com'
+          '-test-href': 'http://example.com'
         },
         start: 0,
         end: 5
       }]
     });
 
-    doc.where({ type: 'a' }).map((annotation: Annotation) => {
+    doc.where({ type: '-test-a' }).map((annotation: AnnotationJSON) => {
       return {
-        type: 'link',
+        type: '-test-link',
         start: annotation.start,
         end: annotation.end,
         attributes: {
-          url: annotation.attributes.href,
-          openInNewTab: true
+          '-test-url': annotation.attributes['-test-href'].replace('http://', 'https://')
         }
       };
     });
     doc.addAnnotations({
-      type: 'a',
+      type: '-test-a',
       attributes: {
-        href: 'https://condenast.com'
+        '-test-href': 'http://condenast.com'
       },
       start: 6,
       end: 10
     });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
-      type: 'link',
+      type: '-test-link',
       attributes: {
-        url: 'https://example.com',
-        openInNewTab: true
+        '-test-url': 'https://example.com'
       },
       start: 0,
       end: 5
     }, {
-      type: 'link',
+      type: '-test-link',
       attributes: {
-        url: 'https://condenast.com',
-        openInNewTab: true
+        '-test-url': 'https://condenast.com'
       },
       start: 6,
       end: 10
@@ -256,82 +224,84 @@ describe.skip('Document.where', () => {
   });
 
   it('remove', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'function () {}',
       annotations: [{
-        type: 'code',
+        type: '-test-code',
         start: 0,
-        end: 14
+        end: 14,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'code' }).remove();
+    doc.where({ type: '-test-code' }).remove();
     doc.addAnnotations({
-      type: 'code',
+      type: '-test-code',
       start: 0,
-      end: 14
+      end: 14,
+      attributes: {}
     });
     expect(doc.content).toBe('function () {}');
     expect(doc.annotations).toEqual([]);
   });
 
   it('annotation expansion', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'string.trim();\nstring.strip',
       annotations: [{
-        type: 'code',
+        type: '-test-code',
         start: 0,
         end: 14,
         attributes: {
-          class: 'language-js',
-          language: 'js'
+          '-test-class': 'language-js',
+          '-test-language': 'js'
         }
       }]
     });
 
-    doc.where({ type: 'code' }).map((annotation: Annotation) => {
+    doc.where({ type: 'code' }).map((annotation: AnnotationJSON) => {
       return [{
-        type: 'pre',
+        type: '-test-pre',
         start: annotation.start,
         end: annotation.end,
         attributes: annotation.attributes
       }, {
-        type: 'code',
+        type: '-test-code',
         start: annotation.start,
         end: annotation.end,
         attributes: {}
       }];
-    }).unset('attributes.class');
+    }).unset('attributes.-test-class');
 
     doc.addAnnotations({
-      type: 'code',
+      type: '-test-code',
       start: 16,
       end: 28,
       attributes: {
-        class: 'language-rb',
-        language: 'rb'
+        '-test-class': 'language-rb',
+        '-test-language': 'rb'
       }
     });
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
     expect(doc.annotations).toEqual([{
-      type: 'pre',
+      type: '-test-pre',
       start: 0,
       end: 14,
       attributes: {
-        language: 'js'
+        '-test-language': 'js'
       }
     }, {
-      type: 'code',
+      type: '-test-code',
       start: 0,
       end: 14,
       attributes: {}
     }, {
-      type: 'pre',
+      type: '-test-pre',
       start: 16,
       end: 28,
       attributes: {
-        language: 'rb'
+        '-test-language': 'rb'
       }
     }, {
       type: 'code',
@@ -342,29 +312,31 @@ describe.skip('Document.where', () => {
   });
 
   it('sliced documents inherit queries', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'This is ~my caption~\nNext paragraph',
       annotations: [{
         type: 'photo',
         start: 0,
-        end: 20
+        end: 20,
+        attributes: {}
       }]
     });
 
-    doc.where({ type: 'em' }).set({ type: 'italic' });
+    doc.where({ type: '-test-em' }).set({ type: '-test-italic' });
     let caption = doc.slice(0, 20);
     caption.addAnnotations({
-      type: 'em',
+      type: '-test-em',
       start: 0,
-      end: 4
+      end: 4,
+      attributes: {}
     });
     expect(caption.content).toBe('This is ~my caption~');
     expect(doc.annotations).toEqual([{
-      type: 'photo',
+      type: '-test-photo',
       start: 0,
       end: 20
     }, {
-      type: 'italic',
+      type: '-test-italic',
       start: 0,
       end: 4
     }]);

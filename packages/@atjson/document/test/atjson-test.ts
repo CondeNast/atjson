@@ -33,6 +33,11 @@ describe('new Document', () => {
         start: 0,
         end: 13,
         attributes: {}
+      }, {
+        type: '-test-underline',
+        start: 0,
+        end: 13,
+        attributes: {}
       }]
     });
 
@@ -54,6 +59,11 @@ describe('new Document', () => {
           start: 0,
           end: 12,
           attributes: {}
+        }, {
+          type: '-test-underline',
+          start: 0,
+          end: 12,
+          attributes: {}
         }]
       });
 
@@ -68,6 +78,11 @@ describe('new Document', () => {
           attributes: {}
         }, {
           type: '-test-italic',
+          start: 0,
+          end: 13,
+          attributes: {}
+        }, {
+          type: '-test-underline',
           start: 0,
           end: 13,
           attributes: {}

@@ -1,4 +1,4 @@
-import Annotation from './annotation';
+import Annotation from '../annotation';
 
 export default class ParseAnnotation extends Annotation {
   static vendorPrefix = 'atjson';
