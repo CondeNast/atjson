@@ -1,29 +1,41 @@
 import Annotation from './annotation';
+import { Attributes } from './attributes';
+import BlockAnnotation from './block-annotation';
+import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
+import InlineAnnotation from './inline-annotation';
+import ObjectAnnotation from './object-annotation';
+import ParseAnnotation from './parse-annotation';
 import Query, { Filter, flatten } from './query';
-import Schema, { Display } from './schema';
 
-const OBJECT_REPLACEMENT = '\uFFFC';
+export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
 
-export { Annotation, Schema, Display };
+export interface AnnotationJSON {
+  type: string;
+  start: number;
+  end: number;
+  attributes: Attributes;
+}
+
+export { AdjacentBoundaryBehaviour, Annotation, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, ObjectAnnotation, ParseAnnotation };
+
+export type Schema<T extends Annotation> = T[];
 
 export default class AtJSON {
+  static contentType: string;
+  static schema: Schema<any>;
 
   content: string;
-  contentType?: string;
+  readonly contentType: string;
   annotations: Annotation[];
-  schema?: Schema;
 
   protected queries: Query[];
 
-  constructor(options: { content: string, annotations?: Annotation[], contentType?: string, schema?: Schema } | string) {
-    if (typeof options === 'string') {
-      options = { content: options };
-    }
+  constructor(options: { content: string, annotations: AnnotationJSON[] }) {
+    let DocumentClass = this.constructor as typeof AtJSON;
     this.content = options.content;
-    this.annotations = options.annotations || [];
-    this.contentType = options.contentType || 'text/plain';
+    this.contentType = DocumentClass.contentType;
+    this.annotations = options.annotations.map(json => this.createAnnotation(json));
     this.queries = [];
-    this.schema = options.schema || {};
   }
 
   /**
@@ -32,13 +44,13 @@ export default class AtJSON {
    * acceptable, but side-affects created by queries will
    * not be called.
    */
-  addAnnotations(...annotations: Annotation[]): void {
+  addAnnotations(...annotations: AnnotationJSON[]): void {
     annotations.forEach(newAnnotation => {
-      let finalizedAnnotations: Annotation[] = this.queries.reduce((newAnnotations: Annotation[], query) => {
+      let finalizedAnnotations: AnnotationJSON[] = this.queries.reduce((newAnnotations: AnnotationJSON[], query) => {
         return flatten(newAnnotations.map(annotation => query.run(annotation)));
       }, [newAnnotation]);
       if (finalizedAnnotations) {
-        this.annotations.push(...finalizedAnnotations);
+        this.annotations.push(...finalizedAnnotations.map(json => this.createAnnotation(json)));
       }
     });
   }
@@ -80,139 +92,34 @@ export default class AtJSON {
     }
   }
 
-  insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
-    if (position < 0 || position > this.content.length) throw new Error('Invalid position.');
+  insertText(start: number, text: string, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
+    if (start < 0 || start > this.content.length) throw new Error('Invalid position.');
 
-    const length = text.length;
-
-    const before = this.content.slice(0, position);
-    const after = this.content.slice(position);
-    this.content = before + text + after;
-
-    for (let i = this.annotations.length - 1; i >= 0; i--) {
-      let a = this.annotations[i];
-
-      // annotation types that implement the Annotation transform interface can
-      // override the default behaviour. This is desirable for e.g., links or
-      // comments, where insertion at the end of the link/comment should _not_
-      // affect the annotation.
-      //
-      // FIXME this whole inner loop should probably be moved to a base Annotation.transform
-      if (a.transform) {
-        a.transform(a, this.content, position, text.length, preserveAdjacentBoundaries);
-
-      // The first two normal cases are self explanatory. Just adjust the annotation
-      // position, since there is never a case where we wouldn't want to.
-      } else if (position < a.start) {
-        a.start += length;
-        a.end += length;
-      } else if (position > a.start && position < a.end) {
-        a.end += length;
-
-      // In this case, however, the normal behaviour when inserting text at a
-      // point adjacent to an annotation is to drag along the end of the
-      // annotation, or push forward the beginning, i.e., the transform happens
-      // _inside_ an annotation to the left, or _outside_ an annotation to the right.
-      //
-      // Sometimes, the desire is to change the direction; this is provided below
-      // with the preserveAdjacentBoundaries switch.
-
-      // Default edge behaviour.
-      } else if (!preserveAdjacentBoundaries) {
-        if (position === a.start) {
-          a.start += length;
-          a.end += length;
-        } else if (position === a.end) {
-          a.end += length;
-        }
-
-      // Non-standard behaviour. Do nothing to the adjacent boundary!
-      } else if (position === a.start) {
-        a.end += length;
-
-      // no-op; we would delete the annotation, but we should defer to the
-      // annotation as to whether or not it's deletable, since some zero-length
-      // annotations should be retained.
-      // n.b. the += 0 is just to silence tslint ;-)
-      } else if (position === a.end)  {
-        a.end += 0;
+    let insertion = new Insertion(start, text, behaviour);
+    try {
+      for (let i = this.annotations.length - 1; i >= 0; i--) {
+        let annotation = this.annotations[i];
+        annotation.handleChange(insertion);
       }
+
+      this.content = this.content.slice(0, start) + text + this.content.slice(start);
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.error('Failed to insert text', e);
     }
   }
 
-  deleteText(annotation: Annotation) {
-    // This should really not just truncate annotations, but rather tombstone
-    // the modified annotations as an atjson sub-document inside the annotation
-    // that's being used to delete stuff.
-
-    const start = annotation.start;
-    const end = annotation.end;
-    const length = end - start;
-
-    if (!(start >= 0 && end >= 0)) {
-      throw new Error('Start and end must be numbers.');
-    }
-
-    const before = this.content.slice(0, start);
-    const after = this.content.slice(end);
-
-    this.content = before + after;
-
-    for (let i = this.annotations.length - 1; i >= 0; i--) {
-      let a = this.annotations[i];
-
-      // We're deleting after the annotation, nothing needed to be done.
-      //    [   ]
-      // -----------*---*---
-      if (a.end < start) continue;
-
-      // If the annotation is wholly *after* the deleted text, just move
-      // everything.
-      //           [       ]
-      // --*---*-------------
-      if (end < a.start) {
-        a.start -= length;
-        a.end -= length;
-
-      } else {
-
-        if (end < a.end) {
-
-          // Annotation spans the whole deleted text, so just truncate the end of
-          // the annotation (shrink from the right).
-          //   [             ]
-          // ------*------*---------
-          if (start > a.start) {
-            a.end -= length;
-
-          // Annotation occurs within the deleted text, affecting both start and
-          // end of the annotation, but by only part of the deleted text length.
-          //         [         ]
-          // ---*---------*------------
-          } else if (start <= a.start) {
-            a.start -= a.start - start;
-            a.end -= length;
-          }
-
-        } else if (end >= a.end) {
-
-          //             [  ]
-          //          [     ]
-          //          [         ]
-          //              [     ]
-          //    ------*---------*--------
-          if (start <= a.start) {
-            a.start = start;
-            a.end = start;
-
-          //       [        ]
-          //    ------*---------*--------
-          } else if (start > a.start) {
-            a.end = start;
-          }
-
-        }
+  deleteText(start: number, end: number, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
+    let deletion = new Deletion(start, end, behaviour);
+    try {
+      for (let i = this.annotations.length - 1; i >= 0; i--) {
+        let annotation = this.annotations[i];
+        annotation.handleChange(deletion);
       }
+      this.content = this.content.slice(0, start) + this.content.slice(end);
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.error('Failed to delete text', e);
     }
   }
 
@@ -222,48 +129,40 @@ export default class AtJSON {
    * document.
    */
   slice(start: number, end: number): AtJSON {
-    let doc = new AtJSON({
+    let Document: any = this.constructor;
+    let doc = new Document({
       content: this.content,
-      contentType: this.contentType,
-      annotations: this.annotations,
-      schema: this.schema
+      annotations: this.annotations.map(a => a.toJSON())
     });
     doc.queries = this.queries.slice();
-    doc.deleteText({
-      start: 0,
-      end: start
-    } as Annotation);
-    doc.deleteText({
-      start: end,
-      end: doc.content.length
-    } as Annotation);
+    doc.deleteText(0, start);
+    doc.deleteText(end, doc.content.length);
 
     return doc;
   }
 
-  /**
-   * Replace parse tokens with object replacement characters.
-   */
-  objectReplacementSubstitution(annotation: Annotation): void {
-    const start = annotation.start;
-    const end = annotation.end;
-    const delta = end - start - 1;
-    const before = this.content.slice(0, start);
-    const after = this.content.slice(end);
-    this.content = before + OBJECT_REPLACEMENT + after;
+  toJSON() {
+    let DocumentClass = this.constructor as typeof AtJSON;
+    let schema = DocumentClass.schema;
 
-    for (let i = this.annotations.length - 1; i >= 0; i--) {
-      let a = this.annotations[i];
-      if (a === annotation) {
-        a.end = a.start + 1;
-      } else {
-        if (a.start >= end) {
-          a.start -= delta;
-        }
-        if (a.end >= end) {
-          a.end -= delta;
-        }
-      }
+    return {
+      content: this.content,
+      contentType: this.contentType,
+      annotations: this.annotations.map(a => a.toJSON()),
+      schema: schema.map(AnnotationClass => `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`)
+    };
+  }
+
+  private createAnnotation(json: AnnotationJSON): Annotation | void {
+    let DocumentClass = this.constructor as typeof AtJSON;
+    let schema = DocumentClass.schema.slice().concat([ParseAnnotation]);
+    let ConcreteAnnotation = schema.find(AnnotationClass => {
+      let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+      return json.type === fullyQualifiedType;
+    });
+
+    if (ConcreteAnnotation) {
+      return new ConcreteAnnotation(json);
     }
   }
 }
