@@ -1,9 +1,25 @@
+
 import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 
 export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
+
+  static hydrate<T extends Annotation>(
+    this: {
+      vendorPrefix: string;
+      new(attributes: { start: number, end: number, attributes: Attributes }): T;
+    },
+    attrs: { start: number, end: number, attributes: Attributes }
+  ) {
+    return new this({
+      start: attrs.start,
+      end: attrs.end,
+      attributes: unprefix(this.vendorPrefix, attrs.attributes) as Attributes
+    });
+  }
+
   readonly type: string;
   abstract rank: number;
   start: number;
@@ -15,7 +31,8 @@ export default abstract class Annotation {
     this.type = AnnotationClass.type;
     this.start = attrs.start;
     this.end = attrs.end;
-    this.attributes = unprefix(AnnotationClass.vendorPrefix, attrs.attributes) as Attributes;
+
+    this.attributes = attrs.attributes;
   }
 
   /**

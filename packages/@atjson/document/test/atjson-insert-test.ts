@@ -1,4 +1,4 @@
-import { AdjacentBoundaryBehaviour } from '../src';
+import { AdjacentBoundaryBehaviour, UnknownAnnotation } from '../src';
 import TestSource, { Bold, Italic } from './test-source';
 
 describe('Document.insertText', () => {
@@ -19,20 +19,35 @@ describe('Document.insertText', () => {
         start: 1,
         end: 3,
         attributes: {}
+      }, {
+        type: '-test-link',
+        start: 1,
+        end: 2,
+        attributes: {
+          '-test-uri': 'https://example.com'
+        }
       }]
     });
 
     atjson.insertText(0, 'zzz');
     expect(atjson.content).toBe('zzzabcd');
 
-    let [bold] = atjson.annotations;
+    let [bold, unknown] = atjson.annotations;
     expect(bold).toBeInstanceOf(Bold);
-    expect(bold.toJSON()).toEqual({
+    expect(unknown).toBeInstanceOf(UnknownAnnotation);
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-bold',
       start: 4,
       end: 6,
       attributes: {}
-    });
+    }, {
+      type: '-test-link',
+      start: 4,
+      end: 5,
+      attributes: {
+        '-test-uri': 'https://example.com'
+      }
+    }]);
   });
 
   test('insert text after an annotation doesn\'t affect it', () => {
@@ -43,19 +58,34 @@ describe('Document.insertText', () => {
         start: 0,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-color',
+        start: 0,
+        end: 2,
+        attributes: {
+          '-test-color': 'blue'
+        }
       }]
     });
     atjson.insertText(3, 'zzz');
     expect(atjson.content).toBe('abczzzd');
 
-    let [italic] = atjson.annotations;
+    let [italic, unknown] = atjson.annotations;
     expect(italic).toBeInstanceOf(Italic);
-    expect(italic.toJSON()).toEqual({
+    expect(unknown).toBeInstanceOf(UnknownAnnotation);
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-italic',
       start: 0,
       end: 2,
       attributes: {}
-    });
+    }, {
+      type: '-test-color',
+      start: 0,
+      end: 2,
+      attributes: {
+        '-test-color': 'blue'
+      }
+    }]);
   });
 
   test('insert text inside an annotation adjusts the endpoint', () => {
@@ -66,19 +96,30 @@ describe('Document.insertText', () => {
         start: 1,
         end: 3,
         attributes: {}
+      }, {
+        type: '-test-underline',
+        start: 1,
+        end: 3,
+        attributes: {}
       }]
     });
     atjson.insertText(2, 'xyz');
     expect(atjson.content).toBe('abxyzcd');
 
-    let [bold] = atjson.annotations;
+    let [bold, unknown] = atjson.annotations;
     expect(bold).toBeInstanceOf(Bold);
-    expect(bold.toJSON()).toEqual({
+    expect(unknown).toBeInstanceOf(UnknownAnnotation);
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-bold',
       start: 1,
       end: 6,
       attributes: {}
-    });
+    }, {
+      type: '-test-underline',
+      start: 1,
+      end: 6,
+      attributes: {}
+    }]);
   });
 
   test('insert text at the left boundary of an annotation', () => {
@@ -89,12 +130,22 @@ describe('Document.insertText', () => {
         start: 0,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-strikethrough',
+        start: 0,
+        end: 2,
+        attributes: {}
       }]
     });
     atjson.insertText(0, 'zzz');
     expect(atjson.content).toBe('zzzabcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-italic',
+      start: 3,
+      end: 5,
+      attributes: {}
+    }, {
+      type: '-test-strikethrough',
       start: 3,
       end: 5,
       attributes: {}
@@ -109,12 +160,22 @@ describe('Document.insertText', () => {
         start: 0,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-underline',
+        start: 0,
+        end: 2,
+        attributes: {}
       }]
     });
     atjson.insertText(2, 'zzz');
     expect(atjson.content).toBe('abzzzcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-italic',
+      start: 0,
+      end: 5,
+      attributes: {}
+    }, {
+      type: '-test-underline',
       start: 0,
       end: 5,
       attributes: {}
@@ -134,6 +195,16 @@ describe('Document.insertText', () => {
         start: 1,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-superscript',
+        start: 0,
+        end: 1,
+        attributes: {}
+      }, {
+        type: '-test-subscript',
+        start: 1,
+        end: 2,
+        attributes: {}
       }]
     });
 
@@ -147,6 +218,16 @@ describe('Document.insertText', () => {
       attributes: {}
     }, {
       type: '-test-bold',
+      start: 2,
+      end: 3,
+      attributes: {}
+    }, {
+      type: '-test-superscript',
+      start: 0,
+      end: 2,
+      attributes: {}
+    }, {
+      type: '-test-subscript',
       start: 2,
       end: 3,
       attributes: {}
@@ -181,6 +262,11 @@ describe('Document.insertText', () => {
         start: 0,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-underline',
+        start: 0,
+        end: 2,
+        attributes: {}
       }]
     });
 
@@ -188,6 +274,11 @@ describe('Document.insertText', () => {
     expect(atjson.content).toBe('abzzzcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
       type: '-test-italic',
+      start: 0,
+      end: 2,
+      attributes: {}
+    }, {
+      type: '-test-underline',
       start: 0,
       end: 2,
       attributes: {}
@@ -234,12 +325,30 @@ describe('Document.insertText', () => {
         start: 0,
         end: 2,
         attributes: {}
+      }, {
+        type: '-test-emoji',
+        start: 0,
+        end: 2,
+        attributes: {
+          '-test-emoji': '❤️'
+        }
       }]
     });
 
     atjson.insertText(2, 'zzz');
     expect(atjson.content).toBe('abzzzcd');
-    expect(atjson.annotations[0].start).toBe(1);
-    expect(atjson.annotations[0].end).toBe(3);
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      type: '-test-manual',
+      start: 1,
+      end: 3,
+      attributes: {}
+    }, {
+      type: '-test-emoji',
+      start: 0,
+      end: 5,
+      attributes: {
+        '-test-emoji': '❤️'
+      }
+    }]);
   });
 });

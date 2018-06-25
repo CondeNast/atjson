@@ -1,10 +1,7 @@
 import Annotation from './annotation';
+import { Block, Inline, Object, Parse, Unknown } from './annotations';
 import { Attributes } from './attributes';
-import BlockAnnotation from './block-annotation';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
-import InlineAnnotation from './inline-annotation';
-import ObjectAnnotation from './object-annotation';
-import ParseAnnotation from './parse-annotation';
 import Query, { Filter, flatten } from './query';
 
 export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
@@ -16,7 +13,18 @@ export interface AnnotationJSON {
   attributes: Attributes;
 }
 
-export { AdjacentBoundaryBehaviour, Annotation, BlockAnnotation, Change, Deletion, InlineAnnotation, Insertion, ObjectAnnotation, ParseAnnotation };
+export {
+  AdjacentBoundaryBehaviour,
+  Annotation,
+  Block as BlockAnnotation,
+  Change,
+  Deletion,
+  Inline as InlineAnnotation,
+  Insertion,
+  Object as ObjectAnnotation,
+  Parse as ParseAnnotation,
+  Unknown as UnknownAnnotation
+};
 
 export type Schema<T extends Annotation> = T[];
 
@@ -153,16 +161,25 @@ export default class AtJSON {
     };
   }
 
-  private createAnnotation(json: AnnotationJSON): Annotation | void {
+  private createAnnotation(json: AnnotationJSON): Annotation {
     let DocumentClass = this.constructor as typeof AtJSON;
-    let schema = DocumentClass.schema.slice().concat([ParseAnnotation]);
+    let schema = DocumentClass.schema.slice().concat([Parse]);
     let ConcreteAnnotation = schema.find(AnnotationClass => {
       let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
       return json.type === fullyQualifiedType;
     });
 
     if (ConcreteAnnotation) {
-      return new ConcreteAnnotation(json);
+      return ConcreteAnnotation.hydrate(json);
+    } else {
+      return new Unknown({
+        start: json.start,
+        end: json.end,
+        attributes: {
+          type: json.type,
+          attributes: json.attributes
+        }
+      });
     }
   }
 }
