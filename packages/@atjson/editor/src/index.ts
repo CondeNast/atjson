@@ -54,7 +54,6 @@ export default class Editor extends events(HTMLElement) {
     },
 
     'addAnnotation'(evt) {
-      console.log('got annotation', evt);
       if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
         const contained = (a, b) => a.start >= b.start && a.end <= b.end
@@ -115,23 +114,10 @@ export default class Editor extends events(HTMLElement) {
     // prevent flickering of OS UI elements (e.g., spell check) while typing
     // characters that don't result in changes outside of text elements.
     if (rendered.innerHTML != editor.innerHTML) {
-      console.table({
-        current: rendered.innerHTML,
-        updated: editor.innerHTML
-      });
       editor.innerHTML = rendered.innerHTML;
 
-      // We need to do a force-reset here in order to avoid waiting for a full
-      // cycle of the browser event loop. The DOM has changed, but if we wait
-      // for the TextSelection MutationObserver to fire, the TextSelection
-      // model will have an old set of nodes (since we've just replaced them
-      // with new ones).
-      //
-      // PERF In the event of performance issues, this is a good candidate for
-      // optimization.
       if (this.selection) {
-        this.querySelector('text-selection').reset();
-        this.querySelector('text-selection').setSelection(this.selection);
+        this.querySelector('text-selection').setSelection(this.selection, { suppressEvents: true });
       }
     }
   }
@@ -151,6 +137,16 @@ export default class Editor extends events(HTMLElement) {
     this.document.addEventListener('change', (_ => this.scheduleRender() ));
   }
 
+  addContentFeature(component) {
+    if (component.selectionButton) {
+      this.querySelector('selection-toolbar').shadowRoot.appendChild(component.selectionButton);
+    }
+
+    if (component.annotationName) {
+      WebComponentRenderer.prototype[component.annotationName] = component.elementRenderer;
+    }
+  }
+
   getSelection() {
     return this.querySelector('text-selection');
   }
@@ -159,6 +155,11 @@ export default class Editor extends events(HTMLElement) {
     this.innerHTML = this.constructor.template;
     super.connectedCallback();
     this.scheduleRender();
+  }
+
+  constructor() {
+    super();
+    this.contentFeatures = [];
   }
 }
 

@@ -6,6 +6,8 @@ import InspectorGadget from '../inspector-gadget';
 import OffsetLogo from './logo';
 import events from '../mixins/events';
 
+import EditableLink from '../components/editable-link';
+
 if (!window.customElements.get('text-editor')) {
   window.customElements.define('text-editor', Editor);
 }
@@ -45,7 +47,9 @@ export default class EditorDemo extends events(HTMLElement) {
 
   setDocument(doc: Document) {
     let editor = this.querySelector('text-editor');
+
     editor.setDocument(doc);
+
     let inspectorGadget = this.querySelector('inspector-gadget');
     inspectorGadget.setDocument(doc);
     inspectorGadget.setSelection(editor.getSelection());
@@ -58,6 +62,10 @@ export default class EditorDemo extends events(HTMLElement) {
 
   connectedCallback() {
     this.innerHTML = this.constructor.template;
+
+    let editor = this.querySelector('text-editor');
+    editor.addContentFeature(EditableLink);
+
     super.connectedCallback();
   }
 }
