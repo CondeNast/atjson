@@ -1,9 +1,4 @@
 import { HIR } from '@atjson/hir';
-import EditableLink from './components/editable-link';
-
-if (!window.customElements.get('editable-link')) {
-  window.customElements.define('editable-link', EditableLink);
-}
 
 export default class WebComponentRenderer {
 
@@ -54,15 +49,6 @@ export default class WebComponentRenderer {
 
   underline() {
     return document.createElement('u');
-  }
-
-  link(node) {
-    let link = document.createElement('editable-link');
-    link.setAttribute('url', node.attributes.url);
-    if (node.attributes.nofollow) {
-      link.setAttribute('nofollow', '');
-    }
-    return link;
   }
 
   'line-break'() {

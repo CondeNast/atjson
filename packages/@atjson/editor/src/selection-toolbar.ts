@@ -1,7 +1,7 @@
 import WebComponent from './mixins/component';
 
 export default class SelectionToolbar extends WebComponent {
-  static template = '<button data-type="link">link</button><button data-type="bold"><b>b</b></button><button data-type="italic"><i>i</i></button><button data-type="strikethrough"><del>s</del></button>';
+  static template = `<button data-type="bold"><b>b</b></button><button data-type="italic"><i>i</i></button><button data-type="strikethrough"><del>s</del></button>`;
 
   static style = `
     :host {

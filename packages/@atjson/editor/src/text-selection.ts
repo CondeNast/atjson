@@ -90,7 +90,8 @@ class TextSelection extends events(HTMLElement) {
     },
     'compositionend'() {
       this.composing = false;
-    }
+    },
+    'resumeinput': 'resumeInput'
   };
 
   private textNodes: Text[];
@@ -103,6 +104,16 @@ class TextSelection extends events(HTMLElement) {
   }
 
   setSelection(range) {
+    // We need to do a force-reset here in order to avoid waiting for a full
+    // cycle of the browser event loop. The DOM has changed, but if we wait
+    // for the TextSelection MutationObserver to fire, the TextSelection
+    // model will have an old set of nodes (since we've just replaced them
+    // with new ones).
+    //
+    // PERF In the event of performance issues, this is a good candidate for
+    // optimization.
+    this.reset();
+
     let l = this.textNodes.length;
     let offset = 0;
 
@@ -114,10 +125,8 @@ class TextSelection extends events(HTMLElement) {
         let r = document.createRange();
         r.setStart(node, range.start - offset);
         if (node.nodeType === 1) {
-          console.log('attempting to focus', node)
           node.focus();
         } else if (node.nodeType === 3) {
-          console.log('attempting to focus', node.parentNode)
           node.parentNode.focus();
         }
         selection.removeAllRanges();
@@ -287,7 +296,6 @@ class TextSelection extends events(HTMLElement) {
 
     let isNonZeroRange = start[0] !== end[0] || start[1] !== end[1];
 
-
     let domRange = document.createRange();
     domRange.setStart(start[0], start[1]);
     domRange.setEnd(end[0], end[1]);
@@ -315,42 +323,8 @@ class TextSelection extends events(HTMLElement) {
       return true;
     }
 
-    // Handle cursor focus/blur events for elements at a cursor position.
-    //
-    // If we're focused on a text node, that means we have a cursor.
-    if (selectionRange.focusNode.nodeType === 3) {
-
-      // First, clear any existing focus. We do this first because in the next step, we reset it.
-      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range[0] !== range[1])) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
-        delete this._focusNode;
-      }
-
-      // If we have a collapsed range.
-      if (range[0] === range[1]) {
-
-        // And the focused node is *not* the same as the previously focused node.
-        if (this._focusNode !== selectionRange.focusNode) {
-
-          // then fire a focus event for parents of this text node to pick up.
-          this._focusNode = selectionRange.focusNode;
-          this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
-        }
-      }
-
-    }
-
-    let toolbarStyle = this.shadowRoot.querySelector('.toolbar').style;
-    if (range[0] === range[1]) {
-      toolbarStyle.display = 'none';
-    } else {
-      window.requestAnimationFrame(_ => {
-        let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
-        toolbarStyle.display = 'block';
-        toolbarStyle.top = selectionBoundingRect.y - selectionBoundingRect.height * 1.5;
-        toolbarStyle.left = selectionBoundingRect.x;
-      });
-    }
+    this.handleCursorFocus(range, selectionRange);
+    this.updateToolbar(range, selectionRange);
 
     this.setAttribute('start', range[0].toString());
     this.setAttribute('end', range[1].toString());
@@ -362,6 +336,62 @@ class TextSelection extends events(HTMLElement) {
       }
     }));
     return true;
+  }
+
+  // Handle cursor focus/blur events for elements at a cursor position.
+  handleCursorFocus(range, selectionRange) {
+
+    // If we're focused on a text node, that means we have a cursor.
+    if (selectionRange.focusNode.nodeType === 3) {
+
+      // First, clear any existing focus. We do this first because in the next step, we reset it.
+      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range[0] !== range[1])) {
+        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+        delete this._focusNode;
+      }
+
+      // If we have a collapsed range.
+      if (range[0] === range[1]) {
+       
+        if (!this._previousRange || range[0] !== this._previousRange[0]) {
+          // And the focused node is *not* the same as the previously focused node.
+          if (this._focusNode !== selectionRange.focusNode) {
+
+            // then fire a focus event for parents of this text node to pick up.
+            this._focusNode = selectionRange.focusNode;
+            this._previousRange = range;
+            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
+          }
+        } else {
+
+          // We don't want to re-fire (this case is likely encountered in a
+          // re-render), but since we don't have a _focusNode we just reset it
+          // here to prevent re-firing on the next selection change.
+          if (!this._focusNode) this._focusNode = selectionRange.focusNode;
+        }
+      }
+    }
+  }
+
+  updateToolbar(range, selectionRange) {
+    let toolbarStyle = this.shadowRoot.querySelector('.toolbar').style;
+    if (range[0] === range[1]) {
+      toolbarStyle.display = 'none';
+    } else {
+      window.requestAnimationFrame(_ => {
+        let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
+        toolbarStyle.display = 'block';
+        toolbarStyle.top = selectionBoundingRect.y - selectionBoundingRect.height * 1.5;
+        toolbarStyle.left = selectionBoundingRect.x;
+      });
+    }
+  }
+
+  resumeInput() {
+    if (this._previousRange) {
+      this.setSelection(this._previousRange);
+      this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+    }
   }
 }
 

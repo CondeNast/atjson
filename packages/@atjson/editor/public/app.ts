@@ -1,8 +1,13 @@
 import Document from '@atjson/document';
 import EditorDemo from '../src/editor-demo';
+import Editor from '../src';
 
 if (!window.customElements.get('text-editor-demo')) {
   window.customElements.define('text-editor-demo', EditorDemo);
+}
+
+if (!window.customElements.get('text-editor')) {
+  window.customElements.define('text-editor', Editor);
 }
 
 // Web components in the registry can't be redefined,
@@ -14,7 +19,10 @@ if (module.hot) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  let editor: EditorDemo = document.querySelector('text-editor-demo');
+  let editor = document.querySelector('text-editor-demo');
+  if (editor === null) {
+    editor = document.querySelector('text-editor');
+  }
   let doc = new URL(location.toString()).searchParams.get('document');
   if (doc) {
     editor.setDocument(new Document(JSON.parse(doc)));
@@ -26,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { type: 'link', display: 'inline', start: 20, end: 24, attributes: { url: 'https://google.com' } },
         { type: 'italic', display: 'inline', start: 28, end: 38 },
         { type: 'underline', display: 'inline', start: 28, end: 38 },
-        { type: 'paragraph', display: 'block', start: 0, end: 61 },
+        { type: 'paragraph', display: 'block', start: 0, end: 61 }
       ]
     });
 
