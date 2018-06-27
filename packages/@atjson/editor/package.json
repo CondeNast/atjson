@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "@atjson/document": "^0.7.16",
-    "@atjson/renderer-commonmark": "",
+    "@atjson/renderer-commonmark": "0.8.2",
     "@atjson/hir": "^0.8.0",
     "node-sass": "^4.9.0"
   },
