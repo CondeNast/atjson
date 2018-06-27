@@ -3,7 +3,7 @@ import Editor from '../index';
 import WebComponentRenderer from '../webcomponent-renderer';
 import CommonmarkRenderer from '@atjson/renderer-commonmark';
 import InspectorGadget from '../inspector-gadget';
-import OffsetLogo from './logo';
+import OffsetLogo from '../components/logo';
 import events from '../mixins/events';
 
 import EditableLink from '../components/editable-link';
