@@ -14,12 +14,13 @@ if (!window.customElements.get('character-counter')) {
 export default class InspectorGadget extends WebComponent {
 
   static template = `
-    <h1>Character Counter</h1>
+    <h1>AtJSON Document Inspector</h1>
+    <h2>Content</h2>
     <div class="cc-container">
       <character-counter start="0" end="0" length="0"></character-counter>
     </div>
     
-    <h1>Annotations</h1>
+    <h2>Annotations</h2>
     <annotations-inspector class="annotations"></annotations-inspector>`;
 
   static style = `
@@ -27,21 +28,36 @@ export default class InspectorGadget extends WebComponent {
       position: fixed;
       bottom: 0;
       left: 0;
+      right: 0;
       max-height: 50vh;
-      overflow: scroll-y;
+      margin: 1em;
+      overflow: hidden;
+      border: 1px solid #555555;
+      padding: 0;
     }
 
     h1 {
       font-size: 1em;
       font-family: helvetica;
-      width: 100vw;
-      background-color: #cccccc;
+      width: calc(100vw-2em);
+      background-color: #bbbbbb;
+      padding: 4px;
+      margin: 0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 0.75em;
+      font-family: helvetica;
+      width: calc(100vw-2em);
+      background-color: #dddddd;
       padding: 4px;
     }
 
     .cc-container {
       max-width: 100vw;
       overflow-x: auto;
+      margin: 0 6px 5px 6px;
     }
   `;
 

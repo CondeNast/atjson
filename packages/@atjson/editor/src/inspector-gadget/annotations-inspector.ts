@@ -45,6 +45,7 @@ export default class AnnotationsInspector extends WebComponent {
       border-bottom: 1px solid black;
       border-top: 1px solid black;
       text-align: left;
+      background-color: #f3f3f3;
     }
 
     td {
