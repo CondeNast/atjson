@@ -1,20 +1,20 @@
 import Document from '@atjson/document';
-import GDocsSource from '@atjson/source-gdocs-paste';
 import * as fs from 'fs';
 import * as path from 'path';
+import GDocsSource from '../src/index';
 
 describe('@atjson/source-gdocs-paste', () => {
   describe('relatively complex document', () => {
-    var atjson;
+    let atjson;
 
     beforeAll(() => {
       // https://docs.google.com/document/d/1xP_M2SchJt81ZuivsO7oix8Q_fCx4PENKJFJR5npFNM/edit
       let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
-      atjson = JSON.parse(fs.readFileSync(fixturePath));
+      atjson = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
 
     it('has some json', () =>  {
-      expect(atjson).toHaveProperty('resolved')
+      expect(atjson).toHaveProperty('resolved');
     });
 
     it('does not throw an error when instantiating with GDocsSource', () => {
@@ -49,7 +49,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
     it('extracts headings', () => {
       let gdocs = new GDocsSource(atjson);
-      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ps_hd').sort((a,b) => a.start - b.start);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ps_hd').sort((a, b) => a.start - b.start);
       expect(annotations.length).toEqual(4);
 
       let [a0, a1, a2, a3] = annotations;
@@ -74,7 +74,7 @@ describe('@atjson/source-gdocs-paste', () => {
       expect(annotations.length).toEqual(1);
 
       let a0 = annotations[0];
-      
+
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\nAnd another item');
       expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.r139o3ivf8cd');
     });
@@ -108,10 +108,92 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts images');
+  });
 
-    it('extracts subscript');
+  describe('a grab-bag of Google Docs features', () => {
+    let gdocsBuffer;
 
-    it('extracts superscript');
+    beforeAll(() => {
+      // https://docs.google.com/document/d/1xP_M2SchJt81ZuivsO7oix8Q_fCx4PENKJFJR5npFNM/edit
+      let fixturePath = path.join(__dirname, 'fixtures', 'formats-and-tabs.json');
+      gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
+    });
 
+    it('has some json', () => {
+      expect(gdocsBuffer).toHaveProperty('resolved');
+    });
+
+    it('does not throw an error when instantiating with GDocsSource', () => {
+      expect(new GDocsSource(gdocsBuffer)).toBeDefined();
+    });
+
+    it('correctly sets the content', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      expect(gdocs.content.length).toEqual(219);
+      expect(gdocs.content).toMatchSnapshot();
+    });
+
+    it('extracts bold', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_bd');
+      expect(annotations.length).toEqual(1);
+
+      let [bold] = annotations;
+      expect(gdocs.content.substring(bold.start, bold.end)).toEqual('bold');
+    });
+
+    it('extracts italic', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_it');
+      expect(annotations.length).toEqual(1);
+
+      let [italic] = annotations;
+      expect(gdocs.content.substring(italic.start, italic.end)).toEqual('italic');
+    });
+
+    it('extracts underline', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_un');
+      expect(annotations.length).toEqual(1);
+
+      let [underline] = annotations;
+      expect(gdocs.content.substring(underline.start, underline.end)).toEqual('underlined');
+    });
+
+    it('extracts horizontal rules', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-horizontal_rule');
+      expect(annotations.length).toEqual(1);
+
+      let [hr] = annotations;
+      expect(gdocs.content.substring(hr.start, hr.end)).toEqual('-');
+    });
+
+    it('extracts strikethrough', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_st');
+      expect(annotations.length).toEqual(1);
+
+      let [strikethrough] = annotations;
+      expect(gdocs.content.substring(strikethrough.start, strikethrough.end)).toEqual('strikethrough');
+    });
+
+    it('extracts superscript', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes['-gdocs-va'] === 'sup');
+      expect(annotations.length).toEqual(1);
+
+      let [superscript] = annotations;
+      expect(gdocs.content.substring(superscript.start, superscript.end)).toEqual('TM');
+    });
+
+    it('extracts subscript', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes['-gdocs-va'] === 'sub');
+      expect(annotations.length).toEqual(1);
+
+      let [subscript] = annotations;
+      expect(gdocs.content.substring(subscript.start, subscript.end)).toEqual('2');
+    });
   });
 });

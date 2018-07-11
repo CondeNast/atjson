@@ -26,6 +26,12 @@ export default class extends Document {
 
     doc.where({ type: '-gdocs-ts_bd' }).set({ type: 'bold' });
     doc.where({ type: '-gdocs-ts_it' }).set({ type: 'italic' });
+    doc.where({ type: '-gdocs-ts_un' }).set({ type: 'underline' });
+    doc.where({ type: '-gdocs-ts_st' }).set({ type: 'strikethrough' });
+    doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sub' } }).set({ type: 'subscript' }).unset('attributes.-gdocs-va');
+    doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sup' } }).set({ type: 'superscript' }).unset('attributes.-gdocs-va');
+
+    doc.where({ type: '-gdocs-horizontal_rule' }).set({ type: 'horizontal-rule' });
 
     doc.where({ type: '-gdocs-ps_hd' })
       .set({ type: 'heading' })

@@ -1,5 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@atjson/source-gdocs-paste a grab-bag of Google Docs features correctly sets the content 1`] = `
+"	This paragraph is indented! Here is some underlined text and some italic text and some bold text. This is superscriptTM and some subscript O2 and some strikethrough text. This is a link. This text has a comment.
+	
+-
+
+
+"
+`;
+
 exports[`@atjson/source-gdocs-paste relatively complex document correctly sets the content 1`] = `
 "This is a simple test.
 *
