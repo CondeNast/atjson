@@ -30,7 +30,7 @@ export type Schema<T extends Annotation> = T[];
 
 export default class AtJSON {
   static contentType: string;
-  static schema: Schema<any>;
+  static schema: Schema<any> = [];
 
   content: string;
   readonly contentType: string;
