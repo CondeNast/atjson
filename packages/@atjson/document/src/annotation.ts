@@ -2,15 +2,19 @@
 import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 
+export interface AnnotationConstructor<T extends Annotation> {
+  vendorPrefix: string;
+  type: string;
+  new(attributes: { start: number, end: number, attributes: Attributes }): T;
+  hydrate(attrs: { start: number, end: number, attributes: Attributes }): Annotation;
+}
+
 export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
 
-  static hydrate<T extends Annotation>(
-    this: {
-      vendorPrefix: string;
-      new(attributes: { start: number, end: number, attributes: Attributes }): T;
-    },
+  static hydrate(
+    this: AnnotationConstructor<any>,
     attrs: { start: number, end: number, attributes: Attributes }
   ) {
     return new this({
@@ -27,7 +31,7 @@ export default abstract class Annotation {
   attributes: Attributes;
 
   constructor(attrs: { start: number, end: number, attributes: Attributes }) {
-    let AnnotationClass = this.constructor as typeof Annotation;
+    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
     this.type = AnnotationClass.type;
     this.start = attrs.start;
     this.end = attrs.end;
@@ -145,8 +149,13 @@ export default abstract class Annotation {
     }
   }
 
+  clone() {
+    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
+    return AnnotationClass.hydrate(this.toJSON());
+  }
+
   toJSON() {
-    let AnnotationClass = this.constructor as typeof Annotation;
+    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
     let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       type: `-${vendorPrefix}-${this.type}`,
