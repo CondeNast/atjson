@@ -6,7 +6,6 @@ export default class AnnotationAttribute extends WebComponent {
   static observedAttributes = ['name', 'value'];
 
   attributeChangedCallback(attribute) {
-    console.log('got this here', attribute, this.getAttribute(attribute))
     switch (attribute) {
       case 'name':
         this.shadowRoot.querySelector('.name').innerHTML = this.getAttribute('name');
