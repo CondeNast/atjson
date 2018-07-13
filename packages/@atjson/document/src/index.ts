@@ -181,27 +181,28 @@ export default class AtJSON {
       } else if (position === a.end)  {
         a.end += 0;
       }
+    }
 
-      if (text.indexOf("\n") > -1) {
-        for (let j = this.annotations.length - 1; j >= 0; j--) {
-          var a = this.annotations[j];
-          if (a.type === 'paragraph') {
-            // This doesn't affect us.
-            if (a.end < position) continue;
-            if (position < a.start) continue;
+    if (text.indexOf("\n") > -1) {
+      for (let j = this.annotations.length - 1; j >= 0; j--) {
+        var a = this.annotations[j];
 
-            // First adjust the end of the current paragraph.
-            var prevEnd = a.end;
-            a.end = position + 1;
+        // This doesn't affect us.
+        if (a.type !== 'paragraph') continue;
+        if (a.end < position) continue;
+        if (position < a.start) continue;
 
-            // And now add a new paragraph.
-            this.addAnnotations({
-              type: 'paragraph',
-              start: position + 1,
-              end: prevEnd + 1
-            });
-          }
-        }
+        // First adjust the end of the current paragraph.
+        var prevEnd = a.end;
+        a.end = position + 1;
+
+        // And now add a new paragraph.
+        this.addAnnotations({
+          type: 'paragraph',
+          display: 'paragraph',
+          start: position + 1,
+          end: prevEnd
+        });
       }
     }
 
