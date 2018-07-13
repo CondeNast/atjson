@@ -178,8 +178,11 @@ export default class Document {
             if (a.end < position) continue;
             if (position < a.start) continue;
 
+            // First adjust the end of the current paragraph.
             var prevEnd = a.end;
             a.end = position + 1;
+
+            // And now add a new paragraph.
             this.addAnnotations({
               type: 'paragraph',
               start: position + 1,
