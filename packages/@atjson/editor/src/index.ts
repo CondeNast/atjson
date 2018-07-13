@@ -156,11 +156,6 @@ export default class Editor extends events(HTMLElement) {
     super.connectedCallback();
     this.scheduleRender();
   }
-
-  constructor() {
-    super();
-    this.contentFeatures = [];
-  }
 }
 
 if (!window.customElements.get('text-editor')) {
