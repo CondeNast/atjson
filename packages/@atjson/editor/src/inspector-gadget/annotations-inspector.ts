@@ -80,7 +80,8 @@ export default class AnnotationsInspector extends WebComponent {
           tbody += `<annotation-attribute name='${key}' value='${a.attributes[key]}'></annotation-attribute><br/>`
         });
       } else {
-      tbody += `</td></tr>`
+        tbody += `</td></tr>`
+      }
     });
     this.shadowRoot.querySelector('tbody').innerHTML = tbody;
   }

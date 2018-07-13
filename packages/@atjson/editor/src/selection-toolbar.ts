@@ -11,12 +11,11 @@ export default class SelectionToolbar extends WebComponent {
 
   static events = {
     'click': 'onClick'
-  }
+  };
 
   onClick(evt) {
     let target = null;
     for (var i = 0; i < evt.path.length; i++) {
-      console.log('got target', target);
       if (evt.path[i].nodeName === 'BUTTON') {
         target = evt.path[i];
         break;
@@ -24,7 +23,6 @@ export default class SelectionToolbar extends WebComponent {
     }
 
     let type = target.getAttribute('data-type');
-    console.log('got a click', evt, this.getAttribute('start'), this.getAttribute('end'), type);
     let detail = {
       type,
       start: parseInt(this.getAttribute('start')),

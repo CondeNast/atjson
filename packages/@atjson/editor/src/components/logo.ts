@@ -90,7 +90,7 @@ export default class OffsetLogo extends WebComponent {
   }
 
   drawChannel(channel) {
-		let rotationAngle = (Math.abs(Math.cos(1 * Math.PI / 180.0)) + 1) * 2/3;
+    let rotationAngle = (Math.abs(Math.cos(1 * Math.PI / 180.0)) + 1) * 2/3;
     channel.point = this.rotatePoint(rotationAngle, channel.point);
     this.drawOffset(channel.point, channel.color);
 
