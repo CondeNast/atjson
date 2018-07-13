@@ -86,8 +86,6 @@ class TextInput extends events(HTMLElement) {
     let ranges = evt.getTargetRanges();
     let { start, end } = this.selection;
 
-    console.log('here is a thing', evt);
-
     switch (evt.inputType) {
     case 'insertText':
       if (start === end) {
@@ -167,7 +165,6 @@ class TextInput extends events(HTMLElement) {
       break;
 
     case 'insertReplacementText':
-      console.log('in here with evt', evt);
       // n.b. this assumes that there is only one target range.
       if (evt.getTargetRanges().length !== 1) {
         throw new Error('Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got', evt.getTargetRanges().length);
@@ -176,8 +173,6 @@ class TextInput extends events(HTMLElement) {
       var target = evt.getTargetRanges()[0];
       let replaceStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
       let replaceEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
-
-      console.log('found', {start: replaceStart, end: replaceEnd}, 'for target', target);
 
       evt.dataTransfer.items[0].getAsString(replString => {
         this.dispatchEvent(new CustomEvent('replaceText', {

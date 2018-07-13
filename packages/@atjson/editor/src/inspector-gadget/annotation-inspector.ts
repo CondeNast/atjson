@@ -15,7 +15,6 @@ export default class AnnotationInspector extends WebComponent {
   static observedAttributes = ['type', 'start', 'end', 'attributes'];
 
   attributeChangedCallback(attribute) {
-    console.log('i am in here...');
     switch (attribute) {
       case 'type':
         this.shadowRoot.querySelector('.type').innerHTML = this.getAttribute('type');
@@ -35,9 +34,7 @@ export default class AnnotationInspector extends WebComponent {
         }
 
         let inner = [];
-        console.log('i am here???');
         this.shadowRoot.querySelector('.attributes').innerHTML = attributes.keys.map(key => {
-          console.log('adding thing ... ', key, attributes[key]);
           return `<annotation-attribute name="${key}" value="${JSON.stringify(attributes[key])}"></annotation-attribute><br/>`;
           this.shadowRoot.querySelector('.attributes');
         }).join('');
