@@ -213,6 +213,12 @@ class TextInput extends events(HTMLElement) {
       break;
 
     case 'insertParagraph':
+      evt.preventDefault();
+      this.dispatchEvent(new CustomEvent('insertText', {
+        detail: { position: start, text: "\n" }
+      }));
+      break;
+
     case 'insertOrderedList':
     case 'insertUnorderedList':
     case 'insertHorizontalRule':
