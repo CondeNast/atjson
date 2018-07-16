@@ -13,6 +13,7 @@ export default class Document {
   annotations: Annotation[];
   schema?: Schema;
   changeListeners: Function[];
+
   private pendingChangeEvent: any;
 
   constructor(options: { content: string, annotations?: Annotation[], contentType?: string, schema?: Schema } | string) {
@@ -32,7 +33,7 @@ export default class Document {
    * listeners and don't have internet access at the moment, so I'm just going
    * to quickly roll my own here. To be updated.
    */
-  addEventListener(eventName: string, func: Function): void {
+  addEventListener(eventName: string, func: () => void): void {
     if (eventName !== 'change') throw new Error('Unsupported event. `change` is the only constant.');
     this.changeListeners.push(func);
   }
@@ -42,25 +43,6 @@ export default class Document {
     throw new Error('Unimplemented.');
   }
   */
-
-  /**
-   * This is really coarse, just enough to allow different code in the editor to detect
-   * changes in the document without handling that change management separately.
-   *
-   * Eventually it should be possible to handle this transactionally, but for
-   * now we batch all changes enacted within one cycle of the event loop and
-   * fire the change event only once. n.b that we don't send any information
-   * about the changes here yet, but that's not to say we couldn't, but rather
-   * it's not clear right now what the best approach would be so it's left
-   * undefined.
-   */
-  private triggerChange() {
-    if (this.pendingChangeEvent) return;
-    this.pendingChangeEvent = setTimeout(_ => {
-      this.changeListeners.forEach(l => l());
-      delete this.pendingChangeEvent;
-    }, 0)
-  }
 
   /**
    * Annotations must be explicitly allowed unless they
@@ -113,6 +95,7 @@ export default class Document {
   insertText(position: number, text: string, preserveAdjacentBoundaries: boolean = false) {
     if (position < 0 || position > this.content.length) throw new Error('Invalid position.');
 
+    let a: Annotation;
     const length = text.length;
 
     const before = this.content.slice(0, position);
@@ -120,7 +103,7 @@ export default class Document {
     this.content = before + text + after;
 
     for (let i = this.annotations.length - 1; i >= 0; i--) {
-      var a = this.annotations[i];
+      a = this.annotations[i];
 
       // annotation types that implement the Annotation transform interface can
       // override the default behaviour. This is desirable for e.g., links or
@@ -171,9 +154,10 @@ export default class Document {
       }
     }
 
-    if (text.indexOf("\n") > -1) {
+    if (text.indexOf('\n') > -1) {
+      let prevEnd: number;
       for (let j = this.annotations.length - 1; j >= 0; j--) {
-        var a = this.annotations[j];
+        a = this.annotations[j];
 
         // This doesn't affect us.
         if (a.type !== 'paragraph') continue;
@@ -181,7 +165,7 @@ export default class Document {
         if (position < a.start) continue;
 
         // First adjust the end of the current paragraph.
-        var prevEnd = a.end;
+        prevEnd = a.end;
         a.end = position + 1;
 
         // And now add a new paragraph.
@@ -323,5 +307,24 @@ export default class Document {
     }
 
     this.triggerChange();
+  }
+
+  /**
+   * This is really coarse, just enough to allow different code in the editor to detect
+   * changes in the document without handling that change management separately.
+   *
+   * Eventually it should be possible to handle this transactionally, but for
+   * now we batch all changes enacted within one cycle of the event loop and
+   * fire the change event only once. n.b that we don't send any information
+   * about the changes here yet, but that's not to say we couldn't, but rather
+   * it's not clear right now what the best approach would be so it's left
+   * undefined.
+   */
+  private triggerChange() {
+    if (this.pendingChangeEvent) return;
+    this.pendingChangeEvent = setTimeout(_ => {
+      this.changeListeners.forEach(l => l());
+      delete this.pendingChangeEvent;
+    }, 0);
   }
 }
