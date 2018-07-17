@@ -1,12 +1,15 @@
 
 import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
+import Document from './index';
+import JSON from './json';
 
 export type ConcreteAnnotation<T extends Annotation> = T;
 export type AnyAnnotation = ConcreteAnnotation<any>;
 export interface AnnotationConstructor {
   vendorPrefix: string;
   type: string;
+  subdocuments: { [key: string]: typeof Document };
   new(attributes: { start: number, end: number, attributes: Attributes }): AnyAnnotation;
   hydrate(attrs: { start: number, end: number, attributes: JSON }): AnyAnnotation;
 }
@@ -14,15 +17,16 @@ export interface AnnotationConstructor {
 export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
+  static subdocuments: { [key: string]: typeof Document } = {};
 
   static hydrate(
     this: AnnotationConstructor,
-    attrs: { start: number, end: number, attributes: Attributes }
+    attrs: { start: number, end: number, attributes: JSON }
   ) {
     return new this({
       start: attrs.start,
       end: attrs.end,
-      attributes: unprefix(this.vendorPrefix, attrs.attributes) as Attributes
+      attributes: unprefix(this.vendorPrefix, this.subdocuments, attrs.attributes) as Attributes
     });
   }
 
