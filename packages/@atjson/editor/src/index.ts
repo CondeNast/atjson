@@ -1,9 +1,9 @@
 import Document, { Annotation } from '@atjson/document';
+import WebComponentRenderer from '@atjson/renderer-webcomponent';
 import events from './mixins/events';
 import './selection-toolbar';
 import './text-input';
 import './text-selection';
-import WebComponentRenderer from './webcomponent-renderer';
 
 type Range = { start: number, end: number };
 

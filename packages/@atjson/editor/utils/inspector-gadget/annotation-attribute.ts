@@ -1,4 +1,4 @@
-import WebComponent from '../mixins/component';
+import WebComponent from '../../src/mixins/component';
 
 export default class AnnotationAttribute extends WebComponent {
   static template = '<span class="name"></span> = <span class="value"></span>'

@@ -22,7 +22,7 @@ export default class WebComponentRenderer {
         span.contentEditable = 'false';
         span.appendChild(document.createTextNode('\n'));
         return [document.createTextNode(str), span];
-      }).reduce((a: string, b: string) => a.concat(b));
+      }).reduce((a, b) => a.concat(b));
 
       let textParentNode = document.createElement('span');
       children.forEach((child: Node) => {
@@ -78,9 +78,11 @@ export default class WebComponentRenderer {
       let children = node.children();
       if (children.length > 0) {
         let element: Element;
-        if (this[node.type]) {
+        if (typeof (this as any)[node.type] === 'function') {
           element = this[node.type](node);
-          element.setAttribute('data-annotation-id', node.id);
+          if (node.id) {
+            element.setAttribute('data-annotation-id', node.id.toString());
+          }
         } else {
           element = document.createElement('span');
         }
@@ -89,10 +91,16 @@ export default class WebComponentRenderer {
           element.appendChild(child);
         });
         return element;
+      } else {
+        let text;
+        if (typeof (this as any)[node.type] === 'function') {
+          text = this[node.type](node);
+        } else {
+          text = '';
+        }
+        hir.set(text, node);
+        return text;
       }
-      let text = this[node.type](node);
-      hir.set(text, node);
-      return text;
     });
   }
 }
