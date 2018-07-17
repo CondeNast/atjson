@@ -1,7 +1,27 @@
-import { Annotation, Schema } from '@atjson/document';
-import { HIRNode } from '../src/index';
-import schema from './schema';
-import { bold, document, image, li, node, ol, paragraph } from './utils';
+import { InlineAnnotation } from '@atjson/document';
+import { HIRNode, RootAnnotation } from '../src';
+import { Blockquote, Bold, Image, ListItem, OrderedList, Paragraph } from './test-source';
+import { blockquote, bold, document, image, li, node, ol, paragraph } from './utils';
+
+class TestAnnotation extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'test';
+}
+
+class A extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'a';
+}
+
+class B extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'b';
+}
+
+class C extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'c';
+}
 
 let test = node('test');
 let a = node('a');
@@ -9,11 +29,10 @@ let b = node('b');
 let c = node('c');
 
 describe('@atjson/hir/hir-node', () => {
-
   it('insert sibling simple case works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
-    hir.insertAnnotation({ type: 'test', start: 5, end: 10 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new TestAnnotation({ start: 0, end: 5, attributes: {} }));
+    hir.insertAnnotation(new TestAnnotation({ start: 5, end: 10, attributes: {} }));
 
     expect(hir.toJSON()).toEqual(
       document(
@@ -24,16 +43,16 @@ describe('@atjson/hir/hir-node', () => {
   });
 
   it('insert child simple case works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new TestAnnotation({ start: 0, end: 5, attributes: {} }));
 
     expect(hir.toJSON()).toEqual(document(test()));
   });
 
   it('insert text simple case works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'test', start: 0, end: 5 });
-    hir.insertAnnotation({ type: 'test', start: 5, end: 10 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new TestAnnotation({ start: 0, end: 5, attributes: {} }));
+    hir.insertAnnotation(new TestAnnotation({ start: 5, end: 10, attributes: {} }));
 
     hir.insertText('some text.');
 
@@ -46,10 +65,10 @@ describe('@atjson/hir/hir-node', () => {
   });
 
   it('insert text nested children case works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'a', start: 0, end: 5 });
-    hir.insertAnnotation({ type: 'b', start: 2, end: 4 });
-    hir.insertAnnotation({ type: 'c', start: 5, end: 10 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new A({ start: 0, end: 5, attributes: {} }));
+    hir.insertAnnotation(new B({ start: 2, end: 4, attributes: {} }));
+    hir.insertAnnotation(new C({ start: 5, end: 10, attributes: {} }));
 
     hir.insertText('some text.');
 
@@ -62,12 +81,12 @@ describe('@atjson/hir/hir-node', () => {
   });
 
   it('out-of-order insertion of different rank nodes works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'paragraph', start: 4, end: 8 });
-    hir.insertAnnotation({ type: 'ordered-list', start: 4, end: 8 });
-    hir.insertAnnotation({ type: 'paragraph', start: 8, end: 10 });
-    hir.insertAnnotation({ type: 'list-item', start: 4, end: 8 });
-    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 4 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new Paragraph({ start: 4, end: 8, attributes: {} }));
+    hir.insertAnnotation(new OrderedList({ start: 4, end: 8, attributes: {} }));
+    hir.insertAnnotation(new Paragraph({ start: 8, end: 10, attributes: {} }));
+    hir.insertAnnotation(new ListItem({ start: 4, end: 8, attributes: {} }));
+    hir.insertAnnotation(new Paragraph({ start: 0, end: 4, attributes: {} }));
 
     hir.insertText('ab\n\nli\n\ncd');
 
@@ -85,9 +104,9 @@ describe('@atjson/hir/hir-node', () => {
   });
 
   it('insert paragraph after bold works', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'bold', start: 4, end: 6 });
-    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 10 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new Bold({ start: 4, end: 6, attributes: {} }));
+    hir.insertAnnotation(new Paragraph({ start: 0, end: 10, attributes: {} }));
 
     hir.insertText('abcdefghij');
 
@@ -99,22 +118,22 @@ describe('@atjson/hir/hir-node', () => {
   });
 
   it('annotations can override display properties', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 10 }, schema as Schema);
-    hir.insertAnnotation({ type: 'b', display: 'inline', start: 0, end: 1 });
-    hir.insertAnnotation({ type: 'c', display: 'object', start: 0, end: 1 });
-    hir.insertAnnotation({ type: 'a', display: 'block', start: 0, end: 1 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 10, attributes: {} }));
+    hir.insertAnnotation(new Bold({ start: 0, end: 1, attributes: {} }));
+    hir.insertAnnotation(new Image({ start: 0, end: 1, attributes: {} }));
+    hir.insertAnnotation(new Blockquote({ start: 0, end: 1, attributes: {} }));
 
     expect(hir.toJSON()).toEqual(
       document(
-        a(b(c()))
+        blockquote(bold(image()))
       )
     );
   });
 
   it('correctly inserts zero-length elements at boundaries', () => {
-    let hir = new HIRNode({ type: 'root', start: 0, end: 3 }, schema as Schema);
-    hir.insertAnnotation({ type: 'paragraph', start: 0, end: 3 });
-    hir.insertAnnotation({ type: 'image', start: 3, end: 3 });
+    let hir = new HIRNode(new RootAnnotation({ start: 0, end: 3, attributes: {} }));
+    hir.insertAnnotation(new Paragraph({ start: 0, end: 3, attributes: {} }));
+    hir.insertAnnotation(new Image({ start: 3, end: 3, attributes: {} }));
 
     hir.insertText('abc');
 
@@ -127,5 +146,4 @@ describe('@atjson/hir/hir-node', () => {
       )
     );
   });
-
 });

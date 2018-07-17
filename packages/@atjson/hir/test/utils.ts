@@ -17,13 +17,14 @@ function node(type: string) {
 }
 
 let bold = node('bold');
+let blockquote = node('blockquote');
 let document = node('root');
-let image = (attributes={}) => {
+let image = (attributes= {}) => {
   return {
     type: 'image',
     attributes,
     children: []
-  }
+  };
 };
 let italic = node('italic');
 let li = node('list-item');
@@ -31,4 +32,4 @@ let ol = node('ordered-list');
 let paragraph = node('paragraph');
 let ul = node('unordered-list');
 
-export { bold, document, image, italic, li, node, ol, paragraph, ul };
+export { bold, blockquote, document, image, italic, li, node, ol, paragraph, ul };
