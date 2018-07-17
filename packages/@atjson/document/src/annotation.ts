@@ -2,11 +2,13 @@
 import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 
-export interface AnnotationConstructor<T extends Annotation> {
+export type ConcreteAnnotation<T extends Annotation> = T;
+export type AnyAnnotation = ConcreteAnnotation<any>;
+export interface AnnotationConstructor {
   vendorPrefix: string;
   type: string;
-  new(attributes: { start: number, end: number, attributes: Attributes }): T;
-  hydrate(attrs: { start: number, end: number, attributes: Attributes }): Annotation;
+  new(attributes: { start: number, end: number, attributes: Attributes }): AnyAnnotation;
+  hydrate(attrs: { start: number, end: number, attributes: JSON }): AnyAnnotation;
 }
 
 export default abstract class Annotation {
@@ -14,7 +16,7 @@ export default abstract class Annotation {
   static type: string;
 
   static hydrate(
-    this: AnnotationConstructor<any>,
+    this: AnnotationConstructor,
     attrs: { start: number, end: number, attributes: Attributes }
   ) {
     return new this({
@@ -31,7 +33,7 @@ export default abstract class Annotation {
   attributes: Attributes;
 
   constructor(attrs: { start: number, end: number, attributes: Attributes }) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
+    let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
     this.start = attrs.start;
     this.end = attrs.end;
@@ -150,12 +152,12 @@ export default abstract class Annotation {
   }
 
   clone() {
-    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
+    let AnnotationClass = this.constructor as AnnotationConstructor;
     return AnnotationClass.hydrate(this.toJSON());
   }
 
   toJSON() {
-    let AnnotationClass = this.constructor as AnnotationConstructor<any>;
+    let AnnotationClass = this.constructor as AnnotationConstructor;
     let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       type: `-${vendorPrefix}-${this.type}`,

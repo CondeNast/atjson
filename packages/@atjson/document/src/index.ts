@@ -1,10 +1,8 @@
-import Annotation from './annotation';
+import Annotation, { AnnotationConstructor, AnyAnnotation } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
 import { Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import Query, { Filter, flatten } from './query';
-
-export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
 
 export interface AnnotationJSON {
   type: string;
@@ -16,6 +14,9 @@ export interface AnnotationJSON {
 export {
   AdjacentBoundaryBehaviour,
   Annotation,
+  AnnotationConstructor,
+  AnyAnnotation,
+  Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,
@@ -26,11 +27,9 @@ export {
   Unknown as UnknownAnnotation
 };
 
-export type Schema<T extends Annotation> = T[];
-
 export default class AtJSON {
   static contentType: string;
-  static schema: Schema<any> = [];
+  static schema: AnyAnnotation[] = [];
 
   content: string;
   readonly contentType: string;
