@@ -1,23 +1,23 @@
 import Document from '@atjson/document';
-import Editor from '../src';
+import EditorDemo from './editor-demo';
 
 import EditableLink from '../src/components/editable-link';
 
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
+if (!window.customElements.get('text-editor-demo')) {
+  window.customElements.define('text-editor-demo', EditorDemo);
 }
 
 // Web components in the registry can't be redefined,
 // so reload the page on every change
 if (module.hot) {
-  module.hot.dispose(function () {
+  module.hot.dispose(() => {
     window.location.reload();
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-  let editor = document.querySelector('text-editor');
+  let editor = document.querySelector('text-editor-demo');
   editor.addContentFeature(EditableLink);
 
   let doc = new URL(location.toString()).searchParams.get('document');
