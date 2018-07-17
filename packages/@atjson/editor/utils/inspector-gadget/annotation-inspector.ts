@@ -1,4 +1,4 @@
-import WebComponent from '../mixins/component';
+import WebComponent from '../../src/mixins/component';
 import AnnotationAttribute from './annotation-attribute';
 
 export default class AnnotationInspector extends WebComponent {
@@ -26,6 +26,7 @@ export default class AnnotationInspector extends WebComponent {
         this.shadowRoot.querySelector('.end').innerHTML = this.getAttribute('end');
         break;
       case 'attributes':
+        let attributes;
         try {
           attributes = JSON.parse(this.getAttribute('attributes'));
         } catch {

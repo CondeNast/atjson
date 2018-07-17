@@ -1,5 +1,6 @@
+import Document from '@atjson/document';
+import WebComponent from '../../src/mixins/component';
 import AnnotationInspector from './annotation-attribute';
-import WebComponent from '../mixins/component';
 
 if (!window.customElements.get('annotation-attribute')) {
   window.customElements.define('annotation-attribute', AnnotationInspector);
@@ -70,6 +71,8 @@ export default class AnnotationsInspector extends WebComponent {
       width: 4em;
     }
   `;
+
+  document: Document;
 
   updateTBody() {
     let tbody = '';

@@ -1,7 +1,7 @@
+import Document from '@atjson/document';
+import WebComponent from '../../src/mixins/component';
 import AnnotationsInspector from './annotations-inspector';
 import CharacterCounter from './character-counter';
-import Document from '@atjson/document';
-import WebComponent from '../mixins/component';
 
 if (!window.customElements.get('annotations-inspector')) {
   window.customElements.define('annotations-inspector', AnnotationsInspector);
@@ -19,7 +19,7 @@ export default class InspectorGadget extends WebComponent {
     <div class="cc-container">
       <character-counter start="0" end="0" length="0"></character-counter>
     </div>
-    
+
     <h2>Annotations</h2>
     <annotations-inspector class="annotations"></annotations-inspector>`;
 
@@ -69,7 +69,7 @@ export default class InspectorGadget extends WebComponent {
     this.document.addEventListener('change', (_ => {
       let charCounter = this.shadowRoot.querySelector('character-counter');
       charCounter.setAttribute('length', this.document.content.length);
-      charCounter.innerHTML = "<span>" + this.document.content.replace(/\n/g, "¶") + "</span>";
+      charCounter.innerHTML = '<span>' + this.document.content.replace(/\n/g, '¶') + '</span>';
     }));
   }
 
@@ -80,4 +80,8 @@ export default class InspectorGadget extends WebComponent {
       charCounter.setAttribute('end', evt.detail.end);
     });
   }
+}
+
+if (!window.customElements.get('inspector-gadget')) {
+  window.customElements.define('inspector-gadget', InspectorGadget);
 }

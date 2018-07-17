@@ -1,12 +1,10 @@
 import Document from '@atjson/document';
 import CommonmarkRenderer from '@atjson/renderer-commonmark';
-import OffsetLogo from '../components/logo';
-import Editor from '../index';
-import InspectorGadget from '../inspector-gadget';
-import events from '../mixins/events';
-import WebComponentRenderer from '../webcomponent-renderer';
-
-import EditableLink from '../components/editable-link';
+import WebComponentRenderer from '@atjson/renderer-webcomponent';
+import OffsetLogo from '../public/logo';
+import Editor from '../src/index';
+import events from '../src/mixins/events';
+import InspectorGadget from '../utils/inspector-gadget';
 
 if (!window.customElements.get('text-editor')) {
   window.customElements.define('text-editor', Editor);
@@ -14,10 +12,6 @@ if (!window.customElements.get('text-editor')) {
 
 if (!window.customElements.get('inspector-gadget')) {
   window.customElements.define('inspector-gadget', InspectorGadget);
-}
-
-if (!window.customElements.get('offset-logo')) {
-  window.customElements.define('offset-logo', OffsetLogo);
 }
 
 export default class EditorDemo extends events(HTMLElement) {
@@ -49,6 +43,11 @@ export default class EditorDemo extends events(HTMLElement) {
     }
   }
 
+  addContentFeature(component) {
+    let editor = this.querySelector('text-editor');
+    editor.addContentFeature(component);
+  }
+
   setDocument(doc: Document) {
     let editor = this.querySelector('text-editor');
 
@@ -73,13 +72,6 @@ export default class EditorDemo extends events(HTMLElement) {
 
   connectedCallback() {
     this.innerHTML = this.constructor.template;
-
-    let editor = this.querySelector('text-editor');
-
-    if (editor) {
-      editor.addContentFeature(EditableLink);
-    }
-
     super.connectedCallback();
   }
 }

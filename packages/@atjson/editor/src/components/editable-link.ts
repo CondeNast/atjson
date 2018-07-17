@@ -20,12 +20,12 @@ export default class EditableLink extends EditableComponent {
   `;
 
   static events = Object.assign({
-    'click .text-link': 'cancelLinkClick',
+    'click .text-link': 'cancelLinkClick'
   }, EditableComponent.events);
 
   static annotationName = 'link';
 
-  static elementRenderer = (node) => {
+  static elementRenderer(node: any): Element {
     let link = document.createElement('editable-link');
     link.setAttribute('url', node.attributes.url);
     if (node.attributes.nofollow) {
@@ -34,11 +34,11 @@ export default class EditableLink extends EditableComponent {
     return link;
   }
 
-  cancelLinkClick(evt) {
+  cancelLinkClick(evt: MouseEvent) {
     evt.preventDefault();
   }
 
-  attributeChangedCallback(attribute) {
+  attributeChangedCallback(attribute: string) {
     let link = this.shadowRoot.querySelector('a');
     let linkEditor = this.shadowRoot.querySelector('link-editor');
     switch (attribute) {
