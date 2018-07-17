@@ -10,12 +10,12 @@ export default class SelectionToolbar extends WebComponent {
   `;
 
   static events = {
-    'click': 'onClick'
+    click: 'onClick'
   };
 
-  onClick(evt) {
+  onClick(evt: MouseEvent) {
     let target = null;
-    for (var i = 0; i < evt.path.length; i++) {
+    for (let i of evt.path.length) {
       if (evt.path[i].nodeName === 'BUTTON') {
         target = evt.path[i];
         break;
@@ -23,14 +23,20 @@ export default class SelectionToolbar extends WebComponent {
     }
 
     let type = target.getAttribute('data-type');
+    let start = this.getAttribute('start');
+    let end = this.getAttribute('end');
+
+    if (start === null || end === null) return;
+
     let detail = {
       type,
-      start: parseInt(this.getAttribute('start')),
-      end: parseInt(this.getAttribute('end'))
+      start: parseInt(start, 10),
+      end: parseInt(end, 10),
+      attributes: {}
     };
 
     if (type === 'link') {
-      detail.attributes = { url: '' }
+      detail.attributes = { url: '' };
     }
 
     this.dispatchEvent(new CustomEvent('addAnnotation', { bubbles: true, detail }));

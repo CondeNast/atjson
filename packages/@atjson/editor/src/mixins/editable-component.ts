@@ -35,18 +35,20 @@ export default class EditableComponent extends WebComponent {
     }`;
 
   static events = {
-    'cursorfocus': 'cursorFocus',
-    'cursorblur': 'cursorBlur',
+    cursorfocus: 'cursorFocus',
+    cursorblur: 'cursorBlur'
   };
 
+  static annotationName: string;
+
   static get selectionButton() {
-    var el = document.createElement('button');
+    let el = document.createElement('button');
     el.setAttribute('data-type', this.annotationName);
     el.innerHTML = this.annotationName;
     return el;
   }
 
-  static elementRenderer = (node) => {
+  static elementRenderer = () => {
     throw new Error('Element Renderer must be overriden');
   }
 

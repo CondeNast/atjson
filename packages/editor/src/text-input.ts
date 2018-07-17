@@ -2,13 +2,10 @@ import events from './mixins/events';
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-const supports = {
+/* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
 };
-
-function getRangeFrom() {
-
-}
+*/
 
 // n.b. this is duplicated from text-selection and should be refactored to be
 // included from a shared base.
@@ -27,7 +24,6 @@ function getTextNodes(node: Node): Text[] {
 
   return nodes;
 }
-
 
 /**
  * The keyboard mixin normalizes keyboard input across browsers.
@@ -58,33 +54,53 @@ function getTextNodes(node: Node): Text[] {
 class TextInput extends events(HTMLElement) {
   static events = {
     'beforeinput': 'beforeinput',
-    'drag'(evt) {
-      this.lastDragEvent = evt;
-    },
-    'compositionend'(evt) {
-      let { start, end } = this.selection;
-      if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
-      } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
-      }
-      this.composing = false;
-    },
-    'change text-selection'(evt) {
-      this.selection = evt.detail;
-    },
-    'clear text-selection'() {
-      this.selection = null;
-    }
+    'drag': 'drag',
+    'compositionend': 'compositionend',
+    'change text-selection': 'setSelection',
+    'clear text-selection': 'clearSelection'
   };
+
+  private composing?: boolean;
   private selection?: { start: number, end: number, collapsed: boolean } | null;
+  private lastDragEvent?: Event;
+
+  clearSelection() {
+    this.selection = null;
+  }
+
+  setSelection(evt: CustomEvent) {
+    this.selection = evt.detail;
+  }
+
+  drag(evt: Event) {
+    this.lastDragEvent = evt;
+  }
+
+  compositionend(evt: CustomEvent) {
+    let { start, end } = this.selection;
+    if (start === end) {
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+    } else {
+      this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
+    }
+    this.composing = false;
+  }
 
   beforeinput(evt: InputEvent) {
 
     if (evt.isComposing) return;
 
-    let ranges = evt.getTargetRanges();
-    let { start, end } = this.selection;
+    let start: number;
+    let end: number;
+    let text: string;
+    let target;
+
+    if (this.selection) {
+      start = this.selection.start;
+      end = this.selection.end;
+    } else {
+      return;
+    }
 
     switch (evt.inputType) {
     case 'insertText':
@@ -103,25 +119,24 @@ class TextInput extends events(HTMLElement) {
       break;
 
     case 'insertFromPaste':
-      var text = evt.dataTransfer.getData('text/plain');
+      text = evt.dataTransfer.getData('text/plain');
 
       if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: text } }));
+        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text } }));
       } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start: start, end: end, text: text } }));
+        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text } }));
       }
       break;
 
     case 'insertFromDrop':
-      var text = evt.dataTransfer.getData('text/plain');
+      text = evt.dataTransfer.getData('text/plain');
 
-      var target = evt.getTargetRanges()[0];
+      target = evt.getTargetRanges()[0];
       start = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
 
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: text } }));
+      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text } }));
 
       break;
-
 
     case 'deleteContentBackward':
       if (this.selection.collapsed) {
@@ -138,7 +153,7 @@ class TextInput extends events(HTMLElement) {
         end++;
       }
 
-      var target = evt.getTargetRanges()[0];
+      target = evt.getTargetRanges()[0];
       let deletionStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
       let deletionEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
 
@@ -181,14 +196,14 @@ class TextInput extends events(HTMLElement) {
     case 'insertReplacementText':
       // n.b. this assumes that there is only one target range.
       if (evt.getTargetRanges().length !== 1) {
-        throw new Error('Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got', evt.getTargetRanges().length);
+        throw new Error('Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got ' + evt.getTargetRanges().length);
       }
 
-      var target = evt.getTargetRanges()[0];
+      target = evt.getTargetRanges()[0];
       let replaceStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
       let replaceEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
 
-      evt.dataTransfer.items[0].getAsString(replString => {
+      evt.dataTransfer.items[0].getAsString((replString: string) => {
         this.dispatchEvent(new CustomEvent('replaceText', {
           detail: { start: replaceStart, end: replaceEnd, text: replString }
         }));
@@ -215,7 +230,7 @@ class TextInput extends events(HTMLElement) {
     case 'insertParagraph':
       evt.preventDefault();
       this.dispatchEvent(new CustomEvent('insertText', {
-        detail: { position: start, text: "\n" }
+        detail: { position: start, text: '\n' }
       }));
       break;
 
@@ -253,11 +268,11 @@ class TextInput extends events(HTMLElement) {
     case 'formatBackColor':
     case 'formatFontColor':
     case 'formatFontName':
-      console.log('Unsupported Input Event: ', evt);
+      // console.debug('Unsupported Input Event: ', evt);
       break;
 
-    default
-      console.log('Unknown Input Event: ', evt);
+    default:
+      // console.debug('Unknown Input Event: ', evt);
       break;
     }
   }
@@ -267,7 +282,7 @@ class TextInput extends events(HTMLElement) {
   // offset to document offset directly. Not going to do it now to minimize
   // impact across the codebase, but flagging here as a potential and desirable
   // separate refactor.
-  nodeAndOffsetToDocumentOffset(node, offset): number {
+  nodeAndOffsetToDocumentOffset(node: Node, offset: number): number {
     let textNodes = getTextNodes(this);
 
     let l = textNodes.length;
@@ -279,13 +294,14 @@ class TextInput extends events(HTMLElement) {
       if (currNode === node) {
         return currOffset + offset;
       } else {
-        currOffset += (currNode.nodeValue || '').length
+        currOffset += (currNode.nodeValue || '').length;
       }
     }
 
-    throw new Error('Did not find a matching node. Was matching against', node, textNodes);
+    // console.debug('No matching node', { node: node, textNodes: textNodes });
+    throw new Error('Did not find a matching node. Was matching against');
   }
-};
+}
 
 customElements.define('text-input', TextInput);
 

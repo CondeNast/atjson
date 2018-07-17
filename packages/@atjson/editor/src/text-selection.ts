@@ -13,20 +13,6 @@ type NodeRangePoint = [MaybeNode, number];
 type NodeRange = [NodeRangePoint, NodeRangePoint];
 type TextRangePoint = [Text | null, number];
 
-function getTextNode(node: MaybeNode, trailing?: boolean): Text | null {
-  while (node && node.nodeType !== TEXT_NODE_TYPE && node != null) {
-    if (trailing) {
-      node = node.childNodes[node.childNodes.length - 1];
-    } else {
-      node = node.childNodes[0];
-    }
-  }
-  if (node) {
-    return node as Text;
-  }
-  return null;
-}
-
 function getTextNodes(node: Node): Text[] {
   let nodes: Text[] = [];
 
@@ -73,29 +59,27 @@ function previousTextNode(node: Node): TextRangePoint {
 }
 
 /**
-  Events available for listening for <text-selection>:
-
-  - `change`- called when the text selection changes
-  - `clear`- called when the text selecton is cleared
+ * Events available for listening for <text-selection>:
+ *
+ * @emits CustomEvent#change - called when the text selection changes
+ * @emits CustomEvent#clear - called when the text selecton is cleared
  */
 class TextSelection extends events(HTMLElement) {
-
-  composing: boolean;
 
   static observedAttributes = ['start', 'end'];
   static events = {
     'selectionchange document': 'selectedTextDidChange',
-    'compositionstart'() {
-      this.composing = true;
-    },
-    'compositionend'() {
-      this.composing = false;
-    },
+    'compositionstart': 'startComposition',
+    'compositionend': 'endComposition',
     'resumeinput': 'resumeInput'
   };
 
+  composing: boolean;
+
   private textNodes: Text[];
   private observer?: MutationObserver | null;
+  private _focusNode?: Node | Text | null;
+  private _previousRange?: any;
 
   constructor() {
     super();
@@ -103,7 +87,15 @@ class TextSelection extends events(HTMLElement) {
     this.composing = false;
   }
 
-  setSelection(range) {
+  startComposition() {
+    this.composing = true;
+  }
+
+  endComposition() {
+    this.composing = false;
+  }
+
+  setSelection(range: {start: number, end: number}) {
     // We need to do a force-reset here in order to avoid waiting for a full
     // cycle of the browser event loop. The DOM has changed, but if we wait
     // for the TextSelection MutationObserver to fire, the TextSelection
@@ -167,7 +159,63 @@ class TextSelection extends events(HTMLElement) {
     this.textNodes = [];
   }
 
-  private getNodeAndOffset([node, offset]: NodeRangePoint, leading: boolean): TextRangePoint | never {
+  // Handle cursor focus/blur events for elements at a cursor position.
+  handleCursorFocus(range, selectionRange) {
+
+    // If we're focused on a text node, that means we have a cursor.
+    if (selectionRange.focusNode.nodeType === 3) {
+
+      // First, clear any existing focus. We do this first because in the next step, we reset it.
+      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range[0] !== range[1])) {
+        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+        delete this._focusNode;
+      }
+
+      // If we have a collapsed range.
+      if (range[0] === range[1]) {
+
+        if (!this._previousRange || range[0] !== this._previousRange[0]) {
+          // And the focused node is *not* the same as the previously focused node.
+          if (this._focusNode !== selectionRange.focusNode) {
+
+            // then fire a focus event for parents of this text node to pick up.
+            this._focusNode = selectionRange.focusNode;
+            this._previousRange = range;
+            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
+          }
+        } else {
+
+          // We don't want to re-fire (this case is likely encountered in a
+          // re-render), but since we don't have a _focusNode we just reset it
+          // here to prevent re-firing on the next selection change.
+          if (!this._focusNode) this._focusNode = selectionRange.focusNode;
+        }
+      }
+    }
+  }
+
+  updateToolbar(range, selectionRange) {
+    let toolbarStyle = this.shadowRoot.querySelector('.toolbar').style;
+    if (range[0] === range[1]) {
+      toolbarStyle.display = 'none';
+    } else {
+      window.requestAnimationFrame(_ => {
+        let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
+        toolbarStyle.display = 'block';
+        toolbarStyle.top = selectionBoundingRect.y - selectionBoundingRect.height * 1.5;
+        toolbarStyle.left = selectionBoundingRect.x;
+      });
+    }
+  }
+
+  resumeInput() {
+    if (this._previousRange) {
+      this.setSelection(this._previousRange);
+      this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+    }
+  }
+
+  private getNodeAndOffset([node, offset]: NodeRangePoint, leading: boolean): TextRangePoint | never | null {
     // No node to get an offset for; bail
     if (node == null) {
       return [null, offset];
@@ -176,7 +224,7 @@ class TextSelection extends events(HTMLElement) {
     } else if (node.nodeType === TEXT_NODE_TYPE) {
       return [node as Text, offset];
 
-    // If the node is outside the 
+    // If the node is outside the
     } else if (!this.contains(node) && this !== node) {
       switch (this.compareDocumentPosition(node)) {
         case DOCUMENT_POSITION_PRECEDING:
@@ -198,7 +246,7 @@ class TextSelection extends events(HTMLElement) {
       if (textNodes.length === 1) {
         return [textNodes[0], 0];
       }
-      
+
       // Find the closest text node and return that
       if (textNodes.length === 0) {
         if (leading) {
@@ -207,8 +255,8 @@ class TextSelection extends events(HTMLElement) {
         return nextTextNode(node);
       }
 
-      //throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
-      return null
+      // throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
+      return null;
 
     // Firefox can return an offset that is the length
     // of the node list, which signifies that the node
@@ -230,10 +278,10 @@ class TextSelection extends events(HTMLElement) {
     let firstNode = this.textNodes[0];
     let lastNode = this.textNodes[this.textNodes.length - 1];
 
-    if (firstNode.compareDocumentPosition(text) == DOCUMENT_POSITION_PRECEDING) {
+    if (firstNode.compareDocumentPosition(text) === DOCUMENT_POSITION_PRECEDING) {
       return [firstNode, 0];
 
-    } else if (lastNode.compareDocumentPosition(text) == DOCUMENT_POSITION_FOLLOWING) {
+    } else if (lastNode.compareDocumentPosition(text) === DOCUMENT_POSITION_FOLLOWING) {
       return [lastNode, lastNode.length];
 
     }
@@ -289,7 +337,7 @@ class TextSelection extends events(HTMLElement) {
 
     // The selection range returned a selection with no base or extent;
     // This means that a node was selected that is not selectable
-    if (start[0] == null || end[0] == null) {
+    if (start[0] === null || end[0] === null) {
       this.clearSelection();
       return true;
     }
@@ -313,7 +361,7 @@ class TextSelection extends events(HTMLElement) {
       end = this.clampRangePoint(end);
     }
 
-    let lengths = nodes.map((node) => (node.nodeValue || '').length);
+    let lengths = nodes.map(node => (node.nodeValue || '').length);
     let range = [
       lengths.slice(0, nodes.indexOf(start[0])).reduce(sum, start[1]),
       lengths.slice(0, nodes.indexOf(end[0])).reduce(sum, end[1])
@@ -336,62 +384,6 @@ class TextSelection extends events(HTMLElement) {
       }
     }));
     return true;
-  }
-
-  // Handle cursor focus/blur events for elements at a cursor position.
-  handleCursorFocus(range, selectionRange) {
-
-    // If we're focused on a text node, that means we have a cursor.
-    if (selectionRange.focusNode.nodeType === 3) {
-
-      // First, clear any existing focus. We do this first because in the next step, we reset it.
-      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range[0] !== range[1])) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
-        delete this._focusNode;
-      }
-
-      // If we have a collapsed range.
-      if (range[0] === range[1]) {
-       
-        if (!this._previousRange || range[0] !== this._previousRange[0]) {
-          // And the focused node is *not* the same as the previously focused node.
-          if (this._focusNode !== selectionRange.focusNode) {
-
-            // then fire a focus event for parents of this text node to pick up.
-            this._focusNode = selectionRange.focusNode;
-            this._previousRange = range;
-            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
-          }
-        } else {
-
-          // We don't want to re-fire (this case is likely encountered in a
-          // re-render), but since we don't have a _focusNode we just reset it
-          // here to prevent re-firing on the next selection change.
-          if (!this._focusNode) this._focusNode = selectionRange.focusNode;
-        }
-      }
-    }
-  }
-
-  updateToolbar(range, selectionRange) {
-    let toolbarStyle = this.shadowRoot.querySelector('.toolbar').style;
-    if (range[0] === range[1]) {
-      toolbarStyle.display = 'none';
-    } else {
-      window.requestAnimationFrame(_ => {
-        let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
-        toolbarStyle.display = 'block';
-        toolbarStyle.top = selectionBoundingRect.y - selectionBoundingRect.height * 1.5;
-        toolbarStyle.left = selectionBoundingRect.x;
-      });
-    }
-  }
-
-  resumeInput() {
-    if (this._previousRange) {
-      this.setSelection(this._previousRange);
-      this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
-    }
   }
 }
 

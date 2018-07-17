@@ -41,17 +41,17 @@ export default class LinkEditor extends WebComponent {
     this.classList.toggle('config');
   }
 
-  beforeInput(evt) {
+  beforeInput(evt: Event) {
     evt.stopPropagation();
   }
 
-  handleKeypress(evt) {
+  handleKeypress(evt: KeyboardEvent) {
     if (evt.keyCode === 13) {
       this.onSave(evt);
     }
   }
 
-  onSave(evt) {
+  onSave(evt: Event) {
     let link = this.shadowRoot.querySelector('.urlinput');
     this.setAttribute('url', link.value);
 
@@ -62,7 +62,6 @@ export default class LinkEditor extends WebComponent {
       this.removeAttribute('nofollow');
     }
 
-    console.log('dispatching attributechange event');
     this.dispatchEvent(new CustomEvent('attributechange', {
       bubbles: true,
       composed: true,
@@ -79,7 +78,7 @@ export default class LinkEditor extends WebComponent {
     evt.stopPropagation();
   }
 
-  attributeChangedCallback(attribute) {
+  attributeChangedCallback(attribute: string) {
     let input = this.shadowRoot.querySelector('.urlinput');
     let nofollow = this.shadowRoot.querySelector('.nofollow');
     switch (attribute) {

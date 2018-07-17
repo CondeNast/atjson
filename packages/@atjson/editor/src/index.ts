@@ -1,36 +1,31 @@
-import Document from '@atjson/document';
-import WebComponentRenderer from './webcomponent-renderer';
+import Document, { Annotation } from '@atjson/document';
 import events from './mixins/events';
-import './text-selection';
-import './text-input';
 import './selection-toolbar';
+import './text-input';
+import './text-selection';
+import WebComponentRenderer from './webcomponent-renderer';
 
-const TEXT_NODE_TYPE = 3;
 type Range = { start: number, end: number };
 
-type Element = TextNode | HTMLElement;
-
 export default class Editor extends events(HTMLElement) {
-
-  selection: Range;
 
   static template = '<text-input><text-selection><selection-toolbar slot="toolbar"></selection-toolbar><div class="editor" style="white-space: pre-wrap; padding: 1em; border: 1px solid black; border-radius: 5px; outline: none; font-size: 1.5em;" contenteditable></div></text-selection></text-input>';
 
   static events = {
-    'change text-selection'(evt) {
+    'change text-selection'(evt: CustomEvent) {
       this.selection = evt.detail;
       let toolbar = this.querySelector('selection-toolbar');
       toolbar.setAttribute('start', evt.detail.start);
       toolbar.setAttribute('end', evt.detail.end);
     },
 
-    'insertText text-input'(evt) {
+    'insertText text-input'(evt: CustomEvent) {
       this.document.insertText(evt.detail.position, evt.detail.text);
       this.selection.start += evt.detail.text.length;
       this.selection.end += evt.detail.text.length;
     },
 
-    'deleteText text-input'(evt) {
+    'deleteText text-input'(evt: CustomEvent) {
       let deletion = evt.detail;
       this.document.deleteText(deletion);
       // FIXME the selection should just be an annotation that we transform. We shouldn't handle logic here.
@@ -45,7 +40,7 @@ export default class Editor extends events(HTMLElement) {
       }
     },
 
-    'replaceText text-input'(evt) {
+    'replaceText text-input'(evt: CustomEvent) {
       let replacement = evt.detail;
 
       this.document.deleteText(replacement);
@@ -53,16 +48,16 @@ export default class Editor extends events(HTMLElement) {
       this.selection.start = replacement.start + replacement.text.length;
     },
 
-    'addAnnotation'(evt) {
+    'addAnnotation'(evt: CustomEvent) {
       if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
-        const contained = (a, b) => a.start >= b.start && a.end <= b.end
-        const offset = (a, b) => a.start <= b.end && a.end >= b.start
-        let overlapping = this.document.annotations.filter(a => a.type === evt.detail.type)
-                                                   .filter(a => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
+        const contained = (a: Annotation, b: Annotation) => a.start >= b.start && a.end <= b.end;
+        const offset = (a: Annotation, b: Annotation) => a.start <= b.end && a.end >= b.start;
+        let overlapping = this.document.annotations.filter((a: Annotation) => a.type === evt.detail.type)
+                                                   .filter((a: Annotation) => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
 
-        let min = overlapping.reduce((a, b) => { return Math.min(a, b.start) }, this.document.content.length)
-        let max = overlapping.reduce((a, b) => { return Math.max(a, b.end) }, 0)
+        let min = overlapping.reduce((a, b) => { return Math.min(a, b.start); }, this.document.content.length);
+        let max = overlapping.reduce((a, b) => { return Math.max(a, b.end); }, 0);
 
         if (overlapping.length === 0) {
           this.document.addAnnotations(evt.detail);
@@ -72,7 +67,7 @@ export default class Editor extends events(HTMLElement) {
           let prev = overlapping[0];
           let newFirst = Object.assign({}, prev, evt.detail, { start: prev.start, end: evt.detail.start });
           let newLast = Object.assign({}, prev, evt.detail, { start: evt.detail.end, end: prev.end });
-          if (min !== evt.detail.start) this.document.addAnnotations(newFirst)
+          if (min !== evt.detail.start) this.document.addAnnotations(newFirst);
           if (max !== evt.detail.end) this.document.addAnnotations(newLast);
 
         } else {
@@ -84,15 +79,20 @@ export default class Editor extends events(HTMLElement) {
       } else {
         this.document.addAnnotations(evt.detail);
       }
-    }
+    },
 
-    'attributechange text-input'(evt) {
-      let annotationId = evt.target.getAttribute('data-annotation-id');
-      let annotation = this.document.annotations.find(a => a.id.toString(10) === annotationId);
-      this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+    'attributechange text-input'(evt: CustomEvent) {
+      if (evt.target !== null) {
+        let annotationId = evt.target.getAttribute('data-annotation-id');
+        let annotation = this.document.annotations.find((a: Annotation) => a.id.toString(10) === annotationId);
+        this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+      }
     }
 
   };
+
+  selection: Range | undefined;
+  document: Document | undefined;
 
   get value() {
     return this.document;
@@ -100,24 +100,31 @@ export default class Editor extends events(HTMLElement) {
 
   scheduleRender() {
     window.requestAnimationFrame(() => {
-      this.render(this.querySelector('.editor'));
-      let evt = new CustomEvent('change', { bubbles: true, detail: { document: this.document } });
-      this.dispatchEvent(evt);
+      let editor = this.querySelector('.editor');
+
+      if (editor !== null) {
+        this.render(editor);
+        let evt = new CustomEvent('change', { bubbles: true, detail: { document: this.document } });
+        this.dispatchEvent(evt);
+      }
     });
   }
 
-  render(editor) {
+  render(editor: Element) {
     let rendered = new WebComponentRenderer(this.document).render();
 
     // This can be improved by doing the comparison on an element-by-element
     // basis (or by rendering incrementally via the HIR), but for now this will
     // prevent flickering of OS UI elements (e.g., spell check) while typing
     // characters that don't result in changes outside of text elements.
-    if (rendered.innerHTML != editor.innerHTML) {
+    if (rendered.innerHTML !== editor.innerHTML) {
       editor.innerHTML = rendered.innerHTML;
 
       if (this.selection) {
-        this.querySelector('text-selection').setSelection(this.selection, { suppressEvents: true });
+        let textSelection = this.querySelector('text-selection');
+        if (textSelection) {
+          textSelection.setSelection(this.selection, { suppressEvents: true });
+        }
       }
     }
   }
@@ -127,17 +134,17 @@ export default class Editor extends events(HTMLElement) {
 
     // n.b., would be good to have a way to query for existence of id on
     // annotation (or to make ids required globally)
-    this.document.where({}).map(a => {
+    this.document.where({}).map((a: Annotation) => {
       if (a.id !== undefined) return a;
 
       // this is not safe.
       let id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
       return Object.assign(a, {id});
     });
-    this.document.addEventListener('change', (_ => this.scheduleRender() ));
+    this.document.addEventListener('change', (() => this.scheduleRender() ));
   }
 
-  addContentFeature(component) {
+  addContentFeature(component: any) {
     if (component.selectionButton) {
       this.querySelector('selection-toolbar').shadowRoot.appendChild(component.selectionButton);
     }

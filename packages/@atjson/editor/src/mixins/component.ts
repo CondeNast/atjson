@@ -24,7 +24,7 @@ export default class WebComponent extends events(HTMLElement) {
     shadowRoot.appendChild(this.constructor.compiledTemplate.content.cloneNode(true));
   }
 
-  dispatchAttributeChangeEvent(attributes) {
+  dispatchAttributeChangeEvent(attributes: {}) {
     let event = new CustomEvent('attributechange', {
       detail: attributes,
       bubbles: true

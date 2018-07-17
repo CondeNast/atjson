@@ -1,30 +1,33 @@
-import { HIR } from '@atjson/hir';
+import Document from '@atjson/document';
+import { HIR, HIRNode } from '@atjson/hir';
 
 export default class WebComponentRenderer {
 
-  constructor(document) {
+  document: Document;
+
+  constructor(document: Document) {
     this.document = document;
   }
 
   text({ text }) {
-    if (text[text.length - 1] == "\n") {
-      var nonBreakStrings = text.split("\n");
-      if (nonBreakStrings[nonBreakStrings.length - 1] == '') {
+    if (text[text.length - 1] === '\n') {
+      let nonBreakStrings = text.split('\n');
+      if (nonBreakStrings[nonBreakStrings.length - 1] === '') {
         nonBreakStrings.pop();
       }
-      var children = nonBreakStrings.map((str: string) => {
-        var span = document.createElement('span');
+      let children = nonBreakStrings.map((str: string) => {
+        let span = document.createElement('span');
         span.style.whiteSpace = 'normal';
         span.style.display = 'none';
-        span.contentEditable = false;
-        span.appendChild(document.createTextNode("\n"));
-        return [document.createTextNode(str), span]
-      }).reduce((a, b) => a.concat(b));
+        span.contentEditable = 'false';
+        span.appendChild(document.createTextNode('\n'));
+        return [document.createTextNode(str), span];
+      }).reduce((a: string, b: string) => a.concat(b));
 
-      var textParentNode = document.createElement('span');
-      children.forEach((child) => {
+      let textParentNode = document.createElement('span');
+      children.forEach((child: Node) => {
         textParentNode.appendChild(child);
-      })
+      });
 
       return textParentNode;
     }
@@ -52,7 +55,7 @@ export default class WebComponentRenderer {
   }
 
   'line-break'() {
-    var parentElement = document.createElement('span');
+    let parentElement = document.createElement('span');
     parentElement.appendChild(document.createElement('br'));
 
     return parentElement;
@@ -74,10 +77,12 @@ export default class WebComponentRenderer {
     return nodes.map((node: HIRNode) => {
       let children = node.children();
       if (children.length > 0) {
-        let element = document.createElement('span');
+        let element: Element;
         if (this[node.type]) {
           element = this[node.type](node);
           element.setAttribute('data-annotation-id', node.id);
+        } else {
+          element = document.createElement('span');
         }
         hir.set(element, node);
         this.compile(hir, children).forEach((child: Element) => {
