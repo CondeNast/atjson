@@ -15,8 +15,20 @@ export default class OffsetEditor extends events(HTMLElement) {
     'change text-selection'(evt: CustomEvent) {
       this.selection = evt.detail;
       let toolbar = this.querySelector('selection-toolbar');
-      toolbar.setAttribute('start', evt.detail.start);
-      toolbar.setAttribute('end', evt.detail.end);
+
+      let selectedAnnotations = this.document.annotations.filter(a => {
+        return (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
+               (a.start <= evt.detail.end && a.end >= evt.detail.end)
+      });
+
+      let selectionChangeEvent = new CustomEvent('selectionchange', {
+        detail: Object.assign({
+          selectedAnnotations,
+          document: this.document
+        }, evt.detail),
+        bubbles: false
+      });
+      toolbar.dispatchEvent(selectionChangeEvent);
     },
 
     'insertText text-input'(evt: CustomEvent) {
@@ -49,6 +61,7 @@ export default class OffsetEditor extends events(HTMLElement) {
     },
 
     'addAnnotation'(evt: CustomEvent) {
+      console.log('is this the real life?', evt);
       if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
         const contained = (a: Annotation, b: Annotation) => a.start >= b.start && a.end <= b.end;

@@ -38,33 +38,6 @@ class WebComponentRenderer {
     return document.createTextNode(text);
   }
 
-  paragraph() {
-    return document.createElement('p');
-  }
-
-  bold() {
-    return document.createElement('strong');
-  }
-
-  strikethrough() {
-    return document.createElement('del');
-  }
-
-  italic() {
-    return document.createElement('em');
-  }
-
-  underline() {
-    return document.createElement('u');
-  }
-
-  'line-break'() {
-    let parentElement = document.createElement('span');
-    parentElement.appendChild(document.createElement('br'));
-
-    return parentElement;
-  }
-
   render() {
     let hir = new Map<Element, HIRNode>();
     let annotationGraph = new HIR(this.document);
@@ -84,12 +57,15 @@ class WebComponentRenderer {
         let element: Element;
         if (typeof (this as any)[node.type] === 'function') {
           element = this[node.type](node);
-          if (node.id) {
-            element.setAttribute('data-annotation-id', node.id.toString());
-          }
         } else {
           element = document.createElement('span');
+          element.classList.add('unknown-annotation');
         }
+
+        if (node.id) {
+          element.setAttribute('data-annotation-id', node.id.toString());
+        }
+
         hir.set(element, node);
         this.compile(hir, children).forEach((child: Element) => {
           element.appendChild(child);

@@ -1,7 +1,7 @@
 import WebComponent from './mixins/component';
 
 export default class SelectionToolbar extends WebComponent {
-  static template = `<button data-type="bold"><b>b</b></button><button data-type="italic"><i>i</i></button><button data-type="strikethrough"><del>s</del></button>`;
+  static template = ``;
 
   static style = `
     :host {
@@ -10,36 +10,19 @@ export default class SelectionToolbar extends WebComponent {
   `;
 
   static events = {
-    click: 'onClick'
+    selectionchange: 'onSelectionChange'
   };
 
-  onClick(evt: MouseEvent) {
-    let target = null;
-    for (let i of evt.path.length) {
-      if (evt.path[i].nodeName === 'BUTTON') {
-        target = evt.path[i];
-        break;
-      }
-    }
-
-    let type = target.getAttribute('data-type');
-    let start = this.getAttribute('start');
-    let end = this.getAttribute('end');
-
-    if (start === null || end === null) return;
-
-    let detail = {
-      type,
-      start: parseInt(start, 10),
-      end: parseInt(end, 10),
-      attributes: {}
-    };
-
-    if (type === 'link') {
-      detail.attributes = { url: '' };
-    }
-
-    this.dispatchEvent(new CustomEvent('addAnnotation', { bubbles: true, detail }));
+  // Bubble down the selection change event so that the button can decide if it
+  // should be visible or not.
+  onSelectionChange(evt: CustomEvent) {
+    let visibleElements = false;
+    this.shadowRoot.childNodes.forEach(element => {
+      let event = new CustomEvent(evt.type, { bubbles: false, cancelable: true, detail: evt.detail });
+      element.dispatchEvent(event);
+      if (!event.defaultPrevented) visibleElements = true;
+    });
+    console.log('visible elements?', visibleElements);
   }
 }
 
