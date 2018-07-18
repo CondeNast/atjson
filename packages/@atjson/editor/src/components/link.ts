@@ -1,9 +1,9 @@
 import EditableComponent from '../mixins/editable-component';
 import './link-editor';
 
-export default class EditableLink extends EditableComponent {
+export default class OffsetLink extends EditableComponent {
 
-  static template = `<div class="controls"><link-editor></link-editor></div><a class="text-link" target="_blank"><slot></slot></a>`;
+  static template = `<div class="controls"><link-editor></link-editor></div><a class="link" target="_blank"><slot></slot></a>`;
 
   static observedAttributes = ['url', 'nofollow'];
 
@@ -16,13 +16,13 @@ export default class EditableLink extends EditableComponent {
   `;
 
   static events = Object.assign({
-    'click .text-link': 'cancelLinkClick'
+    'click .link': 'cancelLinkClick'
   }, EditableComponent.events);
 
   static annotationName = 'link';
 
   static elementRenderer(node: any): Element {
-    let link = document.createElement('editable-link');
+    let link = document.createElement('offset-link');
     link.setAttribute('url', node.attributes.url);
     if (node.attributes.nofollow) {
       link.setAttribute('nofollow', '');
@@ -53,6 +53,6 @@ export default class EditableLink extends EditableComponent {
   }
 }
 
-if (!window.customElements.get('editable-link')) {
-  window.customElements.define('editable-link', EditableLink);
+if (!window.customElements.get('offset-link')) {
+  window.customElements.define('offset-link', OffsetLink);
 }
