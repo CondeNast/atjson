@@ -1,9 +1,5 @@
 import EditableComponent from '../mixins/editable-component';
-import LinkEditor from './link-editor';
-
-if (!window.customElements.get('link-editor')) {
-  window.customElements.define('link-editor', LinkEditor);
-}
+import './link-editor';
 
 export default class EditableLink extends EditableComponent {
 

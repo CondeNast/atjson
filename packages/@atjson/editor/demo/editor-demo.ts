@@ -1,34 +1,29 @@
 import Document from '@atjson/document';
 import CommonmarkRenderer from '@atjson/renderer-commonmark';
 import WebComponentRenderer from '@atjson/renderer-webcomponent';
-import OffsetLogo from '../public/logo';
-import Editor from '../src/index';
-import events from '../src/mixins/events';
+import '../public/logo';
+import '../src/index';
+import WebComponent from '../src/mixins/component';
+import '../utils/inspector-gadget';
 import InspectorGadget from '../utils/inspector-gadget';
 
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
-}
-
-if (!window.customElements.get('inspector-gadget')) {
-  window.customElements.define('inspector-gadget', InspectorGadget);
-}
-
-export default class EditorDemo extends events(HTMLElement) {
-  static template = '<h1><offset-logo offset="0"></offset-logo></h1><text-editor></text-editor>' +
+export default class OffsetEditorDemo extends WebComponent {
+  static template = '<h1><offset-logo></offset-logo></h1><slot></slot>' +
                     '<h1>HTML Output</h1><div class="output"></div>' +
                     '<h1>Commonmark Output</h1><div class="markdown"></div>' +
                     '<inspector-gadget></inspector-gadget>';
 
   static events = {
-    'change text-editor'(evt: CustomEvent) {
+    'change'(evt: CustomEvent) {
+      console.log('GOT CHANGE!', evt);
       this.renderOutput(evt.detail.document);
       this.renderMarkdown(evt.detail.document);
+      this.renderInspector(evt.detail.document);
     }
   };
 
   renderOutput(doc: Document) {
-    let outputElement = this.querySelector('.output');
+    let outputElement = this.shadowRoot.querySelector('.output');
     let rendered = new WebComponentRenderer(doc).render();
     if (outputElement) {
       outputElement.innerHTML = rendered.innerHTML;
@@ -36,46 +31,27 @@ export default class EditorDemo extends events(HTMLElement) {
   }
 
   renderMarkdown(doc: Document) {
-    let outputElement = this.querySelector('.markdown');
+    let outputElement = this.shadowRoot.querySelector('.markdown');
     let rendered = new CommonmarkRenderer().render(doc);
     if (outputElement) {
       outputElement.innerHTML = rendered;
     }
   }
 
-  addContentFeature(component) {
-    let editor = this.querySelector('text-editor');
-    editor.addContentFeature(component);
-  }
-
-  setDocument(doc: Document) {
-    let editor = this.querySelector('text-editor');
-
-    if (editor === null) return;
-
-    editor.setDocument(doc);
-
-    let inspectorGadget = this.querySelector('inspector-gadget');
+  renderInspector(doc: Document) {
+    // This is really ineffecient, because we're calling it every document
+    // change at the moment. To fix this, we need a new "changedocument" or
+    // similar event on the editor.
+    let inspectorGadget: InspectorGadget = this.shadowRoot.querySelector('inspector-gadget');
+    let editor = this.querySelector('offset-editor');
 
     if (inspectorGadget) {
       inspectorGadget.setDocument(doc);
       inspectorGadget.setSelection(editor.getSelection());
     }
-
-    doc.addEventListener('change', () => {
-      let logo = this.querySelector('offset-logo');
-      if (logo) {
-         logo.setAttribute('offset', doc.content.length);
-      }
-    });
-  }
-
-  connectedCallback() {
-    this.innerHTML = this.constructor.template;
-    super.connectedCallback();
   }
 }
 
-if (!window.customElements.get('text-editor-demo')) {
-  window.customElements.define('text-editor-demo', EditorDemo);
+if (!window.customElements.get('offset-editor-demo')) {
+  window.customElements.define('offset-editor-demo', OffsetEditorDemo);
 }

@@ -98,5 +98,5 @@ export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
       });
       this.eventHandlers = {};
     }
-  }
-};
+  };
+}
