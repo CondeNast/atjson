@@ -1,23 +1,21 @@
 import Document from '@atjson/document';
-import Editor from '../src';
+import '../src';
+import OffsetEditor from '../src';
+import './logo';
 
 import EditableLink from '../src/components/editable-link';
-
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
-}
 
 // Web components in the registry can't be redefined,
 // so reload the page on every change
 if (module.hot) {
-  module.hot.dispose(function () {
+  module.hot.dispose(() => {
     window.location.reload();
   });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-  let editor = document.querySelector('text-editor');
+  let editor: OffsetEditor = document.querySelector('offset-editor');
   editor.addContentFeature(EditableLink);
 
   let doc = new URL(location.toString()).searchParams.get('document');

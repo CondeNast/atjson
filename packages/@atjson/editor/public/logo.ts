@@ -1,10 +1,9 @@
-import WebComponent from '../mixins/component';
+import WebComponent from '../src/mixins/component';
 
 export default class OffsetLogo extends WebComponent {
 
   static template = '<canvas></canvas>';
   static style = 'canvas { width: 300px; height: 150px; }';
-  static observedAttributes = ['offset', 'continuous'];
 
   ctx: CanvasRenderingContext2D;
   origin: { x: number, y: number };
@@ -128,7 +127,12 @@ export default class OffsetLogo extends WebComponent {
   }
 
   connectedCallback() {
+    super.connectedCallback();
     this.initCanvas();
     this.render();
   }
+}
+
+if (!window.customElements.get('offset-logo')) {
+  window.customElements.define('offset-logo', OffsetLogo);
 }

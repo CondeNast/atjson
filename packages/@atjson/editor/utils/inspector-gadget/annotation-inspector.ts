@@ -1,5 +1,5 @@
 import WebComponent from '../../src/mixins/component';
-import AnnotationAttribute from './annotation-attribute';
+import './annotation-attribute';
 
 export default class AnnotationInspector extends WebComponent {
 
@@ -43,4 +43,8 @@ export default class AnnotationInspector extends WebComponent {
         break;
     }
   }
+}
+
+if (!window.customElements.get('annotation-inspector')) {
+  window.customElements.define('annotation-inspector', AnnotationInspector);
 }

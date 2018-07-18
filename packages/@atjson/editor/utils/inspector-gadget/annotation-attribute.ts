@@ -16,3 +16,7 @@ export default class AnnotationAttribute extends WebComponent {
     }
   }
 }
+
+if (!window.customElements.get('annotation-attribute')) {
+  window.customElements.define('annotation-attribute', AnnotationAttribute);
+}

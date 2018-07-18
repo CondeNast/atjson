@@ -1,11 +1,8 @@
 import Document from '@atjson/document';
-import EditorDemo from './editor-demo';
+import './editor-demo';
+import OffsetEditor from '../src';
 
 import EditableLink from '../src/components/editable-link';
-
-if (!window.customElements.get('text-editor-demo')) {
-  window.customElements.define('text-editor-demo', EditorDemo);
-}
 
 // Web components in the registry can't be redefined,
 // so reload the page on every change
@@ -17,7 +14,7 @@ if (module.hot) {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  let editor = document.querySelector('text-editor-demo');
+  let editor: OffsetEditor = document.querySelector('offset-editor');
   editor.addContentFeature(EditableLink);
 
   let doc = new URL(location.toString()).searchParams.get('document');
