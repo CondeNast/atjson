@@ -1,7 +1,11 @@
 import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
-export default class WebComponentRenderer {
+interface WebComponentRenderer {
+  [key: string]: any;
+}
+
+class WebComponentRenderer {
 
   document: Document;
 
@@ -9,7 +13,7 @@ export default class WebComponentRenderer {
     this.document = document;
   }
 
-  text({ text }) {
+  text({ text }: { text: string }) {
     if (text[text.length - 1] === '\n') {
       let nonBreakStrings = text.split('\n');
       if (nonBreakStrings[nonBreakStrings.length - 1] === '') {
@@ -22,7 +26,7 @@ export default class WebComponentRenderer {
         span.contentEditable = 'false';
         span.appendChild(document.createTextNode('\n'));
         return [document.createTextNode(str), span];
-      }).reduce((a, b) => a.concat(b));
+      }).reduce((a: Array<Text | HTMLSpanElement>, b: Array<Text | HTMLSpanElement>): Array<Text | HTMLSpanElement> => a.concat(b));
 
       let textParentNode = document.createElement('span');
       children.forEach((child: Node) => {
@@ -104,3 +108,5 @@ export default class WebComponentRenderer {
     });
   }
 }
+
+export default WebComponentRenderer;
