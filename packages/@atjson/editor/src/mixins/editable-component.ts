@@ -48,7 +48,7 @@ export default class EditableComponent extends WebComponent {
     return el;
   }
 
-  static elementRenderer = () => {
+  static elementRenderer = (node: any): Element => {
     throw new Error('Element Renderer must be overriden');
   }
 

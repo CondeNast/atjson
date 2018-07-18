@@ -1,15 +1,7 @@
 import Document from '@atjson/document';
 import WebComponent from '../../src/mixins/component';
-import AnnotationsInspector from './annotations-inspector';
-import CharacterCounter from './character-counter';
-
-if (!window.customElements.get('annotations-inspector')) {
-  window.customElements.define('annotations-inspector', AnnotationsInspector);
-}
-
-if (!window.customElements.get('character-counter')) {
-  window.customElements.define('character-counter', CharacterCounter);
-}
+import './annotations-inspector';
+import './character-counter';
 
 export default class InspectorGadget extends WebComponent {
 

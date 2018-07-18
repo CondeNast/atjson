@@ -1,10 +1,6 @@
 import Document from '@atjson/document';
 import WebComponent from '../../src/mixins/component';
-import AnnotationInspector from './annotation-attribute';
-
-if (!window.customElements.get('annotation-attribute')) {
-  window.customElements.define('annotation-attribute', AnnotationInspector);
-}
+import './annotation-attribute';
 
 export default class AnnotationsInspector extends WebComponent {
   static template = `
@@ -93,4 +89,8 @@ export default class AnnotationsInspector extends WebComponent {
     this.document = doc;
     this.document.addEventListener('change', _ => window.requestAnimationFrame(_ => this.updateTBody()));
   }
+}
+
+if (!window.customElements.get('annotations-inspector')) {
+  window.customElements.define('annotations-inspector', AnnotationsInspector);
 }

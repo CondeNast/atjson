@@ -7,7 +7,7 @@ import './text-selection';
 
 type Range = { start: number, end: number };
 
-export default class Editor extends events(HTMLElement) {
+export default class OffsetEditor extends events(HTMLElement) {
 
   static template = '<text-input><text-selection><selection-toolbar slot="toolbar"></selection-toolbar><div class="editor" style="white-space: pre-wrap; padding: 1em; border: 1px solid black; border-radius: 5px; outline: none; font-size: 1.5em;" contenteditable></div></text-selection></text-input>';
 
@@ -104,7 +104,7 @@ export default class Editor extends events(HTMLElement) {
 
       if (editor !== null) {
         this.render(editor);
-        let evt = new CustomEvent('change', { bubbles: true, detail: { document: this.document } });
+        let evt = new CustomEvent('change', { bubbles: true, composed: true, detail: { document: this.document } });
         this.dispatchEvent(evt);
       }
     });
@@ -141,6 +141,7 @@ export default class Editor extends events(HTMLElement) {
       let id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
       return Object.assign(a, {id});
     });
+
     this.document.addEventListener('change', (() => this.scheduleRender() ));
   }
 
@@ -166,6 +167,6 @@ export default class Editor extends events(HTMLElement) {
   }
 }
 
-if (!window.customElements.get('text-editor')) {
-  window.customElements.define('text-editor', Editor);
+if (!window.customElements.get('offset-editor')) {
+  window.customElements.define('offset-editor', OffsetEditor);
 }

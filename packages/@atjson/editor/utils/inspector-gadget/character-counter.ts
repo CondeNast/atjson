@@ -76,3 +76,7 @@ export default class CharacterCounter extends WebComponent {
     }
   }
 }
+
+if (!window.customElements.get('character-counter')) {
+  window.customElements.define('character-counter', CharacterCounter);
+}
