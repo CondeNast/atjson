@@ -94,8 +94,18 @@ export default class OffsetEditor extends events(HTMLElement) {
       }
     },
 
-    'attributechange text-input'(evt: CustomEvent) {
-      if (evt.target !== null) {
+    'deleteAnnotation'(evt: CustomEvent) {
+      let annotation = this.document.annotations.find(a => a.id === evt.detail.annotationId);
+      this.document.removeAnnotation(annotation);
+    }
+
+    'attributechange'(evt: CustomEvent) {
+      console.log('got event', evt);
+      if (evt.detail.annotationId) {
+        let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
+        console.log('in here?', annotation);
+        this.document.replaceAnnotation(annotation, Object.assign(annotation, {attributes: evt.detail.attributes}));
+      } else if (evt.target !== null) {
         let annotationId = evt.target.getAttribute('data-annotation-id');
         let annotation = this.document.annotations.find((a: Annotation) => a.id.toString(10) === annotationId);
         this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
