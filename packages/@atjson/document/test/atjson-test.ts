@@ -1,5 +1,4 @@
-
-import TestSource, { Bold, Image, Italic } from './test-source';
+import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
 
 describe('new Document', () => {
   test('constructor accepts an object', () => {
@@ -35,6 +34,7 @@ describe('new Document', () => {
     let [bold] = document.annotations;
     let [cloneBold] = clone.annotations;
 
+    expect(clone).toBeInstanceOf(TestSource);
     expect(document.content).toEqual(clone.content);
     expect(bold).not.toBe(cloneBold);
     expect(bold).toBeInstanceOf(Bold);
@@ -68,6 +68,7 @@ describe('new Document', () => {
     let [italic] = image.attributes.caption.annotations;
 
     expect(document.content).toEqual('\uFFFC');
+    expect(image.attributes.caption).toBeInstanceOf(CaptionSource);
     expect(italic).toBeInstanceOf(Italic);
     expect(image.attributes.caption.content).toEqual('An example caption');
   });

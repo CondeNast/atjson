@@ -159,18 +159,9 @@ export default class AtJSON {
     };
   }
 
-  clone() {
+  clone(): AtJSON {
     let DocumentClass = this.constructor as typeof AtJSON;
-    let contentType = this.contentType;
-    let schema = DocumentClass.schema;
-
-    class Clone extends AtJSON {
-      static contentType = contentType;
-      static schema = schema;
-    }
-
-    let copy: AtJSON = new Clone(this.toJSON());
-    return copy;
+    return new DocumentClass(this.toJSON());
   }
 
   private createAnnotation(json: AnnotationJSON): Annotation {
