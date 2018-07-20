@@ -75,6 +75,7 @@ class TextSelection extends events(HTMLElement) {
   };
 
   composing: boolean;
+  private _cursorToolbarResetTimeout: any;
 
   private textNodes: Text[];
   private observer?: MutationObserver | null;
@@ -121,6 +122,7 @@ class TextSelection extends events(HTMLElement) {
         } else if (node.nodeType === 3) {
           node.parentNode.focus();
         }
+
         selection.removeAllRanges();
         selection.addRange(r);
         break;
@@ -371,8 +373,13 @@ class TextSelection extends events(HTMLElement) {
       return true;
     }
 
-    this.handleCursorFocus(range, selectionRange);
-    this.updateToolbar(range, selectionRange);
+    clearTimeout(this._cursorToolbarResetTimeout);
+
+    this._cursorToolbarResetTimeout = setTimeout(_ => {
+      delete this._cursorToolbarResetTimeout;
+      this.handleCursorFocus(range, selectionRange);
+      this.updateToolbar(range, selectionRange);
+    }, 500);
 
     this.setAttribute('start', range[0].toString());
     this.setAttribute('end', range[1].toString());
