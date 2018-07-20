@@ -29,12 +29,34 @@ describe('@atjson/renderer-hir', () => {
     });
 
     let root = new HIR(atjson).rootNode;
-    let callStack = [
-      root.annotation,
-      root.children()[1].annotation,
-      root.children()[1].children()[1].annotation,
-      root.children()[2].annotation
-    ];
+    let [, bold, italic] = root.children();
+    let boldAndItalic = bold.children()[1];
+
+    let callStack = [{
+      annotation: root.annotation,
+      parent: null,
+      previous: null,
+      next: null,
+      children: ['This is ', bold.annotation, italic.annotation, ' text']
+    }, {
+      annotation: bold.annotation,
+      parent: root.annotation,
+      previous: null,
+      next: italic.annotation,
+      children: ['bold', boldAndItalic.annotation]
+    }, {
+      annotation: boldAndItalic.annotation,
+      parent: bold.annotation,
+      previous: null,
+      next: null,
+      children: [' and ']
+    }, {
+      annotation: italic.annotation,
+      parent: root.annotation,
+      previous: bold.annotation,
+      next: null,
+      children: ['italic']
+    }];
 
     let textBuilder: string[] = [
       ' and ',
@@ -45,7 +67,28 @@ describe('@atjson/renderer-hir', () => {
 
     class ConcreteRenderer extends HIRRenderer {
       *renderAnnotation(annotation: AnyAnnotation): IterableIterator<any> {
-        expect(annotation).toEqual(callStack.shift());
+        let expected = callStack.shift();
+        expect(annotation.toJSON()).toEqual(expected.annotation.toJSON());
+
+        if (annotation.parent) {
+          expect(annotation.parent.toJSON()).toEqual(expected.parent.toJSON());
+        } else {
+          expect(annotation.parent).toBe(expected.parent);
+        }
+
+        if (annotation.previous) {
+          expect(annotation.previous.toJSON()).toEqual(expected.previous.toJSON());
+        } else {
+          expect(annotation.previous).toBe(expected.previous);
+        }
+
+        if (annotation.next) {
+          expect(annotation.next.toJSON()).toEqual(expected.next.toJSON());
+        } else {
+          expect(annotation.next).toBe(expected.next);
+        }
+
+        expect(annotation.children).toEqual(expected.children);
 
         let text: string[] = yield;
         expect(text.join('')).toEqual(textBuilder.shift());
