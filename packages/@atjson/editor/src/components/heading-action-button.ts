@@ -90,6 +90,15 @@ export default class OffsetHeadingActionButton extends WebComponent {
           annotationId: overlappingHeading.id
         }
       }));
+      this.dispatchEvent(new CustomEvent('addAnnotation', {
+        bubbles: true,
+        composed: true,
+        detail: {
+          type: 'paragraph',
+          start: overlappingHeading.start,
+          end: overlappingHeading.end
+        }
+      }));
     } else {
       // Create a new Heading at level 1
       let content = this.selection.document.content;
