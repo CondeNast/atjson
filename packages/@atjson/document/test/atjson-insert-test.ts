@@ -15,11 +15,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-bold',
         start: 1,
         end: 3,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-link',
         start: 1,
         end: 2,
@@ -36,11 +38,13 @@ describe('Document.insertText', () => {
     expect(bold).toBeInstanceOf(Bold);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-bold',
       start: 4,
       end: 6,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-link',
       start: 4,
       end: 5,
@@ -54,11 +58,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 0,
         end: 2,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-color',
         start: 0,
         end: 2,
@@ -74,11 +80,13 @@ describe('Document.insertText', () => {
     expect(italic).toBeInstanceOf(Italic);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-italic',
       start: 0,
       end: 2,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-color',
       start: 0,
       end: 2,
@@ -92,11 +100,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-bold',
         start: 1,
         end: 3,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-underline',
         start: 1,
         end: 3,
@@ -110,11 +120,13 @@ describe('Document.insertText', () => {
     expect(bold).toBeInstanceOf(Bold);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-bold',
       start: 1,
       end: 6,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-underline',
       start: 1,
       end: 6,
@@ -126,11 +138,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 0,
         end: 2,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-strikethrough',
         start: 0,
         end: 2,
@@ -140,11 +154,13 @@ describe('Document.insertText', () => {
     atjson.insertText(0, 'zzz');
     expect(atjson.content).toBe('zzzabcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-italic',
       start: 3,
       end: 5,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-strikethrough',
       start: 3,
       end: 5,
@@ -156,11 +172,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 0,
         end: 2,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-underline',
         start: 0,
         end: 2,
@@ -170,11 +188,13 @@ describe('Document.insertText', () => {
     atjson.insertText(2, 'zzz');
     expect(atjson.content).toBe('abzzzcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-italic',
       start: 0,
       end: 5,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-underline',
       start: 0,
       end: 5,
@@ -186,21 +206,25 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'ac',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 0,
         end: 1,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-bold',
         start: 1,
         end: 2,
         attributes: {}
       }, {
+        id: '3',
         type: '-test-superscript',
         start: 0,
         end: 1,
         attributes: {}
       }, {
+        id: '4',
         type: '-test-subscript',
         start: 1,
         end: 2,
@@ -212,21 +236,25 @@ describe('Document.insertText', () => {
 
     expect(atjson.content).toBe('abc');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-italic',
       start: 0,
       end: 2,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-bold',
       start: 2,
       end: 3,
       attributes: {}
     }, {
+      id: '3',
       type: '-test-superscript',
       start: 0,
       end: 2,
       attributes: {}
     }, {
+      id: '4',
       type: '-test-subscript',
       start: 2,
       end: 3,
@@ -238,6 +266,7 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-bold',
         start: 0,
         end: 2,
@@ -247,6 +276,7 @@ describe('Document.insertText', () => {
     atjson.insertText(0, 'zzz', AdjacentBoundaryBehaviour.preserve);
     expect(atjson.content).toBe('zzzabcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-bold',
       start: 0,
       end: 5,
@@ -258,11 +288,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 0,
         end: 2,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-underline',
         start: 0,
         end: 2,
@@ -273,11 +305,13 @@ describe('Document.insertText', () => {
     atjson.insertText(2, 'zzz', AdjacentBoundaryBehaviour.preserve);
     expect(atjson.content).toBe('abzzzcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-italic',
       start: 0,
       end: 2,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-underline',
       start: 0,
       end: 2,
@@ -289,11 +323,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'ac',
       annotations: [{
+        id: '1',
         type: '-test-bold',
         start: 0,
         end: 1,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-italic',
         start: 1,
         end: 2,
@@ -305,11 +341,13 @@ describe('Document.insertText', () => {
 
     expect(atjson.content).toBe('abc');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-bold',
       start: 0,
       end: 1,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-italic',
       start: 1,
       end: 3,
@@ -321,11 +359,13 @@ describe('Document.insertText', () => {
     let atjson = new TestSource({
       content: 'abcd',
       annotations: [{
+        id: '1',
         type: '-test-manual',
         start: 0,
         end: 2,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-emoji',
         start: 0,
         end: 2,
@@ -338,11 +378,13 @@ describe('Document.insertText', () => {
     atjson.insertText(2, 'zzz');
     expect(atjson.content).toBe('abzzzcd');
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-manual',
       start: 1,
       end: 3,
       attributes: {}
     }, {
+      id: '2',
       type: '-test-emoji',
       start: 0,
       end: 5,

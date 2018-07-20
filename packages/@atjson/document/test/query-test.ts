@@ -6,6 +6,7 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: 'Hello',
       annotations: [{
+        id: '1',
         type: '-test-h1',
         start: 0,
         end: 5,
@@ -13,10 +14,10 @@ describe('Document.where', () => {
       }]
     });
 
-
     doc.where({ type: '-test-h1' }).set({ type: '-test-heading', attributes: { '-test-level': 1 } });
     expect(doc.content).toBe('Hello');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-heading',
       attributes: {
         '-test-level': 1
@@ -30,6 +31,7 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: '\uFFFC',
       annotations: [{
+        id: '1',
         type: '-test-social',
         attributes: {
           '-test-type': 'instagram',
@@ -44,6 +46,7 @@ describe('Document.where', () => {
 
     expect(doc.content).toBe('\uFFFC');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-instagram',
       attributes: {
         '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
@@ -57,14 +60,15 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
+        id: '1',
         type: '-test-a',
         attributes: {
           '-test-href': 'https://example.com'
         },
         start: 0,
         end: 5
-      },
-      {
+      }, {
+        id: '2',
         type: '-test-a',
         attributes: {
           '-test-href': 'https://condenast.com'
@@ -77,6 +81,7 @@ describe('Document.where', () => {
     doc.where({ type: '-test-a' }).set({ type: '-test-link' }).rename({ attributes: { '-test-href': '-test-url' } });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
       type: '-test-link',
       attributes: {
         '-test-url': 'https://example.com'
@@ -84,6 +89,7 @@ describe('Document.where', () => {
       start: 0,
       end: 5
     }, {
+      id: '2',
       type: '-test-link',
       attributes: {
         '-test-url': 'https://condenast.com'
@@ -97,6 +103,7 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: 'Conde Nast',
       annotations: [{
+        id: '1',
         type: '-test-a',
         attributes: {
           '-test-href': 'http://example.com'
@@ -109,6 +116,7 @@ describe('Document.where', () => {
     doc.where({ type: '-test-a' }).update((anchor: Anchor) => {
       let href = anchor.attributes.href;
       doc.replaceAnnotation(anchor, {
+        id: '2',
         type: '-test-link',
         start: anchor.start,
         end: anchor.end,
@@ -120,6 +128,7 @@ describe('Document.where', () => {
 
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '2',
       type: '-test-link',
       attributes: {
         '-test-url': 'https://example.com'
@@ -133,6 +142,7 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: 'function () {}',
       annotations: [{
+        id: '1',
         type: '-test-code',
         start: 0,
         end: 14,
@@ -149,6 +159,7 @@ describe('Document.where', () => {
     let doc = new TestSource({
       content: 'string.trim();\nstring.strip',
       annotations: [{
+        id: '1',
         type: '-test-code',
         start: 0,
         end: 14,
@@ -156,8 +167,8 @@ describe('Document.where', () => {
           '-test-class': 'language-js',
           '-test-language': 'js'
         }
-      },
-      {
+      }, {
+        id: '2',
         type: '-test-code',
         start: 16,
         end: 28,
@@ -170,11 +181,13 @@ describe('Document.where', () => {
 
     doc.where({ type: '-test-code' }).update(annotation => {
       let annotations = doc.replaceAnnotation(annotation, {
+        id: annotation.id + '-1',
         type: '-test-pre',
         start: annotation.start,
         end: annotation.end,
         attributes: annotation.toJSON().attributes as Attributes
       }, {
+        id: annotation.id + '-2',
         type: '-test-code',
         start: annotation.start,
         end: annotation.end,
@@ -189,6 +202,7 @@ describe('Document.where', () => {
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1-1',
       type: '-test-pre',
       start: 0,
       end: 14,
@@ -196,11 +210,13 @@ describe('Document.where', () => {
         '-test-language': 'js'
       }
     }, {
+      id: '1-2',
       type: '-test-code',
       start: 0,
       end: 14,
       attributes: {}
     }, {
+      id: '2-1',
       type: '-test-pre',
       start: 16,
       end: 28,
@@ -208,6 +224,7 @@ describe('Document.where', () => {
         '-test-language': 'rb'
       }
     }, {
+      id: '2-2',
       type: '-test-code',
       start: 16,
       end: 28,
@@ -220,6 +237,7 @@ describe('Document.where', () => {
       let doc = new TestSource({
         content: 'string.trim();\nstring.strip\nextra',
         annotations: [{
+          id: '1',
           type: '-test-code',
           start: 0,
           end: 14,
@@ -227,32 +245,34 @@ describe('Document.where', () => {
             '-test-class': 'language-js',
             '-test-language': 'js'
           }
-        },
-        {
+        }, {
+          id: '2',
           type: '-test-pre',
           start: 0,
           end: 14,
           attributes: {}
-        },
-        {
+        }, {
+          id: '3',
           type: '-test-pre',
           start: 16,
           end: 28,
           attributes: {}
-        },
-        {
+        }, {
+          id: '4',
           type: '-test-code',
           start: 30,
           end: 35,
           attributes: {}
         }]
       });
+
       let codeBlocks = doc.where({ type: '-test-code' }).as('code');
       let preformattedText = doc.where({ type: '-test-pre' }).as('pre');
       let preAndCode = codeBlocks.join(preformattedText, (l, r) => l.start === r.start && l.end === r.end);
 
       expect(preAndCode.toJSON()).toEqual([{
         code: {
+          id: '1',
           type: '-test-code',
           start: 0,
           end: 14,
@@ -262,6 +282,7 @@ describe('Document.where', () => {
           }
         },
         pre: [{
+          id: '2',
           type: '-test-pre',
           start: 0,
           end: 14,
@@ -276,6 +297,7 @@ describe('Document.where', () => {
       });
 
       expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+        id: '1',
         type: '-test-code',
         start: 0,
         end: 12,
@@ -285,11 +307,13 @@ describe('Document.where', () => {
           '-test-textStyle': 'pre'
         }
       }, {
+        id: '3',
         type: '-test-pre',
         start: 14,
         end: 26,
         attributes: {}
       }, {
+        id: '4',
         type: '-test-code',
         end: 33,
         start: 28,
@@ -301,6 +325,7 @@ describe('Document.where', () => {
       let doc = new TestSource({
         content: 'string.trim();\nstring.strip\nextra',
         annotations: [{
+          id: '1',
           type: '-test-code',
           start: 0,
           end: 14,
@@ -308,30 +333,34 @@ describe('Document.where', () => {
             '-test-class': 'language-js',
             '-test-language': 'js'
           }
-        },
-        {
+        }, {
+          id: '2',
           type: '-test-pre',
           start: 0,
           end: 14,
           attributes: {}
-        },
-        {
+        }, {
+          id: '3',
           type: '-test-pre',
           start: 16,
           end: 28,
           attributes: {}
-        },
-        {
+        }, {
+          id: '4',
           type: '-test-code',
           start: 30,
           end: 35,
           attributes: {}
         }, {
+          id: '5',
           type: '-test-locale',
           start: 0,
           end: 14,
-          attributes: { '-test-locale': 'en-us' }
+          attributes: {
+            '-test-locale': 'en-us'
+          }
         }, {
+          id: '6',
           type: '-test-pre',
           start: 0,
           end: 14,
@@ -348,6 +377,7 @@ describe('Document.where', () => {
 
       expect(threeWayJoin.toJSON()).toEqual([{
         code: {
+          id: '1',
           type: '-test-code',
           start: 0,
           end: 14,
@@ -357,11 +387,13 @@ describe('Document.where', () => {
           }
         },
         preElements: [{
+          id: '2',
           type: '-test-pre',
           start: 0,
           end: 14,
           attributes: {}
         }, {
+          id: '6',
           type: '-test-pre',
           start: 0,
           end: 14,
@@ -370,6 +402,7 @@ describe('Document.where', () => {
           }
         }],
         locale: [{
+          id: '5',
           type: '-test-locale',
           start: 0,
           end: 14,
@@ -382,21 +415,19 @@ describe('Document.where', () => {
       threeWayJoin.update(({ code, preElements, locale }) => {
         doc.insertText(0, 'Hello!\n');
 
-        let newAttributes: any = {};
+        let newCode = code.clone();
         preElements.forEach(pre => {
-          Object.assign(newAttributes, pre.attributes);
+          Object.assign(newCode.attributes, pre.attributes);
           doc.removeAnnotation(pre);
         });
-        newAttributes.locale = locale[0].attributes.locale;
+        newCode.attributes.locale = locale[0].attributes.locale;
         doc.removeAnnotation(locale[0]);
 
-        let newCode = Object.assign(code, {
-          attributes: Object.assign(code.attributes, newAttributes)
-        });
-        doc.replaceAnnotation(code, newCode.toJSON() as AnnotationJSON);
+        doc.replaceAnnotation(code, newCode.toJSON());
       });
 
       expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+        id: '1',
         type: '-test-code',
         start: 7,
         end: 21,
@@ -407,11 +438,13 @@ describe('Document.where', () => {
           '-test-style': 'color: red'
         }
       }, {
+        id: '3',
         type: '-test-pre',
         start: 23,
         end: 35,
         attributes: {}
       }, {
+        id: '4',
         type: '-test-code',
         start: 37,
         end: 42,

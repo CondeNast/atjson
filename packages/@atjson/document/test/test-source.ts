@@ -18,6 +18,11 @@ export class Italic extends InlineAnnotation {
   static type = 'italic';
 }
 
+export class CaptionSource extends Document {
+  static contentType = 'application/vnd.atjson+caption';
+  static schema = [Bold, Italic];
+}
+
 export class Instagram extends ObjectAnnotation {
   static vendorPrefix = 'test';
   static type = 'instagram';
@@ -49,6 +54,15 @@ export class Preformatted extends ObjectAnnotation {
   };
 }
 
+export class Image extends ObjectAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'image';
+  static subdocuments = { caption: CaptionSource };
+  attributes!: {
+    caption: Document;
+  };
+}
+
 export class Manual extends ObjectAnnotation {
   static vendorPrefix = 'test';
   static type = 'manual';
@@ -67,7 +81,7 @@ export class Manual extends ObjectAnnotation {
   }
 }
 
-export default class TestDocument extends Document {
+export default class TestSource extends Document {
   static contentType = 'application/vnd.atjson+test';
-  static schema = [Anchor, Bold, Code, Instagram, Italic, Locale, Manual, Preformatted];
+  static schema = [Anchor, Bold, Code, Image, Instagram, Italic, Locale, Manual, Preformatted];
 }

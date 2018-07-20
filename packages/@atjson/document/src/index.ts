@@ -1,13 +1,13 @@
-import Annotation from './annotation';
+import Annotation, { AnnotationConstructor, AnyAnnotation } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
-import { Attributes } from './attributes';
+import { Attribute, Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import AnnotationCollection from './collection';
 import Join from './join';
-
-export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
+import JSON from './json';
 
 export interface AnnotationJSON {
+  id: string;
   type: string;
   start: number;
   end: number;
@@ -18,23 +18,25 @@ export {
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationCollection,
+  AnnotationConstructor,
+  AnyAnnotation,
+  Attribute,
   Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,
   Inline as InlineAnnotation,
   Insertion,
+  JSON,
   Object as ObjectAnnotation,
   Join,
   Parse as ParseAnnotation,
   Unknown as UnknownAnnotation
 };
 
-export type Schema<T extends Annotation> = T[];
-
 export default class Document {
   static contentType: string;
-  static schema: Schema<any>;
+  static schema: AnyAnnotation[] = [];
 
   content: string;
   readonly contentType: string;
@@ -107,10 +109,15 @@ export default class Document {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, ...newAnnotations: AnnotationJSON[]): Annotation[] {
+  replaceAnnotation(annotation: Annotation, ...newAnnotations: Array<AnnotationJSON | Annotation>): Annotation[] {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      let annotations = newAnnotations.map(json => this.createAnnotation(json));
+      let annotations = newAnnotations.map(newAnnotation => {
+        if (newAnnotation instanceof Annotation) {
+          return newAnnotation;
+        }
+        return this.createAnnotation(newAnnotation);
+      });
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -199,12 +206,7 @@ export default class Document {
    * Slices return part of a document from the parent document.
    */
   slice(start: number, end: number): Document {
-    let DocumentClass: any = this.constructor;
-    let doc = new DocumentClass({
-      content: this.content,
-      annotations: this.annotations.map(a => a.toJSON())
-    });
-
+    let doc = this.clone();
     doc.deleteText(0, start);
     doc.deleteText(end, doc.content.length);
 
@@ -223,6 +225,11 @@ export default class Document {
     };
   }
 
+  clone(): Document {
+    let DocumentClass = this.constructor as typeof Document;
+    return new DocumentClass(this.toJSON());
+  }
+
   private createAnnotation(json: AnnotationJSON): Annotation {
     let DocumentClass = this.constructor as typeof Document;
     let schema = DocumentClass.schema.slice().concat([Parse]);
@@ -235,6 +242,7 @@ export default class Document {
       return ConcreteAnnotation.hydrate(json);
     } else {
       return new Unknown({
+        id: json.id,
         start: json.start,
         end: json.end,
         attributes: {

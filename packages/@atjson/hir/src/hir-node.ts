@@ -1,100 +1,114 @@
-import Document, { Annotation, Display, Schema } from '@atjson/document';
-import { HIR } from '.';
-import JSONNode from './json-node';
+import Document, { Annotation, AnyAnnotation, Attribute, JSON, ParseAnnotation } from '@atjson/document';
+import { Root, Text } from './annotations';
+import HIR from './hir';
 
-const RANK = {
-  root: 0,
-  block: 1,
-  paragraph: 2,
-  inline: 3,
-  object: 4,
-  parse: Number.MAX_SAFE_INTEGER,
-  text: Infinity
-};
+export interface Dictionary<T> {
+  [key: string]: T | undefined;
+}
+
+export type HIRAttribute = string | number | boolean | null | HIRAttributeObject | HIRAttributeArray | HIR;
+export interface HIRAttributeObject extends Dictionary<HIRAttribute> {}
+export interface HIRAttributeArray extends Array<HIRAttribute> {}
+
+export interface HIRAttributes {
+  [key: string]: HIRAttribute;
+}
+
+function toHIR(attribute: Attribute): HIRAttribute {
+  if (Array.isArray(attribute)) {
+    return attribute.map(attr => {
+      let result = toHIR(attr);
+      return result;
+    });
+  } else if (attribute instanceof Document) {
+    return new HIR(attribute);
+  } else if (attribute == null) {
+    return null;
+  } else if (typeof attribute === 'object') {
+    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+      let value = attribute[key];
+      if (value == null) {
+        copy[key] = value;
+      } else {
+        copy[key] = toHIR(value);
+      }
+      return copy;
+    }, {});
+  } else {
+    return attribute;
+  }
+}
+
+function toJSON(attribute: HIRAttribute): JSON {
+  if (Array.isArray(attribute)) {
+    return attribute.map(attr => {
+      let result = toJSON(attr);
+      return result;
+    });
+  } else if (attribute instanceof HIR) {
+    return attribute.toJSON();
+  } else if (attribute == null) {
+    return null;
+  } else if (typeof attribute === 'object') {
+    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+      let value = attribute[key];
+      if (value == null) {
+        copy[key] = value;
+      } else {
+        copy[key] = toJSON(value);
+      }
+      return copy;
+    }, {});
+  } else {
+    return attribute;
+  }
+}
 
 export default class HIRNode {
 
-  type: string;
-  attributes?: object;
-
+  annotation: AnyAnnotation;
+  id: string;
+  attributes: HIRAttributes;
   start: number;
   end: number;
 
-  id?: number | string;
-
-  text?: string;
-
-  rank: number;
-
-  private child: HIRNode | undefined;
-  private sibling: HIRNode | undefined;
-  private schema: Schema;
-
-  constructor(node: {type: string, start: number, end: number, display?: Display, id?: number | string, attributes?: object, text?: string}, schema?: Schema) {
-    this.type = node.type;
-    this.start = node.start;
-    this.end = node.end;
-    if (node.id) this.id = node.id;
-    this.attributes = Object.keys(node.attributes || {}).reduce((attrs: any, key: string) => {
-      let value = (node.attributes as any)[key];
-      if (value instanceof Document) {
-        attrs[key] = new HIR(value);
-      } else {
-        attrs[key] = value;
-      }
-      return attrs;
-    }, {});
-    this.rank = RANK.inline;
-    this.schema = schema || {};
-
-    // Overrides on annotations are used first
-    if (node.display) {
-      this.rank = RANK[node.display];
-
-    // Handle built-in types first
-    } else if (node.type === 'text' && typeof node.text === 'string') {
-      this.rank = RANK.text;
-      this.text = node.text;
-    } else if (node.type === 'parse-token') {
-      this.rank = RANK.parse;
-    } else if (node.type === 'root') {
-      this.rank = RANK.root;
-    } else if (this.schema[this.type]) {
-      this.rank = RANK[this.schema[this.type].display];
-    }
+  get type() {
+    return this.annotation.type;
   }
 
-  toJSON(): JSONNode | string {
-    if (this.type === 'text' && typeof this.text === 'string') {
-      return this.text;
+  get rank() {
+    return this.annotation.rank;
+  }
+
+  private child?: HIRNode;
+  private sibling?: HIRNode;
+
+  constructor(annotation: Annotation) {
+    this.annotation = annotation;
+    this.id = annotation.id;
+    this.start = annotation.start;
+    this.end = annotation.end;
+    this.attributes = toHIR(annotation.attributes) as HIRAttributes;
+  }
+
+  toJSON(): JSON {
+    if (this.annotation instanceof Text) {
+      return this.annotation.attributes.text;
     }
 
-    let attributes = Object.keys(this.attributes || {}).reduce((attrs: any, key: string) => {
-      let value = (this.attributes as any)[key];
-      if (value instanceof HIR) {
-        attrs[key] = value.toJSON();
-      } else {
-        attrs[key] = value;
-      }
-      return attrs;
-    }, {});
-
-    let retVal: JSONNode = {
+    return {
+      id: this.id,
       type: this.type,
-      attributes,
+      attributes: toJSON(this.attributes),
       children: this.children().map(child => {
         return child.toJSON();
       })
     };
-
-    if (this.id) retVal.id = this.id;
-
-    return retVal;
   }
 
   children(): HIRNode[] {
     if (this.child) {
-      return [this.child].concat(this.child.siblings()).filter(node => node.type !== 'parse-token');
+      return [this.child].concat(this.child.siblings()).filter(node => !(node.annotation instanceof ParseAnnotation));
     } else {
       return [];
     }
@@ -109,12 +123,11 @@ export default class HIRNode {
   }
 
   insertAnnotation(annotation: Annotation): void {
-    let hirNode = new HIRNode(annotation, this.schema);
-    this.insertNode(hirNode);
+    this.insertNode(new HIRNode(annotation));
   }
 
   insertText(text: string): void {
-    if (this.type !== 'root') {
+    if (!(this.annotation instanceof Root)) {
       throw new Error('temporary exception; this should only exist in the root node subclass');
     }
 
@@ -123,12 +136,12 @@ export default class HIRNode {
     // Don't insert Object Replacement Characters.
     if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
 
-    let node = new HIRNode({
-      text,
-      type: 'text',
+    let node = new HIRNode(new Text({
+      id: Date.now().toString(),
       start: this.start,
-      end: this.end
-    });
+      end: this.end,
+      attributes: { text }
+    }));
 
     this.insertNode(node);
   }
@@ -136,7 +149,8 @@ export default class HIRNode {
   insertNode(node: HIRNode): void {
     let insertedWholeNode = false;
 
-    /* Don't insert nodes into text nodes; always append them as siblings.
+    /**
+     * Don't insert nodes into text nodes; always append them as siblings.
      *
      * FIXME this should probably check to see if the node in question overlaps
      * with the text node, and if so, subsume the text node (this) into the
@@ -173,7 +187,7 @@ export default class HIRNode {
       this.sibling = node;
     } else {
       if (node.rank < this.sibling.rank) {
-        // FIXME FIXME FIXME this needs refacotring, as with below.
+        // FIXME FIXME FIXME this needs refactoring, as with below.
         if (this.sibling.start < node.start) {
           let preSibling = this.sibling.trim(this.end, node.start);
           let postSibling = this.sibling.trim(node.start, this.sibling.end);
@@ -263,24 +277,25 @@ export default class HIRNode {
       return this;
     }
 
-    let newNode = new HIRNode(this);
-    newNode.start = Math.min(Math.max(newNode.start, start), newNode.end);
-    newNode.end = Math.max(newNode.start, Math.min(newNode.end, end));
+    let partial = new HIRNode(this.annotation.clone());
+    partial.start = Math.min(Math.max(partial.start, start), partial.end);
+    partial.end = Math.max(partial.start, Math.min(partial.end, end));
 
-    if (newNode.start === newNode.end) return;
+    if (partial.start === partial.end) return;
 
-    if (newNode.start > newNode.end) {
+    if (partial.start > partial.end) {
       throw new Error('something has gone catastrophically wrong');
     }
 
     // nb move to HIRTextNode
-    if (newNode.type === 'text' && typeof(this.text) === 'string') {
-      newNode.text = this.text.slice(newNode.start - this.start, newNode.end - this.start);
-      if (newNode.text === '\uFFFC') {
+    if (this.annotation instanceof Text) {
+      let text = this.annotation.attributes.text;
+      partial.annotation.attributes.text = text.slice(partial.start - this.start, partial.end - this.start);
+      if (partial.annotation.attributes.text === '\uFFFC') {
         return;
       }
     }
 
-    return newNode;
+    return partial;
   }
 }
