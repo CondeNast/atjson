@@ -202,7 +202,7 @@ class TextSelection extends events(HTMLElement) {
       window.requestAnimationFrame(_ => {
         let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
         toolbarStyle.display = 'block';
-        toolbarStyle.top = selectionBoundingRect.y - selectionBoundingRect.height * 1.5;
+        toolbarStyle.bottom = selectionBoundingRect.y - 3;
         toolbarStyle.left = selectionBoundingRect.x;
       });
     }
