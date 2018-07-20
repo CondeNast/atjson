@@ -61,7 +61,6 @@ export default class OffsetEditor extends events(HTMLElement) {
     },
 
     'addAnnotation'(evt: CustomEvent) {
-      console.log('is this the real life?', evt);
       if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
 
         const contained = (a: Annotation, b: Annotation) => a.start >= b.start && a.end <= b.end;
@@ -100,10 +99,8 @@ export default class OffsetEditor extends events(HTMLElement) {
     }
 
     'attributechange'(evt: CustomEvent) {
-      console.log('got event', evt);
       if (evt.detail.annotationId) {
         let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
-        console.log('in here?', annotation);
         this.document.replaceAnnotation(annotation, Object.assign(annotation, {attributes: evt.detail.attributes}));
       } else if (evt.target !== null) {
         let annotationId = evt.target.getAttribute('data-annotation-id');
