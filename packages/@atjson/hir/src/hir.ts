@@ -1,7 +1,6 @@
-import Document, { Annotation } from '@atjson/document';
+import Document, { Annotation, JSON } from '@atjson/document';
 import { Root } from './annotations';
 import HIRNode from './hir-node';
-import JSONNode from './json-node';
 
 export default class HIR {
 
@@ -38,7 +37,7 @@ export default class HIR {
     this.rootNode.insertText(document.content);
   }
 
-  toJSON(): JSONNode | string {
+  toJSON(): JSON {
     return this.rootNode.toJSON();
   }
 }

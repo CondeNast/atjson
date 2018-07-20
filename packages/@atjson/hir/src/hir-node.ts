@@ -1,7 +1,6 @@
-import Document, { Annotation, AnyAnnotation, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, AnyAnnotation, Attribute, JSON, ParseAnnotation } from '@atjson/document';
 import { Root, Text } from './annotations';
 import HIR from './hir';
-import JSONNode from './json-node';
 
 export interface Dictionary<T> {
   [key: string]: T | undefined;
@@ -13,6 +12,56 @@ export interface HIRAttributeArray extends Array<HIRAttribute> {}
 
 export interface HIRAttributes {
   [key: string]: HIRAttribute;
+}
+
+function toHIR(attribute: Attribute): HIRAttribute {
+  if (Array.isArray(attribute)) {
+    return attribute.map(attr => {
+      let result = toHIR(attr);
+      return result;
+    });
+  } else if (attribute instanceof Document) {
+    return new HIR(attribute);
+  } else if (attribute == null) {
+    return null;
+  } else if (typeof attribute === 'object') {
+    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+      let value = attribute[key];
+      if (value == null) {
+        copy[key] = value;
+      } else {
+        copy[key] = toHIR(value);
+      }
+      return copy;
+    }, {});
+  } else {
+    return attribute;
+  }
+}
+
+function toJSON(attribute: HIRAttribute): JSON {
+  if (Array.isArray(attribute)) {
+    return attribute.map(attr => {
+      let result = toJSON(attr);
+      return result;
+    });
+  } else if (attribute instanceof HIR) {
+    return attribute.toJSON();
+  } else if (attribute == null) {
+    return null;
+  } else if (typeof attribute === 'object') {
+    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+      let value = attribute[key];
+      if (value == null) {
+        copy[key] = value;
+      } else {
+        copy[key] = toJSON(value);
+      }
+      return copy;
+    }, {});
+  } else {
+    return attribute;
+  }
 }
 
 export default class HIRNode {
@@ -37,35 +86,17 @@ export default class HIRNode {
     this.annotation = annotation;
     this.start = annotation.start;
     this.end = annotation.end;
-    this.attributes = Object.keys(annotation.attributes).reduce((attrs: any, key: string) => {
-      let value = annotation.attributes[key];
-      if (value instanceof Document) {
-        attrs[key] = new HIR(value);
-      } else {
-        attrs[key] = value;
-      }
-      return attrs;
-    }, {});
+    this.attributes = toHIR(annotation.attributes) as HIRAttributes;
   }
 
-  toJSON(): JSONNode | string {
-    if (this.annotation instanceof Text && typeof this.attributes.text === 'string') {
-      return this.attributes.text;
+  toJSON(): JSON {
+    if (this.annotation instanceof Text) {
+      return this.annotation.attributes.text;
     }
-
-    let attributes = Object.keys(this.attributes || {}).reduce((attrs: any, key: string) => {
-      let value = this.attributes[key];
-      if (value instanceof HIR) {
-        attrs[key] = value.toJSON();
-      } else {
-        attrs[key] = value;
-      }
-      return attrs;
-    }, {});
 
     return {
       type: this.type,
-      attributes,
+      attributes: toJSON(this.attributes),
       children: this.children().map(child => {
         return child.toJSON();
       })
@@ -242,7 +273,7 @@ export default class HIRNode {
       return this;
     }
 
-    let partial = new HIRNode(this.annotation);
+    let partial = new HIRNode(this.annotation.clone());
     partial.start = Math.min(Math.max(partial.start, start), partial.end);
     partial.end = Math.max(partial.start, Math.min(partial.end, end));
 
@@ -253,10 +284,10 @@ export default class HIRNode {
     }
 
     // nb move to HIRTextNode
-    if (this.annotation instanceof Text && typeof this.attributes.text === 'string') {
-      let text = this.attributes.text;
-      partial.attributes.text = text.slice(partial.start - this.start, partial.end - this.start);
-      if (partial.attributes.text === '\uFFFC') {
+    if (this.annotation instanceof Text) {
+      let text = this.annotation.attributes.text;
+      partial.annotation.attributes.text = text.slice(partial.start - this.start, partial.end - this.start);
+      if (partial.annotation.attributes.text === '\uFFFC') {
         return;
       }
     }

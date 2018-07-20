@@ -1,7 +1,8 @@
 import Annotation, { AnnotationConstructor, AnyAnnotation } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
-import { Attributes } from './attributes';
+import { Attribute, Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
+import JSON from './json';
 import Query, { Filter, flatten } from './query';
 
 export interface AnnotationJSON {
@@ -16,12 +17,14 @@ export {
   Annotation,
   AnnotationConstructor,
   AnyAnnotation,
+  Attribute,
   Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,
   Inline as InlineAnnotation,
   Insertion,
+  JSON,
   Object as ObjectAnnotation,
   Parse as ParseAnnotation,
   Unknown as UnknownAnnotation
