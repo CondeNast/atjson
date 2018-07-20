@@ -1,5 +1,5 @@
-import Document from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
+import Document, { AnyAnnotation } from '@atjson/document';
+import { HIR, HIRNode, TextAnnotation } from '@atjson/hir';
 
 interface Mapping {
   [key: string]: string;
@@ -35,7 +35,8 @@ function flatten(array: any[]): any[] {
 }
 
 function compile(renderer: Renderer, node: HIRNode): any {
-  let generator = renderer.renderAnnotation(node);
+  let annotation: AnyAnnotation = node.annotation;
+  let generator = renderer.renderAnnotation(annotation);
   let result = generator.next();
   if (result.done) {
     return result.value;
@@ -43,8 +44,8 @@ function compile(renderer: Renderer, node: HIRNode): any {
 
   let children = node.children();
   return generator.next(flatten(children.map((childNode: HIRNode) => {
-    if (childNode.type === 'text' && typeof childNode.text === 'string') {
-      return renderer.renderText(childNode.text);
+    if (childNode.annotation instanceof TextAnnotation) {
+      return renderer.text(childNode.annotation.attributes.text);
     } else {
       return compile(renderer, childNode);
     }
@@ -53,15 +54,15 @@ function compile(renderer: Renderer, node: HIRNode): any {
 
 export default class Renderer {
 
-  *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
+  *renderAnnotation(annotation: AnyAnnotation): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
     if (generator) {
-      return yield* generator.call(this, annotation.attributes);
+      return yield* generator.call(this, annotation);
     }
     return yield;
   }
 
-  renderText(text: string): string {
+  text(text: string): string {
     return text;
   }
 
