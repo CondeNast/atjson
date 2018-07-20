@@ -1,4 +1,4 @@
-import TestSource from './test-source';
+import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
 
 describe('new Document', () => {
   test('constructor accepts an object', () => {
@@ -18,6 +18,59 @@ describe('new Document', () => {
         attributes: {}
       }]
     })).toBeDefined();
+  });
+
+  test('clone', () => {
+    let document = new TestSource({
+      content: 'Hello World.',
+      annotations: [{
+        type: '-test-bold',
+        start: 0,
+        end: 2,
+        attributes: {}
+      }]
+    });
+    let clone = document.clone();
+    let [bold] = document.annotations;
+    let [cloneBold] = clone.annotations;
+
+    expect(clone).toBeInstanceOf(TestSource);
+    expect(document.content).toEqual(clone.content);
+    expect(bold).not.toBe(cloneBold);
+    expect(bold).toBeInstanceOf(Bold);
+    expect(cloneBold).toBeInstanceOf(Bold);
+    expect(document.toJSON()).toEqual(clone.toJSON());
+  });
+
+  test('nested documents', () => {
+    let document = new TestSource({
+      content: '\uFFFC',
+      annotations: [{
+        type: '-test-image',
+        start: 0,
+        end: 1,
+        attributes: {
+          '-test-url': 'http://www.example.com/test.jpg',
+          '-test-caption': {
+            content: 'An example caption',
+            annotations: [{
+              type: '-test-italic',
+              start: 3,
+              end: 10,
+              attributes: {}
+            }]
+          }
+        }
+      }]
+    });
+
+    let image = document.annotations[0] as Image;
+    let [italic] = image.attributes.caption.annotations;
+
+    expect(document.content).toEqual('\uFFFC');
+    expect(image.attributes.caption).toBeInstanceOf(CaptionSource);
+    expect(italic).toBeInstanceOf(Italic);
+    expect(image.attributes.caption.content).toEqual('An example caption');
   });
 
   describe('slice', () => {
@@ -54,7 +107,7 @@ describe('new Document', () => {
       expect(doc.toJSON()).toEqual({
         content: 'ello, world!\n\uFFFC',
         contentType: 'application/vnd.atjson+test',
-        schema: ['-test-bold', '-test-instagram', '-test-italic', '-test-manual'],
+        schema: ['-test-bold', '-test-image', '-test-instagram', '-test-italic', '-test-manual'],
         annotations: [{
           type: '-test-bold',
           start: 0,
@@ -83,7 +136,7 @@ describe('new Document', () => {
       expect(document.toJSON()).toEqual({
         content: 'Hello, world!\n\uFFFC',
         contentType: 'application/vnd.atjson+test',
-        schema: ['-test-bold', '-test-instagram', '-test-italic', '-test-manual'],
+        schema: ['-test-bold', '-test-image', '-test-instagram', '-test-italic', '-test-manual'],
         annotations: [{
           type: '-test-bold',
           start: 0,

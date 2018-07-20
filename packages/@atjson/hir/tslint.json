@@ -6,7 +6,7 @@
     "curly": [true, "ignore-same-line"],
     "forin": false,
     "interface-name": [true, "never-prefix"],
-    "max-classes-per-file": [false],
+    "max-classes-per-file": false,
     "max-line-length": [false],
     "member-access": [true, "no-public"],
     "no-empty-interface": false,

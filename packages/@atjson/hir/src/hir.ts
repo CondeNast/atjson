@@ -1,19 +1,13 @@
-import Document, { Annotation } from '@atjson/document';
+import Document, { Annotation, JSON } from '@atjson/document';
+import { Root } from './annotations';
 import HIRNode from './hir-node';
-import JSONNode from './json-node';
 
 export default class HIR {
 
-  document: Document;
   rootNode: HIRNode;
 
   constructor(doc: Document) {
-    let document = this.document = new Document({
-      content: doc.content,
-      contentType: doc.contentType,
-      annotations: [...doc.annotations],
-      schema: doc.schema
-    });
+    let document: Document = doc.clone();
 
     document.annotations
       .filter(a => a.start === a.end)
@@ -21,13 +15,12 @@ export default class HIR {
          document.insertText(a.start, '\uFFFC');
          a.start--;
       });
-    document.where({ type: 'parse-element' }).remove();
 
-    this.rootNode = new HIRNode({
-      type: 'root',
+    this.rootNode = new HIRNode(new Root({
       start: 0,
-      end: document.content.length
-    }, document.schema);
+      end: document.content.length,
+      attributes: {}
+    }));
 
     document.annotations.sort((a: Annotation, b: Annotation) => {
       if (a.start === b.start) {
@@ -44,7 +37,7 @@ export default class HIR {
     this.rootNode.insertText(document.content);
   }
 
-  toJSON(): JSONNode | string {
+  toJSON(): JSON {
     return this.rootNode.toJSON();
   }
 }

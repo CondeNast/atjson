@@ -1,10 +1,9 @@
-import Annotation from './annotation';
+import Annotation, { AnnotationConstructor, AnyAnnotation } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
-import { Attributes } from './attributes';
+import { Attribute, Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
+import JSON from './json';
 import Query, { Filter, flatten } from './query';
-
-export type AnnotationConstructor<T extends Annotation> = new (options: { start: number, end: number, attributes: Attributes }) => T;
 
 export interface AnnotationJSON {
   type: string;
@@ -16,21 +15,24 @@ export interface AnnotationJSON {
 export {
   AdjacentBoundaryBehaviour,
   Annotation,
+  AnnotationConstructor,
+  AnyAnnotation,
+  Attribute,
+  Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,
   Inline as InlineAnnotation,
   Insertion,
+  JSON,
   Object as ObjectAnnotation,
   Parse as ParseAnnotation,
   Unknown as UnknownAnnotation
 };
 
-export type Schema<T extends Annotation> = T[];
-
 export default class AtJSON {
   static contentType: string;
-  static schema: Schema<any>;
+  static schema: AnyAnnotation[] = [];
 
   content: string;
   readonly contentType: string;
@@ -140,11 +142,7 @@ export default class AtJSON {
    * document.
    */
   slice(start: number, end: number): AtJSON {
-    let Document: any = this.constructor;
-    let doc = new Document({
-      content: this.content,
-      annotations: this.annotations.map(a => a.toJSON())
-    });
+    let doc = this.clone();
     doc.queries = this.queries.slice();
     doc.deleteText(0, start);
     doc.deleteText(end, doc.content.length);
@@ -162,6 +160,11 @@ export default class AtJSON {
       annotations: this.annotations.map(a => a.toJSON()),
       schema: schema.map(AnnotationClass => `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`)
     };
+  }
+
+  clone(): AtJSON {
+    let DocumentClass = this.constructor as typeof AtJSON;
+    return new DocumentClass(this.toJSON());
   }
 
   private createAnnotation(json: AnnotationJSON): Annotation {

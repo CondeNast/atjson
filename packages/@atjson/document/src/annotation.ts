@@ -1,22 +1,32 @@
 
 import { Attributes, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
+import Document from './index';
+import JSON from './json';
+
+export type ConcreteAnnotation<T extends Annotation> = T;
+export type AnyAnnotation = ConcreteAnnotation<any>;
+export interface AnnotationConstructor {
+  vendorPrefix: string;
+  type: string;
+  subdocuments: { [key: string]: typeof Document };
+  new(attributes: { start: number, end: number, attributes: Attributes }): AnyAnnotation;
+  hydrate(attrs: { start: number, end: number, attributes: JSON }): AnyAnnotation;
+}
 
 export default abstract class Annotation {
   static vendorPrefix: string;
   static type: string;
+  static subdocuments: { [key: string]: typeof Document } = {};
 
-  static hydrate<T extends Annotation>(
-    this: {
-      vendorPrefix: string;
-      new(attributes: { start: number, end: number, attributes: Attributes }): T;
-    },
-    attrs: { start: number, end: number, attributes: Attributes }
+  static hydrate(
+    this: AnnotationConstructor,
+    attrs: { start: number, end: number, attributes: JSON }
   ) {
     return new this({
       start: attrs.start,
       end: attrs.end,
-      attributes: unprefix(this.vendorPrefix, attrs.attributes) as Attributes
+      attributes: unprefix(this.vendorPrefix, this.subdocuments, attrs.attributes) as Attributes
     });
   }
 
@@ -27,7 +37,7 @@ export default abstract class Annotation {
   attributes: Attributes;
 
   constructor(attrs: { start: number, end: number, attributes: Attributes }) {
-    let AnnotationClass = this.constructor as typeof Annotation;
+    let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
     this.start = attrs.start;
     this.end = attrs.end;
@@ -145,14 +155,19 @@ export default abstract class Annotation {
     }
   }
 
+  clone() {
+    let AnnotationClass = this.constructor as AnnotationConstructor;
+    return AnnotationClass.hydrate(this.toJSON());
+  }
+
   toJSON() {
-    let AnnotationClass = this.constructor as typeof Annotation;
+    let AnnotationClass = this.constructor as AnnotationConstructor;
     let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       type: `-${vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes)
+      attributes: toJSON(vendorPrefix, this.attributes) as any
     };
   }
 }
