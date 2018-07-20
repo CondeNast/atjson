@@ -21,7 +21,7 @@ Now install the dependencies :sparkles:
 
 ```bash
 npm install
-lerna bootstrap --hoist
+lerna bootstrap
 ```
 
 And run the tests: :woman_scientist:
