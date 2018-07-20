@@ -4,12 +4,6 @@
 
 AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:Lerna](https://lernajs.io) to manage these dependencies.
 
-Before getting started, we need to install Lerna:
-
-```bash
-npm install -g lerna
-```
-
 :computer: To get started, clone atjson onto your computer and navigate into the project.
 
 ```bash
@@ -17,7 +11,15 @@ git clone https://github.com/CondeNast-Copilot/atjson.git
 cd atjson
 ```
 
-Now install the dependencies :sparkles:
+Ensure that the proper Node.js version is installed (using [Node Version Manager](https://github.com/creationix/nvm)):
+
+```bash
+nvm install
+```
+
+(If you already have the version of Node.js specified in _.nvmrc_  installed, `nvm use` can be issued instead.)
+
+Now install the dependencies and bootstrap the packages :sparkles:
 
 ```bash
 npm install
