@@ -1,9 +1,34 @@
-import Document, { Annotation, Schema } from '@atjson/document';
+import Document, { AnnotationJSON, Attributes } from '@atjson/document';
 import * as parse5 from 'parse5';
-import schema from './schema';
+import {
+  Anchor,
+  Blockquote,
+  Bold,
+  Break,
+  DeletedText,
+  Emphasis,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+  HorizontalRule,
+  Image,
+  Italic,
+  ListItem,
+  OrderedList,
+  Paragraph,
+  PreformattedText,
+  Strikethrough,
+  Strong,
+  Subscript,
+  Superscript,
+  Underline,
+  UnorderedList,
+  Code
+} from './annotations';
 import HTMLSchemaTranslator from './translator';
-
-export { schema };
 
 function isElement(node: parse5.AST.Default.Node) {
   return node.nodeName !== undefined &&
@@ -19,18 +44,14 @@ function isText(node: parse5.AST.Default.Node) {
   return node.nodeName === '#text';
 }
 
-interface Attributes {
-  [key: string]: string;
-}
-
 function getAttributes(node: parse5.AST.Default.Element): Attributes {
   let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: parse5.AST.Default.Attribute) => {
-    attributes[attr.name] = attr.value;
+    attributes[`-html-${attr.name}`] = attr.value;
     return attributes;
   }, {});
 
-  if (node.tagName === 'a' && attrs.href) {
-    attrs.href = decodeURI(attrs.href);
+  if (node.tagName === 'a' && typeof attrs['-html-href'] === 'string') {
+    attrs['-html-href'] = decodeURI(attrs['-html-href']);
   }
   return attrs;
 }
@@ -39,7 +60,7 @@ class Parser {
 
   content: string;
 
-  annotations: Annotation[];
+  annotations: AnnotationJSON[];
 
   private html: string;
 
@@ -87,9 +108,10 @@ class Parser {
     if (location == null) return -1;
 
     let { startOffset: start, endOffset: end } = location[which];
+    let reason = which === 'startTag' ? `<${node.tagName}>` : `</${node.tagName}>`;
     this.annotations.push({
-      type: 'parse-token',
-      attributes: { tagName: node.tagName },
+      type: '-atjson-parse-token',
+      attributes: { '-atjson-reason': reason },
       start: start - this.offset,
       end: end - this.offset
     });
@@ -138,8 +160,8 @@ class Parser {
 
       this.content += this.html.slice(location.startOffset, location.endOffset);
       this.annotations.push({
-        type: 'parse-token',
-        attributes: { tagName },
+        type: '-atjson-parse-token',
+        attributes: { '-atjson-reason': `<${tagName}/>` },
         start,
         end
       }, {
@@ -155,14 +177,40 @@ class Parser {
 }
 
 export default class HTMLSource extends Document {
-
-  constructor(content: string) {
-    let parser = new Parser(content);
-    super({
+  static contentType = 'appplication/vnd.atjson+html';
+  static schema = [
+    Anchor,
+    Bold,
+    Blockquote,
+    Break,
+    Code,
+    DeletedText,
+    Emphasis,
+    Heading1,
+    Heading2,
+    Heading3,
+    Heading4,
+    Heading5,
+    Heading6,
+    HorizontalRule,
+    Italic,
+    Image,
+    ListItem,
+    OrderedList,
+    Paragraph,
+    PreformattedText,
+    Strikethrough,
+    Strong,
+    Subscript,
+    Superscript,
+    Underline,
+    UnorderedList
+  ];
+  static fromSource(html: string) {
+    let parser = new Parser(html);
+    return new this({
       content: parser.content,
-      contentType: 'text/html',
-      annotations: parser.annotations,
-      schema: schema as Schema
+      annotations: parser.annotations
     });
   }
 

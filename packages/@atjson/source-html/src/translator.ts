@@ -1,16 +1,11 @@
-import Document, { Annotation, Schema } from '@atjson/document';
-import schema from '@atjson/schema';
+import Document, { AnyAnnotation } from '@atjson/document';
 
 export default class HTMLSchemaTranslator extends Document {
+  static schema = [];
   constructor(document: Document) {
-    super({
-      content: document.content,
-      contentType: 'text/atjson',
-      annotations: [...document.annotations],
-      schema: schema as Schema
-    });
+    super(document.toJSON());
 
-    this.where({ type: '-html-a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
+    this.where({ type: '-html-a' }).set({ type: 'link' }).rename({ attributes: { '-html-href': 'url' } });
 
     this.where({ type: '-html-blockquote' }).set({ type: 'blockquote' });
 
@@ -27,7 +22,7 @@ export default class HTMLSchemaTranslator extends Document {
 
     this.where({ type: '-html-ul' }).set({ type: 'list', attributes: { type: 'bulleted' } });
     this.where({ type: '-html-ol' }).set({ type: 'list', attributes: { type: 'numbered' } })
-      .rename({ attributes: { starts: 'startsAt' } }).map((list: Annotation) => {
+      .rename({ attributes: { '-html-starts': 'startsAt' } }).map((list: AnyAnnotation) => {
         if (list.attributes && list.attributes.startsAt) {
           list.attributes.startsAt = parseInt(list.attributes.startsAt, 10);
         }
@@ -40,6 +35,6 @@ export default class HTMLSchemaTranslator extends Document {
     this.where({ type: '-html-strong' }).set({ type: 'bold' });
     this.where({ type: '-html-b' }).set({ type: 'bold' });
 
-    this.where({ type: '-html-img' }).set({ type: 'image'}).rename({ attributes: { src: 'url', alt: 'description' } });
+    this.where({ type: '-html-img' }).set({ type: 'image'}).rename({ attributes: { '-html-src': 'url', '-html-alt': 'description' } });
   }
 }

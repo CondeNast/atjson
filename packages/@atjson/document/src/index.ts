@@ -169,7 +169,8 @@ export default class AtJSON {
 
   private createAnnotation(json: AnnotationJSON): Annotation {
     let DocumentClass = this.constructor as typeof AtJSON;
-    let schema = DocumentClass.schema.slice().concat([Parse]);
+    let schema = [...DocumentClass.schema, Parse];
+
     let ConcreteAnnotation = schema.find(AnnotationClass => {
       let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
       return json.type === fullyQualifiedType;
