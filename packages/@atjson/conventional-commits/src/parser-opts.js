@@ -7,7 +7,7 @@ module.exports = {
     "_",
     "subject"
   ],
-  noteKeywords: [":rotating_light:"],
-  revertPattern: /^[:man_facepalming:|:woman_facepalming:]\s([\s\S]*?)\s*This reverts commit (\w)\.*/,
+  noteKeywords: ["🚨"],
+  revertPattern: /^⏪\s([\s\S]*?)\s*This reverts commit (\w)\.*/,
   revertCorrespondence: ["header", "hash"]
 };

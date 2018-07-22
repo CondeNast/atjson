@@ -26,109 +26,129 @@ const MEDIUM = 1;
 const HIGH = 16;
 
 const SHORTCODES = {
-  package: {
+  '📦': {
     type: "Chore",
-    scope: ":package: Packages",
+    scope: "📦 Packages",
     priorty: LOW
   },
-  nail_care: {
-    type: ":lipstick: Style",
+  '💅': {
+    type: "💄 Style",
     priorty: MEDIUM
   },
-  lipstick: {
-    type: ":lipstick: Style",
+  '💅🏻': {
+    type: "💄 Style",
     priorty: MEDIUM
   },
-  bug: {
-    type: ":bug: Fixes",
+  '💅🏼': {
+    type: "💄 Style",
+    priorty: MEDIUM
+  },
+  '💅🏽': {
+    type: "💄 Style",
+    priorty: MEDIUM
+  },
+  '💅🏾': {
+    type: "💄 Style",
+    priorty: MEDIUM
+  },
+  '💅🏿': {
+    type: "💄 Style",
+    priorty: MEDIUM
+  },
+  '💄': {
+    type: "💄 Style",
+    priorty: MEDIUM
+  },
+  '🐛': {
+    type: "🐛 Fixes",
     priorty: HIGH,
     keep: true
   },
-  bee: {
-    type: ":bug: Fixes",
+  '🐝': {
+    type: "🐛 Fixes",
     priorty: HIGH,
     keep: true
   },
-  traffic_light: {
-    type: ":vertical_traffic_light: Tests",
+  '🚦': {
+    type: "🚦 Tests",
     priorty: MEDIUM
   },
-  vertical_traffic_light: {
-    type: ":vertical_traffic_light: Tests",
+  '🚥': {
+    type: "🚦 Tests",
     priorty: MEDIUM
   },
-  lock: {
+  '🔒': {
     type: ":bug: Fix",
-    scope: ":lock: Security",
+    scope: "🔒 Security",
     priorty: HIGH,
     keep: true
   },
-  notebook: {
+  '📓': {
     type: "Chore",
-    scope: ":notebook: Documentation",
+    scope: "📚 Documentation",
     priorty: LOW
   },
-  books: {
+  '📚': {
     type: "Chore",
-    scope: ":books: Documentation",
+    scope: "📚 Documentation",
     priorty: LOW
   },
-  rocket: {
-    type: ":rocket: Performance",
+  '🚀': {
+    type: "🚀 Performance",
     priorty: MEDIUM,
     keep: true
   },
-  sparkles: {
-    type: ":tada: Features",
+  '✨': {
+    type: "✨ Features",
     priorty: HIGH,
     keep: true
   },
-  tada: {
-    type: ":tada: Features",
+  '🎉': {
+    type: "✨ Features",
     priorty: HIGH,
     keep: true
   },
-  confetti_ball: {
-    type: ":tada: Features",
+  '🎊': {
+    type: "✨ Features",
     priorty: HIGH,
     keep: true
   },
-  man_health_worker: {
-    type: ":woman_health_worker: Refactor",
+  '👩‍⚕️': {
+    type: "👩‍⚕️ Refactor",
     priorty: MEDIUM
   },
-  woman_health_worker: {
-    type: ":woman_health_worker: Refactor",
+  '👨‍⚕️': {
+    type: "👩‍⚕️ Refactor",
     priorty: MEDIUM
   },
-  mount_fuji: {
-    type: ":robot: Continuous Integration",
-    scope: ":mount_fuji: CodeClimate",
+  '🗻': {
+    type: "🤖 Continuous Integration",
+    scope: "🗻 CodeClimate",
     priorty: LOW
   },
-  construction_worker_woman: {
-    type: ":robot: Continuous Integration",
-    scope: ":construction_worker_woman: TravisCI",
+  '👷‍♀️': {
+    type: "🤖 Continuous Integration",
+    scope: "👷‍♀️ TravisCI",
     priorty: LOW
   },
-  construction_worker_man: {
-    type: ":robot: Continuous Integration",
-    scope: ":construction_worker_woman: TravisCI",
+  '👷‍♂️': {
+    type: "🤖 Continuous Integration",
+    scope: "👷‍ TravisCI",
     priorty: LOW
   },
-  woman_student: {
+  '👩‍⚖️': {
     type: "Chore",
-    scope: ":woman_student: Legal",
+    scope: "👩‍⚖️ Legal",
     priorty: LOW
   },
-  man_student: {
+  '👨‍⚖️': {
     type: "Chore",
-    scope: ":man_student: Legal",
+    scope: "👨‍⚖️ Legal",
     priorty: LOW
   },
-  balance_scale: {
+  '⚖️': {
     type: "Chore",
-    scope: ":balance_scale: Legal",
+    scope: "⚖️ Legal",
     priorty: LOW
   }
 };
@@ -141,7 +161,7 @@ function getWriterOpts() {
       let issues = [];
 
       commit.notes.forEach((note) => {
-        note.title = ":rotating_light: Breaking Changes :rotating_light:";
+        note.title = "🚨 Breaking Changes";
         discard = false;
       });
 
