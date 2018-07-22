@@ -1,11 +1,10 @@
-import { Annotation } from '@atjson/document';
-import { List, ListItem } from './schema';
+import { AnnotationJSON } from '@atjson/document';
 import { GDocsStyleSlice } from './types';
 
-export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[] {
+export default function extractListStyles(lists: GDocsStyleSlice[]): AnnotationJSON[] {
   let lastParagraphStart = 0;
-  let listAnnotations: { [key: string]: List } = {};
-  let listItems: ListItem[] = [];
+  let listAnnotations: { [key: string]: AnnotationJSON } = {};
+  let listItems: AnnotationJSON[] = [];
 
   for (let i = 0; i < lists.length; i++) {
     let list = lists[i];
@@ -30,7 +29,7 @@ export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[
     }
 
     listItems.push({
-      type: '-gdocs-list-item',
+      type: '-gdocs-list_item',
       start: lastParagraphStart,
       end: i,
       attributes: {
@@ -42,7 +41,7 @@ export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[
     lastParagraphStart = i + 1;
   }
 
-  let annotations: Annotation[] = listItems;
+  let annotations: AnnotationJSON[] = listItems;
   for (let listAnnotation in listAnnotations) {
     annotations.push(listAnnotations[listAnnotation]);
   }

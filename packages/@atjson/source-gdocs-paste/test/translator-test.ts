@@ -1,15 +1,15 @@
-import GDocsSource from '@atjson/source-gdocs-paste';
 import * as fs from 'fs';
 import * as path from 'path';
+import GDocsSource from '../src';
 
 describe('@atjson/source-gdocs-paste', () => {
-  var atjson;
+  let atjson;
 
   beforeAll(() => {
     let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
-    let rawJSON = JSON.parse(fs.readFileSync(fixturePath));
-    let gdocs = new GDocsSource(rawJSON);
-    atjson = gdocs.toCommonSchema();
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    let gdocs = GDocsSource.fromSource(rawJSON);
+    atjson = gdocs.toCommonSchema().toJSON();
   });
 
   it('correctly converts -gdocs-ts_bd to bold', () => {

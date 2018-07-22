@@ -1,10 +1,9 @@
-import { Annotation } from '@atjson/document';
-import { Link } from './schema';
+import { AnnotationJSON } from '@atjson/document';
 import { GDocsStyleSlice } from './types';
 
-export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annotation[] {
-  let currentLink: Partial<Link> | null = null;
-  let links: Link[] = [];
+export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): AnnotationJSON[] {
+  let currentLink: Partial<AnnotationJSON> | null = null;
+  let links: AnnotationJSON[] = [];
 
   for (let i = 0; i < linkStyles.length; i++) {
     let link = linkStyles[i];
@@ -16,7 +15,7 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
     // push it into the list of found links.
     if (currentLink !== null) {
       currentLink.end = i;
-      links.push(currentLink as Link);
+      links.push(currentLink as AnnotationJSON);
 
       currentLink = null;
     }
