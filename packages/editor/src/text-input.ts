@@ -79,9 +79,9 @@ class TextInput extends events(HTMLElement) {
   compositionend(evt: CustomEvent) {
     let { start, end } = this.selection;
     if (start === end) {
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
     } else {
-      this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
+      this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
     }
     this.composing = false;
   }
@@ -105,15 +105,16 @@ class TextInput extends events(HTMLElement) {
     switch (evt.inputType) {
     case 'insertText':
       if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: evt.data } }));
+        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
       } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text: evt.data } }));
+        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
       }
       break;
 
     case 'insertLineBreak':
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text: '\u2028' } }));
+      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: '\u2028' } }));
       this.dispatchEvent(new CustomEvent('addAnnotation', {
+        bubbles: true,
         detail: { type: 'line-break', start, end: end + 1 }
       }));
       break;
@@ -122,9 +123,9 @@ class TextInput extends events(HTMLElement) {
       text = evt.dataTransfer.getData('text/plain');
 
       if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text } }));
+        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
       } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { detail: { start, end, text } }));
+        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text } }));
       }
       break;
 
@@ -134,7 +135,7 @@ class TextInput extends events(HTMLElement) {
       target = evt.getTargetRanges()[0];
       start = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
 
-      this.dispatchEvent(new CustomEvent('insertText', { detail: { position: start, text } }));
+      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
 
       break;
 
@@ -143,6 +144,7 @@ class TextInput extends events(HTMLElement) {
         start--;
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
+        bubbles: true,
         detail: { start, end }
       }));
       break;
@@ -158,6 +160,7 @@ class TextInput extends events(HTMLElement) {
       let deletionEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
 
       this.dispatchEvent(new CustomEvent('deleteText', {
+        bubbles: true,
         detail: { start: deletionStart, end: deletionEnd }
       }));
       break;
@@ -181,6 +184,7 @@ class TextInput extends events(HTMLElement) {
         end++;
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
+        bubbles: true,
         detail: { start, end }
       }));
       break;
@@ -189,6 +193,7 @@ class TextInput extends events(HTMLElement) {
     case 'deleteContent':
     case 'deleteByDrag':
       this.dispatchEvent(new CustomEvent('deleteText', {
+        bubbles: true,
         detail: { start, end }
       }));
       break;
@@ -205,6 +210,7 @@ class TextInput extends events(HTMLElement) {
 
       evt.dataTransfer.items[0].getAsString((replString: string) => {
         this.dispatchEvent(new CustomEvent('replaceText', {
+          bubbles: true,
           detail: { start: replaceStart, end: replaceEnd, text: replString }
         }));
       });
@@ -213,12 +219,14 @@ class TextInput extends events(HTMLElement) {
 
     case 'formatBold':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
+        bubbles: true,
         detail: { start, end, type: 'bold' }
       }));
       break;
 
     case 'formatItalic':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
+        bubbles: true,
         detail: { start, end, type: 'italic' }
       }));
       break;
@@ -230,6 +238,7 @@ class TextInput extends events(HTMLElement) {
     case 'insertParagraph':
       evt.preventDefault();
       this.dispatchEvent(new CustomEvent('insertText', {
+        bubbles: true,
         detail: { position: start, text: '\n' }
       }));
       break;
