@@ -2,17 +2,17 @@
 const fs = require('fs');
 const path = require('path');
 
-let shortcodes = fs.readFileSync(path.resolve(__dirname, './emoji.csv'), 'utf-8').toString().split('\n').slice(1);
+let config = fs.readFileSync(path.resolve(__dirname, './emoji.csv'), 'utf-8').toString().split('\n').slice(1);
 
-let breakingChangeEmojis = shortcodes.reduce((emojis, line) => {
-  let [emoji, message] = line.split(',');
-  if (message === 'BREAKING CHANGE') {
+let breakingChangeEmojis = config.reduce((emojis, line) => {
+  let [emoji, _, versionBump] = line.split(',');
+  if (versionBump === 'breaking') {
     emojis.push(emoji);
   }
   return emojis;
 }, []);
 
-let revertEmojis = shortcodes.reduce((emojis, line) => {
+let revertEmojis = config.reduce((emojis, line) => {
   let [emoji, message] = line.split(',');
   if (message === 'revert') {
     emojis.push(emoji);

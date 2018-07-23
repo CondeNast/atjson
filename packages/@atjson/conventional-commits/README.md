@@ -36,6 +36,13 @@ PS: Use any skin tone you want– we'll detect it regardless of the skin tone an
 
 #### 🙋‍♀️ Do you have an emoji that you'd like to add?
 
+Add your emoji to [https://github.com/CondeNast-Copilot/atjson/tree/latest/packages/%40atjson/conventional-commits/src/emoji.csv] with the heading that it should live under, the severity of the change, and a 🚫 or ✅ indicating whether it should be included in the changelog.
+
+The severity can be one of the following:
+
+- `patch` indicates fixes and other changes
+- `minor` indicates new features (and possibly fixes as well)
+- `major` / `breaking` indicates that the software now works differently and will need to be updated accordingly
 
 #### 👉 Examples
 

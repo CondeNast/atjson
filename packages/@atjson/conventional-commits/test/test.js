@@ -42,9 +42,8 @@ describe('emoji preset', function () {
       expect(chunk).to.include('#54');
       expect(chunk).to.include('### ✨ New Features');
       expect(chunk).to.include('### 🐛 Fixes');
-      expect(chunk).to.include('### ⚖️ Legal Changes');
+      expect(chunk).to.include('### ⚖️ Licensing Changes');
       expect(chunk).to.include('### 🚨 Breaking Changes');
-      
 
       expect(chunk).to.not.include('CLEANUP');
       expect(chunk).to.not.include('FEATURE');
