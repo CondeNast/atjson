@@ -1,8 +1,7 @@
 Emoji, Changelog Heading, Severity, Included in Changelog?
 🏗,🏗 Build Changes,patch,🚫
-📦,📦 npm changes,patch,🚫
+📦,📦 npm Changes,patch,🚫
 🚨,🚨 Breaking Changes,breaking,✅
-🚑,🚨 Breaking Changes,breaking,✅
 👷‍♀️,👷‍♀️ TravisCI,patch,🚫
 👷‍♂️,👷‍♂️ TravisCI,patch,🚫
 🗻,🗻 CodeClimate,patch,🚫
@@ -18,11 +17,10 @@ Emoji, Changelog Heading, Severity, Included in Changelog?
 🐝,🐛 Fixes,patch,✅
 🔒,🔒 Security Updates,patch,✅
 🚀,🚀 Performance,patch,🚫
-👩‍⚕️,🛀 Code Cleanup,patch,🚫
-👨‍⚕️,🛀 Code Cleanup,patch,🚫
+🛀,🛀 Code Cleanup,patch,🚫
 ⏪,⏪ Undo Changes,revert,🚫
-💅,💄 Style,patch,🚫
-💄,💄 Style,patch,🚫
-🎨,💄 Style,patch,🚫
+💅,💄 Style Changes,patch,🚫
+💄,💄 Style Changes,patch,🚫
+🎨,💄 Style Changes,patch,🚫
 🚦,🚦 Tests,patch,🚫
 🚥,🚦 Tests,patch,🚫
