@@ -1,4 +1,31 @@
 "use strict";
+const fs = require('fs');
+const path = require('path');
+
+let shortcodes = fs.readFileSync(path.resolve(__dirname, './emoji.csv'), 'utf-8').toString().split('\n').slice(1);
+let featureEmojis = shortcodes.reduce((emojis, line) => {
+  let [emoji, message] = line.split(',');
+  if (message === 'feat') {
+    emojis.push(emoji);
+  }
+  return emojis;
+}, []);
+
+let breakingChangeEmojis = shortcodes.reduce((emojis, line) => {
+  let [emoji, message] = line.split(',');
+  if (message === 'BREAKING CHANGE') {
+    emojis.push(emoji);
+  }
+  return emojis;
+}, []);
+
+let revertEmojis = shortcodes.reduce((emojis, line) => {
+  let [emoji, message] = line.split(',');
+  if (message === 'revert') {
+    emojis.push(emoji);
+  }
+  return emojis;
+}, []);
 
 module.exports = {
   whatBump: (commits) => {
@@ -10,9 +37,7 @@ module.exports = {
       if (commit.notes.length > 0) {
         breakings += commit.notes.length;
         level = 0;
-      } else if (commit.emojiShortcodes.indexOf(':sparkles:') !== -1 ||
-                 commit.emojiShortcodes.indexOf(':tada:') !== -1 ||
-                 commit.emojiShortcodes.indexOf(':confetti_ball:') !== -1) {
+      } else if (commit.emojis.some(emoji => featureEmojis.indexOf(emoji))) {
         features += 1;
         if (level === 2) {
           level = 1;
@@ -23,20 +48,20 @@ module.exports = {
     return {
       level: level,
       reason: breakings === 1
-        ? `There is 🚨 ${breakings} breaking change and ✨ ${features} features`
-        : `There are 🚨 ${breakings} breaking changes and ✨ ${features} features`
+        ? `There is ${breakingChangeEmojis[0]} ${breakings} breaking change and ${featureEmojis[0]} ${features} features`
+        : `There are ${breakingChangeEmojis[0]} ${breakings} breaking changes and ${featureEmojis[0]} ${features} features`
     };
   },
 
   parserOpts: {
-    headerPattern: /^((:[a-zA-Z_]*:\s?)+) (.*)$/,
+    headerPattern: /^(((?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?(?:\u200d(?:[^\ud800-\udfff]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff])[\ufe0e\ufe0f]?(?:[\u0300-\u036f\ufe20-\ufe23\u20d0-\u20f0]|\ud83c[\udffb-\udfff])?)*)+)\s*(.*)/,
     headerCorrespondence: [
-      "emojiShortcodes",
+      "emojis",
       "_",
       "subject"
     ],
-    noteKeywords: [":rotating_light:"],
-    revertPattern: /^[:man_facepalming:|:woman_facepalming:]\s([\s\S]*?)\s*This reverts commit (\w)\.*/,
+    noteKeywords: breakingChangeEmojis,
+    revertPattern: new RegExp(`^[${revertEmojis.join('|')}]\\s([\\s\\S]*?)\\s*Undoing PR (#\\d+)\\.*`),
     revertCorrespondence: ["header", "hash"]
   }
 };

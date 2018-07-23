@@ -1,0 +1,26 @@
+Emoji, Conventional Commit
+🏗,build
+📦,build
+🚨,BREAKING CHANGE
+👷‍♀️,ci
+👷‍♂️,ci
+🗻,ci
+👩‍⚖️,legal
+👨‍⚖️,legal
+⚖️,legal
+📓,docs
+📚,docs
+✨,feat
+🎉,feat
+🎊,feat
+🐛,fix
+🐝,fix
+🔒,fix
+🚀,perf
+👩‍⚕️,refactor
+👨‍⚕️,refactor
+⏪,revert
+💅,style
+💄,style
+🚦,test
+🚥,test

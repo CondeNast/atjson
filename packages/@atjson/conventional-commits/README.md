@@ -45,3 +45,10 @@ PS: Use any skin tone you want– we'll detect it regardless of the skin tone an
 | 🚦👷‍♀️ hoist modules, and run linting on Travis |
 | ✨ add support for blockquote |
 | 🎉📋 add support for links from Google Docs paste buffers |
+
+This will output the following changelog:
+
+### ✨ New Features
+
+* ✨ add support for blockquote
+* 🎉📋 add support for links from Google Docs paste buffers

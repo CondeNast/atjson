@@ -1,6 +1,5 @@
 "use strict";
 
-const compareFunc = require("compare-func");
 const Q = require("q");
 const readFile = Q.denodeify(require("fs").readFile);
 const resolve = require("path").resolve;
@@ -9,14 +8,19 @@ module.exports = Q.all([
   readFile(resolve(__dirname, "./templates/template.hbs"), "utf-8"),
   readFile(resolve(__dirname, "./templates/header.hbs"), "utf-8"),
   readFile(resolve(__dirname, "./templates/commit.hbs"), "utf-8"),
-  readFile(resolve(__dirname, "./templates/footer.hbs"), "utf-8"),
-]).spread((template, header, commit, footer) => {
-  const opts = getWriterOpts();
+  readFile(resolve(__dirname, "./emoji.csv"), "utf-8")
+]).spread((template, header, commit, emojis) => {
+  let emojiLookup = emojis.toString().split('\n').slice(1).reduce((shortcodes, line) => {
+    let [emoji, tag] = line.split(',');
+    shortcodes[emoji] = tag;
+    return shortcodes;
+  }, {});
+
+  const opts = getWriterOpts(emojiLookup);
 
   opts.mainTemplate = template;
   opts.headerPartial = header;
   opts.commitPartial = commit;
-  opts.footerPartial = footer;
 
   return opts;
 });
@@ -24,137 +28,21 @@ module.exports = Q.all([
 const LOW = 0;
 const MEDIUM = 1;
 const HIGH = 16;
-
-const SHORTCODES = {
-  '📦': {
-    type: "Chore",
-    scope: "📦 Packages",
-    priorty: LOW
-  },
-  '💅': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💅🏻': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💅🏼': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💅🏽': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💅🏾': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💅🏿': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '💄': {
-    type: "💄 Style",
-    priorty: MEDIUM
-  },
-  '🐛': {
-    type: "🐛 Fixes",
-    priorty: HIGH,
-    keep: true
-  },
-  '🐝': {
-    type: "🐛 Fixes",
-    priorty: HIGH,
-    keep: true
-  },
-  '🚦': {
-    type: "🚦 Tests",
-    priorty: MEDIUM
-  },
-  '🚥': {
-    type: "🚦 Tests",
-    priorty: MEDIUM
-  },
-  '🔒': {
-    type: ":bug: Fix",
-    scope: "🔒 Security",
-    priorty: HIGH,
-    keep: true
-  },
-  '📓': {
-    type: "Chore",
-    scope: "📚 Documentation",
-    priorty: LOW
-  },
-  '📚': {
-    type: "Chore",
-    scope: "📚 Documentation",
-    priorty: LOW
-  },
-  '🚀': {
-    type: "🚀 Performance",
-    priorty: MEDIUM,
-    keep: true
-  },
-  '✨': {
-    type: "✨ Features",
-    priorty: HIGH,
-    keep: true
-  },
-  '🎉': {
-    type: "✨ Features",
-    priorty: HIGH,
-    keep: true
-  },
-  '🎊': {
-    type: "✨ Features",
-    priorty: HIGH,
-    keep: true
-  },
-  '👩‍⚕️': {
-    type: "👩‍⚕️ Refactor",
-    priorty: MEDIUM
-  },
-  '👨‍⚕️': {
-    type: "👩‍⚕️ Refactor",
-    priorty: MEDIUM
-  },
-  '🗻': {
-    type: "🤖 Continuous Integration",
-    scope: "🗻 CodeClimate",
-    priorty: LOW
-  },
-  '👷‍♀️': {
-    type: "🤖 Continuous Integration",
-    scope: "👷‍♀️ TravisCI",
-    priorty: LOW
-  },
-  '👷‍♂️': {
-    type: "🤖 Continuous Integration",
-    scope: "👷‍ TravisCI",
-    priorty: LOW
-  },
-  '👩‍⚖️': {
-    type: "Chore",
-    scope: "👩‍⚖️ Legal",
-    priorty: LOW
-  },
-  '👨‍⚖️': {
-    type: "Chore",
-    scope: "👨‍⚖️ Legal",
-    priorty: LOW
-  },
-  '⚖️': {
-    type: "Chore",
-    scope: "⚖️ Legal",
-    priorty: LOW
-  }
+const SEVERITY = {
+  build: LOW,
+  ci: LOW,
+  chore: LOW,
+  docs: LOW,
+  legal: HIGH,
+  feat: HIGH,
+  fix: HIGH,
+  perf: MEDIUM,
+  refactor: MEDIUM,
+  style: MEDIUM,
+  test: MEDIUM,
 };
 
-
-function getWriterOpts() {
+function getWriterOpts(shortcodes) {
   return {
     transform(commit, context) {
       let discard = true;
@@ -165,21 +53,27 @@ function getWriterOpts() {
         discard = false;
       });
 
-      let bestMatch = null;
-      commit.emojiShortcodes.split(':').forEach((code) => {
-        let shortcode = SHORTCODES[code];
-        if (shortcode &&
-            (bestMatch == null || shortcode.priority > bestMatch.priority)) {
-          bestMatch = shortcode;
+      var bestMatch = null;
+      Object.keys(shortcodes).forEach((emoji) => {
+        if (commit.emojis && commit.emojis.indexOf(emoji) !== -1) {
+          let tag = shortcodes[emoji];
+          if (bestMatch == null || SEVERITY[tag] < SEVERITY[bestMatch]) {
+            bestMatch = tag; 
+          }
         }
       });
 
-      if (bestMatch == null || !bestMatch.keep) {
+      if (bestMatch == null || SEVERITY[bestMatch] !== HIGH) {
         return null;
       }
 
-      commit.type = bestMatch.type;
-      commit.scope = bestMatch.scope || '';
+      if (bestMatch === 'feat') {
+        commit.type = '✨ New Features';
+      } else if (bestMatch === 'fix') {
+        commit.type = '🐛 Fixes';
+      } else if (bestMatch === 'legal') {
+        commit.type = '⚖️ Legal Changes';
+      }
 
       if (typeof commit.subject === `string`) {
         let url = context.repository
@@ -214,7 +108,6 @@ function getWriterOpts() {
     groupBy: "type",
     commitGroupsSort: "title",
     commitsSort: ["scope", "subject"],
-    noteGroupsSort: "title",
-    notesSort: compareFunc
+    noteGroupsSort: "title"
   };
 }

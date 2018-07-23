@@ -1,10 +1,10 @@
 "use strict";
 
 const Q = require("q");
-const conventionalChangelog = require("./conventional-changelog");
-const parserOpts = require("./parser-opts");
-const recommendedBumpOpts = require("./conventional-recommended-bump");
-const writerOpts = require("./writer-opts");
+const conventionalChangelog = require("./src/conventional-changelog");
+const parserOpts = require("./src/parser-opts");
+const recommendedBumpOpts = require("./src/conventional-recommended-bump");
+const writerOpts = require("./src/writer-opts");
 
 module.exports = Q.all([
   conventionalChangelog,
