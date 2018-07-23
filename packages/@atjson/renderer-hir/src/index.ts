@@ -1,5 +1,5 @@
-import Document from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
+import Document, { AnyAnnotation } from '@atjson/document';
+import { HIR, HIRNode, TextAnnotation } from '@atjson/hir';
 
 interface Mapping {
   [key: string]: string;
@@ -34,34 +34,66 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
-function compile(renderer: Renderer, node: HIRNode): any {
-  let generator = renderer.renderAnnotation(node);
+function compile(renderer: Renderer, node: HIRNode, parent?: AnyAnnotation, index?: number): any {
+  let annotation: AnyAnnotation = node.annotation.clone();
+  let children = node.children();
+
+  // Add metadata to annotations for formats that require context
+  // when rendering
+  annotation.parent = parent || null;
+  annotation.previous = null;
+  annotation.next = null;
+
+  if (parent && index != null && index > 0) {
+    annotation.previous = parent.children[index - 1];
+    if (annotation.previous == null ||
+        typeof annotation.previous === 'string') {
+      annotation.previous = null;
+    }
+  }
+
+  if (parent && index != null && index < parent.children.length) {
+    annotation.next = parent.children[index + 1];
+    if (annotation.next == null ||
+        typeof annotation.next === 'string') {
+      annotation.next = null;
+    }
+  }
+
+  annotation.children = children.map(childNode => {
+    if (childNode.annotation instanceof TextAnnotation) {
+      return childNode.annotation.attributes.text;
+    } else {
+      return childNode.annotation;
+    }
+  });
+
+  let generator = renderer.renderAnnotation(annotation);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  let children = node.children();
-  return generator.next(flatten(children.map((childNode: HIRNode) => {
-    if (childNode.type === 'text' && typeof childNode.text === 'string') {
-      return renderer.renderText(childNode.text);
+  return generator.next(flatten(children.map((childNode: HIRNode, idx: number) => {
+    if (childNode.annotation instanceof TextAnnotation) {
+      return renderer.text(childNode.annotation.attributes.text);
     } else {
-      return compile(renderer, childNode);
+      return compile(renderer, childNode, annotation, idx);
     }
   }))).value;
 }
 
 export default class Renderer {
 
-  *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
+  *renderAnnotation(annotation: AnyAnnotation): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
     if (generator) {
-      return yield* generator.call(this, annotation.attributes);
+      return yield* generator.call(this, annotation);
     }
     return yield;
   }
 
-  renderText(text: string): string {
+  text(text: string): string {
     return text;
   }
 
