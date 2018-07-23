@@ -6,6 +6,7 @@
   ],
   "command": {
     "bootstrap": {
+      "hoist": true,
       "npmClientArgs": [
         "--no-package-lock"
       ]
