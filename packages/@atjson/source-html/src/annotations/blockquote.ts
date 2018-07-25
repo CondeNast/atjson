@@ -1,4 +1,4 @@
-import { BlockAnnotation } from '../../../document/dist/commonjs';
+import { BlockAnnotation } from '@atjson/document';
 
 export default class Blockquote extends BlockAnnotation {
   static vendorPrefix = 'html';

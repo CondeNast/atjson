@@ -1,4 +1,4 @@
-import Document, { AnyAnnotation } from '../../document/dist/commonjs';
+import Document, { AnyAnnotation } from '@atjson/document';
 
 export default class HTMLSchemaTranslator extends Document {
   static schema = [];

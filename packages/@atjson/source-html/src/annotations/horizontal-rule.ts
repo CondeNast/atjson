@@ -1,4 +1,4 @@
-import { ObjectAnnotation } from '../../../document/dist/commonjs';
+import { ObjectAnnotation } from '@atjson/document';
 
 export default class HorizontalRule extends ObjectAnnotation {
   static vendorPrefix = 'html';

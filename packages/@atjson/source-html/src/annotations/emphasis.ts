@@ -1,4 +1,4 @@
-import { InlineAnnotation } from '../../../document/dist/commonjs';
+import { InlineAnnotation } from '@atjson/document';
 
 export default class Emphasis extends InlineAnnotation {
   static vendorPrefix = 'html';
