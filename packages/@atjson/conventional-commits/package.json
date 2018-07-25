@@ -1,6 +1,6 @@
 {
   "name": "@atjson/conventional-commits",
-  "version": "0.7.15",
+  "version": "0.8.4",
   "description": "Conventional commits for AtJSON",
   "main": "src/index.js",
   "scripts": {
