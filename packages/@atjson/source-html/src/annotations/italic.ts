@@ -1,4 +1,4 @@
-import { InlineAnnotation } from '@atjson/document';
+import { InlineAnnotation } from '../../../document/dist/commonjs';
 
 export default class Italic extends InlineAnnotation {
   static vendorPrefix = 'html';

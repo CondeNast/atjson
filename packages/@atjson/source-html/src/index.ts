@@ -1,5 +1,5 @@
-import Document, { AnnotationJSON, Attributes } from '@atjson/document';
-import * as parse5 from 'parse5';
+import Document, { AnnotationJSON, Attributes } from '../../document/dist/commonjs';
+import * as parse5 from 'parse5/lib';
 import {
   Anchor,
   Blockquote,

@@ -1,4 +1,4 @@
-import { ObjectAnnotation } from '@atjson/document';
+import { ObjectAnnotation } from '../../../document/dist/commonjs';
 
 export default class Image extends ObjectAnnotation {
   static vendorPrefix = 'html';

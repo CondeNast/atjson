@@ -1,4 +1,4 @@
-import { BlockAnnotation } from '@atjson/document';
+import { BlockAnnotation } from '../../../document/dist/commonjs';
 
 export default class Heading3 extends BlockAnnotation {
   static vendorPrefix = 'html';
