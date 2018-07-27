@@ -16,13 +16,13 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/hir": "^0.8.6",
-    "@atjson/renderer-hir": "^0.8.6",
+    "@atjson/hir": "0.8.6",
+    "@atjson/renderer-hir": "0.8.6",
     "@types/node": "^9.6.5"
   },
   "dependencies": {
     "@atjson/document": "0.8.4",
-    "@atjson/schema": "^0.8.6",
+    "@atjson/schema": "0.8.6",
     "parse5": "^4.0.0"
   }
 }

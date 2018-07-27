@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@atjson/document": "0.8.4",
-    "@atjson/hir": "^0.8.6"
+    "@atjson/hir": "0.8.6"
   }
 }

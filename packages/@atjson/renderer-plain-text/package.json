@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@atjson/document": "0.8.4",
-    "@atjson/hir": "^0.8.6",
-    "@atjson/source-html": "^0.8.6"
+    "@atjson/hir": "0.8.6",
+    "@atjson/source-html": "0.8.6"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "^0.8.6"
+    "@atjson/renderer-hir": "0.8.6"
   }
 }
