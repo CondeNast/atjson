@@ -16,15 +16,15 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/hir": "^0.8.4",
-    "@atjson/renderer-hir": "^0.8.4",
+    "@atjson/hir": "0.8.4",
+    "@atjson/renderer-hir": "0.8.4",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0"
   },
   "dependencies": {
-    "@atjson/document": "^0.8.4",
-    "@atjson/schema": "^0.8.4",
-    "@atjson/source-html": "^0.8.5",
+    "@atjson/document": "0.8.4",
+    "@atjson/schema": "0.8.4",
+    "@atjson/source-html": "0.8.5",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",
