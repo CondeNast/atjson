@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-commonmark",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Create AtJSON documents from CommonMark.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@atjson/document": "^0.8.4",
     "@atjson/schema": "^0.8.4",
-    "@atjson/source-html": "^0.8.4",
+    "@atjson/source-html": "^0.8.5",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",
