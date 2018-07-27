@@ -16,13 +16,13 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/schema": "^0.8.4",
-    "@atjson/source-commonmark": "^0.8.5",
+    "@atjson/schema": "0.8.4",
+    "@atjson/source-commonmark": "0.8.5",
     "commonmark-spec": "^0.28.0",
     "markdown-it": "^8.4.1"
   },
   "dependencies": {
-    "@atjson/document": "^0.8.4",
-    "@atjson/hir": "^0.8.4"
+    "@atjson/document": "0.8.4",
+    "@atjson/hir": "0.8.4"
   }
 }

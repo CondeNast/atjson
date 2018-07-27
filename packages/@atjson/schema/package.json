@@ -16,6 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/document": "^0.8.4"
+    "@atjson/document": "0.8.4"
   }
 }
