@@ -5,6 +5,10 @@
     "packages/@atjson/*"
   ],
   "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "changelogPreset": "@atjson/conventional-commits"
+    },
     "bootstrap": {
       "hoist": true,
       "npmClientArgs": [
