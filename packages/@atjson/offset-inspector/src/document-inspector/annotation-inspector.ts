@@ -4,12 +4,38 @@ import './annotation-attribute';
 export default class AnnotationInspector extends WebComponent {
 
   static template = `
-    <tr>
-      <td class="type"></td>
-      <td class="start"></td>
-      <td class="end"></td>
-      <td class="attributes"></td>
-    </tr>
+    <div class="annotation">
+      <span class="type"></span>
+      {<span class="attributes"><slot></slot></span>}
+      <div class="position">
+        [<div class="start"></div>,&nbsp;<div class="end"></div>]
+      </div>
+    </div>
+  `;
+
+  static style = `
+    :host {
+      font-family: Consolas, Lucida Console, Courier New, monospace;
+      width: 100%;
+    }
+
+    .annotation {
+      padding: 1ex;
+      border-bottom: 1px solid #ccc;
+      position: relative;
+    }
+
+    .type {
+      color: rgb(136, 18, 128);
+    }
+
+    .position {
+      position: absolute;
+      top: 1ex;
+      right: 1ex;
+      display: flex;
+      flex-direction: row;
+    }
   `;
 
   static observedAttributes = ['type', 'start', 'end', 'attributes'];
@@ -24,22 +50,6 @@ export default class AnnotationInspector extends WebComponent {
         break;
       case 'end':
         this.shadowRoot.querySelector('.end').innerHTML = this.getAttribute('end');
-        break;
-      case 'attributes':
-        let attributes;
-        try {
-          attributes = JSON.parse(this.getAttribute('attributes'));
-        } catch {
-          this.shadowRoot.querySelector('.attributes').innerHTML = '';
-          return;
-        }
-
-        let inner = [];
-        this.shadowRoot.querySelector('.attributes').innerHTML = attributes.keys.map(key => {
-          return `<annotation-attribute name="${key}" value="${JSON.stringify(attributes[key])}"></annotation-attribute><br/>`;
-          this.shadowRoot.querySelector('.attributes');
-        }).join('');
-
         break;
     }
   }
