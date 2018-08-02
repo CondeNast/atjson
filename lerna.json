@@ -6,6 +6,7 @@
   ],
   "command": {
     "publish": {
+      "exact": true,
       "conventionalCommits": true,
       "changelogPreset": "@atjson/conventional-commits"
     },
@@ -14,9 +15,6 @@
       "npmClientArgs": [
         "--no-package-lock"
       ]
-    },
-    "publish": {
-      "exact": true
     }
   }
 }
