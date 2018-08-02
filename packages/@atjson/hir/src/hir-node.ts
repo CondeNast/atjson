@@ -1,4 +1,4 @@
-import Document, { Annotation, AnyAnnotation, Attribute, JSON, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, Attribute, JSON, ParseAnnotation } from '@atjson/document';
 import { Root, Text } from './annotations';
 import HIR from './hir';
 
@@ -66,7 +66,7 @@ function toJSON(attribute: HIRAttribute): JSON {
 
 export default class HIRNode {
 
-  annotation: AnyAnnotation;
+  annotation: Annotation;
   id: string;
   attributes: HIRAttributes;
   start: number;

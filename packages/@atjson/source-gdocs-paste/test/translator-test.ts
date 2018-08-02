@@ -10,22 +10,22 @@ describe('@atjson/source-gdocs-paste', () => {
     // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
     let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
-    let gdocs = new GDocsSource(rawJSON);
+    let gdocs = GDocsSource.fromSource(rawJSON);
     atjson = gdocs.toCommonSchema();
   });
 
   it('correctly converts -gdocs-ts_bd to bold', () => {
-    let bolds = atjson.annotations.filter(a => a.type === 'bold');
+    let bolds = atjson.where(a => a.type === 'bold');
     expect(bolds.length).toEqual(2);
   });
 
   it('correctly converts italic', () => {
-    let italics = atjson.annotations.filter(a => a.type === 'italic');
+    let italics = atjson.where(a => a.type === 'italic');
     expect(italics.length).toEqual(2);
   });
 
   it('correctly converts headings', () => {
-    let headings = atjson.annotations.filter(a => a.type === 'heading');
+    let headings = atjson.where(a => a.type === 'heading');
     expect(headings.length).toEqual(4);
     expect(headings.map(h => h.attributes!.level)).toEqual([1, 2, 100, 101]);
   });

@@ -4,13 +4,12 @@ import Document from './index';
 import JSON from './json';
 
 export type ConcreteAnnotation<T extends Annotation> = T;
-export type AnyAnnotation = ConcreteAnnotation<any>;
 export interface AnnotationConstructor {
   vendorPrefix: string;
   type: string;
   subdocuments: { [key: string]: typeof Document };
-  new(attributes: { id: string, start: number, end: number, attributes: Attributes }): AnyAnnotation;
-  hydrate(attrs: { id: string, start: number, end: number, attributes: JSON }): AnyAnnotation;
+  new(attributes: { id: string, start: number, end: number, attributes: Attributes }): Annotation;
+  hydrate(attrs: { id: string, start: number, end: number, attributes: JSON }): Annotation;
 }
 
 export default abstract class Annotation {
@@ -170,7 +169,7 @@ export default abstract class Annotation {
       type: `-${vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes) as any
+      attributes: toJSON(vendorPrefix, this.attributes)
     };
   }
 }

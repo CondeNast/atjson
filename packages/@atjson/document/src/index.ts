@@ -1,4 +1,4 @@
-import Annotation, { AnnotationConstructor, AnyAnnotation } from './annotation';
+import Annotation, { AnnotationConstructor } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
 import { Attribute, Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
@@ -11,7 +11,7 @@ export interface AnnotationJSON {
   type: string;
   start: number;
   end: number;
-  attributes: Attributes;
+  attributes: JSON;
 }
 
 export {
@@ -19,7 +19,6 @@ export {
   Annotation,
   AnnotationCollection,
   AnnotationConstructor,
-  AnyAnnotation,
   Attribute,
   Attributes,
   Block as BlockAnnotation,
@@ -36,7 +35,7 @@ export {
 
 export default class Document {
   static contentType: string;
-  static schema: AnyAnnotation[] = [];
+  static schema: AnnotationConstructor[] = [];
 
   content: string;
   readonly contentType: string;

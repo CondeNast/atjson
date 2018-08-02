@@ -1,13 +1,13 @@
-import { Annotation } from '@atjson/document';
+import { AnnotationJSON } from '@atjson/document';
 import { GDocsStyleSlice } from './types';
 
 interface ParseState {
-  [key: string]: Annotation;
+  [key: string]: AnnotationJSON;
 }
 
-export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation[] {
+export default function extractTextStyles(styles: GDocsStyleSlice[]): AnnotationJSON[] {
   let state: ParseState = {};
-  let annotations: Annotation[] = [];
+  let annotations: AnnotationJSON[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];
@@ -32,7 +32,7 @@ export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation
 
     for (let styleType of ['ts_bd', 'ts_it', 'ts_un', 'ts_st']) {
       if (style[styleType] === true && !state[styleType]) {
-        state[styleType] = { type: '-gdocs-' + styleType, start: i, end: -1 };
+        state[styleType] = { type: '-gdocs-' + styleType, start: i, end: -1, attributes: {} };
       } else if (style[styleType] === false && style[styleType + '_i'] === false && state[styleType]) {
         state[styleType].end = i;
         annotations.push(state[styleType]);

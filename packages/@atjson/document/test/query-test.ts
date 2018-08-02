@@ -1,7 +1,38 @@
 import { AnnotationJSON, Attributes } from '../src';
-import TestSource, { Anchor } from './test-source';
+import TestSource, { Anchor, Code, Preformatted, Locale } from './test-source';
 
 describe('Document.where', () => {
+  it('length on collections', () => {
+    let doc = new TestSource({
+      content: 'Hello',
+      annotations: [{
+        id: '1',
+        type: '-test-bold',
+        start: 0,
+        end: 5,
+        attributes: {}
+      }]
+    });
+
+    expect(doc.where({ type: '-test-bold' }).length).toEqual(1);
+    expect(doc.where({ type: '-test-italic' }).length).toEqual(0);
+  });
+
+  it('map over collections', () => {
+    let doc = new TestSource({
+      content: 'Hello',
+      annotations: [{
+        id: '1',
+        type: '-test-bold',
+        start: 0,
+        end: 5,
+        attributes: {}
+      }]
+    });
+
+    expect(doc.where({ type: '-test-bold' }).map(a => a.type)).toEqual(['bold']);
+  });
+
   it('set', () => {
     let doc = new TestSource({
       content: 'Hello',
@@ -179,24 +210,24 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: '-test-code' }).update(annotation => {
-      let annotations = doc.replaceAnnotation(annotation, {
-        id: annotation.id + '-1',
+    doc.where({ type: '-test-code' }).update((code: Code) => {
+      let annotations = doc.replaceAnnotation(code, {
+        id: code.id + '-1',
         type: '-test-pre',
-        start: annotation.start,
-        end: annotation.end,
-        attributes: annotation.toJSON().attributes as Attributes
+        start: code.start,
+        end: code.end,
+        attributes: code.toJSON().attributes
       }, {
-        id: annotation.id + '-2',
+        id: code.id + '-2',
         type: '-test-code',
-        start: annotation.start,
-        end: annotation.end,
+        start: code.start,
+        end: code.end,
         attributes: {}
       });
 
       return {
         add: annotations,
-        remove: [annotation]
+        remove: [code]
       };
     }).unset('attributes.-test-class');
 
@@ -290,7 +321,7 @@ describe('Document.where', () => {
         }]
       }]);
 
-      preAndCode.update(({ code, pre }) => {
+      preAndCode.update(({ code, pre }: { code: Code, pre: Preformatted[] }) => {
         doc.removeAnnotation(pre[0]);
         code.attributes.textStyle = 'pre';
         doc.deleteText(2, 4);
@@ -412,7 +443,7 @@ describe('Document.where', () => {
         }]
       }]);
 
-      threeWayJoin.update(({ code, preElements, locale }) => {
+      threeWayJoin.update(({ code, preElements, locale }: { code: Code, preElements: Preformatted[], locale: Locale[] }) => {
         doc.insertText(0, 'Hello!\n');
 
         let newCode = code.clone();

@@ -26,6 +26,14 @@ class Collection {
     }
   }
 
+  get length() {
+    return this.annotations.length;
+  }
+
+  map<T>(mapper: (annotation: Annotation) => T) {
+    return this.annotations.map(mapper);
+  }
+
   where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
     if (filter instanceof Function) {
       return new AnnotationCollection(this.document, this.annotations.filter(filter));

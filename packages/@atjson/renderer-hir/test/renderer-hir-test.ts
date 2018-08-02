@@ -1,4 +1,4 @@
-import Document, { AnyAnnotation, InlineAnnotation } from '@atjson/document';
+import Document, { Annotation, InlineAnnotation } from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 import HIRRenderer, { escapeHTML } from '../src/index';
 
@@ -66,7 +66,7 @@ describe('@atjson/renderer-hir', () => {
     ];
 
     class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(annotation: AnyAnnotation): IterableIterator<any> {
+      *renderAnnotation(annotation: Annotation): IterableIterator<any> {
         let expected = callStack.shift();
         expect(annotation.toJSON()).toEqual(expected.annotation.toJSON());
 

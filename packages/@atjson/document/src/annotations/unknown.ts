@@ -1,12 +1,12 @@
 import Annotation from '../annotation';
-import { Attributes } from '../attributes';
+import JSON from '../json';
 
 export default class UnknownAnnotation extends Annotation {
   static vendorPrefix = 'atjson';
   static type = 'unknown';
   attributes!: {
     type: string;
-    attributes: Attributes;
+    attributes: JSON;
   };
 
   get rank() {

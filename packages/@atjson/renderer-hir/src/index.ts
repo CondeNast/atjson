@@ -1,4 +1,4 @@
-import Document, { AnyAnnotation } from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
 import { HIR, HIRNode, TextAnnotation } from '@atjson/hir';
 
 interface Mapping {
@@ -34,8 +34,8 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
-function compile(renderer: Renderer, node: HIRNode, parent?: AnyAnnotation, index?: number): any {
-  let annotation: AnyAnnotation = node.annotation.clone();
+function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, index?: number): any {
+  let annotation: Annotation = node.annotation.clone();
   let children = node.children();
 
   // Add metadata to annotations for formats that require context
@@ -85,7 +85,7 @@ function compile(renderer: Renderer, node: HIRNode, parent?: AnyAnnotation, inde
 
 export default class Renderer {
 
-  *renderAnnotation(annotation: AnyAnnotation): IterableIterator<any> {
+  *renderAnnotation(annotation: Annotation): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
     if (generator) {
       return yield* generator.call(this, annotation);
