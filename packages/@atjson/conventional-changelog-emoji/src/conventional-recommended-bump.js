@@ -37,7 +37,7 @@ module.exports = {
       if (commit.notes.length > 0) {
         breakings += commit.notes.length;
         level = 0;
-      } else if (commit.emojis.some(emoji => featureEmojis.indexOf(emoji))) {
+      } else if (commit.emojis && featureEmojis.some(emoji => commit.emojis.indexOf(emoji) !== -1)) {
         features += 1;
         if (level === 2) {
           level = 1;

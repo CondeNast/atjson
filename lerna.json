@@ -1,5 +1,5 @@
 {
-  "lerna": "2.2.0",
+  "lerna": "3.0.0-rc.0",
   "version": "independent",
   "packages": [
     "packages/@atjson/*"
