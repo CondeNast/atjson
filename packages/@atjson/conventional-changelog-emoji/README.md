@@ -1,4 +1,4 @@
-# ✌️ conventional-commits
+# ✌️ conventional-changelog-emoji
 
 [Conventional Commits](https://conventionalcommits.org/) is a community standard designed to generate software changes automatically.
 

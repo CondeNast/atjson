@@ -1,5 +1,5 @@
 {
-  "name": "@atjson/conventional-commits",
+  "name": "@atjson/conventional-changelog-emoji",
   "version": "0.8.4",
   "description": "Conventional commits for AtJSON",
   "main": "src/index.js",
