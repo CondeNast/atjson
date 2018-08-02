@@ -2,7 +2,6 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/conventional-commits": "^0.8.4",
     "@types/jest": "^22.2.3",
     "husky": "^1.0.0-rc.13",
     "jest": "^22.4.2",
