@@ -16,11 +16,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "^0.7.16",
-    "@atjson/hir": "^0.8.0"
+    "@atjson/document": "0.8.5",
+    "@atjson/hir": "0.8.7"
   },
   "dependencies": {
-    "@atjson/hir": "^0.8.0",
-    "@atjson/renderer-hir": "^0.8.0"
+    "@atjson/hir": "0.8.7",
+    "@atjson/renderer-hir": "0.8.0"
   }
 }
