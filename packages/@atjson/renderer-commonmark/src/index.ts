@@ -448,8 +448,14 @@ export default class CommonmarkRenderer {
     return text + '\n\n';
   }
 
-  render(document: Document): string {
-    let graph = new HIR(document);
+  render(document: Document | HIR): string {
+    let graph;
+    if (document instanceof HIR) {
+      graph = document;
+    } else {
+      graph = new HIR(document);
+    }
+
     return render(this, hirNodeToMarkdownNode(graph.rootNode, null), -1);
   }
 }

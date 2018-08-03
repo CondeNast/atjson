@@ -229,7 +229,7 @@ export default class CommonMarkSource extends Document {
     return {};
   }
 
-  toCommonSchema() {
+  toCommonSchema(): Document {
     let doc = new Document({
       content: this.content,
       contentType: 'text/atjson',

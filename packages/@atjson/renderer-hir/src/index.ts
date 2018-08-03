@@ -65,7 +65,10 @@ export default class Renderer {
     return text;
   }
 
-  render(document: Document) {
+  render(document: Document | HIR) {
+    if (document instanceof HIR) {
+      return compile(this, document.rootNode);
+    }
     return compile(this, new HIR(document).rootNode);
   }
 }

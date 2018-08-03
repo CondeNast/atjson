@@ -1,11 +1,17 @@
 {
-  "lerna": "2.2.0",
-  "version": "0.8.3",
+  "lerna": "3.0.0-rc.0",
+  "version": "independent",
   "packages": [
     "packages/@atjson/*"
   ],
   "command": {
+    "publish": {
+      "exact": true,
+      "conventionalCommits": true,
+      "changelogPreset": "./packages/@atjson/conventional-changelog-emoji"
+    },
     "bootstrap": {
+      "hoist": true,
       "npmClientArgs": [
         "--no-package-lock"
       ]

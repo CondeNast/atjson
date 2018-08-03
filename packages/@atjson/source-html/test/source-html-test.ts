@@ -159,7 +159,7 @@ describe('@atjson/source-html', () => {
       attributes: {},
       children: [{
         type: '-html-a',
-        attributes {
+        attributes: {
           href: 'https://en.wiktionary.org/wiki/日本人'
         },
         children: []
