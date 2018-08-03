@@ -12,6 +12,9 @@
 	"browserslist": [
 		"last 2 Chrome versions"
 	],
+  "devDependencies": {
+    "parcel-bundler": "1.9.7"
+  },
 	"dependencies": {
 		"@atjson/editor": "0.8.8",
     "@atjson/document": "0.8.5",
