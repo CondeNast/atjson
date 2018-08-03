@@ -172,7 +172,7 @@ export default class AtJSON {
         a = this.annotations[j];
 
         // This doesn't affect us.
-        if (a.type !== 'paragraph') continue;
+        if (a.type !== 'block') continue;
         if (a.end < position) continue;
         if (position < a.start) continue;
 
@@ -183,7 +183,7 @@ export default class AtJSON {
         // And now add a new paragraph.
         this.addAnnotations({
           type: 'paragraph',
-          display: 'paragraph',
+          display: 'block',
           start: position + 1,
           end: prevEnd
         });
@@ -211,6 +211,8 @@ export default class AtJSON {
 
     this.content = before + after;
 
+    let potentialMergeAnnotations = {};
+
     for (let i = this.annotations.length - 1; i >= 0; i--) {
       let a = this.annotations[i];
 
@@ -228,6 +230,17 @@ export default class AtJSON {
         a.end -= length;
 
       } else {
+
+        let mergeType: string;
+        if (a.display === 'block') {
+          mergeType = 'block';
+        } else {
+          mergeType = a.type;
+        }
+        if (!potentialMergeAnnotations[mergeType]) {
+          potentialMergeAnnotations[mergeType] = [];
+        }
+        potentialMergeAnnotations[mergeType].push(a);
 
         if (end < a.end) {
 
@@ -264,6 +277,17 @@ export default class AtJSON {
             a.end = start;
           }
 
+        }
+      }
+
+      for (const type in potentialMergeAnnotations) {
+        let annotations = potentialMergeAnnotations[type];
+        annotations = annotations.sort((a, b) => a.start - b.start);
+        for (let i = annotations.length - 1; i > 0; i--) {
+          if (annotations[i-1].end === annotations[i].start) { // && annotations[i-1].attributes.toJSON() === annotations[i].attributes.toJSON()) {
+            annotations[i-1].end = annotations[i].end;
+            this.removeAnnotation(annotations[i]);
+          }
         }
       }
     }
