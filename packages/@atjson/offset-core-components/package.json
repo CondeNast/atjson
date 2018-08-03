@@ -9,7 +9,6 @@
     "build": "rm -rf dist; tsc -p . ; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
     "prepublishOnly": "npm run build",
-    "start": "parcel public/index.html",
     "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
   },
   "license": "Apache-2.0",
@@ -20,14 +19,9 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/document": "^0.7.16",
-    "@atjson/renderer-webcomponent": "0.8.0",
-    "@atjson/renderer-commonmark": "0.8.2",
-    "@atjson/hir": "^0.8.0",
     "node-sass": "^4.9.0"
   },
   "devDependencies": {
-    "parcel-bundler": "1.9.7",
     "ts-loader": "^4.0.0",
     "tslint": "^5.9.1",
     "typescript": "^2.8.1"

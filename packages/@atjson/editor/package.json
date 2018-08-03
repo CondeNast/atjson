@@ -22,7 +22,9 @@
   "dependencies": {
     "@atjson/document": "0.8.7",
     "@atjson/hir": "0.8.10",
+    "@atjson/offset-core-components": "0.8.0",
     "@atjson/renderer-commonmark": "0.8.2",
+    "@atjson/renderer-webcomponent": "0.8.0",
     "node-sass": "^4.9.0"
   },
   "devDependencies": {
