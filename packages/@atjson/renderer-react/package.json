@@ -16,7 +16,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.8.4",
+    "@atjson/document": "0.8.5",
     "@atjson/hir": "0.8.7",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
