@@ -9,7 +9,6 @@ import OffsetParagraph from './components/paragraph';
 import OffsetStrikethrough from './components/strikethrough';
 import OffsetSuperscript from './components/superscript';
 import OffsetUnderline from './components/underline';
-import EditableComponent from './mixins/editable-component';
 
 let OffsetCoreComponents = [
   OffsetBlockquote, OffsetBold, OffsetColor, OffsetFont, OffsetHeading,

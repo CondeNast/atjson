@@ -1,3 +1,4 @@
+import { Annotation } from '@atjson/document';
 import WebComponent from '../mixins/component';
 
 export default class OffsetHeadingActionButton extends WebComponent {
@@ -24,7 +25,7 @@ export default class OffsetHeadingActionButton extends WebComponent {
   `;
 
   static events = {
-    selectionchange: 'onSelectionChange',
+    'selectionchange': 'onSelectionChange',
     'click .toggle': 'onToggleClick',
     'click .level': 'onLevelClick'
   };
@@ -32,7 +33,7 @@ export default class OffsetHeadingActionButton extends WebComponent {
   selection: any;
 
   getOverlappingHeading() {
-    return this.selection.selectedAnnotations.find(a => a.type === 'heading');
+    return this.selection.selectedAnnotations.find((a: Annotation) => a.type === 'heading');
   }
 
   onSelectionChange(evt: CustomEvent) {
@@ -44,6 +45,8 @@ export default class OffsetHeadingActionButton extends WebComponent {
       let nlIdx = coveredContent.lastIndexOf('\n');
       newlineFree = nlIdx === -1 || nlIdx === end - 1;
     }
+
+    if (!this.shadowRoot) return;
 
     // Only display if the selection *does not* span multiple paragraphs.
     if (newlineFree) {
@@ -78,7 +81,7 @@ export default class OffsetHeadingActionButton extends WebComponent {
     }
   }
 
-  onToggleClick(evt: MouseEvent) {
+  onToggleClick() {
     let overlappingHeading = this.getOverlappingHeading();
 
     if (overlappingHeading) {
@@ -118,7 +121,7 @@ export default class OffsetHeadingActionButton extends WebComponent {
     }
   }
 
-  onLevelClick(evt: MouseEvent) {
+  onLevelClick() {
     let overlappingHeading = this.getOverlappingHeading();
 
     let level = parseInt(overlappingHeading.attributes.level, 10) + 1;
