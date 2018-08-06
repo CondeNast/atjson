@@ -12,14 +12,12 @@
 	"browserslist": [
 		"last 2 Chrome versions"
 	],
-  "devDependencies": {
-    "parcel-bundler": "1.9.7"
-  },
 	"dependencies": {
 		"@atjson/editor": "0.8.8",
     "@atjson/document": "0.8.5",
 		"@atjson/offset-core-components": "0.8.0",
 		"@atjson/renderer-commonmark": "0.8.2",
-		"@atjson/renderer-webcomponent": "0.8.0"
+		"@atjson/renderer-webcomponent": "0.8.0",
+    "parcel-bundler": "1.9.7"
 	}
 }
