@@ -34,8 +34,6 @@ export default class CharacterCounter extends WebComponent {
     .highlight {
       background-color: rgb(96, 200, 240);
     }
-
-
   `;
 
   static observedAttributes = ['start', 'end', 'content'];
@@ -70,7 +68,6 @@ export default class CharacterCounter extends WebComponent {
     contentSpan.innerHTML = '';
     contentSpan.appendChild(content);
   }
-
 
   attributeChangedCallback(attribute) {
     switch (attribute) {

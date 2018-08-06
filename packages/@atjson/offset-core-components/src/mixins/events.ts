@@ -1,8 +1,6 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-export interface EventCallback {
-  (evt: Event): boolean;
-}
+export type EventCallback = (evt: Event) => boolean;
 
 export interface EventHandlerDefinitions {
   [key: string]: string | EventCallback;
@@ -92,7 +90,7 @@ export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
     }
 
     disconnectedCallback() {
-      Object.keys(this.eventHandlers).forEach((definition) => {
+      Object.keys(this.eventHandlers).forEach(definition => {
         let { eventName, element } = getEventNameAndElement(this, definition);
         element.removeEventListener(eventName, this.eventHandlers[definition]);
       });
