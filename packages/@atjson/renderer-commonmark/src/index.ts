@@ -7,10 +7,14 @@ export function* split(): Iterable<any> {
   let end = text.length;
   let match;
 
-  while ((match = text.slice(start).match(/^(\s|&nbsp;){1}/)) && start < end) {
+  while (start < end) {
+    match = text.slice(start).match(/^(\s|&nbsp;){1}/);
+    if (!match) break;
     start += match[1].length;
   }
-  while ((match = text.slice(0, end).match(/(\s|&nbsp;){1}$/)) && end > start) {
+  while (end > start) {
+    match = text.slice(0, end).match(/(\s|&nbsp;){1}$/);
+    if (!match) break;
     end -= match[1].length;
   }
 
