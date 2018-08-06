@@ -3,5 +3,5 @@ CnNodeBuild(project: "atjson",
             npmVersion: "3") {
   sh "npm install"
   sh "./node_modules/.bin/lerna bootstrap --hoist"
-  sh "./node_modules/.bin/lerna run build --parallel"
+  sh "./node_modules/.bin/lerna run build"
 }

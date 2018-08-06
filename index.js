@@ -2,7 +2,9 @@
 
 const { execSync } = require('child_process');
 
-//process.chdir("./packages/@atjson/offset-inspector/");
-execSync("./node_modules/.bin/parcel public/index.html", {
-  cwd: './packages/@atjson/offset-inspector/'
-});
+const port = process.env.NODE_PORT || '8081';
+
+console.log('Listening on ', port);
+
+process.chdir("./packages/@atjson/offset-inspector/");
+execSync(`./node_modules/.bin/parcel serve --port ${port} public/index.html`);
