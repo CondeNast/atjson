@@ -12,6 +12,9 @@
     "typedoc-plugin-monorepo": "^0.1.0",
     "typescript": "^2.8.1"
   },
+  "dependencies": {
+    "parcel-bundler": "1.9.7"
+  },
   "scripts": {
     "build": "lerna run build",
     "docs": "typedoc",
