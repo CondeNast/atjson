@@ -5,7 +5,10 @@ import './selection-toolbar';
 import './text-input';
 import './text-selection';
 
-type Range = { start: number, end: number };
+interface Range {
+  start: number;
+  end: number;
+}
 
 export default class OffsetEditor extends events(HTMLElement) {
 
@@ -16,9 +19,9 @@ export default class OffsetEditor extends events(HTMLElement) {
       this.selection = evt.detail;
       let toolbar = this.querySelector('selection-toolbar');
 
-      let selectedAnnotations = this.document.annotations.filter(a => {
+      let selectedAnnotations = this.document.annotations.filter((a: Annotation) => {
         return (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
-               (a.start <= evt.detail.end && a.end >= evt.detail.end)
+               (a.start <= evt.detail.end && a.end >= evt.detail.end);
       });
 
       let selectionChangeEvent = new CustomEvent('selectionchange', {
@@ -68,8 +71,8 @@ export default class OffsetEditor extends events(HTMLElement) {
         let overlapping = this.document.annotations.filter((a: Annotation) => a.type === evt.detail.type)
                                                    .filter((a: Annotation) => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
 
-        let min = overlapping.reduce((a, b) => { return Math.min(a, b.start); }, this.document.content.length);
-        let max = overlapping.reduce((a, b) => { return Math.max(a, b.end); }, 0);
+        let min = overlapping.reduce((a: number, b: Annotation) => Math.min(a, b.start), this.document.content.length);
+        let max = overlapping.reduce((a: number, b: Annotation) => Math.max(a, b.end), 0);
 
         if (overlapping.length === 0) {
           this.document.addAnnotations(evt.detail);
@@ -86,7 +89,7 @@ export default class OffsetEditor extends events(HTMLElement) {
           this.document.addAnnotations(Object.assign({}, overlapping[0], evt.detail, { start: Math.min(min, evt.detail.start), end: Math.max(max, evt.detail.end) }));
         }
 
-        overlapping.forEach(o => this.document.removeAnnotation(o));
+        overlapping.forEach((o: Annotation) => this.document.removeAnnotation(o));
 
       } else {
         this.document.addAnnotations(evt.detail);
@@ -94,7 +97,7 @@ export default class OffsetEditor extends events(HTMLElement) {
     },
 
     'deleteAnnotation'(evt: CustomEvent) {
-      let annotation = this.document.annotations.find(a => a.id === evt.detail.annotationId);
+      let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
       this.document.removeAnnotation(annotation);
     }
 

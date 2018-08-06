@@ -33,7 +33,7 @@ export default class AnnotationsInspector extends WebComponent {
 
   setDocument(doc) {
     this.document = doc;
-    this.document.addEventListener('change', _ => window.requestAnimationFrame(_ => this.updateBody()));
+    this.document.addEventListener('change', () => window.requestAnimationFrame(() => this.updateBody()));
   }
 }
 

@@ -197,14 +197,17 @@ class TextSelection extends events(HTMLElement) {
   }
 
   updateToolbar(range, selectionRange) {
-    let toolbarStyle = this.shadowRoot.querySelector('.toolbar').style;
+    if (!this.shadowRoot) return;
+    let toolbar = this.shadowRoot.querySelector('.toolbar');
+    if (!toolbar) return;
+    let toolbarStyle = toolbar.style;
     if (range[0] === range[1]) {
       toolbarStyle.display = 'none';
     } else {
       window.requestAnimationFrame(_ => {
         let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
         toolbarStyle.display = 'block';
-        toolbarStyle.top = selectionBoundingRect.y - this.shadowRoot.querySelector('.toolbar').offsetHeight - 3;
+        toolbarStyle.top = selectionBoundingRect.y - toolbar.offsetHeight - 3;
         toolbarStyle.left = selectionBoundingRect.x;
       });
     }
@@ -213,7 +216,9 @@ class TextSelection extends events(HTMLElement) {
   resumeInput() {
     if (this._previousRange) {
       this.setSelection(this._previousRange);
-      this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+      if (this._focusNode) {
+        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+      }
     }
   }
 

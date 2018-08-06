@@ -3,7 +3,6 @@ import CommonmarkRenderer from '@atjson/renderer-commonmark';
 import InspectorGadget from './document-inspector';
 import './document-inspector';
 import './html-tree-inspector';
-//import '../public/logo';
 import WebComponent from './mixins/component';
 
 export default class OffsetEditorDemo extends WebComponent {
@@ -43,7 +42,6 @@ export default class OffsetEditorDemo extends WebComponent {
     },
 
     'addComponent'(event) {
-      console.log('saw event!', event);
       this.shadowRoot.querySelector('html-tree-inspector').addComponent(event.detail.component);
     }
   };
@@ -151,7 +149,6 @@ export default class OffsetEditorDemo extends WebComponent {
     let inspectorGadget: InspectorGadget = this.shadowRoot.querySelector('inspector-gadget');
     let editor = this.querySelector('offset-editor');
 
-    console.log('in here?', doc)
     if (inspectorGadget) {
       inspectorGadget.setDocument(doc);
       inspectorGadget.setSelection(editor.getSelection());

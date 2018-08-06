@@ -102,9 +102,9 @@ export default class InspectorGadget extends WebComponent {
   setDocument(doc) {
     this.document = doc;
     this.shadowRoot.querySelector('annotations-inspector').setDocument(doc);
-    this.document.addEventListener('change', (_ => {
+    this.document.addEventListener('change', (() => {
       if (this.deferred) clearTimeout(this.deferred);
-      this.deferred = setTimeout(_ => {
+      this.deferred = setTimeout(() => {
         let charCounter = this.shadowRoot.querySelector('character-counter');
         charCounter.setAttribute('content', this.document.content);
       }, 500);
