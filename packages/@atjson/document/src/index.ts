@@ -12,7 +12,7 @@ export default class Document {
   contentType?: string;
   annotations: Annotation[];
   schema?: Schema;
-  changeListeners: Function[];
+  changeListeners: Array<() => void>;
 
   protected queries: Query[];
 
@@ -211,7 +211,7 @@ export default class Document {
 
     this.content = before + after;
 
-    let potentialMergeAnnotations = {};
+    let potentialMergeAnnotations: {[key: string]: Annotation[]} = {};
 
     for (let i = this.annotations.length - 1; i >= 0; i--) {
       let a = this.annotations[i];
@@ -282,11 +282,11 @@ export default class Document {
 
       for (const type in potentialMergeAnnotations) {
         let annotations = potentialMergeAnnotations[type];
-        annotations = annotations.sort((a, b) => a.start - b.start);
-        for (let i = annotations.length - 1; i > 0; i--) {
-          if (annotations[i-1].end === annotations[i].start) { // && annotations[i-1].attributes.toJSON() === annotations[i].attributes.toJSON()) {
-            annotations[i-1].end = annotations[i].end;
-            this.removeAnnotation(annotations[i]);
+        annotations = annotations.sort((j, k) => j.start - k.start);
+        for (let l = annotations.length - 1; l > 0; l--) {
+          if (annotations[l - 1].end === annotations[l].start) { // && annotations[i-1].attributes.toJSON() === annotations[i].attributes.toJSON()) {
+            annotations[l - 1].end = annotations[l].end;
+            this.removeAnnotation(annotations[l]);
           }
         }
       }
