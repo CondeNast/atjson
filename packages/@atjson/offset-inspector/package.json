@@ -6,18 +6,24 @@
 	"module": "dist/modules/index.js",
 	"types": "dist/commonjs/index.d.ts",
 	"license": "Apache-2.0",
+  "scripts": {
+    "build": "parcel build public/index.html",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'"
+  },
 	"publishConfig": {
 		"access": "public"
 	},
 	"browserslist": [
 		"last 2 Chrome versions"
 	],
-	"dependencies": {
+  "devDependencies": {
+    "parcel-bundler": "1.9.7"
+  },
+  "dependencies": {
 		"@atjson/editor": "0.8.8",
     "@atjson/document": "0.8.5",
 		"@atjson/offset-core-components": "0.8.0",
 		"@atjson/renderer-commonmark": "0.8.2",
-		"@atjson/renderer-webcomponent": "0.8.0",
-    "parcel-bundler": "1.9.7"
+		"@atjson/renderer-webcomponent": "0.8.0"
 	}
 }
