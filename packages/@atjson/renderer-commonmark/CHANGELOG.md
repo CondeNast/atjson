@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.9.0...@atjson/renderer-commonmark@0.9.1) (2018-08-07)
+
+
+### 🐛 Fixes
+
+* 🐛👯‍♀️ fix adjacent bold / italic markup annotations in markdown
+
+
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## 0.9.0 (2018-08-02)
 
 
