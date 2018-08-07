@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "parcel build public/index.html",
-    "lint": "tslint -c ./tslint.json 'src/**/*.ts'"
+    "lint": "tslint -p ."
   },
   "publishConfig": {
     "access": "public"
