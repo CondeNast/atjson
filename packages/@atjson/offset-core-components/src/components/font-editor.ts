@@ -8,7 +8,7 @@ export default class FontEditor extends WebComponent {
     'beforeinput': 'beforeInput',
     'click .cancel': 'cursorBlur',
     'click .save': 'onSave',
-    'keypress .font-family': 'handleKeypress'
+    'keypress .font-family': 'handleKeypress',
     'keypress .font-size': 'handleKeypress'
   };
 

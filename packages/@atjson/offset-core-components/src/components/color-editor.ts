@@ -8,7 +8,7 @@ export default class ColorEditor extends WebComponent {
     'beforeinput': 'beforeInput',
     'click .cancel': 'cursorBlur',
     'click .save': 'onSave',
-    'keypress .text-color': 'handleKeypress'
+    'keypress .text-color': 'handleKeypress',
     'keypress .background-color': 'handleKeypress'
   };
 
