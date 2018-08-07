@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "declaration": true,
-    "module": "commonjs",
-    "removeComments": true,
-    "downlevelIteration": true,
-    "skipDefaultLibCheck": true,
-    "strict": true,
     "alwaysStrict": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
     "paths": {
       "parse5": ["./node_modules/parse5/lib/index.d.ts"]
     },
-    "baseUrl": "./",
-    "inlineSourceMap": true,
-    "experimentalDecorators": true
+    "removeComments": true,
+    "skipDefaultLibCheck": true,
+    "strict": true,
+    "target": "ES6"
   }
 }
