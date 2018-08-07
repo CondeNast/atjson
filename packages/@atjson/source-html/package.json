@@ -21,8 +21,8 @@
     "@types/node": "^10.9.4"
   },
   "dependencies": {
-    "@atjson/document": "0.8.7",
-    "@atjson/schema": "0.8.10",
+    "@atjson/document": "0.8.4",
+    "@atjson/schema": "0.8.7",
     "parse5": "^4.0.0"
   }
 }

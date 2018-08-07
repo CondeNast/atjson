@@ -22,7 +22,7 @@
     "markdown-it": "^8.4.1"
   },
   "dependencies": {
-    "@atjson/document": "0.8.7",
-    "@atjson/hir": "0.8.10"
+    "@atjson/document": "0.8.4",
+    "@atjson/hir": "0.8.7"
   }
 }
