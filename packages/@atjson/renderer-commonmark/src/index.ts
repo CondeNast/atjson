@@ -247,8 +247,10 @@ export default class CommonmarkRenderer {
       return before + after;
     } else {
       let markup = state.isItalicized ? '_' : '*';
-      if (node.parent && !node.previous && !node.next &&
-          node.parent.type === 'bold') {
+      let hasWrappingBoldMarkup = node.parent && !node.previous && !node.next && node.parent.type === 'bold';
+      let hasAdjacentBoldMarkup = (node.next && node.next.type === 'bold' && after.length === 0) ||
+                                  (node.previous && node.previous.type === 'bold' && before.length === 0);
+      if (hasWrappingBoldMarkup || hasAdjacentBoldMarkup) {
         markup = '_';
       }
       return `${before}${markup}${text}${markup}${after}`;

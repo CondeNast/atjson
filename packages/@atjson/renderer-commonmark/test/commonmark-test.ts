@@ -285,6 +285,49 @@ After all the lists
     expect(renderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
   });
 
+  test('adjacent bold and italic annotations are given unique markdown makers', () => {
+    let document = new Document({
+      content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
+      annotations: [{
+        type: 'paragraph', start: 0, end: 21
+      }, {
+        type: 'parse-token', start: 0, end: 1
+      }, {
+        type: 'bold', start: 0, end: 6
+      }, {
+        type: 'parse-token', start: 5, end: 6
+      }, {
+        type: 'parse-token', start: 6, end: 7
+      }, {
+        type: 'italic', start: 6, end: 21
+      }, {
+        type: 'parse-token', start: 20, end: 21
+      }, {
+        type: 'parse-token', start: 21, end: 22
+      }, {
+        type: 'paragraph', start: 22, end: 43
+      }, {
+        type: 'parse-token', start: 22, end: 23
+      }, {
+        type: 'italic', start: 23, end: 30
+      }, {
+        type: 'parse-token', start: 29, end: 30
+      }, {
+        type: 'parse-token', start: 30, end: 31
+      }, {
+        type: 'bold', start: 30, end: 42
+      }, {
+        type: 'parse-token', start: 42, end: 43
+      }, {
+        type: 'parse-token', start: 43, end: 44
+      }],
+      schema
+    });
+
+    let renderer = new CommonMarkRenderer();
+    expect(renderer.render(document)).toBe('**bold**_\\, then italic_\n\n_italic_**\\, then bold**\n\n');
+  });
+
   test('empty format strings are removed', () => {
     let document = new Document({
       content: 'Some formatting on empty spaces',
