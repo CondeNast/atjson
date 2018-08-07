@@ -11,12 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * 🐛👯‍♀️ fix adjacent bold / italic markup annotations in markdown
 
 
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
 ## 0.9.0 (2018-08-02)
 
 
