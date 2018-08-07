@@ -18,10 +18,12 @@ export default class WebComponent extends events(HTMLElement) {
     return this.compiledElement;
   }
 
+  shadowRoot: ShadowRoot;
+
   constructor() {
     super();
-    let shadowRoot = this.attachShadow({ mode: 'open' });
-    shadowRoot.appendChild(this.constructor.compiledTemplate.content.cloneNode(true));
+    this.shadowRoot = this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(WebComponent.compiledTemplate.cloneNode(true));
   }
 
   dispatchAttributeChangeEvent(attributes: {}) {
