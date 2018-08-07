@@ -16,7 +16,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.8.5",
+    "@atjson/document": "0.8.4",
     "@atjson/hir": "0.8.7"
   },
   "dependencies": {
