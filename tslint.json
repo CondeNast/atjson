@@ -10,6 +10,7 @@
     "max-line-length": [false],
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
+    "no-implicit-dependencies": [true, "dev"],
     "object-literal-sort-keys": false,
     "ordered-imports": [
       true,
