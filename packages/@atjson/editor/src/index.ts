@@ -99,7 +99,7 @@ export default class OffsetEditor extends events(HTMLElement) {
     'deleteAnnotation'(evt: CustomEvent) {
       let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
       this.document.removeAnnotation(annotation);
-    }
+    },
 
     'attributechange'(evt: CustomEvent) {
       if (evt.detail.annotationId) {
