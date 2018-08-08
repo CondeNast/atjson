@@ -1,0 +1,26 @@
+{
+  "name": "@atjson/renderer-webcomponent",
+  "version": "0.8.0",
+  "description": "A brand new TypeScript library.",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . ; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
+    "lint": "tslint -p .",
+    "prepublishOnly": "npm run build",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@atjson/document": "0.8.4",
+    "@atjson/hir": "0.8.7"
+  },
+  "dependencies": {
+    "@atjson/hir": "0.8.7",
+    "@atjson/renderer-hir": "0.8.0"
+  }
+}

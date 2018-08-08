@@ -6,10 +6,11 @@
     "curly": [true, "ignore-same-line"],
     "forin": false,
     "interface-name": [true, "never-prefix"],
-    "max-classes-per-file": [false],
+    "max-classes-per-file": [false, 1],
     "max-line-length": [false],
     "member-access": [true, "no-public"],
     "no-empty-interface": false,
+    "no-implicit-dependencies": [true, "dev"],
     "object-literal-sort-keys": false,
     "ordered-imports": [
       true,

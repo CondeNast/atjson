@@ -1,184 +1,194 @@
-import { HIR } from '@atjson/hir';
-import Document from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
+import WebComponentRenderer from '@atjson/renderer-webcomponent';
 import events from './mixins/events';
+import './selection-toolbar';
+import './text-input';
 import './text-selection';
 
-const TEXT_NODE_TYPE = 3;
-
-type Element = TextNode | HTMLElement;
-
-function getNodeAndOffset(node: Element | null, offset: number): { node: Element | null, offset: number } | never {
-  if (node == null) {
-    return { node: null, offset };
-  } else if (node.nodeType === TEXT_NODE_TYPE) {
-    return { node, offset };
-  } else if (node.childNodes.length > 0) {
-    let offsetNode = node.childNodes[offset];
-
-    // If the offset node has a single child node,
-    // use that node instead of the parent
-    if (offsetNode.nodeType !== TEXT_NODE_TYPE &&
-        offsetNode.childNodes.length === 1) {
-      offsetNode = offsetNode.childNodes[0];
-    }
-
-    // The offset node is a text node; quickly return
-    if (offsetNode.nodeType === TEXT_NODE_TYPE) {
-      return { node: offsetNode, offset: 0 };
-
-    // Find the closest text node and return that
-    } else if (!offsetNode.hasChildNodes()) {
-      let adjustedOffset = offset - 1;
-
-      // Look for the nearest preceding text node
-      while (offsetNode.nodeType !== TEXT_NODE_TYPE &&
-             adjustedOffset > 0) {
-        offsetNode = node.childNodes[adjustedOffset--];
-      }
-
-      if (offsetNode.nodeType === TEXT_NODE_TYPE) {
-        offset = offsetNode.length;
-
-      // Look for the next text node following the offset
-      } else {
-        adjustedOffset = offset;
-        offset = 0;
-        while (offsetNode.nodeType !== TEXT_NODE_TYPE &&
-               adjustedOffset < node.childNodes.length) {
-          offsetNode = node.childNodes[adjustedOffset++];
-        }
-      }
-
-      if (offsetNode.nodeType !== TEXT_NODE_TYPE) {
-        throw new Error("A node / offset pair couldn't be found for the selection.");
-      } else {
-        return { node: offsetNode, offset };
-      }
-    } else {
-      throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
-    }
-  } else {
-    return { node: null, offset };
-  }
+interface Range {
+  start: number;
+  end: number;
 }
 
-function compile(editor: Editor, hir: Map<Element, HIRNode>, nodes: HIRNode[]): Element[] {
-  return nodes.map((node: HIRNode) => {
-    let children = node.children();
-    if (children.length > 0) {
-      let element = editor[node.type](node);
-      hir.set(element, node);
-      compile(editor, hir, children).forEach((child: Element) => {
-        element.appendChild(child);
-      });
-      return element;
-    }
-    let text = editor[node.type](node);
-    hir.set(text, node);
-    return text;
-  });
-}
+export default class OffsetEditor extends events(HTMLElement) {
 
-export default class Editor extends events(HTMLElement) {
-  static template = '<text-selection><div class="editor" contenteditable></div></text-selection><hr><div class="output"></div>';
+  static template = '<text-input><text-selection><selection-toolbar slot="toolbar"></selection-toolbar><div class="editor" style="white-space: pre-wrap; padding: 1em; border: 1px solid black; border-radius: 5px; outline: none; font-size: 1.5em;" contenteditable></div></text-selection></text-input>';
+
   static events = {
-    'beforeinput': 'beforeinput',
-    'change text-selection': 'updateSelection'
+    'change text-selection'(evt: CustomEvent) {
+      this.selection = evt.detail;
+      let toolbar = this.querySelector('selection-toolbar');
+
+      let selectedAnnotations = this.document.annotations.filter((a: Annotation) => {
+        return (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
+               (a.start <= evt.detail.end && a.end >= evt.detail.end);
+      });
+
+      let selectionChangeEvent = new CustomEvent('selectionchange', {
+        detail: Object.assign({
+          selectedAnnotations,
+          document: this.document
+        }, evt.detail),
+        bubbles: false
+      });
+      toolbar.dispatchEvent(selectionChangeEvent);
+    },
+
+    'insertText text-input'(evt: CustomEvent) {
+      this.document.insertText(evt.detail.position, evt.detail.text);
+      this.selection.start += evt.detail.text.length;
+      this.selection.end += evt.detail.text.length;
+    },
+
+    'deleteText text-input'(evt: CustomEvent) {
+      let deletion = evt.detail;
+      this.document.deleteText(deletion);
+      // FIXME the selection should just be an annotation that we transform. We shouldn't handle logic here.
+      if (this.selection.start < deletion.start) {
+        // do nothing.
+      } else if (this.selection.start < deletion.end) {
+        this.selection.start = this.selection.end = deletion.start;
+      } else {
+        let l = deletion.end - deletion.start;
+        this.selection.start -= l;
+        this.selection.end -= l;
+      }
+    },
+
+    'replaceText text-input'(evt: CustomEvent) {
+      let replacement = evt.detail;
+
+      this.document.deleteText(replacement);
+      this.document.insertText(replacement.start, replacement.text);
+      this.selection.start = replacement.start + replacement.text.length;
+    },
+
+    'addAnnotation'(evt: CustomEvent) {
+      if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
+
+        const contained = (a: Annotation, b: Annotation) => a.start >= b.start && a.end <= b.end;
+        const offset = (a: Annotation, b: Annotation) => a.start <= b.end && a.end >= b.start;
+        let overlapping = this.document.annotations.filter((a: Annotation) => a.type === evt.detail.type)
+                                                   .filter((a: Annotation) => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
+
+        let min = overlapping.reduce((a: number, b: Annotation) => Math.min(a, b.start), this.document.content.length);
+        let max = overlapping.reduce((a: number, b: Annotation) => Math.max(a, b.end), 0);
+
+        if (overlapping.length === 0) {
+          this.document.addAnnotations(evt.detail);
+
+        } else if (min <= evt.detail.start && evt.detail.end <= max && overlapping.length === 1) {
+          // invert the state.
+          let prev = overlapping[0];
+          let newFirst = Object.assign({}, prev, evt.detail, { start: prev.start, end: evt.detail.start });
+          let newLast = Object.assign({}, prev, evt.detail, { start: evt.detail.end, end: prev.end });
+          if (min !== evt.detail.start) this.document.addAnnotations(newFirst);
+          if (max !== evt.detail.end) this.document.addAnnotations(newLast);
+
+        } else {
+          this.document.addAnnotations(Object.assign({}, overlapping[0], evt.detail, { start: Math.min(min, evt.detail.start), end: Math.max(max, evt.detail.end) }));
+        }
+
+        overlapping.forEach((o: Annotation) => this.document.removeAnnotation(o));
+
+      } else {
+        this.document.addAnnotations(evt.detail);
+      }
+    },
+
+    'deleteAnnotation'(evt: CustomEvent) {
+      let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
+      this.document.removeAnnotation(annotation);
+    },
+
+    'attributechange'(evt: CustomEvent) {
+      if (evt.detail.annotationId) {
+        let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
+        this.document.replaceAnnotation(annotation, Object.assign(annotation, {attributes: evt.detail.attributes}));
+      } else if (evt.target !== null) {
+        let annotationId = evt.target.getAttribute('data-annotation-id');
+        let annotation = this.document.annotations.find((a: Annotation) => a.id.toString(10) === annotationId);
+        this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+      }
+    }
+
   };
 
-  text({ text }) {
-    return document.createTextNode(text);
+  selection: Range | undefined;
+  document: Document | undefined;
+
+  get value() {
+    return this.document;
   }
 
-  paragraph() {
-    return document.createElement('p');
-  }
+  scheduleRender() {
+    window.requestAnimationFrame(() => {
+      let editor = this.querySelector('.editor');
 
-  bold() {
-    return document.createElement('strong');
-  }
-
-  italic() {
-    return document.createElement('em');
-  }
-
-  'line-break'() {
-    return document.createElement('br');
-  }
-
-  beforeinput(evt) {
-    let ranges = evt.getTargetRanges();
-    let editor = this.querySelector('.editor');
-
-    let base = getNodeAndOffset(ranges[0].startContainer, ranges[0].startOffset);
-    let extent = getNodeAndOffset(ranges[0].endContainer, ranges[0].endOffset);
-    let start = editor.hir.get(base.node).start + base.offset;
-    let end = editor.hir.get(extent.node).end + extent.offset;
-
-    switch (evt.inputType) {
-    case 'insertText':
-      this.document.insertText(start, evt.data);
-      break;
-    case 'insertLineBreak':
-      this.document.insertText(start, '\u2028', true);
-      this.document.addAnnotations({
-        type: 'line-break',
-        start: start,
-        end: end + 1
-      });
-      break;
-    case 'formatBold':
-      this.document.addAnnotations({
-        type: 'bold',
-        start,
-        end
-      });
-    case 'insertParagraph':
-      this.document.insertText(start, '\n', true);
-      this.document.addAnnotations({
-        type: 'paragraph',
-        start: end + 1,
-        end: end + 1
-      });
-      break;
-    case 'deleteContentBackward':
-    case 'deleteContentForward':
-      this.document.deleteText({ start, end });
-      break;
-    }
-
-    this.render(this.querySelector('.output'));
-  }
-
-  render(editor) {
-    editor.innerHTML = '';
-    editor.hir = new Map<Element, HIRNode>();
-    let annotationGraph = new HIR(this.document);
-    let children = compile(this, editor.hir, annotationGraph.rootNode.children());
-    children.forEach((element: Element) => {
-      editor.appendChild(element);
+      if (editor !== null) {
+        this.render(editor);
+        let evt = new CustomEvent('change', { bubbles: true, composed: true, detail: { document: this.document } });
+        this.dispatchEvent(evt);
+      }
     });
   }
 
-  updateSelection(evt) {
-    console.log(evt.detail);
-    this.cursor = evt.detail;
+  render(editor: Element) {
+    let rendered = new WebComponentRenderer(this.document).render();
+
+    // This can be improved by doing the comparison on an element-by-element
+    // basis (or by rendering incrementally via the HIR), but for now this will
+    // prevent flickering of OS UI elements (e.g., spell check) while typing
+    // characters that don't result in changes outside of text elements.
+    if (rendered.innerHTML !== editor.innerHTML) {
+      editor.innerHTML = rendered.innerHTML;
+
+      if (this.selection) {
+        let textSelection = this.querySelector('text-selection');
+        if (textSelection) {
+          textSelection.setSelection(this.selection, { suppressEvents: true });
+        }
+      }
+    }
   }
 
   setDocument(value: Document) {
     this.document = value;
-    if (this.isConnected) {
-      this.render(this.querySelector('.editor'));
-      this.render(this.querySelector('.output'));
+
+    // n.b., would be good to have a way to query for existence of id on
+    // annotation (or to make ids required globally)
+    this.document.where({}).map((a: Annotation) => {
+      if (a.id !== undefined) return a;
+
+      // this is not safe.
+      let id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+      return Object.assign(a, {id});
+    });
+
+    this.document.addEventListener('change', (() => this.scheduleRender() ));
+  }
+
+  addContentFeature(component: any) {
+    if (component.selectionButton) {
+      this.querySelector('selection-toolbar').shadowRoot.appendChild(component.selectionButton);
     }
+
+    if (component.annotationName) {
+      WebComponentRenderer.prototype[component.annotationName] = component.elementRenderer;
+    }
+  }
+
+  getSelection() {
+    return this.querySelector('text-selection');
   }
 
   connectedCallback() {
     this.innerHTML = this.constructor.template;
     super.connectedCallback();
-    if (this.document) {
-      this.render(this.querySelector('.editor'));
-      this.render(this.querySelector('.output'));
-    }
+    this.scheduleRender();
   }
+}
+
+if (!window.customElements.get('offset-editor')) {
+  window.customElements.define('offset-editor', OffsetEditor);
 }
