@@ -23,7 +23,7 @@ export default class WebComponent extends events(HTMLElement) {
   constructor() {
     super();
     this.shadowRoot = this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(WebComponent.compiledTemplate.cloneNode(true));
+    this.shadowRoot.appendChild(this.constructor.compiledTemplate.content.cloneNode(true));
   }
 
   dispatchAttributeChangeEvent(attributes: {}) {
