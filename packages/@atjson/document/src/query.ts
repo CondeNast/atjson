@@ -1,8 +1,40 @@
+import Document from '.';
 import Annotation from './annotation';
-import Document from './index';
 
-export interface Filter {
-  [key: string]: any;
+export type DeprecatedTransform = (annotation: JoinableAnnotation) => Annotation | null;
+export type Transform = (annotation: JoinableAnnotation) => TransformResult;
+
+export interface TransformResult {
+  add?: JoinableAnnotation[];
+  remove?: JoinableAnnotation[];
+  retain?: JoinableAnnotation[];
+  update?: JoinableAnnotation[][];
+}
+
+/*
+ * This is kind of frustrating, because it's a really roundabout way to check the
+ * type of a transform, and the code in map() is less clean because we can't
+ * type-check `Transform`.
+ *
+ * Also, this isn't _guaranteed_ to be true, and it might make more sense to
+ * have a symbol that identifies `TransformResults`, but I'm erring on the side
+ * of making the code clean for folks writing mappers (i.e., they can just use
+ * TransformResult shaped objects), rather than down in here.
+ */
+function isTransformResult(test: TransformResult | any): test is TransformResult {
+  let testAsTR = test as TransformResult;
+  if (testAsTR === null || testAsTR === undefined) return false;
+  return testAsTR.add !== undefined || testAsTR.remove !== undefined || testAsTR.update !== undefined || testAsTR.retain !== undefined;
+}
+
+function isAnnotation(test: Annotation | any): test is Annotation {
+  let testAsA = test as Annotation;
+  return testAsA.type !== undefined && testAsA.start !== undefined && testAsA.end !== undefined;
+}
+
+function isRenaming(mapping: Renaming | Transform | DeprecatedTransform): mapping is Renaming {
+  let mappingAsRenaming = mapping as Renaming;
+  return typeof mappingAsRenaming === 'object';
 }
 
 export interface Renaming {
@@ -13,23 +45,27 @@ export interface FlattenedRenaming {
   [key: string]: string;
 }
 
-export type Transform = (annotation: Annotation) => Annotation | null;
-
-export function flatten(array: any[]): any[] {
-  let flattenedArray = [];
-  for (let i = 0, len = array.length; i < len; i++) {
-    let item = array[i];
-    if (Array.isArray(item)) {
-      flattenedArray.push(...flatten(item));
-    } else if (item != null) {
-      flattenedArray.push(item);
-    }
-  }
-  return flattenedArray;
-}
-
 function clone(object: any) {
   return JSON.parse(JSON.stringify(object));
+}
+
+function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): FlattenedRenaming {
+  return Object.keys(mapping).reduce((result: Renaming, key: string) => {
+    let value = mapping[key];
+    let fullyQualifiedKey = key;
+    if (prefix) {
+      fullyQualifiedKey = `${prefix}.${key}`;
+      if (options.values) {
+        value = `${prefix}.${value}`;
+      }
+    }
+    if (typeof value !== 'object') {
+      result[fullyQualifiedKey] = value;
+    } else {
+      Object.assign(result, flattenPropertyPaths(value, options, fullyQualifiedKey));
+    }
+    return result;
+  }, {});
 }
 
 function without(object: any, attributes: string[]): any {
@@ -67,114 +103,259 @@ function set(object: any, key: string, value: any) {
     }
     set(object[path], rest.join('.'), value);
   }
-  return;
 }
 
-function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): FlattenedRenaming {
-  return Object.keys(mapping).reduce((result: Renaming, key: string) => {
-    let value = mapping[key];
-    let fullyQualifiedKey = key;
-    if (prefix) {
-      fullyQualifiedKey = `${prefix}.${key}`;
-      if (options.values) {
-        value = `${prefix}.${value}`;
-      }
-    }
-    if (typeof value !== 'object') {
-      result[fullyQualifiedKey] = value;
-    } else {
-      Object.assign(result, flattenPropertyPaths(value, options, fullyQualifiedKey));
-    }
-    return result;
-  }, {});
+export class StrictMatch {
+  [key: string]: any;
 }
 
-function matches(annotation: any, filter: Filter): boolean {
+export type JoinableAnnotation = Annotation | AnnotationJoin;
+
+export type FilterFunction = (annotation: JoinableAnnotation) => boolean;
+export type JoinFilterFunction = (leftAnnotation: JoinableAnnotation, rightAnnotation: JoinableAnnotation) => boolean;
+
+export class AnnotationJoin {
+
+  // Advice sought to make this not shit.
+  [key: string]: JoinableAnnotation | JoinableAnnotation[] | any;
+
+  constructor(left: JoinableAnnotation, name: string) {
+    this[name] = left;
+  }
+
+  addJoin(right: JoinableAnnotation[], name: string) {
+    this[name] = right;
+  }
+}
+
+function matches(annotation: object, filter: StrictMatch): boolean {
   return Object.keys(filter).every(key => {
     let value = filter[key];
     if (typeof value === 'object') {
-      return matches(annotation[key], value);
+      return matches((annotation as any)[key], value);
     }
-    return annotation[key] === value;
+    return (annotation as any)[key] === value;
   });
 }
 
-export default class Query {
-  filter: Filter;
-  private document: Document;
-  private transforms: Transform[];
-  private currentAnnotations: Annotation[];
+export default class AnnotationCollection {
+  document: Document;
+  annotations: JoinableAnnotation[];
+  name?: string;
 
-  constructor(document: Document, filter: Filter) {
+  constructor(document: Document, annotations: JoinableAnnotation[] = []) {
     this.document = document;
-    this.filter = filter;
-    this.transforms = [(annotation: Annotation) => annotation];
-    this.currentAnnotations = document.annotations.filter(annotation => matches(annotation, this.filter));
+    this.annotations = annotations;
   }
 
-  run(newAnnotation: Annotation): Annotation[] {
-    // Release the list of currently filtered annotations
-    this.currentAnnotations = [];
-    if (matches(newAnnotation, this.filter)) {
-      let alteredAnnotations = this.transforms.reduce((annotations: Annotation[], transform: Transform) => {
-        return flatten(annotations.map(transform));
-      }, [newAnnotation]);
-
-      return alteredAnnotations;
-    }
-    return [newAnnotation];
+  where(filter: StrictMatch | FilterFunction): AnnotationCollection {
+    let filterFn = this.getFilterFunction(filter);
+    let annotations = this.annotations.filter(filterFn);
+    return new AnnotationCollection(this.document, annotations);
   }
 
-  set(patch: any): Query {
-    let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
-    return this.map((annotation: Annotation) => {
-      let result = clone(annotation);
-      Object.keys(flattenedPatch).forEach(key => {
-        set(result, key, flattenedPatch[key]);
-      });
-      return result;
-    });
+  as(name: string) {
+    this.name = name;
+    return this;
   }
 
-  unset(...keys: string[]): Query {
-    return this.map((annotation: Annotation) => {
-      return without(annotation, keys);
-    });
+  applyTransformResult(result: TransformResult): JoinableAnnotation[] {
+    let annotations: JoinableAnnotation[] = [];
+
+    if (result.add) result.add.forEach(a => annotations.push(a));
+    if (result.update) result.update.forEach(a => annotations.push(a[1]));
+    if (result.retain) result.retain.forEach(a => annotations.push(a));
+
+    return annotations;
   }
 
-  rename(renaming: Renaming): Query {
-    let flattenedRenaming = flattenPropertyPaths(renaming, { keys: true, values: true });
-    return this.map((annotation: Annotation) => {
-      let result = without(annotation, Object.keys(flattenedRenaming));
-      Object.keys(flattenedRenaming).forEach(key => {
-        let value = get(annotation, key);
-        set(result, flattenedRenaming[key], value);
-      });
-      return result;
-    });
-  }
+  map(mapping: Renaming | Transform | DeprecatedTransform): AnnotationCollection {
+    if (isRenaming(mapping)) return this.rename(mapping);
 
-  map(mapping: Renaming | Transform): Query {
-    if (typeof mapping === 'object') {
-      return this.rename(mapping);
-    } else {
-      this.transforms.push(mapping);
-      this.currentAnnotations = flatten(this.currentAnnotations.map(annotation => {
-        let alteredAnnotation = mapping(annotation);
-        if (alteredAnnotation == null) {
+    let newAnnotations: JoinableAnnotation[] = [];
+    this.annotations.forEach(annotation => {
+
+      let result = mapping(annotation);
+
+      if (isTransformResult(result)) {
+
+        this.applyTransformResult(result).forEach((a: JoinableAnnotation) => newAnnotations.push(a));
+
+      } else if (isAnnotation(annotation)) {
+
+        // n.b. this is deprecated. We should add a deprecation message here.
+        if (result === null) {
           this.document.removeAnnotation(annotation);
-        } else if (Array.isArray(alteredAnnotation)) {
-          this.document.replaceAnnotation(annotation, ...alteredAnnotation);
+        } else if (Array.isArray(result)) {
+          this.document.replaceAnnotation(annotation, ...result);
+          result.forEach(a => newAnnotations.push(a));
         } else {
-          this.document.replaceAnnotation(annotation, alteredAnnotation);
+          this.document.replaceAnnotation(annotation, result);
+          newAnnotations.push(result);
         }
-        return alteredAnnotation;
-      }));
-      return this;
+      }
+    });
+
+    this.annotations = newAnnotations;
+
+    return this;
+  }
+
+  set(patch: any): AnnotationCollection {
+    let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
+    return this.map((annotation: JoinableAnnotation): Annotation | null => {
+      if (isAnnotation(annotation)) {
+        let result = clone(annotation);
+        Object.keys(flattenedPatch).forEach(key => {
+          set(result, key, flattenedPatch[key]);
+        });
+        return result as Annotation;
+      } else {
+        return null;
+      }
+    });
+  }
+
+  unset(...keys: string[]): AnnotationCollection {
+    return this.map(annotation => without(annotation, keys) as Annotation);
+  }
+
+  rename(renaming: Renaming): AnnotationCollection {
+    let flattenedRenaming = flattenPropertyPaths(renaming, { keys: true, values: true });
+    return this.map((annotation: JoinableAnnotation): Annotation | null => {
+      if (isAnnotation(annotation)) {
+        let result = without(annotation, Object.keys(flattenedRenaming));
+        Object.keys(flattenedRenaming).forEach(key => {
+          let value = get(annotation, key);
+          set(result, flattenedRenaming[key], value);
+        });
+        return result as Annotation;
+      } else {
+        return null;
+      }
+    });
+  }
+
+  remove(): AnnotationCollection {
+    return this.map((_: JoinableAnnotation) => null);
+  }
+
+  join(rightCollection: AnnotationCollection, filter: JoinFilterFunction): AnnotationCollection {
+
+    if (rightCollection.document !== this.document) {
+      // n.b. there is a case that this is OK, if the RHS's document is null,
+      // then we're just joining on annotations that shouldn't have positions in
+      // the document.
+      throw new Error('Joining annotations from two different documents is non-sensical. Refusing to continue.');
+    }
+
+    // This is a ridiculous and annoying hack around TypeScript being kind of
+    // stupid; putting a short-circuiting type gate here doesn't clarify the
+    // type below in the loop. It's either this or a wrapping `if` statement.
+    let leftName: string | undefined;
+    let rightName: string;
+    if (typeof rightCollection.name !== 'string') {
+      throw new Error('Annotation Collections must be named in order to be joined. Use `as` to set a name.');
+    } else {
+      leftName = this.name;
+      rightName = rightCollection.name;
+    }
+
+    let results: JoinableAnnotation[] = [];
+
+    this.annotations.forEach((leftAnnotation: JoinableAnnotation): void => {
+      let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: JoinableAnnotation) => {
+        return filter(leftAnnotation, rightAnnotation);
+      });
+
+      if (joinAnnotations.length > 0) {
+        let result;
+        if (leftAnnotation instanceof AnnotationJoin && leftName !== 'string') {
+          // If we're joining on an unnamed already-joined collection, just reuse it.
+          result = leftAnnotation;
+        } else if (typeof leftName === 'string') {
+          result = new AnnotationJoin(leftAnnotation, leftName);
+        } else {
+          throw new Error('Annotation Collections must be named in order to be joined.');
+        }
+        result.addJoin(joinAnnotations, rightName);
+
+        results.push(result);
+      }
+    });
+
+    return new AnnotationCollection(this.document, results);
+
+    /*
+      <figure>
+        <picture>
+          <source>
+          <source>
+        </picture>
+        <figcaption>
+        </figcaption>
+      </figure>
+
+      let figure = document.where({type: '-html-figure' }).as('figure');
+      let picture = document.where({type: '-html-picture' }).as('picture');
+      let source = document.where({type: '-html-source' }).as('sources');
+      let figCaption = document.where({type: '-html-figcaption'}).as('figcaption');
+
+      let pictureSource = picture.join(source, (l, r) => r.inside(l)).as('pictureSource');
+      let bigJoin = figure.join(figCaption, (l, r) => r.inside(l))
+                          .join(pictureSource, (l, r) => r.inside(l));
+
+      let bigJoin = figure.join(figCaption, (l, r) => r.inside(l))
+                          .join(source, (l, r) => r.inside(l));
+
+      bigJoin.transform((this: Document, { figure, picture, [caption], sources }) => {
+        t.update(figure, {
+          type: '-verso-responsive-photo',
+          attributes: {
+            '-verso-caption': caption.text,
+            '-verso-photos': sources.map(() => {
+
+            })
+          }
+        });
+        this.removeAnnotations(...picture, caption, ...sources);
+      });
+
+      {
+        figure: figure (singular),
+        picture: {picture: picture, source: source[]}[]
+        figCaption: figCaption[]
+      }[]
+
+      {
+        figure: figure (singular),
+        picture: picture[]
+        source: source[]
+        figCaption: figCaption[]
+      }[]
+    */
+    /*
+      Veeery naïve performance analysis
+      fashion show (100+ images)
+      100 x (100 x 400) x 100 = 400,000,000 (~4s)
+
+      (N x (M x P) x O) = 100,000 (~1ms)
+      N = number of figures
+      M = number of pictures
+      O = number of figcaptions
+      P = number of sources
+    */
+    ////
+    // [{sourceAnnotation: [ joinAnnotations]}, {sourceAnnotation: [ joinAnnotations]}]
+    // [ { source: Annotation, // join: Annotation[] },  ... ] }
+  }
+
+  private getFilterFunction(filter: FilterFunction | StrictMatch): FilterFunction {
+    if (typeof filter === 'object') {
+      return (annotation: JoinableAnnotation): boolean => matches(annotation, filter);
+    } else {
+      return filter;
     }
   }
 
-  remove(): Query {
-    return this.map((_: Annotation) => null);
-  }
 }

@@ -29,47 +29,17 @@ describe('Document.where', () => {
     }]);
   });
 
-  it('runs queries against new annotations', () => {
-    let doc = new Document({
-      content: 'Hello',
-      annotations: []
-    });
-
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
-    doc.addAnnotations({
-      type: 'strong',
-      start: 0,
-      end: 5
-    }, {
-      type: 'em',
-      start: 0,
-      end: 5
-    });
-    expect(doc.content).toBe('Hello');
-    expect(doc.annotations).toEqual([{
-      type: 'bold',
-      start: 0,
-      end: 5
-    }, {
-      type: 'italic',
-      start: 0,
-      end: 5
-    }]);
-  });
-
   it('set', () => {
     let doc = new Document({
       content: 'Hello',
-      annotations: []
+      annotations: [{
+        type: 'h1',
+        start: 0,
+        end: 5
+      }]
     });
 
     doc.where({ type: 'h1' }).set({ type: 'heading', attributes: { level: 1 } });
-    doc.addAnnotations({
-      type: 'h1',
-      start: 0,
-      end: 5
-    });
     expect(doc.content).toBe('Hello');
     expect(doc.annotations).toEqual([{
       type: 'heading',
@@ -92,19 +62,19 @@ describe('Document.where', () => {
         },
         start: 0,
         end: 1
+      },
+      {
+        type: 'embed',
+        attributes: {
+          type: 'instagram',
+          url: 'https://www.instagram.com/p/BdyySYBDvpm/'
+        },
+        start: 1,
+        end: 2
       }]
     });
 
     doc.where({ type: 'embed', attributes: { type: 'instagram' } }).set({ type: 'instagram' }).unset('attributes.type');
-    doc.addAnnotations({
-      type: 'embed',
-      attributes: {
-        type: 'instagram',
-        url: 'https://www.instagram.com/p/BdyySYBDvpm/'
-      },
-      start: 1,
-      end: 2
-    });
     expect(doc.content).toBe('\uFFFC\uFFFC');
     expect(doc.annotations).toEqual([{
       type: 'instagram',
@@ -133,18 +103,19 @@ describe('Document.where', () => {
         },
         start: 0,
         end: 5
+      },
+      {
+        type: 'a',
+        attributes: {
+          href: 'https://condenast.com'
+        },
+        start: 6,
+        end: 10
       }]
     });
 
     doc.where({ type: 'a' }).set({ type: 'link' }).rename({ attributes: { href: 'url' } });
-    doc.addAnnotations({
-      type: 'a',
-      attributes: {
-        href: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    });
+    doc.addAnnotations();
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
       type: 'link',
@@ -163,7 +134,7 @@ describe('Document.where', () => {
     }]);
   });
 
-  it('map', () => {
+  it('map with a patch mapping', () => {
     let doc = new Document({
       content: 'Conde Nast',
       annotations: [{
@@ -173,18 +144,18 @@ describe('Document.where', () => {
         },
         start: 0,
         end: 5
+      },
+      {
+        type: 'a',
+        attributes: {
+          href: 'https://condenast.com'
+        },
+        start: 6,
+        end: 10
       }]
     });
 
     doc.where({ type: 'a' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
-    doc.addAnnotations({
-      type: 'a',
-      attributes: {
-        href: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
       type: 'link',
@@ -213,10 +184,18 @@ describe('Document.where', () => {
         },
         start: 0,
         end: 5
+      },
+      {
+        type: 'a',
+        attributes: {
+          href: 'https://condenast.com'
+        },
+        start: 6,
+        end: 10
       }]
     });
 
-    doc.where({ type: 'a' }).map((annotation: Annotation) => {
+    doc.where({ type: 'a' }).map(annotation => {
       return {
         type: 'link',
         start: annotation.start,
@@ -226,14 +205,6 @@ describe('Document.where', () => {
           openInNewTab: true
         }
       };
-    });
-    doc.addAnnotations({
-      type: 'a',
-      attributes: {
-        href: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
     });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
@@ -262,15 +233,15 @@ describe('Document.where', () => {
         type: 'code',
         start: 0,
         end: 14
+      },
+      {
+        type: 'code',
+        start: 0,
+        end: 14
       }]
     });
 
     doc.where({ type: 'code' }).remove();
-    doc.addAnnotations({
-      type: 'code',
-      start: 0,
-      end: 14
-    });
     expect(doc.content).toBe('function () {}');
     expect(doc.annotations).toEqual([]);
   });
@@ -286,10 +257,19 @@ describe('Document.where', () => {
           class: 'language-js',
           language: 'js'
         }
+      },
+      {
+        type: 'code',
+        start: 16,
+        end: 28,
+        attributes: {
+          class: 'language-rb',
+          language: 'rb'
+        }
       }]
     });
 
-    doc.where({ type: 'code' }).map((annotation: Annotation) => {
+    doc.where({ type: 'code' }).map(annotation => {
       return [{
         type: 'pre',
         start: annotation.start,
@@ -302,16 +282,6 @@ describe('Document.where', () => {
         attributes: {}
       }];
     }).unset('attributes.class');
-
-    doc.addAnnotations({
-      type: 'code',
-      start: 16,
-      end: 28,
-      attributes: {
-        class: 'language-rb',
-        language: 'rb'
-      }
-    });
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
     expect(doc.annotations).toEqual([{
@@ -341,32 +311,239 @@ describe('Document.where', () => {
     }]);
   });
 
-  it('sliced documents inherit queries', () => {
-    let doc = new Document({
-      content: 'This is ~my caption~\nNext paragraph',
-      annotations: [{
-        type: 'photo',
-        start: 0,
-        end: 20
-      }]
+  describe('AnnotationCollection.join', () => {
+
+    let doc;
+
+    beforeEach(() => {
+      doc = new Document({
+        content: 'string.trim();\nstring.strip\nextra',
+        annotations: [{
+          type: 'code',
+          start: 0,
+          end: 14,
+          attributes: {
+            class: 'language-js',
+            language: 'js'
+          }
+        },
+        {
+          type: 'pre',
+          start: 0,
+          end: 14,
+          attributes: { }
+        },
+        {
+          type: 'pre',
+          start: 16,
+          end: 28,
+          attributes: { }
+        },
+        {
+          type: 'code',
+          start: 30,
+          end: 35
+        }]
+      });
     });
 
-    doc.where({ type: 'em' }).set({ type: 'italic' });
-    let caption = doc.slice(0, 20);
-    caption.addAnnotations({
-      type: 'em',
-      start: 0,
-      end: 4
+    describe('simple join', () => {
+
+      let code;
+      let pre;
+      let preAndCode;
+
+      beforeEach(() => {
+        code = doc.where({ type: 'code' }).as('code');
+        pre = doc.where({ type: 'pre' }).as('pre');
+
+        preAndCode = code.join(pre, (l, r) => l.start === r.start && l.end === r.end);
+      });
+
+      it('should construct an AnnotationJoin', () => {
+
+        expect(preAndCode.annotations[0]).toEqual({
+          code: {
+            type: 'code',
+            start: 0,
+            end: 14,
+            attributes: {
+              class: 'language-js',
+              language: 'js'
+            }
+          },
+          pre: [
+            { type: 'pre', start: 0, end: 14, attributes: {} }
+          ]
+        });
+      });
+
+      describe('transform', () => {
+
+        beforeEach(() => {
+          preAndCode.map(join => {
+            doc.removeAnnotation(join.pre[0]);
+
+            let newAttributes = Object.assign(join.code.attributes, {
+              textStyle: 'pre'
+            });
+            let newCode = Object.assign(join.code, {attributes: newAttributes});
+
+            doc.replaceAnnotation(join.code, newCode);
+            doc.deleteText({start: 2, end: 4});
+
+            return {
+              update: [[join.code, newCode]],
+              remove: [join.pre[0]]
+            };
+          });
+        });
+
+        it('successfully transforms the document', () => {
+          expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
+            [{ type: 'pre', start: 14, end: 26, attributes: {} }]
+          );
+        });
+
+        it('updates the annotations on the AnnotationCollection', () => {
+          expect(preAndCode.annotations).toEqual([
+            {
+              type: 'code',
+              start: 0,
+              end: 12,
+              attributes: {
+                class: 'language-js',
+                language: 'js',
+                textStyle: 'pre'
+              }
+            }
+          ]);
+        });
+      });
     });
-    expect(caption.content).toBe('This is ~my caption~');
-    expect(doc.annotations).toEqual([{
-      type: 'photo',
-      start: 0,
-      end: 20
-    }, {
-      type: 'italic',
-      start: 0,
-      end: 4
-    }]);
+
+    describe('complex (three-way) join', () => {
+      let pre;
+      let code;
+      let locale;
+      let allJoin;
+
+      beforeEach(() => {
+        doc.addAnnotations({
+          type: 'locale',
+          start: 0,
+          end: 14,
+          attributes: { locale: 'en-us' }
+        }, {
+          type: 'pre',
+          start: 0,
+          end: 14,
+          attributes: { style: 'color: red' }
+        });
+
+        code = doc.where({ type: 'code' }).as('code');
+        pre = doc.where({ type: 'pre' }).as('pre');
+        locale = doc.where({ type: 'locale' }).as('locale');
+
+        allJoin = code.join(pre, (l, r) => l.start === r.start && l.end === r.end)
+                      .join(locale, (l, r) => l.code.start === r.start && l.code.end === r.end);
+      });
+
+      it('constructs a valid join', () => {
+        expect(allJoin.annotations).toEqual([{
+          code: {
+            type: 'code',
+            start: 0,
+            end: 14,
+            attributes: {
+              class: 'language-js',
+              language: 'js'
+            }
+          },
+          pre: [{
+            type: 'pre',
+            start: 0,
+            end: 14,
+            attributes: { }
+          }, {
+            type: 'pre',
+            start: 0,
+            end: 14,
+            attributes: { style: 'color: red' }
+          }],
+          locale: [{
+            type: 'locale',
+            start: 0,
+            end: 14,
+            attributes: { locale: 'en-us' }
+          }]
+        }]);
+      });
+
+      describe('transform', () => {
+        beforeEach(() => {
+          allJoin.map(join => {
+
+            doc.insertText(0, 'Hello!\n');
+
+            let removeAnnotations = [];
+            let newAttributes = {};
+            join.pre.forEach(x => {
+              Object.assign(newAttributes, x.attributes);
+              doc.removeAnnotation(x);
+              removeAnnotations.push(x);
+            });
+            newAttributes = Object.assign(newAttributes, { locale: join.locale[0].attributes.locale });
+            removeAnnotations.push(join.locale[0]);
+            doc.removeAnnotation(join.locale[0]);
+
+            let newCode = Object.assign(join.code, {
+              attributes: Object.assign(join.code.attributes, newAttributes)
+            });
+            doc.replaceAnnotation(join.code, newCode);
+
+            return {
+              update: [[join.code, newCode]],
+              remove: removeAnnotations
+            };
+          });
+        });
+
+        it('does the transform right', () => {
+          expect(allJoin.annotations).toEqual([
+            {
+              type: 'code',
+              start: 7,
+              end: 21,
+              attributes: {
+                locale: 'en-us',
+                style: 'color: red',
+                class: 'language-js',
+                language: 'js'
+              }
+            }
+          ]);
+        });
+
+        it('updates the document', () => {
+          expect(doc.annotations).toEqual([
+            {
+              type: 'code', start: 7, end: 21, attributes: {
+                class: 'language-js',
+                language: 'js',
+                locale: 'en-us',
+                style: 'color: red'
+              }
+            },
+            {
+              type: 'pre', start: 23, end: 35, attributes: {}
+            },
+            {
+              type: 'code', start: 37, end: 42
+            }
+          ]);
+        });
+      });
+    });
   });
 });
