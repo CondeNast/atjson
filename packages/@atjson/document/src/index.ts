@@ -1,10 +1,10 @@
 import Annotation from './annotation';
-import Query, { Filter, flatten } from './query';
+import AnnotationCollection, { FilterFunction, JoinableAnnotation, StrictMatch } from './query';
 import Schema, { Display } from './schema';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
-export { Annotation, Schema, Display };
+export { Annotation, JoinableAnnotation, Schema, Display };
 
 export default class Document {
 
@@ -13,8 +13,6 @@ export default class Document {
   annotations: Annotation[];
   schema?: Schema;
 
-  protected queries: Query[];
-
   constructor(options: { content: string, annotations?: Annotation[], contentType?: string, schema?: Schema } | string) {
     if (typeof options === 'string') {
       options = { content: options };
@@ -22,7 +20,6 @@ export default class Document {
     this.content = options.content;
     this.annotations = options.annotations || [];
     this.contentType = options.contentType || 'text/plain';
-    this.queries = [];
     this.schema = options.schema || {};
   }
 
@@ -33,20 +30,10 @@ export default class Document {
    * not be called.
    */
   addAnnotations(...annotations: Annotation[]): void {
-    annotations.forEach(newAnnotation => {
-      let finalizedAnnotations: Annotation[] = this.queries.reduce((newAnnotations: Annotation[], query) => {
-        return flatten(newAnnotations.map(annotation => query.run(annotation)));
-      }, [newAnnotation]);
-      if (finalizedAnnotations) {
-        this.annotations.push(...finalizedAnnotations);
-      }
-    });
+    this.annotations.push(...annotations);
   }
 
   /**
-   * Add imperitive queries here. These are used to dynamically
-   * change annotations before they get inserted into the document,
-   * making the process of reconciliation easier.
    *
    * A simple example of this is transforming a document parsed from
    * an HTML document into a common format:
@@ -59,11 +46,12 @@ export default class Document {
    * Other options available are renaming variables:
    *
    * html.where({ type: 'img' }).set({ 'attributes.src': 'attributes.url' });
+   *
+   * tk: join documentation
    */
-  where(filter: Filter): Query {
-    let query = new Query(this, filter);
-    this.queries.push(query);
-    return query;
+  where(filter: StrictMatch | FilterFunction): AnnotationCollection {
+    let query = new AnnotationCollection(this, this.annotations);
+    return query.where(filter);
   }
 
   removeAnnotation(annotation: Annotation): Annotation | void {
@@ -217,9 +205,7 @@ export default class Document {
   }
 
   /**
-   * Slices return part of a document from the parent
-   * document. All queries are inherited from the parent
-   * document.
+   * Slices return part of a document from the parent document.
    */
   slice(start: number, end: number): Document {
     let doc = new Document({
@@ -228,7 +214,6 @@ export default class Document {
       annotations: this.annotations,
       schema: this.schema
     });
-    doc.queries = this.queries.slice();
     doc.deleteText({
       start: 0,
       end: start

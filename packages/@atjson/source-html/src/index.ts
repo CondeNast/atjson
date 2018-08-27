@@ -167,6 +167,6 @@ export default class HTMLSource extends Document {
   }
 
   toCommonSchema(): Document {
-    return new HTMLSchemaTranslator(this);
+    return new HTMLSchemaTranslator(this).translate();
   }
 }
