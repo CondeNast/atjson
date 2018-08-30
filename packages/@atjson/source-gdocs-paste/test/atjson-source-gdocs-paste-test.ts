@@ -106,8 +106,6 @@ describe('@atjson/source-gdocs-paste', () => {
       expect(link.attributes['-gdocs-ulnk_url']).toEqual('https://www.google.com/');
       expect(link.attributes['-gdocs-lnk_type']).toEqual(0);
     });
-
-    it('extracts images');
   });
 
   describe('a grab-bag of Google Docs features', () => {
