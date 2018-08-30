@@ -264,7 +264,7 @@ export default class AnnotationCollection {
 
       if (joinAnnotations.length > 0) {
         let result;
-        if (leftAnnotation instanceof AnnotationJoin && leftName !== 'string') {
+        if (leftAnnotation instanceof AnnotationJoin && typeof leftName !== 'string') {
           // If we're joining on an unnamed already-joined collection, just reuse it.
           result = leftAnnotation;
         } else if (typeof leftName === 'string') {
