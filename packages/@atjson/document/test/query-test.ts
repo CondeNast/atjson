@@ -381,7 +381,7 @@ describe('Document.where', () => {
       describe('transform', () => {
 
         beforeEach(() => {
-          preAndCode.map(join => {
+          preAndCode.transform(join => {
             doc.removeAnnotation(join.pre[0]);
 
             let newAttributes = Object.assign(join.code.attributes, {
@@ -482,7 +482,7 @@ describe('Document.where', () => {
 
       describe('transform', () => {
         beforeEach(() => {
-          allJoin.map(join => {
+          allJoin.transform(join => {
 
             doc.insertText(0, 'Hello!\n');
 
