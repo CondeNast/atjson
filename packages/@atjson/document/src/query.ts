@@ -1,30 +1,14 @@
 import Document from '.';
 import Annotation from './annotation';
 
-export type DeprecatedTransform = (annotation: JoinableAnnotation) => Annotation | null;
+export type DeprecatedTransform = (annotation: Annotation) => Annotation | null;
 export type Transform = (annotation: JoinableAnnotation) => TransformResult;
 
 export interface TransformResult {
-  add?: JoinableAnnotation[];
-  remove?: JoinableAnnotation[];
-  retain?: JoinableAnnotation[];
-  update?: JoinableAnnotation[][];
-}
-
-/*
- * This is kind of frustrating, because it's a really roundabout way to check the
- * type of a transform, and the code in map() is less clean because we can't
- * type-check `Transform`.
- *
- * Also, this isn't _guaranteed_ to be true, and it might make more sense to
- * have a symbol that identifies `TransformResults`, but I'm erring on the side
- * of making the code clean for folks writing mappers (i.e., they can just use
- * TransformResult shaped objects), rather than down in here.
- */
-function isTransformResult(test: TransformResult | any): test is TransformResult {
-  let testAsTR = test as TransformResult;
-  if (testAsTR === null || testAsTR === undefined) return false;
-  return testAsTR.add !== undefined || testAsTR.remove !== undefined || testAsTR.update !== undefined || testAsTR.retain !== undefined;
+  add?: Annotation[];
+  remove?: Annotation[];
+  retain?: Annotation[];
+  update?: Annotation[][];
 }
 
 function isAnnotation(test: Annotation | any): test is Annotation {
@@ -169,30 +153,40 @@ export default class AnnotationCollection {
     return annotations;
   }
 
-  map(mapping: Renaming | Transform | DeprecatedTransform): AnnotationCollection {
+  transform(transformFn: Transform): AnnotationCollection {
+    let newAnnotations: JoinableAnnotation[] = [];
+
+    this.annotations.map(transformFn)
+                    .map(this.applyTransformResult)
+                    .forEach(result => {
+                      result.forEach(a => newAnnotations.push(a));
+                    });
+
+    this.annotations = newAnnotations;
+    return this;
+  }
+
+  // n.b. this is deprecated. We should add a deprecation message.
+  map(mapping: Renaming | DeprecatedTransform): AnnotationCollection {
+
     if (isRenaming(mapping)) return this.rename(mapping);
 
-    let newAnnotations: JoinableAnnotation[] = [];
+    let newAnnotations: Annotation[] = [];
+
     this.annotations.forEach(annotation => {
+
+      if (!isAnnotation(annotation)) return;
 
       let result = mapping(annotation);
 
-      if (isTransformResult(result)) {
-
-        this.applyTransformResult(result).forEach((a: JoinableAnnotation) => newAnnotations.push(a));
-
-      } else if (isAnnotation(annotation)) {
-
-        // n.b. this is deprecated. We should add a deprecation message here.
-        if (result === null) {
-          this.document.removeAnnotation(annotation);
-        } else if (Array.isArray(result)) {
-          this.document.replaceAnnotation(annotation, ...result);
-          result.forEach(a => newAnnotations.push(a));
-        } else {
-          this.document.replaceAnnotation(annotation, result);
-          newAnnotations.push(result);
-        }
+      if (result === null) {
+        this.document.removeAnnotation(annotation);
+      } else if (Array.isArray(result)) {
+        this.document.replaceAnnotation(annotation, ...result);
+        result.forEach(a => newAnnotations.push(a));
+      } else {
+        this.document.replaceAnnotation(annotation, result);
+        newAnnotations.push(result);
       }
     });
 
