@@ -30,7 +30,12 @@ export default class OffsetEditor extends events(HTMLElement) {
   };
 
   selection: Range | undefined;
-  document: Document | undefined;
+  document: Document;
+
+  constructor() {
+    super();
+    this.document = new Document('');
+  }
 
   get value() {
     return this.document;

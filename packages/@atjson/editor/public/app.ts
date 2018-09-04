@@ -3,8 +3,6 @@ import '../src';
 import OffsetEditor from '../src';
 import './logo';
 
-import EditableLink from '../src/components/editable-link';
-
 // Web components in the registry can't be redefined,
 // so reload the page on every change
 if (module.hot) {
@@ -16,7 +14,6 @@ if (module.hot) {
 document.addEventListener('DOMContentLoaded', () => {
 
   let editor: OffsetEditor = document.querySelector('offset-editor');
-  editor.addContentFeature(EditableLink);
 
   let doc = new URL(location.toString()).searchParams.get('document');
   if (doc) {
