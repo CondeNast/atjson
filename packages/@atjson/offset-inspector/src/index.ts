@@ -24,11 +24,7 @@ export default class OffsetEditorDemo extends WebComponent {
                     '</div>';
 
   static events = {
-    'change'(evt: CustomEvent) {
-      this.shadowRoot.querySelector('html-tree-inspector').dispatchEvent(new CustomEvent('change', {detail: {document: evt.detail.document}}));
-      this.renderMarkdown(evt.detail.document);
-      this.renderInspector(evt.detail.document);
-    },
+    'change': 'renderAll',
 
     'click .tabs'(event) {
       let targetTabClass = event.path[0].getAttribute('data-target');
@@ -39,6 +35,8 @@ export default class OffsetEditorDemo extends WebComponent {
       this.shadowRoot.querySelector('.editor > .' + targetTabClass).classList.add('active');
       this.shadowRoot.querySelector('.editor > .tabs > .active').classList.remove('active');
       event.path[0].classList.add('active');
+
+      this.renderAll();
     },
 
     'addComponent'(event) {
@@ -134,11 +132,39 @@ export default class OffsetEditorDemo extends WebComponent {
     }
   `;
 
+  _pendingCallback: () => void;
+  _document?: Document;
+
+  renderAll(evt?: CustomEvent) {
+
+    if (evt) this._document = evt.detail.document;
+
+    let doc: Document;
+    if (this._document instanceof Document) {
+      doc = this._document;
+    } else {
+      return;
+    }
+
+    if (this._pendingCallback) return;
+
+    this._pendingCallback = () => {
+      this.updateHtmlTreeInspector(doc);
+      this.renderMarkdown(doc);
+      this.renderInspector(doc);
+      delete this._pendingCallback;
+    };
+
+    window.requestIdleCallback(this._pendingCallback);
+  }
+
   renderMarkdown(doc: Document) {
-    let outputElement = this.shadowRoot.querySelector('.markdown');
-    let rendered = new CommonmarkRenderer().render(doc);
-    if (outputElement) {
-      outputElement.textContent = rendered;
+    if (this.activeTab('commonmark-tab')) {
+      let outputElement = this.shadowRoot.querySelector('.markdown');
+      let rendered = new CommonmarkRenderer().render(doc);
+      if (outputElement) {
+        outputElement.textContent = rendered;
+      }
     }
   }
 
@@ -152,6 +178,23 @@ export default class OffsetEditorDemo extends WebComponent {
     if (inspectorGadget) {
       inspectorGadget.setDocument(doc);
       inspectorGadget.setSelection(editor.getSelection());
+    }
+  }
+
+  updateHtmlTreeInspector(doc: Document) {
+    if (this.activeTab('html-tab')) {
+      this.shadowRoot.querySelector('html-tree-inspector').dispatchEvent(
+        new CustomEvent('change', {detail: {document: doc}})
+      );
+    }
+  }
+
+  activeTab(wanted: string) {
+    let activeTab = this.shadowRoot.querySelector('.tabs > .active');
+    if (activeTab) {
+      return activeTab.classList.contains(wanted);
+    } else {
+      return false;
     }
   }
 }
