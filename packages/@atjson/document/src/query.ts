@@ -132,6 +132,12 @@ export default class AnnotationCollection {
     this.annotations = annotations;
   }
 
+  *[Symbol.iterator](): IterableIterator<JoinableAnnotation> {
+    for (let annotation of this.annotations) {
+      yield annotation;
+    }
+  }
+
   where(filter: StrictMatch | FilterFunction): AnnotationCollection {
     let filterFn = this.getFilterFunction(filter);
     let annotations = this.annotations.filter(filterFn);
