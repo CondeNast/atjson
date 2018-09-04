@@ -38,7 +38,7 @@ export default class AnnotationInspector extends WebComponent {
     }
   `;
 
-  static observedAttributes = ['type', 'start', 'end', 'attributes'];
+  static observedAttributes = ['type', 'start', 'end'];
 
   attributeChangedCallback(attribute) {
     switch (attribute) {
