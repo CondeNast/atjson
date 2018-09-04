@@ -95,9 +95,9 @@ export default class HTMLTreeInspector extends WebComponent {
   document: Document;
 
   render(event: CustomEvent) {
-    if (this.deferred) clearTimeout(this.deferred);
+    if (this.deferred) return;
 
-    this.deferred = setTimeout(_ => {
+    this.deferred = () => {
       let doc = event.detail.document;
       let outputElement = this.shadowRoot.querySelector('.wrapper');
       let rendered = new WebComponentRenderer(doc).render();
@@ -105,7 +105,11 @@ export default class HTMLTreeInspector extends WebComponent {
       let children = this.renderChildren(rendered.childNodes);
       outputElement.innerHTML = '';
       outputElement.appendChild(children);
-    }, 100);
+
+      delete this.deferred;
+    };
+
+    window.requestIdleCallback(this.deferred);
 
   }
 

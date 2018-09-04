@@ -42,7 +42,11 @@ export default class CharacterCounter extends WebComponent {
     const start = parseInt(this.getAttribute('start'), 10);
     const end = parseInt(this.getAttribute('end'), 10);
     let contentSpan = this.shadowRoot.querySelector('.content');
-    let rawContent = this.getAttribute('content').replace(/\n/g, '¶');
+    let rawContent = '';
+    let contentAttr = this.getAttribute('content');
+    if (typeof contentAttr === 'string') {
+      rawContent = contentAttr.replace(/\n/g, '¶');
+    }
     let content = document.createElement('span');
 
     let contentStart = document.createTextNode(rawContent.substr(0, start));
@@ -65,7 +69,7 @@ export default class CharacterCounter extends WebComponent {
     content.appendChild(highlight);
     content.appendChild(contentEnd);
 
-    contentSpan.innerHTML = '';
+    if (contentSpan.children[0]) contentSpan.removeChild(contentSpan.children[0]);
     contentSpan.appendChild(content);
   }
 
@@ -74,7 +78,9 @@ export default class CharacterCounter extends WebComponent {
       case 'start':
       case 'end':
       case 'content':
-        this.updateContent();
+        window.requestIdleCallback(() => {
+          this.updateContent();
+        });
         break;
     }
   }

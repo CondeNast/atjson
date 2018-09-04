@@ -10,7 +10,7 @@ export default class Superscript {
     let el = document.createElement('button');
     el.setAttribute('data-type', this.annotationName);
     el.innerHTML = this.annotationName;
-    let start
+    let start;
     let end;
 
     el.addEventListener('selectionchange', (evt: CustomEvent) => {
