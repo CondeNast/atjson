@@ -25,11 +25,13 @@ export type CodeStyle = 'block' | 'inline' | 'fence';
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
-  return text.replace(/([#$%'"!()*+,=?@\\\[\]\^_`{|}~-])/g, '\\$1')
+  return text.replace(/([#!*+=\\\[\]\^_`{|}~])/g, '\\$1')
              .replace(/(\d+)\./g, '$1\\.')
              .replace(/&/g, '&amp;')
              .replace(/</g, '&lt;')
-             .replace(/>/g, '&gt;');
+             .replace(/>/g, '&gt;')
+             .replace(/(^[\s]*)-/g, '$1\\-') // `  - list item`
+             .replace(/(\r\n|\r|\n)([\s]*)-/g, '$1$2\\-'); // `- list item\n - list item`
 }
 
 function escapeAttribute(text: string) {
