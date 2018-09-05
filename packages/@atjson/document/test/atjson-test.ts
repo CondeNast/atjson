@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document from '../src/';
 
 describe('new Document', () => {
   it('constructor accepts a string', () => {
