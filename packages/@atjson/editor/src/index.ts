@@ -29,12 +29,13 @@ export default class OffsetEditor extends events(HTMLElement) {
     'attributechange': 'handleAttributeChange'
   };
 
-  selection: Range | undefined;
+  selection: Range;
   document: Document;
 
   constructor() {
     super();
     this.document = new Document('');
+    this.selection = { start: 0, end: 0 };
   }
 
   get value() {
