@@ -1,4 +1,5 @@
-import Document from '@atjson/document';
+import Document, { Annotation } from '../src/';
+import AnnotationCollection from '../src/query';
 
 describe('Document.where', () => {
   it('runs queries against existing annotations', () => {
@@ -201,7 +202,7 @@ describe('Document.where', () => {
         start: annotation.start,
         end: annotation.end,
         attributes: {
-          url: annotation.attributes.href,
+          url: annotation.attributes ? annotation.attributes.href : '',
           openInNewTab: true
         }
       };
@@ -312,8 +313,7 @@ describe('Document.where', () => {
   });
 
   describe('AnnotationCollection.join', () => {
-
-    let doc;
+    let doc: Document;
 
     beforeEach(() => {
       doc = new Document({
@@ -351,7 +351,7 @@ describe('Document.where', () => {
 
       let code;
       let pre;
-      let preAndCode;
+      let preAndCode: AnnotationCollection;
 
       beforeEach(() => {
         code = doc.where({ type: 'code' }).as('code');
@@ -390,7 +390,7 @@ describe('Document.where', () => {
             let newCode = Object.assign(join.code, {attributes: newAttributes});
 
             doc.replaceAnnotation(join.code, newCode);
-            doc.deleteText({start: 2, end: 4});
+            doc.deleteText({start: 2, end: 4} as Annotation);
 
             return {
               update: [[join.code, newCode]],
@@ -426,7 +426,7 @@ describe('Document.where', () => {
       let pre;
       let code;
       let locale;
-      let allJoin;
+      let allJoin: AnnotationCollection;
 
       beforeEach(() => {
         doc.addAnnotations({
@@ -486,9 +486,9 @@ describe('Document.where', () => {
 
             doc.insertText(0, 'Hello!\n');
 
-            let removeAnnotations = [];
+            let removeAnnotations: Annotation[] = [];
             let newAttributes = {};
-            join.pre.forEach(x => {
+            join.pre.forEach((x: Annotation) => {
               Object.assign(newAttributes, x.attributes);
               doc.removeAnnotation(x);
               removeAnnotations.push(x);

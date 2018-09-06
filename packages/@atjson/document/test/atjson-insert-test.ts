@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document from '../src/';
 
 describe('Document.insertText', () => {
   it('insert text adds text to the content attribute', () => {
