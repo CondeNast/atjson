@@ -5,6 +5,10 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.8.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.5...@atjson/document@0.8.6) (2018-09-07)
 
+### ✨ New Features
+
+* ✨ Added nested query syntax which allows for querying and altering collections of annotations.
+
 ## 0.8.5 (2018-09-04)
 
 ## 0.8.4 (2018-07-25)
