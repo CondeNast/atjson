@@ -23,7 +23,7 @@ describe('commonmark', () => {
     let document = new Document({
       content: '\uFFFC',
       contentType: 'text/atjson',
-      annotations: [{ 
+      annotations: [{
         type: 'image',
         start: 0,
         end: 1,
@@ -325,7 +325,7 @@ After all the lists
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('**bold**_\\, then italic_\n\n_italic_**\\, then bold**\n\n');
+    expect(renderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
   });
 
   test('empty format strings are removed', () => {
