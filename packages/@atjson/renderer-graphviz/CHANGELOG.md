@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-graphviz@0.8.9...@atjson/renderer-graphviz@0.8.10) (2018-09-07)
+
+**Note:** Version bump only for package @atjson/renderer-graphviz
+
+
+
+
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [0.8.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-graphviz@0.8.8...@atjson/renderer-graphviz@0.8.9) (2018-09-04)
 
 **Note:** Version bump only for package @atjson/renderer-graphviz
