@@ -11,24 +11,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * 💣🐛 Remove common punctuation from escaped chars ([#77](https://github.com/CondeNast-Copilot/atjson/issues/77))
 
 
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
 ## [0.9.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.9.1...@atjson/renderer-commonmark@0.9.2) (2018-09-04)
-
-**Note:** Version bump only for package @atjson/renderer-commonmark
-
-
-
-
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
 ## [0.9.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.9.0...@atjson/renderer-commonmark@0.9.1) (2018-08-07)
 
