@@ -59,7 +59,7 @@ Paragraph styles set on a character level are either `null` or an object with th
 ### Unknown
 
 `ps_sd`, `ps_bbtw`, `ps_bb`, `ps_bl`, `ps_br`, `ps_bt`, `ps_ir`, `ps_klt`,
-`ps_kwn`, `ps_ltr`, `ps_sm`, `ps_rd`, `ps_shd` 
+`ps_kwn`, `ps_ltr`, `ps_sm`, `ps_rd`, `ps_shd`
 
 ## `text` style
 
@@ -96,3 +96,6 @@ attributes:
 ## `list` style
 
 ## `horizontal_rule` style
+
+## Further reading
+[Forensic analysis of cloud-native artifacts, section *Understanding Google Docs*](https://www.sciencedirect.com/science/article/pii/S174228761630007X#sec3)

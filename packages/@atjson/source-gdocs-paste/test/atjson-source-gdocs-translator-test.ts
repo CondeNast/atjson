@@ -6,6 +6,7 @@ describe('@atjson/source-gdocs-paste', () => {
   var atjson;
 
   beforeAll(() => {
+    // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
     let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath));
     let gdocs = new GDocsSource(rawJSON);
@@ -29,13 +30,28 @@ describe('@atjson/source-gdocs-paste', () => {
   });
 
   it('correctly converts lists', () => {
-    let lists = atjson.annotations.filter(a => a.type === 'list');
+    let lists = atjson.annotations
+      .filter(a => a.type === 'list')
+    expect(lists.length).toEqual(2);
+  });
+
+  it('correctly converts numbered lists', () => {
+    let lists = atjson.annotations
+      .filter(a => a.type === 'list')
+      .filter(a => a.attributes.type === 'numbered');
+    expect(lists.length).toEqual(1);
+  });
+
+  it('correctly converts bulleted lists', () => {
+    let lists = atjson.annotations
+      .filter(a => a.type === 'list')
+      .filter(a => a.attributes.type === 'bulleted');
     expect(lists.length).toEqual(1);
   });
 
   it('correctly converts list-items', () => {
     let listItems = atjson.annotations.filter(a => a.type === 'list-item');
-    expect(listItems.length).toEqual(2);
+    expect(listItems.length).toEqual(4);
   });
 
   it('correctly converts links', () => {

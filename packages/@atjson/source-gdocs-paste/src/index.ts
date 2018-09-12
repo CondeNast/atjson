@@ -37,7 +37,8 @@ export default class extends Document {
       .set({ type: 'heading' })
       .map({ attributes: { '-gdocs-level': 'level' } });
 
-    // FIXME list conversion is incomplete, needs fixing.
+    // b_gt: 9 indicates an unordered list, but ordered lists have a variety of b_gt values
+    doc.where({ type: '-gdocs-list', attributes: { '-gdocs-ls_b_gt': 9 } }).set({ type: 'list', attributes: { type: 'bulleted' } });
     doc.where({ type: '-gdocs-list' }).set({ type: 'list', attributes: { type: 'numbered' } });
     doc.where({ type: '-gdocs-list-item' }).set({ type: 'list-item' });
 
