@@ -1,5 +1,6 @@
 import Document, { Annotation } from '@atjson/document';
 import WebComponentRenderer from '@atjson/renderer-webcomponent';
+import TextSelection from './text-selection';
 import events from './mixins/events';
 import './selection-toolbar';
 import './text-input';
@@ -65,9 +66,10 @@ export default class OffsetEditor extends events(HTMLElement) {
       editor.innerHTML = rendered.innerHTML;
 
       if (this.selection) {
-        let textSelection = this.querySelector('text-selection');
+        let textSelection: TextSelection | null = this.querySelector('text-selection');
         if (textSelection) {
-          textSelection.setSelection(this.selection, { suppressEvents: true });
+          textSelection.setSelection(this.selection);
+          // textSelection.setSelection(this.selection, { suppressEvents: true });
         }
       }
     }
