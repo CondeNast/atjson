@@ -39,22 +39,22 @@ applies (? - needs verification) to the text seen _since_ the previous paragraph
 
 Paragraph styles set on a character level are either `null` or an object with the following properties:
 
-`ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)
-  `0`: Normal paragraph
-  `1-6`: Headings level 1-6
-  `100`: Title
-  `101`: Subtitle
+`ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)  
+  - `0`: Normal paragraph
+  - `1-6`: Headings level 1-6
+  - `100`: Title
+  - `101`: Subtitle  
 `ps_hdid`: 'string' - Heading ID (unknown use)
 
 ### Unimplemented
 
-`ps_al`: `float` - Horizontal alignment
-`ps_ls`: `integer` - Line spacing,
-`ps_awao` `boolean` - unknown
-`ps_sa`: `float` - Space before
-`ps_sb`: `float` - Space after
-`ps_ifl`: `float` - Indent first line
-`ps_il`: `float` - Indent line
+`ps_al`: `float` - Horizontal alignment  
+`ps_ls`: `integer` - Line spacing,  
+`ps_awao` `boolean` - unknown  
+`ps_sa`: `float` - Space before  
+`ps_sb`: `float` - Space after  
+`ps_ifl`: `float` - Indent first line  
+`ps_il`: `float` - Indent line  
 
 ### Unknown
 
@@ -67,20 +67,20 @@ The text style for a given character (per index in `stsl_styles` array) is
 either `null` (no _change_ to previous style) or an object with the following
 properties set:
 
-`ts_bd`: `boolean` - Bold
-`ts_it`: `boolean` - Italic
-`ts_st`: `boolean` - Strikethrough
-`ts_un`: `boolean` - Underline
-`ts_va`: `enum` (`nor`, `sup`, `sub`) - Vertical align: Superscript/Subscript/Normal
+`ts_bd`: `boolean` - Bold  
+`ts_it`: `boolean` - Italic  
+`ts_st`: `boolean` - Strikethrough  
+`ts_un`: `boolean` - Underline  
+`ts_va`: `enum` (`nor`, `sup`, `sub`) - Vertical align: Superscript/Subscript/Normal  
 `ts_sc`: `boolean` - Smallcaps
 
-### Unimplemented
+### Unimplemented  
 
-`ts_fs`: `integer` - Font size
-`ts_ff`: `string` - Font family
-`ts_tw`: `integer` - Text weight
-`ts_bgc2`: `object` - Background color
-`ts_fgc2`: `object` - Foreground color
+`ts_fs`: `integer` - Font size  
+`ts_ff`: `string` - Font family  
+`ts_tw`: `integer` - Text weight  
+`ts_bgc2`: `object` - Background color  
+`ts_fgc2`: `object` - Foreground color  
 
 ## `link` style
 
@@ -90,13 +90,14 @@ array either `null` or an object with the `links_link` attribute set.
 `links_link` can be one of `null` (no link) or an object with the following
 attributes:
 
-`link_type`: `integer` (unknown)
+`link_type`: `integer` (unknown)  
 `ulnk_url`: `string` Destination URL of link.
 
 ## `list` style
 
 List styles are in the `dsl_entitymap` object, keyed by the kix id of the list.
-For each list:  
+For each list:
+
 `le_nb.nl_0.b_a`: `integer` - 2 for roman numerals, 0 otherwise  
 `le_nb.nl_0.b_gs`: `string` - Bullet style  
 `le_nb.nl_0.b_gt`: `integer` - Enumeration of ordered list types:  
