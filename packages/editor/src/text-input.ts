@@ -1,7 +1,5 @@
 import events from './mixins/events';
 
-type Constructor<T = {}> = new (...args: any[]) => T;
-
 /* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
 };
@@ -60,9 +58,7 @@ class TextInput extends events(HTMLElement) {
     'clear text-selection': 'clearSelection'
   };
 
-  private composing?: boolean;
   private selection?: { start: number, end: number, collapsed: boolean } | null;
-  private lastDragEvent?: Event;
 
   clearSelection() {
     this.selection = null;
@@ -72,18 +68,17 @@ class TextInput extends events(HTMLElement) {
     this.selection = evt.detail;
   }
 
-  drag(evt: Event) {
-    this.lastDragEvent = evt;
-  }
+  compositionend(evt: CompositionEvent) {
+    if (!this.selection) {
+      return;
+    }
 
-  compositionend(evt: CustomEvent) {
     let { start, end } = this.selection;
     if (start === end) {
       this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
     } else {
       this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
     }
-    this.composing = false;
   }
 
   beforeinput(evt: InputEvent) {
