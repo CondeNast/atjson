@@ -43,7 +43,8 @@ Paragraph styles set on a character level are either `null` or an object with th
   - `0`: Normal paragraph
   - `1-6`: Headings level 1-6
   - `100`: Title
-  - `101`: Subtitle  
+  - `101`: Subtitle
+
 `ps_hdid`: 'string' - Heading ID (unknown use)
 
 ### Unimplemented
