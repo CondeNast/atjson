@@ -31,7 +31,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
   it('correctly converts lists', () => {
     let lists = atjson.annotations
-      .filter(a => a.type === 'list')
+      .filter(a => a.type === 'list');
     expect(lists.length).toEqual(2);
   });
 

@@ -219,7 +219,7 @@ describe('@atjson/source-gdocs-paste', () => {
         '-gdocs-ls_b_a' : expect.anything()
       });
 
-      lists.forEach((list) => {
+      lists.forEach(list => {
         expect(list.attributes).toEqual(expectedShape);
       });
     });
