@@ -5,6 +5,12 @@ import events from './mixins/events';
 };
 */
 
+interface DOMLevelTwoInputEvent extends InputEvent {
+  inputType: string;
+  dataTransfer: DataTransfer;
+  getTargetRanges: () => Range[];
+}
+
 // n.b. this is duplicated from text-selection and should be refactored to be
 // included from a shared base.
 const TEXT_NODE_TYPE = 3;
@@ -81,7 +87,7 @@ class TextInput extends events(HTMLElement) {
     }
   }
 
-  beforeinput(evt: InputEvent) {
+  beforeinput(evt: DOMLevelTwoInputEvent) {
 
     if (evt.isComposing) return;
 
