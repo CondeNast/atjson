@@ -18,11 +18,9 @@ export default class SelectionToolbar extends WebComponent {
   onSelectionChange(evt: CustomEvent) {
     if (!this.shadowRoot) return;
 
-    let visibleElements = false;
     this.shadowRoot.childNodes.forEach(element => {
       let event = new CustomEvent(evt.type, { bubbles: false, cancelable: true, detail: evt.detail });
       element.dispatchEvent(event);
-      if (!event.defaultPrevented) visibleElements = true;
     });
   }
 }
