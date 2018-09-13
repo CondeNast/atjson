@@ -95,17 +95,17 @@ attributes:
 
 ## `list` style
 
-List styles are in the dsl_entitymap object, keyed by the kix id of the list.
-For each list:
-`le_nb.nl_0.b_a`: `integer` - 2 for roman numerals, 0 otherwise
-`le_nb.nl_0.b_gs`: `string` - Bullet style
-`le_nb.nl_0.b_gt`: `integer` - Enumeration of ordered list types:
-  `9`: All bulleted lists have this
-  `10`: Numbered
-  `12`: Alphabetical (upper case)
-  `13`: Alphabetical (lower case)
-  `14`: Roman numerals (upper case)
-  `15`: Roman numerals (lower case)
+List styles are in the `dsl_entitymap` object, keyed by the kix id of the list.
+For each list:  
+`le_nb.nl_0.b_a`: `integer` - 2 for roman numerals, 0 otherwise  
+`le_nb.nl_0.b_gs`: `string` - Bullet style  
+`le_nb.nl_0.b_gt`: `integer` - Enumeration of ordered list types:  
+  - `9`: All bulleted lists have this
+  - `10`: Numbered
+  - `12`: Alphabetical (upper case)
+  - `13`: Alphabetical (lower case)
+  - `14`: Roman numerals (upper case)
+  - `15`: Roman numerals (lower case)
 
 ## `horizontal_rule` style
 
