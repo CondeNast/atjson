@@ -115,7 +115,6 @@ export default class OffsetEditor extends events(HTMLElement) {
 
   handleTextSelectionChange(evt: CustomEvent) {
     this.selection = evt.detail;
-    let toolbar = this.querySelector('selection-toolbar');
 
     let selectedAnnotations = this.document.annotations.filter((a: Annotation) => {
       return (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
@@ -129,7 +128,9 @@ export default class OffsetEditor extends events(HTMLElement) {
       }, evt.detail),
       bubbles: false
     });
-    toolbar.dispatchEvent(selectionChangeEvent);
+
+    let toolbar = this.querySelector('selection-toolbar');
+    if (toolbar) toolbar.dispatchEvent(selectionChangeEvent);
   }
 
   handleTextInsert(evt: CustomEvent) {
@@ -196,17 +197,22 @@ export default class OffsetEditor extends events(HTMLElement) {
 
   handleAnnotationDelete(evt: CustomEvent) {
     let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
-    this.document.removeAnnotation(annotation);
+    if (annotation) this.document.removeAnnotation(annotation);
   }
 
   handleAttributeChange(evt: CustomEvent) {
     if (evt.detail.annotationId) {
       let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
-      this.document.replaceAnnotation(annotation, Object.assign(annotation, {attributes: evt.detail.attributes}));
-    } else if (evt.target !== null) {
+      if (annotation) {
+        let newAnnotation = Object.assign(annotation, {attributes: evt.detail.attributes});
+        this.document.replaceAnnotation(annotation, newAnnotation);
+      }
+    } else if (evt.target instanceof Element) {
       let annotationId = evt.target.getAttribute('data-annotation-id');
-      let annotation = this.document.annotations.find((a: Annotation) => a.id.toString() === annotationId);
-      this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+      let annotation = this.document.annotations.find((a: Annotation) => a.id !== undefined && a.id.toString() === annotationId);
+      if (annotation) {
+        this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+      }
     }
   }
 }
