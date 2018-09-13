@@ -13,6 +13,11 @@ type NodeRangePoint = [MaybeNode, number];
 type NodeRange = [NodeRangePoint, NodeRangePoint];
 type TextRangePoint = [Text | null, number];
 
+interface Range {
+  start: number;
+  end: number;
+}
+
 function getTextNodes(node: Node): Text[] {
   let nodes: Text[] = [];
 
@@ -96,7 +101,7 @@ class TextSelection extends events(HTMLElement) {
     this.composing = false;
   }
 
-  setSelection(range: {start: number, end: number}) {
+  setSelection(range: Range) {
     // We need to do a force-reset here in order to avoid waiting for a full
     // cycle of the browser event loop. The DOM has changed, but if we wait
     // for the TextSelection MutationObserver to fire, the TextSelection
@@ -117,9 +122,8 @@ class TextSelection extends events(HTMLElement) {
         let selection = document.getSelection();
         let r = document.createRange();
         r.setStart(node, range.start - offset);
-        if (node.nodeType === 1) {
-          node.focus();
-        } else if (node.nodeType === 3) {
+
+        if (node.parentNode instanceof HTMLElement) {
           node.parentNode.focus();
         }
 
@@ -162,21 +166,21 @@ class TextSelection extends events(HTMLElement) {
   }
 
   // Handle cursor focus/blur events for elements at a cursor position.
-  handleCursorFocus(range, selectionRange) {
+  handleCursorFocus(range: Range, selectionRange: Selection) {
 
     // If we're focused on a text node, that means we have a cursor.
     if (selectionRange.focusNode.nodeType === 3) {
 
       // First, clear any existing focus. We do this first because in the next step, we reset it.
-      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range[0] !== range[1])) {
+      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range.start !== range.end)) {
         this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
         delete this._focusNode;
       }
 
       // If we have a collapsed range.
-      if (range[0] === range[1]) {
+      if (range.start === range.end) {
 
-        if (!this._previousRange || range[0] !== this._previousRange[0]) {
+        if (!this._previousRange || range.start !== this._previousRange.start) {
           // And the focused node is *not* the same as the previously focused node.
           if (this._focusNode !== selectionRange.focusNode) {
 
@@ -196,19 +200,23 @@ class TextSelection extends events(HTMLElement) {
     }
   }
 
-  updateToolbar(range, selectionRange) {
+  updateToolbar(range: Range, selectionRange: Selection) {
     if (!this.shadowRoot) return;
-    let toolbar = this.shadowRoot.querySelector('.toolbar');
+
+    let toolbar: HTMLElement | null = this.shadowRoot.querySelector('.toolbar');
+
     if (!toolbar) return;
+
     let toolbarStyle = toolbar.style;
-    if (range[0] === range[1]) {
+    if (range.start === range.end) {
       toolbarStyle.display = 'none';
     } else {
       window.requestAnimationFrame(_ => {
+        if (!toolbar) return;
         let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
         toolbarStyle.display = 'block';
-        toolbarStyle.top = selectionBoundingRect.y - toolbar.offsetHeight - 3;
-        toolbarStyle.left = selectionBoundingRect.x;
+        toolbarStyle.top = (selectionBoundingRect.top - toolbar.offsetHeight - 3).toString();
+        toolbarStyle.left = selectionBoundingRect.left.toString();
       });
     }
   }
@@ -301,18 +309,19 @@ class TextSelection extends events(HTMLElement) {
     this.dispatchEvent(new CustomEvent('clear'));
   }
 
+  // @ts-ignore called from events
   private selectedTextDidChange() {
 
     if (this.composing) return;
 
-    let selectionRange = document.getSelection();
+    let selection = document.getSelection();
     let nodes = this.textNodes;
 
-    let nodeRange: NodeRange = [[selectionRange.baseNode, selectionRange.baseOffset],
-                            [selectionRange.extentNode, selectionRange.extentOffset]];
-    if (selectionRange.anchorNode) {
-      nodeRange = [[selectionRange.anchorNode, selectionRange.anchorOffset],
-                   [selectionRange.focusNode, selectionRange.focusOffset]];
+    let nodeRange: NodeRange = [[selection.baseNode, selection.baseOffset],
+                            [selection.extentNode, selection.extentOffset]];
+    if (selection.anchorNode) {
+      nodeRange = [[selection.anchorNode, selection.anchorOffset],
+                   [selection.focusNode, selection.focusOffset]];
     }
     nodeRange = nodeRange.sort(([aNode, aOffset], [bNode, bOffset]) => {
       if (!aNode || !bNode) return 0;
@@ -342,60 +351,67 @@ class TextSelection extends events(HTMLElement) {
       return;
     }
 
+    let startTextNode = start[0];
+    let endTextNode = end[0];
+
     // The selection range returned a selection with no base or extent;
     // This means that a node was selected that is not selectable
-    if (start[0] === null || end[0] === null) {
+    if (startTextNode === null || endTextNode === null) {
       this.clearSelection();
       return true;
     }
 
-    let isNonZeroRange = start[0] !== end[0] || start[1] !== end[1];
+    let isNonZeroRange = startTextNode !== endTextNode || start[1] !== end[1];
 
     let domRange = document.createRange();
-    domRange.setStart(start[0], start[1]);
-    domRange.setEnd(end[0], end[1]);
+    if (startTextNode.parentNode instanceof Node && endTextNode.parentNode instanceof Node) {
+      domRange.setStart(startTextNode.parentNode, start[1]);
+      domRange.setEnd(endTextNode.parentNode, end[1]);
+      let commonAncestor = domRange.commonAncestorContainer;
 
-    let commonAncestor = domRange.commonAncestorContainer;
-
-    if (!this.contains(commonAncestor) && !commonAncestor.contains(this)) {
-      this.clearSelection();
-      return true;
-    }
-
-    // Fix the base and offset nodes
-    if (!this.contains(commonAncestor) && this !== commonAncestor) {
-      start = this.clampRangePoint(start);
-      end = this.clampRangePoint(end);
-    }
-
-    let lengths = nodes.map(node => (node.nodeValue || '').length);
-    let range = [
-      lengths.slice(0, nodes.indexOf(start[0])).reduce(sum, start[1]),
-      lengths.slice(0, nodes.indexOf(end[0])).reduce(sum, end[1])
-    ];
-
-    if (range[0] === range[1] && isNonZeroRange) {
-      return true;
-    }
-
-    clearTimeout(this._cursorToolbarResetTimeout);
-
-    this._cursorToolbarResetTimeout = setTimeout(_ => {
-      delete this._cursorToolbarResetTimeout;
-      this.handleCursorFocus(range, selectionRange);
-      this.updateToolbar(range, selectionRange);
-    }, 500);
-
-    this.setAttribute('start', range[0].toString());
-    this.setAttribute('end', range[1].toString());
-    this.dispatchEvent(new CustomEvent('change', {
-      detail: {
-        start: range[0],
-        end: range[1],
-        collapsed: range[0] === range[1]
+      if (!this.contains(commonAncestor) && !commonAncestor.contains(this)) {
+        this.clearSelection();
+        return true;
       }
-    }));
-    return true;
+
+      // Fix the base and offset nodes
+      if (!this.contains(commonAncestor) && this !== commonAncestor) {
+        start = this.clampRangePoint(start);
+        end = this.clampRangePoint(end);
+      }
+
+      let lengths = nodes.map(node => (node.nodeValue || '').length);
+      let range = {
+        start: lengths.slice(0, nodes.indexOf(startTextNode)).reduce(sum, start[1]),
+        end: lengths.slice(0, nodes.indexOf(endTextNode)).reduce(sum, end[1])
+      };
+
+      if (range.start === range.end && isNonZeroRange) {
+        return true;
+      }
+
+      clearTimeout(this._cursorToolbarResetTimeout);
+
+      this._cursorToolbarResetTimeout = setTimeout(_ => {
+        delete this._cursorToolbarResetTimeout;
+        this.handleCursorFocus(range, selection);
+        this.updateToolbar(range, selection);
+      }, 500);
+
+      this.setAttribute('start', range.start.toString());
+      this.setAttribute('end', range.end.toString());
+      this.dispatchEvent(new CustomEvent('change', {
+        detail: {
+          start: range.start,
+          end: range.end,
+          collapsed: range.start === range.end
+        }
+      }));
+      return true;
+
+    } else {
+      throw new Error('This should not happen. This check is for typescript, but should never be triggered.');
+    }
   }
 }
 
