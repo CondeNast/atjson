@@ -19,6 +19,7 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
+    "@atjson/document": "0.8.6",
     "node-sass": "^4.9.0"
   },
   "devDependencies": {

@@ -110,7 +110,6 @@ export default class OffsetEditor extends events(HTMLElement) {
     this.innerHTML = this.constructor.template;
     super.connectedCallback();
     this.render(this.querySelector('.editor'));
-    this.render(this.querySelector('.output'));
   }
 
   handleTextSelectionChange(evt: CustomEvent) {

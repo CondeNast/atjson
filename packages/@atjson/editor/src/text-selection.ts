@@ -365,8 +365,8 @@ class TextSelection extends events(HTMLElement) {
 
     let domRange = document.createRange();
     if (startTextNode.parentNode instanceof Node && endTextNode.parentNode instanceof Node) {
-      domRange.setStart(startTextNode.parentNode, start[1]);
-      domRange.setEnd(endTextNode.parentNode, end[1]);
+      domRange.setStart(startTextNode, start[1]);
+      domRange.setEnd(endTextNode, end[1]);
       let commonAncestor = domRange.commonAncestorContainer;
 
       if (!this.contains(commonAncestor) && !commonAncestor.contains(this)) {

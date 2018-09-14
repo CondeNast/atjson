@@ -2,7 +2,7 @@ export default class OffsetUnderlineElement {
 
   static annotationName = 'underline';
 
-  static elementRenderer = (node: any): Element => {
+  static elementRenderer(): Element {
     return document.createElement('u');
   }
 }
