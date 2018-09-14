@@ -19,7 +19,7 @@ export default class HIR {
       .filter(a => a.start === a.end)
       .forEach(a => {
          document.insertText(a.start, '\uFFFC');
-         a.start--;
+         a.start = Math.max(0, a.start - 1);
       });
     document.where({ type: 'parse-element' }).remove();
 
