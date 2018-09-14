@@ -9,7 +9,7 @@ env:
 
 install:
   - npm install
-  - ./node_modules/.bin/lerna bootstrap --hoist
+  - ./node_modules/.bin/lerna bootstrap --hoist --ci
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
