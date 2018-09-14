@@ -1,9 +1,9 @@
 import Document, { Annotation } from '@atjson/document';
 import WebComponentRenderer from '@atjson/renderer-webcomponent';
-import TextSelection from './text-selection';
 import events from './mixins/events';
 import './selection-toolbar';
 import './text-input';
+import TextSelection from './text-selection';
 import './text-selection';
 
 export interface Range {
@@ -55,7 +55,9 @@ export default class OffsetEditor extends events(HTMLElement) {
     });
   }
 
-  render(editor: Element) {
+  render(editor: Element | null) {
+    if (!editor) return;
+
     let rendered = new WebComponentRenderer(this.document).render();
 
     // This can be improved by doing the comparison on an element-by-element
@@ -92,10 +94,7 @@ export default class OffsetEditor extends events(HTMLElement) {
   }
 
   addContentFeature(component: any) {
-    const selectionToolbar = this.querySelector('selection-toolbar');
-    if (component.selectionButton && selectionToolbar instanceof Element) {
-      selectionToolbar.shadowRoot.appendChild(component.selectionButton);
-    }
+    this.selectionToolbar.appendChild(component.selectionButton);
 
     if (component.annotationName) {
       WebComponentRenderer.prototype[component.annotationName] = component.elementRenderer;
@@ -106,8 +105,16 @@ export default class OffsetEditor extends events(HTMLElement) {
     return this.querySelector('text-selection');
   }
 
+  private get selectionToolbar() {
+    let selectionToolbar = this.querySelector('selection-toolbar');
+    if (!selectionToolbar) throw new Error('Could not find selection-toolbar.');
+    if (!selectionToolbar.shadowRoot) throw new Error('Expected selectionToolbar to have shadowRoot.');
+    return selectionToolbar;
+  }
+
   connectedCallback() {
-    this.innerHTML = this.constructor.template;
+    // n.b. this was this.constructor.template but typescript doesn't like that... for now no inheritance :(
+    this.innerHTML = OffsetEditor.template;
     super.connectedCallback();
     this.render(this.querySelector('.editor'));
   }
