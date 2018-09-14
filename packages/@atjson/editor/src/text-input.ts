@@ -1,11 +1,15 @@
 import events from './mixins/events';
 
-type Constructor<T = {}> = new (...args: any[]) => T;
-
 /* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
 };
 */
+
+interface DOMInputEventLvl2 extends InputEvent {
+  dataTransfer: DataTransfer;
+  inputType: string;
+  getTargetRanges: () => Range[];
+}
 
 // n.b. this is duplicated from text-selection and should be refactored to be
 // included from a shared base.
@@ -54,15 +58,12 @@ function getTextNodes(node: Node): Text[] {
 class TextInput extends events(HTMLElement) {
   static events = {
     'beforeinput': 'beforeinput',
-    'drag': 'drag',
     'compositionend': 'compositionend',
     'change text-selection': 'setSelection',
     'clear text-selection': 'clearSelection'
   };
 
-  private composing?: boolean;
   private selection?: { start: number, end: number, collapsed: boolean } | null;
-  private lastDragEvent?: Event;
 
   clearSelection() {
     this.selection = null;
@@ -72,21 +73,19 @@ class TextInput extends events(HTMLElement) {
     this.selection = evt.detail;
   }
 
-  drag(evt: Event) {
-    this.lastDragEvent = evt;
-  }
+  compositionend(evt: CompositionEvent) {
+    if (!this.selection) return;
 
-  compositionend(evt: CustomEvent) {
     let { start, end } = this.selection;
+
     if (start === end) {
       this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
     } else {
       this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
     }
-    this.composing = false;
   }
 
-  beforeinput(evt: InputEvent) {
+  beforeinput(evt: DOMInputEventLvl2) {
 
     if (evt.isComposing) return;
 
