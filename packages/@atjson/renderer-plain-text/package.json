@@ -6,8 +6,8 @@
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist; tsc -p . ; tsc -p . --module ESNext --outDir dist/modules/ --target ES2017; exit 0",
-    "lint": "tslint -p .",
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
     "prepublishOnly": "npm run build",
     "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
   },
@@ -16,9 +16,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.8.4",
-    "@atjson/hir": "0.8.7",
-    "@atjson/source-html": "0.8.8"
+    "@atjson/document": "0.8.6",
+    "@atjson/hir": "0.8.9",
+    "@atjson/source-html": "0.8.10"
   },
   "dependencies": {
     "@atjson/renderer-hir": "0.9.3"
