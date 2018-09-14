@@ -55,19 +55,22 @@ export default class OffsetHeadingActionButton extends WebComponent {
 
       let overlappingHeading = this.getOverlappingHeading();
       let levelButton = this.shadowRoot.querySelector('.level');
+      let toggleButton = this.shadowRoot.querySelector('.toggle');
+
+      if (!levelButton || !toggleButton) return;
 
       if (overlappingHeading) {
-        this.shadowRoot.querySelector('.toggle').innerText = 'H' + overlappingHeading.attributes.level;
+        toggleButton.textContent = 'H' + overlappingHeading.attributes.level;
         this.classList.add('active');
         let nextLevel = parseInt(overlappingHeading.attributes.level, 10) + 1;
         if (nextLevel < 4) {
-          levelButton.innerText = 'H' + nextLevel;
+          levelButton.textContent = 'H' + nextLevel;
           levelButton.classList.remove('hidden');
         } else {
           levelButton.classList.add('hidden');
         }
       } else {
-        this.shadowRoot.querySelector('.toggle').innerText = 'H1';
+        toggleButton.textContent = 'H1';
         levelButton.classList.add('hidden');
         this.classList.remove('active');
       }

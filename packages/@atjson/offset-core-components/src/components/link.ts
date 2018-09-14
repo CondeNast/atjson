@@ -35,12 +35,18 @@ export default class OffsetLink extends EditableComponent {
   }
 
   attributeChangedCallback(attribute: string) {
+    if (!this.shadowRoot) throw new Error('No shadowRoot found!');
+
     let link = this.shadowRoot.querySelector('a');
     let linkEditor = this.shadowRoot.querySelector('link-editor');
+
+    if (!link) throw new Error('No link (a) element found!');
+    if (!linkEditor) throw new Error('No link-editor element found');
+
     switch (attribute) {
     case 'url':
-      link.setAttribute('href', this.getAttribute('url'));
-      linkEditor.setAttribute('url', this.getAttribute('url'));
+      link.setAttribute('href', this.getAttribute('url') || '');
+      linkEditor.setAttribute('url', this.getAttribute('url') || '');
       break;
     case 'nofollow':
       if (this.hasAttribute('nofollow')) {
