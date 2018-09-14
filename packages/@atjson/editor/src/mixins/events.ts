@@ -1,5 +1,3 @@
-type Constructor<T = {}> = new (...args: any[]) => T;
-
 export type EventCallback = (evt: Event) => boolean;
 
 export interface EventHandlerDefinitions {
@@ -57,44 +55,44 @@ function getEventNameAndElement(element: HTMLElement, definition: string) {
  * resizing, and selection events without using `addEventListener` /
  * `removeEventListener`.
  */
-export default function<HTMLElement extends Constructor>(Base: HTMLElement) {
-  return class extends Base {
-    static events: EventHandlerDefinitions | null;
-    private eventHandlers: EventHandlerReferences;
+export default class EventComponent extends HTMLElement {
+  static events: EventHandlerDefinitions | null;
+  private eventHandlers: EventHandlerReferences;
 
-    constructor(...args: any[]) {
-      super(...args);
-      this.eventHandlers = {};
-    }
+  [key: string]: any;
 
-    connectedCallback() {
-      let events: EventHandlerDefinitions = this.constructor.events || {};
-      Object.keys(events).forEach((definition: string) => {
-        let { eventName, element } = getEventNameAndElement(this, definition);
-        let method = events[definition];
+  constructor() {
+    super();
+    this.eventHandlers = {};
+  }
+
+  connectedCallback() {
+    let ComponentClass = this.constructor as typeof EventComponent;
+    let events: EventHandlerDefinitions = ComponentClass.events || {};
+    Object.keys(events).forEach((definition: string) => {
+      let { eventName, element } = getEventNameAndElement(this, definition);
+      let method = events[definition];
+      this.eventHandlers[definition] = (evt): boolean | never => {
         if (typeof method === 'string') {
-          this.eventHandlers[definition] = (evt): EventCallback | never => {
-            if (this[method]) {
-              return this[method](evt);
-            } else {
-              throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
-            }
-          };
+          const eventHandler: (event: Event) => boolean | never = this[method];
+          if (eventHandler instanceof Function) {
+            return eventHandler.call(this, evt);
+          } else {
+            throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
+          }
         } else {
-          this.eventHandlers[definition] = (evt): EventCallback => {
-            return method.call(this, evt);
-          };
+          return method.call(this, evt);
         }
-        element.addEventListener(eventName, this.eventHandlers[definition]);
-      });
-    }
+      };
+      element.addEventListener(eventName, this.eventHandlers[definition]);
+    });
+  }
 
-    disconnectedCallback() {
-      Object.keys(this.eventHandlers).forEach(definition => {
-        let { eventName, element } = getEventNameAndElement(this, definition);
-        element.removeEventListener(eventName, this.eventHandlers[definition]);
-      });
-      this.eventHandlers = {};
-    }
-  };
+  disconnectedCallback() {
+    Object.keys(this.eventHandlers).forEach(definition => {
+      let { eventName, element } = getEventNameAndElement(this, definition);
+      element.removeEventListener(eventName, this.eventHandlers[definition]);
+    });
+    this.eventHandlers = {};
+  }
 }
