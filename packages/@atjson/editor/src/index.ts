@@ -1,6 +1,6 @@
 import Document, { Annotation } from '@atjson/document';
 import WebComponentRenderer from '@atjson/renderer-webcomponent';
-import events from './mixins/events';
+import EventComponent from './mixins/events';
 import './selection-toolbar';
 import './text-input';
 import TextSelection from './text-selection';
@@ -11,7 +11,7 @@ export interface Range {
   end: number;
 }
 
-export default class OffsetEditor extends events(HTMLElement) {
+export default class OffsetEditor extends EventComponent {
 
   static template = '<text-input>' +
                       '<text-selection>' +

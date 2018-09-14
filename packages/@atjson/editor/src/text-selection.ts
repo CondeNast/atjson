@@ -1,4 +1,4 @@
-import events from './mixins/events';
+import EventComponent from './mixins/events';
 
 const TEXT_NODE_TYPE = 3;
 const DOCUMENT_POSITION_PRECEDING = 2;
@@ -69,7 +69,7 @@ function previousTextNode(node: Node): TextRangePoint {
  * @emits CustomEvent#change - called when the text selection changes
  * @emits CustomEvent#clear - called when the text selecton is cleared
  */
-class TextSelection extends events(HTMLElement) {
+class TextSelection extends EventComponent {
 
   static observedAttributes = ['start', 'end'];
   static events = {

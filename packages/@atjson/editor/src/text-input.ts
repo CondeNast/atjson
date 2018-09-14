@@ -1,4 +1,4 @@
-import events from './mixins/events';
+import EventComponent from './mixins/events';
 
 /* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
@@ -55,7 +55,7 @@ function getTextNodes(node: Node): Text[] {
  * promise accuracy to the level of what is provided by the
  * fidelity of the web API that's available for use in the browser.
  */
-class TextInput extends events(HTMLElement) {
+class TextInput extends EventComponent {
   static events = {
     'beforeinput': 'beforeinput',
     'compositionend': 'compositionend',
