@@ -2,7 +2,7 @@ export default class OffsetItalicElement {
 
   static annotationName = 'italic';
 
-  static elementRenderer = (node: any): Element => {
+  static elementRenderer(): Element {
     return document.createElement('em');
   }
 }

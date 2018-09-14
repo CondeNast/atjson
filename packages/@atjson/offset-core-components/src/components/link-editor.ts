@@ -52,11 +52,9 @@ export default class LinkEditor extends WebComponent {
   }
 
   onSave(evt: Event) {
-    let link = this.shadowRoot.querySelector('.urlinput');
-    this.setAttribute('url', link.value);
+    this.setAttribute('url', this.urlInput.value);
 
-    let nofollow = this.shadowRoot.querySelector('.nofollow');
-    if (nofollow.checked) {
+    if (this.nofollowInput.checked) {
       this.setAttribute('nofollow', '');
     } else {
       this.removeAttribute('nofollow');
@@ -67,8 +65,8 @@ export default class LinkEditor extends WebComponent {
       composed: true,
       detail: {
         attributes: {
-          url: link.value,
-          nofollow: nofollow.checked
+          url: this.urlInput.value,
+          nofollow: this.nofollowInput.checked
         }
       }
     }));
@@ -79,16 +77,28 @@ export default class LinkEditor extends WebComponent {
   }
 
   attributeChangedCallback(attribute: string) {
-    let input = this.shadowRoot.querySelector('.urlinput');
-    let nofollow = this.shadowRoot.querySelector('.nofollow');
     switch (attribute) {
       case 'url':
-        input.setAttribute('value', this.getAttribute('url'));
+        this.urlInput.setAttribute('value', this.getAttribute('url') || '');
         break;
       case 'nofollow':
-        nofollow.checked = this.hasAttribute('nofollow');
+        this.nofollowInput.checked = this.hasAttribute('nofollow');
         break;
     }
+  }
+
+  private get urlInput(): HTMLInputElement {
+    if (!this.shadowRoot) throw new Error('No shadowRoot found!');
+    let input: HTMLInputElement | null = this.shadowRoot.querySelector('.urlinput');
+    if (!input) throw new Error('No URL Input Element Found!');
+    return input;
+  }
+
+  private get nofollowInput(): HTMLInputElement {
+    if (!this.shadowRoot) throw new Error('No shadowRoot found!');
+    let input: HTMLInputElement | null = this.shadowRoot.querySelector('.nofollow');
+    if (!input) throw new Error('No nofollow Input Element Found!');
+    return input;
   }
 }
 
