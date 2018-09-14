@@ -39,6 +39,9 @@ export interface List extends Annotation {
   type: '-gdocs-list';
   attributes: {
     '-gdocs-ls_id': string;
+    '-gdocs-ls_b_gs': string;
+    '-gdocs-ls_b_gt': number;
+    '-gdocs-ls_b_a': number;
   };
 }
 

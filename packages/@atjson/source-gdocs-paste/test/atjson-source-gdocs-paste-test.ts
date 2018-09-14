@@ -8,7 +8,7 @@ describe('@atjson/source-gdocs-paste', () => {
     let atjson;
 
     beforeAll(() => {
-      // https://docs.google.com/document/d/1xP_M2SchJt81ZuivsO7oix8Q_fCx4PENKJFJR5npFNM/edit
+      // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
       let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
       atjson = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
@@ -23,7 +23,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
     it('correctly sets the content', () => {
       let gdocs = new GDocsSource(atjson);
-      expect(gdocs.content.length).toEqual(384);
+      expect(gdocs.content.length).toEqual(438);
       expect(gdocs.content).toMatchSnapshot();
     });
 
@@ -71,27 +71,27 @@ describe('@atjson/source-gdocs-paste', () => {
     it('extracts lists', () => {
       let gdocs = new GDocsSource(atjson);
       let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-list');
-      expect(annotations.length).toEqual(1);
+      expect(annotations.length).toEqual(2);
 
       let a0 = annotations[0];
 
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\nAnd another item');
-      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.r139o3ivf8cd');
+      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
     });
 
     it('extracts list items', () => {
       let gdocs = new GDocsSource(atjson);
       let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-list-item');
-      expect(annotations.length).toEqual(2);
+      expect(annotations.length).toEqual(4);
 
       let [a0, a1] = annotations;
 
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list');
-      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.r139o3ivf8cd');
+      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
       expect(a0.attributes['-gdocs-ls_nest']).toEqual(0);
 
       expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item');
-      expect(a1.attributes['-gdocs-ls_id']).toEqual('kix.r139o3ivf8cd');
+      expect(a1.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
       expect(a1.attributes['-gdocs-ls_nest']).toEqual(0);
     });
 
@@ -112,7 +112,7 @@ describe('@atjson/source-gdocs-paste', () => {
     let gdocsBuffer;
 
     beforeAll(() => {
-      // https://docs.google.com/document/d/1xP_M2SchJt81ZuivsO7oix8Q_fCx4PENKJFJR5npFNM/edit
+      // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
       let fixturePath = path.join(__dirname, 'fixtures', 'formats-and-tabs.json');
       gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
@@ -192,6 +192,45 @@ describe('@atjson/source-gdocs-paste', () => {
 
       let [subscript] = annotations;
       expect(gdocs.content.substring(subscript.start, subscript.end)).toEqual('2');
+    });
+  });
+
+  describe('list styles', () => {
+    let gdocsBuffer;
+
+    beforeAll(() => {
+      let fixturePath = path.join(__dirname, 'fixtures', 'list-styles.json');
+      gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
+    });
+
+    it('creates the right number of list annotations', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let lists = gdocs.annotations.filter(a => a.type === '-gdocs-list');
+
+      expect(lists.length).toEqual(2);
+    });
+
+    it('captures list-specific attributes', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let lists = gdocs.annotations.filter(a => a.type === '-gdocs-list');
+      let expectedShape = expect.objectContaining({
+        '-gdocs-ls_b_gs': expect.anything(),
+        '-gdocs-ls_b_gt': expect.anything(),
+        '-gdocs-ls_b_a' : expect.anything()
+      });
+
+      lists.forEach(list => {
+        expect(list.attributes).toEqual(expectedShape);
+      });
+    });
+
+    it('distinguishes numbered from bulleted lists', () => {
+      let gdocs = new GDocsSource(gdocsBuffer);
+      let lists = gdocs.annotations
+        .filter(a => a.type === '-gdocs-list')
+        .filter(a => a.attributes['-gdocs-ls_b_gt'] === 9);
+
+      expect(lists.length).toEqual(1);
     });
   });
 });

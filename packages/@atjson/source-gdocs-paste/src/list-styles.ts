@@ -1,8 +1,8 @@
 import { Annotation } from '@atjson/document';
 import { List, ListItem } from './schema';
-import { GDocsStyleSlice } from './types';
+import { GDocsStyleSlice, GDocsEntityMap } from './types';
 
-export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[] {
+export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: GDocsEntityMap): Annotation[] {
   let lastParagraphStart = 0;
   let listAnnotations: { [key: string]: List } = {};
   let listItems: ListItem[] = [];
@@ -22,7 +22,10 @@ export default function extractListStyles(lists: GDocsStyleSlice[]): Annotation[
         start: lastParagraphStart,
         end: i,
         attributes: {
-          '-gdocs-ls_id': list.ls_id
+          '-gdocs-ls_id': list.ls_id,
+          '-gdocs-ls_b_gs': entityMap[list.ls_id].le_nb.nl_0.b_gs,
+          '-gdocs-ls_b_gt': entityMap[list.ls_id].le_nb.nl_0.b_gt,
+          '-gdocs-ls_b_a' : entityMap[list.ls_id].le_nb.nl_0.b_a
         }
       };
     } else {

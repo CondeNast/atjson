@@ -1,6 +1,6 @@
 import { Annotation } from '@atjson/document';
 
-import { GDocsStyleSlice } from './types';
+import { GDocsStyleSlice, GDocsEntityMap } from './types';
 
 import extractHorizontalRule from './horizontal-rule';
 import extractLinkStyles from './link-styles';
@@ -13,7 +13,7 @@ export interface GDocsSource {
 }
 
 export interface Transforms {
-  [key: string]: (styles: GDocsStyleSlice[]) => Annotation[];
+  [key: string]: (styles: GDocsStyleSlice[], entityMap: GDocsEntityMap) => Annotation[];
 }
 
 export default class GDocsParser {
@@ -39,13 +39,14 @@ export default class GDocsParser {
   getAnnotations(): Annotation[] {
     const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
     const transforms = GDocsParser.transforms;
+    const entityMap: GDocsEntityMap = this.gdocsSource.resolved.dsl_entitymap;
 
     let annotations = styleSlices.map((styleSlice: GDocsStyleSlice) => {
       let type: string = styleSlice.stsl_type;
       let styles: GDocsStyleSlice[] = styleSlice.stsl_styles;
 
       if (transforms[type]) {
-        return transforms[type](styles);
+        return transforms[type](styles, entityMap);
       }
       return null;
     });
