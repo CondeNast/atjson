@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.6...@atjson/document@0.8.7) (2018-09-14)
+
+**Note:** Version bump only for package @atjson/document
+
+
+
+
+
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
 ## [0.8.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.5...@atjson/document@0.8.6) (2018-09-07)
 
 ### ✨ New Features

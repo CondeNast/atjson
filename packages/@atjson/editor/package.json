@@ -1,6 +1,6 @@
 {
   "name": "@atjson/editor",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "description": "AtJSON Editor",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -20,8 +20,8 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/document": "0.8.6",
-    "@atjson/hir": "0.8.9"
+    "@atjson/document": "0.8.7",
+    "@atjson/hir": "0.8.10"
   },
   "devDependencies": {
     "parcel-bundler": "^1.6.2"

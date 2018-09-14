@@ -1,6 +1,6 @@
 {
   "name": "@atjson/conventional-changelog-emoji",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "Conventional commits for AtJSON",
   "main": "src/index.js",
   "scripts": {
