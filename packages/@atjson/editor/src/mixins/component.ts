@@ -107,7 +107,7 @@ export default class WebComponent extends HTMLElement {
         if (typeof method === 'string') {
           const eventHandler: (event: Event) => boolean | never = this[method];
           if (eventHandler instanceof Function) {
-            return eventHandler(evt);
+            return eventHandler.call(this, evt);
           } else {
             throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
           }

@@ -48,8 +48,10 @@ export default class EditableComponent extends WebComponent {
     return el;
   }
 
-  static elementRenderer = (node: any): Element => {
-    throw new Error('Element Renderer must be overriden');
+  static elementRenderer(node: any): Element {
+    let d = document.createElement('div');
+    d.setAttribute('data-type', node.type);
+    return d;
   }
 
   cursorFocus() {
