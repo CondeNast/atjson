@@ -35,7 +35,7 @@ export default class extends Document {
 
     doc.where({ type: '-gdocs-ps_hd' })
       .set({ type: 'heading' })
-      .map({ attributes: { '-gdocs-level': 'level' } });
+      .rename({ attributes: { '-gdocs-level': 'level' } });
 
     // b_gt: 9 indicates an unordered list, but ordered lists have a variety of b_gt values
     doc.where({ type: '-gdocs-list', attributes: { '-gdocs-ls_b_gt': 9 } }).set({ type: 'list', attributes: { type: 'bulleted' } });
@@ -44,7 +44,7 @@ export default class extends Document {
 
     doc.where({ type: '-gdocs-lnks_link' })
       .set({ type: 'link' })
-      .map({ attributes: { '-gdocs-ulnk_url': 'url' } });
+      .rename({ attributes: { '-gdocs-ulnk_url': 'url' } });
 
     return doc;
   }
