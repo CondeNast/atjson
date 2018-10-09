@@ -4,8 +4,8 @@
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "husky": "^1.0.0-rc.13",
-    "jest": "^23.5.0",
-    "lerna": "^3.2.1",
+    "jest": "^23.6.0",
+    "lerna": "^3.4.2",
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
     "typedoc": "^0.12.0",
@@ -37,13 +37,18 @@
       "js",
       "json"
     ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    },
     "moduleNameMapper": {
       "(@atjson/.*)": "<rootDir>/packages/$1/src/index.ts"
     },
     "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
+    "preset": "ts-jest",
     "testMatch": [
       "**/*-test.(ts|tsx|js)"
     ]

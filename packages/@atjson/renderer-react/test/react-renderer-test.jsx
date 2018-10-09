@@ -3,7 +3,7 @@ import Document from '@atjson/document';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 
-function renderDocument(renderer: ReactRenderer, doc: Document): string {
+function renderDocument(renderer, doc) {
   return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
 }
 
@@ -49,8 +49,8 @@ describe('ReactRenderer', function () {
         return <br/>;
       },
       giphy({ source }) {
-        let id: string = source.match(/\/gifs\/(.*)-([^-]*)/)[2];
-        let src: string = `https://media.giphy.com/media/${id}/giphy.gif`;
+        let id = source.match(/\/gifs\/(.*)-([^-]*)/)[2];
+        let src = `https://media.giphy.com/media/${id}/giphy.gif`;
         return <img src={src} />;
       },
       youtube({ source, showRelatedVideos, showPlayerControls, showInfo, noCookies }) {
