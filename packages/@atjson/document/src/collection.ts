@@ -1,5 +1,67 @@
 import Document, { Annotation } from './index';
-import NamedCollection from './named-collection';
+import Join from './join';
+
+function matches(annotation: any, filter: { [key: string]: any; }): boolean {
+  return Object.keys(filter).every(key => {
+    let value = filter[key];
+    if (typeof value === 'object') {
+      return matches((annotation as any)[key], value);
+    }
+    return (annotation as any)[key] === value;
+  });
+}
+
+class Collection {
+  document: Document;
+  annotations: Annotation[];
+
+  constructor(document: Document, annotations: Annotation[]) {
+    this.document = document;
+    this.annotations = annotations;
+  }
+
+  *[Symbol.iterator](): IterableIterator<Annotation> {
+    for (let annotation of this.annotations) {
+      yield annotation;
+    }
+  }
+
+  where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
+    if (filter instanceof Function) {
+      return new AnnotationCollection(this.document, this.annotations.filter(filter));
+    }
+
+    let annotations = this.annotations.filter(annotation => {
+      return matches(annotation, filter);
+    });
+    return new AnnotationCollection(this.document, annotations);
+  }
+
+  as<T extends string>(name: T) {
+    return new NamedCollection<T>(this.document, this.annotations, name);
+  }
+
+  update(updater: (annotation: Annotation) => void | { add?: Annotation[]; remove?: Annotation[]; retain?: Annotation[]; update?: Array<[Annotation, Annotation]>; }) {
+    let newAnnotations: Annotation[] = [];
+
+    this.annotations.map(updater).map(result => {
+      let annotations: Annotation[] = [];
+
+      if (result) {
+        if (result.add) annotations.push(...result.add);
+        if (result.update) annotations.push(...result.update.map(a => a[1]));
+        if (result.retain) annotations.push(...result.retain);
+      }
+      return annotations;
+    }).reduce((annotations, annotationList) => {
+      annotations.push(...annotationList);
+      return annotations;
+    }, newAnnotations);
+
+    this.annotations = newAnnotations;
+    return this;
+  }
+}
 
 export interface Renaming {
   [key: string]: string | Renaming;
@@ -11,16 +73,6 @@ export interface FlattenedRenaming {
 
 function clone(object: any) {
   return JSON.parse(JSON.stringify(object));
-}
-
-function matches(annotation: any, filter: { [key: string]: any; }): boolean {
-  return Object.keys(filter).every(key => {
-    let value = filter[key];
-    if (typeof value === 'object') {
-      return matches((annotation as any)[key], value);
-    }
-    return (annotation as any)[key] === value;
-  });
 }
 
 function flattenPropertyPaths(mapping: Renaming, options: { keys: boolean, values?: boolean }, prefix?: string): FlattenedRenaming {
@@ -79,60 +131,7 @@ function set(object: any, key: string, value: any) {
   }
 }
 
-export default class AnnotationCollection {
-  document: Document;
-  annotations: Annotation[];
-
-  constructor(document: Document, annotations: Annotation[] = []) {
-    this.document = document;
-    this.annotations = annotations;
-  }
-
-  *[Symbol.iterator](): IterableIterator<Annotation> {
-    for (let annotation of this.annotations) {
-      yield annotation;
-    }
-  }
-
-  where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
-    if (filter instanceof Function) {
-      return new AnnotationCollection(this.document, this.annotations.filter(filter));
-    }
-
-    let annotations = this.annotations.filter(annotation => {
-      return matches(annotation, filter);
-    });
-    return new AnnotationCollection(this.document, annotations);
-  }
-
-  as<T extends string>(name: T) {
-    return new NamedCollection<T>(this.document, this.annotations, name);
-  }
-
-  update(updater: (annotation: Annotation) => { add?: Annotation[]; remove?: Annotation[]; retain?: Annotation[]; update?: Array<[Annotation, Annotation]>; }) {
-    let newAnnotations: Annotation[] = [];
-
-    this.annotations.map(updater).map((result: {
-      add?: Annotation[];
-      remove?: Annotation[];
-      retain?: Annotation[];
-      update?: Array<[Annotation, Annotation]>;
-    } = {}) => {
-      let annotations: Annotation[] = [];
-
-      if (result.add) annotations.push(...result.add);
-      if (result.update) annotations.push(...result.update.map(a => a[1]));
-      if (result.retain) annotations.push(...result.retain);
-
-      return annotations;
-    }).reduce((annotations, annotationList) => {
-      annotations.push(...annotationList);
-      return annotations;
-    }, newAnnotations);
-
-    this.annotations = newAnnotations;
-    return this;
-  }
+export default class AnnotationCollection extends Collection {
 
   set(patch: any) {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
@@ -166,6 +165,7 @@ export default class AnnotationCollection {
         let value = get(annotation, key);
         set(result, flattenedRenaming[key], value);
       });
+      this.document.replaceAnnotation(annotation, result);
 
       return {
         update: [[annotation, result]]
@@ -180,5 +180,43 @@ export default class AnnotationCollection {
         remove: [annotation]
       };
     });
+  }
+}
+
+export class NamedCollection<Left extends string> extends Collection {
+  readonly name: Left;
+
+  constructor(document: Document, annotations: Annotation[], name: Left) {
+    super(document, annotations);
+    this.name = name;
+  }
+
+  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+    if (rightCollection.document !== this.document) {
+      // n.b. there is a case that this is OK, if the RHS's document is null,
+      // then we're just joining on annotations that shouldn't have positions in
+      // the document.
+      throw new Error('Joining annotations from two different documents is non-sensical. Refusing to continue.');
+    }
+
+    let results = new Join<Left, Right>(this, []);
+
+    this.annotations.forEach((leftAnnotation: Annotation): void => {
+      let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
+        return filter(leftAnnotation, rightAnnotation);
+      });
+
+      type JoinItem = Record<Left, Annotation> & Record<Right, Annotation[]>;
+
+      if (joinAnnotations.length > 0) {
+        let join = {
+          [this.name]: leftAnnotation,
+          [rightCollection.name]: joinAnnotations
+        };
+        results.push(join as JoinItem);
+      }
+    });
+
+    return results;
   }
 }

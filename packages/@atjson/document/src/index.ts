@@ -1,10 +1,11 @@
 import Annotation from './annotation';
 import AnnotationCollection from './collection';
+import Join from './join';
 import Schema, { Display } from './schema';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
-export { Annotation, Schema, Display };
+export { Annotation, AnnotationCollection, Join, Schema, Display };
 
 export default class Document {
 

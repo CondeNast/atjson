@@ -1,16 +1,16 @@
 import Annotation from './annotation';
-import NamedCollection from './named-collection';
+import { NamedCollection } from './collection';
 
-export default class Join<L extends string, R extends string> {
-  private leftJoin: NamedCollection<L>;
-  private _joins: Array<Record<L | R, Annotation[]>>;
+export default class Join<Left extends string, Right extends string> {
+  private leftJoin: NamedCollection<Left>;
+  private _joins: Array<Record<Left, Annotation> & Record<Right, Annotation[]>>;
 
-  constructor(leftJoin: NamedCollection<L>, joins: Array<Record<L | R, Annotation[]>>) {
+  constructor(leftJoin: NamedCollection<Left>, joins: Array<Record<Left, Annotation> & Record<Right, Annotation[]>>) {
     this.leftJoin = leftJoin;
     this._joins = joins;
   }
 
-  *[Symbol.iterator](): IterableIterator<Record<L | R, Annotation[]>> {
+  *[Symbol.iterator](): IterableIterator<Record<Left, Annotation> & Record<Right, Annotation[]>> {
     for (let join of this._joins) {
       yield join;
     }
@@ -20,7 +20,7 @@ export default class Join<L extends string, R extends string> {
     return [...this];
   }
 
-  join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<L, R | J> {
+  join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left, Annotation> & Record<Right, Annotation[]>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
     if (rightCollection.document !== this.leftJoin.document) {
       // n.b. there is a case that this is OK, if the right hand side's document is null,
       // then we're just joining on annotations that shouldn't have positions in
@@ -28,29 +28,31 @@ export default class Join<L extends string, R extends string> {
       throw new Error('Joining annotations from two different documents is non-sensical. Refusing to continue.');
     }
 
-    let results = new Join<L, R | J>(this.leftJoin, []);
+    let results = new Join<Left, Right | J>(this.leftJoin, []);
 
-    this._joins.forEach((leftJoin: Record<L | R, Annotation | Annotation[]>): void => {
-      let leftAnnotation = leftJoin[this.leftJoin.name] as Annotation;
+    this._joins.forEach(join => {
       let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
-        return filter(leftAnnotation, rightAnnotation);
+        return filter(join, rightAnnotation);
       });
 
+      type JoinItem = Record<Left, Annotation> & Record<Right | J, Annotation[]>;
+
       if (joinAnnotations.length > 0) {
-        let join: Partial<Record<L | R | J, Annotation[]>> = leftJoin as Partial<Record<L | R | J, Annotation[]>>;
-        Object.defineProperty(leftJoin, rightCollection.name, { value: joinAnnotations });
-        results.push(join as Record<L | R | J, Annotation[]>);
+        // TypeScript doesn't allow us to safely index this, even though
+        // the type system should detect this
+        (join as any)[rightCollection.name] = joinAnnotations;
+        results.push(join as JoinItem);
       }
     });
 
     return results;
   }
 
-  push(join: Record<L | R, Annotation[]>) {
+  push(join: Record<Left, Annotation> & Record<Right, Annotation[]>) {
     this._joins.push(join);
   }
 
-  update(callback: (join: Record<L | R, Annotation[]>) => void) {
+  update(callback: (join: Record<Left, Annotation> & Record<Right, Annotation[]>) => void) {
     this._joins.forEach(callback);
   }
 }
