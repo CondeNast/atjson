@@ -1,4 +1,4 @@
-import Document, { Annotation, Join } from '../src/';
+import Document, { Annotation } from '../src/';
 
 describe('Document.where', () => {
   it('runs queries against existing annotations', () => {
@@ -310,9 +310,9 @@ describe('Document.where', () => {
           end: 35
         }]
       });
-      let code = doc.where({ type: 'code' }).as('code');
-      let pre = doc.where({ type: 'pre' }).as('pre');
-      let preAndCode = code.join(pre, (l, r) => l.start === r.start && l.end === r.end);
+      let codeBlocks = doc.where({ type: 'code' }).as('code');
+      let preformattedText = doc.where({ type: 'pre' }).as('pre');
+      let preAndCode = codeBlocks.join(preformattedText, (l, r) => l.start === r.start && l.end === r.end);
 
       expect(preAndCode.toArray()).toEqual([{
         code: {
@@ -339,11 +339,6 @@ describe('Document.where', () => {
 
         doc.replaceAnnotation(code, newCode);
         doc.deleteText({start: 2, end: 4} as Annotation);
-
-        return {
-          update: [[code, newCode]],
-          remove: [pre[0]]
-        };
       });
 
       expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
@@ -431,15 +426,12 @@ describe('Document.where', () => {
       threeWayJoin.update(({ code, pre, locale }) => {
         doc.insertText(0, 'Hello!\n');
 
-        let removeAnnotations: Annotation[] = [];
         let newAttributes = {};
         pre.forEach((x: Annotation) => {
           Object.assign(newAttributes, x.attributes);
           doc.removeAnnotation(x);
-          removeAnnotations.push(x);
         });
         newAttributes = Object.assign(newAttributes, { locale: locale[0].attributes!.locale });
-        removeAnnotations.push(locale[0]);
         doc.removeAnnotation(locale[0]);
 
         let newCode = Object.assign(code, {
