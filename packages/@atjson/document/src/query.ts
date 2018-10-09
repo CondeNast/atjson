@@ -301,6 +301,16 @@ export default class AnnotationCollection {
       let source = document.where({type: '-html-source' }).as('sources');
       let figCaption = document.where({type: '-html-figcaption'}).as('figcaption');
 
+      {
+        name: T,
+        join: K | J | ...
+      }
+      {
+        join: K | J | T
+        [K]: Annotation
+        [J]: Annotation[]
+        [T]: NamedJoin[]
+      }
       let pictureSource = picture.join(source, (l, r) => r.inside(l)).as('pictureSource');
       let bigJoin = figure.join(figCaption, (l, r) => r.inside(l))
                           .join(pictureSource, (l, r) => r.inside(l));

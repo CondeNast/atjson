@@ -135,7 +135,7 @@ describe('Document.where', () => {
     }]);
   });
 
-  it('map with a patch mapping', () => {
+  it('update with function', () => {
     let doc = new Document({
       content: 'Conde Nast',
       annotations: [{
@@ -156,48 +156,8 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
-    expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
-      type: 'link',
-      attributes: {
-        url: 'https://example.com'
-      },
-      start: 0,
-      end: 5
-    }, {
-      type: 'link',
-      attributes: {
-        url: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    }]);
-  });
-
-  it('map with function', () => {
-    let doc = new Document({
-      content: 'Conde Nast',
-      annotations: [{
-        type: 'a',
-        attributes: {
-          href: 'https://example.com'
-        },
-        start: 0,
-        end: 5
-      },
-      {
-        type: 'a',
-        attributes: {
-          href: 'https://condenast.com'
-        },
-        start: 6,
-        end: 10
-      }]
-    });
-
-    doc.where({ type: 'a' }).map(annotation => {
-      return {
+    doc.where({ type: 'a' }).update(annotation => {
+      doc.replaceAnnotation(annotation, {
         type: 'link',
         start: annotation.start,
         end: annotation.end,
@@ -205,8 +165,9 @@ describe('Document.where', () => {
           url: annotation.attributes ? annotation.attributes.href : '',
           openInNewTab: true
         }
-      };
+      });
     });
+
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
       type: 'link',
@@ -270,8 +231,8 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'code' }).map(annotation => {
-      return [{
+    doc.where({ type: 'code' }).update(annotation => {
+      let annotations = [{
         type: 'pre',
         start: annotation.start,
         end: annotation.end,
@@ -282,6 +243,13 @@ describe('Document.where', () => {
         end: annotation.end,
         attributes: {}
       }];
+
+      doc.replaceAnnotation(annotation, ...annotations);
+
+      return {
+        add: annotations,
+        remove: [annotation]
+      };
     }).unset('attributes.class');
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
@@ -349,20 +317,12 @@ describe('Document.where', () => {
 
     describe('simple join', () => {
 
-      let code;
-      let pre;
-      let preAndCode: AnnotationCollection;
-
-      beforeEach(() => {
-        code = doc.where({ type: 'code' }).as('code');
-        pre = doc.where({ type: 'pre' }).as('pre');
-
-        preAndCode = code.join(pre, (l, r) => l.start === r.start && l.end === r.end);
-      });
-
       it('should construct an AnnotationJoin', () => {
+        let code = doc.where({ type: 'code' }).as('code');
+        let pre = doc.where({ type: 'pre' }).as('pre');
+        let preAndCode = code.join(pre, (l, r) => l.start === r.start && l.end === r.end);
 
-        expect(preAndCode.annotations[0]).toEqual({
+        expect(preAndCode.toArray()).toEqual([{
           code: {
             type: 'code',
             start: 0,
@@ -375,38 +335,37 @@ describe('Document.where', () => {
           pre: [
             { type: 'pre', start: 0, end: 14, attributes: {} }
           ]
-        });
+        }]);
       });
 
-      describe('transform', () => {
+      describe('update', () => {
+        it('successfully transforms the document', () => {
+          let codeBlocks = doc.where({ type: 'code' }).as('code');
+          let preformattedText = doc.where({ type: 'pre' }).as('pre');
+          let preAndCode = codeBlocks.join(preformattedText, (l, r) => l.start === r.start && l.end === r.end);
 
-        beforeEach(() => {
-          preAndCode.transform(join => {
-            doc.removeAnnotation(join.pre[0]);
+          preAndCode.update(({ code, pre }) => {
+            doc.removeAnnotation(pre[0]);
 
-            let newAttributes = Object.assign(join.code.attributes, {
+            let newAttributes = Object.assign(code[0].attributes, {
               textStyle: 'pre'
             });
-            let newCode = Object.assign(join.code, {attributes: newAttributes});
+            let newCode = Object.assign(code[0], { attributes: newAttributes });
 
-            doc.replaceAnnotation(join.code, newCode);
+            doc.replaceAnnotation(code[0], newCode);
             doc.deleteText({start: 2, end: 4} as Annotation);
 
             return {
-              update: [[join.code, newCode]],
-              remove: [join.pre[0]]
+              update: [[code, newCode]],
+              remove: [pre[0]]
             };
           });
-        });
 
-        it('successfully transforms the document', () => {
           expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
             [{ type: 'pre', start: 14, end: 26, attributes: {} }]
           );
-        });
 
-        it('updates the annotations on the AnnotationCollection', () => {
-          expect(preAndCode.annotations).toEqual([
+          expect(preAndCode.toArray()).toEqual([
             {
               type: 'code',
               start: 0,
@@ -480,9 +439,9 @@ describe('Document.where', () => {
         }]);
       });
 
-      describe('transform', () => {
+      describe('update', () => {
         beforeEach(() => {
-          allJoin.transform(join => {
+          allJoin.update(join => {
 
             doc.insertText(0, 'Hello!\n');
 
