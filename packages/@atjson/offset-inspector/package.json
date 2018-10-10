@@ -20,7 +20,7 @@
   ],
   "dependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/editor": "0.8.10",
+    "@atjson/editor": "file:../editor",
     "@atjson/offset-core-components": "file:../offset-core-components",
     "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "@atjson/renderer-webcomponent": "file:../renderer-webcomponent"

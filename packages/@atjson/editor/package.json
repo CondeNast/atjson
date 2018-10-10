@@ -21,9 +21,9 @@
   ],
   "dependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/hir": "0.8.10",
+    "@atjson/hir": "file:../hir",
     "@atjson/offset-core-components": "file:../offset-core-components",
-    "@atjson/renderer-commonmark": "0.9.0",
+    "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "@atjson/renderer-webcomponent": "file:../renderer-webcomponent",
     "@types/dom-inputevent": "^1.0.1",
     "node-sass": "^4.9.0"

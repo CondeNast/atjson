@@ -2,12 +2,6 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/document": "file:../document",
-    "@atjson/hir": "0.8.10",
-    "@atjson/renderer-hir": "file:../renderer-hir",
-    "@atjson/schema": "0.8.10",
-    "@atjson/source-commonmark": "0.8.11",
-    "@atjson/source-html": "0.8.11",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.4",
     "@types/q": "^1.5.0",
