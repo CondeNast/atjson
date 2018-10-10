@@ -37,13 +37,6 @@
       "js",
       "json"
     ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "warnOnly": true
-        }
-      }
-    },
     "moduleNameMapper": {
       "(@atjson/.*)": "<rootDir>/packages/$1/src/index.ts"
     },
