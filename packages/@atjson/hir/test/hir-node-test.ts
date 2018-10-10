@@ -1,4 +1,4 @@
-import { Annotation, Schema } from '@atjson/document';
+import { Schema } from '@atjson/document';
 import { HIRNode } from '../src/index';
 import schema from './schema';
 import { bold, document, image, li, node, ol, paragraph } from './utils';

@@ -1,9 +1,9 @@
 import Document, { Annotation } from '@atjson/document';
-import PlainTextRenderer from '@atjson/renderer-plain-text';
 import HTMLSource from '@atjson/source-html';
+import PlainTextRenderer from '../src';
 
-describe('PlainTextRenderer', function () {
-  it('returns the text from the atjson document', function () {
+describe('PlainTextRenderer', () => {
+  it('returns the text from the atjson document', () => {
     let renderer = new PlainTextRenderer();
     let annotations: Annotation[] = [{
       type: 'atjson',
@@ -25,7 +25,7 @@ describe('PlainTextRenderer', function () {
     expect(text).toBe('☎️👨🏻⛵️🐳👌🏼');
   });
 
-  it('strips virtual annotations', function () {
+  it('strips virtual annotations', () => {
     let html = '<p>This is some <em>fancy</em> <span class="fancy">text</span>.';
     let doc = new HTMLSource(html);
 

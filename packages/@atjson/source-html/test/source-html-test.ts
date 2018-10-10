@@ -1,6 +1,5 @@
-import Document from '@atjson/document';
 import { HIR } from '@atjson/hir';
-import HTMLSource from '@atjson/source-html';
+import HTMLSource from '../src';
 
 describe('@atjson/source-html', () => {
   test('pre-code', () => {

@@ -1,7 +1,7 @@
-import Document, { Annotation, Schema } from '@atjson/document';
+import Document, { Schema } from '@atjson/document';
 import { HIR } from '../src/index';
 import schema from './schema';
-import { bold, document, image, italic, li, ol, paragraph, ul } from './utils';
+import { bold, document, image, italic, li, ol, paragraph } from './utils';
 
 describe('@atjson/hir', () => {
 
