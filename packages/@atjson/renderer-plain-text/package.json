@@ -16,9 +16,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.8.6",
-    "@atjson/hir": "0.8.9",
-    "@atjson/source-html": "0.8.10"
+    "@atjson/document": "0.8.7",
+    "@atjson/hir": "0.8.10",
+    "@atjson/source-html": "0.8.11"
   },
   "dependencies": {
     "@atjson/renderer-hir": "0.9.3"

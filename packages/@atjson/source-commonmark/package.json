@@ -22,9 +22,9 @@
     "commonmark-spec": "^0.28.0"
   },
   "dependencies": {
-    "@atjson/document": "0.8.6",
-    "@atjson/schema": "0.8.9",
-    "@atjson/source-html": "0.8.10",
+    "@atjson/document": "0.8.7",
+    "@atjson/schema": "0.8.10",
+    "@atjson/source-html": "0.8.11",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",

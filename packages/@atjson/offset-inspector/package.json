@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@atjson/editor": "0.8.10",
-    "@atjson/document": "0.8.6",
+    "@atjson/document": "0.8.7",
     "@atjson/offset-core-components": "0.8.0",
-    "@atjson/renderer-commonmark": "0.9.0",
+    "@atjson/renderer-commonmark": "0.9.4",
     "@atjson/renderer-webcomponent": "0.8.0"
   }
 }
