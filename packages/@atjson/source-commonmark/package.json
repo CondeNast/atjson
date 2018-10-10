@@ -15,16 +15,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@atjson/hir": "0.8.10",
-    "@atjson/renderer-hir": "0.9.3",
-    "commonmark": "^0.28.1",
-    "commonmark-spec": "^0.28.0"
-  },
   "dependencies": {
-    "@atjson/document": "0.8.7",
-    "@atjson/schema": "0.8.10",
-    "@atjson/source-html": "0.8.11",
+    "@atjson/document": "file:../document",
+    "@atjson/schema": "file:../schema",
+    "@atjson/source-html": "file:../source-html",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
     "entities": "^1.1.1",

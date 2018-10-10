@@ -10,11 +10,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@types/q": "^1.5.0",
-    "conventional-changelog-core": "^2.0.11",
-    "shelljs": "^0.8.2"
-  },
   "dependencies": {
     "q": "^1.5.1"
   }

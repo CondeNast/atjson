@@ -19,12 +19,7 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/document": "0.8.7",
+    "@atjson/document": "file:../document",
     "node-sass": "^4.9.0"
-  },
-  "devDependencies": {
-    "ts-loader": "^4.0.0",
-    "tslint": "^5.11.0",
-    "typescript": "^3.1.1"
   }
 }

@@ -15,14 +15,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "@atjson/hir": "0.8.10",
-    "@atjson/renderer-hir": "0.9.3",
-    "@types/node": "^10.9.4"
-  },
   "dependencies": {
-    "@atjson/document": "0.8.7",
-    "@atjson/schema": "0.8.10",
+    "@atjson/document": "file:../document",
+    "@atjson/schema": "file:../schema",
     "parse5": "^4.0.0"
   }
 }
