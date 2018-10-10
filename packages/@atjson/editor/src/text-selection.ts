@@ -127,8 +127,10 @@ class TextSelection extends EventComponent {
           node.parentNode.focus();
         }
 
-        selection.removeAllRanges();
-        selection.addRange(r);
+        if (selection) {
+          selection.removeAllRanges();
+          selection.addRange(r);
+        }
         break;
       }
 

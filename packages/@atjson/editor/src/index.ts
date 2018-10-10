@@ -82,12 +82,11 @@ export default class OffsetEditor extends EventComponent {
 
     // n.b., would be good to have a way to query for existence of id on
     // annotation (or to make ids required globally)
-    this.document.where({}).map((a: Annotation) => {
-      if (a.id !== undefined) return a;
-
-      // this is not safe.
-      let id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-      return Object.assign(a, {id});
+    this.document.where({}).update(a => {
+      if (a.id == null) {
+        // this is not safe.
+        a.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+      }
     });
 
     this.document.addEventListener('change', (() => this.scheduleRender() ));
