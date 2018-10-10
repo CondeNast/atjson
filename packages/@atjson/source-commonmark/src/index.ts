@@ -246,10 +246,10 @@ export default class CommonMarkSource extends Document {
     doc.where({ type: 'hr' }).set({ type: 'horizontal-rule' });
     doc.where({ type: 'html_block' }).set({ type: 'html', display: 'block', attributes: { type: 'block' } });
     doc.where({ type: 'html_inline' }).set({ type: 'html', display: 'inline', attributes: { type: 'inline' } });
-    doc.where({ type: 'image' }).set({ type: 'image' }).map({ attributes: { src: 'url', alt: 'description' } });
-    doc.where({ type: 'link' }).map({ attributes: { href: 'url' } });
+    doc.where({ type: 'image' }).set({ type: 'image' }).rename({ attributes: { src: 'url', alt: 'description' } });
+    doc.where({ type: 'link' }).rename({ attributes: { href: 'url' } });
     doc.where({ type: 'list_item' }).set({ type: 'list-item' });
-    doc.where({ type: 'ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).map({ attributes: { start: 'startsAt' } });
+    doc.where({ type: 'ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).rename({ attributes: { start: 'startsAt' } });
     doc.where({ type: 'strong' }).set({ type: 'bold' });
 
     return doc;

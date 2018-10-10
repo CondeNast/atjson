@@ -1,9 +1,9 @@
 import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
-import HIRRenderer, { escapeHTML } from '@atjson/renderer-hir';
+import HIRRenderer, { escapeHTML } from '../src';
 
-describe('@atjson/renderer-hir', function () {
-  it('defines an abstract rendering interface', function () {
+describe('@atjson/renderer-hir', () => {
+  it('defines an abstract rendering interface', () => {
     let atjson = new Document({
       content: 'This is bold and italic text',
       annotations: [{
@@ -29,7 +29,7 @@ describe('@atjson/renderer-hir', function () {
     ];
 
     class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
+      *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
         expect(annotation).toEqual(callStack.shift());
 
         let text: string[] = yield;
@@ -42,7 +42,7 @@ describe('@atjson/renderer-hir', function () {
     renderer.render(atjson);
   });
 
-  it('escapes HTML entities in text', function () {
+  it('escapes HTML entities in text', () => {
     let atjson = new Document({
       content: `This <html-element with="param" and-another='param'> should render as plain text`
     });
@@ -51,7 +51,7 @@ describe('@atjson/renderer-hir', function () {
       renderText(text: string): string {
         return escapeHTML(text);
       }
-      *renderAnnotation(annotation: HIRNode): IterableIterator<string> {
+      *renderAnnotation(): IterableIterator<any> {
         let text: string[] = yield;
         return text.join('');
       }

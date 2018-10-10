@@ -1,5 +1,4 @@
 import Document, { Annotation } from '../src/';
-import AnnotationCollection from '../src/query';
 
 describe('Document.where', () => {
   it('runs queries against existing annotations', () => {
@@ -135,7 +134,7 @@ describe('Document.where', () => {
     }]);
   });
 
-  it('map with a patch mapping', () => {
+  it('update with function', () => {
     let doc = new Document({
       content: 'Conde Nast',
       annotations: [{
@@ -156,48 +155,8 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'a' }).set({ type: 'link' }).map({ attributes: { href: 'url' } });
-    expect(doc.content).toBe('Conde Nast');
-    expect(doc.annotations).toEqual([{
-      type: 'link',
-      attributes: {
-        url: 'https://example.com'
-      },
-      start: 0,
-      end: 5
-    }, {
-      type: 'link',
-      attributes: {
-        url: 'https://condenast.com'
-      },
-      start: 6,
-      end: 10
-    }]);
-  });
-
-  it('map with function', () => {
-    let doc = new Document({
-      content: 'Conde Nast',
-      annotations: [{
-        type: 'a',
-        attributes: {
-          href: 'https://example.com'
-        },
-        start: 0,
-        end: 5
-      },
-      {
-        type: 'a',
-        attributes: {
-          href: 'https://condenast.com'
-        },
-        start: 6,
-        end: 10
-      }]
-    });
-
-    doc.where({ type: 'a' }).map(annotation => {
-      return {
+    doc.where({ type: 'a' }).update(annotation => {
+      doc.replaceAnnotation(annotation, {
         type: 'link',
         start: annotation.start,
         end: annotation.end,
@@ -205,8 +164,9 @@ describe('Document.where', () => {
           url: annotation.attributes ? annotation.attributes.href : '',
           openInNewTab: true
         }
-      };
+      });
     });
+
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations).toEqual([{
       type: 'link',
@@ -270,8 +230,8 @@ describe('Document.where', () => {
       }]
     });
 
-    doc.where({ type: 'code' }).map(annotation => {
-      return [{
+    doc.where({ type: 'code' }).update(annotation => {
+      let annotations = [{
         type: 'pre',
         start: annotation.start,
         end: annotation.end,
@@ -282,6 +242,13 @@ describe('Document.where', () => {
         end: annotation.end,
         attributes: {}
       }];
+
+      doc.replaceAnnotation(annotation, ...annotations);
+
+      return {
+        add: annotations,
+        remove: [annotation]
+      };
     }).unset('attributes.class');
 
     expect(doc.content).toBe('string.trim();\nstring.strip');
@@ -313,10 +280,8 @@ describe('Document.where', () => {
   });
 
   describe('AnnotationCollection.join', () => {
-    let doc: Document;
-
-    beforeEach(() => {
-      doc = new Document({
+    test('simple join', () => {
+      let doc = new Document({
         content: 'string.trim();\nstring.strip\nextra',
         annotations: [{
           type: 'code',
@@ -345,91 +310,71 @@ describe('Document.where', () => {
           end: 35
         }]
       });
+      let codeBlocks = doc.where({ type: 'code' }).as('code');
+      let preformattedText = doc.where({ type: 'pre' }).as('pre');
+      let preAndCode = codeBlocks.join(preformattedText, (l, r) => l.start === r.start && l.end === r.end);
+
+      expect(preAndCode.toArray()).toEqual([{
+        code: {
+          type: 'code',
+          start: 0,
+          end: 14,
+          attributes: {
+            class: 'language-js',
+            language: 'js'
+          }
+        },
+        pre: [
+          { type: 'pre', start: 0, end: 14, attributes: {} }
+        ]
+      }]);
+
+      preAndCode.update(({ code, pre }) => {
+        doc.removeAnnotation(pre[0]);
+
+        let newAttributes = Object.assign(code.attributes, {
+          textStyle: 'pre'
+        });
+        let newCode = Object.assign(code, { attributes: newAttributes });
+
+        doc.replaceAnnotation(code, newCode);
+        doc.deleteText({start: 2, end: 4} as Annotation);
+      });
+
+      expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
+        [{ type: 'pre', start: 14, end: 26, attributes: {} }]
+      );
     });
 
-    describe('simple join', () => {
-
-      let code;
-      let pre;
-      let preAndCode: AnnotationCollection;
-
-      beforeEach(() => {
-        code = doc.where({ type: 'code' }).as('code');
-        pre = doc.where({ type: 'pre' }).as('pre');
-
-        preAndCode = code.join(pre, (l, r) => l.start === r.start && l.end === r.end);
-      });
-
-      it('should construct an AnnotationJoin', () => {
-
-        expect(preAndCode.annotations[0]).toEqual({
-          code: {
-            type: 'code',
-            start: 0,
-            end: 14,
-            attributes: {
-              class: 'language-js',
-              language: 'js'
-            }
-          },
-          pre: [
-            { type: 'pre', start: 0, end: 14, attributes: {} }
-          ]
-        });
-      });
-
-      describe('transform', () => {
-
-        beforeEach(() => {
-          preAndCode.transform(join => {
-            doc.removeAnnotation(join.pre[0]);
-
-            let newAttributes = Object.assign(join.code.attributes, {
-              textStyle: 'pre'
-            });
-            let newCode = Object.assign(join.code, {attributes: newAttributes});
-
-            doc.replaceAnnotation(join.code, newCode);
-            doc.deleteText({start: 2, end: 4} as Annotation);
-
-            return {
-              update: [[join.code, newCode]],
-              remove: [join.pre[0]]
-            };
-          });
-        });
-
-        it('successfully transforms the document', () => {
-          expect(doc.annotations.filter(x => x.type === 'pre')).toEqual(
-            [{ type: 'pre', start: 14, end: 26, attributes: {} }]
-          );
-        });
-
-        it('updates the annotations on the AnnotationCollection', () => {
-          expect(preAndCode.annotations).toEqual([
-            {
-              type: 'code',
-              start: 0,
-              end: 12,
-              attributes: {
-                class: 'language-js',
-                language: 'js',
-                textStyle: 'pre'
-              }
-            }
-          ]);
-        });
-      });
-    });
-
-    describe('complex (three-way) join', () => {
-      let pre;
-      let code;
-      let locale;
-      let allJoin: AnnotationCollection;
-
-      beforeEach(() => {
-        doc.addAnnotations({
+    test('complex (three-way) join', () => {
+      let doc = new Document({
+        content: 'string.trim();\nstring.strip\nextra',
+        annotations: [{
+          type: 'code',
+          start: 0,
+          end: 14,
+          attributes: {
+            class: 'language-js',
+            language: 'js'
+          }
+        },
+        {
+          type: 'pre',
+          start: 0,
+          end: 14,
+          attributes: { }
+        },
+        {
+          type: 'pre',
+          start: 16,
+          end: 28,
+          attributes: { }
+        },
+        {
+          type: 'code',
+          start: 30,
+          end: 35
+        }, {
           type: 'locale',
           start: 0,
           end: 14,
@@ -439,111 +384,78 @@ describe('Document.where', () => {
           start: 0,
           end: 14,
           attributes: { style: 'color: red' }
-        });
-
-        code = doc.where({ type: 'code' }).as('code');
-        pre = doc.where({ type: 'pre' }).as('pre');
-        locale = doc.where({ type: 'locale' }).as('locale');
-
-        allJoin = code.join(pre, (l, r) => l.start === r.start && l.end === r.end)
-                      .join(locale, (l, r) => l.code.start === r.start && l.code.end === r.end);
+        }]
       });
 
-      it('constructs a valid join', () => {
-        expect(allJoin.annotations).toEqual([{
-          code: {
-            type: 'code',
-            start: 0,
-            end: 14,
-            attributes: {
-              class: 'language-js',
-              language: 'js'
-            }
-          },
-          pre: [{
-            type: 'pre',
-            start: 0,
-            end: 14,
-            attributes: { }
-          }, {
-            type: 'pre',
-            start: 0,
-            end: 14,
-            attributes: { style: 'color: red' }
-          }],
-          locale: [{
-            type: 'locale',
-            start: 0,
-            end: 14,
-            attributes: { locale: 'en-us' }
-          }]
-        }]);
+      let codeBlocks = doc.where({ type: 'code' }).as('code');
+      let preformattedText = doc.where({ type: 'pre' }).as('pre');
+      let locales = doc.where({ type: 'locale' }).as('locale');
+
+      let threeWayJoin = codeBlocks.join(preformattedText, (l, r) => l.start === r.start && l.end === r.end)
+                                   .join(locales, (l, r) => l.code.start === r.start && l.code.end === r.end);
+
+      expect(threeWayJoin.toArray()).toEqual([{
+        code: {
+          type: 'code',
+          start: 0,
+          end: 14,
+          attributes: {
+            class: 'language-js',
+            language: 'js'
+          }
+        },
+        pre: [{
+          type: 'pre',
+          start: 0,
+          end: 14,
+          attributes: { }
+        }, {
+          type: 'pre',
+          start: 0,
+          end: 14,
+          attributes: { style: 'color: red' }
+        }],
+        locale: [{
+          type: 'locale',
+          start: 0,
+          end: 14,
+          attributes: { locale: 'en-us' }
+        }]
+      }]);
+
+      threeWayJoin.update(({ code, pre, locale }) => {
+        doc.insertText(0, 'Hello!\n');
+
+        let newAttributes = {};
+        pre.forEach((x: Annotation) => {
+          Object.assign(newAttributes, x.attributes);
+          doc.removeAnnotation(x);
+        });
+        newAttributes = Object.assign(newAttributes, { locale: locale[0].attributes!.locale });
+        doc.removeAnnotation(locale[0]);
+
+        let newCode = Object.assign(code, {
+          attributes: Object.assign(code.attributes, newAttributes)
+        });
+        doc.replaceAnnotation(code, newCode);
       });
 
-      describe('transform', () => {
-        beforeEach(() => {
-          allJoin.transform(join => {
-
-            doc.insertText(0, 'Hello!\n');
-
-            let removeAnnotations: Annotation[] = [];
-            let newAttributes = {};
-            join.pre.forEach((x: Annotation) => {
-              Object.assign(newAttributes, x.attributes);
-              doc.removeAnnotation(x);
-              removeAnnotations.push(x);
-            });
-            newAttributes = Object.assign(newAttributes, { locale: join.locale[0].attributes.locale });
-            removeAnnotations.push(join.locale[0]);
-            doc.removeAnnotation(join.locale[0]);
-
-            let newCode = Object.assign(join.code, {
-              attributes: Object.assign(join.code.attributes, newAttributes)
-            });
-            doc.replaceAnnotation(join.code, newCode);
-
-            return {
-              update: [[join.code, newCode]],
-              remove: removeAnnotations
-            };
-          });
-        });
-
-        it('does the transform right', () => {
-          expect(allJoin.annotations).toEqual([
-            {
-              type: 'code',
-              start: 7,
-              end: 21,
-              attributes: {
-                locale: 'en-us',
-                style: 'color: red',
-                class: 'language-js',
-                language: 'js'
-              }
-            }
-          ]);
-        });
-
-        it('updates the document', () => {
-          expect(doc.annotations).toEqual([
-            {
-              type: 'code', start: 7, end: 21, attributes: {
-                class: 'language-js',
-                language: 'js',
-                locale: 'en-us',
-                style: 'color: red'
-              }
-            },
-            {
-              type: 'pre', start: 23, end: 35, attributes: {}
-            },
-            {
-              type: 'code', start: 37, end: 42
-            }
-          ]);
-        });
-      });
+      expect(doc.annotations).toEqual([
+        {
+          type: 'code', start: 7, end: 21, attributes: {
+            class: 'language-js',
+            language: 'js',
+            locale: 'en-us',
+            style: 'color: red'
+          }
+        },
+        {
+          type: 'pre', start: 23, end: 35, attributes: {}
+        },
+        {
+          type: 'code', start: 37, end: 42
+        }
+      ]);
     });
   });
 });

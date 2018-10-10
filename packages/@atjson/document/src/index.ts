@@ -1,10 +1,11 @@
 import Annotation from './annotation';
-import AnnotationCollection, { FilterFunction, JoinableAnnotation, StrictMatch } from './query';
+import AnnotationCollection from './collection';
+import Join from './join';
 import Schema, { Display } from './schema';
 
 const OBJECT_REPLACEMENT = '\uFFFC';
 
-export { Annotation, JoinableAnnotation, Schema, Display };
+export { Annotation, AnnotationCollection, Join, Schema, Display };
 
 export default class Document {
 
@@ -71,9 +72,9 @@ export default class Document {
    *
    * tk: join documentation
    */
-  where(filter: StrictMatch | FilterFunction): AnnotationCollection {
-    let query = new AnnotationCollection(this, this.annotations);
-    return query.where(filter);
+  where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
+    let collection = new AnnotationCollection(this, this.annotations);
+    return collection.where(filter);
   }
 
   removeAnnotation(annotation: Annotation): Annotation | void {

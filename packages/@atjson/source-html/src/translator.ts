@@ -1,4 +1,4 @@
-import Document, { Annotation, Schema } from '@atjson/document';
+import Document, { Schema } from '@atjson/document';
 import schema from '@atjson/schema';
 
 export default class HTMLSchemaTranslator {
@@ -35,15 +35,11 @@ export default class HTMLSchemaTranslator {
     doc.where({ type: '-html-ul' }).set({ type: 'list', attributes: { type: 'bulleted' } });
     doc.where({ type: '-html-ol' }).set({ type: 'list', attributes: { type: 'numbered' } })
       .rename({ attributes: { starts: 'startsAt' } })
-      .map((list: Annotation) => {
-        if (list.attributes !== undefined) {
-          if (list.attributes && list.attributes.startsAt) {
-            list.attributes.startsAt = parseInt(list.attributes.startsAt, 10);
-          }
-          return list;
-        } else {
-          return null;
+      .update(list => {
+        if (list.attributes && list.attributes.startsAt) {
+          list.attributes.startsAt = parseInt(list.attributes.startsAt, 10);
         }
+        return {};
       });
     doc.where({ type: '-html-li' }).set({ type: 'list-item' });
 

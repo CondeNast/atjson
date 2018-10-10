@@ -1,7 +1,6 @@
 CnNodeBuild(project: "atjson",
-            nodeVersion: "nsolid-2.3.4-boron",
-            npmVersion: "3") {
-  sh "npm install"
-  sh "./node_modules/.bin/lerna bootstrap"
-  sh "./node_modules/.bin/lerna run build"
+            nodeVersion: "node-v8.12.0",
+            npmVersion: "6.2.0") {
+  sh "npm ci --unsafe-perm"
+  sh "npx lerna run build"
 }

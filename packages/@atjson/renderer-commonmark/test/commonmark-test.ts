@@ -1,7 +1,7 @@
 import Document from '@atjson/document';
 import schema from '@atjson/schema';
 import CommonMarkSource from '@atjson/source-commonmark';
-import CommonMarkRenderer from '../src/index';
+import CommonMarkRenderer from '../src';
 
 describe('commonmark', () => {
   it('raw atjson document', () => {

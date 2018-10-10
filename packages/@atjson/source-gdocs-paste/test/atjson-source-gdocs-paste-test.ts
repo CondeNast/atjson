@@ -1,11 +1,11 @@
 import Document from '@atjson/document';
 import * as fs from 'fs';
 import * as path from 'path';
-import GDocsSource from '../src/index';
+import GDocsSource from '../src';
 
 describe('@atjson/source-gdocs-paste', () => {
   describe('relatively complex document', () => {
-    let atjson;
+    let atjson: Document;
 
     beforeAll(() => {
       // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
@@ -55,16 +55,16 @@ describe('@atjson/source-gdocs-paste', () => {
       let [a0, a1, a2, a3] = annotations;
 
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Heading 1');
-      expect(a0.attributes['-gdocs-level']).toEqual(1);
+      expect(a0.attributes!['-gdocs-level']).toEqual(1);
 
       expect(gdocs.content.substring(a1.start, a1.end)).toEqual('Heading 2');
-      expect(a1.attributes['-gdocs-level']).toEqual(2);
+      expect(a1.attributes!['-gdocs-level']).toEqual(2);
 
       expect(gdocs.content.substring(a2.start, a2.end)).toEqual('Title');
-      expect(a2.attributes['-gdocs-level']).toEqual(100);
+      expect(a2.attributes!['-gdocs-level']).toEqual(100);
 
       expect(gdocs.content.substring(a3.start, a3.end)).toEqual('Subtitle');
-      expect(a3.attributes['-gdocs-level']).toEqual(101);
+      expect(a3.attributes!['-gdocs-level']).toEqual(101);
 
     });
 
@@ -76,7 +76,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let a0 = annotations[0];
 
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\nAnd another item');
-      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
+      expect(a0.attributes!['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
     });
 
     it('extracts list items', () => {
@@ -87,12 +87,12 @@ describe('@atjson/source-gdocs-paste', () => {
       let [a0, a1] = annotations;
 
       expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list');
-      expect(a0.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
-      expect(a0.attributes['-gdocs-ls_nest']).toEqual(0);
+      expect(a0.attributes!['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
+      expect(a0.attributes!['-gdocs-ls_nest']).toEqual(0);
 
       expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item');
-      expect(a1.attributes['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
-      expect(a1.attributes['-gdocs-ls_nest']).toEqual(0);
+      expect(a1.attributes!['-gdocs-ls_id']).toEqual('kix.trdi2u6o1bvt');
+      expect(a1.attributes!['-gdocs-ls_nest']).toEqual(0);
     });
 
     it('extracts links', () => {
@@ -103,13 +103,13 @@ describe('@atjson/source-gdocs-paste', () => {
       let link = annotations[0];
 
       expect(gdocs.content.substring(link.start, link.end)).toEqual(' is ');
-      expect(link.attributes['-gdocs-ulnk_url']).toEqual('https://www.google.com/');
-      expect(link.attributes['-gdocs-lnk_type']).toEqual(0);
+      expect(link.attributes!['-gdocs-ulnk_url']).toEqual('https://www.google.com/');
+      expect(link.attributes!['-gdocs-lnk_type']).toEqual(0);
     });
   });
 
   describe('a grab-bag of Google Docs features', () => {
-    let gdocsBuffer;
+    let gdocsBuffer: any;
 
     beforeAll(() => {
       // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
@@ -178,7 +178,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
     it('extracts superscript', () => {
       let gdocs = new GDocsSource(gdocsBuffer);
-      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes['-gdocs-va'] === 'sup');
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes!['-gdocs-va'] === 'sup');
       expect(annotations.length).toEqual(1);
 
       let [superscript] = annotations;
@@ -187,7 +187,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
     it('extracts subscript', () => {
       let gdocs = new GDocsSource(gdocsBuffer);
-      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes['-gdocs-va'] === 'sub');
+      let annotations = gdocs.annotations.filter(a => a.type === '-gdocs-ts_va' && a.attributes!['-gdocs-va'] === 'sub');
       expect(annotations.length).toEqual(1);
 
       let [subscript] = annotations;
@@ -196,7 +196,7 @@ describe('@atjson/source-gdocs-paste', () => {
   });
 
   describe('list styles', () => {
-    let gdocsBuffer;
+    let gdocsBuffer: any;
 
     beforeAll(() => {
       let fixturePath = path.join(__dirname, 'fixtures', 'list-styles.json');
@@ -228,7 +228,7 @@ describe('@atjson/source-gdocs-paste', () => {
       let gdocs = new GDocsSource(gdocsBuffer);
       let lists = gdocs.annotations
         .filter(a => a.type === '-gdocs-list')
-        .filter(a => a.attributes['-gdocs-ls_b_gt'] === 9);
+        .filter(a => a.attributes!['-gdocs-ls_b_gt'] === 9);
 
       expect(lists.length).toEqual(1);
     });

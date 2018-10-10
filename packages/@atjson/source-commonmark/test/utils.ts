@@ -1,9 +1,10 @@
+import Document from '@atjson/document';
 import Renderer from '@atjson/renderer-hir';
 
 class PlainTextRenderer extends Renderer {
-  
+
   tight?: boolean;
-  
+
   *root() {
     let text: string[] = yield;
     return text.join('');
@@ -11,14 +12,14 @@ class PlainTextRenderer extends Renderer {
   *hardbreak() {
     return '\n';
   }
-  *bullet_list({ tight }) {
+  *bullet_list({ tight }: { tight: boolean }) {
     let wasTight = this.tight;
     this.tight = tight;
     let text = yield;
     this.tight = wasTight;
     return text;
   }
-  *ordered_list({ tight }) {
+  *ordered_list({ tight }: { tight: boolean }) {
     let wasTight = this.tight;
     this.tight = tight;
     let text = yield;
@@ -34,7 +35,7 @@ class PlainTextRenderer extends Renderer {
   }
 }
 
-export function render(doc) {
+export function render(doc: Document) {
   let renderer = new PlainTextRenderer();
   return renderer.render(doc);
 }

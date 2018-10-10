@@ -1,6 +1,5 @@
-import Document from '@atjson/document';
-import CommonMarkSource from '@atjson/source-commonmark';
 import * as MarkdownIt from 'markdown-it';
+import CommonMarkSource from '../src';
 import { render } from './utils';
 
 class MarkdownItSource extends CommonMarkSource {
