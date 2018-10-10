@@ -1,6 +1,6 @@
 {
   "name": "@atjson/offset-inspector",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Offset AtJSON Inspector",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

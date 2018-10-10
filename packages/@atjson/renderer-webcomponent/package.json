@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-webcomponent",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
