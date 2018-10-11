@@ -12,22 +12,22 @@ const skippedTests = [
   491  // Alt text that is never used
 ];
 
-const testModules = spec.tests.reduce((modules: any, test: any) => {
-  if (!modules[test.section]) modules[test.section] = [];
-  modules[test.section].push(test);
+const unitTestsBySection: { [moduleName: string]: spec.tests } = spec.tests.reduce((modules, unitTest) => {
+  if (!modules[unitTest.section]) modules[unitTest.section] = [];
+  modules[unitTest.section].push(unitTest);
   return modules;
 }, {});
 
-Object.keys(testModules).forEach(moduleName => {
-  const moduleTests = testModules[moduleName];
+Object.keys(unitTestsBySection).forEach(moduleName => {
+  const unitTests = unitTestsBySection[moduleName];
 
   describe(moduleName, () => {
-    moduleTests.forEach((test: any): void => {
-      let shouldSkip = skippedTests.indexOf(test.number) !== -1;
+    unitTests.forEach(unitTest => {
+      let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
       let renderer = new CommonMarkRenderer();
 
-      (shouldSkip ? xit : it)(test.markdown, () => {
-        let markdown = test.markdown.replace(/→/g, '\t');
+      (shouldSkip ? test.skip : test)(unitTest.markdown, () => {
+        let markdown = unitTest.markdown.replace(/→/g, '\t');
         let original = new CommonMarkSource(markdown);
         let generatedMarkdown = renderer.render(original.toCommonSchema());
         let output = new CommonMarkSource(generatedMarkdown);

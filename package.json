@@ -63,8 +63,15 @@
       "js",
       "json"
     ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "warnOnly": true
+        }
+      }
+    },
     "moduleNameMapper": {
-      "(@atjson/.*)": "<rootDir>/packages/$1/src/index.ts"
+      "^(@atjson/.*)$": "<rootDir>/packages/$1/src/index.ts"
     },
     "testURL": "http://localhost",
     "preset": "ts-jest",

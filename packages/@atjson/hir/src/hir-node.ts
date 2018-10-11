@@ -1,6 +1,6 @@
 import Document, { Annotation, Display, Schema } from '@atjson/document';
-import JSONNode from './json-node';
 import { HIR } from '.';
+import JSONNode from './json-node';
 
 const RANK = {
   root: 0,

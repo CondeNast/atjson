@@ -1,6 +1,6 @@
 import { Annotation } from '@atjson/document';
 import { List, ListItem } from './schema';
-import { GDocsStyleSlice, GDocsEntityMap } from './types';
+import { GDocsEntityMap, GDocsStyleSlice } from './types';
 
 export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: GDocsEntityMap): Annotation[] {
   let lastParagraphStart = 0;

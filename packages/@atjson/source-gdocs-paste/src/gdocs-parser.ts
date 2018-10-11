@@ -1,6 +1,6 @@
 import { Annotation } from '@atjson/document';
 
-import { GDocsStyleSlice, GDocsEntityMap } from './types';
+import { GDocsEntityMap, GDocsStyleSlice } from './types';
 
 import extractHorizontalRule from './horizontal-rule';
 import extractLinkStyles from './link-styles';

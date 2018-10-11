@@ -14718,7 +14718,7 @@ exports[`HTML blocks <style
 foo
  1`] = `
 Object {
-  "attributes": undefined,
+  "attributes": Object {},
   "children": Array [
     Object {
       "attributes": Object {},
@@ -14742,7 +14742,7 @@ exports[`HTML blocks <style
 foo
  2`] = `
 Object {
-  "attributes": undefined,
+  "attributes": Object {},
   "children": Array [
     Object {
       "attributes": Object {},
@@ -19566,7 +19566,7 @@ Object {
 exports[`Links ![[[foo](uri1)](uri2)](uri3)
  1`] = `
 Object {
-  "attributes": undefined,
+  "attributes": Object {},
   "children": Array [
     Object {
       "attributes": Object {},
@@ -19590,7 +19590,7 @@ Object {
 exports[`Links ![[[foo](uri1)](uri2)](uri3)
  2`] = `
 Object {
-  "attributes": undefined,
+  "attributes": Object {},
   "children": Array [
     Object {
       "attributes": Object {},
