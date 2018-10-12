@@ -28,7 +28,7 @@ import {
   Underline,
   UnorderedList
 } from './annotations';
-import HTMLSchemaTranslator from './translator';
+import translate from './translate';
 
 function isElement(node: parse5.AST.Default.Node) {
   return node.nodeName !== undefined &&
@@ -215,6 +215,6 @@ export default class HTMLSource extends Document {
   }
 
   toCommonSchema(): Document {
-    return new HTMLSchemaTranslator(this).translate();
+    return translate(this);
   }
 }

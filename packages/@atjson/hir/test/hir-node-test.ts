@@ -34,7 +34,7 @@ describe('@atjson/hir/hir-node', () => {
     hir.insertAnnotation(new TestAnnotation({ id: '1', start: 0, end: 5, attributes: {} }));
     hir.insertAnnotation(new TestAnnotation({ id: '2', start: 5, end: 10, attributes: {} }));
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         test(),
         test()
@@ -46,7 +46,7 @@ describe('@atjson/hir/hir-node', () => {
     let hir = new HIRNode(new RootAnnotation({ id: '0', start: 0, end: 10, attributes: {} }));
     hir.insertAnnotation(new TestAnnotation({ id: '1', start: 0, end: 5, attributes: {} }));
 
-    expect(hir.toJSON()).toEqual(document(test()));
+    expect(hir.toJSON()).toMatchObject(document(test()));
   });
 
   it('insert text simple case works', () => {
@@ -56,7 +56,7 @@ describe('@atjson/hir/hir-node', () => {
 
     hir.insertText('some text.');
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         test('some '),
         test('text.')
@@ -72,7 +72,7 @@ describe('@atjson/hir/hir-node', () => {
 
     hir.insertText('some text.');
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         a('so', b('me'), ' '),
         c('text.')
@@ -90,7 +90,7 @@ describe('@atjson/hir/hir-node', () => {
 
     hir.insertText('ab\n\nli\n\ncd');
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         paragraph('ab\n\n'),
         ol(
@@ -110,7 +110,7 @@ describe('@atjson/hir/hir-node', () => {
 
     hir.insertText('abcdefghij');
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         paragraph('abcd', bold('ef'), 'ghij')
       )
@@ -123,7 +123,7 @@ describe('@atjson/hir/hir-node', () => {
     hir.insertAnnotation(new Image({ id: '2', start: 0, end: 1, attributes: {} }));
     hir.insertAnnotation(new Blockquote({ id: '3', start: 0, end: 1, attributes: {} }));
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         blockquote(bold(image()))
       )
@@ -137,7 +137,7 @@ describe('@atjson/hir/hir-node', () => {
 
     hir.insertText('abc');
 
-    expect(hir.toJSON()).toEqual(
+    expect(hir.toJSON()).toMatchObject(
       document(
         paragraph(
           'abc',

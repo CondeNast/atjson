@@ -52,7 +52,8 @@ Stylistic annotations are easily layered on a document using a positional annota
   "annotations": [{
     type: "italic",
     start: 4,
-    end: 8
+    end: 8,
+    attributes: {}
   }]
 }
 ```

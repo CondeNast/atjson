@@ -1,11 +1,7 @@
 .vscode
-.travis.yml
 dist/**/test
 dist/**/node_modules
-ember-cli-build.js
-scripts
 test
-testem.js
 tmp
 tsconfig.json
-tsling.json
+tslint.json

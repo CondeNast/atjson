@@ -1,14 +1,40 @@
-import Document from '@atjson/document';
+import Document, { InlineAnnotation } from '@atjson/document';
 import GraphvizRenderer from '../src/index';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
+
+class Bold extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'bold';
+}
+
+class Italic extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'italic';
+}
+
+class Link extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'link';
+  attributes!: {
+    url: string;
+  };
+}
+
+class TestSource extends Document {
+  static contentType = 'application/vnd.atjson+test';
+  static schema = [Bold, Italic, Link];
+}
 
 describe('graphviz', () => {
   test('a simple document', () => {
-    let doc = new Document({
+    let doc = new TestSource({
       content: 'Hello, world',
       annotations: [{
-        type: 'bold',
+        type: '-test-bold',
         start: 0,
-        end: 5
+        end: 5,
+        attributes: {}
       }]
     });
     let renderer = new GraphvizRenderer();
@@ -24,14 +50,44 @@ describe('graphviz', () => {
 }`);
   });
 
+  test('example', () => {
+    let doc = new TestSource({
+      content: 'The best writing anywhere, everywhere.',
+      annotations: [{
+        type: '-test-italic',
+        start: 4,
+        end: 8,
+        attributes: {}
+      }, {
+        type: '-test-bold',
+        start: 17,
+        end: 25,
+        attributes: {}
+      }, {
+        type: '-test-link',
+        start: 0,
+        end: 38,
+        attributes: {
+          '-test-url': 'https://newyorker.com'
+        }
+      }]
+    });
+
+    let renderer = new GraphvizRenderer();
+    let result = renderer.render(doc, { shape: 'record' });
+    expect(result).toMatchSnapshot();
+    writeFileSync(join(__dirname, '../example.dot'), result);
+  });
+
   for (let shape of ['record', 'Mrecord']) {
     test(`${shape} node shapes`, () => {
-      let doc = new Document({
+      let doc = new TestSource({
         content: 'Hello, world',
         annotations: [{
-          type: 'bold',
+          type: '-test-bold',
           start: 0,
-          end: 5
+          end: 5,
+          attributes: {}
         }]
       });
 

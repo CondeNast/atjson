@@ -10,8 +10,8 @@ interface Node {
 function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node[]): Node {
   let children = hirNode.children();
   let text = hirNode.type;
-  if (hirNode.type === 'text' && hirNode.text != null) {
-    text = hirNode.text;
+  if (hirNode.type === 'text' && hirNode.attributes.text != null) {
+    text = hirNode.annotation.attributes.text;
   } else {
     text = JSON.stringify(hirNode.attributes);
   }

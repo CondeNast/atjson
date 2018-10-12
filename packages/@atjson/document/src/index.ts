@@ -251,8 +251,6 @@ export default class Document {
         }
       });
     }
-
-    this.triggerChange();
   }
 
   /**

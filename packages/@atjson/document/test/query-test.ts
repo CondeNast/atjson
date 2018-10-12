@@ -1,5 +1,4 @@
-import { AnnotationJSON, Attributes } from '../src';
-import TestSource, { Anchor, Code, Preformatted, Locale } from './test-source';
+import TestSource, { Anchor, Code, Locale, Preformatted } from './test-source';
 
 describe('Document.where', () => {
   it('length on collections', () => {

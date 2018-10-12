@@ -1,16 +1,20 @@
 digraph atjson{
   node [shape=record];
   root1 [label="{root|{}}"];
-  emoji2 [label="{emoji|{\"emoji\":\"👋\"}}"];
-  text3 [label="{text|Hello}"];
-  text4 [label="{text|, }"];
-  emoji5 [label="{emoji|{\"emoji\":\"🌎\"}}"];
-  text6 [label="{text|world}"];
-  text7 [label="{text|!}"];
-  emoji2 -> text3;
-  root1 -> emoji2;
-  root1 -> text4;
-  emoji5 -> text6;
-  root1 -> emoji5;
-  root1 -> text7;
+  link2 [label="{link|{\"url\":\"https://newyorker.com\"}}"];
+  text3 [label="{text|The }"];
+  italic4 [label="{italic|{}}"];
+  text5 [label="{text|best}"];
+  text6 [label="{text| writing }"];
+  bold7 [label="{bold|{}}"];
+  text8 [label="{text|anywhere}"];
+  text9 [label="{text|, everywhere.}"];
+  link2 -> text3;
+  italic4 -> text5;
+  link2 -> italic4;
+  link2 -> text6;
+  bold7 -> text8;
+  link2 -> bold7;
+  link2 -> text9;
+  root1 -> link2;
 }

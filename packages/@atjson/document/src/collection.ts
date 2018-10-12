@@ -11,7 +11,7 @@ function matches(annotation: any, filter: { [key: string]: any; }): boolean {
   });
 }
 
-class Collection {
+export class Collection {
   document: Document;
   annotations: Annotation[];
 

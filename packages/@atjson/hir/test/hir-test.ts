@@ -22,7 +22,7 @@ describe('@atjson/hir', () => {
 
     let expected = document('test\ndocument\n\nnew paragraph');
     expect(new HIR(validDoc)).toBeDefined();
-    expect(new HIR(validDoc).toJSON()).toEqual(expected);
+    expect(new HIR(validDoc).toJSON()).toMatchObject(expected);
   });
 
   describe('constructs a valid hierarchy', () => {
@@ -45,7 +45,7 @@ describe('@atjson/hir', () => {
         ' annotation'
       );
 
-      expect(hir).toEqual(expected);
+      expect(hir).toMatchObject(expected);
     });
 
     test('from a document with nesting', () => {
@@ -78,7 +78,7 @@ describe('@atjson/hir', () => {
         'After all the lists'
       );
 
-      expect(new HIR(nested).toJSON()).toEqual(expected);
+      expect(new HIR(nested).toJSON()).toMatchObject(expected);
     });
 
     test('from a document with overlapping annotations at the same level', () => {
@@ -97,7 +97,7 @@ describe('@atjson/hir', () => {
         ' plus something after.'
       );
 
-      expect(new HIR(overlapping).toJSON()).toEqual(expected);
+      expect(new HIR(overlapping).toJSON()).toMatchObject(expected);
     });
 
     test('from a document with overlapping annotations across heirarchical levels', () => {
@@ -121,7 +121,7 @@ describe('@atjson/hir', () => {
         )
       );
 
-      expect(new HIR(spanning).toJSON()).toEqual(expected);
+      expect(new HIR(spanning).toJSON()).toMatchObject(expected);
     });
 
     test('from a zero-length document with annotations', () => {
@@ -137,7 +137,7 @@ describe('@atjson/hir', () => {
       // if the test is changed to expect this, the test will pass.
       // let expected = document(paragraph(), bold());
 
-      expect(new HIR(zeroLength).toJSON()).toEqual(expected);
+      expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
     });
 
     // n.b. this is deferred until annotations have rank assigned to them,
@@ -156,7 +156,7 @@ describe('@atjson/hir', () => {
 
       let expected = document(paragraph(bold()));
 
-      expect(new HIR(zeroLength).toJSON()).toEqual(expected);
+      expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
     });
 
     test('from a document with zero-length paragraphs', () => {
@@ -183,7 +183,7 @@ describe('@atjson/hir', () => {
         paragraph('Blue fish')
       );
 
-      expect(new HIR(zeroLength).toJSON()).toEqual(expected);
+      expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
     });
 
     test('from a document with a point annotation', () => {
@@ -213,7 +213,7 @@ describe('@atjson/hir', () => {
         paragraph('Blue fish')
       );
 
-      expect(new HIR(zeroLength).toJSON()).toEqual(expected);
+      expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
     });
   });
 
@@ -253,6 +253,6 @@ describe('@atjson/hir', () => {
       })
     );
 
-    expect(hir).toEqual(expected);
+    expect(hir).toMatchObject(expected);
   });
 });
