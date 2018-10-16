@@ -31,6 +31,7 @@ describe('graphviz', () => {
     let doc = new TestSource({
       content: 'Hello, world',
       annotations: [{
+        id: '1',
         type: '-test-bold',
         start: 0,
         end: 5,
@@ -54,16 +55,19 @@ describe('graphviz', () => {
     let doc = new TestSource({
       content: 'The best writing anywhere, everywhere.',
       annotations: [{
+        id: '1',
         type: '-test-italic',
         start: 4,
         end: 8,
         attributes: {}
       }, {
+        id: '2',
         type: '-test-bold',
         start: 17,
         end: 25,
         attributes: {}
       }, {
+        id: '3',
         type: '-test-link',
         start: 0,
         end: 38,
@@ -84,6 +88,7 @@ describe('graphviz', () => {
       let doc = new TestSource({
         content: 'Hello, world',
         annotations: [{
+          id: '1',
           type: '-test-bold',
           start: 0,
           end: 5,
