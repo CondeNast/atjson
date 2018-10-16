@@ -1,6 +1,5 @@
 import Annotation, { AnnotationConstructor } from './annotation';
 import { Block, Inline, Object, Parse, Unknown } from './annotations';
-import { Attribute, Attributes } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import AnnotationCollection from './collection';
 import Join from './join';
@@ -19,8 +18,6 @@ export {
   Annotation,
   AnnotationCollection,
   AnnotationConstructor,
-  Attribute,
-  Attributes,
   Block as BlockAnnotation,
   Change,
   Deletion,

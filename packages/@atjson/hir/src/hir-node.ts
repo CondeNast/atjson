@@ -1,4 +1,4 @@
-import Document, { Annotation, Attribute, JSON, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
 import { Root, Text } from './annotations';
 import HIR from './hir';
 
@@ -6,15 +6,7 @@ export interface Dictionary<T> {
   [key: string]: T | undefined;
 }
 
-export type HIRAttribute = string | number | boolean | null | HIRAttributeObject | HIRAttributeArray | HIR;
-export interface HIRAttributeObject extends Dictionary<HIRAttribute> {}
-export interface HIRAttributeArray extends Array<HIRAttribute> {}
-
-export interface HIRAttributes {
-  [key: string]: HIRAttribute;
-}
-
-function toHIR(attribute: Attribute): HIRAttribute {
+function toHIR(attribute: NonNullable<any>): any {
   if (Array.isArray(attribute)) {
     return attribute.map(attr => {
       let result = toHIR(attr);
@@ -25,7 +17,7 @@ function toHIR(attribute: Attribute): HIRAttribute {
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+    return Object.keys(attribute).reduce((copy: NonNullable<any>, key: string) => {
       let value = attribute[key];
       if (value == null) {
         copy[key] = value;
@@ -39,7 +31,7 @@ function toHIR(attribute: Attribute): HIRAttribute {
   }
 }
 
-function toJSON(attribute: HIRAttribute): JSON {
+function toJSON(attribute: NonNullable<any>): JSON {
   if (Array.isArray(attribute)) {
     return attribute.map(attr => {
       let result = toJSON(attr);
@@ -50,7 +42,7 @@ function toJSON(attribute: HIRAttribute): JSON {
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: HIRAttributeObject, key: string) => {
+    return Object.keys(attribute).reduce((copy: NonNullable<any>, key: string) => {
       let value = attribute[key];
       if (value == null) {
         copy[key] = value;
@@ -68,7 +60,7 @@ export default class HIRNode {
 
   annotation: Annotation;
   id: string;
-  attributes: HIRAttributes;
+  attributes: NonNullable<any>;
   start: number;
   end: number;
 
@@ -88,7 +80,7 @@ export default class HIRNode {
     this.id = annotation.id;
     this.start = annotation.start;
     this.end = annotation.end;
-    this.attributes = toHIR(annotation.attributes) as HIRAttributes;
+    this.attributes = toHIR(annotation.attributes);
   }
 
   toJSON(): JSON {

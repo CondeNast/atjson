@@ -1,4 +1,4 @@
-import { Attributes, toJSON, unprefix } from './attributes';
+import { toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import Document from './index';
 import JSON from './json';
@@ -8,7 +8,7 @@ export interface AnnotationConstructor {
   vendorPrefix: string;
   type: string;
   subdocuments: { [key: string]: typeof Document };
-  new(attributes: { id: string, start: number, end: number, attributes: Attributes }): Annotation;
+  new(attributes: { id: string, start: number, end: number, attributes: NonNullable<any> }): Annotation;
   hydrate(attrs: { id: string, start: number, end: number, attributes: JSON }): Annotation;
 }
 
@@ -25,7 +25,7 @@ export default abstract class Annotation {
       id: attrs.id,
       start: attrs.start,
       end: attrs.end,
-      attributes: unprefix(this.vendorPrefix, this.subdocuments, attrs.attributes) as Attributes
+      attributes: unprefix(this.vendorPrefix, this.subdocuments, attrs.attributes)
     });
   }
 
@@ -34,9 +34,9 @@ export default abstract class Annotation {
   id: string;
   start: number;
   end: number;
-  attributes: Attributes;
+  attributes: NonNullable<any>;
 
-  constructor(attrs: { id: string, start: number, end: number, attributes: Attributes }) {
+  constructor(attrs: { id: string, start: number, end: number, attributes: NonNullable<any> }) {
     let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
     this.id = attrs.id;

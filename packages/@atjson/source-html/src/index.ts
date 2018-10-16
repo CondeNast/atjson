@@ -1,4 +1,4 @@
-import Document, { AnnotationJSON, Attributes } from '@atjson/document';
+import Document, { AnnotationJSON } from '@atjson/document';
 import * as parse5 from 'parse5/lib';
 import {
   Anchor,
@@ -44,14 +44,15 @@ function isText(node: parse5.AST.Default.Node) {
   return node.nodeName === '#text';
 }
 
-function getAttributes(node: parse5.AST.Default.Element): Attributes {
-  let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: parse5.AST.Default.Attribute) => {
+function getAttributes(node: parse5.AST.Default.Element): NonNullable<any> {
+  let attrs: NonNullable<any> = (node.attrs || []).reduce((attributes: NonNullable<any>, attr: parse5.AST.Default.Attribute) => {
     attributes[`-html-${attr.name}`] = attr.value;
     return attributes;
   }, {});
 
-  if (node.tagName === 'a' && typeof attrs['-html-href'] === 'string') {
-    attrs['-html-href'] = decodeURI(attrs['-html-href']);
+  let href = attrs['-html-href'];
+  if (node.tagName === 'a' && typeof href === 'string') {
+    attrs['-html-href'] = decodeURI(href);
   }
   return attrs;
 }
