@@ -1,4 +1,5 @@
 import { AnnotationJSON } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { GDocsStyleSlice } from './types';
 
 /*
@@ -43,6 +44,7 @@ export default function extractParagraphStyles(styles: GDocsStyleSlice[]): Annot
 
     if (style.ps_hd !== 0) {
       annotations.push({
+        id: uuid(),
         type: '-gdocs-ps_hd',
         start: lastParagraphStart,
         end: i,

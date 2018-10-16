@@ -18,6 +18,8 @@
   "dependencies": {
     "@atjson/document": "file:../document",
     "@atjson/schema": "file:../schema",
-    "parse5": "^4.0.0"
+    "@types/uuid": "^3.4.4",
+    "parse5": "^4.0.0",
+    "uuid": "^3.3.2"
   }
 }

@@ -1,4 +1,5 @@
 import { AnnotationJSON } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { GDocsStyleSlice } from './types';
 
 interface ParseState {
@@ -17,6 +18,7 @@ export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation
     // Handle subscript and superscript
     if (style.ts_va !== 'nor' && !state.ts_va) {
       state.ts_va = {
+        id: uuid(),
         type: '-gdocs-ts_va',
         attributes: {
           '-gdocs-va': style.ts_va
@@ -32,7 +34,13 @@ export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation
 
     for (let styleType of ['ts_bd', 'ts_it', 'ts_un', 'ts_st']) {
       if (style[styleType] === true && !state[styleType]) {
-        state[styleType] = { type: '-gdocs-' + styleType, start: i, end: -1, attributes: {} };
+        state[styleType] = {
+          id: uuid(),
+          type: '-gdocs-' + styleType,
+          start: i,
+          end: -1,
+          attributes: {}
+        };
       } else if (style[styleType] === false && style[styleType + '_i'] === false && state[styleType]) {
         state[styleType].end = i;
         annotations.push(state[styleType]);

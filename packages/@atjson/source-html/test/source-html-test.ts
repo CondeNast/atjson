@@ -6,7 +6,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromSource('<pre><code>this <b>is</b> a test</code></pre>');
     let hir = new HIR(doc).toJSON();
 
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -31,7 +31,7 @@ describe('@atjson/source-html', () => {
   test('<p>aaa<br />\nbbb</p>', () => {
     let doc = HTMLSource.fromSource('<p>aaa<br />\nbbb</p>');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -48,7 +48,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromSource('<a href="https://example.com">example</a>');
     let hir = new HIR(doc).toJSON();
 
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -64,7 +64,7 @@ describe('@atjson/source-html', () => {
   test('<img src="https://example.com/test.png" /> ', () => {
     let doc = HTMLSource.fromSource('<img src="https://example.com/test.png" /> ');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -80,7 +80,7 @@ describe('@atjson/source-html', () => {
   test('<h2></h2>\n<h1></h1>\n<h3></h3>', () => {
     let doc = HTMLSource.fromSource('<h2></h2>\n<h1></h1>\n<h3></h3>');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -102,7 +102,7 @@ describe('@atjson/source-html', () => {
   test('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
     let doc = HTMLSource.fromSource('<p><img src="/url" alt="Foo" title="title" /></p>');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -124,7 +124,7 @@ describe('@atjson/source-html', () => {
   test('<p>**<a href="**"></p>', () => {
     let doc = HTMLSource.fromSource('<p>**<a href="**"></p>');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{
@@ -143,7 +143,7 @@ describe('@atjson/source-html', () => {
   test('&lt;&gt;', () => {
     let doc = HTMLSource.fromSource('&lt;&gt;');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: ['<>']
@@ -153,7 +153,7 @@ describe('@atjson/source-html', () => {
   test('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA"></a>', () => {
     let doc = HTMLSource.fromSource('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA"></a>');
     let hir = new HIR(doc).toJSON();
-    expect(hir).toEqual({
+    expect(hir).toMatchObject({
       type: 'root',
       attributes: {},
       children: [{

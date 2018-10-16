@@ -2,6 +2,9 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
+    "@atjson/schema": "file:../schema",
+    "@atjson/source-commonmark": "file:../source-commonmark",
+    "@atjson/source-html": "file:../source-html",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.4",
     "@types/q": "^1.5.0",

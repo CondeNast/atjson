@@ -1,4 +1,5 @@
 import { AnnotationJSON } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { GDocsStyleSlice } from './types';
 
 export default function extractHorizontalRule(styles: GDocsStyleSlice[]): AnnotationJSON[] {
@@ -10,6 +11,7 @@ export default function extractHorizontalRule(styles: GDocsStyleSlice[]): Annota
     if (style === null) continue;
 
     annotations.push({
+      id: uuid(),
       type: '-gdocs-horizontal_rule',
       start: i,
       end: i + 1,
