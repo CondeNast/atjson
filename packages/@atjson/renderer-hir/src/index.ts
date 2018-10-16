@@ -35,7 +35,7 @@ function flatten(array: any[]): any[] {
 }
 
 function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, index?: number): any {
-  let annotation: Annotation = node.annotation.clone();
+  let annotation = node.annotation.clone();
   let children = node.children();
 
   // Add metadata to annotations for formats that require context
