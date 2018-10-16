@@ -90,8 +90,8 @@ export default class Join<Left extends string, Right extends string> {
     }
   }
 
-  toArray() {
-    return [...this];
+  get length() {
+    return this._joins.length;
   }
 
   toJSON(): JSONArray {
