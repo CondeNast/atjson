@@ -32,6 +32,7 @@
     "@atjson/document": "file:packages/@atjson/document",
     "@atjson/editor": "file:packages/@atjson/editor",
     "@atjson/hir": "file:packages/@atjson/hir",
+    "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",
     "@atjson/offset-core-components": "file:packages/@atjson/offset-core-components",
     "@atjson/offset-inspector": "file:packages/@atjson/offset-inspector",
     "@atjson/renderer-commonmark": "file:packages/@atjson/renderer-commonmark",
