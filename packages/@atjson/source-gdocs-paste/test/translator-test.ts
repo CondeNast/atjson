@@ -1,10 +1,10 @@
-import Document from '@atjson/document';
+import OffsetSource from '@atjson/offset-annotations';
 import * as fs from 'fs';
 import * as path from 'path';
 import GDocsSource from '../src';
 
 describe('@atjson/source-gdocs-paste', () => {
-  var atjson: Document;
+  var atjson: OffsetSource;
 
   beforeAll(() => {
     // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
@@ -46,7 +46,7 @@ describe('@atjson/source-gdocs-paste', () => {
   it('correctly converts bulleted lists', () => {
     let lists = atjson.annotations
       .filter(a => a.type === 'list')
-      .filter(a => a.attributes!.type === 'bulleted');
+      .filter(a => a.attributes.type === 'bulleted');
     expect(lists.length).toEqual(1);
   });
 
@@ -58,6 +58,6 @@ describe('@atjson/source-gdocs-paste', () => {
   it('correctly converts links', () => {
     let links = atjson.annotations.filter(a => a.type === 'link');
     expect(links.length).toEqual(1);
-    expect(links[0].attributes!.url).toEqual('https://www.google.com/');
+    expect(links[0].attributes.url).toEqual('https://www.google.com/');
   });
 });

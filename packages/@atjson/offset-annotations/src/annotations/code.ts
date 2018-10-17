@@ -5,7 +5,7 @@ export default class Code extends Annotation {
   static type = 'code';
   attributes!: {
     style: 'fence' | 'inline' | 'fence';
-    language: string;
+    info?: string;
   };
 
   get rank() {

@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/schema": "file:../schema",
     "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/schema": "file:../schema",
     "@types/uuid": "^3.4.4",
     "parse5": "^4.0.0",
     "uuid": "^3.3.2"

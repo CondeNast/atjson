@@ -28,9 +28,9 @@ Object.keys(unitTestsBySection).forEach(moduleName => {
 
       (shouldSkip ? test.skip : test)(unitTest.markdown, () => {
         let markdown = unitTest.markdown.replace(/→/g, '\t');
-        let original = new CommonMarkSource(markdown);
+        let original = CommonMarkSource.fromSource(markdown);
         let generatedMarkdown = renderer.render(original.toCommonSchema());
-        let output = new CommonMarkSource(generatedMarkdown);
+        let output = CommonMarkSource.fromSource(generatedMarkdown);
 
         // Assert that our internal representations (AtJSON) match
         let originalHIR = new HIR(original).toJSON();

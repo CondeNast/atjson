@@ -1,5 +1,5 @@
 import OffsetSource from '@atjson/offset-annotations'
-import { OrderedList } from './annotations';
+import { Image, OrderedList } from './annotations';
 import CommonMarkSource from './index';
 
 export default function(document: CommonMarkSource) {
@@ -44,12 +44,21 @@ export default function(document: CommonMarkSource) {
   doc.where({ type: '-html-sup' }).set({ type: '-offset-superscript' });
   doc.where({ type: '-html-u' }).set({ type: '-offset-underline' });
 
-  doc.where({ type: '-html-img' }).set({ type: '-offset-image' }).rename({
-    attributes: {
-      '-html-src': '-offset-url',
-      '-html-title': '-offset-title',
-      '-html-alt': '-offset-description'
-    }
+  doc.where({ type: '-html-img' }).update((image: Image) => {
+    doc.replaceAnnotation(image, {
+      id: image.id,
+      type: '-offset-image',
+      start: image.start,
+      end: image.end,
+      attributes: {
+        '-offset-url': image.attributes.src,
+        '-offset-title': image.attributes.title,
+        '-offset-description': {
+          content: image.attributes.alt,
+          annotations: []
+        }
+      }
+    });
   });
   return new OffsetSource(doc.toJSON());
 }

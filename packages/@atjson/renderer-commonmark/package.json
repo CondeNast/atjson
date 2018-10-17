@@ -16,11 +16,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/schema": "file:../schema",
     "@atjson/source-commonmark": "file:../source-commonmark"
   },
   "dependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/hir": "file:../hir"
+    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/renderer-hir": "file:../renderer-hir"
   }
 }

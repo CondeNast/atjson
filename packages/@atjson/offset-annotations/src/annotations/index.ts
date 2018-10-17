@@ -7,7 +7,7 @@ export { default as Heading } from './heading';
 export { default as HorizontalRule } from './horizontal-rule';
 export { default as HTML } from './html';
 export { default as IframeEmbed } from './iframe-embed';
-export { default as Image } from './image';
+export { default as Image, ImageDescriptionSource } from './image';
 export { default as InstagramEmbed } from './instagram-embed';
 export { default as Italic } from './italic';
 export { default as LineBreak } from './line-break';

@@ -26,6 +26,8 @@ import {
   YouTubeEmbed
 } from './annotations';
 
+export * from './annotations';
+
 export default class Offset extends Document {
   static contentType = 'application/vnd.atjson+offset';
   static schema = [

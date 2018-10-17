@@ -2,7 +2,6 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/schema": "file:../schema",
     "@atjson/source-commonmark": "file:../source-commonmark",
     "@atjson/source-html": "file:../source-html",
     "@types/jest": "^23.3.1",
@@ -10,6 +9,7 @@
     "@types/q": "^1.5.0",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
+    "@types/uuid": "^3.4.4",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
     "conventional-changelog-core": "^2.0.11",
@@ -25,7 +25,8 @@
     "tslint": "^5.11.0",
     "typedoc": "^0.12.0",
     "typedoc-plugin-monorepo": "^0.1.0",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "uuid": "^3.3.2"
   },
   "dependencies": {
     "@atjson/conventional-changelog-emoji": "file:packages/@atjson/conventional-changelog-emoji",
