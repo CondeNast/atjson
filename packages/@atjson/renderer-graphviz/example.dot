@@ -1,14 +1,14 @@
 digraph atjson{
   node [shape=record];
-  root1 [label="{root|{}}"];
-  link2 [label="{link|{\"url\":\"https://newyorker.com\"}}"];
-  text3 [label="{text|The }"];
-  italic4 [label="{italic|{}}"];
-  text5 [label="{text|best}"];
-  text6 [label="{text| writing }"];
-  bold7 [label="{bold|{}}"];
-  text8 [label="{text|anywhere}"];
-  text9 [label="{text|, everywhere.}"];
+  root1 [label="{root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  link2 [label="{link|{\"url\":\"https://newyorker.com\"}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  text3 [label="{text|The }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  italic4 [label="{italic|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  text5 [label="{text|best}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  text6 [label="{text| writing }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  bold7 [label="{bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  text8 [label="{text|anywhere}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  text9 [label="{text|, everywhere.}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
   link2 -> text3;
   italic4 -> text5;
   link2 -> italic4;

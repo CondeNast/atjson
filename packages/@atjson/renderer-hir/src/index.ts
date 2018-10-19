@@ -46,18 +46,10 @@ function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, index?:
 
   if (parent && index != null && index > 0) {
     annotation.previous = parent.children[index - 1];
-    if (annotation.previous == null ||
-        typeof annotation.previous === 'string') {
-      annotation.previous = null;
-    }
   }
 
   if (parent && index != null && index < parent.children.length) {
     annotation.next = parent.children[index + 1];
-    if (annotation.next == null ||
-        typeof annotation.next === 'string') {
-      annotation.next = null;
-    }
   }
 
   annotation.children = children.map(childNode => {

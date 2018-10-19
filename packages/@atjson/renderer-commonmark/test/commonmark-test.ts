@@ -13,7 +13,7 @@ describe('commonmark', () => {
     });
 
     let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('Some text that is both **bold _and_** *italic* plus something after.');
+    expect(renderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   test('images', () => {

@@ -6,6 +6,7 @@ export default class List extends BlockAnnotation {
   static type = 'list';
   attributes!: {
     type: string;
+    delimiter?: string;
     tight?: boolean;
     level?: number;
     startsAt?: number;

@@ -1,4 +1,5 @@
 import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { Root, Text } from './annotations';
 import HIR from './hir';
 
@@ -98,9 +99,13 @@ export default class HIRNode {
     };
   }
 
-  children(): HIRNode[] {
+  children(options?: { includeParseTokens: boolean }): HIRNode[] {
     if (this.child) {
-      return [this.child].concat(this.child.siblings()).filter(node => !(node.annotation instanceof ParseAnnotation));
+      let children = [this.child].concat(this.child.siblings());
+      if (!options || !options.includeParseTokens) {
+        children = children.filter(node => !(node.annotation instanceof ParseAnnotation));
+      }
+      return children;
     } else {
       return [];
     }
@@ -129,7 +134,7 @@ export default class HIRNode {
     if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
 
     let node = new HIRNode(new Text({
-      id: Date.now().toString(),
+      id: uuid(),
       start: this.start,
       end: this.end,
       attributes: { text }

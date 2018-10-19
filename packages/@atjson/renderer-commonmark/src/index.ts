@@ -272,7 +272,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     this.state = state;
 
-    if (html.attributes.type === 'block') {
+    if (html.attributes.style === 'block') {
       return text + '\n';
     }
     return text;

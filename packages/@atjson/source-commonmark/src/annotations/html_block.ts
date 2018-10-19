@@ -1,6 +1,6 @@
 import { BlockAnnotation } from '@atjson/document';
 
-export default class HTML extends BlockAnnotation {
+export default class BlockHTML extends BlockAnnotation {
   static vendorPrefix = 'commonmark';
-  static type = 'html';
+  static type = 'html_block';
 }

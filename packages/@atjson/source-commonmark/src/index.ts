@@ -3,7 +3,7 @@ import OffsetSource from '@atjson/offset-annotations';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 import { v4 as uuid } from 'uuid';
-import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTML, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
+import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
 
 export * from './annotations';
 
@@ -210,7 +210,7 @@ class Parser {
 
 export default class CommonMarkSource extends Document {
   static contentType = 'application/vnd.atjson+commonmark';
-  static schema = [Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTML, Image, Link, ListItem, OrderedList, Paragraph, Strong];
+  static schema = [Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong];
 
   static fromSource(markdown: string) {
     let md = this.markdownParser;
@@ -233,19 +233,36 @@ export default class CommonMarkSource extends Document {
   toCommonSchema(): Document {
     let doc = this.clone();
 
-    doc.where({ type: '-commonmark-bullet_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'bulleted' } });
+    doc.where({ type: '-commonmark-blockquote' }).set({ type: '-offset-blockquote' });
+    doc.where({ type: '-commonmark-bullet_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'bulleted' } }).rename({ attributes: { '-commonmark-tight': '-offset-tight' } });
     doc.where({ type: '-commonmark-code_block' }).set({ type: '-offset-code', attributes: { '-offset-style': 'block' } });
     doc.where({ type: '-commonmark-code_inline' }).set({ type: '-offset-code', attributes: { '-offset-style': 'inline' } });
     doc.where({ type: '-commonmark-em' }).set({ type: '-offset-italic' });
-    doc.where({ type: '-commonmark-fence' }).set({ type: '-offset-code', attributes: { '-offset-style': 'fence' } });
+    doc.where({ type: '-commonmark-fence' }).set({ type: '-offset-code', attributes: { '-offset-style': 'fence' } }).rename({ attributes: { '-commonmark-info': '-offset-info' }});
     doc.where({ type: '-commonmark-hardbreak' }).set({ type: '-offset-line-break' });
+    doc.where({ type: '-commonmark-heading' }).set({ type: '-offset-heading' }).rename({ attributes: { '-commonmark-level': '-offset-level' } });
     doc.where({ type: '-commonmark-hr' }).set({ type: '-offset-horizontal-rule' });
-    doc.where({ type: '-commonmark-html_block' }).set({ type: '-offset-html', attributes: { '-offset-type': 'block' } });
-    doc.where({ type: '-commonmark-html_inline' }).set({ type: '-offset-html', attributes: { '-offset-type': 'inline' } });
-    doc.where({ type: '-commonmark-image' }).set({ type: '-offset-image' }).rename({ attributes: { '-commonmark-src': '-offset-url', '-commonmark-alt': '-offset-description' } });
-    doc.where({ type: '-commonmark-link' }).rename({ attributes: { href: 'url' } });
+    doc.where({ type: '-commonmark-html_block' }).set({ type: '-offset-html', attributes: { '-offset-style': 'block' } });
+    doc.where({ type: '-commonmark-html_inline' }).set({ type: '-offset-html', attributes: { '-offset-style': 'inline' } });
+    doc.where({ type: '-commonmark-image' }).update((image: Image) => {
+      doc.replaceAnnotation(image, {
+        id: image.id,
+        type: '-offset-image',
+        start: image.start,
+        end: image.end,
+        attributes: {
+          '-offset-url': image.attributes.src,
+          '-offset-title': image.attributes.title,
+          '-offset-description': {
+            content: image.attributes.alt,
+            annotations: []
+          }
+        }
+      });
+    });
+    doc.where({ type: '-commonmark-link' }).set({ type: '-offset-link' }).rename({ attributes: { '-commonmark-href': '-offset-url', '-commonmark-title': '-offset-title' } });
     doc.where({ type: '-commonmark-list_item' }).set({ type: '-offset-list-item' });
-    doc.where({ type: '-commonmark-ordered_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } }).rename({ attributes: { '-commonmark-start': '-offset-startsAt' } });
+    doc.where({ type: '-commonmark-ordered_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } }).rename({ attributes: { '-commonmark-start': '-offset-startsAt', '-commonmark-tight': '-offset-tight' } });
     doc.where({ type: '-commonmark-paragraph' }).set({ type: '-offset-paragraph' });
     doc.where({ type: '-commonmark-strong' }).set({ type: '-offset-bold' });
 
