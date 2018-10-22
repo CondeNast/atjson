@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-graphviz",
-  "version": "0.9.0",
+  "version": "0.11.0",
   "description": "Render documents into graphs to help with debugging",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
