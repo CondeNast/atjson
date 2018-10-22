@@ -41,10 +41,10 @@ describe('graphviz', () => {
     let renderer = new GraphvizRenderer();
     expect(renderer.render(doc)).toBe(`digraph atjson{
   node [shape=oval];
-  root1 [label="root\\n{}"];
-  bold2 [label="bold\\n{}"];
-  text3 [label="text\\nHello"];
-  text4 [label="text\\n, world"];
+  root1 [label="root\\n{}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  bold2 [label="bold\\n{}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  text3 [label="text\\nHello" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  text4 [label="text\\n, world" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
   bold2 -> text3;
   root1 -> bold2;
   root1 -> text4;
@@ -99,10 +99,10 @@ describe('graphviz', () => {
       let renderer = new GraphvizRenderer();
       expect(renderer.render(doc, { shape })).toBe(`digraph atjson{
   node [shape=${shape}];
-  root1 [label="{root|{}}"];
-  bold2 [label="{bold|{}}"];
-  text3 [label="{text|Hello}"];
-  text4 [label="{text|, world}"];
+  root1 [label="{root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  bold2 [label="{bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  text3 [label="{text|Hello}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  text4 [label="{text|, world}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
   bold2 -> text3;
   root1 -> bold2;
   root1 -> text4;

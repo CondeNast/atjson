@@ -1,6 +1,6 @@
 import Document, { Annotation, InlineAnnotation } from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
-import HIRRenderer, { escapeHTML } from '../src/index';
+import { HIR, TextAnnotation } from '@atjson/hir';
+import HIRRenderer, { Context, escapeHTML } from '../src/index';
 
 class Bold extends InlineAnnotation {
   static vendorPrefix = 'test';
@@ -15,6 +15,17 @@ class Italic extends InlineAnnotation {
 class TestSource extends Document {
   static contentType = 'application/vnd.atjson+test';
   static schema = [Bold, Italic];
+}
+
+function text(t: string, start: number): Annotation {
+  return new TextAnnotation({
+    id: 'Any<id>',
+    start,
+    end: start + t.length,
+    attributes: {
+      text: t
+    }
+  });
 }
 
 describe('@atjson/renderer-hir', () => {
@@ -33,29 +44,23 @@ describe('@atjson/renderer-hir', () => {
     let boldAndItalic = bold.children()[1];
 
     let callStack = [{
-      annotation: root.annotation,
-      parent: null,
-      previous: null,
-      next: null,
-      children: ['This is ', bold.annotation, italic.annotation, ' text']
-    }, {
       annotation: bold.annotation,
       parent: root.annotation,
-      previous: null,
+      previous: text('This is ', 0),
       next: italic.annotation,
-      children: ['bold', boldAndItalic.annotation]
+      children: [text('bold', 8), boldAndItalic.annotation]
     }, {
       annotation: boldAndItalic.annotation,
       parent: bold.annotation,
-      previous: null,
+      previous: text('bold', 8),
       next: null,
-      children: [' and ']
+      children: [text(' and ', 12)]
     }, {
       annotation: italic.annotation,
       parent: root.annotation,
       previous: bold.annotation,
-      next: null,
-      children: ['italic']
+      next: text(' text', 23),
+      children: [text('italic', 17)]
     }];
 
     let textBuilder: string[] = [
@@ -66,33 +71,39 @@ describe('@atjson/renderer-hir', () => {
     ];
 
     class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(annotation: Annotation): IterableIterator<any> {
-        let expected = callStack.shift();
-        expect(annotation.toJSON()).toEqual(expected.annotation.toJSON());
+      *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
+        let expected = callStack.shift() as Context & { annotation: Annotation };
+        expect(annotation.toJSON()).toMatchObject(expected.annotation.toJSON());
 
-        if (annotation.parent) {
-          expect(annotation.parent.toJSON()).toEqual(expected.parent.toJSON());
+        if (parent) {
+          expect(context.parent.toJSON()).toMatchObject(expected.parent.toJSON());
         } else {
-          expect(annotation.parent).toBe(expected.parent);
+          expect(context.parent).toBe(expected.parent);
         }
 
-        if (annotation.previous) {
-          expect(annotation.previous.toJSON()).toEqual(expected.previous.toJSON());
+        if (context.previous != null && expected.previous != null) {
+          expect(context.previous.toJSON()).toMatchObject(expected.previous.toJSON());
         } else {
-          expect(annotation.previous).toBe(expected.previous);
+          expect(context.previous).toBe(expected.previous);
         }
 
-        if (annotation.next) {
-          expect(annotation.next.toJSON()).toEqual(expected.next.toJSON());
+        if (context.next != null && expected.next != null) {
+          expect(context.next.toJSON()).toMatchObject(expected.next.toJSON());
         } else {
-          expect(annotation.next).toBe(expected.next);
+          expect(context.next).toBe(expected.next);
         }
 
-        expect(annotation.children).toEqual(expected.children);
+        expect(context.children.map(a => a.toJSON())).toMatchObject(expected.children.map(a => a.toJSON()));
 
-        let text: string[] = yield;
-        expect(text.join('')).toEqual(textBuilder.shift());
-        return text.join('');
+        let rawText: string[] = yield;
+        expect(rawText.join('')).toEqual(textBuilder.shift());
+        return rawText.join('');
+      }
+
+      *root() {
+        let rawText: string[] = yield;
+        expect(rawText.join('')).toEqual(textBuilder.shift());
+        return rawText.join('');
       }
     }
 
@@ -107,12 +118,16 @@ describe('@atjson/renderer-hir', () => {
     });
 
     class ConcreteRenderer extends HIRRenderer {
-      text(text: string): string {
-        return escapeHTML(text);
+      text(t: string): string {
+        return escapeHTML(t);
+      }
+      *root(): IterableIterator<any> {
+        let rawText: string[] = yield;
+        return rawText.join('');
       }
       *renderAnnotation(): IterableIterator<any> {
-        let text: string[] = yield;
-        return text.join('');
+        let rawText: string[] = yield;
+        return rawText.join('');
       }
     }
 

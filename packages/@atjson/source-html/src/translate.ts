@@ -1,4 +1,4 @@
-import OffsetSource from '@atjson/offset-annotations'
+import OffsetSource from '@atjson/offset-annotations';
 import { Image, OrderedList } from './annotations';
 import CommonMarkSource from './index';
 

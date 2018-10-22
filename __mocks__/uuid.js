@@ -1,5 +1,5 @@
 module.exports = {
   v4() {
-    return '---';
+    return 'Any<id>';
   }
 };

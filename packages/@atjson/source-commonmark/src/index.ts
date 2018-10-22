@@ -3,7 +3,7 @@ import OffsetSource from '@atjson/offset-annotations';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 import { v4 as uuid } from 'uuid';
-import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
+import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, HTMLBlock, HTMLInline, Hardbreak, Heading, HorizontalRule, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
 
 export * from './annotations';
 

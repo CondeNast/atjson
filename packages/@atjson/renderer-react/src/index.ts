@@ -1,4 +1,4 @@
-import { HIRNode } from '@atjson/hir';
+import { Annotation } from '@atjson/document';
 import Renderer from '@atjson/renderer-hir';
 import * as React from 'react';
 
@@ -28,12 +28,12 @@ export default class ReactRenderer extends Renderer {
     delete this.componentLookup[type];
   }
 
-  *renderAnnotation(node: HIRNode): IterableIterator<React.Component | void> {
-    let AnnotationComponent = this.componentLookup[node.type];
+  *renderAnnotation(annotation: Annotation): IterableIterator<React.Component | void> {
+    let AnnotationComponent = this.componentLookup[annotation.type];
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
-        node.attributes,
+        annotation.attributes,
         ...yield
       );
     } else {

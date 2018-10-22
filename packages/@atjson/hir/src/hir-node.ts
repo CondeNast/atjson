@@ -274,9 +274,16 @@ export default class HIRNode {
       return this;
     }
 
-    let partial = new HIRNode(this.annotation.clone());
-    partial.start = Math.min(Math.max(partial.start, start), partial.end);
-    partial.end = Math.max(partial.start, Math.min(partial.end, end));
+    let slicedAnnotation = this.annotation.clone();
+    slicedAnnotation.start = Math.min(Math.max(slicedAnnotation.start, start), slicedAnnotation.end);
+    slicedAnnotation.end = Math.max(slicedAnnotation.start, Math.min(slicedAnnotation.end, end));
+    if (this.annotation instanceof Text) {
+      let text = slicedAnnotation.attributes.text;
+      slicedAnnotation.id = uuid();
+      slicedAnnotation.attributes.text = text.slice(slicedAnnotation.start - this.start, slicedAnnotation.end - this.start);
+    }
+
+    let partial = new HIRNode(slicedAnnotation);
 
     if (partial.start === partial.end) return;
 
@@ -285,12 +292,9 @@ export default class HIRNode {
     }
 
     // nb move to HIRTextNode
-    if (this.annotation instanceof Text) {
-      let text = this.annotation.attributes.text;
-      partial.annotation.attributes.text = text.slice(partial.start - this.start, partial.end - this.start);
-      if (partial.annotation.attributes.text === '\uFFFC') {
-        return;
-      }
+    if (this.annotation instanceof Text &&
+        partial.annotation.attributes.text === '\uFFFC') {
+      return;
     }
 
     return partial;

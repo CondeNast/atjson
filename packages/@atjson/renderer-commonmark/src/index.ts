@@ -1,5 +1,5 @@
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
-import Renderer from '@atjson/renderer-hir';
+import Renderer, { Context } from '@atjson/renderer-hir';
 
 export function* split(): Iterable<any> {
   let rawText = yield;
@@ -89,13 +89,12 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *'bold'(bold: Bold): Iterable<any> {
+  *'bold'(_bold: Bold, context: Context): Iterable<any> {
     let [before, text, after] = yield* split();
     if (text.length === 0) {
       return before + after;
     } else {
-      if (bold.parent && !bold.previous && !bold.next &&
-          bold.parent.type === 'italic') {
+      if (!context.previous && !context.next && context.parent instanceof Italic) {
         return `${before}__${text}__${after}`;
       }
       return `${before}**${text}**${after}`;
@@ -174,7 +173,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(italic: Italic): Iterable<any> {
+  *'italic'(_italic: Italic, context: Context): Iterable<any> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -187,9 +186,9 @@ export default class CommonmarkRenderer extends Renderer {
       return before + after;
     } else {
       let markup = state.isItalicized ? '_' : '*';
-      let hasWrappingBoldMarkup = italic.parent && !italic.previous && !italic.next && italic.parent.type === 'bold';
-      let hasAdjacentBoldMarkup = (italic.next && italic.next.type === 'bold' && after.length === 0) ||
-                                  (italic.previous && italic.previous.type === 'bold' && before.length === 0);
+      let hasWrappingBoldMarkup = !context.previous && !context.next && context.parent instanceof Bold;
+      let hasAdjacentBoldMarkup = (context.next instanceof Bold && after.length === 0) ||
+                                  (context.previous instanceof Bold && before.length === 0);
       if (hasWrappingBoldMarkup || hasAdjacentBoldMarkup) {
         markup = '_';
       }
@@ -225,7 +224,7 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(code: Code): Iterable<any> {
+  *'code'(code: Code, context: Context): Iterable<any> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -237,7 +236,7 @@ export default class CommonmarkRenderer extends Renderer {
       text = '\n' + text;
       let info = code.attributes.info || '';
       let newlines = '\n';
-      if (this.state.isList && code.next) {
+      if (this.state.isList && context.next) {
         newlines += '\n';
       }
 
@@ -323,7 +322,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'list'(list: List): Iterable<any> {
+  *'list'(list: List, context: Context): Iterable<any> {
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -331,22 +330,21 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     let delimiter = '';
+
     if (list.attributes.type === 'numbered') {
       delimiter = '.';
 
-      if (list.previous &&
-          list.previous.type === 'list' &&
-          list.previous.attributes.type === 'numbered' &&
-          list.previous.attributes.delimiter === '.') {
+      if (context.previous instanceof List &&
+          context.previous.attributes.type === 'numbered' &&
+          context.previous.attributes.delimiter === '.') {
         delimiter = ')';
       }
     } else if (list.attributes.type === 'bulleted') {
       delimiter = '-';
 
-      if (list.previous &&
-          list.previous.type === 'list' &&
-          list.previous.attributes.type === 'bulleted' &&
-          list.previous.attributes.delimiter === '-') {
+      if (context.previous instanceof List &&
+          context.previous.attributes.type === 'bulleted' &&
+          context.previous.attributes.delimiter === '-') {
         delimiter = '+';
       }
     }
@@ -355,9 +353,8 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
 
     // Handle indendation for code blocks that immediately follow a list.
-    let hasCodeBlockFollowing = list.next &&
-                                list.next.type === 'code' &&
-                                list.next.attributes.style === 'block';
+    let hasCodeBlockFollowing = context.next instanceof Code &&
+                                context.next.attributes.style === 'block';
     Object.assign(this.state, {
       isList: true,
       type: list.attributes.type,

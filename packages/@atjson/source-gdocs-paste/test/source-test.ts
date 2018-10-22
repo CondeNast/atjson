@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { VerticalAdjust } from '../src/annotations';
+import { GDocsPasteBuffer } from '../src/gdocs-parser';
 import GDocsSource from '../src/index';
 
 describe('@atjson/source-gdocs-paste', () => {
   describe('relatively complex document', () => {
-    let pasteBuffer;
+    let pasteBuffer: GDocsPasteBuffer;
 
     beforeAll(() => {
       // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing

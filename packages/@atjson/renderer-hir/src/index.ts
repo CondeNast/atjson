@@ -34,54 +34,55 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
-function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, index?: number): any {
-  let annotation = node.annotation.clone();
-  let children = node.children();
+export interface Context {
+  parent: Annotation;
+  previous: Annotation | null;
+  next: Annotation | null;
+  children: Annotation[];
+}
 
-  // Add metadata to annotations for formats that require context
-  // when rendering
-  annotation.parent = parent || null;
-  annotation.previous = null;
-  annotation.next = null;
+function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, previous?: Annotation, next?: Annotation): any {
+  let annotation = node.annotation;
+  let childNodes = node.children();
+  let childAnnotations = childNodes.map(childNode => childNode.annotation);
+  let generator;
 
-  if (parent && index != null && index > 0) {
-    annotation.previous = parent.children[index - 1];
+  if (parent == null) {
+    generator = renderer.root();
+  } else {
+    generator = renderer.renderAnnotation(annotation, {
+      parent,
+      previous: previous || null,
+      next: next || null,
+      children: childAnnotations
+    });
   }
 
-  if (parent && index != null && index < parent.children.length) {
-    annotation.next = parent.children[index + 1];
-  }
-
-  annotation.children = children.map(childNode => {
-    if (childNode.annotation instanceof TextAnnotation) {
-      return childNode.annotation.attributes.text;
-    } else {
-      return childNode.annotation;
-    }
-  });
-
-  let generator = renderer.renderAnnotation(annotation);
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  return generator.next(flatten(children.map((childNode: HIRNode, idx: number) => {
+  return generator.next(flatten(childNodes.map((childNode: HIRNode, idx: number) => {
     if (childNode.annotation instanceof TextAnnotation) {
       return renderer.text(childNode.annotation.attributes.text);
     } else {
-      return compile(renderer, childNode, annotation, idx);
+      return compile(renderer, childNode, annotation, childAnnotations[idx - 1], childAnnotations[idx + 1]);
     }
   }))).value;
 }
 
 export default class Renderer {
 
-  *renderAnnotation(annotation: Annotation): IterableIterator<any> {
+  *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
     if (generator) {
-      return yield* generator.call(this, annotation);
+      return yield* generator.call(this, annotation, context);
     }
+    return yield;
+  }
+
+  *root(): IterableIterator<any> {
     return yield;
   }
 

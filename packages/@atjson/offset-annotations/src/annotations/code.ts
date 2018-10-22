@@ -4,7 +4,7 @@ export default class Code extends Annotation {
   static vendorPrefix = 'offset';
   static type = 'code';
   attributes!: {
-    style: 'fence' | 'inline' | 'fence';
+    style: 'block' | 'inline' | 'fence';
     info?: string;
   };
 

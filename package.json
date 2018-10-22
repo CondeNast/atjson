@@ -2,8 +2,6 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/source-commonmark": "file:../source-commonmark",
-    "@atjson/source-html": "file:../source-html",
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.4",
     "@types/q": "^1.5.0",
@@ -42,7 +40,6 @@
     "@atjson/renderer-plain-text": "file:packages/@atjson/renderer-plain-text",
     "@atjson/renderer-react": "file:packages/@atjson/renderer-react",
     "@atjson/renderer-webcomponent": "file:packages/@atjson/renderer-webcomponent",
-    "@atjson/schema": "file:packages/@atjson/schema",
     "@atjson/source-commonmark": "file:packages/@atjson/source-commonmark",
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
     "@atjson/source-html": "file:packages/@atjson/source-html"
