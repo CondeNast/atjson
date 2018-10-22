@@ -1,5 +1,5 @@
-import Document from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
+import Document, { Annotation } from '@atjson/document';
+import { HIR, HIRNode, TextAnnotation } from '@atjson/hir';
 
 interface Mapping {
   [key: string]: string;
@@ -34,34 +34,59 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
-function compile(renderer: Renderer, node: HIRNode): any {
-  let generator = renderer.renderAnnotation(node);
+export interface Context {
+  parent: Annotation;
+  previous: Annotation | null;
+  next: Annotation | null;
+  children: Annotation[];
+}
+
+function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, previous?: Annotation, next?: Annotation): any {
+  let annotation = node.annotation;
+  let childNodes = node.children();
+  let childAnnotations = childNodes.map(childNode => childNode.annotation);
+  let generator;
+
+  if (parent == null) {
+    generator = renderer.root();
+  } else {
+    generator = renderer.renderAnnotation(annotation, {
+      parent,
+      previous: previous || null,
+      next: next || null,
+      children: childAnnotations
+    });
+  }
+
   let result = generator.next();
   if (result.done) {
     return result.value;
   }
 
-  let children = node.children();
-  return generator.next(flatten(children.map((childNode: HIRNode) => {
-    if (childNode.type === 'text' && typeof childNode.text === 'string') {
-      return renderer.renderText(childNode.text);
+  return generator.next(flatten(childNodes.map((childNode: HIRNode, idx: number) => {
+    if (childNode.annotation instanceof TextAnnotation) {
+      return renderer.text(childNode.annotation.attributes.text);
     } else {
-      return compile(renderer, childNode);
+      return compile(renderer, childNode, annotation, childAnnotations[idx - 1], childAnnotations[idx + 1]);
     }
   }))).value;
 }
 
 export default class Renderer {
 
-  *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
+  *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
     if (generator) {
-      return yield* generator.call(this, annotation.attributes);
+      return yield* generator.call(this, annotation, context);
     }
     return yield;
   }
 
-  renderText(text: string): string {
+  *root(): IterableIterator<any> {
+    return yield;
+  }
+
+  text(text: string): string {
     return text;
   }
 

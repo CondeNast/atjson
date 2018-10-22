@@ -7,12 +7,12 @@
     "@types/q": "^1.5.0",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
+    "@types/uuid": "^3.4.4",
     "commonmark": "^0.28.1",
     "commonmark-spec": "^0.28.0",
     "conventional-changelog-core": "^2.0.11",
-    "husky": "^1.0.0-rc.13",
     "jest": "^23.6.0",
-    "lerna": "3.2.1",
+    "lerna": "^3.4.3",
     "markdown-it": "^8.4.1",
     "parcel-bundler": "1.9.7",
     "react-dom": "^16.2.0",
@@ -20,15 +20,17 @@
     "ts-jest": "^23.1.4",
     "ts-loader": "^4.0.0",
     "tslint": "^5.11.0",
-    "typedoc": "^0.12.0",
+    "typedoc": "^0.13.0",
     "typedoc-plugin-monorepo": "^0.1.0",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "uuid": "^3.3.2"
   },
   "dependencies": {
     "@atjson/conventional-changelog-emoji": "file:packages/@atjson/conventional-changelog-emoji",
     "@atjson/document": "file:packages/@atjson/document",
     "@atjson/editor": "file:packages/@atjson/editor",
     "@atjson/hir": "file:packages/@atjson/hir",
+    "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",
     "@atjson/offset-core-components": "file:packages/@atjson/offset-core-components",
     "@atjson/offset-inspector": "file:packages/@atjson/offset-inspector",
     "@atjson/renderer-commonmark": "file:packages/@atjson/renderer-commonmark",
@@ -37,7 +39,6 @@
     "@atjson/renderer-plain-text": "file:packages/@atjson/renderer-plain-text",
     "@atjson/renderer-react": "file:packages/@atjson/renderer-react",
     "@atjson/renderer-webcomponent": "file:packages/@atjson/renderer-webcomponent",
-    "@atjson/schema": "file:packages/@atjson/schema",
     "@atjson/source-commonmark": "file:packages/@atjson/source-commonmark",
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
     "@atjson/source-html": "file:packages/@atjson/source-html"
@@ -51,11 +52,6 @@
   "workspaces": [
     "packages/@atjson/*"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lerna run build"
-    }
-  },
   "jest": {
     "moduleFileExtensions": [
       "ts",

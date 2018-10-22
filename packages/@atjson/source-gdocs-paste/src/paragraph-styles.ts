@@ -1,5 +1,5 @@
-import { Annotation } from '@atjson/document';
-import { Heading } from './schema';
+import { AnnotationJSON } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { GDocsStyleSlice } from './types';
 
 /*
@@ -33,9 +33,9 @@ import { GDocsStyleSlice } from './types';
  *   ps_sm: unknown
  *
  */
-export default function extractParagraphStyles(styles: GDocsStyleSlice[]): Annotation[] {
+export default function extractParagraphStyles(styles: GDocsStyleSlice[]): AnnotationJSON[] {
   let lastParagraphStart = 0;
-  let annotations: Heading[] = [];
+  let annotations: AnnotationJSON[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];
@@ -44,6 +44,7 @@ export default function extractParagraphStyles(styles: GDocsStyleSlice[]): Annot
 
     if (style.ps_hd !== 0) {
       annotations.push({
+        id: uuid(),
         type: '-gdocs-ps_hd',
         start: lastParagraphStart,
         end: i,

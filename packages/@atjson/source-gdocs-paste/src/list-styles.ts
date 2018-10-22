@@ -1,11 +1,11 @@
-import { Annotation } from '@atjson/document';
-import { List, ListItem } from './schema';
+import { AnnotationJSON } from '@atjson/document';
+import { v4 as uuid } from 'uuid';
 import { GDocsEntityMap, GDocsStyleSlice } from './types';
 
-export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: GDocsEntityMap): Annotation[] {
+export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: GDocsEntityMap): AnnotationJSON[] {
   let lastParagraphStart = 0;
-  let listAnnotations: { [key: string]: List } = {};
-  let listItems: ListItem[] = [];
+  let listAnnotations: { [key: string]: AnnotationJSON } = {};
+  let listItems: AnnotationJSON[] = [];
 
   for (let i = 0; i < lists.length; i++) {
     let list = lists[i];
@@ -18,6 +18,7 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
 
     if (!listAnnotations[list.ls_id]) {
       listAnnotations[list.ls_id] = {
+        id: uuid(),
         type: '-gdocs-list',
         start: lastParagraphStart,
         end: i,
@@ -33,7 +34,8 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
     }
 
     listItems.push({
-      type: '-gdocs-list-item',
+      id: uuid(),
+      type: '-gdocs-list_item',
       start: lastParagraphStart,
       end: i,
       attributes: {
@@ -45,7 +47,7 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
     lastParagraphStart = i + 1;
   }
 
-  let annotations: Annotation[] = listItems;
+  let annotations: AnnotationJSON[] = listItems;
   for (let listAnnotation in listAnnotations) {
     annotations.push(listAnnotations[listAnnotation]);
   }

@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/document';
+import { AnnotationJSON } from '@atjson/document';
 
 import { GDocsEntityMap, GDocsStyleSlice } from './types';
 
@@ -8,12 +8,12 @@ import extractListStyles from './list-styles';
 import extractParagraphStyles from './paragraph-styles';
 import extractTextStyles from './text-styles';
 
-export interface GDocsSource {
+export interface GDocsPasteBuffer {
   [key: string]: any;
 }
 
 export interface Transforms {
-  [key: string]: (styles: GDocsStyleSlice[], entityMap: GDocsEntityMap) => Annotation[];
+  [key: string]: (styles: GDocsStyleSlice[], entityMap: GDocsEntityMap) => AnnotationJSON[];
 }
 
 export default class GDocsParser {
@@ -26,9 +26,9 @@ export default class GDocsParser {
     link: extractLinkStyles
   };
 
-  gdocsSource: GDocsSource;
+  gdocsSource: GDocsPasteBuffer;
 
-  constructor(source: GDocsSource) {
+  constructor(source: GDocsPasteBuffer) {
     this.gdocsSource = source;
   }
 
@@ -36,7 +36,7 @@ export default class GDocsParser {
     return this.gdocsSource.resolved.dsl_spacers;
   }
 
-  getAnnotations(): Annotation[] {
+  getAnnotations(): AnnotationJSON[] {
     const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
     const transforms = GDocsParser.transforms;
     const entityMap: GDocsEntityMap = this.gdocsSource.resolved.dsl_entitymap;
@@ -51,6 +51,6 @@ export default class GDocsParser {
       return null;
     });
 
-    return [].concat.apply([], annotations).filter((a: Annotation | null) => a != null);
+    return [].concat.apply([], annotations).filter((a: AnnotationJSON | null) => a != null);
   }
 }

@@ -1,10 +1,11 @@
-import Document, { Annotation, Schema } from '@atjson/document';
-import schema from '@atjson/schema';
+import Document, { AnnotationJSON } from '@atjson/document';
+import OffsetSource from '@atjson/offset-annotations';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
-import markdownSchema from './schema';
+import { v4 as uuid } from 'uuid';
+import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, HTMLBlock, HTMLInline, Hardbreak, Heading, HorizontalRule, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
 
-export { default as schema } from './schema';
+export * from './annotations';
 
 interface Attributes {
   [key: string]: string | number | boolean | null;
@@ -12,7 +13,7 @@ interface Attributes {
 
 function getAttributes(token: MarkdownIt.Token): Attributes {
   return (token.attrs || []).reduce((attributes: Attributes, attribute: string[]) => {
-    attributes[attribute[0]] = attribute[1];
+    attributes[`-commonmark-${attribute[0]}`] = attribute[1];
     return attributes;
   }, {});
 }
@@ -115,7 +116,7 @@ function getText(node: Node): Node[] {
 
 class Parser {
   content: string;
-  annotations: Annotation[];
+  annotations: AnnotationJSON[];
   private handlers: any;
 
   constructor(tokens: MarkdownIt.Token[], handlers: any) {
@@ -151,7 +152,7 @@ class Parser {
             return items.children.filter(child => child.name === 'paragraph')
                                  .some(child => !!(child.open && child.open.hidden));
           });
-          attrs.tight = isTight;
+          attrs['-commonmark-tight'] = isTight;
         }
         let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, attrs);
         annotationGenerator.next();
@@ -165,12 +166,13 @@ class Parser {
     let start = this.content.length;
     this.content += '\uFFFC';
     this.annotations.push({
-      type: 'parse-token',
-      attributes: {
-        type: `${name}_open`
-      },
+      id: uuid(),
+      type: '-atjson-parse-token',
       start,
-      end: start + 1
+      end: start + 1,
+      attributes: {
+        '-atjson-reason': `${name}_open`
+      }
     });
     yield;
 
@@ -179,79 +181,91 @@ class Parser {
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs);
     if (name === 'heading') {
-      attributes.level = parseInt(open.tag[1], 10);
+      attributes['-commonmark-level'] = parseInt(open.tag[1], 10);
     }
     if (name === 'fence') {
-      attributes.info = entities.decodeHTML5(open.info.trim());
+      attributes['-commonmark-info'] = entities.decodeHTML5(open.info.trim());
     }
 
     if (this.handlers[name]) {
       Object.assign(attributes, this.handlers[name](open));
     }
     this.annotations.push({
-      type: 'parse-token',
-      attributes: {
-        type: `${name}_close`
-      },
+      id: uuid(),
+      type: '-atjson-parse-token',
       start: end - 1,
-      end
+      end,
+      attributes: {
+        '-atjson-reason': `${name}_close`
+      }
     }, {
-      type: name,
-      attributes,
+      id: uuid(),
+      type: `-commonmark-${name}`,
       start,
-      end
+      end,
+      attributes
     });
   }
 }
 
 export default class CommonMarkSource extends Document {
+  static contentType = 'application/vnd.atjson+commonmark';
+  static schema = [Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong];
 
-  constructor(markdown: string) {
-    super({
-      content: '',
-      contentType: 'text/commonmark',
-      annotations: [],
-      schema: markdownSchema as Schema
+  static fromSource(markdown: string) {
+    let md = this.markdownParser;
+    let parser = new Parser(md.parse(markdown, { linkify: false }), this.contentHandlers);
+
+    return new this({
+      content: parser.content,
+      annotations: parser.annotations
     });
-
-    let md = this.markdownParser();
-    let parser = new Parser(md.parse(markdown, { linkify: false }), this.contentHandlers());
-
-    this.content = parser.content;
-    this.addAnnotations(...parser.annotations);
   }
 
-  markdownParser() {
+  static get markdownParser() {
     return MarkdownIt('commonmark');
   }
 
-  contentHandlers() {
+  static get contentHandlers() {
     return {};
   }
 
   toCommonSchema(): Document {
-    let doc = new Document({
-      content: this.content,
-      contentType: 'text/atjson',
-      annotations: [...this.annotations],
-      schema: schema as Schema
+    let doc = this.clone();
+
+    doc.where({ type: '-commonmark-blockquote' }).set({ type: '-offset-blockquote' });
+    doc.where({ type: '-commonmark-bullet_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'bulleted' } }).rename({ attributes: { '-commonmark-tight': '-offset-tight' } });
+    doc.where({ type: '-commonmark-code_block' }).set({ type: '-offset-code', attributes: { '-offset-style': 'block' } });
+    doc.where({ type: '-commonmark-code_inline' }).set({ type: '-offset-code', attributes: { '-offset-style': 'inline' } });
+    doc.where({ type: '-commonmark-em' }).set({ type: '-offset-italic' });
+    doc.where({ type: '-commonmark-fence' }).set({ type: '-offset-code', attributes: { '-offset-style': 'fence' } }).rename({ attributes: { '-commonmark-info': '-offset-info' }});
+    doc.where({ type: '-commonmark-hardbreak' }).set({ type: '-offset-line-break' });
+    doc.where({ type: '-commonmark-heading' }).set({ type: '-offset-heading' }).rename({ attributes: { '-commonmark-level': '-offset-level' } });
+    doc.where({ type: '-commonmark-hr' }).set({ type: '-offset-horizontal-rule' });
+    doc.where({ type: '-commonmark-html_block' }).set({ type: '-offset-html', attributes: { '-offset-style': 'block' } });
+    doc.where({ type: '-commonmark-html_inline' }).set({ type: '-offset-html', attributes: { '-offset-style': 'inline' } });
+    doc.where({ type: '-commonmark-image' }).update((image: Image) => {
+      doc.replaceAnnotation(image, {
+        id: image.id,
+        type: '-offset-image',
+        start: image.start,
+        end: image.end,
+        attributes: {
+          '-offset-url': image.attributes.src,
+          '-offset-title': image.attributes.title,
+          '-offset-description': {
+            content: image.attributes.alt,
+            annotations: []
+          }
+        }
+      });
     });
+    doc.where({ type: '-commonmark-link' }).set({ type: '-offset-link' }).rename({ attributes: { '-commonmark-href': '-offset-url', '-commonmark-title': '-offset-title' } });
+    doc.where({ type: '-commonmark-list_item' }).set({ type: '-offset-list-item' });
+    doc.where({ type: '-commonmark-ordered_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } }).rename({ attributes: { '-commonmark-start': '-offset-startsAt', '-commonmark-tight': '-offset-tight' } });
+    doc.where({ type: '-commonmark-paragraph' }).set({ type: '-offset-paragraph' });
+    doc.where({ type: '-commonmark-strong' }).set({ type: '-offset-bold' });
 
-    doc.where({ type: 'bullet_list' }).set({ type: 'list', attributes: { type: 'bulleted' } });
-    doc.where({ type: 'code_block' }).set({ type: 'code', display: 'block', attributes: { style: 'block' } });
-    doc.where({ type: 'code_inline' }).set({ type: 'code', display: 'inline', attributes: { style: 'inline' } });
-    doc.where({ type: 'em' }).set({ type: 'italic' });
-    doc.where({ type: 'fence' }).set({ type: 'code', display: 'block', attributes: { style: 'fence' } });
-    doc.where({ type: 'hardbreak' }).set({ type: 'line-break' });
-    doc.where({ type: 'hr' }).set({ type: 'horizontal-rule' });
-    doc.where({ type: 'html_block' }).set({ type: 'html', display: 'block', attributes: { type: 'block' } });
-    doc.where({ type: 'html_inline' }).set({ type: 'html', display: 'inline', attributes: { type: 'inline' } });
-    doc.where({ type: 'image' }).set({ type: 'image' }).rename({ attributes: { src: 'url', alt: 'description' } });
-    doc.where({ type: 'link' }).rename({ attributes: { href: 'url' } });
-    doc.where({ type: 'list_item' }).set({ type: 'list-item' });
-    doc.where({ type: 'ordered_list' }).set({ type: 'list', attributes: { type: 'numbered' } }).rename({ attributes: { start: 'startsAt' } });
-    doc.where({ type: 'strong' }).set({ type: 'bold' });
-
-    return doc;
+    return new OffsetSource(doc.toJSON());
   }
 }

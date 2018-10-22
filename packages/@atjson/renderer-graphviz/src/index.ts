@@ -1,24 +1,46 @@
-import Document from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
 interface Node {
   id: string;
   label: string;
+  color: string;
   text: string;
 }
 
+function getColor(annotation: Annotation) {
+  if (annotation.rank === -Infinity) {
+    return 'style=filled fillcolor="#000000" fontcolor="#FFFFFF"';
+  } else if (annotation.rank <= 0) {
+    return 'style=filled fillcolor="#222222" fontcolor="#FFFFFF"';
+  } else if (annotation.rank <= 10) {
+    return 'style=filled fillcolor="#444444" fontcolor="#FFFFFF"';
+  } else if (annotation.rank <= 50) {
+    return 'style=filled fillcolor="#666666" fontcolor="#FFFFFF"';
+  } else if (annotation.rank <= 100) {
+    return 'style=filled fillcolor="#888888" fontcolor="#FFFFFF"';
+  } else if (annotation.rank <= 1000) {
+    return 'style=filled fillcolor="#AAAAAA" fontcolor="#000000"';
+  } else if (annotation.rank <= Number.MAX_SAFE_INTEGER) {
+    return 'style=filled fillcolor="#CCCCCC" fontcolor="#000000"';
+  } else {
+    return 'style=filled fillcolor="#FFFFFF" fontcolor="#000000"';
+  }
+}
+
 function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node[]): Node {
-  let children = hirNode.children();
+  let children = hirNode.children({ includeParseTokens: true });
   let text = hirNode.type;
-  if (hirNode.type === 'text' && hirNode.text != null) {
-    text = hirNode.text;
+  if (hirNode.type === 'text' && hirNode.attributes.text != null) {
+    text = hirNode.annotation.attributes.text;
   } else {
     text = JSON.stringify(hirNode.attributes);
   }
 
   let node = {
-    id: `${hirNode.type}${nodes.length + 1}`,
+    id: `${hirNode.type.replace('-', '_')}${nodes.length + 1}`,
     label: hirNode.type,
+    color: getColor(hirNode.annotation),
     text
   };
   nodes.push(node);
@@ -42,10 +64,10 @@ export default class GraphvizRenderer {
 
     let dot: string;
     if (options.shape === 'record' || options.shape === 'Mrecord') {
-      dot = nodes.map(node => `  ${node.id} [label="{${node.label}|${node.text.replace(/"/g, '\\"')}}"];`).join('\n') + '\n' +
+      dot = nodes.map(node => `  ${node.id} [label="{${node.label}|${node.text.replace(/"/g, '\\"')}}" ${node.color}];`).join('\n') + '\n' +
             edges.map(([parent, child]) => `  ${parent.id} -> ${child.id};`).join('\n');
     } else {
-      dot = nodes.map(node => `  ${node.id} [label="${node.label}\\n${node.text.replace(/"/g, '\\"')}"];`).join('\n') + '\n' +
+      dot = nodes.map(node => `  ${node.id} [label="${node.label}\\n${node.text.replace(/"/g, '\\"')}" ${node.color}];`).join('\n') + '\n' +
             edges.map(([parent, child]) => `  ${parent.id} -> ${child.id};`).join('\n');
     }
 

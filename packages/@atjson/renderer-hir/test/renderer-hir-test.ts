@@ -1,25 +1,67 @@
-import Document from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
-import HIRRenderer, { escapeHTML } from '../src';
+import Document, { Annotation, InlineAnnotation } from '@atjson/document';
+import { HIR, TextAnnotation } from '@atjson/hir';
+import HIRRenderer, { Context, escapeHTML } from '../src/index';
+
+class Bold extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'bold';
+}
+
+class Italic extends InlineAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'italic';
+}
+
+class TestSource extends Document {
+  static contentType = 'application/vnd.atjson+test';
+  static schema = [Bold, Italic];
+}
+
+function text(t: string, start: number): Annotation {
+  return new TextAnnotation({
+    id: 'Any<id>',
+    start,
+    end: start + t.length,
+    attributes: {
+      text: t
+    }
+  });
+}
 
 describe('@atjson/renderer-hir', () => {
   it('defines an abstract rendering interface', () => {
-    let atjson = new Document({
+    let atjson = new TestSource({
       content: 'This is bold and italic text',
       annotations: [{
-        type: 'bold', start: 8, end: 17
+        id: '1', type: '-test-bold', start: 8, end: 17, attributes: {}
       }, {
-        type: 'italic', start: 12, end: 23
+        id: '2', type: '-test-italic', start: 12, end: 23, attributes: {}
       }]
     });
 
     let root = new HIR(atjson).rootNode;
-    let callStack = [
-      root,
-      root.children()[1],
-      root.children()[1].children()[1],
-      root.children()[2]
-    ];
+    let [, bold, italic] = root.children();
+    let boldAndItalic = bold.children()[1];
+
+    let callStack = [{
+      annotation: bold.annotation,
+      parent: root.annotation,
+      previous: text('This is ', 0),
+      next: italic.annotation,
+      children: [text('bold', 8), boldAndItalic.annotation]
+    }, {
+      annotation: boldAndItalic.annotation,
+      parent: bold.annotation,
+      previous: text('bold', 8),
+      next: null,
+      children: [text(' and ', 12)]
+    }, {
+      annotation: italic.annotation,
+      parent: root.annotation,
+      previous: bold.annotation,
+      next: text(' text', 23),
+      children: [text('italic', 17)]
+    }];
 
     let textBuilder: string[] = [
       ' and ',
@@ -29,12 +71,39 @@ describe('@atjson/renderer-hir', () => {
     ];
 
     class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(annotation: HIRNode): IterableIterator<any> {
-        expect(annotation).toEqual(callStack.shift());
+      *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
+        let expected = callStack.shift() as Context & { annotation: Annotation };
+        expect(annotation.toJSON()).toMatchObject(expected.annotation.toJSON());
 
-        let text: string[] = yield;
-        expect(text.join('')).toEqual(textBuilder.shift());
-        return text.join('');
+        if (parent) {
+          expect(context.parent.toJSON()).toMatchObject(expected.parent.toJSON());
+        } else {
+          expect(context.parent).toBe(expected.parent);
+        }
+
+        if (context.previous != null && expected.previous != null) {
+          expect(context.previous.toJSON()).toMatchObject(expected.previous.toJSON());
+        } else {
+          expect(context.previous).toBe(expected.previous);
+        }
+
+        if (context.next != null && expected.next != null) {
+          expect(context.next.toJSON()).toMatchObject(expected.next.toJSON());
+        } else {
+          expect(context.next).toBe(expected.next);
+        }
+
+        expect(context.children.map(a => a.toJSON())).toMatchObject(expected.children.map(a => a.toJSON()));
+
+        let rawText: string[] = yield;
+        expect(rawText.join('')).toEqual(textBuilder.shift());
+        return rawText.join('');
+      }
+
+      *root() {
+        let rawText: string[] = yield;
+        expect(rawText.join('')).toEqual(textBuilder.shift());
+        return rawText.join('');
       }
     }
 
@@ -43,17 +112,22 @@ describe('@atjson/renderer-hir', () => {
   });
 
   it('escapes HTML entities in text', () => {
-    let atjson = new Document({
-      content: `This <html-element with="param" and-another='param'> should render as plain text`
+    let atjson = new TestSource({
+      content: `This <html-element with="param" and-another='param'> should render as plain text`,
+      annotations: []
     });
 
     class ConcreteRenderer extends HIRRenderer {
-      renderText(text: string): string {
-        return escapeHTML(text);
+      text(t: string): string {
+        return escapeHTML(t);
+      }
+      *root(): IterableIterator<any> {
+        let rawText: string[] = yield;
+        return rawText.join('');
       }
       *renderAnnotation(): IterableIterator<any> {
-        let text: string[] = yield;
-        return text.join('');
+        let rawText: string[] = yield;
+        return rawText.join('');
       }
     }
 

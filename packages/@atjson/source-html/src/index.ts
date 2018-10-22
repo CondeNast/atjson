@@ -1,9 +1,35 @@
-import Document, { Annotation, Schema } from '@atjson/document';
-import * as parse5 from 'parse5';
-import schema from './schema';
-import HTMLSchemaTranslator from './translator';
-
-export { schema };
+import Document, { AnnotationJSON } from '@atjson/document';
+import * as parse5 from 'parse5/lib';
+import { v4 as uuid } from 'uuid';
+import {
+  Anchor,
+  Blockquote,
+  Bold,
+  Break,
+  Code,
+  DeletedText,
+  Emphasis,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+  HorizontalRule,
+  Image,
+  Italic,
+  ListItem,
+  OrderedList,
+  Paragraph,
+  PreformattedText,
+  Strikethrough,
+  Strong,
+  Subscript,
+  Superscript,
+  Underline,
+  UnorderedList
+} from './annotations';
+import translate from './translate';
 
 function isElement(node: parse5.AST.Default.Node) {
   return node.nodeName !== undefined &&
@@ -19,18 +45,15 @@ function isText(node: parse5.AST.Default.Node) {
   return node.nodeName === '#text';
 }
 
-interface Attributes {
-  [key: string]: string;
-}
-
-function getAttributes(node: parse5.AST.Default.Element): Attributes {
-  let attrs: Attributes = (node.attrs || []).reduce((attributes: Attributes, attr: parse5.AST.Default.Attribute) => {
-    attributes[attr.name] = attr.value;
+function getAttributes(node: parse5.AST.Default.Element): NonNullable<any> {
+  let attrs: NonNullable<any> = (node.attrs || []).reduce((attributes: NonNullable<any>, attr: parse5.AST.Default.Attribute) => {
+    attributes[`-html-${attr.name}`] = attr.value;
     return attributes;
   }, {});
 
-  if (node.tagName === 'a' && attrs.href) {
-    attrs.href = decodeURI(attrs.href);
+  let href = attrs['-html-href'];
+  if (node.tagName === 'a' && typeof href === 'string') {
+    attrs['-html-href'] = decodeURI(href);
   }
   return attrs;
 }
@@ -39,7 +62,7 @@ class Parser {
 
   content: string;
 
-  annotations: Annotation[];
+  annotations: AnnotationJSON[];
 
   private html: string;
 
@@ -87,9 +110,11 @@ class Parser {
     if (location == null) return -1;
 
     let { startOffset: start, endOffset: end } = location[which];
+    let reason = which === 'startTag' ? `<${node.tagName}>` : `</${node.tagName}>`;
     this.annotations.push({
-      type: 'parse-token',
-      attributes: { tagName: node.tagName },
+      id: uuid(),
+      type: '-atjson-parse-token',
+      attributes: { '-atjson-reason': reason },
       start: start - this.offset,
       end: end - this.offset
     });
@@ -112,6 +137,7 @@ class Parser {
       yield;
 
       this.annotations.push({
+        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
@@ -126,6 +152,7 @@ class Parser {
       yield;
 
       this.annotations.push({
+        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
@@ -138,11 +165,13 @@ class Parser {
 
       this.content += this.html.slice(location.startOffset, location.endOffset);
       this.annotations.push({
-        type: 'parse-token',
-        attributes: { tagName },
+        id: uuid(),
+        type: '-atjson-parse-token',
+        attributes: { '-atjson-reason': `<${tagName}/>` },
         start,
         end
       }, {
+        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
@@ -155,18 +184,44 @@ class Parser {
 }
 
 export default class HTMLSource extends Document {
-
-  constructor(content: string) {
-    let parser = new Parser(content);
-    super({
+  static contentType = 'appplication/vnd.atjson+html';
+  static schema = [
+    Anchor,
+    Bold,
+    Blockquote,
+    Break,
+    Code,
+    DeletedText,
+    Emphasis,
+    Heading1,
+    Heading2,
+    Heading3,
+    Heading4,
+    Heading5,
+    Heading6,
+    HorizontalRule,
+    Italic,
+    Image,
+    ListItem,
+    OrderedList,
+    Paragraph,
+    PreformattedText,
+    Strikethrough,
+    Strong,
+    Subscript,
+    Superscript,
+    Underline,
+    UnorderedList
+  ];
+  static fromSource(html: string) {
+    let parser = new Parser(html);
+    return new this({
       content: parser.content,
-      contentType: 'text/html',
-      annotations: parser.annotations,
-      schema: schema as Schema
+      annotations: parser.annotations
     });
   }
 
   toCommonSchema(): Document {
-    return new HTMLSchemaTranslator(this).translate();
+    return translate(this);
   }
 }

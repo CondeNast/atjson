@@ -17,7 +17,8 @@ before_script:
 
 script:
   - npx lerna run lint
-  - npx jest --no-cache --coverage
+  - npx lerna run build
+  - npx jest --no-cache --coverage --maxWorkers=4
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

@@ -1,5 +1,6 @@
 import Document from '@atjson/document';
 import Renderer from '@atjson/renderer-hir';
+import { BulletList, OrderedList } from '../src';
 
 class PlainTextRenderer extends Renderer {
 
@@ -12,16 +13,16 @@ class PlainTextRenderer extends Renderer {
   *hardbreak() {
     return '\n';
   }
-  *bullet_list({ tight }: { tight: boolean }) {
+  *bullet_list(list: BulletList) {
     let wasTight = this.tight;
-    this.tight = tight;
+    this.tight = list.attributes.tight;
     let text = yield;
     this.tight = wasTight;
     return text;
   }
-  *ordered_list({ tight }: { tight: boolean }) {
+  *ordered_list(list: OrderedList) {
     let wasTight = this.tight;
-    this.tight = tight;
+    this.tight = list.attributes.tight;
     let text = yield;
     this.tight = wasTight;
     return text;
