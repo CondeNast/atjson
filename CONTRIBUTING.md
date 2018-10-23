@@ -19,11 +19,10 @@ nvm install
 
 (If you already have the version of Node.js specified in _.nvmrc_  installed, `nvm use` can be issued instead.)
 
-Now install the dependencies and bootstrap the packages :sparkles:
+Now install the dependencies :sparkles:
 
 ```bash
-npm install
-lerna bootstrap
+npm ci
 ```
 
 And run the tests: :woman_scientist:
