@@ -1,8 +1,5 @@
-export default class OffsetBoldElement {
+import Component, { define } from '../component';
 
-  static annotationName = 'bold';
-
-  static elementRenderer(): Element {
-    return document.createElement('strong');
-  }
-}
+export default define('offset-bold', class Bold extends Component {
+  static template = '<strong><slot></slot></strong>';
+});

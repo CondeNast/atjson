@@ -1,8 +1,5 @@
-export default class OffsetBlockquoteElement {
+import Component, { define } from '../component';
 
-  static annotationName = 'blockquote';
-
-  static elementRenderer(): Element {
-    return document.createElement('blockquote');
-  }
-}
+export default define('offset-blockquote', class Blockquote extends Component {
+  static template = '<blockquote><slot></slot></blockquote>';
+});

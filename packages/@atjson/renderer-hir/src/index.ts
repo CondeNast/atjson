@@ -86,7 +86,7 @@ export default class Renderer {
     return yield;
   }
 
-  text(text: string): string {
+  text(text: string): any {
     return text;
   }
 

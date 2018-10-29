@@ -114,7 +114,7 @@ class TextInput extends EventComponent {
       this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: '\u2028' } }));
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         bubbles: true,
-        detail: { type: 'line-break', start, end: end + 1 }
+        detail: { type: '-offset-line-break', start, end: end + 1 }
       }));
       break;
 
@@ -205,14 +205,14 @@ class TextInput extends EventComponent {
     case 'formatBold':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         bubbles: true,
-        detail: { start, end, type: 'bold' }
+        detail: { start, end, type: '-offset-bold' }
       }));
       break;
 
     case 'formatItalic':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         bubbles: true,
-        detail: { start, end, type: 'italic' }
+        detail: { start, end, type: '-offset-italic' }
       }));
       break;
 

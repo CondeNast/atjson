@@ -35,7 +35,10 @@ export default class OffsetEditor extends EventComponent {
 
   constructor() {
     super();
-    this.document = new Document('');
+    this.document = new Document({
+      content: '',
+      annotations: []
+    });
     this.selection = { start: 0, end: 0 };
   }
 
@@ -58,14 +61,14 @@ export default class OffsetEditor extends EventComponent {
   render(editor: Element | null) {
     if (!editor) return;
 
-    let rendered = new WebComponentRenderer(this.document).render();
+    let rendered = new WebComponentRenderer().render(this.document);
 
     // This can be improved by doing the comparison on an element-by-element
     // basis (or by rendering incrementally via the HIR), but for now this will
     // prevent flickering of OS UI elements (e.g., spell check) while typing
     // characters that don't result in changes outside of text elements.
     if (rendered.innerHTML !== editor.innerHTML) {
-      editor.innerHTML = rendered.innerHTML;
+      editor.replaceWith(rendered);
 
       if (this.selection) {
         let textSelection: TextSelection | null = this.querySelector('text-selection');
@@ -79,16 +82,7 @@ export default class OffsetEditor extends EventComponent {
 
   setDocument(value: Document) {
     this.document = value;
-
-    // n.b., would be good to have a way to query for existence of id on
-    // annotation (or to make ids required globally)
-    this.document.where({}).update(a => {
-      if (a.id == null) {
-        // this is not safe.
-        a.id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-      }
-    });
-
+    this.render(this.querySelector('.editor'));
     this.document.addEventListener('change', (() => this.scheduleRender() ));
   }
 
