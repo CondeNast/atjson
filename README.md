@@ -21,9 +21,10 @@ The breakdown of modules in this repository are:
 | [@atjson/renderer-react](packages/@atjson/renderer-react) | React output |
 | [@atjson/renderer-commonmark](packages/@atjson/renderer-commonmark) | CommonMark output |
 | [@atjson/source-commonmark](packages/@atjson/source-commonmark) | Conversion of CommonMark sources to AtJSON |
-| [@atjson/source-html](packages/@atjson/source-html) | Conversion of HTML sources to AtJSON |
 | [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste) | A source used to transform Google Docs Paste buffers into AtJSON |
-| [@atjson/source-mobiledoce](packages/@atjson/source-mobiledoc) | A source used to transform Mobiledoc into AtJSON |
+| [@atjson/source-html](packages/@atjson/source-html) | Conversion of HTML sources to AtJSON |
+| [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc) | A source used to transform Mobiledoc into AtJSON |
+| [@atjson/source-url](packages/@atjson/source-url) | Turn URLs into rich embeds |
 
 
 #### Why another content format?
