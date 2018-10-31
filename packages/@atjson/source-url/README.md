@@ -20,6 +20,10 @@ A rough outline of what would be necessary to turn a pasted URL into a rich embe
 2. A renderer to export the AtJSON document into a format understood by the editor
 3. A bit of glue to turn the pasted text into the rich version of that text.
 
+<summary>
+The block of code (hidden) below gives a rough outline of how to organize and put together the necessary code to get paste working for CKEditor.
+<details>
+
 ```js
 import URLSource from '@atjson/source-url';
 import Renderer from '@atjson/renderer-hir';
@@ -58,6 +62,9 @@ editor.on('paste', function (evt) {
   evt.data.dataValue = renderer.render(richPaste.toCommonSchema());
 });
 ```
+
+</details>
+</summary>
 
 ## 💁‍♀️ Supported embeds
 
