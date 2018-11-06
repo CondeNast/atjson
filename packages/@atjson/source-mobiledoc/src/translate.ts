@@ -1,8 +1,7 @@
 import OffsetSource from '@atjson/offset-annotations';
-import { Image, OrderedList } from './annotations';
-import CommonMarkSource from './index';
+import MobileDocSource from './index';
 
-export default function(document: CommonMarkSource) {
+export default function(document: MobileDocSource) {
   let doc = document.clone();
 
   doc.where({ type: '-mobiledoc-a' }).set({ type: '-offset-link' }).rename({ attributes: { '-mobiledoc-href': '-offset-url' } });
@@ -21,18 +20,7 @@ export default function(document: CommonMarkSource) {
   doc.where({ type: '-mobiledoc-hr' }).set({ type: '-offset-horizontal-rule' });
 
   doc.where({ type: '-mobiledoc-ul' }).set({ type: '-offset-list', attributes: { '-offset-type': 'bulleted' } });
-  doc.where({ type: '-mobiledoc-ol' }).update((list: OrderedList) => {
-    doc.replaceAnnotation(list, {
-      id: list.id,
-      type: '-offset-list',
-      start: list.start,
-      end: list.end,
-      attributes: {
-        '-offset-type': 'numbered',
-        '-offset-startsAt': parseInt(list.attributes.starts || '0', 10)
-      }
-    });
-  });
+  doc.where({ type: '-mobiledoc-ol' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } });
   doc.where({ type: '-mobiledoc-li' }).set({ type: '-offset-list-item' });
 
   doc.where({ type: '-mobiledoc-em' }).set({ type: '-offset-italic' });
@@ -44,21 +32,7 @@ export default function(document: CommonMarkSource) {
   doc.where({ type: '-mobiledoc-sup' }).set({ type: '-offset-superscript' });
   doc.where({ type: '-mobiledoc-u' }).set({ type: '-offset-underline' });
 
-  doc.where({ type: '-mobiledoc-img' }).update((image: Image) => {
-    doc.replaceAnnotation(image, {
-      id: image.id,
-      type: '-offset-image',
-      start: image.start,
-      end: image.end,
-      attributes: {
-        '-offset-url': image.attributes.src,
-        '-offset-title': image.attributes.title,
-        '-offset-description': {
-          content: image.attributes.alt,
-          annotations: []
-        }
-      }
-    });
-  });
+  doc.where({ type: '-mobiledoc-img' }).set({ type: '-offset-image' }).rename({ attributes: { '-mobiledoc-src': '-offset-url' } });
+
   return new OffsetSource(doc.toJSON());
 }

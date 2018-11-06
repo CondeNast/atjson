@@ -1,9 +1,7 @@
 export { default as Anchor } from './anchor';
-export { default as Atom } from './atom';
 export { default as Aside } from './aside';
 export { default as Bold } from './bold';
 export { default as Blockquote } from './blockquote';
-export { default as Card } from './card';
 export { default as Code } from './code';
 export { default as Emphasis } from './emphasis';
 export { default as Heading1 } from './heading-1';
