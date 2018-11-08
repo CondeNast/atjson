@@ -34,7 +34,7 @@ export default class Parser {
   annotations: AnnotationJSON[];
   mobiledoc: MobileDoc;
 
-  private inProgressAnnotations: Partial<AnnotationJSON>[];
+  private inProgressAnnotations: Array<Partial<AnnotationJSON>>;
 
   constructor(mobiledoc: MobileDoc) {
     this.annotations = [];

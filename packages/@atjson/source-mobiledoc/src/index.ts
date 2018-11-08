@@ -2,8 +2,8 @@ import Document from '@atjson/document';
 import {
   Anchor,
   Aside,
-  Bold,
   Blockquote,
+  Bold,
   Code,
   Emphasis,
   Heading1,
@@ -12,8 +12,8 @@ import {
   Heading4,
   Heading5,
   Heading6,
-  Italic,
   Image,
+  Italic,
   ListItem,
   OrderedList,
   Paragraph,
@@ -23,8 +23,9 @@ import {
   Superscript,
   Underline,
   UnorderedList
-} from "./annotations";
-import Parser, { MobileDoc } from "./parser";
+} from './annotations';
+import Parser, { MobileDoc } from './parser';
+import translate from './translate';
 
 export default class MobileDocSource extends Document {
   static contentType = 'appplication/vnd.atjson+mobiledoc';
@@ -58,7 +59,11 @@ export default class MobileDocSource extends Document {
 
     return new this({
       content: result.content,
-      annotations: result.annotations,
+      annotations: result.annotations
     });
+  }
+
+  toCommonSchema(): Document {
+    return translate(this);
   }
 }
