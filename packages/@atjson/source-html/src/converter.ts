@@ -1,10 +1,8 @@
 import OffsetSource from '@atjson/offset-annotations';
 import { Image, OrderedList } from './annotations';
-import CommonMarkSource from './index';
+import HTMLSource from './source';
 
-export default function(document: CommonMarkSource) {
-  let doc = document.clone();
-
+HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-html-a' }).set({ type: '-offset-link' }).rename({ attributes: { '-html-href': '-offset-url' } });
 
   doc.where({ type: '-html-blockquote' }).set({ type: '-offset-blockquote' });
@@ -61,4 +59,4 @@ export default function(document: CommonMarkSource) {
     });
   });
   return new OffsetSource(doc.toJSON());
-}
+});

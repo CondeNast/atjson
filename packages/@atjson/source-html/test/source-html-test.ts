@@ -1,4 +1,5 @@
 import { HIR } from '@atjson/hir';
+import OffsetSource from '@atjson/offset-annotations';
 import HTMLSource from '../src';
 
 describe('@atjson/source-html', () => {
@@ -169,7 +170,7 @@ describe('@atjson/source-html', () => {
   describe('translator to common schema', () => {
     test('bold, strong', () => {
       let doc = HTMLSource.fromSource('This <b>text</b> is <strong>bold</strong>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -187,7 +188,7 @@ describe('@atjson/source-html', () => {
 
     test('i, em', () => {
       let doc = HTMLSource.fromSource('This <i>text</i> is <em>italic</em>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -205,7 +206,7 @@ describe('@atjson/source-html', () => {
 
     test('h1, h2, h3, h4, h5, h6', () => {
       let doc = HTMLSource.fromSource('<h1>Title</h1><h2>Byline</h2><h3>Section</h3><h4>Normal heading</h4><h5>Small heading</h5><h6>Tiny heading</h6>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -239,7 +240,7 @@ describe('@atjson/source-html', () => {
 
     test('p, br', () => {
       let doc = HTMLSource.fromSource('<p>This paragraph has a<br>line break</p>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -257,7 +258,7 @@ describe('@atjson/source-html', () => {
 
     test('a', () => {
       let doc = HTMLSource.fromSource('This <a href="https://condenast.com">is a link</a>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -273,7 +274,7 @@ describe('@atjson/source-html', () => {
 
     test('hr', () => {
       let doc = HTMLSource.fromSource('Horizontal <hr> rules!');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -287,7 +288,7 @@ describe('@atjson/source-html', () => {
 
     test('img', () => {
       let doc = HTMLSource.fromSource('<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86" title="Miles Davis & Andy Warhol">');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -311,7 +312,7 @@ describe('@atjson/source-html', () => {
 
     test('blockquote', () => {
       let doc = HTMLSource.fromSource('<blockquote>This is a quote</blockquote>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},
@@ -325,7 +326,7 @@ describe('@atjson/source-html', () => {
 
     test('ul, ol, li', () => {
       let doc = HTMLSource.fromSource('<ol starts="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
-      let hir = new HIR(doc.toCommonSchema()).toJSON();
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
         attributes: {},

@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import { HIR } from '@atjson/hir';
+import OffsetSource from '@atjson/offset-annotations';
 import CommonMarkSource from '@atjson/source-commonmark';
 import * as spec from 'commonmark-spec';
 import * as MarkdownIt from 'markdown-it';
@@ -29,7 +30,7 @@ Object.keys(unitTestsBySection).forEach(moduleName => {
       (shouldSkip ? test.skip : test)(unitTest.markdown, () => {
         let markdown = unitTest.markdown.replace(/→/g, '\t');
         let original = CommonMarkSource.fromSource(markdown);
-        let generatedMarkdown = renderer.render(original.toCommonSchema());
+        let generatedMarkdown = renderer.render(original.convertTo(OffsetSource));
         let output = CommonMarkSource.fromSource(generatedMarkdown);
 
         // Assert that our internal representations (AtJSON) match
