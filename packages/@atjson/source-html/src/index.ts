@@ -1,6 +1,5 @@
 import Document, { AnnotationJSON } from '@atjson/document';
 import * as parse5 from 'parse5/lib';
-import { v4 as uuid } from 'uuid';
 import {
   Anchor,
   Blockquote,
@@ -112,7 +111,6 @@ class Parser {
     let { startOffset: start, endOffset: end } = location[which];
     let reason = which === 'startTag' ? `<${node.tagName}>` : `</${node.tagName}>`;
     this.annotations.push({
-      id: uuid(),
       type: '-atjson-parse-token',
       attributes: { '-atjson-reason': reason },
       start: start - this.offset,
@@ -137,7 +135,6 @@ class Parser {
       yield;
 
       this.annotations.push({
-        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
@@ -152,7 +149,6 @@ class Parser {
       yield;
 
       this.annotations.push({
-        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
@@ -165,13 +161,11 @@ class Parser {
 
       this.content += this.html.slice(location.startOffset, location.endOffset);
       this.annotations.push({
-        id: uuid(),
         type: '-atjson-parse-token',
         attributes: { '-atjson-reason': `<${tagName}/>` },
         start,
         end
       }, {
-        id: uuid(),
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,

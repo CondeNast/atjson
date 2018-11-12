@@ -1,5 +1,4 @@
 import { AnnotationJSON } from '@atjson/document';
-import { v4 as uuid } from 'uuid';
 import { GDocsStyleSlice } from './types';
 
 export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): AnnotationJSON[] {
@@ -24,7 +23,6 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
     // If the linkStyles[i] entry is not null, then we have a new link starting here.
     if (link.lnks_link !== null) {
       currentLink = {
-        id: uuid(),
         type: '-gdocs-lnks_link',
         start: i,
         end: -1,

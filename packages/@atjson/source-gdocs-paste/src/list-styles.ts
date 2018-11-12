@@ -1,5 +1,4 @@
 import { AnnotationJSON } from '@atjson/document';
-import { v4 as uuid } from 'uuid';
 import { GDocsEntityMap, GDocsStyleSlice } from './types';
 
 export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: GDocsEntityMap): AnnotationJSON[] {
@@ -18,7 +17,6 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
 
     if (!listAnnotations[list.ls_id]) {
       listAnnotations[list.ls_id] = {
-        id: uuid(),
         type: '-gdocs-list',
         start: lastParagraphStart,
         end: i,
@@ -34,7 +32,6 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
     }
 
     listItems.push({
-      id: uuid(),
       type: '-gdocs-list_item',
       start: lastParagraphStart,
       end: i,

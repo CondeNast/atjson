@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import Document from './index';
@@ -8,8 +9,8 @@ export interface AnnotationConstructor {
   vendorPrefix: string;
   type: string;
   subdocuments: { [key: string]: typeof Document };
-  new(attributes: { id: string, start: number, end: number, attributes: NonNullable<any> }): Annotation;
-  hydrate(attrs: { id: string, start: number, end: number, attributes: JSON }): Annotation;
+  new(attributes: { id?: string, start: number, end: number, attributes: NonNullable<any> }): Annotation;
+  hydrate(attrs: { id?: string, start: number, end: number, attributes: JSON }): Annotation;
 }
 
 export default abstract class Annotation {
@@ -19,7 +20,7 @@ export default abstract class Annotation {
 
   static hydrate(
     this: AnnotationConstructor,
-    attrs: { id: string, start: number, end: number, attributes: JSON }
+    attrs: { id?: string, start: number, end: number, attributes: JSON }
   ) {
     return new this({
       id: attrs.id,
@@ -36,10 +37,10 @@ export default abstract class Annotation {
   end: number;
   attributes: NonNullable<any>;
 
-  constructor(attrs: { id: string, start: number, end: number, attributes: NonNullable<any> }) {
+  constructor(attrs: { id?: string, start: number, end: number, attributes: NonNullable<any> }) {
     let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
-    this.id = attrs.id;
+    this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
 

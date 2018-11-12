@@ -6,7 +6,7 @@ import Join from './join';
 import JSON from './json';
 
 export interface AnnotationJSON {
-  id: string;
+  id?: string;
   type: string;
   start: number;
   end: number;
