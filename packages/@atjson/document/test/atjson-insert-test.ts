@@ -14,13 +14,12 @@ describe('Document.insertText', () => {
   test('insert text before an annotation moves it forward', () => {
     let atjson = new TestSource({
       content: 'abcd',
-      annotations: [{
+      annotations: [new Bold({
         id: '1',
-        type: '-test-bold',
         start: 1,
         end: 3,
         attributes: {}
-      }, {
+      }), {
         id: '2',
         type: '-test-link',
         start: 1,
@@ -57,13 +56,12 @@ describe('Document.insertText', () => {
   test('insert text after an annotation doesn\'t affect it', () => {
     let atjson = new TestSource({
       content: 'abcd',
-      annotations: [{
+      annotations: [new Italic({
         id: '1',
-        type: '-test-italic',
         start: 0,
         end: 2,
         attributes: {}
-      }, {
+      }), {
         id: '2',
         type: '-test-color',
         start: 0,
@@ -99,13 +97,12 @@ describe('Document.insertText', () => {
   test('insert text inside an annotation adjusts the endpoint', () => {
     let atjson = new TestSource({
       content: 'abcd',
-      annotations: [{
+      annotations: [new Bold({
         id: '1',
-        type: '-test-bold',
         start: 1,
         end: 3,
         attributes: {}
-      }, {
+      }), {
         id: '2',
         type: '-test-underline',
         start: 1,

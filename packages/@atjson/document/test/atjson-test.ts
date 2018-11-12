@@ -11,26 +11,22 @@ describe('new Document', () => {
   test('constructor will set annotations', () => {
     expect(new TestSource({
       content: 'Hello World.',
-      annotations: [{
-        id: '1',
-        type: '-test-bold',
+      annotations: [new Bold({
         start: 0,
         end: 2,
         attributes: {}
-      }]
+      })]
     })).toBeDefined();
   });
 
   test('clone', () => {
     let document = new TestSource({
       content: 'Hello World.',
-      annotations: [{
-        id: '1',
-        type: '-test-bold',
+      annotations: [new Bold({
         start: 0,
         end: 2,
         attributes: {}
-      }]
+      })]
     });
     let clone = document.clone();
     let [bold] = document.annotations;
