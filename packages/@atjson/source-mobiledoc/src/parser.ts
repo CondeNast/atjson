@@ -132,13 +132,14 @@ export default class Parser {
           partial = this.processAtom(this.mobiledoc.atoms[textOrAtomIndex as number], offset);
         }
         item += partial;
-        offset += item.length;
+        offset += partial.length;
       });
+
       this.annotations.push({
         id: uuid(),
         type: '-mobiledoc-li',
         start: itemStart,
-        end: itemStart + offset,
+        end: offset,
         attributes: {}
       });
       listText += item;

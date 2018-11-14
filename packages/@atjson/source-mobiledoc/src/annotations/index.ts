@@ -15,6 +15,7 @@ export { default as Italic } from './italic';
 export { default as ListItem } from './list-item';
 export { default as OrderedList } from './ordered-list';
 export { default as Paragraph } from './paragraph';
+export { default as PullQuote } from './pull-quote';
 export { default as Strikethrough } from './strikethrough';
 export { default as Strong } from './strong';
 export { default as Subscript } from './subscript';

@@ -5,6 +5,8 @@ export default function(document: MobileDocSource) {
   let doc = document.clone();
 
   doc.where({ type: '-mobiledoc-a' }).set({ type: '-offset-link' }).rename({ attributes: { '-mobiledoc-href': '-offset-url' } });
+  doc.where({ type: '-mobiledoc-aside' }).set({ type: '-offset-pullquote' });
+  doc.where({ type: '-mobiledoc-pull-quote' }).set({ type: '-offset-pullquote' });
 
   doc.where({ type: '-mobiledoc-blockquote' }).set({ type: '-offset-blockquote' });
 
