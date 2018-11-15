@@ -1,5 +1,5 @@
 import Annotation, { AnnotationConstructor } from './annotation';
-import { Block, Inline, Object, Parse, Unknown } from './annotations';
+import { BlockAnnotation, InlineAnnotation, ObjectAnnotation, ParseAnnotation, UnknownAnnotation } from './annotations';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import AnnotationCollection from './collection';
 import Join from './join';
@@ -18,16 +18,16 @@ export {
   Annotation,
   AnnotationCollection,
   AnnotationConstructor,
-  Block as BlockAnnotation,
+  BlockAnnotation,
   Change,
   Deletion,
-  Inline as InlineAnnotation,
+  InlineAnnotation,
   Insertion,
   JSON,
-  Object as ObjectAnnotation,
+  ObjectAnnotation,
   Join,
-  Parse as ParseAnnotation,
-  Unknown as UnknownAnnotation
+  ParseAnnotation,
+  UnknownAnnotation
 };
 
 export default class Document {
@@ -43,10 +43,10 @@ export default class Document {
 
   constructor(options: { content: string, annotations: AnnotationJSON[] }) {
     let DocumentClass = this.constructor as typeof Document;
-    this.content = options.content;
     this.contentType = DocumentClass.contentType;
-    this.annotations = options.annotations.map(json => this.createAnnotation(json));
     this.changeListeners = [];
+    this.content = options.content;
+    this.annotations = options.annotations.map(annotation => this.createAnnotation(annotation));
   }
 
   /**
@@ -71,8 +71,8 @@ export default class Document {
    * acceptable, but side-affects created by queries will
    * not be called.
    */
-  addAnnotations(...annotations: AnnotationJSON[]): void {
-    this.annotations.push(...annotations.map(json => this.createAnnotation(json)));
+  addAnnotations(...annotations: Array<Annotation | AnnotationJSON>): void {
+    this.annotations.push(...annotations.map(annotation => this.createAnnotation(annotation)));
     this.triggerChange();
   }
 
@@ -108,12 +108,7 @@ export default class Document {
   replaceAnnotation(annotation: Annotation, ...newAnnotations: Array<AnnotationJSON | Annotation>): Annotation[] {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      let annotations = newAnnotations.map(newAnnotation => {
-        if (newAnnotation instanceof Annotation) {
-          return newAnnotation;
-        }
-        return this.createAnnotation(newAnnotation);
-      });
+      let annotations = newAnnotations.map(newAnnotation => this.createAnnotation(newAnnotation));
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -226,27 +221,44 @@ export default class Document {
     return new DocumentClass(this.toJSON());
   }
 
-  private createAnnotation(json: AnnotationJSON): Annotation {
+  private createAnnotation(annotation: Annotation | AnnotationJSON): Annotation {
     let DocumentClass = this.constructor as typeof Document;
-    let schema = [...DocumentClass.schema, Parse];
+    let schema = [...DocumentClass.schema, ParseAnnotation];
 
-    let ConcreteAnnotation = schema.find(AnnotationClass => {
-      let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
-      return json.type === fullyQualifiedType;
-    });
-
-    if (ConcreteAnnotation) {
-      return ConcreteAnnotation.hydrate(json);
+    if (annotation instanceof Annotation) {
+      let AnnotationClass = annotation.constructor as AnnotationConstructor;
+      if (schema.indexOf(AnnotationClass) === -1) {
+        let json = annotation.toJSON();
+        return new UnknownAnnotation({
+          id: json.id,
+          start: json.start,
+          end: json.end,
+          attributes: {
+            type: json.type,
+            attributes: json.attributes
+          }
+        });
+      }
+      return annotation;
     } else {
-      return new Unknown({
-        id: json.id,
-        start: json.start,
-        end: json.end,
-        attributes: {
-          type: json.type,
-          attributes: json.attributes
-        }
+      let ConcreteAnnotation = schema.find(AnnotationClass => {
+        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+        return annotation.type === fullyQualifiedType;
       });
+
+      if (ConcreteAnnotation) {
+        return ConcreteAnnotation.hydrate(annotation);
+      } else {
+        return new UnknownAnnotation({
+          id: annotation.id,
+          start: annotation.start,
+          end: annotation.end,
+          attributes: {
+            type: annotation.type,
+            attributes: annotation.attributes
+          }
+        });
+      }
     }
   }
 
