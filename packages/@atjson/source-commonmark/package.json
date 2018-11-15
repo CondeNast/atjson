@@ -20,10 +20,8 @@
     "@atjson/offset-annotations": "file:../offset-annotations",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
-    "@types/uuid": "^3.4.4",
     "entities": "^1.1.1",
-    "markdown-it": "^8.4.1",
-    "uuid": "^3.3.2"
+    "markdown-it": "^8.4.1"
   },
   "devDependencies": {
     "@atjson/source-html": "file:../source-html"

@@ -134,7 +134,6 @@ export default class HIRNode {
     if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
 
     let node = new HIRNode(new Text({
-      id: uuid(),
       start: this.start,
       end: this.end,
       attributes: { text }

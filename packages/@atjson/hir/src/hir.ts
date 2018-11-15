@@ -1,5 +1,4 @@
 import Document, { Annotation, JSON } from '@atjson/document';
-import { v4 as uuid } from 'uuid';
 import { Root } from './annotations';
 import HIRNode from './hir-node';
 
@@ -18,7 +17,6 @@ export default class HIR {
       });
 
     this.rootNode = new HIRNode(new Root({
-      id: uuid(),
       start: 0,
       end: document.content.length,
       attributes: {}

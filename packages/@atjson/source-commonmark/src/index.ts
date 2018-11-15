@@ -2,7 +2,6 @@ import Document, { AnnotationJSON } from '@atjson/document';
 import OffsetSource from '@atjson/offset-annotations';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
-import { v4 as uuid } from 'uuid';
 import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, HTMLBlock, HTMLInline, Hardbreak, Heading, HorizontalRule, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
 
 export * from './annotations';
@@ -166,7 +165,6 @@ class Parser {
     let start = this.content.length;
     this.content += '\uFFFC';
     this.annotations.push({
-      id: uuid(),
       type: '-atjson-parse-token',
       start,
       end: start + 1,
@@ -191,7 +189,6 @@ class Parser {
       Object.assign(attributes, this.handlers[name](open));
     }
     this.annotations.push({
-      id: uuid(),
       type: '-atjson-parse-token',
       start: end - 1,
       end,
@@ -199,7 +196,6 @@ class Parser {
         '-atjson-reason': `${name}_close`
       }
     }, {
-      id: uuid(),
       type: `-commonmark-${name}`,
       start,
       end,
