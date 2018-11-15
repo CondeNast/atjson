@@ -1,4 +1,4 @@
-import EventComponent from './mixins/events';
+import Component, { define } from '../component';
 
 /* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
@@ -55,12 +55,21 @@ function getTextNodes(node: Node): Text[] {
  * promise accuracy to the level of what is provided by the
  * fidelity of the web API that's available for use in the browser.
  */
-class TextInput extends EventComponent {
+export default define('offset-text-input', class TextInput extends Component {
+  static template = '<slot></slot>';
   static events = {
-    'beforeinput': 'beforeinput',
-    'compositionend': 'compositionend',
-    'change text-selection': 'setSelection',
-    'clear text-selection': 'clearSelection'
+    'beforeinput'(this: TextInput, evt: DOMInputEventLvl2) {
+      return this.beforeinput(evt);
+    },
+    'compositionend'(this: TextInput, evt: CompositionEvent) {
+      return this.compositionend(evt);
+    },
+    'change offset-text-selection'(this: TextInput, evt: CustomEvent) {
+      return this.setSelection(evt);
+    },
+    'clear offset-text-selection'(this: TextInput) {
+      return this.clearSelection();
+    }
   };
 
   private selection?: { start: number, end: number, collapsed: boolean } | null;
@@ -86,7 +95,6 @@ class TextInput extends EventComponent {
   }
 
   beforeinput(evt: DOMInputEventLvl2) {
-
     if (evt.isComposing) return;
 
     let start: number;
@@ -104,9 +112,9 @@ class TextInput extends EventComponent {
     switch (evt.inputType) {
     case 'insertText':
       if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
+        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, composed: true, detail: { position: start, text: evt.data } }));
       } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
+        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, composed: true, detail: { start, end, text: evt.data } }));
       }
       break;
 
@@ -122,9 +130,9 @@ class TextInput extends EventComponent {
       text = evt.dataTransfer.getData('text/plain');
 
       if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
+        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, composed: true, detail: { position: start, text } }));
       } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text } }));
+        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, composed: true, detail: { start, end, text } }));
       }
       break;
 
@@ -134,7 +142,7 @@ class TextInput extends EventComponent {
       target = evt.getTargetRanges()[0];
       start = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
 
-      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
+      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, composed: true, detail: { position: start, text } }));
 
       break;
 
@@ -144,6 +152,7 @@ class TextInput extends EventComponent {
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
         bubbles: true,
+        composed: true,
         detail: { start, end }
       }));
       break;
@@ -160,6 +169,7 @@ class TextInput extends EventComponent {
 
       this.dispatchEvent(new CustomEvent('deleteText', {
         bubbles: true,
+        composed: true,
         detail: { start: deletionStart, end: deletionEnd }
       }));
       break;
@@ -170,6 +180,7 @@ class TextInput extends EventComponent {
       }
       this.dispatchEvent(new CustomEvent('deleteText', {
         bubbles: true,
+        composed: true,
         detail: { start, end }
       }));
       break;
@@ -179,6 +190,7 @@ class TextInput extends EventComponent {
     case 'deleteByDrag':
       this.dispatchEvent(new CustomEvent('deleteText', {
         bubbles: true,
+        composed: true,
         detail: { start, end }
       }));
       break;
@@ -196,6 +208,7 @@ class TextInput extends EventComponent {
       evt.dataTransfer.items[0].getAsString((replString: string) => {
         this.dispatchEvent(new CustomEvent('replaceText', {
           bubbles: true,
+          composed: true,
           detail: { start: replaceStart, end: replaceEnd, text: replString }
         }));
       });
@@ -205,6 +218,7 @@ class TextInput extends EventComponent {
     case 'formatBold':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         bubbles: true,
+        composed: true,
         detail: { start, end, type: '-offset-bold' }
       }));
       break;
@@ -212,6 +226,7 @@ class TextInput extends EventComponent {
     case 'formatItalic':
       this.dispatchEvent(new CustomEvent('addAnnotation', {
         bubbles: true,
+        composed: true,
         detail: { start, end, type: '-offset-italic' }
       }));
       break;
@@ -224,6 +239,7 @@ class TextInput extends EventComponent {
       evt.preventDefault();
       this.dispatchEvent(new CustomEvent('insertText', {
         bubbles: true,
+        composed: true,
         detail: { position: start, text: '\n' }
       }));
       break;
@@ -295,8 +311,4 @@ class TextInput extends EventComponent {
     // console.debug('No matching node', { node: node, textNodes: textNodes });
     throw new Error('Did not find a matching node. Was matching against');
   }
-}
-
-customElements.define('text-input', TextInput);
-
-export default TextInput;
+});

@@ -1,6 +1,6 @@
-import WebComponent from './mixins/component';
+import Component, { define } from '../component';
 
-export default class SelectionToolbar extends WebComponent {
+export default define('offset-selection-toolbar', class SelectionToolbar extends Component {
   static template = ``;
 
   static style = `
@@ -10,7 +10,9 @@ export default class SelectionToolbar extends WebComponent {
   `;
 
   static events = {
-    selectionchange: 'onSelectionChange'
+    selectionchange(this: SelectionToolbar, evt: CustomEvent) {
+      return this.onSelectionChange(evt);
+    }
   };
 
   // Bubble down the selection change event so that the button can decide if it
@@ -23,8 +25,4 @@ export default class SelectionToolbar extends WebComponent {
       element.dispatchEvent(event);
     });
   }
-}
-
-if (!window.customElements.get('selection-toolbar')) {
-  window.customElements.define('selection-toolbar', SelectionToolbar);
-}
+});

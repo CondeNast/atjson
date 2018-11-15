@@ -11,22 +11,19 @@ class WebComponentRenderer extends Renderer {
     let story: HTMLElement = document.createElement('div');
     story.classList.add('editor');
     story.contentEditable = 'true';
-    story.setAttribute('style', 'white-space: pre-wrap');
     let children = yield;
-    (story as any).append(...children);
+    story.append(...children);
     return story;
   }
 
   *renderAnnotation(annotation: Annotation): IterableIterator<any> {
     let Constructor = annotation.constructor as AnnotationConstructor;
-    let Component = Constructor.component;
-    let element: HTMLElement = Component ? Component() :
-                  document.createElement(`${Constructor.vendorPrefix}-${annotation.type}`);
+    let element = document.createElement(`${Constructor.vendorPrefix}-${annotation.type}`);
     element.setAttribute('data-annotation-id', annotation.id);
     (element as any).annotation = annotation;
 
     let children = yield;
-    (element as any).append(...children);
+    element.append(...children);
     return element;
   }
 }

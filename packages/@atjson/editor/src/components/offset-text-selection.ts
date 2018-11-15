@@ -1,4 +1,4 @@
-import EventComponent from './mixins/events';
+import Component, { define } from '../component';
 
 const TEXT_NODE_TYPE = 3;
 const DOCUMENT_POSITION_PRECEDING = 2;
@@ -69,21 +69,29 @@ function previousTextNode(node: Node): TextRangePoint {
  * @emits CustomEvent#change - called when the text selection changes
  * @emits CustomEvent#clear - called when the text selecton is cleared
  */
-class TextSelection extends EventComponent {
-
+export default define('offset-text-selection', class TextSelection extends Component {
+  static template = `<div class="toolbar"><slot name="toolbar"></slot></div><slot></slot>`;
+  static style = `.toolbar { position: absolute; display: none; }`;
   static observedAttributes = ['start', 'end'];
   static events = {
-    'selectionchange document': 'selectedTextDidChange',
-    'compositionstart': 'startComposition',
-    'compositionend': 'endComposition',
-    'resumeinput': 'resumeInput'
+    'selectionchange document'(this: TextSelection) {
+      return this.selectedTextDidChange();
+    },
+    'compositionstart'(this: TextSelection) {
+      return this.startComposition();
+    },
+    'compositionend'(this: TextSelection) {
+      return this.endComposition();
+    },
+    'resumeinput'(this: TextSelection) {
+      return this.resumeInput();
+    }
   };
 
   composing: boolean;
   private _cursorToolbarResetTimeout: any;
 
   private textNodes: Text[];
-  private observer?: MutationObserver | null;
   private _focusNode?: Node | Text | null;
   private _previousRange?: any;
 
@@ -138,35 +146,6 @@ class TextSelection extends EventComponent {
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    let template = document.createElement('template');
-    template.innerHTML = '<style>.toolbar { position: absolute; display: none; }</style><div class="toolbar"><slot name="toolbar"></slot></div><slot></slot>';
-    shadowRoot.appendChild(template.content.cloneNode(true));
-
-    // Setup observers so when the underlying text changes,
-    // we update the text nodes that we want to map our selection from
-    this.observer = new MutationObserver(() => this.reset());
-    this.observer.observe(this, { childList: true, characterData: true, subtree: true });
-
-    this.reset();
-  }
-
-  reset() {
-    this.textNodes = getTextNodes(this);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-
-    if (this.observer) {
-      this.observer.disconnect();
-      this.observer = null;
-    }
-    this.textNodes = [];
-  }
-
   // Handle cursor focus/blur events for elements at a cursor position.
   handleCursorFocus(range: Range, selectionRange: Selection) {
 
@@ -175,7 +154,7 @@ class TextSelection extends EventComponent {
 
       // First, clear any existing focus. We do this first because in the next step, we reset it.
       if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range.start !== range.end)) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true, composed: true }));
         delete this._focusNode;
       }
 
@@ -189,7 +168,7 @@ class TextSelection extends EventComponent {
             // then fire a focus event for parents of this text node to pick up.
             this._focusNode = selectionRange.focusNode;
             this._previousRange = range;
-            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
+            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true, composed: true }));
           }
         } else {
 
@@ -227,7 +206,7 @@ class TextSelection extends EventComponent {
     if (this._previousRange) {
       this.setSelection(this._previousRange);
       if (this._focusNode) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true, composed: true }));
       }
     }
   }
@@ -308,12 +287,10 @@ class TextSelection extends EventComponent {
   private clearSelection() {
     this.removeAttribute('start');
     this.removeAttribute('end');
-    this.dispatchEvent(new CustomEvent('clear'));
+    this.dispatchEvent(new CustomEvent('clear', { bubbles: true, composed: true }));
   }
 
-  // @ts-ignore called from events
   private selectedTextDidChange() {
-
     if (this.composing) return;
 
     let selection = document.getSelection();
@@ -403,6 +380,8 @@ class TextSelection extends EventComponent {
       this.setAttribute('start', range.start.toString());
       this.setAttribute('end', range.end.toString());
       this.dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        composed: true,
         detail: {
           start: range.start,
           end: range.end,
@@ -415,8 +394,4 @@ class TextSelection extends EventComponent {
       throw new Error('This should not happen. This check is for typescript, but should never be triggered.');
     }
   }
-}
-
-customElements.define('text-selection', TextSelection);
-
-export default TextSelection;
+});

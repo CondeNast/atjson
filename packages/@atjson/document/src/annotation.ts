@@ -37,14 +37,40 @@ export default abstract class Annotation {
   end: number;
   attributes: NonNullable<any>;
 
-  constructor(attrs: { id?: string, start: number, end: number, attributes: NonNullable<any> }) {
+  constructor(attrs: { id?: string, start: number, end: number, attributes?: NonNullable<any> }) {
     let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
 
-    this.attributes = attrs.attributes;
+    this.attributes = attrs.attributes || {};
+  }
+
+  isInside(annotation: Annotation): boolean;
+  isInside(start: number, end: number): boolean;
+  isInside(start: Annotation | number, end?: number): boolean {
+    if (start instanceof Annotation) {
+      return start.id !== this.id &&
+             this.isInside(start.start, start.end);
+    } else if (end != null) {
+      return this.start <= start &&
+             this.end <= end;
+    }
+    return false;
+  }
+
+  isOverlapping(annotation: Annotation): boolean;
+  isOverlapping(start: number, end: number): boolean;
+  isOverlapping(start: Annotation | number, end?: number): boolean {
+    if (start instanceof Annotation) {
+      return start.id !== this.id &&
+             this.isOverlapping(start.start, start.end);
+    } else if (end != null) {
+      return (this.start <= start && this.end >= start) ||
+             (this.start <= end   && this.end >= end);
+    }
+    return false;
   }
 
   /**

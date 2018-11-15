@@ -14,7 +14,6 @@ describe('new Document', () => {
       annotations: [new Bold({
         start: 0,
         end: 2,
-        attributes: {}
       })]
     })).toBeDefined();
   });

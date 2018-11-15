@@ -1,31 +1,39 @@
-export type EventCallback = (evt: Event) => boolean;
-
-export interface EventHandlerDefinitions {
-  [key: string]: string | EventCallback;
-}
-
-export interface EventHandlerReferences {
-  [key: string]: EventCallback;
-}
-
 function getEventNameAndElement(element: HTMLElement, definition: string) {
   let [eventName, ...selectors] = definition.split(' ');
   let selector = selectors.join(' ');
   if (selector === 'document') {
-    return { eventName, element: document };
+    return {
+      eventName,
+      element: document
+    };
   } else if (selector === 'window') {
-    return { eventName, element: window };
+    return {
+      eventName,
+      element: window
+    };
   } else if (selector === '') {
-    return { eventName, element };
+    return {
+      eventName,
+      element
+    };
   } else {
-    let querySelector;
-    if (element.shadowRoot) {
-      querySelector = element.shadowRoot.querySelector(selector) || element.querySelector(selector);
-    } else {
-      querySelector = element.querySelector(selector);
-    }
-    return { eventName, element: querySelector };
+    return {
+      eventName,
+      element: element.shadowRoot!.querySelector(selector) ||
+               element.querySelector(selector)
+    };
   }
+}
+
+export interface TemplateElement extends HTMLElement {
+  content: Node;
+}
+
+export function define<CustomElement extends typeof HTMLElement>(name: string, component: CustomElement) {
+  if (!window.customElements.get(name)) {
+    window.customElements.define(name, component);
+  }
+  return component;
 }
 
 /**
@@ -55,37 +63,56 @@ function getEventNameAndElement(element: HTMLElement, definition: string) {
  * resizing, and selection events without using `addEventListener` /
  * `removeEventListener`.
  */
-export default class EventComponent extends HTMLElement {
-  static events: EventHandlerDefinitions | null;
-  private eventHandlers: EventHandlerReferences;
+export default class WebComponent extends HTMLElement {
+  static events: {
+    [key: string]: (evt: any) => any;
+  } | null;
+  static template: string;
+  static style: string | null;
+  private static compiledElement: TemplateElement;
 
-  [key: string]: any;
+  private static get compiledTemplate(): TemplateElement {
+    if (!this.compiledElement) {
+      this.compiledElement = document.createElement('template');
+      let scopedStyles = this.style;
+      let html = this.template;
+      if (scopedStyles) {
+        html = `<style>${scopedStyles}</style>${html}`;
+      }
+      this.compiledElement.innerHTML = html;
+    }
+    return this.compiledElement;
+  }
+
+  private eventHandlers: {
+    [key: string]: (evt: Event | CustomEvent<any>) => boolean;
+  };
 
   constructor() {
     super();
     this.eventHandlers = {};
+    let ComponentClass = this.constructor as typeof WebComponent;
+    let shadowRoot = this.attachShadow({ mode: 'open' });
+    shadowRoot.appendChild(ComponentClass.compiledTemplate.content.cloneNode(true));
   }
 
   connectedCallback() {
-    let ComponentClass = this.constructor as typeof EventComponent;
-    let events: EventHandlerDefinitions = ComponentClass.events || {};
+    let ComponentClass = this.constructor as typeof WebComponent;
+    let events = ComponentClass.events || {};
     Object.keys(events).forEach((definition: string) => {
       let { eventName, element } = getEventNameAndElement(this, definition);
       let method = events[definition];
       this.eventHandlers[definition] = (evt): boolean | never => {
-        if (typeof method === 'string') {
-          const eventHandler: (event: Event) => boolean | never = this[method];
-          if (eventHandler instanceof Function) {
-            return eventHandler.call(this, evt);
-          } else {
-            throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
-          }
-        } else {
-          return method.call(this, evt);
-        }
+        console.log(`🐞 ${definition} on <${this.tagName}> called with`, evt);
+        return method.call(this, evt);
       };
       element.addEventListener(eventName, this.eventHandlers[definition]);
     });
+  }
+
+  dispatchEvent(evt: CustomEvent) {
+    console.log(`🐞 dispatch event from <${this.tagName}> with`, evt);
+    return super.dispatchEvent(evt);
   }
 
   disconnectedCallback() {
