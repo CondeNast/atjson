@@ -9,7 +9,7 @@ export type Section = [1, string, Marker[]];
 export type ImageSection = [2, string];
 export type ListSection = [3, string, Marker[][]];
 export type CardSection = [10, number];
-export interface MobileDoc {
+export interface Mobiledoc {
   version: string;
   markups: Markup[];
   atoms: Atom[];

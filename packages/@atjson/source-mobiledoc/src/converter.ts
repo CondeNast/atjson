@@ -1,9 +1,7 @@
 import OffsetSource from '@atjson/offset-annotations';
-import MobileDocSource from './index';
+import MobiledocSource from './source';
 
-export default function(document: MobileDocSource) {
-  let doc = document.clone();
-
+MobiledocSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-mobiledoc-a' }).set({ type: '-offset-link' }).rename({ attributes: { '-mobiledoc-href': '-offset-url' } });
   doc.where({ type: '-mobiledoc-aside' }).set({ type: '-offset-pullquote' });
   doc.where({ type: '-mobiledoc-pull-quote' }).set({ type: '-offset-pullquote' });
@@ -37,4 +35,4 @@ export default function(document: MobileDocSource) {
   doc.where({ type: '-mobiledoc-img' }).set({ type: '-offset-image' }).rename({ attributes: { '-mobiledoc-src': '-offset-url' } });
 
   return new OffsetSource(doc.toJSON());
-}
+});
