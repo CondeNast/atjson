@@ -1,13 +1,13 @@
 import { InlineAnnotation } from '@atjson/document';
 import { HIR } from '@atjson/hir';
-import MobileDocSource from '../src';
+import MobiledocSource from '../src';
 import { ListSection } from '../src/parser';
 
-describe('@atjson/source-mobiledoc', () => {
+describe('@atjson/source-Mobiledoc', () => {
   describe('sections', () => {
     describe.each(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pull-quote', 'aside'])('%s', type => {
       test('with text', () => {
-        let doc = MobileDocSource.fromSource({
+        let doc = MobiledocSource.fromSource({
           version: '0.3.1',
           atoms: [],
           cards: [],
@@ -30,7 +30,7 @@ describe('@atjson/source-mobiledoc', () => {
       });
 
       test('without text', () => {
-        let doc = MobileDocSource.fromSource({
+        let doc = MobiledocSource.fromSource({
           version: '0.3.1',
           atoms: [],
           cards: [],
@@ -56,7 +56,7 @@ describe('@atjson/source-mobiledoc', () => {
 
   describe('markup', () => {
     test.each(['b', 'code', 'em', 'i', 's', 'strong', 'sub', 'sup', 'u'])('%s', type => {
-      let doc = MobileDocSource.fromSource({
+      let doc = MobiledocSource.fromSource({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -90,7 +90,7 @@ describe('@atjson/source-mobiledoc', () => {
     });
 
     test('simple markup', () => {
-      let doc = MobileDocSource.fromSource({
+      let doc = MobiledocSource.fromSource({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -131,7 +131,7 @@ describe('@atjson/source-mobiledoc', () => {
     });
 
     test('multiple markups at a single position', () => {
-      let doc = MobileDocSource.fromSource({
+      let doc = MobiledocSource.fromSource({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -170,7 +170,7 @@ describe('@atjson/source-mobiledoc', () => {
     });
 
     test('overlapping markup', () => {
-      let doc = MobileDocSource.fromSource({
+      let doc = MobiledocSource.fromSource({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -220,15 +220,15 @@ describe('@atjson/source-mobiledoc', () => {
 
   test('atom', () => {
     class Mention extends InlineAnnotation {
-      static vendorPrefix = 'mobiledoc';
+      static vendorPrefix = 'Mobiledoc';
       static type = 'mention-atom';
       attributes!: {
         id: number;
       };
     }
 
-    class MentionSource extends MobileDocSource {
-      static schema = [...MobileDocSource.schema, Mention];
+    class MentionSource extends MobiledocSource {
+      static schema = [...MobiledocSource.schema, Mention];
     }
 
     let doc = MentionSource.fromSource({
@@ -265,7 +265,7 @@ describe('@atjson/source-mobiledoc', () => {
   });
 
   test('image', () => {
-    let doc = MobileDocSource.fromSource({
+    let doc = MobiledocSource.fromSource({
       version: '0.3.1',
       atoms: [],
       cards: [],
@@ -292,7 +292,7 @@ describe('@atjson/source-mobiledoc', () => {
 
   describe('list', () => {
     test.each(['ol', 'ul'])('%s', type => {
-      let doc = MobileDocSource.fromSource({
+      let doc = MobiledocSource.fromSource({
         version: '0.3.1',
         atoms: [],
         cards: [],
