@@ -1,4 +1,4 @@
-import { FacebookEmbed, GiphyEmbed, InstagramEmbed, PinterestEmbed, TwitterEmbed, YouTubeEmbed } from '@atjson/offset-annotations';
+import OffsetSource, { FacebookEmbed, GiphyEmbed, InstagramEmbed, PinterestEmbed, TwitterEmbed, YouTubeEmbed } from '@atjson/offset-annotations';
 import CommonMarkRenderer from '@atjson/renderer-commonmark';
 import URLSource from '../src/index';
 
@@ -41,7 +41,7 @@ describe('url-source', () => {
   test('text that is not a URL is returned as plain text', () => {
     let url = URLSource.fromSource('Hi buddy!');
     let renderer = new EmbedRenderer();
-    expect(renderer.render(url.toCommonSchema())).toBe('Hi buddy\\!');
+    expect(renderer.render(url.convertTo(OffsetSource))).toBe('Hi buddy\\!');
   });
 
   test.each([
@@ -52,7 +52,7 @@ describe('url-source', () => {
   ])('URLs that do not match our embed expansion are displayed as text (%s)', text => {
     let url = URLSource.fromSource(text);
     let renderer = new EmbedRenderer();
-    expect(renderer.render(url.toCommonSchema())).toBe(text);
+    expect(renderer.render(url.convertTo(OffsetSource))).toBe(text);
   });
 
   describe('instagram', () => {
@@ -64,7 +64,7 @@ describe('url-source', () => {
     ])('%s', text => {
       let url = URLSource.fromSource(text);
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Bnzz-g6gpwg" data-instgrm-version="12"></blockquote>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Bnzz-g6gpwg" data-instgrm-version="12"></blockquote>');
     });
   });
 
@@ -76,7 +76,7 @@ describe('url-source', () => {
     ])('%s', text => {
       let url = URLSource.fromSource(text);
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<blockquote lang=\"en\" data-type=\"twitter\" data-url=\"https://twitter.com/jennschiffer/status/708888255828250625\"><p><a href=\"https://twitter.com/jennschiffer/status/708888255828250625\">https://twitter.com/jennschiffer/status/708888255828250625</a></p></blockquote>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<blockquote lang=\"en\" data-type=\"twitter\" data-url=\"https://twitter.com/jennschiffer/status/708888255828250625\"><p><a href=\"https://twitter.com/jennschiffer/status/708888255828250625\">https://twitter.com/jennschiffer/status/708888255828250625</a></p></blockquote>');
     });
   });
 
@@ -88,7 +88,7 @@ describe('url-source', () => {
     ])('%s', text => {
       let url = URLSource.fromSource(text);
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<iframe src="https://www.youtube.com/embed/Mh5LY4Mz15o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<iframe src="https://www.youtube.com/embed/Mh5LY4Mz15o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
     });
 
     test.each([
@@ -97,7 +97,7 @@ describe('url-source', () => {
     ])('%s', text => {
       let url = URLSource.fromSource(text);
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe(`<iframe src="${text}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`);
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe(`<iframe src="${text}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`);
     });
   });
 
@@ -105,19 +105,19 @@ describe('url-source', () => {
     test('profile', () => {
       let url = URLSource.fromSource('https://www.pinterest.com/alluremagazine/');
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<a href="https://www.pinterest.com/alluremagazine/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/alluremagazine/</a>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<a href="https://www.pinterest.com/alluremagazine/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/alluremagazine/</a>');
     });
 
     test('board', () => {
       let url = URLSource.fromSource('https://www.pinterest.com/alluremagazine/makeup-inspiration/');
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<a href="https://www.pinterest.com/alluremagazine/makeup-inspiration/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/alluremagazine/makeup-inspiration/</a>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<a href="https://www.pinterest.com/alluremagazine/makeup-inspiration/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/alluremagazine/makeup-inspiration/</a>');
     });
 
     test('pin', () => {
       let url = URLSource.fromSource('https://www.pinterest.com/pin/246290673356918386/');
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<a href="https://www.pinterest.com/pin/246290673356918386/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/pin/246290673356918386/</a>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<a href="https://www.pinterest.com/pin/246290673356918386/" data-pin-do="embedPin" data-pin-width="large">https://www.pinterest.com/pin/246290673356918386/</a>');
     });
   });
 
@@ -128,7 +128,7 @@ describe('url-source', () => {
     ])('%s', text => {
       let url = URLSource.fromSource(text);
       let renderer = new EmbedRenderer();
-      expect(renderer.render(url.toCommonSchema())).toBe('<iframe src="https://giphy.com/embed/3o7btW6jvrZduOA3ZK"></iframe>');
+      expect(renderer.render(url.convertTo(OffsetSource))).toBe('<iframe src="https://giphy.com/embed/3o7btW6jvrZduOA3ZK"></iframe>');
     });
   });
 
@@ -140,7 +140,7 @@ describe('url-source', () => {
       ])('%s', text => {
         let url = URLSource.fromSource(text);
         let renderer = new EmbedRenderer();
-        expect(renderer.render(url.toCommonSchema())).toBe('<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/10156453076157279" data-show-text="true"></div>');
+        expect(renderer.render(url.convertTo(OffsetSource))).toBe('<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/10156453076157279" data-show-text="true"></div>');
       });
     });
 
@@ -151,7 +151,7 @@ describe('url-source', () => {
       ])('%s', text => {
         let url = URLSource.fromSource(text);
         let renderer = new EmbedRenderer();
-        expect(renderer.render(url.toCommonSchema())).toBe('<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/258591818132754" data-show-text="true"></div>');
+        expect(renderer.render(url.convertTo(OffsetSource))).toBe('<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/258591818132754" data-show-text="true"></div>');
       });
     });
   });
