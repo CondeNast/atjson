@@ -33,6 +33,14 @@ export {
 export default class Document {
   static contentType: string;
   static schema: AnnotationConstructor[] = [];
+  static converters: WeakMap<typeof Document, (doc: Document) => Document>;
+
+  static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
+    if (this.converters == null) {
+      this.converters = new WeakMap();
+    }
+    this.converters.set(to, converter);
+  }
 
   content: string;
   readonly contentType: string;
@@ -202,6 +210,17 @@ export default class Document {
     doc.deleteText(end, doc.content.length);
 
     return doc;
+  }
+
+  convertTo<To extends typeof Document>(to: To): InstanceType<To> {
+    let DocumentClass = this.constructor as typeof Document;
+    let converters = DocumentClass.converters;
+    let converter = converters && converters.get(to);
+    if (converter) {
+      return converter(this.clone()) as InstanceType<To>;
+    } else {
+      throw new Error(`🤷‍♀️ No converter was found between ${this.contentType} and ${to.contentType}.`);
+    }
   }
 
   toJSON() {

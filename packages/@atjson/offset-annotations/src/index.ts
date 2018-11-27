@@ -28,7 +28,7 @@ import {
 
 export * from './annotations';
 
-export default class Offset extends Document {
+export default class OffsetSource extends Document {
   static contentType = 'application/vnd.atjson+offset';
   static schema = [
     Blockquote,

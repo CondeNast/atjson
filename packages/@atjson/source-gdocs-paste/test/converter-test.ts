@@ -11,7 +11,7 @@ describe('@atjson/source-gdocs-paste', () => {
     let fixturePath = path.join(__dirname, 'fixtures', 'complex.json');
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
     let gdocs = GDocsSource.fromSource(rawJSON);
-    atjson = gdocs.toCommonSchema();
+    atjson = gdocs.convertTo(OffsetSource);
   });
 
   it('correctly converts -gdocs-ts_bd to bold', () => {
