@@ -1,5 +1,4 @@
 import { AnnotationJSON } from '@atjson/document';
-import { v4 as uuid } from 'uuid';
 
 export type Atom = [string, string, any];
 export type Card = [string, any];
@@ -21,9 +20,9 @@ function prefix(attributes: any): any {
   return Object.keys(attributes).reduce((prefixedAttributes: any, key: string) => {
     let value = attributes[key];
     if (typeof value === 'object') {
-      prefixedAttributes[`-Mobiledoc-${key}`] = prefix(value);
+      prefixedAttributes[`-mobiledoc-${key}`] = prefix(value);
     } else {
-      prefixedAttributes[`-Mobiledoc-${key}`] = value;
+      prefixedAttributes[`-mobiledoc-${key}`] = value;
     }
     return prefixedAttributes;
   }, {} as any);
@@ -65,8 +64,7 @@ export default class Parser {
     let [, cardIndex] = section;
     let card = this.Mobiledoc.cards[cardIndex];
     this.annotations.push({
-      id: uuid(),
-      type: `-Mobiledoc-${card[0]}-card`,
+      type: `-mobiledoc-${card[0]}-card`,
       start,
       end: start + 1,
       attributes: prefix(card[1])
@@ -77,12 +75,11 @@ export default class Parser {
   processImage(section: ImageSection, start: number) {
     let [, src] = section;
     this.annotations.push({
-      id: uuid(),
-      type: `-Mobiledoc-img`,
+      type: `-mobiledoc-img`,
       start,
       end: start + 1,
       attributes: {
-        '-Mobiledoc-src': src
+        '-mobiledoc-src': src
       }
     });
     return '\uFFFC';
@@ -105,8 +102,7 @@ export default class Parser {
     });
 
     this.annotations.push({
-      id: uuid(),
-      type: `-Mobiledoc-${tagName.toLowerCase()}`,
+      type: `-mobiledoc-${tagName.toLowerCase()}`,
       start,
       end: start + sectionText.length,
       attributes: {}
@@ -136,8 +132,7 @@ export default class Parser {
       });
 
       this.annotations.push({
-        id: uuid(),
-        type: '-Mobiledoc-li',
+        type: '-mobiledoc-li',
         start: itemStart,
         end: offset,
         attributes: {}
@@ -146,8 +141,7 @@ export default class Parser {
     });
 
     this.annotations.push({
-      id: uuid(),
-      type: `-Mobiledoc-${tagName.toLowerCase()}`,
+      type: `-mobiledoc-${tagName.toLowerCase()}`,
       start,
       end: start + listText.length,
       attributes: {}
@@ -167,12 +161,11 @@ export default class Parser {
         for (let i = 0, len = attributeList.length; i < len; i += 2) {
           let key = attributeList[i];
           let value = attributeList[i + 1];
-          attributes[`-Mobiledoc-${key}`] = value;
+          attributes[`-mobiledoc-${key}`] = value;
         }
       }
       this.inProgressAnnotations.push({
-        id: uuid(),
-        type: `-Mobiledoc-${markup[0].toLowerCase()}`,
+        type: `-mobiledoc-${markup[0].toLowerCase()}`,
         start,
         attributes
       });
@@ -192,8 +185,7 @@ export default class Parser {
     let [name, text, attributes] = atom;
     let end = start + text.length;
     this.annotations.push({
-      id: uuid(),
-      type: `-Mobiledoc-${name}-atom`,
+      type: `-mobiledoc-${name}-atom`,
       start,
       end,
       attributes: prefix(attributes)

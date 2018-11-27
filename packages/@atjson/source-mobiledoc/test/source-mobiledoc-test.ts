@@ -220,7 +220,7 @@ describe('@atjson/source-Mobiledoc', () => {
 
   test('atom', () => {
     class Mention extends InlineAnnotation {
-      static vendorPrefix = 'Mobiledoc';
+      static vendorPrefix = 'mobiledoc';
       static type = 'mention-atom';
       attributes!: {
         id: number;
