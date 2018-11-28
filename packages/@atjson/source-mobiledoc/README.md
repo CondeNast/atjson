@@ -1,4 +1,4 @@
-# @atjson/source-mobiledoc
+# 💼 @atjson/source-mobiledoc
 
 [Mobiledoc](https://github.com/bustle/mobiledoc-kit) is a format created by [201 Created](https://www.201-created.com/) for use on [Bustle](https://www.bustle.com/), a publisher focusing on Millenial Women.
 
@@ -6,7 +6,7 @@ The primary mechanism in which Mobiledoc provides extensibility is using two typ
 
 Mobiledoc's format is represented using HTML tags for built-in elements, which contain sections and markup.
 
-## 📠 How does Mobiledoc map into annotations?
+## 🗺 How does Mobiledoc map into annotations?
 
 All markup and sections provided by Mobiledoc have corresponding annotations. These annotations are:
 
