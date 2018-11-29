@@ -2,6 +2,17 @@ import OffsetSource from '@atjson/offset-annotations';
 import GDocsSource from './source';
 
 GDocsSource.defineConverterTo(OffsetSource, doc => {
+  // Remove all underlines that align with links, since
+  // Google docs automatically does this when creating a link.
+  // If necessary, underlined text can be added afterwards;
+  // using this behavior ends up with unexpected consequences
+  doc.where({ type: '-gdocs-ts_un' }).as('underline').join(
+    doc.where({ type: '-gdocs-lnks_link' }).as('link'),
+    (underline, link) => underline.isAlignedWith(link)
+  ).update(({ underline }) => {
+    doc.removeAnnotation(underline);
+  });
+
   doc.where({ type: '-gdocs-ts_bd' }).set({ type: '-offset-bold' });
   doc.where({ type: '-gdocs-ts_it' }).set({ type: '-offset-italic' });
   doc.where({ type: '-gdocs-ts_un' }).set({ type: '-offset-underline' });
