@@ -34,6 +34,21 @@ export class Collection {
     return this.annotations.map(mapper);
   }
 
+  sort(sortFunction?: (a: Annotation, b: Annotation) => number) {
+    if (sortFunction) {
+      this.annotations = this.annotations.sort(sortFunction);
+    } else {
+      this.annotations = this.annotations.sort((a, b) => {
+        if (a.start - b.start === 0) {
+          return a.end - b.end;
+        } else {
+          return a.start - b.start;
+        }
+      });
+    }
+    return this;
+  }
+
   where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
     if (filter instanceof Function) {
       return new AnnotationCollection(this.document, this.annotations.filter(filter));
