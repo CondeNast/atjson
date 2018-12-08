@@ -28,6 +28,11 @@ export class Instagram extends ObjectAnnotation {
   static type = 'instagram';
 }
 
+export class Paragraph extends ObjectAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'paragraph';
+}
+
 export class Code extends ObjectAnnotation {
   static vendorPrefix = 'test';
   static type = 'code';
@@ -83,5 +88,5 @@ export class Manual extends ObjectAnnotation {
 
 export default class TestSource extends Document {
   static contentType = 'application/vnd.atjson+test';
-  static schema = [Anchor, Bold, Code, Image, Instagram, Italic, Locale, Manual, Preformatted];
+  static schema = [Anchor, Bold, Code, Image, Instagram, Italic, Locale, Manual, Paragraph, Preformatted];
 }

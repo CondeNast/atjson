@@ -69,6 +69,10 @@ export class Collection {
     this.annotations = newAnnotations;
     return this;
   }
+
+  toJSON() {
+    return this.map(a => a.toJSON());
+  }
 }
 
 export interface Renaming {

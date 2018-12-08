@@ -33,9 +33,9 @@ export {
 export default class Document {
   static contentType: string;
   static schema: AnnotationConstructor[] = [];
-  static converters: WeakMap<typeof Document, (doc: Document) => Document>;
+  static converters: WeakMap<typeof Document, (doc: Document) => void>;
 
-  static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
+  static defineConverterTo(to: typeof Document, converter: (doc: Document) => void) {
     if (this.converters == null) {
       this.converters = new WeakMap();
     }
@@ -101,8 +101,11 @@ export default class Document {
    * tk: join documentation
    */
   where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
-    let collection = new AnnotationCollection(this, this.annotations);
-    return collection.where(filter);
+    return this.all().where(filter);
+  }
+
+  all() {
+    return new AnnotationCollection(this, this.annotations);
   }
 
   removeAnnotation(annotation: Annotation): Annotation | void {
@@ -216,10 +219,18 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     let converters = DocumentClass.converters;
     let converter = converters && converters.get(to);
-    if (converter) {
-      return converter(this.clone()) as InstanceType<To>;
+
+    // From === To
+    if (to === DocumentClass) {
+      return this.clone() as InstanceType<To>;
+    // Coerce or convert to new type
     } else {
-      throw new Error(`🤷‍♀️ No converter was found between ${this.contentType} and ${to.contentType}.`);
+      let convertedDoc = this.clone();
+
+      if (converter) {
+        converter(convertedDoc);
+      }
+      return new to(convertedDoc.toJSON()) as InstanceType<To>;
     }
   }
 
