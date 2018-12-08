@@ -33,6 +33,4 @@ MobiledocSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-mobiledoc-u' }).set({ type: '-offset-underline' });
 
   doc.where({ type: '-mobiledoc-img' }).set({ type: '-offset-image' }).rename({ attributes: { '-mobiledoc-src': '-offset-url' } });
-
-  return new OffsetSource(doc.toJSON());
 });

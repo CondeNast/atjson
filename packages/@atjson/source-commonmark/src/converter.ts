@@ -35,6 +35,4 @@ CommonmarkSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-commonmark-ordered_list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } }).rename({ attributes: { '-commonmark-start': '-offset-startsAt', '-commonmark-tight': '-offset-tight' } });
   doc.where({ type: '-commonmark-paragraph' }).set({ type: '-offset-paragraph' });
   doc.where({ type: '-commonmark-strong' }).set({ type: '-offset-bold' });
-
-  return new OffsetSource(doc.toJSON());
 });
