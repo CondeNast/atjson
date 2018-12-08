@@ -58,4 +58,6 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
       }
     });
   });
+
+  return doc;
 });

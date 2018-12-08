@@ -33,9 +33,9 @@ export {
 export default class Document {
   static contentType: string;
   static schema: AnnotationConstructor[] = [];
-  static converters: WeakMap<typeof Document, (doc: Document) => void>;
+  static converters: WeakMap<typeof Document, (doc: Document) => Document>;
 
-  static defineConverterTo(to: typeof Document, converter: (doc: Document) => void) {
+  static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
     if (this.converters == null) {
       this.converters = new WeakMap();
     }
@@ -228,7 +228,7 @@ export default class Document {
       let convertedDoc = this.clone();
 
       if (converter) {
-        converter(convertedDoc);
+        return new to(converter(convertedDoc).toJSON()) as InstanceType<To>;
       }
       return new to(convertedDoc.toJSON()) as InstanceType<To>;
     }

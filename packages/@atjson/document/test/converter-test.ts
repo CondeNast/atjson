@@ -21,6 +21,8 @@ describe('Document#convert', () => {
       expect(testDoc.toJSON()).toEqual(doc.toJSON());
       doc.where(a => a.type !== 'paragraph').remove();
       doc.where({ type: '-test-paragraph' }).set({ type: '-text-paragraph' });
+
+      return doc;
     });
 
     let textDoc = testDoc.convertTo(TextSource);
