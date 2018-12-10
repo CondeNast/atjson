@@ -4,7 +4,7 @@ import { URLAnnotation } from './annotations';
 export default class URLSource extends Document {
   static contentType = 'application/vnd.atjson+url';
   static schema = [URLAnnotation];
-  static fromSource(text: string) {
+  static fromRaw(text: string) {
     try {
       let url = new URL(text);
       let searchParams: { [key: string]: string } = {};
