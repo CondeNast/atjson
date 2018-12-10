@@ -37,14 +37,14 @@ export default abstract class Annotation {
   end: number;
   attributes: NonNullable<any>;
 
-  constructor(attrs: { id?: string, start: number, end: number, attributes: NonNullable<any> }) {
+  constructor(attrs: { id?: string, start: number, end: number, attributes?: NonNullable<any> }) {
     let AnnotationClass = this.constructor as AnnotationConstructor;
     this.type = AnnotationClass.type;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
 
-    this.attributes = attrs.attributes;
+    this.attributes = attrs.attributes || {};
   }
 
   /**

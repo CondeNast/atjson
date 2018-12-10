@@ -24,5 +24,5 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .set({ type: '-offset-link' })
     .rename({ attributes: { '-gdocs-ulnk_url': '-offset-url' } });
 
-  return new OffsetSource(doc.toJSON());
+  return doc;
 });

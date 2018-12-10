@@ -7,7 +7,7 @@ describe('@atjson/source-Mobiledoc', () => {
   describe('sections', () => {
     describe.each(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pull-quote', 'aside'])('%s', type => {
       test('with text', () => {
-        let doc = MobiledocSource.fromSource({
+        let doc = MobiledocSource.fromRaw({
           version: '0.3.1',
           atoms: [],
           cards: [],
@@ -30,7 +30,7 @@ describe('@atjson/source-Mobiledoc', () => {
       });
 
       test('without text', () => {
-        let doc = MobiledocSource.fromSource({
+        let doc = MobiledocSource.fromRaw({
           version: '0.3.1',
           atoms: [],
           cards: [],
@@ -56,7 +56,7 @@ describe('@atjson/source-Mobiledoc', () => {
 
   describe('markup', () => {
     test.each(['b', 'code', 'em', 'i', 's', 'strong', 'sub', 'sup', 'u'])('%s', type => {
-      let doc = MobiledocSource.fromSource({
+      let doc = MobiledocSource.fromRaw({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -90,7 +90,7 @@ describe('@atjson/source-Mobiledoc', () => {
     });
 
     test('simple markup', () => {
-      let doc = MobiledocSource.fromSource({
+      let doc = MobiledocSource.fromRaw({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -131,7 +131,7 @@ describe('@atjson/source-Mobiledoc', () => {
     });
 
     test('multiple markups at a single position', () => {
-      let doc = MobiledocSource.fromSource({
+      let doc = MobiledocSource.fromRaw({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -170,7 +170,7 @@ describe('@atjson/source-Mobiledoc', () => {
     });
 
     test('overlapping markup', () => {
-      let doc = MobiledocSource.fromSource({
+      let doc = MobiledocSource.fromRaw({
         version: '0.3.1',
         atoms: [],
         cards: [],
@@ -231,7 +231,7 @@ describe('@atjson/source-Mobiledoc', () => {
       static schema = [...MobiledocSource.schema, Mention];
     }
 
-    let doc = MentionSource.fromSource({
+    let doc = MentionSource.fromRaw({
       version: '0.3.1',
       atoms: [
         ['mention', '@bob', { id: 42 }]
@@ -265,7 +265,7 @@ describe('@atjson/source-Mobiledoc', () => {
   });
 
   test('image', () => {
-    let doc = MobiledocSource.fromSource({
+    let doc = MobiledocSource.fromRaw({
       version: '0.3.1',
       atoms: [],
       cards: [],
@@ -292,7 +292,7 @@ describe('@atjson/source-Mobiledoc', () => {
 
   describe('list', () => {
     test.each(['ol', 'ul'])('%s', type => {
-      let doc = MobiledocSource.fromSource({
+      let doc = MobiledocSource.fromRaw({
         version: '0.3.1',
         atoms: [],
         cards: [],

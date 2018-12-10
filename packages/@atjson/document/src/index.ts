@@ -33,14 +33,16 @@ export {
 export default class Document {
   static contentType: string;
   static schema: AnnotationConstructor[] = [];
-  static converters: WeakMap<typeof Document, (doc: Document) => Document>;
 
   static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
-    if (this.converters == null) {
+    if (!this.converters.has(this)) {
       this.converters = new WeakMap();
+      this.converters.set(this, doc => doc);
     }
     this.converters.set(to, converter);
   }
+
+  private static converters: WeakMap<typeof Document, (doc: Document) => Document> = new WeakMap();
 
   content: string;
   readonly contentType: string;
@@ -101,8 +103,11 @@ export default class Document {
    * tk: join documentation
    */
   where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
-    let collection = new AnnotationCollection(this, this.annotations);
-    return collection.where(filter);
+    return this.all().where(filter);
+  }
+
+  all() {
+    return new AnnotationCollection(this, this.annotations);
   }
 
   removeAnnotation(annotation: Annotation): Annotation | void {
@@ -216,10 +221,22 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     let converters = DocumentClass.converters;
     let converter = converters && converters.get(to);
-    if (converter) {
-      return converter(this.clone()) as InstanceType<To>;
+
+    if (!(to.prototype instanceof Document)) {
+      throw new Error(`💣 ${to.toString()} is not a type of Document and can't be converted to.`);
+    }
+
+    // From === To
+    if (to === DocumentClass) {
+      return this.clone() as InstanceType<To>;
+    // Coerce or convert to new type
     } else {
-      throw new Error(`🤷‍♀️ No converter was found between ${this.contentType} and ${to.contentType}.`);
+      let convertedDoc = this.clone();
+
+      if (converter) {
+        return new to(converter(convertedDoc).toJSON()) as InstanceType<To>;
+      }
+      return new to(convertedDoc.toJSON()) as InstanceType<To>;
     }
   }
 

@@ -55,7 +55,7 @@ export default class MobiledocSource extends Document {
     Underline,
     UnorderedList
   ];
-  static fromSource(mobiledoc: Mobiledoc) {
+  static fromRaw(mobiledoc: Mobiledoc) {
     let result = new Parser(mobiledoc);
 
     return new this({

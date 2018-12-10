@@ -10,7 +10,15 @@ export interface Range {
   start: number;
   end: number;
 }
+/*
+<offset-editor>
+  -> <text-input>
+    -> <slot></slot>
+    -> <text-selection>
+      -> <slot></slot>
+  <slot></slot>
 
+*/
 export default class OffsetEditor extends EventComponent {
 
   static template = '<text-input>' +

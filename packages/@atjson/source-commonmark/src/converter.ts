@@ -36,5 +36,5 @@ CommonmarkSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-commonmark-paragraph' }).set({ type: '-offset-paragraph' });
   doc.where({ type: '-commonmark-strong' }).set({ type: '-offset-bold' });
 
-  return new OffsetSource(doc.toJSON());
+  return doc;
 });

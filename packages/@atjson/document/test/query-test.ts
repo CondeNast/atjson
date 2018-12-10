@@ -1,6 +1,34 @@
 import TestSource, { Anchor, Code, Locale, Preformatted } from './test-source';
 
-describe('Document.where', () => {
+describe('Document#all', () => {
+  it('returns all annotations', () => {
+    let doc = new TestSource({
+      content: 'Conde Nast',
+      annotations: [{
+        id: '1',
+        type: '-test-a',
+        attributes: {
+          '-test-href': 'https://example.com'
+        },
+        start: 0,
+        end: 5
+      }, {
+        id: '2',
+        type: '-test-a',
+        attributes: {
+          '-test-href': 'https://condenast.com'
+        },
+        start: 6,
+        end: 10
+      }]
+    });
+
+    expect(doc.all().length).toEqual(2);
+    expect(doc.all().toJSON()).toEqual(doc.annotations.map((a) => a.toJSON()));
+  });
+});
+
+describe('Document#where', () => {
   it('length on collections', () => {
     let doc = new TestSource({
       content: 'Hello',

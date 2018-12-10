@@ -1,15 +1,15 @@
 import Document, { BlockAnnotation, ParseAnnotation } from '../src/index';
 
-class Paragraph extends BlockAnnotation {
+export class Paragraph extends BlockAnnotation {
   static vendorPrefix = 'text';
   static type = 'paragraph';
 }
 
-class TextSource extends Document {
+export class TextSource extends Document {
   static contentType = 'application/vnd.atjson+text';
   static schema = [Paragraph];
 
-  constructor(text: string) {
+  static fromRaw(text: string) {
     let annotations = [];
     let start = 0;
     let id = 1;
@@ -40,16 +40,16 @@ class TextSource extends Document {
       });
     }
 
-    super({
+    return new this({
       content: text,
       annotations
     });
   }
 }
 
-describe('plain text source', () => {
+describe('TextSource', () => {
   test('a simple document', () => {
-    let source = new TextSource('Hello\nWorld');
+    let source = TextSource.fromRaw('Hello\nWorld');
     expect(source.toJSON()).toEqual({
       content: 'Hello\nWorld',
       contentType: 'application/vnd.atjson+text',
@@ -77,7 +77,7 @@ describe('plain text source', () => {
   });
 
   test('annotations are reified as Annotation instances', () => {
-    let source = new TextSource('Hello\nWorld');
+    let source = TextSource.fromRaw('Hello\nWorld');
     let [firstParagraph, parseToken, lastParagraph] = source.annotations;
 
     expect(firstParagraph).toBeInstanceOf(Paragraph);

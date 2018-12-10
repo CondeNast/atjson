@@ -59,7 +59,7 @@ export default class HTMLSource extends Document {
     Underline,
     UnorderedList
   ];
-  static fromSource(html: string) {
+  static fromRaw(html: string) {
     let parser = new Parser(html);
     return new this({
       content: parser.content,

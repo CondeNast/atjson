@@ -58,5 +58,6 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
       }
     });
   });
-  return new OffsetSource(doc.toJSON());
+
+  return doc;
 });

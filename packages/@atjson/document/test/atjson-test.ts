@@ -110,7 +110,7 @@ describe('new Document', () => {
       expect(doc.toJSON()).toEqual({
         content: 'ello, world!\n\uFFFC',
         contentType: 'application/vnd.atjson+test',
-        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-pre'],
+        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
         annotations: [{
           id: '1',
           type: '-test-bold',
@@ -143,7 +143,7 @@ describe('new Document', () => {
       expect(document.toJSON()).toEqual({
         content: 'Hello, world!\n\uFFFC',
         contentType: 'application/vnd.atjson+test',
-        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-pre'],
+        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
         annotations: [{
           id: '1',
           type: '-test-bold',
