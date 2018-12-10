@@ -1,6 +1,6 @@
 # @atjson/source-gdocs-paste
 
-The Google Docs paste source provides turns Google Docs pastes into an AtJSON document. AtJSON uses Google Doc's internal format directly, which you can learn more about in our [content documentation](content-documentation.md).
+The Google Docs paste source turns Google Docs pastes into an AtJSON document. AtJSON uses Google Doc's internal format directly, which you can learn more about in our [content documentation](content-documentation.md).
 
 ## 📋 Handling pastes from Google Docs
 
