@@ -421,6 +421,6 @@ After all the lists
 
     expect(renderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
     // Make sure we're not generating code in the round-trip
-    expect(markdown).toEqual(renderer.render(CommonMarkSource.fromSource(markdown).convertTo(OffsetSource)));
+    expect(markdown).toEqual(renderer.render(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)));
   });
 });

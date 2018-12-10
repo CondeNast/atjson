@@ -9,7 +9,7 @@ export class TextSource extends Document {
   static contentType = 'application/vnd.atjson+text';
   static schema = [Paragraph];
 
-  static fromSource(text: string) {
+  static fromRaw(text: string) {
     let annotations = [];
     let start = 0;
     let id = 1;
@@ -49,7 +49,7 @@ export class TextSource extends Document {
 
 describe('TextSource', () => {
   test('a simple document', () => {
-    let source = TextSource.fromSource('Hello\nWorld');
+    let source = TextSource.fromRaw('Hello\nWorld');
     expect(source.toJSON()).toEqual({
       content: 'Hello\nWorld',
       contentType: 'application/vnd.atjson+text',
@@ -77,7 +77,7 @@ describe('TextSource', () => {
   });
 
   test('annotations are reified as Annotation instances', () => {
-    let source = TextSource.fromSource('Hello\nWorld');
+    let source = TextSource.fromRaw('Hello\nWorld');
     let [firstParagraph, parseToken, lastParagraph] = source.annotations;
 
     expect(firstParagraph).toBeInstanceOf(Paragraph);

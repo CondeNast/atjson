@@ -19,17 +19,17 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('does not throw an error when instantiating with GDocsSource', () => {
-      expect(GDocsSource.fromSource(pasteBuffer)).toBeDefined();
+      expect(GDocsSource.fromRaw(pasteBuffer)).toBeDefined();
     });
 
     it('correctly sets the content', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       expect(gdocs.content.length).toEqual(438);
       expect(gdocs.content).toMatchSnapshot();
     });
 
     it('extracts bold', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_bd');
       expect(annotations.length).toEqual(2);
 
@@ -39,7 +39,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts italic', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_it');
       expect(annotations.length).toEqual(2);
 
@@ -49,7 +49,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts headings', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'ps_hd').sort();
       expect(annotations.length).toEqual(4);
 
@@ -70,7 +70,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts lists', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'list');
       expect(annotations.length).toEqual(2);
 
@@ -81,7 +81,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts list items', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'list_item');
       expect(annotations.length).toEqual(4);
 
@@ -97,7 +97,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts links', () => {
-      let gdocs = GDocsSource.fromSource(pasteBuffer);
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let annotations = gdocs.where(a => a.type === 'lnks_link');
       expect(annotations.length).toEqual(1);
 
@@ -123,17 +123,17 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('does not throw an error when instantiating with GDocsSource', () => {
-      expect(GDocsSource.fromSource(gdocsBuffer)).toBeDefined();
+      expect(GDocsSource.fromRaw(gdocsBuffer)).toBeDefined();
     });
 
     it('correctly sets the content', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       expect(gdocs.content.length).toEqual(219);
       expect(gdocs.content).toMatchSnapshot();
     });
 
     it('extracts bold', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_bd');
       expect(annotations.length).toEqual(1);
 
@@ -142,7 +142,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts italic', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_it');
       expect(annotations.length).toEqual(1);
 
@@ -151,7 +151,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts underline', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_un');
       expect(annotations.length).toEqual(1);
 
@@ -160,7 +160,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts horizontal rules', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a.type === 'horizontal_rule');
       expect(annotations.length).toEqual(1);
 
@@ -169,7 +169,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts strikethrough', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a.type === 'ts_st');
       expect(annotations.length).toEqual(1);
 
@@ -178,7 +178,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('extracts vertical adjust', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let annotations = gdocs.where(a => a instanceof VerticalAdjust);
       expect(annotations.length).toEqual(2);
 
@@ -198,14 +198,14 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('creates the right number of list annotations', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let lists = gdocs.where(a => a.type === 'list');
 
       expect(lists.length).toEqual(2);
     });
 
     it('captures list-specific attributes', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let lists = gdocs.where(a => a.type === 'list');
       let expectedShape = expect.objectContaining({
         ls_b_gs: expect.anything(),
@@ -219,7 +219,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('distinguishes numbered from bulleted lists', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let lists = gdocs.annotations
         .filter(a => a.type === 'list')
         .filter(a => a.attributes.ls_b_gt === 9);

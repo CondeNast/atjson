@@ -28,7 +28,7 @@ describe('PlainTextRenderer', () => {
   });
 
   it('strips virtual annotations', () => {
-    let doc = HTMLSource.fromSource('<p>This is some <em>fancy</em> <span class="fancy">text</span>.');
+    let doc = HTMLSource.fromRaw('<p>This is some <em>fancy</em> <span class="fancy">text</span>.');
 
     let renderer = new PlainTextRenderer();
     let text = renderer.render(doc);

@@ -3,7 +3,7 @@ import { TextSource } from './text-source-test';
 
 describe('Document#convert', () => {
   test('sources without conversions are coerced', () => {
-    let textDoc = TextSource.fromSource('Hello, World!');
+    let textDoc = TextSource.fromRaw('Hello, World!');
     let testDoc = textDoc.convertTo(TestSource);
     expect(testDoc).toBeInstanceOf(TestSource);
     expect(testDoc.all().toJSON()).toEqual(textDoc.all().toJSON());

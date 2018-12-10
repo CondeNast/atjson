@@ -25,7 +25,7 @@ MarkdownItSource.defineConverterTo(OffsetSource, doc => {
 
 describe('strikethrough', () => {
   test('~~hello~~ is converted to strikethrough annotations', () => {
-    let doc = MarkdownItSource.fromSource('~~hello~~');
+    let doc = MarkdownItSource.fromRaw('~~hello~~');
     expect(render(doc)).toBe('hello\n\n');
     let strikeThrough = doc.where(a => a instanceof StrikeThrough);
     expect(strikeThrough.toJSON()).toEqual([{
@@ -38,7 +38,7 @@ describe('strikethrough', () => {
   });
 
   test('conversion to Offset uses existing conversions', () => {
-    let doc = MarkdownItSource.fromSource('~~hello~~ *world*').convertTo(OffsetSource);
+    let doc = MarkdownItSource.fromRaw('~~hello~~ *world*').convertTo(OffsetSource);
     expect(doc.where(a => a.type !== 'parse-token').sort().toJSON()).toEqual([{
       id: 'Any<id>',
       type: '-offset-paragraph',
