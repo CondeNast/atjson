@@ -55,4 +55,19 @@ describe('@atjson/source-gdocs-paste', () => {
     expect(links.length).toEqual(1);
     expect(links.map(link => link.attributes.url)).toEqual(['https://www.google.com/']);
   });
+
+  it('removes underlined text aligned exactly with links', () => {
+    // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
+    let fixturePath = path.join(__dirname, 'fixtures', 'underline.json');
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    let gdocs = GDocsSource.fromRaw(rawJSON);
+    let doc = gdocs.convertTo(OffsetSource);
+
+    let links = doc.where({ type: '-offset-link' }).as('links');
+    let underlines = doc.where({ type: '-offset-underline' }).as('underline');
+
+    expect(
+      links.join(underlines, (a, b) => a.isAlignedWith(b)).length
+    ).toBe(0);
+  });
 });

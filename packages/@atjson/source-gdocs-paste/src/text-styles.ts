@@ -44,8 +44,14 @@ export default function extractTextStyles(styles: GDocsStyleSlice[]): Annotation
         delete state[styleType];
       }
     }
-
   }
+
+  // Close any remaining open styles
+  Object.keys(state).forEach(key => {
+    let annotation = state[key];
+    annotation.end = styles.length - 1;
+    annotations.push(annotation);
+  });
 
   return annotations;
 }

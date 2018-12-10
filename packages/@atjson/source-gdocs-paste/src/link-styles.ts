@@ -32,7 +32,12 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
         }
       };
     }
+  }
 
+  // Add any unclosed links
+  if (currentLink) {
+    currentLink.end = linkStyles.length - 1;
+    links.push(currentLink);
   }
 
   return links;

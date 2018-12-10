@@ -47,6 +47,11 @@ export default abstract class Annotation {
     this.attributes = attrs.attributes || {};
   }
 
+  isAlignedWith(annotation: Annotation) {
+    return this.start === annotation.start &&
+           this.end === annotation.end;
+  }
+
   /**
    * nb. Currently, changes are applied directly to the document.
    *     In the future, we want to return a set of changes that

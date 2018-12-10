@@ -227,4 +227,20 @@ describe('@atjson/source-gdocs-paste', () => {
       expect(lists.length).toEqual(1);
     });
   });
+
+  describe('partial pastes', () => {
+    let gdocsBuffer: any;
+
+    beforeAll(() => {
+      let fixturePath = path.join(__dirname, 'fixtures', 'partial.json');
+      gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
+    });
+
+    it('creates the right number of list annotations', () => {
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
+      let links = gdocs.annotations.filter(a => a.type === 'lnks_link');
+
+      expect(links.length).toEqual(1);
+    });
+  });
 });
