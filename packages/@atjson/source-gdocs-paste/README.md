@@ -17,6 +17,6 @@ After getting the data, check if it a paste from Google Docs and use the Google 
 ```ts
 if (gdocsPaste !== '') {
   let data = JSON.parse(JSON.parse(gdocsPaste).data);
-  let pastedDoc = GoogleDocsPasteSource.fromSource(data);
+  let pastedDoc = GoogleDocsPasteSource.fromRaw(data);
 }
 ``

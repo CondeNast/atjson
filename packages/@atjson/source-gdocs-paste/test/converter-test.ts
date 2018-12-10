@@ -60,7 +60,7 @@ describe('@atjson/source-gdocs-paste', () => {
     // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
     let fixturePath = path.join(__dirname, 'fixtures', 'underline.json');
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
-    let gdocs = GDocsSource.fromSource(rawJSON);
+    let gdocs = GDocsSource.fromRaw(rawJSON);
     let doc = gdocs.convertTo(OffsetSource);
 
     let links = doc.where({ type: '-offset-link' }).as('links');

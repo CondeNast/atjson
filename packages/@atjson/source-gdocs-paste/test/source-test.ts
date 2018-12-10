@@ -237,7 +237,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
 
     it('creates the right number of list annotations', () => {
-      let gdocs = GDocsSource.fromSource(gdocsBuffer);
+      let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let links = gdocs.annotations.filter(a => a.type === 'lnks_link');
 
       expect(links.length).toEqual(1);
