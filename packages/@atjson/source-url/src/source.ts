@@ -8,7 +8,7 @@ export default class URLSource extends Document {
     try {
       let url = new URL(text);
       let searchParams: { [key: string]: string } = {};
-      [...url.searchParams.entries()].reduce((params, [key, value]) => {
+      Array.from(url.searchParams).reduce((params, [key, value]) => {
         params[key] = value;
         return params;
       }, searchParams);
