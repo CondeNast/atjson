@@ -2,7 +2,7 @@ import { AnnotationJSON, ParseAnnotation } from '@atjson/document';
 import * as entities from 'entities';
 import * as MarkdownIt from 'markdown-it';
 
-interface Attributes {
+export interface Attributes {
   [key: string]: string | number | boolean | null;
 }
 
@@ -13,7 +13,7 @@ function getAttributes(token: MarkdownIt.Token): Attributes {
   }, {});
 }
 
-interface Node {
+export interface Node {
   name: string;
   open?: MarkdownIt.Token;
   close?: MarkdownIt.Token;

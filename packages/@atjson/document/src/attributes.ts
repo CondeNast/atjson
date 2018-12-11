@@ -26,7 +26,7 @@ export function unprefix(vendorPrefix: string, subdocuments: { [key: string]: ty
   }
 }
 
-export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): JSON {
+export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
   if (Array.isArray(attribute)) {
     return attribute.map(attr => {
       let result = toJSON(vendorPrefix, attr);
