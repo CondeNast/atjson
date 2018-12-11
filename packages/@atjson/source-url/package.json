@@ -12,6 +12,10 @@
     "start": "parcel public/index.html -d public/dist",
     "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
   },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "browserslist": [
     "last 2 Chrome versions"
   ],
