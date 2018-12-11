@@ -13,8 +13,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.11.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.11.1...@atjson/renderer-react@0.11.2) (2018-12-11)
 
+**Note:** Version bump only for package @atjson/renderer-react
+
 
 ## [0.11.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.11.0...@atjson/renderer-react@0.11.1) (2018-11-29)
+
+**Note:** Version bump only for package @atjson/renderer-react
 
 
 ## [0.11.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.9.0...@atjson/renderer-react@0.11.0) (2018-10-22)
@@ -36,15 +40,28 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.8.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.8.10...@atjson/renderer-react@0.8.11) (2018-09-14)
 
+**Note:** Version bump only for package @atjson/renderer-react
+
+
 ## [0.8.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.8.9...@atjson/renderer-react@0.8.10) (2018-09-07)
+
+**Note:** Version bump only for package @atjson/renderer-react
 
 ## [0.8.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.8.8...@atjson/renderer-react@0.8.9) (2018-09-04)
 
+**Note:** Version bump only for package @atjson/renderer-react
+
 ## 0.8.8 (2018-08-02)
+
+**Note:** Version bump only for package @atjson/renderer-react
 
 ## 0.8.4 (2018-07-25)
 
+**Note:** Version bump only for package @atjson/renderer-react
+
 ## 0.8.0 (2018-05-14)
+
+**Note:** Version bump only for package @atjson/renderer-react
 
 ## 0.7.16 (2018-04-27)
 

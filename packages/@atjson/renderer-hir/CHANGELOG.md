@@ -13,9 +13,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.11.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.11.1...@atjson/renderer-hir@0.11.2) (2018-12-11)
 
+**Note:** Version bump only for package @atjson/renderer-hir
+
 
 ## [0.11.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.11.0...@atjson/renderer-hir@0.11.1) (2018-11-29)
 
+**Note:** Version bump only for package @atjson/renderer-hir
 
 
 ## [0.11.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.10.0...@atjson/renderer-hir@0.11.0) (2018-10-22)
@@ -44,8 +47,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.9.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.9.2...@atjson/renderer-hir@0.9.3) (2018-09-14)
 
+**Note:** Version bump only for package @atjson/renderer-hir
+
 
 ## [0.9.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.9.1...@atjson/renderer-hir@0.9.2) (2018-09-07)
+
+**Note:** Version bump only for package @atjson/renderer-hir
+
 
 ## [0.9.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.9.0...@atjson/renderer-hir@0.9.1) (2018-09-04)
 
@@ -58,6 +66,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.8.4 (2018-07-25)
 
+**Note:** Version bump only for package @atjson/renderer-hir
+
 ## 0.8.0 (2018-05-14)
 
+**Note:** Version bump only for package @atjson/renderer-hir
+
 ## 0.7.16 (2018-04-27)
+
+**Note:** Version bump only for package @atjson/renderer-hir

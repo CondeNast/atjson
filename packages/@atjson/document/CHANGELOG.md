@@ -8,9 +8,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 **Note:** Version bump only for package @atjson/document
 
 
-
-
-
 ## [0.13.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.12.0...@atjson/document@0.13.0) (2018-12-11)
 
 
@@ -53,8 +50,6 @@ A summary of changes are the following:
 
 🖍 Annotations are now prefixed at rest. For the CommonMark Link annotation, it will be stored as `-commonmark-link` as the `type` and the attributes will be prefixed with `-commonmark` as well, meaning that instead of seeing `href` in the `attributes`, you will see `-commonmark-href`. When the annotation JSON is hydrated into an annotation class, prefixes are automatically removed. This prevents any collisions that may (and will) happen when converting between document types.
 
-🎨 Renderers now take `Annotation`s instead of the `attributes`.  When additional context is required to render an annotation, a `context` object is passed as the second argument, which provides references to the `parent`, `next`, `previous`, and `children` annotations to the current annotation.
-
 
 ## [0.9.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.7...@atjson/document@0.9.0) (2018-10-10)
 
@@ -70,14 +65,6 @@ A summary of changes are the following:
 **Note:** Version bump only for package @atjson/document
 
 
-
-
-
-# Change Log
-
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
-
 ## [0.8.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.5...@atjson/document@0.8.6) (2018-09-07)
 
 ### ✨ New Features
@@ -86,7 +73,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## 0.8.5 (2018-09-04)
 
+**Note:** Version bump only for package @atjson/document
+
 ## 0.8.4 (2018-07-25)
+
+**Note:** Version bump only for package @atjson/document
+
 
 ## 0.7.16 (2018-04-27)
 

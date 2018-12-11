@@ -9,8 +9,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-
-
 ## [0.13.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.12.0...@atjson/offset-annotations@0.13.0) (2018-12-11)
 
 
