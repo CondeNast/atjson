@@ -313,7 +313,7 @@ export default class Document {
    */
   private triggerChange() {
     if (this.pendingChangeEvent) return;
-    this.pendingChangeEvent = setTimeout(_ => {
+    this.pendingChangeEvent = setTimeout(() => {
       this.changeListeners.forEach(l => l());
       delete this.pendingChangeEvent;
     }, 0);
