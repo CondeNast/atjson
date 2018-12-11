@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.12.0...@atjson/source-html@0.13.0) (2018-12-11)
+
+
+### ✨ New Features
+
+* ✨ Coerce or convert to sources ([#93](https://github.com/CondeNast-Copilot/atjson/issues/93))
+
+
+
 ## [0.12.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.11.0...@atjson/source-html@0.12.0) (2018-11-29)
 
 

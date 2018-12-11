@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.12.0...@atjson/source-gdocs-paste@0.13.0) (2018-12-11)
+
+
+### ✨ New Features
+
+* ✨ Coerce or convert to sources ([#93](https://github.com/CondeNast-Copilot/atjson/issues/93))
+
+
+### 🐛 Fixes
+
+* 🐛 Close any open annotations from Google Docs paste ([#92](https://github.com/CondeNast-Copilot/atjson/issues/92))
+
+
+
 ## [0.12.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.11.0...@atjson/source-gdocs-paste@0.12.0) (2018-11-29)
 
 
