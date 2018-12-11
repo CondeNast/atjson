@@ -14,7 +14,7 @@
     "jest": "^23.6.0",
     "lerna": "^3.4.3",
     "markdown-it": "^8.4.1",
-    "parcel-bundler": "1.9.7",
+    "parcel-bundler": "^1.10.3",
     "react-dom": "^16.2.0",
     "shelljs": "^0.8.2",
     "ts-jest": "^23.1.4",
