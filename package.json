@@ -12,7 +12,7 @@
     "commonmark-spec": "^0.28.0",
     "conventional-changelog-core": "^2.0.11",
     "jest": "^23.6.0",
-    "lerna": "^3.4.3",
+    "lerna": "^3.6.0",
     "markdown-it": "^8.4.1",
     "parcel-bundler": "^1.10.3",
     "react-dom": "^16.2.0",
@@ -41,7 +41,9 @@
     "@atjson/renderer-webcomponent": "file:packages/@atjson/renderer-webcomponent",
     "@atjson/source-commonmark": "file:packages/@atjson/source-commonmark",
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
-    "@atjson/source-html": "file:packages/@atjson/source-html"
+    "@atjson/source-html": "file:packages/@atjson/source-html",
+    "@atjson/source-mobiledoc": "file:packages/@atjson/source-mobiledoc",
+    "@atjson/source-url": "file:packages/@atjson/source-url"
   },
   "scripts": {
     "build": "lerna run build",
