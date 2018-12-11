@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.13.3...@atjson/source-commonmark@0.13.4) (2018-12-11)
+
+
+### 🐛 Fixes
+
+* 🐛 fix tsc errors causing lerna to fail to build
+
+
+
 ## [0.13.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.13.2...@atjson/source-commonmark@0.13.3) (2018-12-11)
 
 **Note:** Version bump only for package @atjson/source-commonmark
