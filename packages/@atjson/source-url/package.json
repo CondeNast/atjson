@@ -1,0 +1,25 @@
+{
+  "name": "@atjson/source-url",
+  "version": "0.11.0",
+  "description": "Expands URLs into annotations",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "start": "parcel public/index.html -d public/dist",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
+  "dependencies": {
+    "@atjson/document": "file:../document",
+    "@atjson/offset-annotations": "file:../offset-annotations"
+  },
+  "devDependencies": {
+    "@atson/renderer-commonmark": "file:../renderer-commonmark"
+  }
+}
