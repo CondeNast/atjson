@@ -3,7 +3,7 @@ import { BlockAnnotation, InlineAnnotation, ObjectAnnotation, ParseAnnotation, U
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import AnnotationCollection from './collection';
 import Join from './join';
-import JSON from './json';
+import JSON, { JSONArray, JSONObject } from './json';
 
 export interface AnnotationJSON {
   id?: string;
@@ -24,6 +24,8 @@ export {
   InlineAnnotation,
   Insertion,
   JSON,
+  JSONArray,
+  JSONObject,
   ObjectAnnotation,
   Join,
   ParseAnnotation,
