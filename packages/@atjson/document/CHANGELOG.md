@@ -11,12 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * ✨ Coerce or convert to sources ([#93](https://github.com/CondeNast-Copilot/atjson/issues/93))
 
 
-### 🐛 Fixes
-
-* 🐛 Close any open annotations from Google Docs paste ([#92](https://github.com/CondeNast-Copilot/atjson/issues/92))
-
-
-
 ## [0.12.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.11.0...@atjson/document@0.12.0) (2018-11-29)
 
 

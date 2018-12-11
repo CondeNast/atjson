@@ -5,11 +5,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.11.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.11.1...@atjson/offset-inspector@0.11.2) (2018-12-11)
 
-**Note:** Version bump only for package @atjson/offset-inspector
-
-
-
-
 
 ## [0.11.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.11.0...@atjson/offset-inspector@0.11.1) (2018-11-29)
 
