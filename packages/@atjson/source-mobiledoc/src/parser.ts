@@ -17,15 +17,16 @@ export interface Mobiledoc {
 }
 
 function prefix(attributes: any): any {
-  return Object.keys(attributes).reduce((prefixedAttributes: any, key: string) => {
-    let value = attributes[key];
-    if (typeof value === 'object') {
-      prefixedAttributes[`-mobiledoc-${key}`] = prefix(value);
-    } else {
-      prefixedAttributes[`-mobiledoc-${key}`] = value;
-    }
-    return prefixedAttributes;
-  }, {} as any);
+  if (Array.isArray(attributes)) {
+    return attributes.map((item: any) => prefix(item));
+  } else if (typeof attributes === 'object') {
+    return Object.keys(attributes).reduce((prefixedAttributes: any, key: string) => {
+      prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
+      return prefixedAttributes;
+    }, {} as any);
+  } else {
+    return attributes;
+  }
 }
 
 export default class Parser {

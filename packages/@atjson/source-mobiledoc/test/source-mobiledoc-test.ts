@@ -264,6 +264,49 @@ describe('@atjson/source-Mobiledoc', () => {
     });
   });
 
+  test('card', () => {
+    class Gallery extends InlineAnnotation {
+      static vendorPrefix = 'mobiledoc';
+      static type = 'gallery-card';
+      attributes!: {
+        style: 'mosaic' | 'slideshow' | 'list';
+        ids: number[];
+      };
+    }
+
+    class GallerySource extends MobiledocSource {
+      static schema = [...MobiledocSource.schema, Gallery];
+    }
+
+    let doc = GallerySource.fromRaw({
+      version: '0.3.1',
+      atoms: [],
+      cards: [
+        ['gallery', { style: 'mosaic', ids: [2, 4, 8, 14] }]
+      ],
+      markups: [],
+      sections: [
+        [
+          10, 0
+        ]
+      ]
+    });
+
+    let hir = new HIR(doc).toJSON();
+
+    expect(hir).toMatchObject({
+      type: 'root',
+      attributes: {},
+      children: [{
+        type: 'gallery-card',
+        attributes: {
+          style: 'mosaic',
+          ids: [2, 4, 8, 14]
+        }
+      }]
+    });
+  });
+
   test('image', () => {
     let doc = MobiledocSource.fromRaw({
       version: '0.3.1',
