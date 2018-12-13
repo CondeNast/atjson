@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.13.4...@atjson/source-mobiledoc@0.13.5) (2018-12-13)
+
+
+### 🐛 Fixes
+
+* 🐛 fix prefixing attributes on mobiledoc cards / atoms
+
+
+
 ## [0.13.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.13.3...@atjson/source-mobiledoc@0.13.4) (2018-12-11)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
