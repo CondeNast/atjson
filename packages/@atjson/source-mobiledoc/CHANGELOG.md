@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.13.5...@atjson/source-mobiledoc@0.13.6) (2018-12-21)
+
+
+### 🐛 Fixes
+
+* 🐛 fix null values in mobiledoc cards
+
+
+
 ## [0.13.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.13.4...@atjson/source-mobiledoc@0.13.5) (2018-12-13)
 
 
