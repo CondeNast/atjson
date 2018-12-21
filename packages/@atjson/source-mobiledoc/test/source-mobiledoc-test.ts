@@ -282,7 +282,7 @@ describe('@atjson/source-Mobiledoc', () => {
       version: '0.3.1',
       atoms: [],
       cards: [
-        ['gallery', { style: 'mosaic', ids: [2, 4, 8, 14] }]
+        ['gallery', { style: 'mosaic', ids: [2, 4, 8, 14], size: null, dropped: undefined }]
       ],
       markups: [],
       sections: [
@@ -301,7 +301,8 @@ describe('@atjson/source-Mobiledoc', () => {
         type: 'gallery-card',
         attributes: {
           style: 'mosaic',
-          ids: [2, 4, 8, 14]
+          ids: [2, 4, 8, 14],
+          size: null
         }
       }]
     });

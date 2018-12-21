@@ -19,7 +19,7 @@ export interface Mobiledoc {
 function prefix(attributes: any): any {
   if (Array.isArray(attributes)) {
     return attributes.map((item: any) => prefix(item));
-  } else if (typeof attributes === 'object') {
+  } else if (typeof attributes === 'object' && attributes != null) {
     return Object.keys(attributes).reduce((prefixedAttributes: any, key: string) => {
       prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
       return prefixedAttributes;
