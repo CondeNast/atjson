@@ -69,31 +69,33 @@ describe('@atjson/source-gdocs-paste', () => {
 
     });
 
-    it('extracts lists', () => {
-      let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === 'list');
-      expect(annotations.length).toEqual(2);
+    describe('lists', () => {
+      it('extracts lists', () => {
+        let gdocs = GDocsSource.fromRaw(pasteBuffer);
+        let annotations = gdocs.where(a => a.type === 'list');
+        expect(annotations.length).toEqual(2);
 
-      let [a0] = [...annotations];
+        let [a0] = [...annotations];
 
-      expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\nAnd another item');
-      expect(a0.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
-    });
+        expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\nAnd another item');
+        expect(a0.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
+      });
 
-    it('extracts list items', () => {
-      let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === 'list_item');
-      expect(annotations.length).toEqual(4);
+      it('extracts list items', () => {
+        let gdocs = GDocsSource.fromRaw(pasteBuffer);
+        let annotations = gdocs.where(a => a.type === 'list_item');
+        expect(annotations.length).toEqual(4);
 
-      let [a0, a1] = [...annotations];
+        let [a0, a1] = [...annotations];
 
-      expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list');
-      expect(a0.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
-      expect(a0.attributes.ls_nest).toEqual(0);
+        expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\n');
+        expect(a0.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
+        expect(a0.attributes.ls_nest).toEqual(0);
 
-      expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item');
-      expect(a1.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
-      expect(a1.attributes.ls_nest).toEqual(0);
+        expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item\n');
+        expect(a1.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
+        expect(a1.attributes.ls_nest).toEqual(0);
+      });
     });
 
     it('extracts links', () => {

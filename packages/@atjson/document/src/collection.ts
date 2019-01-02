@@ -34,6 +34,14 @@ export class Collection {
     return this.annotations.map(mapper);
   }
 
+  forEach(callback: (annotation: Annotation) => void) {
+    this.annotations.forEach(callback);
+  }
+
+  reduce<T>(reducer: (accumulator: T, currentValue: Annotation, currentIndex: number, array: Array<Annotation>) => T, initialValue: T) {
+    return this.annotations.reduce(reducer, initialValue);
+  }
+
   sort(sortFunction?: (a: Annotation, b: Annotation) => number) {
     if (sortFunction) {
       this.annotations = this.annotations.sort(sortFunction);
@@ -225,7 +233,7 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.annotations.forEach((leftAnnotation: Annotation): void => {
+    this.forEach((leftAnnotation: Annotation): void => {
       let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
         return filter(leftAnnotation, rightAnnotation);
       });

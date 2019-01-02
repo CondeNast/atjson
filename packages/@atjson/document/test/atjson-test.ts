@@ -1,4 +1,5 @@
 import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
+import { AssertionError } from 'assert';
 
 describe('new Document', () => {
   test('constructor accepts an object', () => {
@@ -70,6 +71,69 @@ describe('new Document', () => {
     expect(image.attributes.caption).toBeInstanceOf(CaptionSource);
     expect(italic).toBeInstanceOf(Italic);
     expect(image.attributes.caption.content).toEqual('An example caption');
+  });
+
+  describe('match', () => {
+    let document = new TestSource({
+      content: 'Kublai Khan does not necessarily believe everything Marco \
+        Polo says when he describes the cities visited on his expeditions, but the emperor of the Tartars does continue listening \
+        to the young Venetian with greater attention and curiosity \
+        than he shows any other messenger or explorer of his. In the \
+        lives of emperors there is a moment which follows pride in \
+        the boundiess extension of the territories we have conquered, \
+        and the melancholy and relief of knowing we shall soon \
+        give up any thought of knowing and understanding them.\
+        \u000B\u000B\
+        There is a sense of emptiness that comes over us at evening, \
+        with the odor of the elephants after the rain and the sandalwood \
+        ashes growing cold in the braziers, a dizziness that \
+        makes rivers and mountains tremble on the fallow curves of \
+        the planispheres where they are portrayed, and rolls up, one \
+        after the other, the despatches announcing to us the collapse \
+        of the last enemy troops, from defeat to defeat, and flakes \
+        the wax of the seals of obscure kings who beseech our \
+        armies\' protection, offering in exchange annual tributes of \
+        precious metals, tanned hides, anti tortoise shell.\
+        \u220E',
+      annotations: []
+    });
+
+    const MATCHES_AND = [
+      { start: 241, end: 244 },
+      { start: 469, end: 472 },
+      { start: 488, end: 491 },
+      { start: 563, end: 566 },
+      { start: 574, end: 577 },
+      { start: 719, end: 722 },
+      { start: 728, end: 731 },
+      { start: 820, end: 823 },
+      { start: 917, end: 920 },
+      { start: 1062, end: 1065 }
+    ];
+
+    test('non-global regex returns first match', () => {
+      let matches = document.match(/and/);
+      expect(matches).toEqual(MATCHES_AND.slice(0,1));
+    });
+
+    test('global regex returns all matches', () => {
+      let matches = document.match(/and/g);
+      expect(matches).toEqual(MATCHES_AND);
+    });
+
+    test('match groups are ok but don\'t affect matches returned', () => {
+      let matches = document.match(/(a)(nd)+/g);
+      expect(matches).toEqual(MATCHES_AND);
+    });
+
+    test('regex can contain unicode characters', () => {
+      let matches = document.match(/[\u000B\u220E]/g);
+      expect(matches).toEqual([
+        { start: 594, end: 595 },
+        { start: 595, end: 596 },
+        { start: 1270, end: 1271 }
+      ]);
+    });
   });
 
   describe('slice', () => {
