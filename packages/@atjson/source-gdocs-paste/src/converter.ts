@@ -76,20 +76,24 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       // Multiple newlines indicate paragraph boundaries within the block boundary
       let lastEnd = start;
       doc.match(/\n{2,}/g, start, end).forEach( (match: { start: number, end: number }) => {
-        doc.addAnnotations(new Paragraph({
-          start: lastEnd,
-          end: match.start
-        }), new ParseAnnotation({
+        doc.addAnnotations(new ParseAnnotation({
           start: match.start,
           end: match.end,
           attributes: {
             reason: 'multiple new lines to paragraph'
           }
         }));
+
+        if (lastEnd <  match.start) {
+          doc.addAnnotations(new Paragraph({
+            start: lastEnd,
+            end: match.start
+          }));
+        }
         lastEnd = match.end;
       });
 
-      if (lastEnd < end) {
+      if (start < lastEnd && lastEnd < end) {
         doc.addAnnotations(new Paragraph({
           start: lastEnd,
           end
