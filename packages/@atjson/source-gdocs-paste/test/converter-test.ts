@@ -75,6 +75,61 @@ describe('@atjson/source-gdocs-paste', () => {
 describe('@atjson/source-gdocs-paste paragraphs', () => {
   let atjson: OffsetSource;
 
+  const LINEBREAKS = [
+    [ 21, 22],
+    [ 70, 71 ],
+    [ 249, 250 ],
+    [ 370, 371 ]
+  ].map(([start, end]) => {
+    return {
+      start,
+      end,
+      type: '-offset-line-break',
+      attributes: {},
+      id: 'Any<id>'
+    }
+  });
+
+  const PARAGRAPHS = [
+    [ 0, 117 ],
+    [ 119, 163 ],
+    [ 166, 214 ],
+    [ 214, 284 ],
+    [ 286, 324 ],
+    [ 406, 446 ],
+    [ 448, 486 ]
+  ].map(([start, end]) => {
+    return {
+      start,
+      end,
+      type: '-offset-paragraph',
+      attributes: {},
+      id: 'Any<id>'
+    }
+  });
+
+  const LIST = {
+    start: 214,
+    end: 486,
+    type: '-offset-list',
+    attributes: { '-offset-type': 'numbered' },
+    id: 'Any<id>'
+  }
+
+  const LIST_ITEMS = [
+    [ 214, 324 ],
+    [ 325, 405 ],
+    [ 406, 486 ]
+  ].map(([start, end]) => {
+    return {
+      start,
+      end,
+      type: '-offset-list-item',
+      attributes: {},
+      id: 'Any<id>'
+    }
+  });
+
   beforeAll(() => {
     // https://docs.google.com/document/d/1PzhE6OJqRIHrDZcXBjw7UsjUhH_ITPP7tgg2s9fhPf4/edit
     let fixturePath = path.join(__dirname, 'fixtures', 'paragraphs.json');
@@ -95,38 +150,87 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       );
 
     expect(listsAndParagraphs.toJSON()[0]).toEqual({
-      list: {
-        attributes: {
-          '-offset-type': 'numbered'
-        },
-        start: 214,
-        end: 486,
-        id: 'Any<id>',
-        type: '-offset-list'
-      },
-      paragraphs: [
-        {
-          attributes: {},
-          start: 0,
-          end: 117,
-          id: 'Any<id>',
-          type: '-offset-paragraph'
-        },
-        {
-          attributes: {},
-          start: 119,
-          end: 163,
-          id: 'Any<id>',
-          type: '-offset-paragraph'
-        },
-        {
-          attributes: {},
-          start: 166,
-          end: 214,
-          id: 'Any<id>',
-          type: '-offset-paragraph'
-        }
-      ]
+      list: LIST,
+      paragraphs: PARAGRAPHS.slice(0, 3)
     });
+  });
+
+  it('created first paragraph with two nested linebreaks', () => {
+    let firstParagraph = atjson.where({ type: '-offset-paragraph' }).as('paragraph')
+      .join(
+        atjson.where({ type: '-offset-line-break' }).as('linebreaks'),
+        (l, r) => r.start > l.start && r.end < l.end
+      ).toJSON()[0];
+
+    expect(firstParagraph).toEqual({
+      paragraph: PARAGRAPHS[0],
+      linebreaks: LINEBREAKS.slice(0, 2)
+    });
+  });
+
+  it('created linebreaks inside list-items', () => {
+    let linebreaks = atjson.where({ type: '-offset-line-break' }).as('linebreak');
+
+    expect(linebreaks.toJSON()).toEqual(LINEBREAKS);
+
+    let linebreaksInLists = linebreaks
+      .join(
+        atjson.where({ type: '-offset-list' }).as('lists'),
+        (l, r) => l.start >= r.start && l.end <= r.end
+      ).outerJoin(
+        atjson.where({ type: '-offset-list-item' }).as('list-items'),
+        (l, r) => l.linebreak.start >= r.start && l.linebreak.end <= r.end
+      );
+
+    // No linebreaks in a list outside of a list-item
+    expect(linebreaksInLists.where(join => join.lists.length > 0 && join['list-items'].length === 0).toJSON()).toHaveLength(0);
+    expect(linebreaksInLists.toJSON()).toEqual([
+      {
+        linebreak: LINEBREAKS[2],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[0] ]
+      }, {
+        linebreak: LINEBREAKS[3],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[1] ]
+      }
+    ]);
+  });
+
+  it('created paragraphs inside list-items', () => {
+    let paragraphs = atjson.where({ type: '-offset-paragraph' }).as('paragraph');
+
+    expect(paragraphs.toJSON()).toEqual(PARAGRAPHS);
+
+    let paragraphsInLists = paragraphs
+      .join(
+        atjson.where({ type: '-offset-list' }).as('lists'),
+        (l, r) => l.start >= r.start && l.end <= r.end
+      ).outerJoin(
+        atjson.where({ type: '-offset-list-item' }).as('list-items'),
+        (l, r) => l.paragraph.start >= r.start && l.paragraph.end <= r.end
+      );
+
+    // No paragraphs in a list outside of a list-item
+    expect(paragraphsInLists.where(join => join.lists.length > 0 && join['list-items'].length === 0).toJSON()).toHaveLength(0);
+    expect(paragraphsInLists.toJSON()).toEqual([
+      {
+        paragraph: PARAGRAPHS[3],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[0] ]
+      }, {
+        paragraph: PARAGRAPHS[4],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[0] ]
+      }, {
+        paragraph: PARAGRAPHS[5],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[2] ]
+      }, {
+        paragraph: PARAGRAPHS[6],
+        lists: [ LIST ],
+        'list-items': [ LIST_ITEMS[2] ]
+      }
+    ]);
   });
 });
