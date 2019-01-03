@@ -71,3 +71,62 @@ describe('@atjson/source-gdocs-paste', () => {
     ).toBe(0);
   });
 });
+
+describe('@atjson/source-gdocs-paste paragraphs', () => {
+  var atjson: OffsetSource;
+
+  beforeAll(() => {
+    // https://docs.google.com/document/d/1PzhE6OJqRIHrDZcXBjw7UsjUhH_ITPP7tgg2s9fhPf4/edit
+    let fixturePath = path.join(__dirname, 'fixtures', 'paragraphs.json');
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    let gdocs = GDocsSource.fromRaw(rawJSON);
+    atjson = gdocs.convertTo(OffsetSource);
+  });
+
+  it('removes all vertical tabs', () => {
+    expect(atjson.match(/\u000b/g)).toEqual([]);
+  });
+
+  it('created three paragraphs before the list', () => {
+    let listsAndParagraphs = atjson.where({ type: '-offset-list' }).as('list')
+      .join(
+        atjson.where({ type: '-offset-paragraph'}).as('paragraphs'),
+        (l, r) => r.end <= l.start
+      );
+
+    expect(listsAndParagraphs.toJSON()[0]).toEqual({
+      list: {
+        attributes: {
+          "-offset-type": "numbered",
+        },
+        start: 214,
+        end: 486,
+        id: "Any<id>",
+        type: "-offset-list",
+      },
+      paragraphs: [
+        {
+          attributes: {},
+          start: 0,
+          end: 117,
+          id: "Any<id>",
+          type: "-offset-paragraph"
+        },
+        {
+          attributes: {},
+          start: 119,
+          end: 163,
+          id: "Any<id>",
+          type: "-offset-paragraph"
+        },
+        {
+          attributes: {},
+          start: 166,
+          end: 214,
+          id: "Any<id>",
+          type: "-offset-paragraph"
+        }
+      ]
+    });
+  })
+})
