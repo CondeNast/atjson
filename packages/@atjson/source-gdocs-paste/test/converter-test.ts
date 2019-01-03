@@ -87,7 +87,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       type: '-offset-line-break',
       attributes: {},
       id: 'Any<id>'
-    }
+    };
   });
 
   const PARAGRAPHS = [
@@ -105,7 +105,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       type: '-offset-paragraph',
       attributes: {},
       id: 'Any<id>'
-    }
+    };
   });
 
   const LIST = {
@@ -114,7 +114,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     type: '-offset-list',
     attributes: { '-offset-type': 'numbered' },
     id: 'Any<id>'
-  }
+  };
 
   const LIST_ITEMS = [
     [ 214, 324 ],
@@ -127,7 +127,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       type: '-offset-list-item',
       attributes: {},
       id: 'Any<id>'
-    }
+    };
   });
 
   beforeAll(() => {
