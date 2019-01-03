@@ -223,7 +223,7 @@ export class NamedCollection<Left extends string> extends Collection {
     this.name = name;
   }
 
-  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+  outerJoin<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
     if (rightCollection.document !== this.document) {
       // n.b. there is a case that this is OK, if the RHS's document is null,
       // then we're just joining on annotations that shouldn't have positions in
@@ -240,15 +240,17 @@ export class NamedCollection<Left extends string> extends Collection {
 
       type JoinItem = Record<Left, Annotation> & Record<Right, Annotation[]>;
 
-      if (joinAnnotations.length > 0) {
-        let join = {
-          [this.name]: leftAnnotation,
-          [rightCollection.name]: joinAnnotations
-        };
-        results.push(join as JoinItem);
-      }
+      let join = {
+        [this.name]: leftAnnotation,
+        [rightCollection.name]: joinAnnotations
+      };
+      results.push(join as JoinItem);
     });
 
     return results;
+  }
+
+  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+    return this.outerJoin(rightCollection, filter).where(record => record[rightCollection.name].length > 0 );
   }
 }
