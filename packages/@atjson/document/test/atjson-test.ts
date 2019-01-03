@@ -134,6 +134,20 @@ describe('new Document', () => {
         { start: 1270, end: 1271 }
       ]);
     });
+
+    test('match finds within ranges', () => {
+      let matches = document.match(/and/g, undefined, 500);
+      expect(matches).toEqual(MATCHES_AND.slice(0, 3));
+
+      matches = document.match(/and/g, 500);
+      expect(matches).toEqual(MATCHES_AND.slice(3));
+
+      matches = document.match(/and/g, 500, 505);
+      expect(matches).toEqual([]);
+
+      matches = document.match(/and/g, 500, 800);
+      expect(matches).toEqual(MATCHES_AND.slice(3, 7));
+    })
   });
 
   describe('slice', () => {

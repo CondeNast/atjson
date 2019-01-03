@@ -88,11 +88,11 @@ describe('@atjson/source-gdocs-paste', () => {
 
         let [a0, a1] = [...annotations];
 
-        expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list\n');
+        expect(gdocs.content.substring(a0.start, a0.end)).toEqual('Here’s a numbered list');
         expect(a0.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
         expect(a0.attributes.ls_nest).toEqual(0);
 
-        expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item\n');
+        expect(gdocs.content.substring(a1.start, a1.end)).toEqual('And another item');
         expect(a1.attributes.ls_id).toEqual('kix.trdi2u6o1bvt');
         expect(a1.attributes.ls_nest).toEqual(0);
       });
