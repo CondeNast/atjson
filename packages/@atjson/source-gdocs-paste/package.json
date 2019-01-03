@@ -22,8 +22,5 @@
   "dependencies": {
     "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations"
-  },
-  "devDependencies": {
-    "sass": "^1.15.2"
   }
 }
