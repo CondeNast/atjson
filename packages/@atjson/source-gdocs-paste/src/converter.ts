@@ -1,4 +1,4 @@
-import { Annotation, ParseAnnotation, BlockAnnotation } from '@atjson/document';
+import { Annotation, BlockAnnotation, ParseAnnotation } from '@atjson/document';
 import OffsetSource, { LineBreak, Paragraph } from '@atjson/offset-annotations';
 import GDocsSource from './source';
 
@@ -56,7 +56,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       return {
         start: array[index - 1] || 0,
         end: array[index]
-      }
+      };
     })
     .forEach( ({ start, end }) => {
       // Convert single new lines to LineBreaks
@@ -110,10 +110,10 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       (l: Annotation, r: Annotation) => l.start > r.start && l.end < r.end)
     .outerJoin(
       doc.where({type: '-offset-list-item'}).as('listItems'),
-      (l: {lineBreak: LineBreak, lists: Array<Annotation>}, r: Annotation) => {
-        return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end
+      (l: {lineBreak: LineBreak, lists: Annotation[]}, r: Annotation) => {
+        return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
       })
-    .update(({lineBreak, listItems}: {lineBreak: LineBreak, listItems: Array<Annotation>}) => {
+    .update(({lineBreak, listItems}: {lineBreak: LineBreak, listItems: Annotation[]}) => {
       if (listItems.length === 0) {
         doc.removeAnnotation(lineBreak);
       }

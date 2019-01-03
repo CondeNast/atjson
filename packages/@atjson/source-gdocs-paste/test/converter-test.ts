@@ -73,7 +73,7 @@ describe('@atjson/source-gdocs-paste', () => {
 });
 
 describe('@atjson/source-gdocs-paste paragraphs', () => {
-  var atjson: OffsetSource;
+  let atjson: OffsetSource;
 
   beforeAll(() => {
     // https://docs.google.com/document/d/1PzhE6OJqRIHrDZcXBjw7UsjUhH_ITPP7tgg2s9fhPf4/edit
@@ -97,36 +97,36 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     expect(listsAndParagraphs.toJSON()[0]).toEqual({
       list: {
         attributes: {
-          "-offset-type": "numbered",
+          '-offset-type': 'numbered'
         },
         start: 214,
         end: 486,
-        id: "Any<id>",
-        type: "-offset-list",
+        id: 'Any<id>',
+        type: '-offset-list'
       },
       paragraphs: [
         {
           attributes: {},
           start: 0,
           end: 117,
-          id: "Any<id>",
-          type: "-offset-paragraph"
+          id: 'Any<id>',
+          type: '-offset-paragraph'
         },
         {
           attributes: {},
           start: 119,
           end: 163,
-          id: "Any<id>",
-          type: "-offset-paragraph"
+          id: 'Any<id>',
+          type: '-offset-paragraph'
         },
         {
           attributes: {},
           start: 166,
           end: 214,
-          id: "Any<id>",
-          type: "-offset-paragraph"
+          id: 'Any<id>',
+          type: '-offset-paragraph'
         }
       ]
     });
-  })
-})
+  });
+});

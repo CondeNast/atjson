@@ -445,11 +445,11 @@ describe('Document#where', () => {
         pre: []
       }]);
 
-      preAndCode.where(join => join['pre'].length === 0).update(join => {
+      preAndCode.where(join => join.pre.length === 0).update(join => {
         join.code.attributes = {
           class: 'language-html',
           language: 'html'
-        }
+        };
       });
 
       expect(doc.annotations.map(a => a.toJSON())).toEqual([{

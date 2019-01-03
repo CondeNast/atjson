@@ -1,5 +1,4 @@
 import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
-import { AssertionError } from 'assert';
 
 describe('new Document', () => {
   test('constructor accepts an object', () => {
@@ -112,23 +111,19 @@ describe('new Document', () => {
     ];
 
     test('non-global regex returns first match', () => {
-      let matches = document.match(/and/);
-      expect(matches).toEqual(MATCHES_AND.slice(0,1));
+      expect(document.match(/and/)).toEqual(MATCHES_AND.slice(0,1));
     });
 
     test('global regex returns all matches', () => {
-      let matches = document.match(/and/g);
-      expect(matches).toEqual(MATCHES_AND);
+      expect(document.match(/and/g)).toEqual(MATCHES_AND);
     });
 
     test('match groups are ok but don\'t affect matches returned', () => {
-      let matches = document.match(/(a)(nd)+/g);
-      expect(matches).toEqual(MATCHES_AND);
+      expect(document.match(/(a)(nd)+/g)).toEqual(MATCHES_AND);
     });
 
     test('regex can contain unicode characters', () => {
-      let matches = document.match(/[\u000B\u220E]/g);
-      expect(matches).toEqual([
+      expect(document.match(/[\u000B\u220E]/g)).toEqual([
         { start: 594, end: 595 },
         { start: 595, end: 596 },
         { start: 1270, end: 1271 }
@@ -136,18 +131,11 @@ describe('new Document', () => {
     });
 
     test('match finds within ranges', () => {
-      let matches = document.match(/and/g, undefined, 500);
-      expect(matches).toEqual(MATCHES_AND.slice(0, 3));
-
-      matches = document.match(/and/g, 500);
-      expect(matches).toEqual(MATCHES_AND.slice(3));
-
-      matches = document.match(/and/g, 500, 505);
-      expect(matches).toEqual([]);
-
-      matches = document.match(/and/g, 500, 800);
-      expect(matches).toEqual(MATCHES_AND.slice(3, 7));
-    })
+      expect(document.match(/and/g, undefined, 500)).toEqual(MATCHES_AND.slice(0, 3));
+      expect(document.match(/and/g, 500)).toEqual(MATCHES_AND.slice(3));
+      expect(document.match(/and/g, 500, 505)).toEqual([]);
+      expect(document.match(/and/g, 500, 800)).toEqual(MATCHES_AND.slice(3, 7));
+    });
   });
 
   describe('slice', () => {

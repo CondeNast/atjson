@@ -38,7 +38,7 @@ export class Collection {
     this.annotations.forEach(callback);
   }
 
-  reduce<T>(reducer: (accumulator: T, currentValue: Annotation, currentIndex: number, array: Array<Annotation>) => T, initialValue: T) {
+  reduce<T>(reducer: (accumulator: T, currentValue: Annotation, currentIndex: number, array: Annotation[]) => T, initialValue: T) {
     return this.annotations.reduce(reducer, initialValue);
   }
 
