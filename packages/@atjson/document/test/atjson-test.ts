@@ -131,7 +131,7 @@ describe('new Document', () => {
     });
 
     test('match finds within ranges', () => {
-      expect(document.match(/and/g, undefined, 500)).toEqual(MATCHES_AND.slice(0, 3));
+      expect(document.match(/and/g, 0, 500)).toEqual(MATCHES_AND.slice(0, 3));
       expect(document.match(/and/g, 500)).toEqual(MATCHES_AND.slice(3));
       expect(document.match(/and/g, 500, 505)).toEqual([]);
       expect(document.match(/and/g, 500, 800)).toEqual(MATCHES_AND.slice(3, 7));
