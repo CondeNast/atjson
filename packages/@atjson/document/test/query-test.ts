@@ -379,6 +379,112 @@ describe('Document#where', () => {
       }]);
     });
 
+    test('simple outerJoin', () => {
+      let doc = new TestSource({
+        content: 'string.trim();\nstring.strip\nextra',
+        annotations: [{
+          id: '1',
+          type: '-test-code',
+          start: 0,
+          end: 14,
+          attributes: {
+            '-test-class': 'language-js',
+            '-test-language': 'js'
+          }
+        }, {
+          id: '2',
+          type: '-test-pre',
+          start: 0,
+          end: 14,
+          attributes: {}
+        }, {
+          id: '3',
+          type: '-test-pre',
+          start: 16,
+          end: 28,
+          attributes: {}
+        }, {
+          id: '4',
+          type: '-test-code',
+          start: 30,
+          end: 35,
+          attributes: {}
+        }]
+      });
+
+      let codeBlocks = doc.where({ type: '-test-code' }).as('code');
+      let preformattedText = doc.where({ type: '-test-pre' }).as('pre');
+      let preAndCode = codeBlocks.outerJoin(preformattedText, (l, r) => l.start === r.start && l.end === r.end);
+
+      expect(preAndCode.toJSON()).toEqual([{
+        code: {
+          id: '1',
+          type: '-test-code',
+          start: 0,
+          end: 14,
+          attributes: {
+            '-test-class': 'language-js',
+            '-test-language': 'js'
+          }
+        },
+        pre: [{
+          id: '2',
+          type: '-test-pre',
+          start: 0,
+          end: 14,
+          attributes: {}
+        }]
+      }, {
+        code: {
+          id: '4',
+          type: '-test-code',
+          start: 30,
+          end: 35,
+          attributes: {}
+        },
+        pre: []
+      }]);
+
+      preAndCode.where(join => join.pre.length === 0).update(join => {
+        join.code.attributes = {
+          class: 'language-html',
+          language: 'html'
+        };
+      });
+
+      expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+        id: '1',
+        type: '-test-code',
+        start: 0,
+        end: 14,
+        attributes: {
+          '-test-class': 'language-js',
+          '-test-language': 'js'
+        }
+      }, {
+        id: '2',
+        type: '-test-pre',
+        start: 0,
+        end: 14,
+        attributes: {}
+      }, {
+        id: '3',
+        type: '-test-pre',
+        start: 16,
+        end: 28,
+        attributes: {}
+      }, {
+        id: '4',
+        type: '-test-code',
+        start: 30,
+        end: 35,
+        attributes: {
+          '-test-class': 'language-html',
+          '-test-language': 'html'
+        }
+      }]);
+    });
+
     test('complex (three-way) join', () => {
       let doc = new TestSource({
         content: 'string.trim();\nstring.strip\nextra',

@@ -247,7 +247,7 @@ export default class Document {
     return {
       content: this.content,
       contentType: this.contentType,
-      annotations: this.annotations.map(a => a.toJSON()),
+      annotations: this.where({}).sort().toJSON(),
       schema: schema.map(AnnotationClass => `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`)
     };
   }
@@ -255,6 +255,25 @@ export default class Document {
   clone(): Document {
     let DocumentClass = this.constructor as typeof Document;
     return new DocumentClass(this.toJSON());
+  }
+
+  match(regex: RegExp, start?: number, end?: number): Array<{ start: number, end: number }> {
+    let content = this.content.slice(start, end);
+    let offset = start || 0;
+    let matches = [];
+
+    let match;
+    do {
+      match = regex.exec(content);
+      if (match) {
+        matches.push({
+          start: offset + match.index,
+          end: offset + match.index + match[0].length
+        });
+      }
+    } while (regex.global && match);
+
+    return matches;
   }
 
   private createAnnotation(annotation: Annotation | AnnotationJSON): Annotation {

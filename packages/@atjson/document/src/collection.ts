@@ -34,6 +34,14 @@ export class Collection {
     return this.annotations.map(mapper);
   }
 
+  forEach(callback: (annotation: Annotation) => void) {
+    this.annotations.forEach(callback);
+  }
+
+  reduce<T>(reducer: (accumulator: T, currentValue: Annotation, currentIndex: number, array: Annotation[]) => T, initialValue: T) {
+    return this.annotations.reduce(reducer, initialValue);
+  }
+
   sort(sortFunction?: (a: Annotation, b: Annotation) => number) {
     if (sortFunction) {
       this.annotations = this.annotations.sort(sortFunction);
@@ -215,7 +223,7 @@ export class NamedCollection<Left extends string> extends Collection {
     this.name = name;
   }
 
-  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+  outerJoin<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
     if (rightCollection.document !== this.document) {
       // n.b. there is a case that this is OK, if the RHS's document is null,
       // then we're just joining on annotations that shouldn't have positions in
@@ -225,22 +233,24 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.annotations.forEach((leftAnnotation: Annotation): void => {
+    this.forEach((leftAnnotation: Annotation): void => {
       let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
         return filter(leftAnnotation, rightAnnotation);
       });
 
       type JoinItem = Record<Left, Annotation> & Record<Right, Annotation[]>;
 
-      if (joinAnnotations.length > 0) {
-        let join = {
-          [this.name]: leftAnnotation,
-          [rightCollection.name]: joinAnnotations
-        };
-        results.push(join as JoinItem);
-      }
+      let join = {
+        [this.name]: leftAnnotation,
+        [rightCollection.name]: joinAnnotations
+      };
+      results.push(join as JoinItem);
     });
 
     return results;
+  }
+
+  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+    return this.outerJoin(rightCollection, filter).where(record => record[rightCollection.name].length > 0 );
   }
 }

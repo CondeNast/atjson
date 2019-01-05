@@ -90,6 +90,10 @@ export default class Join<Left extends string, Right extends string> {
     }
   }
 
+  forEach(callback: (join: Record<Left, Annotation> & Record<Right, Annotation[]>) => void) {
+    this._joins.forEach(callback);
+  }
+
   get length() {
     return this._joins.length;
   }
@@ -110,7 +114,7 @@ export default class Join<Left extends string, Right extends string> {
     });
   }
 
-  join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left, Annotation> & Record<Right, Annotation[]>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
+  outerJoin<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left, Annotation> & Record<Right, Annotation[]>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
     if (rightCollection.document !== this.leftJoin.document) {
       // n.b. there is a case that this is OK, if the right hand side's document is null,
       // then we're just joining on annotations that shouldn't have positions in
@@ -127,15 +131,21 @@ export default class Join<Left extends string, Right extends string> {
 
       type JoinItem = Record<Left, Annotation> & Record<Right | J, Annotation[]>;
 
-      if (joinAnnotations.length > 0) {
-        // TypeScript doesn't allow us to safely index this, even though
-        // the type system should detect this
-        (join as any)[rightCollection.name] = joinAnnotations;
-        results.push(join as JoinItem);
-      }
+      // TypeScript doesn't allow us to safely index this, even though
+      // the type system should detect this
+      (join as any)[rightCollection.name] = joinAnnotations;
+      results.push(join as JoinItem);
     });
 
     return results;
+  }
+
+  join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left, Annotation> & Record<Right, Annotation[]>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
+    return this.outerJoin(rightCollection, filter).where(record => record[rightCollection.name].length > 0);
+  }
+
+  where(filter: ((join: Record<Left, Annotation> & Record<Right, Annotation[]>) => boolean)): Join<Left, Right> {
+    return new Join<Left, Right>(this.leftJoin, this._joins.filter(filter));
   }
 
   push(join: Record<Left, Annotation> & Record<Right, Annotation[]>) {
