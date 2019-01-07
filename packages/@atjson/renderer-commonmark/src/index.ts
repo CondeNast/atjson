@@ -29,7 +29,7 @@ export function* split(): Iterable<any> {
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
   return text.replace(/([#!*+=\\\[\]\^_`{|}~])/g, '\\$1')
-             .replace(/(\d+)\./g, '$1\\.')
+             .replace(/^\s*(\d+)\.(\s+)/gm, '$1\\.$2')
              .replace(/&/g, '&amp;')
              .replace(/</g, '&lt;')
              .replace(/>/g, '&gt;')
