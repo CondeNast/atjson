@@ -29,10 +29,10 @@ export function* split(): Iterable<any> {
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
   return text.replace(/([#!*+=\\\^_`{|}~])/g, '\\$1')
-             .replace(/(\[)([^\]]*$)/g, '\\$1$2')    // Escape bare opening brackets [
-             .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2') // Escape bare closing brackets ]
-             .replace(/(\]\()/g, ']\\(')             // Escape parenthesis ](
-             .replace(/^\s*(\d+)\.(\s+)/gm, '$1\\.$2')
+             .replace(/(\[)([^\]]*$)/g, '\\$1$2')      // Escape bare opening brackets [
+             .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2')   // Escape bare closing brackets ]
+             .replace(/(\]\()/g, ']\\(')               // Escape parenthesis ](
+             .replace(/^\s*(\d+)\.(\s+)/gm, '$1\\.$2') // Escape list items; not all numbers
              .replace(/&/g, '&amp;')
              .replace(/</g, '&lt;')
              .replace(/>/g, '&gt;')
