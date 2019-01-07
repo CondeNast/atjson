@@ -425,19 +425,38 @@ After all the lists
   });
 
   describe('escape sequences', () => {
-    test.each([
-      '5.8 million',
-      'in 2016.',
-      '2.0',
-      '$280,000.'
-    ])('%s is not escaped', text => {
-      let document = new OffsetSource({
-        content: text,
-        annotations: []
-      });
+    describe('numbers', () => {
+      test.each([
+        '5.8 million',
+        'in 2016.',
+        '2.0',
+        '$280,000.'
+      ])('%s is not escaped', text => {
+        let document = new OffsetSource({
+          content: text,
+          annotations: []
+        });
 
-      let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe(text);
+        let renderer = new CommonMarkRenderer();
+        expect(renderer.render(document)).toBe(text);
+      });
+    });
+
+    describe('sic / citations', () => {
+      test.each([
+        '“[We] are',
+        '“[Our algorithm] allows',
+        'surpass [rival software] C',
+        'for [my district] in 2016'
+      ])('%s is not escaped', text => {
+        let document = new OffsetSource({
+          content: text,
+          annotations: []
+        });
+
+        let renderer = new CommonMarkRenderer();
+        expect(renderer.render(document)).toBe(text);
+      });
     });
   });
 });
