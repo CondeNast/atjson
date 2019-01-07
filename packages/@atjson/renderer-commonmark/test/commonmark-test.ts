@@ -423,4 +423,40 @@ After all the lists
     // Make sure we're not generating code in the round-trip
     expect(markdown).toEqual(renderer.render(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)));
   });
+
+  describe('escape sequences', () => {
+    describe('numbers', () => {
+      test.each([
+        '5.8 million',
+        'in 2016.',
+        '2.0',
+        '$280,000.'
+      ])('%s is not escaped', text => {
+        let document = new OffsetSource({
+          content: text,
+          annotations: []
+        });
+
+        let renderer = new CommonMarkRenderer();
+        expect(renderer.render(document)).toBe(text);
+      });
+    });
+
+    describe('sic / citations', () => {
+      test.each([
+        '“[We] are',
+        '“[Our algorithm] allows',
+        'surpass [rival software] C',
+        'for [my district] in 2016'
+      ])('%s is not escaped', text => {
+        let document = new OffsetSource({
+          content: text,
+          annotations: []
+        });
+
+        let renderer = new CommonMarkRenderer();
+        expect(renderer.render(document)).toBe(text);
+      });
+    });
+  });
 });
