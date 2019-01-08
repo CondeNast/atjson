@@ -98,20 +98,26 @@ describe('new Document', () => {
     });
 
     const MATCHES_AND = [
-      { start: 241, end: 244 },
-      { start: 469, end: 472 },
-      { start: 488, end: 491 },
-      { start: 563, end: 566 },
-      { start: 574, end: 577 },
-      { start: 719, end: 722 },
-      { start: 728, end: 731 },
-      { start: 820, end: 823 },
-      { start: 917, end: 920 },
-      { start: 1062, end: 1065 }
-    ];
+      [ 241, 244 ],
+      [ 469, 472 ],
+      [ 488, 491 ],
+      [ 563, 566 ],
+      [ 574, 577 ],
+      [ 719, 722 ],
+      [ 728, 731 ],
+      [ 820, 823 ],
+      [ 917, 920 ],
+      [ 1062, 1065 ]
+    ].map(([ start, end ]) => {
+      return {
+        start,
+        end,
+        matches: ['and']
+      }
+    });
 
     test('non-global regex returns first match', () => {
-      expect(document.match(/and/)).toEqual(MATCHES_AND.slice(0,1));
+      expect(document.match(/and/)).toEqual(MATCHES_AND.slice(0, 1));
     });
 
     test('global regex returns all matches', () => {
@@ -119,14 +125,20 @@ describe('new Document', () => {
     });
 
     test('match groups are ok but don\'t affect matches returned', () => {
-      expect(document.match(/(a)(nd)+/g)).toEqual(MATCHES_AND);
+      expect(document.match(/(a)(nd)+/g)).toEqual(MATCHES_AND.map(({ start, end }) => {
+        return {
+          start,
+          end,
+          matches: ['and', 'a', 'nd']
+        }
+      }));
     });
 
     test('regex can contain unicode characters', () => {
       expect(document.match(/[\u000B\u220E]/g)).toEqual([
-        { start: 594, end: 595 },
-        { start: 595, end: 596 },
-        { start: 1270, end: 1271 }
+        { start: 594, end: 595, matches: ['\u000B'] },
+        { start: 595, end: 596, matches: ['\u000B'] },
+        { start: 1270, end: 1271, matches: ['\u220E'] }
       ]);
     });
 
