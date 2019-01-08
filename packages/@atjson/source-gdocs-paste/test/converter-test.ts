@@ -26,6 +26,7 @@ describe('@atjson/source-gdocs-paste', () => {
 
   it('correctly converts headings', () => {
     let headings = atjson.where(a => a.type === 'heading');
+    console.log(headings.toJSON());
     expect(headings.length).toEqual(4);
     expect(headings.map(h => h.attributes.level)).toEqual([1, 2, 100, 101]);
   });
@@ -108,18 +109,24 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     };
   });
 
-  const LIST = {
-    start: 214,
-    end: 486,
-    type: '-offset-list',
-    attributes: { '-offset-type': 'numbered' },
-    id: 'Any<id>'
-  };
+  const LISTS = [
+    [ 214, 486 ],
+    [ 521, 538 ]
+  ].map(([ start, end ]) => {
+    return {
+      start,
+      end,
+      type: '-offset-list',
+      attributes: { '-offset-type': 'numbered' },
+      id: 'Any<id>'
+    }
+  });
 
   const LIST_ITEMS = [
     [ 214, 324 ],
     [ 325, 405 ],
-    [ 406, 486 ]
+    [ 406, 486 ],
+    [ 521, 537 ]
   ].map(([start, end]) => {
     return {
       start,
@@ -150,7 +157,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       );
 
     expect(listsAndParagraphs.toJSON()[0]).toEqual({
-      list: LIST,
+      list: LISTS[0],
       paragraphs: PARAGRAPHS.slice(0, 3)
     });
   });
@@ -187,11 +194,11 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     expect(linebreaksInLists.toJSON()).toEqual([
       {
         linebreak: LINEBREAKS[2],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[0] ]
       }, {
         linebreak: LINEBREAKS[3],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[1] ]
       }
     ]);
@@ -216,21 +223,35 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     expect(paragraphsInLists.toJSON()).toEqual([
       {
         paragraph: PARAGRAPHS[3],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[0] ]
       }, {
         paragraph: PARAGRAPHS[4],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[0] ]
       }, {
         paragraph: PARAGRAPHS[5],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[2] ]
       }, {
         paragraph: PARAGRAPHS[6],
-        lists: [ LIST ],
+        lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[2] ]
       }
     ]);
+  });
+
+  it('inserts object replaement character for single-item lists', () => {
+    let ocrs = atjson.match(/\uFFFC/g, LISTS[1].start, LISTS[1].end);
+    expect(ocrs).toEqual([{
+      start: LISTS[1].end - 1,
+      end: LISTS[1].end
+    }]);
+
+    let lists = atjson.where({ type: '-offset-list' });
+    expect(lists.toJSON()).toEqual(LISTS);
+
+    let listItems = atjson.where({ type: '-offset-list-item' });
+    expect(listItems.toJSON()).toEqual(LIST_ITEMS);
   });
 });

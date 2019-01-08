@@ -13,7 +13,7 @@ export interface GDocsPasteBuffer {
 }
 
 export interface Transforms {
-  [key: string]: (styles: GDocsStyleSlice[], entityMap: GDocsEntityMap) => AnnotationJSON[];
+  [key: string]: (styles: GDocsStyleSlice[], entityMap: GDocsEntityMap, trailing?: GDocsStyleSlice, text?: string) => AnnotationJSON[];
 }
 
 export default class GDocsParser {
@@ -44,9 +44,10 @@ export default class GDocsParser {
     let annotations = styleSlices.map((styleSlice: GDocsStyleSlice) => {
       let type: string = styleSlice.stsl_type;
       let styles: GDocsStyleSlice[] = styleSlice.stsl_styles;
+      let trailing: GDocsStyleSlice = styleSlice.stsl_trailing;
 
       if (transforms[type]) {
-        return transforms[type](styles, entityMap);
+        return transforms[type](styles, entityMap, trailing, this.getContent());
       }
       return null;
     });

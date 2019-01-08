@@ -1,6 +1,6 @@
 {
   "resolved": {
-    "dsl_spacers": "Before a vertical tab\u000bAfter a vertical tab and before a single newline\nAfter a single newline and before two newlines\n\nAfter two newlines and before three newlines\n\n\nAfter three newlines and before a numbered list\nFirst list item with a vertical tab\u000bSecond line following vertical tab\u000b\u000bFinal line following two vertical tabs\nSecond list item before a single vertical tab\u000bSecond line following vertical tab\nThird list item before two vertical tabs\u000b\u000bFinal line following two vertical tabs\nTwo newlines to break out of list\n",
+    "dsl_spacers": "Before a vertical tab\u000bAfter a vertical tab and before a single newline\nAfter a single newline and before two newlines\n\nAfter two newlines and before three newlines\n\n\nAfter three newlines and before a numbered list\nFirst list item with a vertical tab\u000bSecond line following vertical tab\u000b\u000bFinal line following two vertical tabs\nSecond list item before a single vertical tab\u000bSecond line following vertical tab\nThird list item before two vertical tabs\u000b\u000bFinal line following two vertical tabs\nTwo newlines to break out of list\nSingle item list\n",
     "dsl_styleslices": [
       {
         "stsl_type": "autogen",
@@ -987,6 +987,55 @@
           {
             "ls_nest": 0,
             "ls_id": null,
+            "ls_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": false,
+              "ts_fs_i": false,
+              "ts_ff_i": false,
+              "ts_it_i": false,
+              "ts_sc_i": false,
+              "ts_st_i": false,
+              "ts_un_i": false,
+              "ts_va_i": false,
+              "ts_bgc2_i": false,
+              "ts_fgc2_i": false
+            }
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "ls_nest": 0,
+            "ls_id": "kix.yciomchgiv",
             "ls_ts": {
               "ts_bd": false,
               "ts_fs": 11,
@@ -2061,6 +2110,69 @@
                 "opValue": []
               }
             }
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          {
+            "ps_al": 0,
+            "ps_awao": true,
+            "ps_sd": null,
+            "ps_bbtw": null,
+            "ps_bb": null,
+            "ps_bl": null,
+            "ps_br": null,
+            "ps_bt": null,
+            "ps_hd": 0,
+            "ps_hdid": "",
+            "ps_ifl": 18,
+            "ps_il": 36,
+            "ps_ir": 0,
+            "ps_klt": false,
+            "ps_kwn": false,
+            "ps_ltr": true,
+            "ps_ls": 1.15,
+            "ps_sm": 0,
+            "ps_sa": 0,
+            "ps_sb": 0,
+            "ps_al_i": false,
+            "ps_awao_i": false,
+            "ps_sd_i": false,
+            "ps_bbtw_i": false,
+            "ps_bb_i": false,
+            "ps_bl_i": false,
+            "ps_br_i": false,
+            "ps_bt_i": false,
+            "ps_ifl_i": false,
+            "ps_il_i": false,
+            "ps_ir_i": false,
+            "ps_klt_i": false,
+            "ps_kwn_i": false,
+            "ps_ls_i": false,
+            "ps_rd": "",
+            "ps_sm_i": false,
+            "ps_sa_i": false,
+            "ps_sb_i": false,
+            "ps_shd": false,
+            "ps_ts": {
+              "cv": {
+                "op": "set",
+                "opValue": []
+              }
+            }
           }
         ]
       },
@@ -2595,10 +2707,357 @@
             "b_gs": ""
           }
         }
+      },
+      "kix.yciomchgiv": {
+        "le_nb": {
+          "nl_0": {
+            "b_a": 0,
+            "b_ifl": 18,
+            "b_il": 36,
+            "b_gt": 10,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%0.",
+            "b_gs": ""
+          },
+          "nl_1": {
+            "b_a": 0,
+            "b_ifl": 54,
+            "b_il": 72,
+            "b_gt": 13,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%1.",
+            "b_gs": ""
+          },
+          "nl_2": {
+            "b_a": 2,
+            "b_ifl": 90,
+            "b_il": 108,
+            "b_gt": 15,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%2.",
+            "b_gs": ""
+          },
+          "nl_3": {
+            "b_a": 0,
+            "b_ifl": 126,
+            "b_il": 144,
+            "b_gt": 10,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%3.",
+            "b_gs": ""
+          },
+          "nl_4": {
+            "b_a": 0,
+            "b_ifl": 162,
+            "b_il": 180,
+            "b_gt": 13,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%4.",
+            "b_gs": ""
+          },
+          "nl_5": {
+            "b_a": 2,
+            "b_ifl": 198,
+            "b_il": 216,
+            "b_gt": 15,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%5.",
+            "b_gs": ""
+          },
+          "nl_6": {
+            "b_a": 0,
+            "b_ifl": 234,
+            "b_il": 252,
+            "b_gt": 10,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%6.",
+            "b_gs": ""
+          },
+          "nl_7": {
+            "b_a": 0,
+            "b_ifl": 270,
+            "b_il": 288,
+            "b_gt": 13,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%7.",
+            "b_gs": ""
+          },
+          "nl_8": {
+            "b_a": 2,
+            "b_ifl": 306,
+            "b_il": 324,
+            "b_gt": 15,
+            "b_sn": 1,
+            "b_ts": {
+              "ts_bd": false,
+              "ts_fs": 11,
+              "ts_ff": "Arial",
+              "ts_it": false,
+              "ts_sc": false,
+              "ts_st": false,
+              "ts_tw": 400,
+              "ts_un": false,
+              "ts_va": "nor",
+              "ts_bgc2": {
+                "clr_type": 0,
+                "hclr_color": null
+              },
+              "ts_fgc2": {
+                "clr_type": 0,
+                "hclr_color": "#000000"
+              },
+              "ts_bd_i": true,
+              "ts_fs_i": true,
+              "ts_ff_i": true,
+              "ts_it_i": true,
+              "ts_sc_i": true,
+              "ts_st_i": true,
+              "ts_un_i": false,
+              "ts_va_i": true,
+              "ts_bgc2_i": true,
+              "ts_fgc2_i": true
+            },
+            "b_gf": "%8.",
+            "b_gs": ""
+          }
+        }
       }
     },
     "dsl_entitytypemap": {
-      "kix.rb5or22zzwya": "list"
+      "kix.rb5or22zzwya": "list",
+      "kix.yciomchgiv": "list"
     },
     "dsl_relateddocslices": {}
   },

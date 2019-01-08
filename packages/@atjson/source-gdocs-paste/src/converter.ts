@@ -14,14 +14,6 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     doc.removeAnnotation(underline);
   });
 
-  // Before modifying annotations, get the block boundaries
-  let blockBoundaries = doc.where( (annotation: Annotation) => annotation instanceof BlockAnnotation )
-    .reduce( (boundaries: Set<number>, annotation: Annotation) => {
-      boundaries.add(annotation.start);
-      boundaries.add(annotation.end);
-      return boundaries;
-    }, new Set([0, doc.content.length]));
-
   doc.where({ type: '-gdocs-ts_bd' }).set({ type: '-offset-bold' });
   doc.where({ type: '-gdocs-ts_it' }).set({ type: '-offset-italic' });
   doc.where({ type: '-gdocs-ts_un' }).set({ type: '-offset-underline' });
@@ -44,11 +36,36 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .set({ type: '-offset-link' })
     .rename({ attributes: { '-gdocs-ulnk_url': '-offset-url' } });
 
+  doc.where({ type: '-offset-list' }).as('list').join(
+    doc.where({ type: '-offset-list-item' }).as('listItems'),
+    (l, r) => l.start == r.start && l.end == r.end
+  ).update(({ list, listItems }) => {
+    let item = listItems[0];
+    let insertionPoint = list.end;
+    doc.insertText(insertionPoint, '\uFFFC');
+    doc.addAnnotations(new ParseAnnotation({
+      start: insertionPoint,
+      end: insertionPoint + 1,
+      attributes: {
+        reason: 'object replacement character for single-item list'
+      }
+    }));
+    item.end--;
+  });
+
   doc.content = doc.content.replace(/\u000B/g, '\n');
+
 
   // Convert new lines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
   // so divide the document into 'block boundaries' and then look for single/multiple new lines within each
   // block boundary
+  let blockBoundaries = doc.where( (annotation: Annotation) => annotation instanceof BlockAnnotation )
+    .reduce( (boundaries: Set<number>, annotation: Annotation) => {
+      boundaries.add(annotation.start);
+      boundaries.add(annotation.end);
+      return boundaries;
+    }, new Set([0, doc.content.length]));
+
   [...blockBoundaries]
     .sort( (boundary1, boundary2) => boundary1 - boundary2 )
     .slice(1)
@@ -60,13 +77,15 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     })
     .forEach( ({ start, end }) => {
       // Convert single new lines to LineBreaks
-      doc.match(/[^\n]\n[^\n]/g, start, end).forEach( (match: { start: number, end: number }) => {
+      doc.match(/(^|[^\n])\n([^\n]|$)/g, start, end).forEach(match => {
+        let newlineStart = match.start + match.matches[1].length;
+        let newlineEnd = match.end - match.matches[2].length;
         doc.addAnnotations(new LineBreak({
-          start: match.start + 1,
-          end: match.end - 1
+          start: newlineStart,
+          end: newlineEnd
         }), new ParseAnnotation({
-          start: match.start + 1,
-          end: match.end - 1,
+          start: newlineStart,
+          end: newlineEnd,
           attributes: {
             reason: 'new line'
           }
@@ -103,7 +122,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
 
   // LineBreaks/paragraphs may have been created for listItem separators,
   // so delete those which exist in a list but not in any list item
-  doc.where((annotation: Annotation) => (annotation.type === '-offset-line-break') || (annotation.type === '-offset-paragraph'))
+  doc.where((annotation: Annotation) => (annotation instanceof LineBreak) || (annotation instanceof Paragraph))
     .as('lineBreak')
     .join(
       doc.where({ type: '-offset-list' }).as('lists'),
@@ -113,7 +132,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       (l: {lineBreak: LineBreak, lists: Annotation[]}, r: Annotation) => {
         return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
       })
-    .update(({lineBreak, listItems}: {lineBreak: LineBreak, listItems: Annotation[]}) => {
+    .update(({lineBreak, listItems}) => {
       if (listItems.length === 0) {
         doc.removeAnnotation(lineBreak);
       }
