@@ -91,7 +91,6 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
   const LINEBREAKS = [
     [ 21, 22],
     [ 70, 71 ],
-    [ 213, 214 ],
     [ 249, 250 ],
     [ 370, 371 ],
     [ 520, 521 ]
@@ -207,11 +206,11 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     expect(linebreaksInLists.where(join => join.lists.length > 0 && join['list-items'].length === 0).toJSON()).toHaveLength(0);
     expect(linebreaksInLists.toJSON()).toMatchObject([
       {
-        linebreak: LINEBREAKS[3],
+        linebreak: LINEBREAKS[2],
         lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[0] ]
       }, {
-        linebreak: LINEBREAKS[4],
+        linebreak: LINEBREAKS[3],
         lists: [ LISTS[0] ],
         'list-items': [ LIST_ITEMS[1] ]
       }
