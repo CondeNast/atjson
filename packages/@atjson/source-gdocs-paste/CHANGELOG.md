@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### 🐛 Fixes
 
-* 🐝 Fix three issues:
+* 🐝 Fix three issues: Disambiguate single-item lists, add parse tokens around newlines separating list-items, close partial list/list-items from paste
 
 
 
