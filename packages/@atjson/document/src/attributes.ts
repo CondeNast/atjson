@@ -18,6 +18,8 @@ export function unprefix(vendorPrefix: string, subdocuments: { [key: string]: ty
       if (key.indexOf(`-${vendorPrefix}-`) === 0 && value !== undefined) {
         let unprefixedKey = key.slice(`-${vendorPrefix}-`.length);
         attrs[unprefixedKey] = unprefix(vendorPrefix, subdocuments, value, path.concat(unprefixedKey));
+      } else {
+        attrs[key] = value;
       }
       return attrs;
     }, {});
@@ -40,7 +42,11 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
     return Object.keys(attribute).reduce((copy: JSONObject, key: string) => {
       let value = attribute[key];
       if (value !== undefined) {
-        copy[`-${vendorPrefix}-${key}`] = toJSON(vendorPrefix, value);
+        if (key[0] === '-') {
+          copy[key] = toJSON(vendorPrefix, value);
+        } else {
+          copy[`-${vendorPrefix}-${key}`] = toJSON(vendorPrefix, value);
+        }
       }
       return copy;
     }, {});

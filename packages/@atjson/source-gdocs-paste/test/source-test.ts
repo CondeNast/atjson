@@ -230,7 +230,7 @@ describe('@atjson/source-gdocs-paste', () => {
     });
   });
 
-  describe('partial pastes', () => {
+  describe('partial link pastes', () => {
     let gdocsBuffer: any;
 
     beforeAll(() => {
@@ -238,11 +238,51 @@ describe('@atjson/source-gdocs-paste', () => {
       gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
 
-    it('creates the right number of list annotations', () => {
+    it('creates the right number of link annotations', () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let links = gdocs.annotations.filter(a => a.type === 'lnks_link');
 
       expect(links.length).toEqual(1);
+    });
+  });
+
+  describe('partial list pastes', () => {
+    let pasteBuffer: any;
+
+    beforeAll(() => {
+      // https://docs.google.com/document/d/1PKNoasDTf0Pj71vJs4MAi9zOrWDA3TDSNj0RFXWoCp4/edit
+      let fixturePath = path.join(__dirname, 'fixtures', 'list-styles-partial.json');
+      pasteBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
+    });
+
+    it('creates the right number of list and list-item annotations', () => {
+      let gdocs = GDocsSource.fromRaw(pasteBuffer);
+      let listAndItems = gdocs.where(a => a.type === 'list').as('list')
+        .join(
+          gdocs.where(a => a.type === 'list_item').as('listItems'),
+          (l, r) => l.start <= r.start && l.end >= r.end
+        );
+
+      expect(listAndItems.toJSON()).toMatchObject([
+        {
+          list: { start: 0, end: 22, type: '-gdocs-list' },
+          listItems: [
+            { start: 0, end: 8, type: '-gdocs-list_item' },
+            { start: 9, end: 22, type: '-gdocs-list_item' }
+          ]
+        }, {
+          list: { start: 41, end: 68, type: '-gdocs-list' },
+          listItems: [
+            { start: 41, end: 54, type: '-gdocs-list_item' },
+            { start: 55, end: 68, type: '-gdocs-list_item' }
+          ]
+        }, {
+          list: { start: 89, end: 102, type: '-gdocs-list' },
+          listItems: [
+            { start: 89, end: 102, type: '-gdocs-list_item' }
+          ]
+        }
+      ]);
     });
   });
 });

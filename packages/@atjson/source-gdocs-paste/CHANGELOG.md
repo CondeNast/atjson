@@ -5,7 +5,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ## [0.13.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.4...@atjson/source-gdocs-paste@0.13.5) (2019-01-07)
 
-**Note:** Version bump only for package @atjson/source-gdocs-paste
+### 🐛 Fixes
+
+* 🐛 Convert vertical tabs and newlines to paragraph and linebreak annotations
 
 
 

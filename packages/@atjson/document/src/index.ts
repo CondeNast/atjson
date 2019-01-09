@@ -231,7 +231,11 @@ export default class Document {
       return this.clone() as InstanceType<To>;
     // Coerce or convert to new type
     } else {
-      let convertedDoc = this.clone();
+
+      class ConversionDocument extends DocumentClass {
+        static schema = DocumentClass.schema.concat(to.schema);
+      }
+      let convertedDoc = new ConversionDocument(this.toJSON());
 
       if (converter) {
         return new to(converter(convertedDoc).toJSON()) as InstanceType<To>;
@@ -257,7 +261,7 @@ export default class Document {
     return new DocumentClass(this.toJSON());
   }
 
-  match(regex: RegExp, start?: number, end?: number): Array<{ start: number, end: number }> {
+  match(regex: RegExp, start?: number, end?: number): Array<{ start: number, end: number, matches: string[] }> {
     let content = this.content.slice(start, end);
     let offset = start || 0;
     let matches = [];
@@ -268,7 +272,8 @@ export default class Document {
       if (match) {
         matches.push({
           start: offset + match.index,
-          end: offset + match.index + match[0].length
+          end: offset + match.index + match[0].length,
+          matches: match.slice()
         });
       }
     } while (regex.global && match);
