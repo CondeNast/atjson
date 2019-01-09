@@ -18,8 +18,8 @@ function createListAnnotation(list: GDocsStyleSlice, entityMap: GDocsEntityMap, 
 function createListItemAnnotation(list: GDocsStyleSlice, start: number, end: number) {
   return {
     type: '-gdocs-list_item',
-    start: start,
-    end: end,
+    start,
+    end,
     attributes: {
       '-gdocs-ls_nest': list.ls_nest,
       '-gdocs-ls_id': list.ls_id
@@ -46,7 +46,6 @@ export default function extractListStyles(lists: GDocsStyleSlice[], entityMap: G
     } else {
       listAnnotations[list.ls_id] = createListAnnotation(list, entityMap, lastParagraphStart, i);
     }
-
     listItems.push(createListItemAnnotation(list, lastParagraphStart, i));
 
     lastParagraphStart = i + 1;

@@ -38,7 +38,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
 
   doc.where({ type: '-offset-list' }).as('list').join(
     doc.where({ type: '-offset-list-item' }).as('listItems'),
-    (l, r) => l.start == r.start && l.end == r.end
+    (l, r) => l.start === r.start && l.end === r.end
   ).update(({ list, listItems }) => {
     let item = listItems[0];
     let insertionPoint = list.end;
@@ -53,10 +53,10 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     item.end--;
   });
 
+  // Replace vertical tabs with newlines
   doc.content = doc.content.replace(/\u000B/g, '\n');
 
-
-  // Convert new lines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
+  // Convert newlines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
   // so divide the document into 'block boundaries' and then look for single/multiple new lines within each
   // block boundary
   let blockBoundaries = doc.where( (annotation: Annotation) => annotation instanceof BlockAnnotation )

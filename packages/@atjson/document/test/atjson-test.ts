@@ -113,7 +113,7 @@ describe('new Document', () => {
         start,
         end,
         matches: ['and']
-      }
+      };
     });
 
     test('non-global regex returns first match', () => {
@@ -124,13 +124,13 @@ describe('new Document', () => {
       expect(document.match(/and/g)).toEqual(MATCHES_AND);
     });
 
-    test('match groups are ok but don\'t affect matches returned', () => {
+    test('match groups are returned', () => {
       expect(document.match(/(a)(nd)+/g)).toEqual(MATCHES_AND.map(({ start, end }) => {
         return {
           start,
           end,
           matches: ['and', 'a', 'nd']
-        }
+        };
       }));
     });
 
