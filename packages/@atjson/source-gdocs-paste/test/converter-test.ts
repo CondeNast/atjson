@@ -94,9 +94,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     [ 213, 214 ],
     [ 249, 250 ],
     [ 370, 371 ],
-    [ 486, 487 ],
-    [ 520, 521 ],
-    [ 538, 539 ]
+    [ 520, 521 ]
   ].map(([start, end]) => {
     return {
       start,
