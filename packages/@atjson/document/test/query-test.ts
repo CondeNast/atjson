@@ -155,6 +155,26 @@ describe('Document#where', () => {
       start: 6,
       end: 10
     }]);
+
+    doc.where({ type: '-test-link' }).rename({ attributes: { '-test-url': '-vendor-url' } });
+    expect(doc.content).toBe('Conde Nast');
+    expect(doc.annotations.map(a => a.toJSON())).toEqual([{
+      id: '1',
+      type: '-test-link',
+      attributes: {
+        '-vendor-url': 'https://example.com'
+      },
+      start: 0,
+      end: 5
+    }, {
+      id: '2',
+      type: '-test-link',
+      attributes: {
+        '-vendor-url': 'https://condenast.com'
+      },
+      start: 6,
+      end: 10
+    }]);
   });
 
   it('update with function', () => {
