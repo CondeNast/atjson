@@ -138,5 +138,16 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       }
     });
 
+  // LineBreaks may have been created at a block boundary co-terminating
+  // with a paragraph, so delete those which match a paragraph end
+  doc.where(annotation => annotation instanceof LineBreak)
+  .as('lineBreak')
+  .join(
+    doc.where(annotation => annotation instanceof Paragraph).as('paragraphs'),
+    (l: Annotation, r: Annotation) => l.end === r.end)
+  .update(({lineBreak}) => {
+    doc.removeAnnotation(lineBreak);
+  });
+
   return doc;
 });
