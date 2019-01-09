@@ -121,12 +121,12 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     });
 
   // LineBreaks/paragraphs may have been created for listItem separators,
-  // so delete those which exist in a list but not in any list item
+  // so delete those which exist in a list (or immediately after) but not in any list item
   doc.where((annotation: Annotation) => (annotation instanceof LineBreak) || (annotation instanceof Paragraph))
     .as('lineBreak')
     .join(
       doc.where({ type: '-offset-list' }).as('lists'),
-      (l: Annotation, r: Annotation) => l.start > r.start && l.end < r.end)
+      (l: Annotation, r: Annotation) => l.start >= r.start && l.end <= r.end + 1)
     .outerJoin(
       doc.where({type: '-offset-list-item'}).as('listItems'),
       (l: {lineBreak: LineBreak, lists: Annotation[]}, r: Annotation) => {
