@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.6...@atjson/source-gdocs-paste@0.13.7) (2019-01-09)
+
+
+### 🐛 Fixes
+
+* 🐝 : Delete linebreak after last list item
+* 🐝 : Delete linebreaks at end of paragraphs
+
+
+
 ## [0.13.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.5...@atjson/source-gdocs-paste@0.13.6) (2019-01-09)
 
 
