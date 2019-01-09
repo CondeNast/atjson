@@ -21,6 +21,8 @@
   ],
   "dependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/offset-annotations": "file:../offset-annotations"
+    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@types/sax": "^1.0.1",
+    "sax": "^1.2.4"
   }
 }

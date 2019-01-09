@@ -43,6 +43,7 @@
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
     "@atjson/source-html": "file:packages/@atjson/source-html",
     "@atjson/source-mobiledoc": "file:packages/@atjson/source-mobiledoc",
+    "@atjson/source-prism": "file:packages/@atjson/source-prism",
     "@atjson/source-url": "file:packages/@atjson/source-url"
   },
   "scripts": {
