@@ -13,11 +13,5 @@ PRISMSource.defineConverterTo(OffsetSource, doc => {
     doc.removeAnnotation(media);
   });
 
-  doc.where(a => a.start === a.end).remove();
-  doc.match(/(&#[\d]+;)/g, ({ start, end, matches }) => {
-    // Replace with HTML entity
-    console.log(start, end, matches)
-  });
-
   return doc.convertTo(HTMLSource).convertTo(OffsetSource);
 });

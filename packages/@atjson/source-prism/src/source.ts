@@ -1,5 +1,6 @@
 import Document, { Annotation, AnnotationJSON, ParseAnnotation } from '@atjson/document';
 import HTMLSource from '@atjson/source-html';
+import * as entities from 'entities';
 import * as sax from 'sax';
 import {
   Body,
@@ -127,9 +128,24 @@ export default class PRISMSource extends Document {
 
     parser.write(xml).close();
 
-    return new this({
+    let prism = new this({
       content,
       annotations
     });
+
+    while (true) {
+      let match = /(&#[\d]+;)/.exec(prism.content);
+      if (match == null) {
+        break;
+      }
+
+      let start = match.index;
+      let end = start + match[0].length;
+      let character = entities.decodeXML(match[0]);
+      prism.insertText(start, character);
+      prism.deleteText(start + 1, end + 1);
+    }
+
+    return prism;
   }
 }
