@@ -1,5 +1,12 @@
-import Document, { AnnotationJSON } from '@atjson/document';
+import Document, { Annotation, AnnotationJSON, ParseAnnotation } from '@atjson/document';
+import HTMLSource from '@atjson/source-html';
 import * as sax from 'sax';
+import {
+  Body,
+  Head,
+  Media,
+  Message
+} from './annotations';
 
 function prefix(vendorPrefix: string, attributes: any): any {
   if (Array.isArray(attributes)) {
@@ -34,6 +41,14 @@ function getType(tagName: string) {
 }
 
 export default class PRISMSource extends Document {
+  static contentType = 'application/vnd.atjson+prism';
+  static schema = [...HTMLSource.schema].concat([
+    Body,
+    Head,
+    Media,
+    Message
+  ]);
+
   static fromRaw(xml: string) {
     let parser = sax.parser(false, {
       trim: false,
@@ -44,14 +59,15 @@ export default class PRISMSource extends Document {
     });
 
     let content = xml;
-    let annotations: AnnotationJSON[] = [{
-      type: '-atjson-parse-token',
-      start: xml.indexOf('<?xml'),
-      end: xml.indexOf('?>', xml.indexOf('<?xml')),
+    let xmlStart = xml.indexOf('<?xml');
+    let xmlEnd = xml.indexOf('?>', xmlStart) + 2;
+    let annotations: Array<Annotation | AnnotationJSON> = [new ParseAnnotation({
+      start: xmlStart,
+      end: xmlEnd,
       attributes: {
-        'atjson-reason': '<?xml>'
+        reason: '<?xml>'
       }
-    }];
+    })];
     let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
 
     parser.onopentag = (node) => {
@@ -60,31 +76,29 @@ export default class PRISMSource extends Document {
       if (node.isSelfClosing) {
         annotations.push({
           type: `-${vendorPrefix}-${type}`,
-          start: parser.startTagPosition,
+          start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: prefix(vendorPrefix, node.attributes)
-        }, {
-          type: '-atjson-parse-token',
-          start: parser.startTagPosition,
+        }, new ParseAnnotation({
+          start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: {
-            '-atjson-reason': `<${node.name}/>`
+            reason: `<${node.name}/>`
           }
-        });
+        }));
       } else {
         partialAnnotations.push({
           type: `-${vendorPrefix}-${type}`,
-          start: parser.startTagPosition,
+          start: parser.startTagPosition - 1,
           attributes: prefix(vendorPrefix, node.attributes)
         });
-        annotations.push({
-          type: '-atjson-parse-token',
-          start: parser.startTagPosition,
+        annotations.push(new ParseAnnotation({
+          start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: {
-            '-atjson-reason': `<${node.name}>`
+            reason: `<${node.name}>`
           }
-        });
+        }));
       }
     };
 
@@ -98,15 +112,17 @@ export default class PRISMSource extends Document {
       }
 
       annotation.end = parser.position;
+
       annotations.push(
-        annotation as AnnotationJSON, {
-        type: '-atjson-parse-token',
-        start: parser.startTagPosition,
-        end: parser.position,
-        attributes: {
-          '-atjson-reason': `</${tagName}>`
-        }
-      });
+        annotation as AnnotationJSON,
+        new ParseAnnotation({
+          start: parser.startTagPosition - 1,
+          end: parser.position,
+          attributes: {
+            reason: `</${tagName}>`
+          }
+        })
+      );
     };
 
     parser.write(xml).close();
