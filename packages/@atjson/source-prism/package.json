@@ -23,6 +23,7 @@
     "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations",
     "@types/sax": "^1.0.1",
+    "entities": "^1.1.2",
     "sax": "^1.2.4"
   }
 }
