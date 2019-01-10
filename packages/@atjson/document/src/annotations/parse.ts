@@ -5,6 +5,6 @@ export default class ParseAnnotation extends Annotation {
   static type = 'parse-token';
 
   get rank() {
-    return Number.MAX_SAFE_INTEGER;
+    return Number.MAX_SAFE_INTEGER - 1;
   }
 }
