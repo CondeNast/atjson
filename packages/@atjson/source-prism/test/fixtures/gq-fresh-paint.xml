@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pam:message xmlns:pam="http://prismstandard.org/namespaces/pam/2.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:pim="http://prismstandard.org/namespaces/pim/2.0/" xmlns:prism="http://prismstandard.org/namespaces/basic/2.0/" xmlns:prl="http://prismstandard.org/namespaces/prl/2.0/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://prismstandard.org/namespaces/pam/2.0/ pam.xsd">
+<pam:article xml:lang="en-US">
+<head>
+<dc:identifier>XXXXXXX</dc:identifier>
+<dc:title>Fresh Paint</dc:title>
+<dc:creator>XXXXXXX</dc:creator>
+<dc:contributor>XXXXXXX</dc:contributor>
+<dc:contributor>XXXXXXX</dc:contributor>
+<dc:contributor>XXXXXXX</dc:contributor>
+<prism:publicationName>GQ</prism:publicationName>
+<prism:issn>2471-5393</prism:issn>
+<dc:publisher>Cond&#233; Nast</dc:publisher>
+<prism:coverDate>2018-11-13</prism:coverDate>
+<prism:coverDisplayDate>GQ Style Holiday 2018</prism:coverDisplayDate>
+<prism:volume>3</prism:volume>
+<prism:number>3</prism:number>
+<prism:startingPage>90</prism:startingPage>
+<prism:section>Art</prism:section>
+<dc:subject> </dc:subject>
+<dc:description>FOR A WHILE THERE, PAINTING FELL OUT OF STYLE IN AN ART WORLD THAT FAVORED PERFORMANCE, VIDEO, AND INSTALLATIONS. BUT ACRYLIC ON CANVAS IS BACK, BABY&#8212;SO WE VISITED FOUR HIGHLY ORIGINAL PAINTERS, PHOTOGRAPHED THEM IN THEIR STUDIOS, THEN ASKED THEM TO COMPLETE AN E-MAIL QUESTIONNAIRE&#8212;AND DOODLE US A SELF-PORTRAIT.</dc:description>
+<prism:wordCount>2424</prism:wordCount>
+<prism:copyright>COPYRIGHT &#169;2018 THE COND&#201; NAST PUBLICATIONS. ALL RIGHTS RESERVED.</prism:copyright>
+</head>
+<body>
+<h1>FRESH PAINT</h1>
+<p class="byline">By XXXXXXX<br/>Photographs by XXXXXXX<br/>Photographs by XXXXXXX<br/>Photographs by XXXXXXX</p>
+<p class="deck">FOR A WHILE THERE, PAINTING FELL OUT OF STYLE IN AN ART WORLD THAT FAVORED PERFORMANCE, VIDEO, AND INSTALLATIONS. BUT ACRYLIC ON CANVAS IS BACK, BABY&#8212;SO WE VISITED FOUR HIGHLY ORIGINAL PAINTERS, PHOTOGRAPHED THEM IN THEIR STUDIOS, THEN ASKED THEM TO COMPLETE AN E-MAIL QUESTIONNAIRE&#8212;AND DOODLE US A SELF-PORTRAIT.</p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Photograph by XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Photograph by XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Photograph by XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Photograph by XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<h2>Robert Nava</h2>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+</pam:media>
+<p><i>Five-Minute Self-Portrait,</i> 2018</p>
+<p><b>BROOKLYN<br/>b. 1985</b></p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+<pam:caption>The East Williamsburg loft building where Nava lives and works is packed with musicians, filmmakers, and other artists. &#8220;I like that you can be loud here and the rooftop for the view and big sky,&#8221; he says.</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX. Robert Nava, Red Tooth, courtesy of Stan Narten/Sorry We&#39;re Closed, Brussels</pam:credit>
+</pam:media>
+<p><b><small>NAVA&#39;S PAINTINGS OF PRIMORDIAL MONSTERS</small></b> and myths balance ceremonial seriousness with childlike play. Originally from East Chicago, Indiana, he received an M.F.A. from Yale University before moving to Brooklyn, where we caught up with him while at work in his studio.</p>
+<p><b><small>GQ STYLE:</small> How did you arrive at your painting style? What factors influenced your development most?</b></p>
+<p><b><small>ROBERT NAVA:</small></b> Drawing every morning, trying to keep up with my imagination. Looking at a lot of ancient art, mainly Sumerian, Egyptian, Mayan. The mandala. Cave painting. The older artworks have a big impact, and I&#39;m able to see the amount of work put into them, and they feel like they are timeless to a degree. But also they contain so much mystery. There&#39;s another level of mindfulness to &#8220;care&#8221; in them.</p>
+<p><b>What is your latest body of work all about?</b></p>
+<p>Making new myths. Trying to make monsters, angels, ghosts, putting an energy into them.</p>
+<p><b>What&#39;s something you&#39;d like to do as an artist but haven&#39;t yet?</b></p>
+<p>Make large sculpture with metal.</p>
+<p><b>What do you do when you need a break from making art?</b></p>
+<p>Hang with my cat, Jumanji. Go to rooftops. The beach. Find some live music to enjoy.</p>
+<p><b>What do you wear when you paint?</b></p>
+<p>Usually shorts and headphones. The less the better.</p>
+<p><b>If you&#39;re at a party and a new acquaintance asks what your work is like, what do you say?</b></p>
+<p>I try to show a web page or Instagram.</p>
+<p><b>Who was the first artist that really blew your mind? And who was the most recent?</b></p>
+<p>Van Gogh and Huma Bhabha. Van Gogh: The soul and application of paint. The fearlessness. The paint is very alive&#8212;those paintings have an honesty that cannot be denied. Huma Bhabha: An engagement with the realness in materials with immense weight and impact&#8212;her works are very &#8220;in your face,&#8221; with a raw energy.</p>
+<p><b>Beyond the basic tools, what things do you need in order to paint?</b></p>
+<p>Loud music. There are so many artists and moods, but lately: electronic music, often techno, house, disco. Anything that takes you on a journey for hours on end.</p>
+<p><b>What&#39;s the best advice you&#39;ve ever received from another artist?</b></p>
+<p>&#8220;There are no mistakes,&#8221; from my first-grade art teacher, Mrs. Shaver.</p>
+<h2>Devan Shimoyama</h2>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+</pam:media>
+<p><i>Five-Minute Self-Portrait,</i> 2018</p>
+<p><b>PITTSBURGH<br/>b. 1989</b></p>
+<p><b><small>PHILADELPHIA NATIVE</small></b> Shimoyama&#8212;also a Yale M.F.A. graduate&#8212;is now based in Pittsburgh, where he teaches at Carnegie Mellon University. His paintings borrow materials from drag culture&#8212;glitter, feathers, and rhinestones&#8212;and explore issues related to race, masculinity, and illusions of wealth. His debut solo museum exhibition, <i>Cry, Baby,</i> is at the Andy Warhol Museum through March 2019.</p>
+<p><b><small>GQ STYLE:</small> How did you arrive at your painting style? What factors influenced your development most?</b></p>
+<p><small><b>DEVAN SHIMOYAMA:</b></small> My painting style came about from my love of experimenting with all kinds of materials, drag culture, and fashion. I remember when I was first starting to paint, I was fascinated by how unconventional painting materials would mix together to create these psychedelic, shimmering encrusted spills. I&#39;d play around with spray paint, quick-dry enamel, and fabric dye. Those eventually led to my interest in other unconventional painting materials that are much more in line with what drag performers use to get a look together, like rhinestones, glitter, feathers, et cetera, which they&#39;re using to create the illusion and fantasy of a wealthy, beautiful fictional character.</p>
+<p><b>What is your latest body of work all about?</b></p>
+<p>The last solo exhibition I had was titled <i>Sweet,</i> which was exploring the toxic masculinity of black barbershops. More recently, I&#39;ve begun a body of work where I am depicting black individuals tending to their homes and thinking about the importance of black ownership, whether that ownership is businesses, properties, et cetera. I just have been thinking about the importance of people of color actually being able to have more agency and not become such easy targets for displacement and gentrification.</p>
+<p><b>What&#39;s something you&#39;d like to do as an artist but haven&#39;t yet?</b></p>
+<p>I would love to actually collaborate with a fashion designer and create a line. I love fashion so much, and I would be completely invested in creating everything, even creating custom fabrics and accessories. I think that designers like Kerby Jean-Raymond from Pyer Moss have found a really nuanced way to intersect art, activism, and fashion in such a smart way.</p>
+<p><b>What do you do when you need a break from making art?</b></p>
+<p>I need mindless activity. I hang out with my two dogs (two Cavalier King Charles spaniels, named River and Bowie), or I play mindless games like Stardew Valley or watch guilty-pleasure reality-TV shows.</p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+<pam:caption>Shimoyama&#39;s studio on campus at Carnegie Mellon is located down the hall from the university&#39;s woodshop, laser cutters, and printshop, which, he says, &#8220;allows me to be able to open up my multidisciplinary practice with ease.&#8221;</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<p><b>What do you wear when you paint?</b></p>
+<p>I normally wear either a pair of denim cutoff shorts and a tank top or my bright red Dickies short-sleeve coveralls. I also always wear my Blundstone Chelsea boots as my painting shoes. They&#39;re covered in all kinds of splattered paint and glitter.</p>
+<p><b>Who was the first artist that really blew your mind? And who was the most recent?</b></p>
+<p>Wangechi Mutu is the first artist that really blew my mind. I was completely fascinated by her use of ink and collage to make these explosive, hybridized characters that were so indomitable in spirit and strength. Most recently, my best friend, Haley Josephs, has blown my mind pretty consistently with her new work. The colors, the power in the women she&#39;s depicting, and the fantastical reality she creates never fail to impress me.</p>
+<p><b>Beyond the basic tools, what things do you need in order to paint?</b></p>
+<p>I need to always have jewelry, glitter, rhinestones, and fabric, but also I need to listen to something while I&#39;m working. Depending on what I&#39;m working on, I need to play a good album that matches my mood&#8212;currently listening to Kelela, SZA, Blood Orange, and Amin&#233; on rotation.</p>
+<p><b>What&#39;s the best advice you&#39;ve ever received from another artist?</b></p>
+<p>Josephine Halvorson gave me some of my best studio visits while in grad school at Yale, and I remember her telling me that she could tell when my work was coming from a place of love and talking about love and that there was strength in that. I&#39;ve kept that in mind ever since, always making sure to make art from something real and true and significant and from a place of love.</p>
+<p><b>If you&#39;re at a party and a new acquaintance asks what your work is like, what do you say?</b></p>
+<p>I&#39;d say that I make mythological, epic fantasy-figure paintings with drag-queen materials. That&#39;s my elevator pitch!</p>
+<h2>Emily Mae Smith</h2>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+</pam:media>
+<p><i>Five-Minute Self-Portrait,</i> 2018</p>
+<p><b>BROOKLYN<br/>b. 1979</b></p>
+<p><small><b>BORN IN AUSTIN,</b></small> Smith paints cartoonish figures and surreal scenarios in photo-realistic detail, all of it oozing with sensuality and stark feminine energy. We caught up with Smith at her studio in Brooklyn as she prepared for a show at Galerie Perrotin in Manhattan and for her first solo museum show, which opens at Le Consortium in Dijon, France, in November.</p>
+<p><b><small>GQ STYLE:</small> How did you arrive at your painting style? What factors influenced your development most?</b></p>
+<p><b><small>EMILY MAE SMITH:</small></b> Learning what to leave out and how to do just enough&#8212;to not over-do&#8212;was very important. That comes with experience and practice. I have been painting with the same materials for 20 years. A lot of people like to discuss their childhood as being formative, but I prefer to emphasize the experiences of my adult life. As a woman, my point of view has been radicalized during this time.</p>
+<p><b>What is your latest body of work all about?</b></p>
+<p>An anthropomorphic broom appears in a lot of my paintings. Its figure forms a kind of totem: an object imbued with a special power beyond its literal form. These brooms are tools for new potentialities, occupying and distorting historical compositions, claiming space for feminine subjectivity.</p>
+<p><b>What&#39;s something you&#39;d like to do as an artist but haven&#39;t yet?</b></p>
+<p>There are paintings I thought of two years ago that I&#39;m just now able to execute&#8212;my mind has to slowly engineer them, sometimes silently behind the scenes, like a program running in the background. Then one day it&#39;s ready.</p>
+<p><b>Beyond the basic tools, what things do you need in order to paint?</b></p>
+<p>Discipline, will, time.</p>
+<p><b>What do you do when you need a break from making art?</b></p>
+<p>I recently got a puppy, who forces me to take more breaks. I like the walks.</p>
+<p><b>What do you wear when you paint?</b></p>
+<p>My favorite piece of clothing to wear in the studio is a boy&#39;s ranger vest, which I bought from a thrift store in Aspen.</p>
+<p><b>Who was the first artist that really blew your mind? And who was the most recent?</b></p>
+<p>When I was about 17, I saw Georges Seurat&#39;s <i>A Sunday Afternoon on the Island of La Grande Jatte</i> at the Art Institute of Chicago. I knew of it from books, but seeing it in person blew my mind. At that moment I fell in love with painting down to the material level. It was the first time that I truly understood painting beyond image. I saw that it was conceptual, experiential, and that depth of meaning worked far beyond a picture. Recently I visited the Alte Nationalgalerie, in Berlin, which holds masterpiece paintings from the Romantic period. There I saw mind-blowing Arnold B&#246;cklin paintings. I&#39;m thinking about those a lot right now.</p>
+<p><b>What&#39;s the best advice you&#39;ve ever received from another artist?</b></p>
+<p>Hands-down best advice, from my partner: &#8220;Learn to make small paintings.&#8221; This came in a particularly rough patch in my life. I was deeply struggling at every level. Learning to paint in reduced scale with reduced materials was a painful but great crucible for my work.</p>
+<p><b>If you&#39;re at a party and a new acquaintance asks what your work is like, what do you say?</b></p>
+<p>&#8220;Good.&#8221;</p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+<pam:caption>Smith&#39;s studio, on the fourth floor of a Williamsburg loft building, has a wall of windows and an island full of brushes and supplies in the center. &#8220;It&#39;s an incredible luxury to paint with natural light in N.Y.C.,&#8221; she says.</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX. XXXXXXX, XXXXXXX, courtesy of Dario Lasagni/ Simone Subal Gallery</pam:credit>
+</pam:media>
+<h2>Joe Roberts</h2>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+</pam:media>
+<p><i>Five-Minute Self-Portrait,</i> 2018</p>
+<p><b>SAN FRANCISCO<br/>b. 1976</b></p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+<pam:caption>&#8220;My studio is just a tiny room in my house in the Mission District,&#8221; Roberts says. &#8220;It&#39;s filled with old magazines and junk and half-finished projects. I like staring at the giant redwood tree that grows outside.&#8221;</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>XXXXXXX</pam:credit>
+</pam:media>
+<p><b><small>BORN IN MADISON, WISCONSIN,</small></b> Roberts takes inspiration from comic books, skateboarding, space exploration, and his experiences with psychedelics. Roberts, a.k.a. LSD World Peace, has collaborated with Supreme and designed graphics for GX1000, a skate brand based in San Francisco, where he works and lives.</p>
+<p><b><small>GQ STYLE:</small> How did you arrive at your painting style? What factors influenced your development most?</b></p>
+<p><small><b>JOE ROBERTS:</b></small> I have been learning how to paint for a million years, and I&#39;m still not very good at it. I don&#39;t really have any expectations when I paint. It&#39;s more fun that way.</p>
+<p><b>What is your latest body of work all about?</b></p>
+<p>Trips. I went camping once a month for a year, and I ate mushrooms every time. I made a bunch of paintings about these experiences. Kinda my way of integrating my trips with my life.</p>
+<p><b>What&#39;s something you&#39;d like to do as an artist but haven&#39;t yet?</b></p>
+<p>I have made blueprints for a wish machine, and I would like to build it.</p>
+<p><b>What do you do when you need a break from making art?</b></p>
+<p>I go on a walk with my dog, Kevin. Or I go skateboarding. Or go camping.</p>
+<p><b>What do you wear when you paint?</b></p>
+<p>Just whatever clothes I&#39;m wearing that day. Everything I have has paint on it somewhere.</p>
+<p><b>Who was the first artist that really blew your mind? And who was the most recent?</b></p>
+<p>The first was my grandfather, Steve Vasy. He made all sorts of art. He made collages. He was a printmaker. He made things out of found objects. He taught me all sorts of things about art and collecting junk and how to see. Most recently, Tahiti Pehrson. I am drawn to Tahiti&#39;s work because it&#39;s pretty amazing&#8212;he makes these paper cutouts that are incredibly detailed and meticulous.</p>
+<p><b>Beyond the basic tools, what things do you need in order to paint?</b></p>
+<p>Not much. Maybe a glass of water and some headphones.</p>
+<p><b>What&#39;s the best advice you&#39;ve ever received from another artist?</b></p>
+<p>&#8220;Breathe.&#8221;</p>
+<p><b>Who gave you that advice?</b></p>
+<p>The photographer that came to my studio to shoot me for you guys [Damien Maloney]. I guess I was holding my breath.</p>
+<p><b>If you&#39;re at a party and a new acquaintance asks what your work is like, what do you say?</b></p>
+<p>&#8220;Amateur landscape painting.&#8221;</p>
+</body>
+</pam:article>
+</pam:message>
