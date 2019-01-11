@@ -1,12 +1,15 @@
-import Document, { Annotation, AnnotationJSON, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, AnnotationJSON, ParseAnnotation, AdjacentBoundaryBehaviour } from '@atjson/document';
 import HTMLSource from '@atjson/source-html';
 import * as entities from 'entities';
 import * as sax from 'sax';
 import {
+  Article,
   Body,
+  Description,
   Head,
   Media,
-  Message
+  Message,
+  Title
 } from './annotations';
 
 function prefix(vendorPrefix: string, attributes: any): any {
@@ -44,10 +47,13 @@ function getType(tagName: string) {
 export default class PRISMSource extends Document {
   static contentType = 'application/vnd.atjson+prism';
   static schema = [...HTMLSource.schema].concat([
+    Article,
     Body,
+    Description,
     Head,
     Media,
-    Message
+    Message,
+    Title
   ]);
 
   static fromRaw(xml: string) {
@@ -60,15 +66,20 @@ export default class PRISMSource extends Document {
     });
 
     let content = xml;
+    let annotations: Array<Annotation | AnnotationJSON> = [];
+
     let xmlStart = xml.indexOf('<?xml');
     let xmlEnd = xml.indexOf('?>', xmlStart) + 2;
-    let annotations: Array<Annotation | AnnotationJSON> = [new ParseAnnotation({
-      start: xmlStart,
-      end: xmlEnd,
-      attributes: {
-        reason: '<?xml>'
-      }
-    })];
+    if (xmlStart > -1 && xmlEnd > 1) {
+      annotations.push(new ParseAnnotation({
+        start: xmlStart,
+        end: xmlEnd,
+        attributes: {
+          reason: '<?xml>'
+        }
+      }));
+    }
+
     let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
 
     parser.onopentag = (node) => {
@@ -133,18 +144,13 @@ export default class PRISMSource extends Document {
       annotations
     });
 
-    while (true) {
-      let match = /(&#[\d]+;)/.exec(prism.content);
-      if (match == null) {
-        break;
-      }
-
-      let start = match.index;
-      let end = start + match[0].length;
-      let character = entities.decodeXML(match[0]);
-      prism.insertText(start, character);
-      prism.deleteText(start + 1, end + 1);
-    }
+    prism.match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/ig)
+      .reverse()
+      .forEach(({ start, end, matches }) => {
+        let entity = entities.decodeXML(matches[0]);
+        prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
+        prism.deleteText(start + entity.length, end + entity.length)
+      });
 
     return prism;
   }

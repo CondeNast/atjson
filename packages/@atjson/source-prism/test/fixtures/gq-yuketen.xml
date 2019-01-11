@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pam:message xmlns:pam="http://prismstandard.org/namespaces/pam/2.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:pim="http://prismstandard.org/namespaces/pim/2.0/" xmlns:prism="http://prismstandard.org/namespaces/basic/2.0/" xmlns:prl="http://prismstandard.org/namespaces/prl/2.0/" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://prismstandard.org/namespaces/pam/2.0/ pam.xsd">
+<pam:article xml:lang="en-US">
+<head>
+<dc:identifier>XXXXXXX</dc:identifier>
+<dc:title>Yuketen</dc:title>
+<dc:creator>XXXXXXX</dc:creator>
+<prism:publicationName>GQ</prism:publicationName>
+<prism:issn>2471-5393</prism:issn>
+<dc:publisher>Cond&#233; Nast</dc:publisher>
+<prism:coverDate>2018-11-13</prism:coverDate>
+<prism:coverDisplayDate>GQ Style Holiday 2018</prism:coverDisplayDate>
+<prism:volume>3</prism:volume>
+<prism:number>3</prism:number>
+<prism:startingPage>72</prism:startingPage>
+<prism:section>
+</prism:section>
+<dc:subject> </dc:subject>
+<dc:description>The Japanese Shoemaker Keeping America&#39;s Forgotten Traditions Alive</dc:description>
+<prism:wordCount>665</prism:wordCount>
+<prism:copyright>COPYRIGHT &#169;2018 THE COND&#201; NAST PUBLICATIONS. ALL RIGHTS RESERVED.</prism:copyright>
+</head>
+<body>
+<h1>YUKETEN</h1>
+<p class="byline">&#8212;XXXXXXX</p>
+<p class="deck">The Japanese Shoemaker Keeping America&#39;s Forgotten Traditions Alive</p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+</pam:media>
+<p>For a guy who runs an independent leather-shoe company in an era when fashion is completely obsessed with sneakers, Yuki Matsuda keeps a pretty level head about the whole thing. &#8220;I&#39;m like, &#8216;Okay, I need to make something much cooler than the sneaker,&#8217; &#8221; Matsuda says. In the years since founding Yuketen, in 1995, he&#39;s designed hundreds of hand-sewn moccasins, cordovan leather hard-bottoms, preppy loafers and boat shoes, fancy cowboy boots, and rugged hikers, all made using old-world methods. Sometimes his quest to improve upon the sneaker means remixing the North American shoe canon like he&#39;s been given the keys to a Hollywood-country-western costume shop: Yuketen loafers get western-belt-buckle straps. A dressy chukka is punched up with snakeskin leather. The brand&#39;s most recognizable silhouette, the Maine Guide Boot, merges a Native American moccasin with a New England trapper boot, all atop a chunky, urban-ready sole.</p>
+<p>From his headquarters in South Bay, Los Angeles, Matsuda has also taken the sneaker head-on, introducing the world to the Land Jordan, the only basketball-inspired shoe you could wear to a job interview. It has a Goodyear-welted Vibram sole and a hand-cut upper that mimics the Jordan 11 Low I.E.&#8212;definitive proof that Matsuda can still turn up the heat in the footwear world in 2018. The 50-year-old designer caught the Americana bug when he was 15 and living in Osaka, working at an imported-goods store selling selvage Levi&#39;s and made-in-America Converse. He&#39;s been an avid collector of gear from the golden days of manufacturing ever since&#8212;denim, military garb, watches, and, of course, shoes. &#8220;I&#39;m a shoe freak,&#8221; Matsuda says. &#8220;I make everything at Yuketen for me.&#8221;</p>
+<p>Yuketen is part of Matsuda&#39;s artisanal, vintage-inspired menswear empire under his company, Meg Co., which also owns Monitaly, Epperson Mountaineering, and Chamula. Every Yuketen shoe is bench-made using traditional techniques. The famous moccasins, like the Guide Boot, come from Maine, where they are hand-sewn by a group of employees who learned the craft at the Sebago factory before working for Yuketen. (The boot takes about five months to build, start to finish.) &#8220;We can&#39;t produce many shoes, so we are not focused on selling 10,000 pairs a year,&#8221; says Matsuda. &#8220;But when it comes to the quality, it&#39;s so good. I&#39;m amazed every time I open a shoe shipment from the factory.&#8221;</p>
+<p>It&#39;s that unreplicable, rare character that has earned Yuketen many fans in the fashion world and beyond. But even after more than two decades in the shoe game, Yuketen is still not immune to the vagaries of domestic manufacturing. Despite high demand, there are simply not enough skilled workers to replace the aging craftspeople behind the product. &#8220;It&#39;s sad,&#8221; Matsuda says. &#8220;We are in a dying art. I don&#39;t know how long we can keep doing it. Maybe five more years?&#8221; Luckily, Yuketen also has more manufacturers in Italy and some in Mexico. It&#39;s entirely possible its U.S.A.-made range will eventually be a thing of the past. For now, though, Yuketen remains an all-too-scarce anomaly, a brand that&#39;s a living testament to a slower, better, doper way of doing things. Let&#39;s wear it while we can.</p>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+<pam:caption>The aesthetics of Yuketen and Monitaly, Matsuda&#39;s highly advanced military-inspired apparel brand, work together hand in glove&#8230;or foot in shoe.</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+<pam:caption>Yuki Matsuda can often be found at the Rose Bowl Flea Market in Pasadena, California, where he hunts for rare Native American and country-western goods that inspire his fashion lines.</pam:caption>
+</pam:media>
+<pam:media>
+<dc:type>psd</dc:type>
+<pam:mediaReference pam:refid="path/to/media.ext" />
+<pam:credit>Courtesy of Yuketen</pam:credit>
+<pam:caption>Matsuda only uses leather from Chicago&#39;s famed Horween tannery, which has been supplying America&#39;s footwear industry since 1905.</pam:caption>
+</pam:media>
+</body>
+</pam:article>
+</pam:message>
