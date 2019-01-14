@@ -7,7 +7,6 @@ document.addEventListener('paste', (evt) => {
   let gdocsPaste = evt.clipboardData.getData('application/x-vnd.google-docs-document-slice-clip+wrapped');
   if (gdocsPaste !== '') {
     let data = JSON.parse(JSON.parse(gdocsPaste).data);
-    console.log(gdocsPaste);
     document.body.innerText = JSON.stringify(GoogleDocsPasteSource.fromRaw(data).toJSON(), null, 2);
   }
 });
