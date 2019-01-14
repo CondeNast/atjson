@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.13.7...@atjson/source-commonmark@0.13.8) (2019-01-14)
+
+
+### 🐛 Fixes
+
+* 🐞 pass closing token in addition to the opening token ([#99](https://github.com/CondeNast-Copilot/atjson/issues/99))
+
+
+
 ## [0.13.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.13.6...@atjson/source-commonmark@0.13.7) (2019-01-14)
 
 **Note:** Version bump only for package @atjson/source-commonmark
