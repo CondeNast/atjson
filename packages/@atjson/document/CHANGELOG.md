@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.0...@atjson/document@0.14.1) (2019-01-14)
+
+
+### 🐛 Fixes
+
+* 🐞 fix parse annotation / unknown annotation nesting order
+
+
+
 ## [0.14.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.5...@atjson/document@0.14.0) (2019-01-09)
 
 

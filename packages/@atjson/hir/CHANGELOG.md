@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/hir@0.11.8...@atjson/hir@0.11.9) (2019-01-14)
+
+**Note:** Version bump only for package @atjson/hir
+
+
+
+
+
 ## [0.11.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/hir@0.11.7...@atjson/hir@0.11.8) (2019-01-09)
 
 **Note:** Version bump only for package @atjson/hir
