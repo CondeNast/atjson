@@ -167,7 +167,8 @@ export default class Parser {
         reason: `${name}_open`
       }
     }));
-    yield;
+
+    let closingToken = yield;
 
     this.content += '\uFFFC';
 
@@ -181,7 +182,7 @@ export default class Parser {
     }
 
     if (this.handlers[name]) {
-      Object.assign(attributes, this.handlers[name](open));
+      Object.assign(attributes, this.handlers[name](open, closingToken));
     }
     this.annotations.push(new ParseAnnotation({
       start: end - 1,
