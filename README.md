@@ -24,6 +24,7 @@ The breakdown of modules in this repository are:
 | [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste) | A source used to transform Google Docs Paste buffers into AtJSON |
 | [@atjson/source-html](packages/@atjson/source-html) | Conversion of HTML sources to AtJSON |
 | [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc) | A source used to transform Mobiledoc into AtJSON |
+| [@atjson/source-prism](packages/@atjson/source-prism) | Conversion of [PRISM](http://www.prismstandard.org/specifications/)-compliant XML documents into AtJSON |
 | [@atjson/source-url](packages/@atjson/source-url) | Turn URLs into rich embeds |
 
 
