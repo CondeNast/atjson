@@ -37,6 +37,5 @@ class PlainTextRenderer extends Renderer {
 }
 
 export function render(doc: Document) {
-  let renderer = new PlainTextRenderer();
-  return renderer.render(doc);
+  return PlainTextRenderer.render(doc);
 }

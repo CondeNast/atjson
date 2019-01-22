@@ -39,23 +39,22 @@ export interface Context {
   previous: Annotation | null;
   next: Annotation | null;
   children: Annotation[];
+  document: Document;
 }
 
-function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, previous?: Annotation, next?: Annotation): any {
+function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): any {
   let annotation = node.annotation;
   let childNodes = node.children();
   let childAnnotations = childNodes.map(childNode => childNode.annotation);
   let generator;
 
-  if (parent == null) {
+  if (context.parent == null) {
     generator = renderer.root();
   } else {
     generator = renderer.renderAnnotation(annotation, {
-      parent,
-      previous: previous || null,
-      next: next || null,
+      ...context,
       children: childAnnotations
-    });
+    } as Context);
   }
 
   let result = generator.next();
@@ -64,15 +63,31 @@ function compile(renderer: Renderer, node: HIRNode, parent?: Annotation, previou
   }
 
   return generator.next(flatten(childNodes.map((childNode: HIRNode, idx: number) => {
+    let childContext = {
+      parent: annotation || null,
+      previous: childAnnotations[idx - 1] || null,
+      next: childAnnotations[idx + 1] || null,
+      document: context.document!
+    };
+
     if (childNode.annotation instanceof TextAnnotation) {
-      return renderer.text(childNode.annotation.attributes.text);
+      return renderer.text(childNode.annotation.attributes.text, {
+        ...childContext,
+        children: []
+      });
     } else {
-      return compile(renderer, childNode, annotation, childAnnotations[idx - 1], childAnnotations[idx + 1]);
+      return compile(renderer, childNode, childContext);
     }
   }))).value;
 }
 
 export default class Renderer {
+
+  static render(document: Document) {
+    let renderer = new this();
+
+    return compile(renderer, new HIR(document).rootNode, { document });
+  }
 
   *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
     let generator = (this as any)[annotation.type];
@@ -86,14 +101,7 @@ export default class Renderer {
     return yield;
   }
 
-  text(text: string): string {
+  text(text: string, _: Context): string {
     return text;
-  }
-
-  render(document: Document | HIR) {
-    if (document instanceof HIR) {
-      return compile(this, document.rootNode);
-    }
-    return compile(this, new HIR(document).rootNode);
   }
 }

@@ -107,8 +107,7 @@ describe('@atjson/renderer-hir', () => {
       }
     }
 
-    let renderer = new ConcreteRenderer();
-    renderer.render(atjson);
+    ConcreteRenderer.render(atjson);
   });
 
   it('escapes HTML entities in text', () => {
@@ -131,7 +130,6 @@ describe('@atjson/renderer-hir', () => {
       }
     }
 
-    let renderer = new ConcreteRenderer();
-    expect(renderer.render(atjson)).toBe('This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text');
+    expect(ConcreteRenderer.render(atjson)).toBe('This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text');
   });
 });
