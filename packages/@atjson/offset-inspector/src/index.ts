@@ -161,7 +161,7 @@ export default class OffsetEditorDemo extends WebComponent {
   renderMarkdown(doc: Document) {
     if (this.activeTab('commonmark-tab')) {
       let outputElement = this.shadowRoot.querySelector('.markdown');
-      let rendered = new CommonmarkRenderer().render(doc);
+      let rendered = CommonmarkRenderer.render(doc);
       if (outputElement) {
         outputElement.textContent = rendered;
       }

@@ -25,12 +25,11 @@ Object.keys(unitTestsBySection).forEach(moduleName => {
   describe(moduleName, () => {
     unitTests.forEach(unitTest => {
       let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
-      let renderer = new CommonMarkRenderer();
 
       (shouldSkip ? test.skip : test)(unitTest.markdown, () => {
         let markdown = unitTest.markdown.replace(/→/g, '\t');
         let original = CommonMarkSource.fromRaw(markdown);
-        let generatedMarkdown = renderer.render(original.convertTo(OffsetSource));
+        let generatedMarkdown = CommonMarkRenderer.render(original.convertTo(OffsetSource));
         let output = CommonMarkSource.fromRaw(generatedMarkdown);
 
         // Assert that our internal representations (AtJSON) match

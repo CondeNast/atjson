@@ -168,9 +168,9 @@ export default class CommonmarkRenderer extends Renderer {
   *'image'(image: Image): Iterable<any> {
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
-      return `![${this.render(image.attributes.description)}](${image.attributes.url} "${title}")`;
+      return `![${this.constructor.render(image.attributes.description)}](${image.attributes.url} "${title}")`;
     }
-    return `![${this.render(image.attributes.description)}](${image.attributes.url})`;
+    return `![${this.constructor.render(image.attributes.description)}](${image.attributes.url})`;
   }
 
   /**

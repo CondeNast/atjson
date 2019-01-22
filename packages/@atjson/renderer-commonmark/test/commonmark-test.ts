@@ -12,8 +12,7 @@ describe('commonmark', () => {
       ]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
+    expect(CommonMarkRenderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   test('images', () => {
@@ -40,8 +39,7 @@ describe('commonmark', () => {
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('![**CommonMark**\\!](http://commonmark.org/images/markdown-mark.png)');
+    expect(CommonMarkRenderer.render(document)).toBe('![**CommonMark**\\!](http://commonmark.org/images/markdown-mark.png)');
   });
 
   test('a plain text document with virtual paragraphs', () => {
@@ -55,8 +53,7 @@ describe('commonmark', () => {
       ]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
+    expect(CommonMarkRenderer.render(document)).toBe(
                  'A paragraph with some **bold**\n\n**text** that continues into the next.\n\n');
   });
 
@@ -86,8 +83,7 @@ describe('commonmark', () => {
       ]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe(
+    expect(CommonMarkRenderer.render(document)).toBe(
                  `I have a list:
 
 1. First item plus **bold** text
@@ -114,8 +110,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('I have a [link](https://example.com)');
+    expect(CommonMarkRenderer.render(document)).toBe('I have a [link](https://example.com)');
   });
 
   describe('blockquote', () => {
@@ -131,8 +126,7 @@ After all the lists
         }]
       });
 
-      let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('> This is a quote\n> \n> That has some\n> lines in it.\n\n');
+      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n> \n> That has some\n> lines in it.\n\n');
     });
 
     test('with a paragraph', () => {
@@ -159,8 +153,7 @@ After all the lists
         }]
       });
 
-      let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     test('with flanking whitespace', () => {
@@ -187,8 +180,7 @@ After all the lists
         }]
       });
 
-      let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     test('with surrounding paragraphs', () => {
@@ -233,8 +225,7 @@ After all the lists
         }]
       });
 
-      let renderer = new CommonMarkRenderer();
-      expect(renderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonMarkRenderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.\n\n');
     });
   });
 
@@ -248,8 +239,7 @@ After all the lists
       ]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('x\n\n***\ny\n\n');
+    expect(CommonMarkRenderer.render(document)).toBe('x\n\n***\ny\n\n');
   });
 
   test('headlines', () => {
@@ -266,8 +256,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('# Banner\n## Headline\n');
+    expect(CommonMarkRenderer.render(document)).toBe('# Banner\n## Headline\n');
   });
 
   test('moves spaces at annotation boundaries to the outside', () => {
@@ -280,8 +269,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
+    expect(CommonMarkRenderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
   });
 
   test('unambiguous nesting of bold and italic', () => {
@@ -306,8 +294,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
+    expect(CommonMarkRenderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
   });
 
   test('adjacent bold and italic annotations are given unique markdown makers', () => {
@@ -348,8 +335,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
+    expect(CommonMarkRenderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
   });
 
   test('empty format strings are removed', () => {
@@ -362,8 +348,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('Some formatting on empty spaces');
+    expect(CommonMarkRenderer.render(document)).toBe('Some formatting on empty spaces');
   });
 
   test('non-breaking spaces don\'t receive formatting', () => {
@@ -382,8 +367,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('&nbsp;\n\n**text**\n\n\u202F');
+    expect(CommonMarkRenderer.render(document)).toBe('&nbsp;\n\n**text**\n\n\u202F');
   });
 
   test('line feed characters don\'t recieve formatting', () => {
@@ -402,8 +386,7 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    expect(renderer.render(document)).toBe('\u000b\n\n**text**\n\n');
+    expect(CommonMarkRenderer.render(document)).toBe('\u000b\n\n**text**\n\n');
   });
 
   test('tabs and leading / trailing spaces are stripped from output', () => {
@@ -416,12 +399,11 @@ After all the lists
       }]
     });
 
-    let renderer = new CommonMarkRenderer();
-    let markdown = renderer.render(document);
+    let markdown = CommonMarkRenderer.render(document);
 
-    expect(renderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
+    expect(CommonMarkRenderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
     // Make sure we're not generating code in the round-trip
-    expect(markdown).toEqual(renderer.render(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)));
+    expect(markdown).toEqual(CommonMarkRenderer.render(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)));
   });
 
   describe('escape sequences', () => {
@@ -437,8 +419,7 @@ After all the lists
           annotations: []
         });
 
-        let renderer = new CommonMarkRenderer();
-        expect(renderer.render(document)).toBe(text);
+        expect(CommonMarkRenderer.render(document)).toBe(text);
       });
     });
 
@@ -454,8 +435,7 @@ After all the lists
           annotations: []
         });
 
-        let renderer = new CommonMarkRenderer();
-        expect(renderer.render(document)).toBe(text);
+        expect(CommonMarkRenderer.render(document)).toBe(text);
       });
     });
   });
