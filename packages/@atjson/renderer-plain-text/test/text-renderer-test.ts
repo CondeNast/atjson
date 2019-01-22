@@ -8,7 +8,6 @@ class PlainText extends Document {
 }
 describe('PlainTextRenderer', () => {
   it('returns the text from the atjson document', () => {
-    let renderer = new PlainTextRenderer();
 
     let document = new PlainText({
       content: '☎️👨🏻⛵️🐳👌🏼',
@@ -23,15 +22,14 @@ describe('PlainTextRenderer', () => {
         }
       }]
     });
-    let text = renderer.render(document);
+    let text = PlainTextRenderer.render(document);
     expect(text).toBe('☎️👨🏻⛵️🐳👌🏼');
   });
 
   it('strips virtual annotations', () => {
     let doc = HTMLSource.fromRaw('<p>This is some <em>fancy</em> <span class="fancy">text</span>.');
 
-    let renderer = new PlainTextRenderer();
-    let text = renderer.render(doc);
+    let text = PlainTextRenderer.render(doc);
     expect(text).toBe('This is some fancy text.');
   });
 });

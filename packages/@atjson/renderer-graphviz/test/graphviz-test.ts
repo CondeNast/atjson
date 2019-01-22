@@ -38,8 +38,7 @@ describe('graphviz', () => {
         attributes: {}
       }]
     });
-    let renderer = new GraphvizRenderer();
-    expect(renderer.render(doc)).toBe(`digraph atjson{
+    expect(GraphvizRenderer.render(doc)).toBe(`digraph atjson{
   node [shape=oval];
   root1 [label="root\\n{}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
   bold2 [label="bold\\n{}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
@@ -77,8 +76,7 @@ describe('graphviz', () => {
       }]
     });
 
-    let renderer = new GraphvizRenderer();
-    let result = renderer.render(doc, { shape: 'record' });
+    let result = GraphvizRenderer.render(doc, { shape: 'record' });
     expect(result).toMatchSnapshot();
     writeFileSync(join(__dirname, '../example.dot'), result);
   });
@@ -96,8 +94,7 @@ describe('graphviz', () => {
         }]
       });
 
-      let renderer = new GraphvizRenderer();
-      expect(renderer.render(doc, { shape })).toBe(`digraph atjson{
+      expect(GraphvizRenderer.render(doc, { shape })).toBe(`digraph atjson{
   node [shape=${shape}];
   root1 [label="{root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
   bold2 [label="{bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];

@@ -57,7 +57,7 @@ export interface GraphvizOptions {
 }
 
 export default class GraphvizRenderer {
-  render(document: Document, options: GraphvizOptions = { shape: 'oval' }): string {
+  static render(document: Document, options: GraphvizOptions = { shape: 'oval' }): string {
     let edges: Array<[Node, Node]> = [];
     let nodes: Node[] = [];
     generateGraph(new HIR(document).rootNode, edges, nodes);
