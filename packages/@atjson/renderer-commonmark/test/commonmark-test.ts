@@ -467,7 +467,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('**bold**, *then  italic*\n\n_italic_, **then bold**\n\n');
+        expect(CommonMarkRenderer.render(document)).toBe('**bold**, *then italic*\n\n_italic_, **then bold**\n\n');
       });
     });
 
