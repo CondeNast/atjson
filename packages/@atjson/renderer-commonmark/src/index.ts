@@ -1,43 +1,99 @@
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
+import { Annotation } from '@atjson/document';
 
-export function* split(): Iterable<any> {
+const WHITESPACE_PUNCTUATION = /((\s|&nbsp;){1}|(([\u2000-\u206F]|\\?[!-\/:-@\[-`{-~])))/;
+const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
+const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
+
+function getPreviousChar(content: string, index: number) {
+  let idx = index - 1;
+  let char = content[idx];
+  while (char && char.charCodeAt(0) === 65532) {
+    idx -= 1;
+    char = content[idx];
+  }
+  return char;
+}
+
+function getNextChar(content: string, index: number) {
+  let idx = index;
+  let char = content[idx];
+  while (char && char.charCodeAt(0) === 65532) {
+    idx += 1;
+    char = content[idx];
+  }
+  return char;
+}
+
+export function* split(annotation: Annotation, context: Context): Iterable<any> {
   let rawText = yield;
-  let text = rawText.join('');
+  let text = rawText.map(unescapeEntities).join('');
   let start = 0;
   let end = text.length;
   let match;
 
   while (start < end) {
-    match = text.slice(start).match(/^(\s|&nbsp;){1}/);
+    match = text.slice(start).match(BEGINNING_WHITESPACE_PUNCTUATION);
     if (!match) break;
-    start += match[1].length;
+    if (match[2]) {
+      start += match[2].length;
+    } else if (match[3]) {
+      let precedingChar = getPreviousChar(context.document.content, annotation.start);
+      if (start === 0 && precedingChar && !precedingChar.match(WHITESPACE_PUNCTUATION)) {
+        start += match[3].length;
+      } else {
+        break;
+      }
+    }
   }
   while (end > start) {
-    match = text.slice(0, end).match(/(\s|&nbsp;){1}$/);
+    match = text.slice(0, end).match(ENDING_WHITESPACE_PUNCTUATION);
     if (!match) break;
-    end -= match[1].length;
+    if (match[2]) {
+      end -= match[2].length;
+    } else if (match[3]) {
+
+      let followingChar = getNextChar(context.document.content, annotation.end);
+      if (end === text.length && followingChar && !followingChar.match(WHITESPACE_PUNCTUATION)) {
+        end -= match[3].length;
+      } else {
+        break;
+      }
+    }
   }
 
   return [
     text.slice(0, start),
     text.slice(start, end),
     text.slice(end)
-  ];
+  ].map(escapeEntities);
 }
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(text: string) {
-  return text.replace(/([#!*+=\\\^_`{|}~])/g, '\\$1')
-             .replace(/(\[)([^\]]*$)/g, '\\$1$2')      // Escape bare opening brackets [
-             .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2')   // Escape bare closing brackets ]
-             .replace(/(\]\()/g, ']\\(')               // Escape parenthesis ](
-             .replace(/^\s*(\d+)\.(\s+)/gm, '$1\\.$2') // Escape list items; not all numbers
-             .replace(/&/g, '&amp;')
+  let escaped = text.replace(/([#!*+=\\\^_`{|}~])/g, '\\$1')
+                    .replace(/(\[)([^\]]*$)/g, '\\$1$2')          // Escape bare opening brackets [
+                    .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2')       // Escape bare closing brackets ]
+                    .replace(/(\]\()/g, ']\\(')                   // Escape parenthesis ](
+                    .replace(/^\s*(\d+)\.(\s+)/gm, '$1\\.$2')     // Escape list items; not all numbers
+                    .replace(/(^[\s]*)-/g, '$1\\-')               // `  - list item`
+                    .replace(/(\r\n|\r|\n)([\s]*)-/g, '$1$2\\-'); // `- list item\n - list item`
+  return escapeEntities(escaped);
+}
+
+function escapeEntities(text: string) {
+  return text.replace(/&/g, '&amp;')
              .replace(/</g, '&lt;')
              .replace(/>/g, '&gt;')
-             .replace(/(^[\s]*)-/g, '$1\\-') // `  - list item`
-             .replace(/(\r\n|\r|\n)([\s]*)-/g, '$1$2\\-'); // `- list item\n - list item`
+             .replace(/\u00A0/gu, '&nbsp;');
+}
+
+function unescapeEntities(text: string) {
+  return text.replace(/&amp;/ig, '&')
+             .replace(/&lt;/ig, '<')
+             .replace(/&rt;/ig, '>')
+             .replace(/&nbsp;/ig, '\u00A0');
 }
 
 function escapeAttribute(text: string) {
@@ -78,7 +134,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (this.state.isPreformatted) {
       return text;
     }
-    return escapePunctuation(text).replace(/\u00A0/gu, '&nbsp;');
+    return escapePunctuation(text);
   }
 
   *'root'() {
@@ -93,7 +149,7 @@ export default class CommonmarkRenderer extends Renderer {
    * words; underscores cannot split words.
    */
   *'bold'(_bold: Bold, context: Context): Iterable<any> {
-    let [before, text, after] = yield* split();
+    let [before, text, after] = yield* split(_bold, context);
     if (text.length === 0) {
       return before + after;
     } else {
@@ -182,7 +238,7 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
     this.state.isItalicized = true;
 
-    let [before, text, after] = yield* split();
+    let [before, text, after] = yield* split(_italic, context);
     this.state = state;
 
     if (text.length === 0) {
@@ -210,8 +266,8 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(link: Link): Iterable<any> {
-    let [before, text, after] = yield* split();
+  *'link'(link: Link, context: Context): Iterable<any> {
+    let [before, text, after] = yield* split(link, context);
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
       let title = link.attributes.title.replace(/"/g, '\\"');

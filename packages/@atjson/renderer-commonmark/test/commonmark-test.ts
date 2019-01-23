@@ -299,9 +299,9 @@ After all the lists
 
   test('adjacent bold and italic annotations are given unique markdown makers', () => {
     let document = new OffsetSource({
-      content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
+      content: '\uFFFCbold\uFFFC\uFFFCthen italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFCthen bold\uFFFC\n',
       annotations: [{
-        id: '1', type: '-offset-paragraph', start: 0, end: 21, attributes: {}
+        id: '1', type: '-offset-paragraph', start: 0, end: 20, attributes: {}
       }, {
         id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
       }, {
@@ -311,31 +311,217 @@ After all the lists
       }, {
         id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
       }, {
-        id: '6', type: '-offset-italic', start: 6, end: 21, attributes: {}
+        id: '6', type: '-offset-italic', start: 6, end: 20, attributes: {}
       }, {
-        id: '7', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
+        id: '7', type: '-atjson-parse-token', start: 18, end: 19, attributes: {}
       }, {
-        id: '8', type: '-atjson-parse-token', start: 21, end: 22, attributes: {}
+        id: '8', type: '-atjson-parse-token', start: 19, end: 20, attributes: {}
       }, {
-        id: '9', type: '-offset-paragraph', start: 22, end: 43, attributes: {}
+        id: '9', type: '-offset-paragraph', start: 20, end: 40, attributes: {}
       }, {
-        id: '10', type: '-atjson-parse-token', start: 22, end: 23, attributes: {}
+        id: '10', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
       }, {
-        id: '11', type: '-offset-italic', start: 23, end: 30, attributes: {}
+        id: '11', type: '-offset-italic', start: 20, end: 28, attributes: {}
       }, {
-        id: '12', type: '-atjson-parse-token', start: 29, end: 30, attributes: {}
+        id: '12', type: '-atjson-parse-token', start: 27, end: 28, attributes: {}
       }, {
-        id: '13', type: '-atjson-parse-token', start: 30, end: 31, attributes: {}
+        id: '13', type: '-atjson-parse-token', start: 28, end: 29, attributes: {}
       }, {
-        id: '14', type: '-offset-bold', start: 30, end: 42, attributes: {}
+        id: '14', type: '-offset-bold', start: 28, end: 39, attributes: {}
       }, {
-        id: '15', type: '-atjson-parse-token', start: 42, end: 43, attributes: {}
+        id: '15', type: '-atjson-parse-token', start: 38, end: 39, attributes: {}
       }, {
-        id: '16', type: '-atjson-parse-token', start: 43, end: 44, attributes: {}
+        id: '16', type: '-atjson-parse-token', start: 39, end: 40, attributes: {}
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
+    expect(CommonMarkRenderer.render(document)).toBe('**bold**_then italic_\n\n_italic_**then bold**\n\n');
+  });
+
+  describe('boundary punctuation', () => {
+
+    describe('is adjacent to non-whitespace non-punctuation characters', () => {
+      //a*—italic—*non-italic -> a—*italic*—non-italic
+      test('boundary punctuation is pushed out of annotations', () => {
+        let document = new OffsetSource({
+          content: 'a\u2014italic\u2014non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('a—*italic*—non-italic');
+      });
+
+      // This is a weird case in that it results in asymmetric parens, but is probably the
+      // most correct thing to do
+      // a—*(italic)*non-italic -> a—*(italic*)non-italic
+      test('boundary paranthesis is pushed out of annotations', () => {
+        let document = new OffsetSource({
+          content: 'a\u2014(italic)non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('a—*(italic*)non-italic');
+      });
+
+      // *italic]*non-italic -> *italic*\]non-italic
+      test('backslash-escaped punctuation is fully pushed out of annotations', () => {
+        let document = new OffsetSource({
+          content: 'italic]non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 7, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*italic*\\]non-italic');
+      });
+
+      // *italic\]*non-italic -> *italic\\*\]non-italic
+      test('multiple backslash escapes are correctly parsed', () => {
+        let document = new OffsetSource({
+          content: 'italic\\]non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*italic\\\\*\\]non-italic');
+      });
+
+      // *italic..*non-italic -> *italic.*.non-italic
+      test('non-escape punctuation sequences only push out the boundary characters', () => {
+        let document = new OffsetSource({
+          content: 'italic..non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*italic.*.non-italic');
+      });
+
+      // *italic&*non-italic -> *italic*&amp;non-italic
+      test('entities are not split by pushing punctuation out of annotations', () => {
+        let document = new OffsetSource({
+          content: 'italic&non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 7, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*italic*&amp;non-italic');
+      });
+
+      // a*&}italic&]*non-italic -> a&amp;*\}italic&amp;*\]non-italic
+      test('entities and escaped punctuation work together', () => {
+        let document = new OffsetSource({
+          content: 'a&}italic&]non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 1, end: 11, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-italic');
+      });
+
+      // **bold**_, then italic_ -> **bold**, *then italic*
+      // _italic_**, then bold** -> _italic_, **then bold**
+      test('punctuation and whitespace are pushed out together', () => {
+        let document = new OffsetSource({
+          content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
+          annotations: [{
+            id: '1', type: '-offset-paragraph', start: 0, end: 21, attributes: {}
+          }, {
+            id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
+          }, {
+            id: '3', type: '-offset-bold', start: 0, end: 6, attributes: {}
+          }, {
+            id: '4', type: '-atjson-parse-token', start: 5, end: 6, attributes: {}
+          }, {
+            id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
+          }, {
+            id: '6', type: '-offset-italic', start: 6, end: 21, attributes: {}
+          }, {
+            id: '7', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
+          }, {
+            id: '8', type: '-atjson-parse-token', start: 21, end: 22, attributes: {}
+          }, {
+            id: '9', type: '-offset-paragraph', start: 22, end: 43, attributes: {}
+          }, {
+            id: '10', type: '-atjson-parse-token', start: 22, end: 23, attributes: {}
+          }, {
+            id: '11', type: '-offset-italic', start: 23, end: 30, attributes: {}
+          }, {
+            id: '12', type: '-atjson-parse-token', start: 29, end: 30, attributes: {}
+          }, {
+            id: '13', type: '-atjson-parse-token', start: 30, end: 31, attributes: {}
+          }, {
+            id: '14', type: '-offset-bold', start: 30, end: 42, attributes: {}
+          }, {
+            id: '15', type: '-atjson-parse-token', start: 42, end: 43, attributes: {}
+          }, {
+            id: '16', type: '-atjson-parse-token', start: 43, end: 44, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('**bold**, *then  italic*\n\n_italic_, **then bold**\n\n');
+      });
+    });
+
+    describe('is adjacent to whitespace', () => {
+      test('boundary punctuation is retained in the annotation', () => {
+        let document = new OffsetSource({
+          content: ' \u2014italic\u2014 non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* non-italic');
+      });
+
+      // `  *—italic— * non-italic` -> `  *-italic-*  non-italic`
+      test('boundary whitespace is still moved out', () => {
+        let document = new OffsetSource({
+          content: '  \u2014italic\u2014  non-italic',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 2, end: 11, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('  *—italic—*  non-italic');
+      });
+    });
+
+    describe('is adjacent to document start or end', () => {
+      test('boundary punctuation is retained in the annotation', () => {
+        let document = new OffsetSource({
+          content: '\u2014italic\u2014a\u2014bold\u2014',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {},
+          }, {
+            id: '2', type: '-offset-bold', start: 9, end: 15, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*—italic*—a—**bold—**');
+      });
+
+      // `* —italic— *` -> ` *—italic—* `
+      test('boundary whitespace is still moved out', () => {
+        let document = new OffsetSource({
+          content: ' \u2014italic\u2014 ',
+          annotations: [{
+            id: '1', type: '-offset-italic', start: 0, end: 10, attributes: {}
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* ');
+      });
+    });
   });
 
   test('empty format strings are removed', () => {
