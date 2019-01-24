@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.13.8...@atjson/renderer-commonmark@0.14.0) (2019-01-24)
+
+
+### 🐛 Fixes
+
+* 🐝 : Fix bug for rendering invalid delimiter runs ([#103](https://github.com/CondeNast-Copilot/atjson/issues/103))
+
+
+
 ## [0.13.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.13.7...@atjson/renderer-commonmark@0.13.8) (2019-01-14)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
