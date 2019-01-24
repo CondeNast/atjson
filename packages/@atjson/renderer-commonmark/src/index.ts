@@ -40,8 +40,8 @@ export function* split(annotation: Annotation, context: Context): Iterable<any> 
     if (match[2]) {
       start += match[2].length;
     } else if (match[3]) {
-      let precedingChar = getPreviousChar(context.document.content, annotation.start);
-      if (start === 0 && precedingChar && !precedingChar.match(WHITESPACE_PUNCTUATION)) {
+      let prevChar = getPreviousChar(context.document.content, annotation.start);
+      if (start === 0 && prevChar && !prevChar.match(WHITESPACE_PUNCTUATION)) {
         start += match[3].length;
       } else {
         break;
@@ -55,8 +55,8 @@ export function* split(annotation: Annotation, context: Context): Iterable<any> 
       end -= match[2].length;
     } else if (match[3]) {
 
-      let followingChar = getNextChar(context.document.content, annotation.end);
-      if (end === text.length && followingChar && !followingChar.match(WHITESPACE_PUNCTUATION)) {
+      let nextChar = getNextChar(context.document.content, annotation.end);
+      if (end === text.length && nextChar && !nextChar.match(WHITESPACE_PUNCTUATION)) {
         end -= match[3].length;
       } else {
         break;
