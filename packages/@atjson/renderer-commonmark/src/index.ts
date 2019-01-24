@@ -1,11 +1,11 @@
+import { Annotation } from '@atjson/document';
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
-import { Annotation } from '@atjson/document';
-import { ASCII_PUNCTUATION, UNICODE_PUNCTUATION } from './lib/punctuation';
-
-const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}))`);
-const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
-const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
+import {
+  BEGINNING_WHITESPACE_PUNCTUATION,
+  ENDING_WHITESPACE_PUNCTUATION,
+  WHITESPACE_PUNCTUATION
+} from './lib/punctuation';
 
 function getPreviousChar(content: string, index: number) {
   let idx = index - 1;
