@@ -1,15 +1,16 @@
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
 import { Annotation } from '@atjson/document';
+import { ASCII_PUNCTUATION, UNICODE_PUNCTUATION } from './lib/punctuation';
 
-const WHITESPACE_PUNCTUATION = /((\s|&nbsp;){1}|(([\u2000-\u206F]|\\?[!-\/:-@\[-`{-~])))/;
+const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}))`);
 const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
 const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
 
 function getPreviousChar(content: string, index: number) {
   let idx = index - 1;
   let char = content[idx];
-  while (char && char.charCodeAt(0) === 65532) {
+  while (char === '\uFFFC') {
     idx -= 1;
     char = content[idx];
   }
@@ -19,7 +20,7 @@ function getPreviousChar(content: string, index: number) {
 function getNextChar(content: string, index: number) {
   let idx = index;
   let char = content[idx];
-  while (char && char.charCodeAt(0) === 65532) {
+  while (char === '\uFFFC') {
     idx += 1;
     char = content[idx];
   }
