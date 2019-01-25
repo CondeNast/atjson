@@ -1,6 +1,7 @@
 import { Annotation, BlockAnnotation, ParseAnnotation } from '@atjson/document';
 import OffsetSource, { LineBreak, Paragraph } from '@atjson/offset-annotations';
 import GDocsSource from './source';
+import { Heading } from './annotations';
 
 GDocsSource.defineConverterTo(OffsetSource, doc => {
   // Remove all underlines that align with links, since
@@ -22,6 +23,13 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sup' } }).set({ type: '-offset-superscript' }).unset('attributes.-gdocs-va');
 
   doc.where({ type: '-gdocs-horizontal_rule' }).set({ type: '-offset-horizontal-rule' });
+
+  // Remove headings with level 100, 101, as these are Titles/Subtitles
+  // in GDocs which is not yet supported, as these should be thought of
+  // as non-body annotations
+  doc.where({ type: '-gdocs-ps_hd' })
+    .where((annotation: Heading) => annotation.attributes.level >= 100)
+    .remove();
 
   doc.where({ type: '-gdocs-ps_hd' })
     .set({ type: '-offset-heading' })

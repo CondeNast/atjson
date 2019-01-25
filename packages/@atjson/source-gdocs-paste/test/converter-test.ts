@@ -24,10 +24,10 @@ describe('@atjson/source-gdocs-paste', () => {
     expect(italics.length).toEqual(2);
   });
 
-  it('correctly converts headings', () => {
+  it('correctly converts headings, removing Titles and Subtitles', () => {
     let headings = atjson.where(a => a.type === 'heading');
-    expect(headings.length).toEqual(4);
-    expect(headings.map(h => h.attributes.level)).toEqual([1, 2, 100, 101]);
+    expect(headings.length).toEqual(2);
+    expect(headings.map(h => h.attributes.level)).toEqual([1, 2]);
   });
 
   it('correctly converts lists', () => {
