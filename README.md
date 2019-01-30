@@ -4,6 +4,7 @@
 * Tim Evans (@tim-evans tim_evans@condenast.com)
 * Blaine Cook (@blaine blaine_cook@condenast.com)
 
+----------------------------------
 
 AtJSON is a collection of repositories that together make up a fully-realized content format.
 
