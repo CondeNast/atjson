@@ -1,7 +1,7 @@
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class TwitterEmbed extends IframeEmbed {
-  static type = 'twitter-embed';
+  static type = 'TwitterEmbed';
   static vendorPrefix = 'offset';
 
   get tweetBy() {

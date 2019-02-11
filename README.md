@@ -58,7 +58,7 @@ Stylistic annotations are easily layered on a document using a positional annota
 {
   "content": "The best writing anywhere, everywhere.",
   "annotations": [{
-    type: "italic",
+    type: "Italic",
     start: 4,
     end: 8,
     attributes: {}
@@ -88,7 +88,7 @@ Some common annotations for editorial purposes are comments and suggestions. Com
 {
   "content": "Cat Person",
   "annotations": [{
-    type: "comment",
+    type: "Comment",
     start: 0,
     end: 9
     attributes: {
@@ -106,7 +106,7 @@ In addition to comments, suggestions can be made to the text in the same manner 
 {
   "content": "Reeducation",
   "annotations": [{
-    type: "suggested-replacement",
+    type: "SuggestedReplacement",
     start: 2,
     end: 3
     attributes: {
@@ -124,7 +124,7 @@ Objects can also be embedded in documents that can be expanded when the document
 {
   "content": "￼",
   "annotations": [{
-    type: "image",
+    type: "Image",
     start: 0,
     end: 1,
     attributes: {
@@ -165,37 +165,37 @@ A number of little notes distributed that morning by a footman in red livery had
 
 ```js
 [{
-  type: "heading",
+  type: "Heading",
   start: 0,
   end: 13,
   attributes: {
     level: 1
   }
 }, {
-  type: "small-caps",
+  type: "SmallCaps",
   start: 38,
   end: 42
 }, {
-  type: "footnote",
+  type: "Footnote",
   start: 37,
   end: 478,
   attributes: {
     note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
   }
 }, {
-  type: "italic",
+  type: "Italic",
   start: 863,
   end: 869
 }, {
-  type: "italic",
+  type: "Italic",
   start: 911,
   end: 917
 }, {
-  type: "block-quote",
+  type: "Blockquote",
   start: 1096,
   end: 1324
 }, {
-  type: "small-caps",
+  type: "SmallCaps",
   start: 1308,
   end: 1323
 }]
@@ -215,54 +215,54 @@ In JSON, this would roughly look like:
 {
   type: "document",
   children: [{
-    type: "title",
+    type: "Title",
     children: ["War and Peace"]
   }, {
-    type: "horizontal-rule",
+    type: "HorizontalRule",
     children: []
   }, {
-    type: "part",
+    type: "Part",
     children: ["Part One"]
   }, {
-    type: "chapter",
+    type: "Chapter",
     children: ["Chapter I."]
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: ["“", {
-      type: "small-caps",
+      type: "SmallCaps",
       children: "Well"
     }, ", prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself.", {
-      type: "footnote",
+      type: "Footnote",
       attributes: {
         note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
       }
     }, "Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it.”"
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: ["It was on a July evening, 1805, that the famous Anna Pavlovna Scherer, maid of honor and confidant of the Empress Maria Feodorovna, thus greeted the influential statesman, Prince Vasili, who was the first to arrive at her reception."]
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: ["Anna Pavlovna had been coughing for several days; she had the ", {
-      type: "italic",
+      type: "Italic",
       children: ["grippe"]
     }, ", as she affected to call her influenza — ", {
-      type: "italic",
+      type: "Italic",
       children: ["grippe"],
     }, " at that time being a new word only occasionally employed."
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: ["A number of little notes distributed that morning by a footman in red livery had been all couched in the same terms:—"]
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: [{
-      type: "blockquote",
+      type: "Blockquote",
       children: ["“If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. ", {
-        type: "small-caps"
+        type: "SmallCaps"
         children: ["Annette Scherer"]
       }, "”"]
     }]
   }, {
-    type: "paragraph",
+    type: "Paragraph",
     children: ["“Oh! what a savage attack!” rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren—"]
   }]
 }
@@ -282,14 +282,41 @@ export default class HTMLOutput extends Renderer {
     return new Text(escapeHTML(text));
   }
 
-  *renderAnnotation(annotation) {
-    let element = document.createElement(annotation.type);
-    Object.assign(element, annotation.attributes);
-    let children = yield;
-    for (let child in children) {
-      element.appendChild(child);
-    }
-    return element;
+  *Bold() {
+    let strong = document.createElement('strong');
+    strong.appendChildren(yield);
+    return strong;
+  }
+
+  *Blockquote() {
+    let quote = document.createElement('blockquote');
+    quote.appendChildren(yield);
+    return quote;
+  }
+
+  *HorizontalRule() {
+    let rule = document.createElement('hr');
+    rule.appendChildren(yield);
+    return rule;
+  }
+
+  *Italic() {
+    let emphasis = document.createElement('em');
+    emphasis.appendChildren(yield);
+    return emphasis;
+  }
+
+  *Paragraph() {
+    let paragraph = document.createElement('p');
+    paragraph.appendChildren(yield);
+    return paragraph;
+  }
+
+  *SmallCaps() {
+    let smallCaps = document.createElement('span');
+    smallCaps.classList.add('small-caps');
+    smallCaps.appendChildren(yield);
+    return smallCaps;
   }
 };
 ```
@@ -298,7 +325,7 @@ The `renderText` method is called for every chunk of text in the document, to pr
 
 We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
 
-## How do I use existing documents? 
+## How do I use existing documents?
 AtJSON documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized AtJSON document.
 
 A markdown document, much like the one being written here, can be represented in AtJSON by annotating the document with the markup.
@@ -308,7 +335,7 @@ This can be done using our built-in parser:
 ```js
 import CommonMarkSource from '@atjson/source-commonmark';
 
-let document = new CommonMarkSource("# Hello, world").toAtJSON();
+let document = CommonMarkSource.fromRaw("# Hello, world");
 ```
 
 This will result in the following document:
@@ -317,21 +344,18 @@ This will result in the following document:
 {
   content: "# Hello, world",
   annotations: [{
-    type: "heading",
-    attributes: {
-      level: 1
-    },
+    type: "h1",
     start: 0,
     end: 14
   }, {
-    type: "parse-token",
+    type: "ParseToken",
     start: 0,
     end: 2
   }]
 }
 ```
 
-The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `parse-token`, which we remove from the document during the output phase.
+The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `ParseToken`, which we remove from the document during the output phase.
 
 When the intermediate representation is created, this document will be altered to look like:
 
@@ -354,15 +378,14 @@ When the intermediate representation is created, this document will be altered t
 Documents can have annotations and text dynamically added and deleted from them. The APIs for this are designed to be easy-to-use (if they're not, please let us know :sweat_smile:)
 
 ```js
-import Document from '@atjson/document';
+import OffsetSource, { Bold } from '@atjson/offset-annotations';
 
-let document = new Document();
+let document = new OffsetSource();
 document.insertText(0, 'Hello!');
-document.addAnnotations({
-  type: "bold",
+document.addAnnotations(new Bold({
   start: 0,
   end: 6
-});
+}));
 
 // This should extend the annotation
 document.insertText(5, " folks");

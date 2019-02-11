@@ -16,20 +16,20 @@ function node(type: string) {
   };
 }
 
-let bold = node('bold');
-let blockquote = node('blockquote');
-let document = node('root');
+let bold = node('Bold');
+let blockquote = node('Blockquote');
+let document = node('Root');
 let image = (attributes= {}) => {
   return {
-    type: 'image',
+    type: 'Image',
     attributes,
     children: []
   };
 };
-let italic = node('italic');
-let li = node('list-item');
-let ol = node('ordered-list');
-let paragraph = node('paragraph');
-let ul = node('unordered-list');
+let italic = node('Italic');
+let li = node('ListItem');
+let ol = node('OrderedList');
+let paragraph = node('Paragraph');
+let ul = node('UnorderedList');
 
 export { bold, blockquote, document, image, italic, li, node, ol, paragraph, ul };

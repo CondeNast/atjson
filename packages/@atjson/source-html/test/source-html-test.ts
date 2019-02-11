@@ -8,7 +8,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
 
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'pre',
@@ -33,7 +33,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<p>aaa<br />\nbbb</p>');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'p',
@@ -50,7 +50,7 @@ describe('@atjson/source-html', () => {
     let hir = new HIR(doc).toJSON();
 
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'a',
@@ -66,7 +66,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<img src="https://example.com/test.png" /> ');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'img',
@@ -82,7 +82,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<h2></h2>\n<h1></h1>\n<h3></h3>');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'h2',
@@ -104,7 +104,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<p><img src="/url" alt="Foo" title="title" /></p>');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'p',
@@ -126,7 +126,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<p>**<a href="**"></p>');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'p',
@@ -145,7 +145,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('&lt;&gt;');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: ['<>']
     });
@@ -155,7 +155,7 @@ describe('@atjson/source-html', () => {
     let doc = HTMLSource.fromRaw('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA"></a>');
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'a',
@@ -172,14 +172,14 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('This <b>text</b> is <strong>bold</strong>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: ['This ', {
-          type: 'bold',
+          type: 'Bold',
           attributes: {},
           children: ['text']
         }, ' is ', {
-          type: 'bold',
+          type: 'Bold',
           attributes: {},
           children: ['bold']
         }]
@@ -190,14 +190,14 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('This <i>text</i> is <em>italic</em>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: ['This ', {
-          type: 'italic',
+          type: 'Italic',
           attributes: {},
           children: ['text']
         }, ' is ', {
-          type: 'italic',
+          type: 'Italic',
           attributes: {},
           children: ['italic']
         }]
@@ -208,30 +208,30 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('<h1>Title</h1><h2>Byline</h2><h3>Section</h3><h4>Normal heading</h4><h5>Small heading</h5><h6>Tiny heading</h6>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 1 },
           children: ['Title']
         }, {
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 2 },
           children: ['Byline']
         }, {
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 3 },
           children: ['Section']
         }, {
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 4 },
           children: ['Normal heading']
         }, {
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 5 },
           children: ['Small heading']
         }, {
-          type: 'heading',
+          type: 'Heading',
           attributes: { level: 6 },
           children: ['Tiny heading']
         }]
@@ -242,13 +242,13 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('<p>This paragraph has a<br>line break</p>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
-          type: 'paragraph',
+          type: 'Paragraph',
           attributes: {},
           children: ['This paragraph has a', {
-            type: 'line-break',
+            type: 'LineBreak',
             attributes: {},
             children: []
           }, 'line break']
@@ -260,10 +260,10 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('This <a href="https://condenast.com">is a link</a>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: ['This ', {
-          type: 'link',
+          type: 'Link',
           attributes: {
             url: 'https://condenast.com'
           },
@@ -276,10 +276,10 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('Horizontal <hr> rules!');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: ['Horizontal ', {
-          type: 'horizontal-rule',
+          type: 'HorizontalRule',
           attributes: {},
           children: []
         }, ' rules!']
@@ -290,15 +290,15 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86" title="Miles Davis & Andy Warhol">');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
-          type: 'image',
+          type: 'Image',
           attributes: {
             url: 'https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg',
             description: {
               attributes: {},
-              type: 'root',
+              type: 'Root',
               children: [
                 'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86'
               ]
@@ -314,10 +314,10 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('<blockquote>This is a quote</blockquote>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
-          type: 'blockquote',
+          type: 'Blockquote',
           attributes: {},
           children: ['This is a quote']
         }]
@@ -328,34 +328,34 @@ describe('@atjson/source-html', () => {
       let doc = HTMLSource.fromRaw('<ol starts="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
-          type: 'list',
+          type: 'List',
           attributes: {
             type: 'numbered',
             startsAt: 2
           },
           children: [{
-            type: 'list-item',
+            type: 'ListItem',
             attributes: {},
             children: ['Second']
           }, {
-            type: 'list-item',
+            type: 'ListItem',
             attributes: {},
             children: ['Third']
           }]
         }, {
-          type: 'list',
+          type: 'List',
           attributes: {
             type: 'bulleted'
           },
           children: [{
-            type: 'list-item',
+            type: 'ListItem',
             attributes: {},
             children: ['First']
           }, {
-            type: 'list-item',
+            type: 'ListItem',
             attributes: {},
             children: ['Second']
           }]

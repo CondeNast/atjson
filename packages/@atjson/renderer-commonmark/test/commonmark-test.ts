@@ -7,8 +7,8 @@ describe('commonmark', () => {
     let document = new OffsetSource({
       content: 'Some text that is both bold and italic plus something after.',
       annotations: [
-        { id: '1', type: '-offset-bold', start: 23, end: 31, attributes: {} },
-        { id: '2', type: '-offset-italic', start: 28, end: 38, attributes: {} }
+        { id: '1', type: '-offset-Bold', start: 23, end: 31, attributes: {} },
+        { id: '2', type: '-offset-Italic', start: 28, end: 38, attributes: {} }
       ]
     });
 
@@ -20,7 +20,7 @@ describe('commonmark', () => {
       content: '\uFFFC',
       annotations: [{
         id: '1',
-        type: '-offset-image',
+        type: '-offset-Image',
         start: 0,
         end: 1,
         attributes: {
@@ -29,7 +29,7 @@ describe('commonmark', () => {
             content: 'CommonMark!',
             annotations: [{
               id: '2',
-              type: '-offset-bold',
+              type: '-offset-Bold',
               start: 0,
               end: 10,
               attributes: {}
@@ -46,10 +46,10 @@ describe('commonmark', () => {
     let document = new OffsetSource({
       content: 'A paragraph with some bold\n\ntext that continues into the next.',
       annotations: [
-        { id: '1', type: '-offset-paragraph', start: 0, end: 28, attributes: {} },
-        { id: '2', type: '-atjson-parse-token', start: 26, end: 28, attributes: {} },
-        { id: '3', type: '-offset-paragraph', start: 28, end: 62, attributes: {} },
-        { id: '4', type: '-offset-bold', start: 22, end: 32, attributes: {} }
+        { id: '1', type: '-offset-Paragraph', start: 0, end: 28, attributes: {} },
+        { id: '2', type: '-atjson-ParseToken', start: 26, end: 28, attributes: {} },
+        { id: '3', type: '-offset-Paragraph', start: 28, end: 62, attributes: {} },
+        { id: '4', type: '-offset-Bold', start: 22, end: 32, attributes: {} }
       ]
     });
 
@@ -66,20 +66,20 @@ describe('commonmark', () => {
                 'Item 2b',
                 'After all the lists'].join(''),
       annotations: [
-        { id: '1', type: '-offset-paragraph', start: 0, end: 14, attributes: {} },
-        { id: '2', type: '-offset-bold', start: 30, end: 34, attributes: {} },
-        { id: '3', type: '-offset-italic', start: 56, end: 62, attributes: {} },
-        { id: '4', type: '-offset-list', attributes: { '-offset-type': 'numbered', '-offset-tight': true }, start: 14, end: 81 },
-        { id: '5', type: '-offset-list-item', start: 14, end: 39, attributes: {} },
-        { id: '6', type: '-offset-paragraph', start: 14, end: 39, attributes: {} },
-        { id: '7', type: '-offset-list-item', start: 39, end: 81, attributes: {} },
-        { id: '8', type: '-offset-paragraph', start: 39, end: 67, attributes: {} },
-        { id: '9', type: '-offset-list', attributes: { '-offset-type': 'bulleted', '-offset-tight': true }, start: 67, end: 81 },
-        { id: '10', type: '-offset-list-item', start: 67, end: 74, attributes: {} },
-        { id: '11', type: '-offset-paragraph', start: 67, end: 74, attributes: {} },
-        { id: '12', type: '-offset-list-item', start: 74, end: 81, attributes: {} },
-        { id: '13', type: '-offset-paragraph', start: 74, end: 81, attributes: {} },
-        { id: '14', type: '-offset-paragraph', start: 81, end: 100, attributes: {} }
+        { id: '1', type: '-offset-Paragraph', start: 0, end: 14, attributes: {} },
+        { id: '2', type: '-offset-Bold', start: 30, end: 34, attributes: {} },
+        { id: '3', type: '-offset-Italic', start: 56, end: 62, attributes: {} },
+        { id: '4', type: '-offset-List', attributes: { '-offset-type': 'numbered', '-offset-tight': true }, start: 14, end: 81 },
+        { id: '5', type: '-offset-ListItem', start: 14, end: 39, attributes: {} },
+        { id: '6', type: '-offset-Paragraph', start: 14, end: 39, attributes: {} },
+        { id: '7', type: '-offset-ListItem', start: 39, end: 81, attributes: {} },
+        { id: '8', type: '-offset-Paragraph', start: 39, end: 67, attributes: {} },
+        { id: '9', type: '-offset-List', attributes: { '-offset-type': 'bulleted', '-offset-tight': true }, start: 67, end: 81 },
+        { id: '10', type: '-offset-ListItem', start: 67, end: 74, attributes: {} },
+        { id: '11', type: '-offset-Paragraph', start: 67, end: 74, attributes: {} },
+        { id: '12', type: '-offset-ListItem', start: 74, end: 81, attributes: {} },
+        { id: '13', type: '-offset-Paragraph', start: 74, end: 81, attributes: {} },
+        { id: '14', type: '-offset-Paragraph', start: 81, end: 100, attributes: {} }
       ]
     });
 
@@ -101,7 +101,7 @@ After all the lists
       content: 'I have a link',
       annotations: [{
         id: '1',
-        type: '-offset-link',
+        type: '-offset-Link',
         start: 9,
         end: 13,
         attributes: {
@@ -119,7 +119,7 @@ After all the lists
         content: 'This is a quote\n\nThat has some\nlines in it.',
         annotations: [{
           id: '1',
-          type: '-offset-blockquote',
+          type: '-offset-Blockquote',
           start: 0,
           end: 43,
           attributes: {}
@@ -134,19 +134,19 @@ After all the lists
         content: 'This is a quoteAnd this is not.',
         annotations: [{
           id: '1',
-          type: '-offset-blockquote',
+          type: '-offset-Blockquote',
           start: 0,
           end: 15,
           attributes: {}
         }, {
           id: '2',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 0,
           end: 15,
           attributes: {}
         }, {
           id: '3',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 15,
           end: 31,
           attributes: {}
@@ -161,19 +161,19 @@ After all the lists
         content: '\n\nThis is a quote\nAnd this is not.',
         annotations: [{
           id: '1',
-          type: '-offset-blockquote',
+          type: '-offset-Blockquote',
           start: 0,
           end: 18,
           attributes: {}
         }, {
           id: '2',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 2,
           end: 18,
           attributes: {}
         }, {
           id: '3',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 18,
           end: 34,
           attributes: {}
@@ -188,37 +188,37 @@ After all the lists
         content: 'This is some text\n\nThis is a quote\n\nAnd this is not.',
         annotations: [{
           id: '1',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 0,
           end: 19,
           attributes: {}
         }, {
           id: '2',
-          type: '-atjson-parse-token',
+          type: '-atjson-ParseToken',
           start: 17,
           end: 19,
           attributes: {}
         }, {
           id: '3',
-          type: '-offset-blockquote',
+          type: '-offset-Blockquote',
           start: 19,
           end: 36,
           attributes: {}
         }, {
           id: '4',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 19,
           end: 36,
           attributes: {}
         }, {
           id: '5',
-          type: '-atjson-parse-token',
+          type: '-atjson-ParseToken',
           start: 34,
           end: 36,
           attributes: {}
         }, {
           id: '6',
-          type: '-offset-paragraph',
+          type: '-offset-Paragraph',
           start: 36,
           end: 52,
           attributes: {}
@@ -229,13 +229,13 @@ After all the lists
     });
   });
 
-  test('handles horizontal-rules annotations', () => {
+  test('handles horizontalRules annotations', () => {
     let document = new OffsetSource({
       content: 'x\uFFFCy',
       annotations: [
-        { id: '1', type: '-offset-paragraph', start: 0, end: 1, attributes: {} },
-        { id: '2', type: '-offset-horizontal-rule', start: 1, end: 2, attributes: {} },
-        { id: '3', type: '-offset-paragraph', start: 2, end: 3, attributes: {} }
+        { id: '1', type: '-offset-Paragraph', start: 0, end: 1, attributes: {} },
+        { id: '2', type: '-offset-HorizontalRule', start: 1, end: 2, attributes: {} },
+        { id: '3', type: '-offset-Paragraph', start: 2, end: 3, attributes: {} }
       ]
     });
 
@@ -246,13 +246,13 @@ After all the lists
     let document = new OffsetSource({
       content: 'Banner\nHeadline\n',
       annotations: [{
-        id: '1', type: '-offset-heading', start: 0, end: 7, attributes: { '-offset-level': 1 }
+        id: '1', type: '-offset-Heading', start: 0, end: 7, attributes: { '-offset-level': 1 }
       }, {
-        id: '2', type: '-atjson-parse-token', start: 6, end: 7, attributes: { '-atjson-reason': 'newline' }
+        id: '2', type: '-atjson-ParseToken', start: 6, end: 7, attributes: { '-atjson-reason': 'newline' }
       }, {
-        id: '3', type: '-offset-heading', start: 7, end: 16, attributes: { '-offset-level': 2 }
+        id: '3', type: '-offset-Heading', start: 7, end: 16, attributes: { '-offset-level': 2 }
       }, {
-        id: '4', type: '-atjson-parse-token', start: 15, end: 16, attributes: { '-atjson-reason': 'newline' }
+        id: '4', type: '-atjson-ParseToken', start: 15, end: 16, attributes: { '-atjson-reason': 'newline' }
       }]
     });
 
@@ -263,9 +263,9 @@ After all the lists
     let document = new OffsetSource({
       content: 'This is bold text and a link.',
       annotations: [{
-        id: '1', type: '-offset-bold', start: 8, end: 13, attributes: {}
+        id: '1', type: '-offset-Bold', start: 8, end: 13, attributes: {}
       }, {
-        id: '2', type: '-offset-link', start: 23, end: 28, attributes: { '-offset-url': 'https://example.com' }
+        id: '2', type: '-offset-Link', start: 23, end: 28, attributes: { '-offset-url': 'https://example.com' }
       }]
     });
 
@@ -276,21 +276,21 @@ After all the lists
     let document = new OffsetSource({
       content: '\uFFFCbold then italic\uFFFC \uFFFCitalic then bold\uFFFC',
       annotations: [{
-        id: '1', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
+        id: '1', type: '-atjson-ParseToken', start: 0, end: 1, attributes: {}
       }, {
-        id: '2', type: '-offset-bold', start: 0, end: 18, attributes: {}
+        id: '2', type: '-offset-Bold', start: 0, end: 18, attributes: {}
       }, {
-        id: '3', type: '-offset-italic', start: 1, end: 17, attributes: {}
+        id: '3', type: '-offset-Italic', start: 1, end: 17, attributes: {}
       }, {
-        id: '4', type: '-atjson-parse-token', start: 17, end: 18, attributes: {}
+        id: '4', type: '-atjson-ParseToken', start: 17, end: 18, attributes: {}
       }, {
-        id: '5', type: '-atjson-parse-token', start: 19, end: 20, attributes: {}
+        id: '5', type: '-atjson-ParseToken', start: 19, end: 20, attributes: {}
       }, {
-        id: '6', type: '-offset-italic', start: 19, end: 37, attributes: {}
+        id: '6', type: '-offset-Italic', start: 19, end: 37, attributes: {}
       }, {
-        id: '7', type: '-offset-bold', start: 20, end: 36, attributes: {}
+        id: '7', type: '-offset-Bold', start: 20, end: 36, attributes: {}
       }, {
-        id: '8', type: '-atjson-parse-token', start: 36, end: 37, attributes: {}
+        id: '8', type: '-atjson-ParseToken', start: 36, end: 37, attributes: {}
       }]
     });
 
@@ -301,37 +301,37 @@ After all the lists
     let document = new OffsetSource({
       content: '\uFFFCbold\uFFFC\uFFFCthen italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFCthen bold\uFFFC\n',
       annotations: [{
-        id: '1', type: '-offset-paragraph', start: 0, end: 20, attributes: {}
+        id: '1', type: '-offset-Paragraph', start: 0, end: 20, attributes: {}
       }, {
-        id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
+        id: '2', type: '-atjson-ParseToken', start: 0, end: 1, attributes: {}
       }, {
-        id: '3', type: '-offset-bold', start: 0, end: 6, attributes: {}
+        id: '3', type: '-offset-Bold', start: 0, end: 6, attributes: {}
       }, {
-        id: '4', type: '-atjson-parse-token', start: 5, end: 6, attributes: {}
+        id: '4', type: '-atjson-ParseToken', start: 5, end: 6, attributes: {}
       }, {
-        id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
+        id: '5', type: '-atjson-ParseToken', start: 6, end: 7, attributes: {}
       }, {
-        id: '6', type: '-offset-italic', start: 6, end: 20, attributes: {}
+        id: '6', type: '-offset-Italic', start: 6, end: 20, attributes: {}
       }, {
-        id: '7', type: '-atjson-parse-token', start: 18, end: 19, attributes: {}
+        id: '7', type: '-atjson-ParseToken', start: 18, end: 19, attributes: {}
       }, {
-        id: '8', type: '-atjson-parse-token', start: 19, end: 20, attributes: {}
+        id: '8', type: '-atjson-ParseToken', start: 19, end: 20, attributes: {}
       }, {
-        id: '9', type: '-offset-paragraph', start: 20, end: 40, attributes: {}
+        id: '9', type: '-offset-Paragraph', start: 20, end: 40, attributes: {}
       }, {
-        id: '10', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
+        id: '10', type: '-atjson-ParseToken', start: 20, end: 21, attributes: {}
       }, {
-        id: '11', type: '-offset-italic', start: 20, end: 28, attributes: {}
+        id: '11', type: '-offset-Italic', start: 20, end: 28, attributes: {}
       }, {
-        id: '12', type: '-atjson-parse-token', start: 27, end: 28, attributes: {}
+        id: '12', type: '-atjson-ParseToken', start: 27, end: 28, attributes: {}
       }, {
-        id: '13', type: '-atjson-parse-token', start: 28, end: 29, attributes: {}
+        id: '13', type: '-atjson-ParseToken', start: 28, end: 29, attributes: {}
       }, {
-        id: '14', type: '-offset-bold', start: 28, end: 39, attributes: {}
+        id: '14', type: '-offset-Bold', start: 28, end: 39, attributes: {}
       }, {
-        id: '15', type: '-atjson-parse-token', start: 38, end: 39, attributes: {}
+        id: '15', type: '-atjson-ParseToken', start: 38, end: 39, attributes: {}
       }, {
-        id: '16', type: '-atjson-parse-token', start: 39, end: 40, attributes: {}
+        id: '16', type: '-atjson-ParseToken', start: 39, end: 40, attributes: {}
       }]
     });
 
@@ -341,90 +341,90 @@ After all the lists
   describe('boundary punctuation', () => {
 
     describe('is adjacent to non-whitespace non-punctuation characters', () => {
-      //a*—italic—*non-italic -> a—*italic*—non-italic
+      //a*—italic—*non-Italic -> a—*italic*—non-Italic
       test('boundary punctuation is pushed out of annotations', () => {
         let document = new OffsetSource({
-          content: 'a\u2014italic\u2014non-italic',
+          content: 'a\u2014italic\u2014non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+            id: '1', type: '-offset-Italic', start: 1, end: 9, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a—*italic*—non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('a—*italic*—non-Italic');
       });
 
       // This is a weird case in that it results in asymmetric parens, but is probably the
       // most correct thing to do
-      // a—*(italic)*non-italic -> a—*(italic*)non-italic
+      // a—*(italic)*non-Italic -> a—*(italic*)non-Italic
       test('boundary paranthesis is pushed out of annotations', () => {
         let document = new OffsetSource({
-          content: 'a\u2014(italic)non-italic',
+          content: 'a\u2014(italic)non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+            id: '1', type: '-offset-Italic', start: 1, end: 9, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a—*(italic*)non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('a—*(italic*)non-Italic');
       });
 
-      // *italic]*non-italic -> *italic*\]non-italic
+      // *italic]*non-Italic -> *italic*\]non-Italic
       test('backslash-escaped punctuation is fully pushed out of annotations', () => {
         let document = new OffsetSource({
-          content: 'italic]non-italic',
+          content: 'italic]non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 7, attributes: {}
+            id: '1', type: '-offset-Italic', start: 0, end: 7, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic*\\]non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('*italic*\\]non-Italic');
       });
 
-      // *italic\]*non-italic -> *italic\\*\]non-italic
+      // *italic\]*non-Italic -> *italic\\*\]non-Italic
       test('multiple backslash escapes are correctly parsed', () => {
         let document = new OffsetSource({
-          content: 'italic\\]non-italic',
+          content: 'italic\\]non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {}
+            id: '1', type: '-offset-Italic', start: 0, end: 8, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic\\\\*\\]non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('*italic\\\\*\\]non-Italic');
       });
 
-      // *italic..*non-italic -> *italic.*.non-italic
+      // *italic..*non-Italic -> *italic.*.non-Italic
       test('non-escape punctuation sequences only push out the boundary characters', () => {
         let document = new OffsetSource({
-          content: 'italic..non-italic',
+          content: 'italic..non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {}
+            id: '1', type: '-offset-Italic', start: 0, end: 8, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic.*.non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('*italic.*.non-Italic');
       });
 
-      // *italic&*non-italic -> *italic*&amp;non-italic
+      // *italic&*non-Italic -> *italic*&amp;non-Italic
       test('entities are not split by pushing punctuation out of annotations', () => {
         let document = new OffsetSource({
-          content: 'italic&non-italic',
+          content: 'italic&non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 7, attributes: {}
+            id: '1', type: '-offset-Italic', start: 0, end: 7, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic*&amp;non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('*italic*&amp;non-Italic');
       });
 
-      // a*&}italic&]*non-italic -> a&amp;*\}italic&amp;*\]non-italic
+      // a*&}italic&]*non-Italic -> a&amp;*\}italic&amp;*\]non-Italic
       test('entities and escaped punctuation work together', () => {
         let document = new OffsetSource({
-          content: 'a&}italic&]non-italic',
+          content: 'a&}italic&]non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 1, end: 11, attributes: {}
+            id: '1', type: '-offset-Italic', start: 1, end: 11, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-Italic');
       });
 
       // **bold**_, then italic_ -> **bold**, *then italic*
@@ -433,37 +433,37 @@ After all the lists
         let document = new OffsetSource({
           content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
           annotations: [{
-            id: '1', type: '-offset-paragraph', start: 0, end: 21, attributes: {}
+            id: '1', type: '-offset-Paragraph', start: 0, end: 21, attributes: {}
           }, {
-            id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
+            id: '2', type: '-atjson-ParseToken', start: 0, end: 1, attributes: {}
           }, {
-            id: '3', type: '-offset-bold', start: 0, end: 6, attributes: {}
+            id: '3', type: '-offset-Bold', start: 0, end: 6, attributes: {}
           }, {
-            id: '4', type: '-atjson-parse-token', start: 5, end: 6, attributes: {}
+            id: '4', type: '-atjson-ParseToken', start: 5, end: 6, attributes: {}
           }, {
-            id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
+            id: '5', type: '-atjson-ParseToken', start: 6, end: 7, attributes: {}
           }, {
-            id: '6', type: '-offset-italic', start: 6, end: 21, attributes: {}
+            id: '6', type: '-offset-Italic', start: 6, end: 21, attributes: {}
           }, {
-            id: '7', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
+            id: '7', type: '-atjson-ParseToken', start: 20, end: 21, attributes: {}
           }, {
-            id: '8', type: '-atjson-parse-token', start: 21, end: 22, attributes: {}
+            id: '8', type: '-atjson-ParseToken', start: 21, end: 22, attributes: {}
           }, {
-            id: '9', type: '-offset-paragraph', start: 22, end: 43, attributes: {}
+            id: '9', type: '-offset-Paragraph', start: 22, end: 43, attributes: {}
           }, {
-            id: '10', type: '-atjson-parse-token', start: 22, end: 23, attributes: {}
+            id: '10', type: '-atjson-ParseToken', start: 22, end: 23, attributes: {}
           }, {
-            id: '11', type: '-offset-italic', start: 23, end: 30, attributes: {}
+            id: '11', type: '-offset-Italic', start: 23, end: 30, attributes: {}
           }, {
-            id: '12', type: '-atjson-parse-token', start: 29, end: 30, attributes: {}
+            id: '12', type: '-atjson-ParseToken', start: 29, end: 30, attributes: {}
           }, {
-            id: '13', type: '-atjson-parse-token', start: 30, end: 31, attributes: {}
+            id: '13', type: '-atjson-ParseToken', start: 30, end: 31, attributes: {}
           }, {
-            id: '14', type: '-offset-bold', start: 30, end: 42, attributes: {}
+            id: '14', type: '-offset-Bold', start: 30, end: 42, attributes: {}
           }, {
-            id: '15', type: '-atjson-parse-token', start: 42, end: 43, attributes: {}
+            id: '15', type: '-atjson-ParseToken', start: 42, end: 43, attributes: {}
           }, {
-            id: '16', type: '-atjson-parse-token', start: 43, end: 44, attributes: {}
+            id: '16', type: '-atjson-ParseToken', start: 43, end: 44, attributes: {}
           }]
         });
 
@@ -474,25 +474,25 @@ After all the lists
     describe('is adjacent to whitespace', () => {
       test('boundary punctuation is retained in the annotation', () => {
         let document = new OffsetSource({
-          content: ' \u2014italic\u2014 non-italic',
+          content: ' \u2014italic\u2014 non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 1, end: 9, attributes: {}
+            id: '1', type: '-offset-Italic', start: 1, end: 9, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* non-Italic');
       });
 
-      // `  *—italic— * non-italic` -> `  *-italic-*  non-italic`
+      // `  *—italic— * non-Italic` -> `  *-Italic-*  non-Italic`
       test('boundary whitespace is still moved out', () => {
         let document = new OffsetSource({
-          content: '  \u2014italic\u2014  non-italic',
+          content: '  \u2014italic\u2014  non-Italic',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 2, end: 11, attributes: {}
+            id: '1', type: '-offset-Italic', start: 2, end: 11, attributes: {}
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('  *—italic—*  non-italic');
+        expect(CommonMarkRenderer.render(document)).toBe('  *—italic—*  non-Italic');
       });
     });
 
@@ -501,9 +501,9 @@ After all the lists
         let document = new OffsetSource({
           content: '\u2014italic\u2014a\u2014bold\u2014',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 8, attributes: {},
+            id: '1', type: '-offset-Italic', start: 0, end: 8, attributes: {},
           }, {
-            id: '2', type: '-offset-bold', start: 9, end: 15, attributes: {}
+            id: '2', type: '-offset-Bold', start: 9, end: 15, attributes: {}
           }]
         });
 
@@ -515,7 +515,7 @@ After all the lists
         let document = new OffsetSource({
           content: ' \u2014italic\u2014 ',
           annotations: [{
-            id: '1', type: '-offset-italic', start: 0, end: 10, attributes: {}
+            id: '1', type: '-offset-Italic', start: 0, end: 10, attributes: {}
           }]
         });
 
@@ -528,9 +528,9 @@ After all the lists
     let document = new OffsetSource({
       content: 'Some formatting on empty spaces',
       annotations: [{
-        id: '1', type: '-offset-bold', start: 0, end: 0, attributes: {}
+        id: '1', type: '-offset-Bold', start: 0, end: 0, attributes: {}
       }, {
-        id: '2', type: '-offset-italic', start: 4, end: 5, attributes: {}
+        id: '2', type: '-offset-Italic', start: 4, end: 5, attributes: {}
       }]
     });
 
@@ -541,15 +541,15 @@ After all the lists
     let document = new OffsetSource({
       content: '\u00A0\ntext\n\u202F',
       annotations: [{
-        id: '1', type: '-offset-bold', start: 0, end: 7, attributes: {}
+        id: '1', type: '-offset-Bold', start: 0, end: 7, attributes: {}
       }, {
-        id: '2', type: '-offset-paragraph', start: 0, end: 2, attributes: {}
+        id: '2', type: '-offset-Paragraph', start: 0, end: 2, attributes: {}
       }, {
-        id: '3', type: '-atjson-parse-token', start: 1, end: 2, attributes: {}
+        id: '3', type: '-atjson-ParseToken', start: 1, end: 2, attributes: {}
       }, {
-        id: '4', type: '-offset-paragraph', start: 2, end: 7, attributes: {}
+        id: '4', type: '-offset-Paragraph', start: 2, end: 7, attributes: {}
       }, {
-        id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
+        id: '5', type: '-atjson-ParseToken', start: 6, end: 7, attributes: {}
       }]
     });
 
@@ -560,15 +560,15 @@ After all the lists
     let document = new OffsetSource({
       content: '\u000b\ntext\n',
       annotations: [{
-        id: '1', type: '-offset-bold', start: 0, end: 7, attributes: {}
+        id: '1', type: '-offset-Bold', start: 0, end: 7, attributes: {}
       }, {
-        id: '2', type: '-offset-paragraph', start: 0, end: 2, attributes: {}
+        id: '2', type: '-offset-Paragraph', start: 0, end: 2, attributes: {}
       }, {
-        id: '3', type: '-atjson-parse-token', start: 1, end: 2, attributes: {}
+        id: '3', type: '-atjson-ParseToken', start: 1, end: 2, attributes: {}
       }, {
-        id: '4', type: '-offset-paragraph', start: 2, end: 7, attributes: {}
+        id: '4', type: '-offset-Paragraph', start: 2, end: 7, attributes: {}
       }, {
-        id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
+        id: '5', type: '-atjson-ParseToken', start: 6, end: 7, attributes: {}
       }]
     });
 
@@ -579,9 +579,9 @@ After all the lists
     let document = new OffsetSource({
       content: '\tHello \n    This is my text',
       annotations: [{
-        id: '1', type: '-offset-paragraph', start: 0, end: 8, attributes: {}
+        id: '1', type: '-offset-Paragraph', start: 0, end: 8, attributes: {}
       }, {
-        id: '2', type: '-offset-paragraph', start: 8, end: 27, attributes: {}
+        id: '2', type: '-offset-Paragraph', start: 8, end: 27, attributes: {}
       }]
     });
 

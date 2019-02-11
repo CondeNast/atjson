@@ -21,7 +21,7 @@ describe('Document.insertText', () => {
         attributes: {}
       }), {
         id: '2',
-        type: '-test-link',
+        type: '-test-Link',
         start: 1,
         end: 2,
         attributes: {
@@ -44,7 +44,7 @@ describe('Document.insertText', () => {
       attributes: {}
     }, {
       id: '2',
-      type: '-test-link',
+      type: '-test-Link',
       start: 4,
       end: 5,
       attributes: {

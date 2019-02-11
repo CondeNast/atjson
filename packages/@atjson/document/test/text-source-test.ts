@@ -23,7 +23,7 @@ export class TextSource extends Document {
         attributes: {}
       }, {
         id: (id++).toString(),
-        type: '-atjson-parse-token',
+        type: '-atjson-ParseToken',
         start: end,
         end: end + 1,
         attributes: {}
@@ -61,7 +61,7 @@ describe('TextSource', () => {
         attributes: {}
       }, {
         id: '2',
-        type: '-atjson-parse-token',
+        type: '-atjson-ParseToken',
         start: 5,
         end: 6,
         attributes: {}

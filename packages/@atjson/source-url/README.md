@@ -25,41 +25,42 @@ The block of code (hidden) below gives a rough outline of how to organize and pu
 <details>
 
 ```js
+import OffsetSource from '@atjson/offset-annotations';
 import URLSource from '@atjson/source-url';
 import Renderer from '@atjson/renderer-hir';
 
 class CKEditorRenderer extends Renderer {
-  *'facebook-embed'(embed) {
+  *FacebookEmbed'(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'giphy-embed'(embed) {
+  *GiphyEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'iframe-embed'(embed) {
+  *IframeEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'instagram-embed'(embed) {
+  *InstagramEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'pinterest-embed'(embed) {
+  *PinterestEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'twitter-embed'(embed) {
+  *TwitterEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'youtube-embed'(embed) {
+  *YouTubeEmbed(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'root'() {
+  *Root() {
     let chunks = yield;
     return chunks.join('');
   }
 }
 
 editor.on('paste', function (evt) {
-  let richPaste = new URLSource(evt.data.dataValue);
+  let richPaste = URLSource.fromRaw(evt.data.dataValue);
   let renderer = new CKEditorRenderer();
-  evt.data.dataValue = renderer.render(richPaste.toCommonSchema());
+  evt.data.dataValue = renderer.render(richPaste.convertTo(OffsetSource));
 });
 ```
 
@@ -71,6 +72,6 @@ editor.on('paste', function (evt) {
 - Instagram
 - Twitter
 - Pinterest
-- Youtube
+- YouTube
 - Giphy
 - Facebook

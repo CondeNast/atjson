@@ -120,7 +120,7 @@ describe('@atjson/renderer-hir', () => {
       text(t: string): string {
         return escapeHTML(t);
       }
-      *root(): IterableIterator<any> {
+      *Root(): IterableIterator<any> {
         let rawText: string[] = yield;
         return rawText.join('');
       }

@@ -1,7 +1,7 @@
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class InstagramEmbed extends IframeEmbed {
-  static type = 'instagram-embed';
+  static type = 'InstagramEmbed';
   static vendorPrefix = 'offset';
   attributes!: {
     url: string;

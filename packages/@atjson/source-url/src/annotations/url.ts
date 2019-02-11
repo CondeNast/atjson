@@ -1,7 +1,7 @@
 import { ObjectAnnotation } from '@atjson/document';
 
 export default class URLAnnotation extends ObjectAnnotation {
-  static type = 'url';
+  static type = 'URL';
   static vendorPrefix = 'whatwg';
   attributes!: {
     host: string;

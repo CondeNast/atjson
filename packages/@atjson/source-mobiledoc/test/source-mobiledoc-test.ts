@@ -3,7 +3,7 @@ import { HIR } from '@atjson/hir';
 import MobiledocSource from '../src';
 import { ListSection } from '../src/parser';
 
-describe('@atjson/source-Mobiledoc', () => {
+describe('@atjson/source-mobiledoc', () => {
   describe('sections', () => {
     describe.each(['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'pull-quote', 'aside'])('%s', type => {
       test('with text', () => {
@@ -19,7 +19,7 @@ describe('@atjson/source-Mobiledoc', () => {
         let hir = new HIR(doc).toJSON();
 
         expect(hir).toMatchObject({
-          type: 'root',
+          type: 'Root',
           attributes: {},
           children: [{
             type,
@@ -42,7 +42,7 @@ describe('@atjson/source-Mobiledoc', () => {
         let hir = new HIR(doc).toJSON();
 
         expect(hir).toMatchObject({
-          type: 'root',
+          type: 'Root',
           attributes: {},
           children: [{
             type,
@@ -75,7 +75,7 @@ describe('@atjson/source-Mobiledoc', () => {
       let hir = new HIR(doc).toJSON();
 
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'p',
@@ -112,7 +112,7 @@ describe('@atjson/source-Mobiledoc', () => {
       let hir = new HIR(doc).toJSON();
 
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'p',
@@ -151,7 +151,7 @@ describe('@atjson/source-Mobiledoc', () => {
       let hir = new HIR(doc).toJSON();
 
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'p',
@@ -195,7 +195,7 @@ describe('@atjson/source-Mobiledoc', () => {
       let hir = new HIR(doc).toJSON();
 
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'p',
@@ -250,7 +250,7 @@ describe('@atjson/source-Mobiledoc', () => {
     let hir = new HIR(doc).toJSON();
 
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'p',
@@ -295,7 +295,7 @@ describe('@atjson/source-Mobiledoc', () => {
     let hir = new HIR(doc).toJSON();
 
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'gallery-card',
@@ -322,7 +322,7 @@ describe('@atjson/source-Mobiledoc', () => {
     let hir = new HIR(doc).toJSON();
 
     expect(hir).toMatchObject({
-      type: 'root',
+      type: 'Root',
       attributes: {},
       children: [{
         type: 'img',
@@ -361,7 +361,7 @@ describe('@atjson/source-Mobiledoc', () => {
       let hir = new HIR(doc).toJSON();
 
       expect(hir).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type,

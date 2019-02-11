@@ -1,7 +1,7 @@
 import { BlockAnnotation } from '@atjson/document';
 
 export default class Paragraph extends BlockAnnotation {
-  static type = 'paragraph';
+  static type = 'Paragraph';
   static vendorPrefix = 'offset';
 
   get rank() {

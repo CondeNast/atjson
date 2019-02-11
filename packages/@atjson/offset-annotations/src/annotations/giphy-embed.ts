@@ -1,7 +1,7 @@
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class GiphyEmbed extends IframeEmbed {
-  static type = 'giphy-embed';
+  static type = 'GiphyEmbed';
   static vendorPrefix = 'offset';
 
   get giphyId() {

@@ -1,20 +1,20 @@
 digraph atjson{
   node [shape=record];
-  root1 [label="{root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
-  link2 [label="{link|{\"url\":\"https://newyorker.com\"}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
-  text3 [label="{text|The }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  italic4 [label="{italic|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
-  text5 [label="{text|best}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  text6 [label="{text| writing }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  bold7 [label="{bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
-  text8 [label="{text|anywhere}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  text9 [label="{text|, everywhere.}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  link2 -> text3;
-  italic4 -> text5;
-  link2 -> italic4;
-  link2 -> text6;
-  bold7 -> text8;
-  link2 -> bold7;
-  link2 -> text9;
-  root1 -> link2;
+  Root1 [label="{Root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  Link2 [label="{Link|{\"url\":\"https://newyorker.com\"}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  Text3 [label="{Text|The }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Italic4 [label="{Italic|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  Text5 [label="{Text|best}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Text6 [label="{Text| writing }" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Bold7 [label="{Bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  Text8 [label="{Text|anywhere}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Text9 [label="{Text|, everywhere.}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Link2 -> Text3;
+  Italic4 -> Text5;
+  Link2 -> Italic4;
+  Link2 -> Text6;
+  Bold7 -> Text8;
+  Link2 -> Bold7;
+  Link2 -> Text9;
+  Root1 -> Link2;
 }

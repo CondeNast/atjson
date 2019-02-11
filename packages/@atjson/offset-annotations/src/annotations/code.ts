@@ -2,7 +2,7 @@ import { Annotation } from '@atjson/document';
 
 export default class Code extends Annotation {
   static vendorPrefix = 'offset';
-  static type = 'code';
+  static type = 'Code';
   attributes!: {
     style: 'block' | 'inline' | 'fence';
     info?: string;

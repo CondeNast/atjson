@@ -1,33 +1,32 @@
-import ReactRenderer from '@atjson/renderer-react';
-import Document from '@atjson/document';
+import OffsetSource, { Bold, Italic, Link, LineBreak, YouTubeEmbed, GiphyEmbed } from '@atjson/offset-annotations';
 import * as React from 'react';
 import * as ReactDOMServer from 'react-dom/server';
+import ReactRenderer from '../src';
 
 function renderDocument(renderer, doc) {
   return ReactDOMServer.renderToStaticMarkup(renderer.render(doc));
 }
 
-describe('ReactRenderer', function () {
-  it('renders simple components', function () {
+describe('ReactRenderer', () => {
+  it('renders simple components', () => {
     let renderer = new ReactRenderer({
-      root({ children }) {
+      Root({ children }) {
         return <article>{children}</article>
       },
-      bold({ children }) {
+      Bold({ children }) {
         return <strong>{children}</strong>;
       },
-      italic({ children }) {
+      Italic({ children }) {
         return <em>{children}</em>;
       }
     });
 
-    let document = new Document({
+    let document = new OffsetSource({
       content: 'This is bold and italic text',
-      annotations: [{
-        type: 'bold', start: 8, end: 17
-      }, {
-        type: 'italic', start: 12, end: 23
-      }]
+      annotations: [
+        new Bold({ start: 8, end: 17 }),
+        new Italic({ start: 12, end: 23 })
+      ]
     });
 
     expect(renderDocument(renderer, document)).toBe(
@@ -36,24 +35,24 @@ describe('ReactRenderer', function () {
 
   (function () {
     let renderer = new ReactRenderer({
-      root({ children }) {
+      Root({ children }) {
         return <article>{children}</article>
       },
-      link({ children, href, shouldOpenInNewTab }) {
+      Link({ children, href, shouldOpenInNewTab }) {
         if (shouldOpenInNewTab) {
           return <a href={href} target="__blank" rel="noreferrer noopener">{children}</a>;
         }
         return <a href={href}>{children}</a>;
       },
-      newline() {
+      LineBreak() {
         return <br/>;
       },
-      giphy({ source }) {
+      GiphyEmbed({ source }) {
         let id = source.match(/\/gifs\/(.*)-([^-]*)/)[2];
         let src = `https://media.giphy.com/media/${id}/giphy.gif`;
         return <img src={src} />;
       },
-      youtube({ source, showRelatedVideos, showPlayerControls, showInfo, noCookies }) {
+      YouTubeEmbed({ source, showRelatedVideos, showPlayerControls, showInfo, noCookies }) {
         let videoId = source.match(/[?|&]v=([^&]*)/)[1];
         let domain = noCookies ? 'youtube-nocookie' : 'youtube';
         let queryParams = [];
@@ -76,23 +75,27 @@ describe('ReactRenderer', function () {
     });
 
     it('renders nested components', function () {
-      let doc = new Document({
+      let doc = new OffsetSource({
         content: 'Good boy\n ',
-        annotations: [{
-          type: 'link', start: 0, end: 10, attributes: {
-            href: 'https://www.youtube.com/watch?v=U8x85EY03vY'
-          }
-        }, {
-          type: 'newline', start: 8, end: 9
-        }, {
-          type: 'youtube', start: 9, end: 10, attributes: {
-            source: 'https://www.youtube.com/watch?v=U8x85EY03vY',
-            showPlayerControls: false,
-            showRelatedVideos: false,
-            showInfo: false,
-            noCookies: true
-          }
-        }]
+        annotations: [
+          new Link({
+            start: 0, end: 10,
+            attributes: {
+              href: 'https://www.youtube.com/watch?v=U8x85EY03vY'
+            }
+          }),
+          new LineBreak({ start: 8, end: 9 }),
+          new YouTubeEmbed({
+            start: 9, end: 10,
+            attributes: {
+              source: 'https://www.youtube.com/watch?v=U8x85EY03vY',
+              showPlayerControls: false,
+              showRelatedVideos: false,
+              showInfo: false,
+              noCookies: true
+            }
+          })
+        ]
       });
 
       expect(renderDocument(renderer, doc)).toBe(
@@ -100,25 +103,28 @@ describe('ReactRenderer', function () {
     });
 
     it('reuses renderers', function () {
-      let doc = new Document({
+      let doc = new OffsetSource({
         content: 'Another good boy\n ',
-        annotations: [{
-          type: 'link', start: 0, end: 19, attributes: {
-            href: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy',
-            shouldOpenInNewTab: true
-          }
-        }, {
-          type: 'newline', start: 16, end: 17
-        }, {
-          type: 'giphy', start: 17, end: 18, attributes: {
-            source: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy'
-          }
-        }]
+        annotations: [
+          new Link({
+            start: 0, end: 19,
+            attributes: {
+              href: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy',
+              shouldOpenInNewTab: true
+            }
+          }),
+          new LineBreak({ start: 16, end: 17 }),
+          new GiphyEmbed({
+            start: 17, end: 18,
+            attributes: {
+              source: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy'
+            }
+          })
+        ]
       });
 
       expect(renderDocument(renderer, doc)).toBe(
                    `<article><a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a></article>`);
     });
-
   }());
 });

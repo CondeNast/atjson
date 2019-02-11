@@ -1,21 +1,21 @@
 import Document, { InlineAnnotation } from '@atjson/document';
-import GraphvizRenderer from '../src/index';
+import GraphvizRenderer from '../src';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 class Bold extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'bold';
+  static type = 'Bold';
 }
 
 class Italic extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'italic';
+  static type = 'Italic';
 }
 
 class Link extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'link';
+  static type = 'Link';
   attributes!: {
     url: string;
   };
@@ -32,7 +32,7 @@ describe('graphviz', () => {
       content: 'Hello, world',
       annotations: [{
         id: '1',
-        type: '-test-bold',
+        type: '-test-Bold',
         start: 0,
         end: 5,
         attributes: {}
@@ -40,13 +40,13 @@ describe('graphviz', () => {
     });
     expect(GraphvizRenderer.render(doc)).toBe(`digraph atjson{
   node [shape=oval];
-  root1 [label="root\\n{}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
-  bold2 [label="bold\\n{}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
-  text3 [label="text\\nHello" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  text4 [label="text\\n, world" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  bold2 -> text3;
-  root1 -> bold2;
-  root1 -> text4;
+  Root1 [label="Root\\n{}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  Bold2 [label="Bold\\n{}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  Text3 [label="Text\\nHello" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Text4 [label="Text\\n, world" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Bold2 -> Text3;
+  Root1 -> Bold2;
+  Root1 -> Text4;
 }`);
   });
 
@@ -55,19 +55,19 @@ describe('graphviz', () => {
       content: 'The best writing anywhere, everywhere.',
       annotations: [{
         id: '1',
-        type: '-test-italic',
+        type: '-test-Italic',
         start: 4,
         end: 8,
         attributes: {}
       }, {
         id: '2',
-        type: '-test-bold',
+        type: '-test-Bold',
         start: 17,
         end: 25,
         attributes: {}
       }, {
         id: '3',
-        type: '-test-link',
+        type: '-test-Link',
         start: 0,
         end: 38,
         attributes: {
@@ -87,7 +87,7 @@ describe('graphviz', () => {
         content: 'Hello, world',
         annotations: [{
           id: '1',
-          type: '-test-bold',
+          type: '-test-Bold',
           start: 0,
           end: 5,
           attributes: {}
@@ -96,13 +96,13 @@ describe('graphviz', () => {
 
       expect(GraphvizRenderer.render(doc, { shape })).toBe(`digraph atjson{
   node [shape=${shape}];
-  root1 [label="{root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
-  bold2 [label="{bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
-  text3 [label="{text|Hello}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  text4 [label="{text|, world}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
-  bold2 -> text3;
-  root1 -> bold2;
-  root1 -> text4;
+  Root1 [label="{Root|{}}" style=filled fillcolor="#222222" fontcolor="#FFFFFF"];
+  Bold2 [label="{Bold|{}}" style=filled fillcolor="#888888" fontcolor="#FFFFFF"];
+  Text3 [label="{Text|Hello}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Text4 [label="{Text|, world}" style=filled fillcolor="#FFFFFF" fontcolor="#000000"];
+  Bold2 -> Text3;
+  Root1 -> Bold2;
+  Root1 -> Text4;
 }`);
     });
   }

@@ -1,7 +1,7 @@
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class YouTubeEmbed extends IframeEmbed {
-  static type = 'youtube-embed';
+  static type = 'YouTubeEmbed';
   static vendorPrefix = 'offset';
 
   get videoId() {

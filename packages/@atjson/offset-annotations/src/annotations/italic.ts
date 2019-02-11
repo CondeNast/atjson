@@ -1,6 +1,6 @@
 import { InlineAnnotation } from '@atjson/document';
 
 export default class Italic extends InlineAnnotation {
-  static type = 'italic';
+  static type = 'Italic';
   static vendorPrefix = 'offset';
 }

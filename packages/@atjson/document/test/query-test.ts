@@ -136,11 +136,11 @@ describe('Document#where', () => {
       }]
     });
 
-    doc.where({ type: '-test-a' }).set({ type: '-test-link' }).rename({ attributes: { '-test-href': '-test-url' } });
+    doc.where({ type: '-test-a' }).set({ type: '-test-Link' }).rename({ attributes: { '-test-href': '-test-url' } });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
       id: '1',
-      type: '-test-link',
+      type: '-test-Link',
       attributes: {
         '-test-url': 'https://example.com'
       },
@@ -148,7 +148,7 @@ describe('Document#where', () => {
       end: 5
     }, {
       id: '2',
-      type: '-test-link',
+      type: '-test-Link',
       attributes: {
         '-test-url': 'https://condenast.com'
       },
@@ -156,11 +156,11 @@ describe('Document#where', () => {
       end: 10
     }]);
 
-    doc.where({ type: '-test-link' }).rename({ attributes: { '-test-url': '-vendor-url' } });
+    doc.where({ type: '-test-Link' }).rename({ attributes: { '-test-url': '-vendor-url' } });
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
       id: '1',
-      type: '-test-link',
+      type: '-test-Link',
       attributes: {
         '-vendor-url': 'https://example.com'
       },
@@ -168,7 +168,7 @@ describe('Document#where', () => {
       end: 5
     }, {
       id: '2',
-      type: '-test-link',
+      type: '-test-Link',
       attributes: {
         '-vendor-url': 'https://condenast.com'
       },
@@ -195,7 +195,7 @@ describe('Document#where', () => {
       let href = anchor.attributes.href;
       doc.replaceAnnotation(anchor, {
         id: '2',
-        type: '-test-link',
+        type: '-test-Link',
         start: anchor.start,
         end: anchor.end,
         attributes: {
@@ -207,7 +207,7 @@ describe('Document#where', () => {
     expect(doc.content).toBe('Conde Nast');
     expect(doc.annotations.map(a => a.toJSON())).toEqual([{
       id: '2',
-      type: '-test-link',
+      type: '-test-Link',
       attributes: {
         '-test-url': 'https://example.com'
       },

@@ -138,7 +138,7 @@ export default class CommonmarkRenderer extends Renderer {
     return escapePunctuation(text);
   }
 
-  *'root'() {
+  *Root() {
     let rawText = yield;
     return rawText.join('');
   }
@@ -149,7 +149,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *'bold'(_bold: Bold, context: Context): Iterable<any> {
+  *Bold(_bold: Bold, context: Context): Iterable<any> {
     let [before, text, after] = yield* split(_bold, context);
     if (text.length === 0) {
       return before + after;
@@ -167,7 +167,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *'blockquote'(): Iterable<any> {
+  *Blockquote(): Iterable<any> {
     let text = yield;
     let lines: string[] = text.join('').split('\n');
     let endOfQuote = lines.length;
@@ -193,7 +193,7 @@ export default class CommonmarkRenderer extends Renderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *'heading'(heading: Heading): Iterable<any> {
+  *Heading(heading: Heading): Iterable<any> {
     let rawText = yield;
     let text = rawText.join('');
     let level = new Array(heading.attributes.level + 1).join('#');
@@ -214,7 +214,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ***
    * Into multiple sections.
    */
-  *'horizontal-rule'(): Iterable<any> {
+  *HorizontalRule(): Iterable<any> {
     return '***\n';
   }
 
@@ -222,7 +222,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *'image'(image: Image): Iterable<any> {
+  *Image(image: Image): Iterable<any> {
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
       return `![${(this.constructor as typeof CommonmarkRenderer).render(image.attributes.description)}](${image.attributes.url} "${title}")`;
@@ -233,7 +233,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *'italic'(_italic: Italic, context: Context): Iterable<any> {
+  *Italic(_italic: Italic, context: Context): Iterable<any> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -260,14 +260,14 @@ export default class CommonmarkRenderer extends Renderer {
    * A line break in Commonmark can be two white spaces at the end of the line  <--
    * or it can be a backslash at the end of the line\
    */
-  *'line-break'(): Iterable<any> {
+  *LineBreak(): Iterable<any> {
     return '  \n';
   }
 
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *'link'(link: Link, context: Context): Iterable<any> {
+  *Link(link: Link, context: Context): Iterable<any> {
     let [before, text, after] = yield* split(link, context);
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
@@ -284,7 +284,7 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *'code'(code: Code, context: Context): Iterable<any> {
+  *Code(code: Code, context: Context): Iterable<any> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -322,7 +322,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *'html'(html: HTML): Iterable<any> {
+  *HTML(html: HTML): Iterable<any> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -340,7 +340,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *'list-item'(): Iterable<any> {
+  *ListItem(): Iterable<any> {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -382,7 +382,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *'list'(list: List, context: Context): Iterable<any> {
+  *List(list: List, context: Context): Iterable<any> {
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -433,7 +433,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *'paragraph'(): Iterable<any> {
+  *Paragraph(): Iterable<any> {
     let rawText = yield;
     let text = rawText.join('');
 

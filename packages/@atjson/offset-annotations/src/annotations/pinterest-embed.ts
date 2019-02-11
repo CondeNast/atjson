@@ -1,7 +1,7 @@
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class PinterestEmbed extends IframeEmbed {
-  static type = 'pinterest-embed';
+  static type = 'PinterestEmbed';
   static vendorPrefix = 'offset';
 
   get isPin(): boolean {

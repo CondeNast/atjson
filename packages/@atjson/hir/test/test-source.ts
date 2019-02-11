@@ -2,17 +2,17 @@ import Document, { BlockAnnotation, InlineAnnotation, ObjectAnnotation } from '@
 
 export class Bold extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'bold';
+  static type = 'Bold';
 }
 
 export class Blockquote extends BlockAnnotation {
   static vendorPrefix = 'test';
-  static type = 'blockquote';
+  static type = 'Blockquote';
 }
 
 export class Italic extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'italic';
+  static type = 'Italic';
 }
 
 export class CaptionSource extends Document {
@@ -22,23 +22,23 @@ export class CaptionSource extends Document {
 
 export class Image extends ObjectAnnotation {
   static vendorPrefix = 'test';
-  static type = 'image';
+  static type = 'Image';
   static subdocuments = { caption: CaptionSource };
 }
 
 export class ListItem extends BlockAnnotation {
   static vendorPrefix = 'test';
-  static type = 'list-item';
+  static type = 'ListItem';
 }
 
 export class OrderedList extends BlockAnnotation {
   static vendorPrefix = 'test';
-  static type = 'ordered-list';
+  static type = 'OrderedList';
 }
 
 export class Paragraph extends BlockAnnotation {
   static vendorPrefix = 'test';
-  static type = 'paragraph';
+  static type = 'Paragraph';
 
   get rank() {
     return super.rank * 3 / 2;

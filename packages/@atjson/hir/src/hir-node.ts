@@ -152,7 +152,7 @@ export default class HIRNode {
      * with the text node, and if so, subsume the text node (this) into the
      * given node (node)
      */
-    if (this.type !== 'text') {
+    if (this.type !== 'Text') {
       if (this.start === node.start && this.end === node.end) {
         this.insertChild(node);
         return;

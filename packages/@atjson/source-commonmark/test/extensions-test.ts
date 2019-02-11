@@ -18,7 +18,7 @@ class MarkdownItSource extends CommonmarkSource {
 }
 
 MarkdownItSource.defineConverterTo(OffsetSource, doc => {
-  doc.where({ type: '-commonmark-s' }).set({ type: '-offset-strikethrough' });
+  doc.where({ type: '-commonmark-s' }).set({ type: '-offset-Strikethrough' });
 
   return doc.convertTo(CommonmarkSource).convertTo(OffsetSource);
 });
@@ -39,21 +39,21 @@ describe('strikethrough', () => {
 
   test('conversion to Offset uses existing conversions', () => {
     let doc = MarkdownItSource.fromRaw('~~hello~~ *world*').convertTo(OffsetSource);
-    expect(doc.where(a => a.type !== 'parse-token').sort().toJSON()).toEqual([{
+    expect(doc.where(a => a.type !== 'ParseToken').sort().toJSON()).toEqual([{
       id: 'Any<id>',
-      type: '-offset-paragraph',
+      type: '-offset-Paragraph',
       attributes: {},
       start: 0,
       end: 17
     }, {
       id: 'Any<id>',
-      type: '-offset-strikethrough',
+      type: '-offset-Strikethrough',
       attributes: {},
       start: 1,
       end: 8
     }, {
       id: 'Any<id>',
-      type: '-offset-italic',
+      type: '-offset-Italic',
       attributes: {},
       start: 9,
       end: 16

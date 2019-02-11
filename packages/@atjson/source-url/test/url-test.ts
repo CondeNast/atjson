@@ -4,7 +4,7 @@ import URLSource from '../src/index';
 
 // Renders embeds as WordPress style shortcodes
 class EmbedRenderer extends CommonMarkRenderer {
-  *'facebook-embed'(facebook: FacebookEmbed) {
+  *FacebookEmbed(facebook: FacebookEmbed) {
     let iframeWidth = facebook.attributes.width;
     let width = '';
     if (iframeWidth) {
@@ -13,23 +13,23 @@ class EmbedRenderer extends CommonMarkRenderer {
     return `<div class="fb-post" data-href="${facebook.attributes.url}"${width} data-show-text="true"></div>`;
   }
 
-  *'giphy-embed'(giphy: GiphyEmbed) {
+  *GiphyEmbed(giphy: GiphyEmbed) {
     return `<iframe src="${giphy.attributes.url}"></iframe>`;
   }
 
-  *'instagram-embed'(instagram: InstagramEmbed) {
+  *InstagramEmbed(instagram: InstagramEmbed) {
     return `<blockquote class="instagram-media" data-instgrm-permalink="${instagram.attributes.url}" data-instgrm-version="12"></blockquote>`;
   }
 
-  *'pinterest-embed'(pinterest: PinterestEmbed) {
+  *PinterestEmbed(pinterest: PinterestEmbed) {
     return `<a href="${pinterest.attributes.url}" data-pin-do="embedPin" data-pin-width="large">${pinterest.attributes.url}</a>`;
   }
 
-  *'twitter-embed'(tweet: TwitterEmbed) {
+  *TwitterEmbed(tweet: TwitterEmbed) {
     return `<blockquote lang="en" data-type="twitter" data-url="${tweet.attributes.url}"><p><a href="${tweet.attributes.url}">${tweet.attributes.url}</a></p></blockquote>`;
   }
 
-  *'youtube-embed'(video: YouTubeEmbed) {
+  *YouTubeEmbed(video: YouTubeEmbed) {
     let { width, height } = video.attributes;
     let iframeWidth = width ? ` width=${width}` : '';
     let iframeHeight = height ? ` height=${height}` : '';

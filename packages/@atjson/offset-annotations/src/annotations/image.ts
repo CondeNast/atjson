@@ -26,7 +26,7 @@ export class ImageDescriptionSource extends Document {
 
 export default class Image extends ObjectAnnotation {
   static vendorPrefix = 'offset';
-  static type = 'image';
+  static type = 'Image';
   static subdocuments = {
     description: ImageDescriptionSource
   };

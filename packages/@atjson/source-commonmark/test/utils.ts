@@ -6,7 +6,7 @@ class PlainTextRenderer extends Renderer {
 
   tight?: boolean;
 
-  *root() {
+  *Root() {
     let text: string[] = yield;
     return text.join('');
   }

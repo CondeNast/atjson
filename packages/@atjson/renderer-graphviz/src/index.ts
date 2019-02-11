@@ -31,7 +31,7 @@ function getColor(annotation: Annotation) {
 function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node[]): Node {
   let children = hirNode.children({ includeParseTokens: true });
   let text = hirNode.type;
-  if (hirNode.type === 'text' && hirNode.attributes.text != null) {
+  if (hirNode.type === 'Text' && hirNode.attributes.text != null) {
     text = hirNode.annotation.attributes.text;
   } else {
     text = JSON.stringify(hirNode.attributes);

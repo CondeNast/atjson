@@ -2,7 +2,7 @@ import { Annotation } from '@atjson/document';
 
 export default class HTML extends Annotation {
   static vendorPrefix = 'offset';
-  static type = 'html';
+  static type = 'HTML';
   attributes!: {
     style: 'inline' | 'block';
   };

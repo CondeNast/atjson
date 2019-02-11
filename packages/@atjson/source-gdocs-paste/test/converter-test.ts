@@ -15,29 +15,29 @@ describe('@atjson/source-gdocs-paste', () => {
   });
 
   it('correctly converts -gdocs-ts_bd to bold', () => {
-    let bolds = atjson.where(a => a.type === 'bold');
+    let bolds = atjson.where(a => a.type === 'Bold');
     expect(bolds.length).toEqual(2);
   });
 
   it('correctly converts italic', () => {
-    let italics = atjson.where(a => a.type === 'italic');
+    let italics = atjson.where(a => a.type === 'Italic');
     expect(italics.length).toEqual(2);
   });
 
   it('correctly converts headings, removing Titles and Subtitles', () => {
-    let headings = atjson.where(a => a.type === 'heading');
+    let headings = atjson.where(a => a.type === 'Heading');
     expect(headings.length).toEqual(2);
     expect(headings.map(h => h.attributes.level)).toEqual([1, 2]);
   });
 
   it('correctly converts lists', () => {
-    let lists = atjson.where(a => a.type === 'list');
+    let lists = atjson.where(a => a.type === 'List');
     expect(lists.length).toEqual(2);
   });
 
   it('adds parse tokens around newlines separating list-items', () => {
-    let lists = atjson.where(a => a.type === 'list').as('list');
-    let allParseTokens = atjson.where(a => a.type === 'parse-token').as('parseTokens');
+    let lists = atjson.where(a => a.type === 'List').as('list');
+    let allParseTokens = atjson.where(a => a.type === 'ParseToken').as('parseTokens');
 
     lists.outerJoin(
         allParseTokens,
@@ -49,22 +49,22 @@ describe('@atjson/source-gdocs-paste', () => {
   });
 
   it('correctly converts numbered lists', () => {
-    let lists = atjson.where(a => a.type === 'list' && a.attributes.type === 'numbered')
+    let lists = atjson.where(a => a.type === 'List' && a.attributes.type === 'numbered')
     expect(lists.length).toEqual(1);
   });
 
   it('correctly converts bulleted lists', () => {
-    let lists = atjson.where(a => a.type === 'list' && a.attributes.type === 'bulleted');
+    let lists = atjson.where(a => a.type === 'List' && a.attributes.type === 'bulleted');
     expect(lists.length).toEqual(1);
   });
 
   it('correctly converts list-items', () => {
-    let listItems = atjson.where(a => a.type === 'list-item');
+    let listItems = atjson.where(a => a.type === 'ListItem');
     expect(listItems.length).toEqual(4);
   });
 
   it('correctly converts links', () => {
-    let links = atjson.where(a => a.type === 'link');
+    let links = atjson.where(a => a.type === 'Link');
     expect(links.length).toEqual(1);
     expect(links.map(link => link.attributes.url)).toEqual(['https://www.google.com/']);
   });
@@ -76,8 +76,8 @@ describe('@atjson/source-gdocs-paste', () => {
     let gdocs = GDocsSource.fromRaw(rawJSON);
     let doc = gdocs.convertTo(OffsetSource);
 
-    let links = doc.where({ type: '-offset-link' }).as('links');
-    let underlines = doc.where({ type: '-offset-underline' }).as('underline');
+    let links = doc.where({ type: '-offset-Link' }).as('links');
+    let underlines = doc.where({ type: '-offset-Underline' }).as('underline');
 
     expect(
       links.join(underlines, (a, b) => a.isAlignedWith(b)).length
@@ -98,7 +98,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     return {
       start,
       end,
-      type: '-offset-line-break',
+      type: '-offset-LineBreak',
       attributes: {},
       id: expect.anything()
     };
@@ -116,7 +116,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     return {
       start,
       end,
-      type: '-offset-paragraph',
+      type: '-offset-Paragraph',
       attributes: {},
       id: expect.anything()
     };
@@ -129,7 +129,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     return {
       start,
       end,
-      type: '-offset-list',
+      type: '-offset-List',
       attributes: { '-offset-type': 'numbered' },
       id: expect.anything()
     };
@@ -144,7 +144,7 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
     return {
       start,
       end,
-      type: '-offset-list-item',
+      type: '-offset-ListItem',
       attributes: {},
       id: expect.anything()
     };
@@ -163,9 +163,9 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
   });
 
   it('created three paragraphs before the list', () => {
-    let listsAndParagraphs = atjson.where({ type: '-offset-list' }).as('list')
+    let listsAndParagraphs = atjson.where({ type: '-offset-List' }).as('list')
       .join(
-        atjson.where({ type: '-offset-paragraph'}).as('paragraphs'),
+        atjson.where({ type: '-offset-Paragraph'}).as('paragraphs'),
         (l, r) => r.end <= l.start
       );
 
@@ -176,9 +176,9 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
   });
 
   it('created first paragraph with two nested linebreaks', () => {
-    let firstParagraph = atjson.where({ type: '-offset-paragraph' }).as('paragraph')
+    let firstParagraph = atjson.where({ type: '-offset-Paragraph' }).as('paragraph')
       .join(
-        atjson.where({ type: '-offset-line-break' }).as('linebreaks'),
+        atjson.where({ type: '-offset-LineBreak' }).as('linebreaks'),
         (l, r) => r.start > l.start && r.end < l.end
       ).toJSON()[0];
 
@@ -189,16 +189,16 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
   });
 
   it('created linebreaks inside list-items', () => {
-    let linebreaks = atjson.where({ type: '-offset-line-break' }).as('linebreak');
+    let linebreaks = atjson.where({ type: '-offset-LineBreak' }).as('linebreak');
 
     expect(linebreaks.toJSON()).toMatchObject(LINEBREAKS);
 
     let linebreaksInLists = linebreaks
       .join(
-        atjson.where({ type: '-offset-list' }).as('lists'),
+        atjson.where({ type: '-offset-List' }).as('lists'),
         (l, r) => l.start >= r.start && l.end <= r.end
       ).outerJoin(
-        atjson.where({ type: '-offset-list-item' }).as('list-items'),
+        atjson.where({ type: '-offset-ListItem' }).as('list-items'),
         (l, r) => l.linebreak.start >= r.start && l.linebreak.end <= r.end
       );
 
@@ -218,16 +218,16 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
   });
 
   it('created paragraphs inside list-items', () => {
-    let paragraphs = atjson.where({ type: '-offset-paragraph' }).as('paragraph');
+    let paragraphs = atjson.where({ type: '-offset-Paragraph' }).as('paragraph');
 
     expect(paragraphs.toJSON()).toMatchObject(PARAGRAPHS);
 
     let paragraphsInLists = paragraphs
       .join(
-        atjson.where({ type: '-offset-list' }).as('lists'),
+        atjson.where({ type: '-offset-List' }).as('lists'),
         (l, r) => l.start >= r.start && l.end <= r.end
       ).outerJoin(
-        atjson.where({ type: '-offset-list-item' }).as('list-items'),
+        atjson.where({ type: '-offset-ListItem' }).as('list-items'),
         (l, r) => l.paragraph.start >= r.start && l.paragraph.end <= r.end
       );
 
@@ -262,10 +262,10 @@ describe('@atjson/source-gdocs-paste paragraphs', () => {
       matches: expect.anything()
     }]);
 
-    let lists = atjson.where({ type: '-offset-list' });
+    let lists = atjson.where({ type: '-offset-List' });
     expect(lists.toJSON()).toMatchObject(LISTS);
 
-    let listItems = atjson.where({ type: '-offset-list-item' });
+    let listItems = atjson.where({ type: '-offset-ListItem' });
     expect(listItems.toJSON()).toMatchObject(LIST_ITEMS);
   });
 });

@@ -49,7 +49,7 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
   let generator;
 
   if (context.parent == null) {
-    generator = renderer.root();
+    generator = renderer.Root();
   } else {
     generator = renderer.renderAnnotation(annotation, {
       ...context,
@@ -97,7 +97,7 @@ export default class Renderer {
     return yield;
   }
 
-  *root(): IterableIterator<any> {
+  *Root(): IterableIterator<any> {
     return yield;
   }
 

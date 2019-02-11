@@ -31,8 +31,8 @@ describe('@atjson/hir', () => {
       let noNesting = new TestSource({
         content: 'A string with a bold and an italic annotation',
         annotations: [
-          { id: '1', type: '-test-bold', start: 16, end: 20, attributes: {} },
-          { id: '2', type: '-test-italic', start: 28, end: 34, attributes: {} }
+          { id: '1', type: '-test-Bold', start: 16, end: 20, attributes: {} },
+          { id: '2', type: '-test-Italic', start: 28, end: 34, attributes: {} }
         ]
       });
 
@@ -53,14 +53,14 @@ describe('@atjson/hir', () => {
         content: 'I have a list:\n\nFirst item plus bold text\n\n' +
                  'Second item plus italic text\n\nItem 2a\n\nItem 2b\n\nAfter all the lists',
         annotations: [
-          { id: '1', type: '-test-bold', start: 32, end: 36, attributes: {} },
-          { id: '2', type: '-test-italic', start: 60, end: 66, attributes: {} },
-          { id: '3', type: '-test-ordered-list', start: 16, end: 91, attributes: {} },
-          { id: '4', type: '-test-list-item', start: 16, end: 43, attributes: {} },
-          { id: '5', type: '-test-list-item', start: 43, end: 91, attributes: {} },
-          { id: '6', type: '-test-ordered-list', start: 73, end: 91, attributes: {} },
-          { id: '7', type: '-test-list-item', start: 73, end: 82, attributes: {} },
-          { id: '8', type: '-test-list-item', start: 82, end: 91, attributes: {} }
+          { id: '1', type: '-test-Bold', start: 32, end: 36, attributes: {} },
+          { id: '2', type: '-test-Italic', start: 60, end: 66, attributes: {} },
+          { id: '3', type: '-test-OrderedList', start: 16, end: 91, attributes: {} },
+          { id: '4', type: '-test-ListItem', start: 16, end: 43, attributes: {} },
+          { id: '5', type: '-test-ListItem', start: 43, end: 91, attributes: {} },
+          { id: '6', type: '-test-OrderedList', start: 73, end: 91, attributes: {} },
+          { id: '7', type: '-test-ListItem', start: 73, end: 82, attributes: {} },
+          { id: '8', type: '-test-ListItem', start: 82, end: 91, attributes: {} }
         ]
       });
 
@@ -85,8 +85,8 @@ describe('@atjson/hir', () => {
       let overlapping = new TestSource({
         content: 'Some text that is both bold and italic plus something after.',
         annotations: [
-          { id: '1', type: '-test-bold', start: 23, end: 31, attributes: {} },
-          { id: '2', type: '-test-italic', start: 28, end: 38, attributes: {} }
+          { id: '1', type: '-test-Bold', start: 23, end: 31, attributes: {} },
+          { id: '2', type: '-test-Italic', start: 28, end: 38, attributes: {} }
         ]
       });
 
@@ -104,9 +104,9 @@ describe('@atjson/hir', () => {
       let spanning = new TestSource({
         content: 'A paragraph with some bold\n\ntext that continues into the next.',
         annotations: [
-          { id: '1', type: '-test-paragraph', start: 0, end: 28, attributes: {} },
-          { id: '2', type: '-test-paragraph', start: 28, end: 62, attributes: {} },
-          { id: '3', type: '-test-bold', start: 22, end: 32, attributes: {} }
+          { id: '1', type: '-test-Paragraph', start: 0, end: 28, attributes: {} },
+          { id: '2', type: '-test-Paragraph', start: 28, end: 62, attributes: {} },
+          { id: '3', type: '-test-Bold', start: 22, end: 32, attributes: {} }
         ]
       });
 
@@ -128,8 +128,8 @@ describe('@atjson/hir', () => {
       let zeroLength = new TestSource({
         content: '',
         annotations: [
-          { id: '1', type: '-test-paragraph', start: 0, end: 0, attributes: {} },
-          { id: '2', type: '-test-bold', start: 0, end: 0, attributes: {} }
+          { id: '1', type: '-test-Paragraph', start: 0, end: 0, attributes: {} },
+          { id: '2', type: '-test-Bold', start: 0, end: 0, attributes: {} }
         ]
       });
 
@@ -149,8 +149,8 @@ describe('@atjson/hir', () => {
       let zeroLength = new TestSource({
         content: '',
         annotations: [
-          { id: '1', type: '-test-bold', start: 0, end: 0, attributes: {} },
-          { id: '2', type: '-test-paragraph', start: 0, end: 0, attributes: {} }
+          { id: '1', type: '-test-Bold', start: 0, end: 0, attributes: {} },
+          { id: '2', type: '-test-Paragraph', start: 0, end: 0, attributes: {} }
         ]
       });
 
@@ -163,15 +163,15 @@ describe('@atjson/hir', () => {
       let zeroLength = new TestSource({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
-          { id: '1', type: '-test-paragraph', start: 0, end: 8, attributes: {} },
-          { id: '2', type: '-atjson-parse-token', start: 8, end: 10, attributes: {} },
-          { id: '3', type: '-test-paragraph', start: 10, end: 18, attributes: {} },
-          { id: '4', type: '-atjson-parse-token', start: 18, end: 20, attributes: {} },
-          { id: '5', type: '-test-paragraph', start: 20, end: 22, attributes: {} },
-          { id: '6', type: '-atjson-parse-token', start: 20, end: 22, attributes: {} },
-          { id: '7', type: '-test-paragraph', start: 22, end: 30, attributes: {} },
-          { id: '8', type: '-atjson-parse-token', start: 30, end: 32, attributes: {} },
-          { id: '9', type: '-test-paragraph', start: 32, end: 41, attributes: {} }
+          { id: '1', type: '-test-Paragraph', start: 0, end: 8, attributes: {} },
+          { id: '2', type: '-atjson-ParseToken', start: 8, end: 10, attributes: {} },
+          { id: '3', type: '-test-Paragraph', start: 10, end: 18, attributes: {} },
+          { id: '4', type: '-atjson-ParseToken', start: 18, end: 20, attributes: {} },
+          { id: '5', type: '-test-Paragraph', start: 20, end: 22, attributes: {} },
+          { id: '6', type: '-atjson-ParseToken', start: 20, end: 22, attributes: {} },
+          { id: '7', type: '-test-Paragraph', start: 22, end: 30, attributes: {} },
+          { id: '8', type: '-atjson-ParseToken', start: 30, end: 32, attributes: {} },
+          { id: '9', type: '-test-Paragraph', start: 32, end: 41, attributes: {} }
         ]
       });
 
@@ -190,16 +190,16 @@ describe('@atjson/hir', () => {
       let zeroLength = new TestSource({
         content: 'One fish\n\nTwo fish\n\n\n\nRed fish\n\nBlue fish',
         annotations: [
-          { id: '1', type: '-test-paragraph', start: 0, end: 8, attributes: {} },
-          { id: '2', type: '-atjson-parse-token', start: 8, end: 10, attributes: {} },
-          { id: '3', type: '-test-paragraph', start: 10, end: 18, attributes: {} },
-          { id: '4', type: '-atjson-parse-token', start: 18, end: 20, attributes: {} },
-          { id: '5', type: '-test-paragraph', start: 20, end: 22, attributes: {} },
-          { id: '6', type: '-atjson-parse-token', start: 20, end: 22, attributes: {} },
-          { id: '7', type: '-test-paragraph', start: 22, end: 30, attributes: {} },
-          { id: '8', type: '-atjson-parse-token', start: 30, end: 32, attributes: {} },
-          { id: '9', type: '-test-paragraph', start: 32, end: 41, attributes: {} },
-          { id: '10', type: '-test-bold', start: 21, end: 21, attributes: {} }
+          { id: '1', type: '-test-Paragraph', start: 0, end: 8, attributes: {} },
+          { id: '2', type: '-atjson-ParseToken', start: 8, end: 10, attributes: {} },
+          { id: '3', type: '-test-Paragraph', start: 10, end: 18, attributes: {} },
+          { id: '4', type: '-atjson-ParseToken', start: 18, end: 20, attributes: {} },
+          { id: '5', type: '-test-Paragraph', start: 20, end: 22, attributes: {} },
+          { id: '6', type: '-atjson-ParseToken', start: 20, end: 22, attributes: {} },
+          { id: '7', type: '-test-Paragraph', start: 22, end: 30, attributes: {} },
+          { id: '8', type: '-atjson-ParseToken', start: 30, end: 32, attributes: {} },
+          { id: '9', type: '-test-Paragraph', start: 32, end: 41, attributes: {} },
+          { id: '10', type: '-test-Bold', start: 21, end: 21, attributes: {} }
         ]
       });
 
@@ -222,7 +222,7 @@ describe('@atjson/hir', () => {
       content: '\uFFFC',
       annotations: [{
         id: '1',
-        type: '-test-image',
+        type: '-test-Image',
         start: 0,
         end: 1,
         attributes: {
@@ -231,7 +231,7 @@ describe('@atjson/hir', () => {
             content: 'An example caption',
             annotations: [{
               id: '2',
-              type: '-test-italic',
+              type: '-test-Italic',
               start: 3,
               end: 10,
               attributes: {}

@@ -5,28 +5,28 @@ import { blockquote, bold, document, image, li, node, ol, paragraph } from './ut
 
 class TestAnnotation extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'test';
+  static type = 'Test';
 }
 
 class A extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'a';
+  static type = 'A';
 }
 
 class B extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'b';
+  static type = 'B';
 }
 
 class C extends InlineAnnotation {
   static vendorPrefix = 'test';
-  static type = 'c';
+  static type = 'C';
 }
 
-let test = node('test');
-let a = node('a');
-let b = node('b');
-let c = node('c');
+let test = node('Test');
+let a = node('A');
+let b = node('B');
+let c = node('C');
 
 describe('@atjson/hir/hir-node', () => {
   it('insert sibling simple case works', () => {

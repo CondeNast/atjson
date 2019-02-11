@@ -15,14 +15,14 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     doc.removeAnnotation(underline);
   });
 
-  doc.where({ type: '-gdocs-ts_bd' }).set({ type: '-offset-bold' });
-  doc.where({ type: '-gdocs-ts_it' }).set({ type: '-offset-italic' });
-  doc.where({ type: '-gdocs-ts_un' }).set({ type: '-offset-underline' });
-  doc.where({ type: '-gdocs-ts_st' }).set({ type: '-offset-strikethrough' });
-  doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sub' } }).set({ type: '-offset-subscript' }).unset('attributes.-gdocs-va');
-  doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sup' } }).set({ type: '-offset-superscript' }).unset('attributes.-gdocs-va');
+  doc.where({ type: '-gdocs-ts_bd' }).set({ type: '-offset-Bold' });
+  doc.where({ type: '-gdocs-ts_it' }).set({ type: '-offset-Italic' });
+  doc.where({ type: '-gdocs-ts_un' }).set({ type: '-offset-Underline' });
+  doc.where({ type: '-gdocs-ts_st' }).set({ type: '-offset-Strikethrough' });
+  doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sub' } }).set({ type: '-offset-Subscript' }).unset('attributes.-gdocs-va');
+  doc.where({ type: '-gdocs-ts_va', attributes: { '-gdocs-va': 'sup' } }).set({ type: '-offset-Superscript' }).unset('attributes.-gdocs-va');
 
-  doc.where({ type: '-gdocs-horizontal_rule' }).set({ type: '-offset-horizontal-rule' });
+  doc.where({ type: '-gdocs-horizontal_rule' }).set({ type: '-offset-HorizontalRule' });
 
   // Remove headings with level 100, 101, as these are Titles/Subtitles
   // in GDocs which is not yet supported, as these should be thought of
@@ -32,20 +32,20 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .remove();
 
   doc.where({ type: '-gdocs-ps_hd' })
-    .set({ type: '-offset-heading' })
+    .set({ type: '-offset-Heading' })
     .rename({ attributes: { '-gdocs-level': '-offset-level' } });
 
   // b_gt: 9 indicates an unordered list, but ordered lists have a variety of b_gt values
-  doc.where({ type: '-gdocs-list', attributes: { '-gdocs-ls_b_gt': 9 } }).set({ type: '-offset-list', attributes: { '-offset-type': 'bulleted' } });
-  doc.where({ type: '-gdocs-list' }).set({ type: '-offset-list', attributes: { '-offset-type': 'numbered' } });
-  doc.where({ type: '-gdocs-list_item' }).set({ type: '-offset-list-item' });
+  doc.where({ type: '-gdocs-list', attributes: { '-gdocs-ls_b_gt': 9 } }).set({ type: '-offset-List', attributes: { '-offset-type': 'bulleted' } });
+  doc.where({ type: '-gdocs-list' }).set({ type: '-offset-List', attributes: { '-offset-type': 'numbered' } });
+  doc.where({ type: '-gdocs-list_item' }).set({ type: '-offset-ListItem' });
 
   doc.where({ type: '-gdocs-lnks_link' })
-    .set({ type: '-offset-link' })
+    .set({ type: '-offset-Link' })
     .rename({ attributes: { '-gdocs-ulnk_url': '-offset-url' } });
 
-  doc.where({ type: '-offset-list' }).as('list').join(
-    doc.where({ type: '-offset-list-item' }).as('listItems'),
+  doc.where({ type: '-offset-List' }).as('list').join(
+    doc.where({ type: '-offset-ListItem' }).as('listItems'),
     (l, r) => l.start === r.start && l.end === r.end
   ).update(({ list, listItems }) => {
     let item = listItems[0];
@@ -133,10 +133,10 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   doc.where((annotation: Annotation) => (annotation instanceof LineBreak) || (annotation instanceof Paragraph))
     .as('lineBreak')
     .join(
-      doc.where({ type: '-offset-list' }).as('lists'),
+      doc.where({ type: '-offset-List' }).as('lists'),
       (l: Annotation, r: Annotation) => l.start >= r.start && l.end <= r.end + 1)
     .outerJoin(
-      doc.where({type: '-offset-list-item'}).as('listItems'),
+      doc.where({type: '-offset-ListItem'}).as('listItems'),
       (l: {lineBreak: LineBreak, lists: Annotation[]}, r: Annotation) => {
         return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
       })

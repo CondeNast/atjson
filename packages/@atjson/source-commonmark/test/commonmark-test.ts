@@ -18,7 +18,7 @@ describe('whitespace', () => {
       let doc = CommonMarkSource.fromRaw('1\n\n&#8239;\n\n&nbsp;\n\n2');
       let hir = new HIR(doc);
       expect(hir.toJSON()).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'paragraph',
@@ -44,7 +44,7 @@ describe('whitespace', () => {
       let doc = CommonMarkSource.fromRaw('1\n\n\u202F\n\n\u00A0\n\n2');
       let hir = new HIR(doc);
       expect(hir.toJSON()).toMatchObject({
-        type: 'root',
+        type: 'Root',
         attributes: {},
         children: [{
           type: 'paragraph',
