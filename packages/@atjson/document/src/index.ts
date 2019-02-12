@@ -51,7 +51,7 @@ export default class Document {
 
   private pendingChangeEvent: any;
 
-  constructor(options: { content: string, annotations: AnnotationJSON[] }) {
+  constructor(options: { content: string, annotations: Array<AnnotationJSON | Annotation> }) {
     let DocumentClass = this.constructor as typeof Document;
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
