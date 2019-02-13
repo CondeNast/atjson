@@ -34,6 +34,17 @@ function flatten(array: any[]): any[] {
   return flattenedArray;
 }
 
+// This classify is _specifically_ for our annotation types—
+// casing is ignored, and dashes are the only thing allowed.
+export function classify(type: string) {
+  return type.toLowerCase().split('-').map(word => {
+    if (word.length > 0) {
+      return word[0].toUpperCase() + word.slice(1);
+    }
+    return '';
+  }).join('');
+}
+
 export interface Context {
   parent: Annotation;
   previous: Annotation | null;
@@ -90,7 +101,7 @@ export default class Renderer {
   }
 
   *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
-    let generator = (this as any)[annotation.type];
+    let generator = (this as any)[annotation.type] || (this as any)[classify(annotation.type)];
     if (generator) {
       return yield* generator.call(this, annotation, context);
     }
