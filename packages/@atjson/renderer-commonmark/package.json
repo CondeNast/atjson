@@ -9,6 +9,7 @@
     "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
     "prepublishOnly": "npm run build",
+    "performance": "node ./performance/index.js > ./performance/README.md",
     "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
   },
   "license": "Apache-2.0",
