@@ -1,6 +1,8 @@
 # ⏱ Performance
 The metrics below are taken from the CommonMark specification tests. These are _not_ realistic examples of what you'd find out in the world, but it is a fairly large dataset that runs the code through its paces.
+
 This benchmark was taken on Linux 4.4 on x64 with 2 cores of Intel(R) Xeon(R) CPU @ 2.30GHz.
+
 | Function | Mean | Median | 95th Percentile | Standard Deviation |
 |----------|------|--------|-----------------|--------------------|
 | CommonMarkSource.fromRaw | 0.490ms | 0.409ms | 0.714ms | 0.386ms |
