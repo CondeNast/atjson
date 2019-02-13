@@ -60,26 +60,28 @@ function measure(name, fn) {
   return result;
 }
 
-performance.maxEntries = spec.tests.length * 5;
-spec.tests.forEach((unitTest) => {
-  let md = MarkdownIt('commonmark');
+performance.maxEntries = spec.tests.length * 500;
+for (let i = 0; i < 100; i++) {
+  spec.tests.forEach((unitTest) => {
+    let md = MarkdownIt('commonmark');
 
-  let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
-  if (shouldSkip) {
-    return;
-  }
+    let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
+    if (shouldSkip) {
+      return;
+    }
 
-  performance.mark('start');
-  let markdown = unitTest.markdown.replace(/→/g, '\t');
-  let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
-  let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
-  let generatedMarkdown = measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
-  performance.mark('end');
-  performance.measure('Round trip', 'start', 'end');
-  performance.clearMarks();
+    performance.mark('start');
+    let markdown = unitTest.markdown.replace(/→/g, '\t');
+    let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
+    let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
+    let generatedMarkdown = measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
+    performance.mark('end');
+    performance.measure('Round trip', 'start', 'end');
+    performance.clearMarks();
 
-  measure('MarkdownIt.render', () => md.render(generatedMarkdown));
-});
+    measure('MarkdownIt.render', () => md.render(generatedMarkdown));
+  });
+}
 
 console.log(
   [

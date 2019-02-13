@@ -6,8 +6,8 @@ This benchmark was taken on macOS High Sierra on x64 with 8 cores of Intel(R) Co
 
 | Function | Mean | Median | 95th Percentile | Standard Deviation |
 |----------|------|--------|-----------------|--------------------|
-| CommonMarkSource.fromRaw | 0.604ms | 0.491ms | 1.239ms | 0.402ms |
-| CommonMarkSource.convertTo(OffsetSource) | 0.480ms | 0.377ms | 1.009ms | 0.323ms |
-| CommonMarkRenderer.render | 0.409ms | 0.304ms | 0.935ms | 0.344ms |
-| MarkdownIt.render | 0.089ms | 0.074ms | 0.156ms | 0.112ms |
-| Round trip | 1.569ms | 1.328ms | 3.050ms | 0.871ms |
+| CommonMarkSource.fromRaw | 0.388ms | 0.338ms | 0.507ms | 0.236ms |
+| CommonMarkSource.convertTo(OffsetSource) | 0.343ms | 0.280ms | 0.725ms | 0.269ms |
+| CommonMarkRenderer.render | 0.245ms | 0.191ms | 0.568ms | 0.228ms |
+| MarkdownIt.render | 0.029ms | 0.025ms | 0.047ms | 0.031ms |
+| Round trip | 1.023ms | 0.868ms | 2.119ms | 0.546ms |
