@@ -22,6 +22,9 @@ script:
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - pushd ./packages/\@atjson/renderer-commonmark
+  - npm run performance
+  - popd
 
 after_success:
   - |
