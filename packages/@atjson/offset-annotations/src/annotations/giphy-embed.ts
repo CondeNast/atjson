@@ -1,5 +1,5 @@
-import IframeEmbed, { without } from './iframe-embed';
 import CaptionSource from './caption-source';
+import IframeEmbed, { without } from './iframe-embed';
 
 export default class GiphyEmbed extends IframeEmbed {
   static type = 'giphy-embed';
