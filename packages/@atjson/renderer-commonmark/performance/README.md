@@ -4,10 +4,10 @@ The metrics below are taken from the CommonMark specification tests. These are _
 
 This benchmark was taken on macOS High Sierra on x64 with 8 cores of Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz.
 
-| Function | Median | 95th Percentile | Standard Deviation |
-|----------|--------|-----------------|--------------------|
-| CommonMarkSource.fromRaw | 0.428ms | 1.043ms | 0.356ms |
-| CommonMarkSource.convertTo(OffsetSource) | 0.327ms | 0.940ms | 0.300ms |
-| CommonMarkRenderer.render | 0.250ms | 0.851ms | 0.312ms |
-| MarkdownIt.render | 0.061ms | 0.128ms | 0.095ms |
-| Round trip | 1.115ms | 2.659ms | 0.783ms |
+| Function | Mean | Median | 95th Percentile | Standard Deviation |
+|----------|------|--------|-----------------|--------------------|
+| CommonMarkSource.fromRaw | 0.604ms | 0.491ms | 1.239ms | 0.402ms |
+| CommonMarkSource.convertTo(OffsetSource) | 0.480ms | 0.377ms | 1.009ms | 0.323ms |
+| CommonMarkRenderer.render | 0.409ms | 0.304ms | 0.935ms | 0.344ms |
+| MarkdownIt.render | 0.089ms | 0.074ms | 0.156ms | 0.112ms |
+| Round trip | 1.569ms | 1.328ms | 3.050ms | 0.871ms |

@@ -28,17 +28,17 @@ class Statistics {
     return this.percentile(0.5);
   }
 
-  get average() {
+  get mean() {
     return this.entries.reduce((totalTime, entry) => {
       return totalTime + entry.duration;
     }, 0) / this.entries.length;
   }
 
   get standardDeviation() {
-    let average = this.average;
+    let mean = this.mean;
 
     let squaredDifferences = this.entries.map((entry) => {
-      var diff = entry.duration - average;
+      var diff = entry.duration - mean;
       return diff * diff;
     });
 
@@ -89,8 +89,8 @@ console.log(
     '',
     `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
     '',
-    '| Function | Median | 95th Percentile | Standard Deviation |',
-    '|----------|--------|-----------------|--------------------|',
+    '| Function | Mean | Median | 95th Percentile | Standard Deviation |',
+    '|----------|------|--------|-----------------|--------------------|',
     ...[
       new Statistics('CommonMarkSource.fromRaw'),
       new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
@@ -98,7 +98,7 @@ console.log(
       new Statistics('MarkdownIt.render'),
       new Statistics('Round trip')
     ].map(stats => {
-      return `| ${stats.name} | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
     })
   ].join('\n')
 );
