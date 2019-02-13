@@ -20,7 +20,7 @@ script:
   - npx lerna run build
   - npx jest --no-cache --coverage --maxWorkers=4
   - pushd packages/\@atjson/renderer-commonmark/
-  - time npm run performance
+  - time node ./performance/index.js
   - popd
 
 after_script:
