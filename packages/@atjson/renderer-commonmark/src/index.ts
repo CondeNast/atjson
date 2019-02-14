@@ -1,4 +1,4 @@
-import { Annotation } from '@atjson/document';
+import Document, { Annotation, ParseAnnotation } from '@atjson/document';
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
 import {
@@ -9,24 +9,50 @@ import {
   ENDING_WHITESPACE
 } from './lib/punctuation';
 
-function getPreviousChar(content: string, index: number) {
-  let idx = index - 1;
-  let char = content[idx];
-  while (char === '\uFFFC') {
-    idx -= 1;
-    char = content[idx];
+function getPreviousChar(doc: Document, end: number) {
+  let start = end;
+
+  while (start > 0) {
+    let parseAnnotations = doc.where(a => a.end === start && a instanceof ParseAnnotation);
+    if (parseAnnotations.length) {
+      start = parseAnnotations.annotations[0].start;
+    } else {
+      break;
+    }
   }
-  return char;
+
+  let wrappingAnnotations = doc
+    .where(a => !(a instanceof ParseAnnotation))
+    .where(a => (a.start >= start && a.start < end) || (a.end >= start && a.end <= end));
+
+  if (wrappingAnnotations.length) {
+    return '';
+  }
+
+  return doc.content[start - 1];
 }
 
-function getNextChar(content: string, index: number) {
-  let idx = index;
-  let char = content[idx];
-  while (char === '\uFFFC') {
-    idx += 1;
-    char = content[idx];
+function getNextChar(doc: Document, start: number) {
+  let end = start;
+
+  while (end < doc.content.length) {
+    let parseAnnotations = doc.where(a => a.start === end && a instanceof ParseAnnotation);
+    if (parseAnnotations.length) {
+      end = parseAnnotations.annotations[0].end;
+    } else {
+      break;
+    }
   }
-  return char;
+
+  let wrappingAnnotations = doc
+    .where(a => !(a instanceof ParseAnnotation))
+    .where(a => (a.start >= start && a.start <= end) || (a.end > start && a.end <= end));
+
+  if (wrappingAnnotations.length) {
+    return '';
+  }
+
+  return doc.content[end];
 }
 
 export function* splitDelimiterRuns(annotation: Annotation, context: Context): Iterable<any> {
@@ -42,7 +68,7 @@ export function* splitDelimiterRuns(annotation: Annotation, context: Context): I
     if (match[2]) {
       start += match[2].length;
     } else if (match[3]) {
-      let prevChar = getPreviousChar(context.document.content, annotation.start);
+      let prevChar = getPreviousChar(context.document, annotation.start);
       if (start === 0 && prevChar && !prevChar.match(WHITESPACE_PUNCTUATION)) {
         start += match[3].length;
       } else {
@@ -57,7 +83,7 @@ export function* splitDelimiterRuns(annotation: Annotation, context: Context): I
       end -= match[2].length;
     } else if (match[3]) {
 
-      let nextChar = getNextChar(context.document.content, annotation.end);
+      let nextChar = getNextChar(context.document, annotation.end);
       if (end === text.length && nextChar && !nextChar.match(WHITESPACE_PUNCTUATION)) {
         end -= match[3].length;
       } else {
