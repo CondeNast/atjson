@@ -1,5 +1,6 @@
 export { default as Blockquote } from './blockquote';
 export { default as Bold } from './bold';
+export { default as CaptionSource } from './caption-source';
 export { default as Code } from './code';
 export { default as FacebookEmbed } from './facebook-embed';
 export { default as GiphyEmbed } from './giphy-embed';
