@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.1...@atjson/renderer-commonmark@0.15.2) (2019-02-14)
+
+
+### 🐛 Fixes
+
+* 🐝 Only split on delimiters for Bold and Italic
+
+
+
 ## [0.15.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.0...@atjson/renderer-commonmark@0.15.1) (2019-02-14)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
