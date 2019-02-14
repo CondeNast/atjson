@@ -14,6 +14,8 @@ export function without<T>(array: T[], value: T): T[] {
 export default class IframeEmbed extends ObjectAnnotation {
   static type = 'iframe-embed';
   static vendorPrefix = 'offset';
+  static subdocuments = { caption: CaptionSource };
+
   attributes!: {
     url: string;
     width?: string;
