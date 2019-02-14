@@ -4,7 +4,9 @@ import Renderer, { Context } from '@atjson/renderer-hir';
 import {
   BEGINNING_WHITESPACE_PUNCTUATION,
   ENDING_WHITESPACE_PUNCTUATION,
-  WHITESPACE_PUNCTUATION
+  WHITESPACE_PUNCTUATION,
+  BEGINNING_WHITESPACE,
+  ENDING_WHITESPACE
 } from './lib/punctuation';
 
 function getPreviousChar(content: string, index: number) {
@@ -27,7 +29,7 @@ function getNextChar(content: string, index: number) {
   return char;
 }
 
-export function* split(annotation: Annotation, context: Context): Iterable<any> {
+export function* splitDelimiterRuns(annotation: Annotation, context: Context): Iterable<any> {
   let rawText = yield;
   let text = rawText.map(unescapeEntities).join('');
   let start = 0;
@@ -69,6 +71,31 @@ export function* split(annotation: Annotation, context: Context): Iterable<any> 
     text.slice(start, end),
     text.slice(end)
   ].map(escapeEntities);
+}
+
+export function* split(): Iterable<any> {
+  let rawText = yield;
+  let text = rawText.join('');
+  let start = 0;
+  let end = text.length;
+  let match;
+
+  while (start < end) {
+    match = text.slice(start).match(BEGINNING_WHITESPACE);
+    if (!match) break;
+    start += match[1].length;
+  }
+  while (end > start) {
+    match = text.slice(0, end).match(ENDING_WHITESPACE);
+    if (!match) break;
+    end -= match[2].length;
+  }
+
+  return [
+    text.slice(0, start),
+    text.slice(start, end),
+    text.slice(end)
+  ];
 }
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
@@ -150,7 +177,7 @@ export default class CommonmarkRenderer extends Renderer {
    * words; underscores cannot split words.
    */
   *Bold(_bold: Bold, context: Context): Iterable<any> {
-    let [before, text, after] = yield* split(_bold, context);
+    let [before, text, after] = yield* splitDelimiterRuns(_bold, context);
     if (text.length === 0) {
       return before + after;
     } else {
@@ -239,7 +266,7 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
     this.state.isItalicized = true;
 
-    let [before, text, after] = yield* split(_italic, context);
+    let [before, text, after] = yield* splitDelimiterRuns(_italic, context);
     this.state = state;
 
     if (text.length === 0) {
@@ -267,8 +294,8 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *Link(link: Link, context: Context): Iterable<any> {
-    let [before, text, after] = yield* split(link, context);
+  *Link(link: Link): Iterable<any> {
+    let [before, text, after] = yield* split();
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
       let title = link.attributes.title.replace(/"/g, '\\"');

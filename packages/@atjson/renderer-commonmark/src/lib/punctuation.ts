@@ -49,3 +49,5 @@ export const UNICODE_PUNCTUATION = new RegExp(`[${[
 export const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}))`);
 export const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
 export const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
+export const BEGINNING_WHITESPACE = /^(\s|&nbsp;){1}/;
+export const ENDING_WHITESPACE = /(\s|&nbsp;){1}$/;
