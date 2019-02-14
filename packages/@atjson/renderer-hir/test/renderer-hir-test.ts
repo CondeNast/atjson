@@ -1,4 +1,4 @@
-import Document, { Annotation, InlineAnnotation } from '@atjson/document';
+import Document, { Annotation, BlockAnnotation, InlineAnnotation } from '@atjson/document';
 import { HIR, TextAnnotation } from '@atjson/hir';
 import HIRRenderer, { Context, escapeHTML } from '../src/index';
 
@@ -12,9 +12,14 @@ class Italic extends InlineAnnotation {
   static type = 'italic';
 }
 
+class BlockQuote extends BlockAnnotation {
+  static vendorPrefix = 'test';
+  static type = 'block-quote';
+}
+
 class TestSource extends Document {
   static contentType = 'application/vnd.atjson+test';
-  static schema = [Bold, Italic];
+  static schema = [Bold, Italic, BlockQuote];
 }
 
 function text(t: string, start: number): Annotation {
@@ -131,5 +136,75 @@ describe('@atjson/renderer-hir', () => {
     }
 
     expect(ConcreteRenderer.render(atjson)).toBe('This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text');
+  });
+
+  it('will look at the type to call the rendering part on', () => {
+    let doc = new TestSource({
+      content: 'I am very excited',
+      annotations: [
+        new BlockQuote({ start: 0, end: 17 }),
+        new Bold({ start: 0, end: 17 }),
+        new Italic({ start: 5, end: 9 })
+      ]
+    });
+
+    class SlackRenderer extends HIRRenderer {
+      *'block-quote'() {
+        let words = yield;
+        return `> ${words.join('')}`;
+      }
+
+      *'bold'() {
+        let words = yield;
+        return `*${words.join('')}*`;
+      }
+
+      *'italic'() {
+        let words = yield;
+        return `_${words.join('')}_`;
+      }
+
+      *root(): IterableIterator<any> {
+        let rawText: string[] = yield;
+        return rawText.join('');
+      }
+    }
+
+    expect(SlackRenderer.render(doc)).toBe('> *I am _very_ excited*');
+  });
+
+  it('does a class-like lookup for rendering', () => {
+    let doc = new TestSource({
+      content: 'I am very excited',
+      annotations: [
+        new BlockQuote({ start: 0, end: 17 }),
+        new Bold({ start: 0, end: 17 }),
+        new Italic({ start: 5, end: 9 })
+      ]
+    });
+
+    class SlackRenderer extends HIRRenderer {
+      *BlockQuote() {
+        let words = yield;
+        return `> ${words.join('')}`;
+      }
+
+      *Bold() {
+        let words = yield;
+        return `*${words.join('')}*`;
+      }
+
+      *Italic() {
+        let words = yield;
+        return `_${words.join('')}_`;
+      }
+
+      *root(): IterableIterator<any> {
+        let rawText: string[] = yield;
+        return rawText.join('');
+      }
+    }
+
+    expect(SlackRenderer.render(doc)).toBe('> *I am _very_ excited*');
   });
 });
