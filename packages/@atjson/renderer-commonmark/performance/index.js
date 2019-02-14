@@ -60,7 +60,7 @@ function measure(name, fn) {
   return result;
 }
 
-performance.maxEntries = spec.tests.length * 500;
+performance.maxEntries = spec.tests.length * 400;
 for (let i = 0; i < 100; i++) {
   spec.tests.forEach((unitTest) => {
     let md = MarkdownIt('commonmark');
@@ -78,8 +78,6 @@ for (let i = 0; i < 100; i++) {
     performance.mark('end');
     performance.measure('Round trip', 'start', 'end');
     performance.clearMarks();
-
-    measure('MarkdownIt.render', () => md.render(generatedMarkdown));
   });
 }
 
@@ -97,7 +95,6 @@ console.log(
       new Statistics('CommonMarkSource.fromRaw'),
       new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
       new Statistics('CommonMarkRenderer.render'),
-      new Statistics('MarkdownIt.render'),
       new Statistics('Round trip')
     ].map(stats => {
       return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
