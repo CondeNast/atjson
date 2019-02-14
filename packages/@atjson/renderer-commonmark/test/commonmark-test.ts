@@ -374,6 +374,15 @@ After all the lists
         expect(CommonMarkRenderer.render(document)).toBe(md);
       });
 
+      // **bold:**[link](http://url.com)
+      test('wrapping adjacent characters in an annotation preserves boundary punctuation', () => {
+        let md = '**bold:**[link](http://url.com)';
+        let mdDoc = CommonMarkSource.fromRaw(md);
+        let document = mdDoc.convertTo(OffsetSource);
+
+        expect(CommonMarkRenderer.render(document).trim()).toBe(md);
+      });
+
       // This is a weird case in that it results in asymmetric parens, but is probably the
       // most correct thing to do
       // a—*(italic)*non-italic -> a—*(italic*)non-italic
@@ -450,7 +459,7 @@ After all the lists
 
       // **bold**_, then italic_ -> **bold**, *then italic*
       // _italic_**, then bold** -> _italic_, **then bold**
-      test('punctuation and whitespace are pushed out together', () => {
+      test('adjacent bold and italic preserve boundary punctuation and are rendered correctly', () => {
         let document = new OffsetSource({
           content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
           annotations: [
@@ -473,7 +482,7 @@ After all the lists
           ]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('**bold**, *then italic*\n\n_italic_, **then bold**\n\n');
+        expect(CommonMarkRenderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
       });
     });
 
