@@ -1,4 +1,3 @@
-import CaptionSource from './caption-source';
 import IframeEmbed, { without } from './iframe-embed';
 
 export default class GiphyEmbed extends IframeEmbed {
@@ -9,7 +8,6 @@ export default class GiphyEmbed extends IframeEmbed {
     url: string,
     width?: string;
     height?: string;
-    caption?: CaptionSource;
   }
   get giphyId() {
     let url = this.url;
