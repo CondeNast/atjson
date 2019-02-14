@@ -169,8 +169,11 @@ export default class Parser {
     }));
 
     let closingToken = yield;
-
-    this.content += '\uFFFC';
+    if (name === 'paragraph') {
+      this.content += '\n'
+    } else {
+      this.content += '\uFFFC';
+    }
 
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs || {});
