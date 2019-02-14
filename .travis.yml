@@ -19,6 +19,9 @@ script:
   - npx lerna run lint
   - npx lerna run build
   - npx jest --no-cache --coverage --maxWorkers=4
+  - pushd packages/\@atjson/renderer-commonmark/
+  - time node ./performance/index.js
+  - popd
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
