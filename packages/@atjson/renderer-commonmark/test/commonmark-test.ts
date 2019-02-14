@@ -341,7 +341,7 @@ After all the lists
   describe('boundary punctuation', () => {
 
     describe('is adjacent to non-whitespace non-punctuation characters', () => {
-      //a*—italic—*non-italic -> a—*italic*—non-italic
+      // a*—italic—*non-italic -> a—*italic*—non-italic
       test('boundary punctuation is pushed out of annotations', () => {
         let document = new OffsetSource({
           content: 'a\u2014italic\u2014non-italic',
@@ -351,6 +351,27 @@ After all the lists
         });
 
         expect(CommonMarkRenderer.render(document)).toBe('a—*italic*—non-italic');
+      });
+
+      // [link.](https://some-url.com)a
+      test('links retain boundary punctuation', () => {
+        let document = new OffsetSource({
+          content: 'link.a',
+          annotations: [{
+            id: '1', type: '-offset-link', start: 0, end: 5, attributes: { url: 'https://some-url.com' }
+          }]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('[link.](https://some-url.com)a');
+      });
+
+      // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
+      test('delimiters wrapping links are not parsed as punctuation at paragraph boundaries', () => {
+        let md = '*[menu.as](https://menu.as/)*\n\n**Missoni Partners with Donghia**\n\n';
+        let mdDoc = CommonMarkSource.fromRaw(md);
+        let document = mdDoc.convertTo(OffsetSource);
+
+        expect(CommonMarkRenderer.render(document)).toBe(md);
       });
 
       // This is a weird case in that it results in asymmetric parens, but is probably the
@@ -432,39 +453,24 @@ After all the lists
       test('punctuation and whitespace are pushed out together', () => {
         let document = new OffsetSource({
           content: '\uFFFCbold\uFFFC\uFFFC, then italic\uFFFC\n\uFFFCitalic\uFFFC\uFFFC, then bold\uFFFC\n',
-          annotations: [{
-            id: '1', type: '-offset-paragraph', start: 0, end: 21, attributes: {}
-          }, {
-            id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {}
-          }, {
-            id: '3', type: '-offset-bold', start: 0, end: 6, attributes: {}
-          }, {
-            id: '4', type: '-atjson-parse-token', start: 5, end: 6, attributes: {}
-          }, {
-            id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {}
-          }, {
-            id: '6', type: '-offset-italic', start: 6, end: 21, attributes: {}
-          }, {
-            id: '7', type: '-atjson-parse-token', start: 20, end: 21, attributes: {}
-          }, {
-            id: '8', type: '-atjson-parse-token', start: 21, end: 22, attributes: {}
-          }, {
-            id: '9', type: '-offset-paragraph', start: 22, end: 43, attributes: {}
-          }, {
-            id: '10', type: '-atjson-parse-token', start: 22, end: 23, attributes: {}
-          }, {
-            id: '11', type: '-offset-italic', start: 23, end: 30, attributes: {}
-          }, {
-            id: '12', type: '-atjson-parse-token', start: 29, end: 30, attributes: {}
-          }, {
-            id: '13', type: '-atjson-parse-token', start: 30, end: 31, attributes: {}
-          }, {
-            id: '14', type: '-offset-bold', start: 30, end: 42, attributes: {}
-          }, {
-            id: '15', type: '-atjson-parse-token', start: 42, end: 43, attributes: {}
-          }, {
-            id: '16', type: '-atjson-parse-token', start: 43, end: 44, attributes: {}
-          }]
+          annotations: [
+            { id: '1', type: '-offset-paragraph', start: 0, end: 21, attributes: {} },
+            { id: '2', type: '-atjson-parse-token', start: 0, end: 1, attributes: {} },
+            { id: '3', type: '-offset-bold', start: 0, end: 6, attributes: {} },
+            { id: '4', type: '-atjson-parse-token', start: 5, end: 6, attributes: {} },
+            { id: '5', type: '-atjson-parse-token', start: 6, end: 7, attributes: {} },
+            { id: '6', type: '-offset-italic', start: 6, end: 21, attributes: {} },
+            { id: '7', type: '-atjson-parse-token', start: 20, end: 21, attributes: {} },
+            { id: '8', type: '-atjson-parse-token', start: 21, end: 22, attributes: {} },
+            { id: '9', type: '-offset-paragraph', start: 22, end: 43, attributes: {} },
+            { id: '10', type: '-atjson-parse-token', start: 22, end: 23, attributes: {} },
+            { id: '11', type: '-offset-italic', start: 23, end: 30, attributes: {} },
+            { id: '12', type: '-atjson-parse-token', start: 29, end: 30, attributes: {} },
+            { id: '13', type: '-atjson-parse-token', start: 30, end: 31, attributes: {} },
+            { id: '14', type: '-offset-bold', start: 30, end: 42, attributes: {} },
+            { id: '15', type: '-atjson-parse-token', start: 42, end: 43, attributes: {} },
+            { id: '16', type: '-atjson-parse-token', start: 43, end: 44, attributes: {} }
+          ]
         });
 
         expect(CommonMarkRenderer.render(document)).toBe('**bold**, *then italic*\n\n_italic_, **then bold**\n\n');
