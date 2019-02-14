@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.14.1...@atjson/renderer-commonmark@0.15.0) (2019-02-14)
+
+
+### ✨ New Features
+
+* 🍢✨ Allow using classified names for rendering hooks (`Bold` & `bold` / `GiphyEmbed` & `giphy-embed`) ([#107](https://github.com/CondeNast-Copilot/atjson/issues/107))
+
+
+
 ## [0.14.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.14.0...@atjson/renderer-commonmark@0.14.1) (2019-02-12)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

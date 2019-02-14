@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.8...@atjson/offset-annotations@0.13.9) (2019-02-14)
+
+
+### 🐛 Fixes
+
+* 🐝 Add missing CaptionSource and captions to iframe embeds ([#109](https://github.com/CondeNast-Copilot/atjson/issues/109))
+
+
+
 ## [0.13.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.7...@atjson/offset-annotations@0.13.8) (2019-02-12)
 
 **Note:** Version bump only for package @atjson/offset-annotations
