@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.9...@atjson/offset-annotations@0.13.10) (2019-02-14)
+
+
+### 🐛 Fixes
+
+* 🐝 Fix imports ([#110](https://github.com/CondeNast-Copilot/atjson/issues/110))
+
+
+
 ## [0.13.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.8...@atjson/offset-annotations@0.13.9) (2019-02-14)
 
 
