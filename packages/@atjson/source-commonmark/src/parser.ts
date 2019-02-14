@@ -170,17 +170,7 @@ export default class Parser {
 
     let closingToken = yield;
 
-    // For paragraphs, apply the parse annotation over a newline
-    // character rather than an object replacement character.
-    // This is because properly rendering delimiter runs requires
-    // checking adjacent characters which will skip ORCs but not
-    // newlines. This may be necessary for any annotation which
-    // renders whitespace/newlines at its edges
-    if (name === 'paragraph') {
-      this.content += '\n';
-    } else {
-      this.content += '\uFFFC';
-    }
+    this.content += '\uFFFC';
 
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs || {});
