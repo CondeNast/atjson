@@ -383,6 +383,23 @@ After all the lists
         expect(CommonMarkRenderer.render(document).trim()).toBe(md);
       });
 
+      // *a.*^b^ -> *a*.b if superscript annotations are unsupported
+      test('wrapping adjacent characters in an unknown annotation does not preserve boundary punctuation', () => {
+        let document = new OffsetSource({
+          content: '*a.*^b^',
+          annotations: [
+            { id: '1', type: '-atjson-parse-token', start: 0, end: 1, attributes: {} },
+            { id: '1', type: '-offset-italic', start: 0, end: 4, attributes: {} },
+            { id: '1', type: '-atjson-parse-token', start: 3, end: 4, attributes: {} },
+            { id: '1', type: '-atjson-parse-token', start: 4, end: 5, attributes: {} },
+            { id: '1', type: '-atjson-unknown', start: 4, end: 7, attributes: {} },
+            { id: '1', type: '-atjson-parse-token', start: 6, end: 7, attributes: {} },
+          ]
+        });
+
+        expect(CommonMarkRenderer.render(document)).toBe('*a*.b');
+      });
+
       // This is a weird case in that it results in asymmetric parens, but is probably the
       // most correct thing to do
       // a—*(italic)*non-italic -> a—*(italic*)non-italic
