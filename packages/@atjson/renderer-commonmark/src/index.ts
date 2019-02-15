@@ -1,4 +1,4 @@
-import Document, { Annotation, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, ParseAnnotation, UnknownAnnotation } from '@atjson/document';
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
 import {
@@ -22,7 +22,7 @@ function getPreviousChar(doc: Document, end: number) {
   }
 
   let wrappingAnnotations = doc
-    .where(a => !(a instanceof ParseAnnotation))
+    .where(a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation))
     .where(a => (a.start >= start && a.start < end) || (a.end >= start && a.end <= end));
 
   if (wrappingAnnotations.length) {
@@ -45,7 +45,7 @@ function getNextChar(doc: Document, start: number) {
   }
 
   let wrappingAnnotations = doc
-    .where(a => !(a instanceof ParseAnnotation))
+    .where(a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation))
     .where(a => (a.start >= start && a.start <= end) || (a.end > start && a.end <= end));
 
   if (wrappingAnnotations.length) {
