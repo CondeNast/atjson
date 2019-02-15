@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.3...@atjson/renderer-commonmark@0.15.4) (2019-02-15)
+
+
+### 🐛 Fixes
+
+* 🐝 Export punctuation utils ([#113](https://github.com/CondeNast-Copilot/atjson/issues/113))
+
+
+
 ## [0.15.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.2...@atjson/renderer-commonmark@0.15.3) (2019-02-15)
 
 
