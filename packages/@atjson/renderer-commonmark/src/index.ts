@@ -13,9 +13,9 @@ function getPreviousChar(doc: Document, end: number) {
   let start = end;
 
   while (start > 0) {
-    let parseAnnotations = doc.where(a => a.end === start && a instanceof ParseAnnotation);
+    let parseAnnotations = doc.where(a => a instanceof ParseAnnotation && a.end >= start && a.start < start);
     if (parseAnnotations.length) {
-      start = parseAnnotations.annotations[0].start;
+      start = Math.min(...parseAnnotations.annotations.map(a => a.start));
     } else {
       break;
     }
@@ -36,9 +36,9 @@ function getNextChar(doc: Document, start: number) {
   let end = start;
 
   while (end < doc.content.length) {
-    let parseAnnotations = doc.where(a => a.start === end && a instanceof ParseAnnotation);
+    let parseAnnotations = doc.where(a => a instanceof ParseAnnotation && a.start <= end && a.end > end);
     if (parseAnnotations.length) {
-      end = parseAnnotations.annotations[0].end;
+      end = Math.max(...parseAnnotations.annotations.map(a => a.end));
     } else {
       break;
     }
