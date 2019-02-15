@@ -8,6 +8,7 @@ import {
   BEGINNING_WHITESPACE,
   ENDING_WHITESPACE
 } from './lib/punctuation';
+export * from './lib/punctuation';
 
 function getPreviousChar(doc: Document, end: number) {
   let start = end;
