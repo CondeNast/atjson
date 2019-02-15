@@ -45,8 +45,10 @@ export const UNICODE_PUNCTUATION = new RegExp(`[${[
   UNICODE_OPEN_PUNCTUATION
 ].map(regex => regex.source).join('')}]`, 'u');
 
+export const MD_PUNCTUATION = new RegExp(`${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}`);
+
 // Whitespace or (possibly escaped) Ascii punctuation or Unicode punctuation
-export const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}))`);
+export const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${MD_PUNCTUATION.source}))`);
 export const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
 export const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
 export const BEGINNING_WHITESPACE = /^(\s|&nbsp;){1}/;
