@@ -1,6 +1,6 @@
 import OffsetSource from '@atjson/offset-annotations';
-import CommonMarkSource from '@atjson/source-commonmark';
-import CommonMarkRenderer from '../src';
+import CommonmarkSource from '@atjson/source-commonmark';
+import CommonmarkRenderer from '../src';
 
 describe('commonmark', () => {
   test('raw atjson document', () => {
@@ -12,7 +12,7 @@ describe('commonmark', () => {
       ]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
+    expect(CommonmarkRenderer.render(document)).toBe('Some text that is both **bold *and*** *italic* plus something after.');
   });
 
   test('images', () => {
@@ -26,7 +26,7 @@ describe('commonmark', () => {
         attributes: {
           '-offset-url': 'http://commonmark.org/images/markdown-mark.png',
           '-offset-description': {
-            content: 'CommonMark!',
+            content: 'Commonmark!',
             annotations: [{
               id: '2',
               type: '-offset-bold',
@@ -39,7 +39,7 @@ describe('commonmark', () => {
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('![**CommonMark**\\!](http://commonmark.org/images/markdown-mark.png)');
+    expect(CommonmarkRenderer.render(document)).toBe('![**Commonmark**\\!](http://commonmark.org/images/markdown-mark.png)');
   });
 
   test('a plain text document with virtual paragraphs', () => {
@@ -53,7 +53,7 @@ describe('commonmark', () => {
       ]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe(
+    expect(CommonmarkRenderer.render(document)).toBe(
                  'A paragraph with some **bold**\n\n**text** that continues into the next.\n\n');
   });
 
@@ -83,7 +83,7 @@ describe('commonmark', () => {
       ]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe(
+    expect(CommonmarkRenderer.render(document)).toBe(
                  `I have a list:
 
 1. First item plus **bold** text
@@ -110,7 +110,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('I have a [link](https://example.com)');
+    expect(CommonmarkRenderer.render(document)).toBe('I have a [link](https://example.com)');
   });
 
   describe('blockquote', () => {
@@ -126,7 +126,7 @@ After all the lists
         }]
       });
 
-      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n> \n> That has some\n> lines in it.\n\n');
+      expect(CommonmarkRenderer.render(document)).toBe('> This is a quote\n> \n> That has some\n> lines in it.\n\n');
     });
 
     test('with a paragraph', () => {
@@ -153,7 +153,7 @@ After all the lists
         }]
       });
 
-      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonmarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     test('with flanking whitespace', () => {
@@ -180,7 +180,7 @@ After all the lists
         }]
       });
 
-      expect(CommonMarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonmarkRenderer.render(document)).toBe('> This is a quote\n\nAnd this is not.\n\n');
     });
 
     test('with surrounding paragraphs', () => {
@@ -225,7 +225,7 @@ After all the lists
         }]
       });
 
-      expect(CommonMarkRenderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.\n\n');
+      expect(CommonmarkRenderer.render(document)).toBe('This is some text\n\n> This is a quote\n\nAnd this is not.\n\n');
     });
   });
 
@@ -239,7 +239,7 @@ After all the lists
       ]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('x\n\n***\ny\n\n');
+    expect(CommonmarkRenderer.render(document)).toBe('x\n\n***\ny\n\n');
   });
 
   test('headlines', () => {
@@ -256,7 +256,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('# Banner\n## Headline\n');
+    expect(CommonmarkRenderer.render(document)).toBe('# Banner\n## Headline\n');
   });
 
   test('moves spaces at annotation boundaries to the outside', () => {
@@ -269,7 +269,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
+    expect(CommonmarkRenderer.render(document)).toBe('This is **bold** text and a [link](https://example.com).');
   });
 
   test('unambiguous nesting of bold and italic', () => {
@@ -294,7 +294,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
+    expect(CommonmarkRenderer.render(document)).toBe('**_bold then italic_** *__italic then bold__*');
   });
 
   test('adjacent bold and italic annotations are given unique markdown makers', () => {
@@ -335,7 +335,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('**bold**_then italic_\n\n_italic_**then bold**\n\n');
+    expect(CommonmarkRenderer.render(document)).toBe('**bold**_then italic_\n\n_italic_**then bold**\n\n');
   });
 
   describe('boundary punctuation', () => {
@@ -350,7 +350,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a—*italic*—non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('a—*italic*—non-italic');
       });
 
       // [link.](https://some-url.com)a
@@ -362,25 +362,25 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('[link.](https://some-url.com)a');
+        expect(CommonmarkRenderer.render(document)).toBe('[link.](https://some-url.com)a');
       });
 
       // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
       test('delimiters wrapping links are not parsed as punctuation at paragraph boundaries', () => {
         let md = '*[menu.as](https://menu.as/)*\n\n**Missoni Partners with Donghia**\n\n';
-        let mdDoc = CommonMarkSource.fromRaw(md);
+        let mdDoc = CommonmarkSource.fromRaw(md);
         let document = mdDoc.convertTo(OffsetSource);
 
-        expect(CommonMarkRenderer.render(document)).toBe(md);
+        expect(CommonmarkRenderer.render(document)).toBe(md);
       });
 
       // **bold:**[link](http://url.com)
       test('wrapping adjacent characters in an annotation preserves boundary punctuation', () => {
         let md = '**bold:**[link](http://url.com)';
-        let mdDoc = CommonMarkSource.fromRaw(md);
+        let mdDoc = CommonmarkSource.fromRaw(md);
         let document = mdDoc.convertTo(OffsetSource);
 
-        expect(CommonMarkRenderer.render(document).trim()).toBe(md);
+        expect(CommonmarkRenderer.render(document).trim()).toBe(md);
       });
 
       // *a.*^b^ -> *a*.b if superscript annotations are unsupported
@@ -397,7 +397,7 @@ After all the lists
           ]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*a*.b');
+        expect(CommonmarkRenderer.render(document)).toBe('*a*.b');
       });
 
       // This is a weird case in that it results in asymmetric parens, but is probably the
@@ -411,7 +411,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a—*(italic*)non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('a—*(italic*)non-italic');
       });
 
       // *italic]*non-italic -> *italic*\]non-italic
@@ -423,7 +423,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic*\\]non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('*italic*\\]non-italic');
       });
 
       // *italic\]*non-italic -> *italic\\*\]non-italic
@@ -435,7 +435,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic\\\\*\\]non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('*italic\\\\*\\]non-italic');
       });
 
       // *italic..*non-italic -> *italic.*.non-italic
@@ -447,7 +447,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic.*.non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('*italic.*.non-italic');
       });
 
       // *italic&*non-italic -> *italic*&amp;non-italic
@@ -459,7 +459,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*italic*&amp;non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('*italic*&amp;non-italic');
       });
 
       // a*&}italic&]*non-italic -> a&amp;*\}italic&amp;*\]non-italic
@@ -471,7 +471,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-italic');
       });
 
       // **bold**_, then italic_ -> **bold**, *then italic*
@@ -499,7 +499,7 @@ After all the lists
           ]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
+        expect(CommonmarkRenderer.render(document)).toBe('**bold**_, then italic_\n\n_italic_**, then bold**\n\n');
       });
     });
 
@@ -512,7 +512,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe(' *—italic—* non-italic');
       });
 
       // `  *—italic— * non-italic` -> `  *-italic-*  non-italic`
@@ -524,7 +524,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('  *—italic—*  non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('  *—italic—*  non-italic');
       });
     });
 
@@ -539,7 +539,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe('*—italic*—a—**bold—**');
+        expect(CommonmarkRenderer.render(document)).toBe('*—italic*—a—**bold—**');
       });
 
       // `* —italic— *` -> ` *—italic—* `
@@ -551,7 +551,7 @@ After all the lists
           }]
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe(' *—italic—* ');
+        expect(CommonmarkRenderer.render(document)).toBe(' *—italic—* ');
       });
     });
   });
@@ -566,7 +566,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('Some formatting on empty spaces');
+    expect(CommonmarkRenderer.render(document)).toBe('Some formatting on empty spaces');
   });
 
   test('non-breaking spaces don\'t receive formatting', () => {
@@ -585,7 +585,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('&nbsp;\n\n**text**\n\n\u202F');
+    expect(CommonmarkRenderer.render(document)).toBe('&nbsp;\n\n**text**\n\n\u202F');
   });
 
   test('line feed characters don\'t recieve formatting', () => {
@@ -604,7 +604,7 @@ After all the lists
       }]
     });
 
-    expect(CommonMarkRenderer.render(document)).toBe('\u000b\n\n**text**\n\n');
+    expect(CommonmarkRenderer.render(document)).toBe('\u000b\n\n**text**\n\n');
   });
 
   test('tabs and leading / trailing spaces are stripped from output', () => {
@@ -617,11 +617,11 @@ After all the lists
       }]
     });
 
-    let markdown = CommonMarkRenderer.render(document);
+    let markdown = CommonmarkRenderer.render(document);
 
-    expect(CommonMarkRenderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
+    expect(CommonmarkRenderer.render(document)).toBe('Hello\n\nThis is my text\n\n');
     // Make sure we're not generating code in the round-trip
-    expect(markdown).toEqual(CommonMarkRenderer.render(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)));
+    expect(markdown).toEqual(CommonmarkRenderer.render(CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)));
   });
 
   describe('escape sequences', () => {
@@ -637,7 +637,7 @@ After all the lists
           annotations: []
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe(text);
+        expect(CommonmarkRenderer.render(document)).toBe(text);
       });
     });
 
@@ -653,7 +653,7 @@ After all the lists
           annotations: []
         });
 
-        expect(CommonMarkRenderer.render(document)).toBe(text);
+        expect(CommonmarkRenderer.render(document)).toBe(text);
       });
     });
   });
