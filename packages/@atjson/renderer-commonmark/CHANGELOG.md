@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.4...@atjson/renderer-commonmark@0.15.5) (2019-02-21)
+
+
+### 🐛 Fixes
+
+* 🐝 Preserve space before sentence-terminating number ([#114](https://github.com/CondeNast-Copilot/atjson/issues/114))
+
+
+
 ## [0.15.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.3...@atjson/renderer-commonmark@0.15.4) (2019-02-15)
 
 
