@@ -96,7 +96,7 @@ After all the lists
 `);
   });
 
-  test('avoid parsing sentence ending in italic + number as a list.', () => {
+  test('preserve space between sentence-terminating italic + number.', () => {
     let document = new OffsetSource({
       content: 'Sentence ending in *italic* 1. New sentence',
       annotations: [
