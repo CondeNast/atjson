@@ -96,6 +96,19 @@ After all the lists
 `);
   });
 
+  test('preserve space between sentence-terminating italic + number.', () => {
+    let document = new OffsetSource({
+      content: 'Sentence ending in *italic* 1. New sentence',
+      annotations: [
+        { type: '-offset-italic', start: 19, end: 27, attributes: {} },
+        { type: '-atjson-parse-token', start: 19, end: 20, attributes: {} },
+        { type: '-atjson-parse-token', start: 26, end: 27, attributes: {} }
+      ]
+    });
+
+    expect(CommonmarkRenderer.render(document)).toBe('Sentence ending in *italic* 1\\. New sentence');
+  });
+
   test('links', () => {
     let document = new OffsetSource({
       content: 'I have a link',
