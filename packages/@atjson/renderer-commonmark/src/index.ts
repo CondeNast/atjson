@@ -115,7 +115,7 @@ export function* split(): Iterable<any> {
   while (end > start) {
     match = text.slice(0, end).match(ENDING_WHITESPACE);
     if (!match) break;
-    end -= match[2].length;
+    end -= match[1].length;
   }
 
   return [

@@ -109,22 +109,42 @@ After all the lists
     expect(CommonmarkRenderer.render(document)).toBe('Sentence ending in *italic* 1\\. New sentence');
   });
 
-  test('links', () => {
-    let document = new OffsetSource({
-      content: 'I have a link',
-      annotations: [{
-        id: '1',
-        type: '-offset-link',
-        start: 9,
-        end: 13,
-        attributes: {
-          '-offset-url': 'https://example.com'
-        }
-      }]
+  describe('links', () => {
+    test('basic link', () => {
+      let document = new OffsetSource({
+        content: 'I have a link',
+        annotations: [{
+          id: '1',
+          type: '-offset-link',
+          start: 9,
+          end: 13,
+          attributes: {
+            '-offset-url': 'https://example.com'
+          }
+        }]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('I have a [link](https://example.com)');
     });
 
-    expect(CommonmarkRenderer.render(document)).toBe('I have a [link](https://example.com)');
+    test('with flanking whitespace', () => {
+      let document = new OffsetSource({
+        content: 'I have a link with flanking whitespace',
+        annotations: [{
+          id: '1',
+          type: '-offset-link',
+          start: 8,
+          end: 14,
+          attributes: {
+            '-offset-url': 'https://example.com'
+          }
+        }]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('I have a [link](https://example.com) with flanking whitespace');
+    });
   });
+
 
   describe('blockquote', () => {
     test('single quote', () => {
