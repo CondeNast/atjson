@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.13](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.12...@atjson/source-gdocs-paste@0.13.13) (2019-02-27)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+
+
+
+
 ## [0.13.12](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.11...@atjson/source-gdocs-paste@0.13.12) (2019-02-14)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste

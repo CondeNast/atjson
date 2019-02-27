@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.10...@atjson/offset-annotations@0.13.11) (2019-02-27)
+
+
+### 🐛 Fixes
+
+* 🐛 fix giphyId and type signature of instagram attributes
+
+
+
 ## [0.13.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.13.9...@atjson/offset-annotations@0.13.10) (2019-02-14)
 
 
