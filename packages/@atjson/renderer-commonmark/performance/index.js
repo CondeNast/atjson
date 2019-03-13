@@ -1,9 +1,10 @@
 const OffsetSource = require('@atjson/offset-annotations').default;
 const CommonMarkSource = require('@atjson/source-commonmark').default;
 const spec = require('commonmark-spec');
-const MarkdownIt = require('markdown-it');
 const { performance } = require('perf_hooks');
 const CommonMarkRenderer = require('../dist/commonjs/index').default;
+const { readFileSync } = require('fs');
+const { join } = require('path');
 const os = require('os');
 const osName = require('os-name');
 
@@ -29,9 +30,13 @@ class Statistics {
   }
 
   get mean() {
+    return this.totalTime / this.entries.length;
+  }
+
+  get totalTime() {
     return this.entries.reduce((totalTime, entry) => {
       return totalTime + entry.duration;
-    }, 0) / this.entries.length;
+    }, 0);
   }
 
   get standardDeviation() {
@@ -61,6 +66,7 @@ function measure(name, fn) {
 }
 
 performance.maxEntries = spec.tests.length * 400;
+/*
 for (let i = 0; i < 100; i++) {
   spec.tests.forEach((unitTest) => {
     let md = MarkdownIt('commonmark');
@@ -98,6 +104,49 @@ console.log(
       new Statistics('Round trip')
     ].map(stats => {
       return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
+    })
+  ].join('\n')
+);
+
+// Clear all measures in-between performance tests
+performance.clearMeasures();
+*/
+// Slow real-life tests
+let fixtures = [
+  'lambda-literary-awards.md'
+].map(filename => readFileSync(join(__dirname, 'fixtures', filename)).toString());
+
+for (let i = 0; i < 10; i++) {
+  fixtures.forEach(markdown => {
+    performance.mark('start');
+    let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
+    let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
+    measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
+    performance.mark('end');
+    performance.measure('Round trip', 'start', 'end');
+    performance.clearMarks();
+  });
+}
+
+console.log(
+  [
+    '## 🔥 Slow real-life examples',
+    '',
+    `The metrics below are taken from real articles written by Condé Nast editors / writers.`,
+    '',
+    `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
+    '',
+    '| Function | Mean | Median | 95th Percentile | Standard Deviation | Total Time |',
+    '|----------|------|--------|-----------------|--------------------|------------|',
+    ...[
+      new Statistics('CommonMarkSource.fromRaw'),
+      new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
+      new Statistics('CommonMarkRenderer.render'),
+      new Statistics('HIR.new'),
+      new Statistics('insertText'),
+      new Statistics('Round trip')
+    ].map(stats => {
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms | ${stats.totalTime.toFixed(3)}ms |`;
     })
   ].join('\n')
 );

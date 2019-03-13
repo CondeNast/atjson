@@ -1,6 +1,17 @@
 import Document, { Annotation, JSON } from '@atjson/document';
 import { Root } from './annotations';
 import HIRNode from './hir-node';
+const { performance } = require('perf_hooks');
+
+function measure(name: string, fn: () => any) {
+  performance.mark(`⏱ ${name}`);
+  let result = fn();
+  performance.mark(`🏁 ${name}`);
+  performance.measure(name, `⏱ ${name}`, `🏁 ${name}`);
+  performance.clearMarks(`⏱ ${name}`);
+  performance.clearMarks(`🏁 ${name}`);
+  return result;
+}
 
 export default class HIR {
 
@@ -34,7 +45,7 @@ export default class HIR {
       }
     }).forEach((annotation: Annotation) => this.rootNode.insertAnnotation(annotation));
 
-    this.rootNode.insertText(document.content);
+    measure('insertText', () => this.rootNode.insertText(document.content));
   }
 
   toJSON(): JSON {
