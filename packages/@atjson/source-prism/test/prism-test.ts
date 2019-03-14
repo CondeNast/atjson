@@ -1,8 +1,8 @@
+import { HIR } from '@atjson/hir';
+import OffsetSource from '@atjson/offset-annotations';
 import * as fs from 'fs';
 import * as path from 'path';
-import { HIR } from '@atjson/hir';
 import PRISMSource from '../src';
-import OffsetSource from '@atjson/offset-annotations';
 
 describe('@atjson/source-prism', () => {
   it('parses xml declaration', () => {
@@ -121,6 +121,6 @@ describe('@atjson/source-prism', () => {
 
       expect(hir.toJSON()).toMatchSnapshot();
       expect(doc.convertTo(OffsetSource).toJSON()).toMatchSnapshot();
-    })
-  })
+    });
+  });
 });

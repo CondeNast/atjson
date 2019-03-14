@@ -1,9 +1,10 @@
 const OffsetSource = require('@atjson/offset-annotations').default;
 const CommonMarkSource = require('@atjson/source-commonmark').default;
 const spec = require('commonmark-spec');
-const MarkdownIt = require('markdown-it');
 const { performance } = require('perf_hooks');
 const CommonMarkRenderer = require('../dist/commonjs/index').default;
+const { readFileSync } = require('fs');
+const { join } = require('path');
 const os = require('os');
 const osName = require('os-name');
 
@@ -29,9 +30,13 @@ class Statistics {
   }
 
   get mean() {
+    return this.totalTime / this.entries.length;
+  }
+
+  get totalTime() {
     return this.entries.reduce((totalTime, entry) => {
       return totalTime + entry.duration;
-    }, 0) / this.entries.length;
+    }, 0);
   }
 
   get standardDeviation() {
@@ -51,20 +56,19 @@ class Statistics {
 }
 
 function measure(name, fn) {
-  performance.mark('⏱');
+  performance.mark(`⏱ ${name}`);
   let result = fn();
-  performance.mark('🏁');
-  performance.measure(name, '⏱', '🏁');
-  performance.clearMarks('⏱');
-  performance.clearMarks('🏁');
+  performance.mark(`🏁 ${name}`);
+  performance.measure(name, `⏱ ${name}`, `🏁 ${name}`);
+  performance.clearMarks(`⏱ ${name}`);
+  performance.clearMarks(`🏁 ${name}`);
   return result;
 }
 
 performance.maxEntries = spec.tests.length * 400;
+
 for (let i = 0; i < 100; i++) {
   spec.tests.forEach((unitTest) => {
-    let md = MarkdownIt('commonmark');
-
     let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
     if (shouldSkip) {
       return;
@@ -74,7 +78,7 @@ for (let i = 0; i < 100; i++) {
     let markdown = unitTest.markdown.replace(/→/g, '\t');
     let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
     let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
-    let generatedMarkdown = measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
+    measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
     performance.mark('end');
     performance.measure('Round trip', 'start', 'end');
     performance.clearMarks();
@@ -86,6 +90,50 @@ console.log(
     '# ⏱ Performance',
     '',
     `The metrics below are taken from the CommonMark specification tests. These are _not_ realistic examples of what you'd find out in the world, but it is a fairly large dataset that runs the code through its paces.`,
+    '',
+    `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
+    '',
+    '| Function | Mean | Median | 95th Percentile | Standard Deviation |',
+    '|----------|------|--------|-----------------|--------------------|',
+    ...[
+      new Statistics('CommonMarkSource.fromRaw'),
+      new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
+      new Statistics('CommonMarkRenderer.render'),
+      new Statistics('Round trip')
+    ].map(stats => {
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
+    })
+  ].join('\n')
+);
+
+// Clear all measures in-between performance tests
+performance.clearMeasures();
+
+// Slow real-life tests
+let fixtures = [
+  'alexander-mcqueen.md',
+  'lambda-literary-awards.md'
+].map(filename => readFileSync(join(__dirname, 'fixtures', filename)).toString());
+
+for (let i = 0; i < 10; i++) {
+  fixtures.forEach(markdown => {
+    performance.mark('start');
+    let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
+    let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
+    measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
+    performance.mark('end');
+    performance.measure('Round trip', 'start', 'end');
+    performance.clearMarks();
+  });
+}
+
+console.log(
+  [
+    '',
+    '',
+    '## 🔥 Slow real-life examples',
+    '',
+    `The metrics below are taken from real articles written by Condé Nast editors / writers.`,
     '',
     `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
     '',

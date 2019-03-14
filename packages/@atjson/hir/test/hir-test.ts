@@ -245,11 +245,16 @@ describe('@atjson/hir', () => {
     let expected = document(
       image({
         url: 'http://www.example.com/test.jpg',
-        caption: document(
-          'An ',
-          italic('example'),
-          ' caption'
-        )
+        caption: {
+          content: 'An example caption',
+          annotations: [{
+            id: '2',
+            type: '-test-italic',
+            start: 3,
+            end: 10,
+            attributes: {}
+          }]
+        }
       })
     );
 

@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { toJSON, unprefix } from './attributes';
+import { clone, toJSON, unprefix } from './attributes';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
 import Document from './index';
 import JSON from './json';
@@ -164,7 +164,13 @@ export default abstract class Annotation {
 
   clone() {
     let AnnotationClass = this.constructor as AnnotationConstructor;
-    return AnnotationClass.hydrate(this.toJSON());
+
+    return new AnnotationClass({
+      id: this.id,
+      start: this.start,
+      end: this.end,
+      attributes: clone(this.attributes)
+    });
   }
 
   toJSON() {
