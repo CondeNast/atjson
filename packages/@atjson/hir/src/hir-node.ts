@@ -1,35 +1,9 @@
 import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
 import { v4 as uuid } from 'uuid';
 import { Root, Text } from './annotations';
-import HIR from './hir';
 
 export interface Dictionary<T> {
   [key: string]: T | undefined;
-}
-
-function toHIR(attribute: NonNullable<any>): any {
-  if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
-      let result = toHIR(attr);
-      return result;
-    });
-  } else if (attribute instanceof Document) {
-    return new HIR(attribute);
-  } else if (attribute == null) {
-    return null;
-  } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: NonNullable<any>, key: string) => {
-      let value = attribute[key];
-      if (value == null) {
-        copy[key] = value;
-      } else {
-        copy[key] = toHIR(value);
-      }
-      return copy;
-    }, {});
-  } else {
-    return attribute;
-  }
 }
 
 function toJSON(attribute: NonNullable<any>): JSON {
@@ -38,7 +12,7 @@ function toJSON(attribute: NonNullable<any>): JSON {
       let result = toJSON(attr);
       return result;
     });
-  } else if (attribute instanceof HIR) {
+  } else if (attribute instanceof Document) {
     return attribute.toJSON();
   } else if (attribute == null) {
     return null;
@@ -61,7 +35,6 @@ export default class HIRNode {
 
   annotation: Annotation;
   id: string;
-  attributes: NonNullable<any>;
   start: number;
   end: number;
 
@@ -81,7 +54,6 @@ export default class HIRNode {
     this.id = annotation.id;
     this.start = annotation.start;
     this.end = annotation.end;
-    this.attributes = toHIR(annotation.attributes);
   }
 
   toJSON(): JSON {
@@ -92,7 +64,7 @@ export default class HIRNode {
     return {
       id: this.id,
       type: this.type,
-      attributes: toJSON(this.attributes),
+      attributes: toJSON(this.annotation.attributes),
       children: this.children().map(child => {
         return child.toJSON();
       })

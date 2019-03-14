@@ -297,11 +297,8 @@ describe('@atjson/source-html', () => {
           attributes: {
             url: 'https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg',
             description: {
-              attributes: {},
-              type: 'root',
-              children: [
-                'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86'
-              ]
+              content: 'Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86',
+              annotations: []
             },
             title: 'Miles Davis & Andy Warhol'
           },
