@@ -1,5 +1,4 @@
-import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
-import { v4 as uuid } from 'uuid';
+import Document, { Annotation, AnnotationConstructor, JSON, ParseAnnotation } from '@atjson/document';
 import { Root, Text } from './annotations';
 
 export interface Dictionary<T> {
@@ -238,21 +237,28 @@ export default class HIRNode {
   }
 
   trim(start: number, end: number): HIRNode | void {
-    let newStart = Math.max(this.start, start);
-    let newEnd = Math.min(this.end, end);
+    let newStart = Math.min(Math.max(this.start, start), this.end);
+    let newEnd = Math.max(this.start, Math.min(this.end, end));
 
     if (newStart === this.start && newEnd === this.end) {
       return this;
     }
 
-    let slicedAnnotation = this.annotation.clone();
-    slicedAnnotation.start = Math.min(Math.max(slicedAnnotation.start, start), slicedAnnotation.end);
-    slicedAnnotation.end = Math.max(slicedAnnotation.start, Math.min(slicedAnnotation.end, end));
-    if (this.annotation instanceof Text) {
-      let text = slicedAnnotation.attributes.text;
-      slicedAnnotation.id = uuid();
-      slicedAnnotation.attributes.text = text.slice(slicedAnnotation.start - this.start, slicedAnnotation.end - this.start);
-    }
+    let AnnotationClass = this.annotation.constructor as AnnotationConstructor;
+    let slicedAnnotation = this.annotation instanceof Text ?
+      new Text({
+        start: newStart,
+        end: newEnd,
+        attributes: {
+          text: this.annotation.attributes.text.slice(newStart - this.start, newEnd - this.start)
+        }
+      }) :
+      new AnnotationClass({
+        id: this.id,
+        start: newStart,
+        end: newEnd,
+        attributes: this.annotation.attributes
+      });
 
     let partial = new HIRNode(slicedAnnotation);
 

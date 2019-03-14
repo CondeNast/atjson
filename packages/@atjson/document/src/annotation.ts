@@ -164,6 +164,7 @@ export default abstract class Annotation {
 
   clone() {
     let AnnotationClass = this.constructor as AnnotationConstructor;
+
     return new AnnotationClass({
       id: this.id,
       start: this.start,

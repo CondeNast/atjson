@@ -56,21 +56,24 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
 }
 
 export function clone(attribute: any): NonNullable<any> {
-  if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
-      let result = clone(attr);
-      return result;
-    });
+  if (attribute == null) {
+    return null;
+  } else if (Array.isArray(attribute)) {
+    let copy = [];
+    for (let i = 0, len = attribute.length; i < len; i++) {
+      copy[i] = clone(attribute[i]);
+    }
+    return copy;
   } else if (attribute instanceof Document) {
     return attribute.clone();
-  } else if (attribute == null) {
-    return null;
   } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((attrs: NonNullable<any>, key: string) => {
-      let value = attribute[key];
-      attrs[key] = clone(value);
-      return attrs;
-    }, {});
+    let keys = Object.keys(attribute);
+    let copy: NonNullable<any> = {};
+    for (let i = 0, len = keys.length; i < len; i++) {
+      let key = keys[i];
+      copy[key] = clone(attribute[key]);
+    }
+    return copy;
   } else {
     return attribute;
   }
