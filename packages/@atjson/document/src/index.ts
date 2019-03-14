@@ -258,7 +258,10 @@ export default class Document {
 
   clone(): Document {
     let DocumentClass = this.constructor as typeof Document;
-    return new DocumentClass(this.toJSON());
+    return new DocumentClass({
+      content: this.content,
+      annotations: this.annotations.map(annotation => annotation.clone())
+    });
   }
 
   match(regex: RegExp, start?: number, end?: number): Array<{ start: number, end: number, matches: string[] }> {

@@ -54,3 +54,24 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
     return attribute;
   }
 }
+
+export function clone(attribute: any): NonNullable<any> {
+  if (Array.isArray(attribute)) {
+    return attribute.map(attr => {
+      let result = clone(attr);
+      return result;
+    });
+  } else if (attribute instanceof Document) {
+    return attribute.clone();
+  } else if (attribute == null) {
+    return null;
+  } else if (typeof attribute === 'object') {
+    return Object.keys(attribute).reduce((attrs: NonNullable<any>, key: string) => {
+      let value = attribute[key];
+      attrs[key] = clone(value);
+      return attrs;
+    }, {});
+  } else {
+    return attribute;
+  }
+}

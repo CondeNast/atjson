@@ -8,13 +8,24 @@ Object {
 ",
     Object {
       "attributes": Object {
+        "-xmlns-dc": null,
+        "-xmlns-dcterms": null,
+        "-xmlns-pam": null,
+        "-xmlns-pim": null,
+        "-xmlns-prism": null,
+        "-xmlns-prl": null,
+        "-xmlns-xhtml": null,
+        "-xmlns-xsi": null,
+        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "-xml-lang": null,
+          },
           "children": Array [
             "
 ",
@@ -24,7 +35,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-identifier",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -44,7 +58,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-creator",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -54,7 +71,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-contributor",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -64,7 +84,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-contributor",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -74,7 +97,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-contributor",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -84,7 +110,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-publicationname",
+                  },
                   "children": Array [
                     "GQ",
                   ],
@@ -94,7 +123,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-issn",
+                  },
                   "children": Array [
                     "2471-5393",
                   ],
@@ -104,7 +136,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-publisher",
+                  },
                   "children": Array [
                     "Condé Nast",
                   ],
@@ -114,7 +149,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdate",
+                  },
                   "children": Array [
                     "2018-11-13",
                   ],
@@ -124,7 +162,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdisplaydate",
+                  },
                   "children": Array [
                     "GQ Style Holiday 2018",
                   ],
@@ -134,7 +175,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-volume",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -144,7 +188,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-number",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -154,7 +201,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-startingpage",
+                  },
                   "children": Array [
                     "90",
                   ],
@@ -164,7 +214,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-section",
+                  },
                   "children": Array [
                     "Art",
                   ],
@@ -174,7 +227,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-subject",
+                  },
                   "children": Array [
                     " ",
                   ],
@@ -194,7 +250,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-wordcount",
+                  },
                   "children": Array [
                     "2424",
                   ],
@@ -204,7 +263,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-copyright",
+                  },
                   "children": Array [
                     "COPYRIGHT ©2018 THE CONDÉ NAST PUBLICATIONS. ALL RIGHTS RESERVED.",
                   ],
@@ -285,7 +347,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -297,7 +362,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Photograph by XXXXXXX",
                       ],
@@ -318,7 +386,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -330,7 +401,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Photograph by XXXXXXX",
                       ],
@@ -351,7 +425,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -363,7 +440,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Photograph by XXXXXXX",
                       ],
@@ -384,7 +464,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -396,7 +479,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Photograph by XXXXXXX",
                       ],
@@ -417,7 +503,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -429,7 +518,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -460,7 +552,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -525,7 +620,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -537,7 +635,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -547,7 +648,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "The East Williamsburg loft building where Nava lives and works is packed with musicians, filmmakers, and other artists. “I like that you can be loud here and the rooftop for the view and big sky,” he says.",
                       ],
@@ -568,7 +672,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -580,7 +687,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX. Robert Nava, Red Tooth, courtesy of Stan Narten/Sorry We're Closed, Brussels",
                       ],
@@ -602,7 +712,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "NAVA'S PAINTINGS OF PRIMORDIAL MONSTERS",
                           ],
@@ -627,7 +740,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "GQ STYLE:",
                           ],
@@ -652,7 +768,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "ROBERT NAVA:",
                           ],
@@ -902,7 +1021,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -968,7 +1090,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "PHILADELPHIA NATIVE",
                           ],
@@ -1002,7 +1127,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "GQ STYLE:",
                           ],
@@ -1027,7 +1155,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "DEVAN SHIMOYAMA:",
                           ],
@@ -1141,7 +1272,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1153,7 +1287,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1163,7 +1300,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Shimoyama's studio on campus at Carnegie Mellon is located down the hall from the university's woodshop, laser cutters, and printshop, which, he says, “allows me to be able to open up my multidisciplinary practice with ease.”",
                       ],
@@ -1184,7 +1324,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1196,7 +1339,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1217,7 +1363,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1229,7 +1378,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1395,7 +1547,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1461,7 +1616,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "BORN IN AUSTIN,",
                           ],
@@ -1486,7 +1644,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "GQ STYLE:",
                           ],
@@ -1511,7 +1672,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "EMILY MAE SMITH:",
                           ],
@@ -1760,7 +1924,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1772,7 +1939,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1782,7 +1952,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Smith's studio, on the fourth floor of a Williamsburg loft building, has a wall of windows and an island full of brushes and supplies in the center. “It's an incredible luxury to paint with natural light in N.Y.C.,” she says.",
                       ],
@@ -1803,7 +1976,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1815,7 +1991,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1836,7 +2015,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1848,7 +2030,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX. XXXXXXX, XXXXXXX, courtesy of Dario Lasagni/ Simone Subal Gallery",
                       ],
@@ -1879,7 +2064,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1944,7 +2132,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1956,7 +2147,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1977,7 +2171,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -1989,7 +2186,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -1999,7 +2199,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "“My studio is just a tiny room in my house in the Mission District,” Roberts says. “It's filled with old magazines and junk and half-finished projects. I like staring at the giant redwood tree that grows outside.”",
                       ],
@@ -2020,7 +2223,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -2032,7 +2238,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "XXXXXXX",
                       ],
@@ -2054,7 +2263,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "BORN IN MADISON, WISCONSIN,",
                           ],
@@ -2079,7 +2291,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "GQ STYLE:",
                           ],
@@ -2104,7 +2319,10 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {},
+                          "attributes": Object {
+                            "attributes": Object {},
+                            "type": "-html-small",
+                          },
                           "children": Array [
                             "JOE ROBERTS:",
                           ],
@@ -9003,13 +9221,24 @@ Object {
 ",
     Object {
       "attributes": Object {
+        "-xmlns-dc": null,
+        "-xmlns-dcterms": null,
+        "-xmlns-pam": null,
+        "-xmlns-pim": null,
+        "-xmlns-prism": null,
+        "-xmlns-prl": null,
+        "-xmlns-xhtml": null,
+        "-xmlns-xsi": null,
+        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "-xml-lang": null,
+          },
           "children": Array [
             "
 ",
@@ -9019,7 +9248,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-identifier",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -9039,7 +9271,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-creator",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -9049,7 +9284,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-publicationname",
+                  },
                   "children": Array [
                     "GQ",
                   ],
@@ -9059,7 +9297,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-issn",
+                  },
                   "children": Array [
                     "2471-5393",
                   ],
@@ -9069,7 +9310,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-publisher",
+                  },
                   "children": Array [
                     "Condé Nast",
                   ],
@@ -9079,7 +9323,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdate",
+                  },
                   "children": Array [
                     "2018-11-13",
                   ],
@@ -9089,7 +9336,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdisplaydate",
+                  },
                   "children": Array [
                     "GQ Style Holiday 2018",
                   ],
@@ -9099,7 +9349,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-volume",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -9109,7 +9362,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-number",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -9119,7 +9375,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-startingpage",
+                  },
                   "children": Array [
                     "74",
                   ],
@@ -9129,7 +9388,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-section",
+                  },
                   "children": Array [
                     "
 ",
@@ -9140,7 +9402,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-subsection1",
+                  },
                   "children": Array [
                     "
 ",
@@ -9151,7 +9416,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-subject",
+                  },
                   "children": Array [
                     " ",
                   ],
@@ -9171,7 +9439,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-wordcount",
+                  },
                   "children": Array [
                     "886",
                   ],
@@ -9181,7 +9452,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-copyright",
+                  },
                   "children": Array [
                     "COPYRIGHT ©2018 THE CONDÉ NAST PUBLICATIONS. ALL RIGHTS RESERVED.",
                   ],
@@ -9243,7 +9517,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9255,7 +9532,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9276,7 +9556,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9288,7 +9571,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9309,7 +9595,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9321,7 +9610,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9342,7 +9634,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9354,7 +9649,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9364,7 +9662,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Artisans at Santoni spend decades perfecting the craft of shoemaking. What sets the label's footwear apart? “Quality, quality, quality,” Giuseppe Santoni says.",
                       ],
@@ -9385,7 +9686,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9397,7 +9701,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9407,7 +9714,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Santoni was appointed CEO of his family's business in 1990 at only 21 years old; in 2018 the brand's classic designs still have a youthful vibe.",
                       ],
@@ -9428,7 +9738,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -9440,7 +9753,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Santoni",
                       ],
@@ -9450,7 +9766,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Up to 12 layers of paint are used to build color. Wearing the shoes, Santoni says, is like driving a Rolls-Royce.",
                       ],
@@ -11061,13 +11380,24 @@ Object {
 ",
     Object {
       "attributes": Object {
+        "-xmlns-dc": null,
+        "-xmlns-dcterms": null,
+        "-xmlns-pam": null,
+        "-xmlns-pim": null,
+        "-xmlns-prism": null,
+        "-xmlns-prl": null,
+        "-xmlns-xhtml": null,
+        "-xmlns-xsi": null,
+        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {},
+          "attributes": Object {
+            "-xml-lang": null,
+          },
           "children": Array [
             "
 ",
@@ -11077,7 +11407,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-identifier",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -11097,7 +11430,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-creator",
+                  },
                   "children": Array [
                     "XXXXXXX",
                   ],
@@ -11107,7 +11443,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-publicationname",
+                  },
                   "children": Array [
                     "GQ",
                   ],
@@ -11117,7 +11456,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-issn",
+                  },
                   "children": Array [
                     "2471-5393",
                   ],
@@ -11127,7 +11469,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-publisher",
+                  },
                   "children": Array [
                     "Condé Nast",
                   ],
@@ -11137,7 +11482,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdate",
+                  },
                   "children": Array [
                     "2018-11-13",
                   ],
@@ -11147,7 +11495,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-coverdisplaydate",
+                  },
                   "children": Array [
                     "GQ Style Holiday 2018",
                   ],
@@ -11157,7 +11508,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-volume",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -11167,7 +11521,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-number",
+                  },
                   "children": Array [
                     "3",
                   ],
@@ -11177,7 +11534,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-startingpage",
+                  },
                   "children": Array [
                     "72",
                   ],
@@ -11187,7 +11547,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-section",
+                  },
                   "children": Array [
                     "
 ",
@@ -11198,7 +11561,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-dc-subject",
+                  },
                   "children": Array [
                     " ",
                   ],
@@ -11218,7 +11584,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-wordcount",
+                  },
                   "children": Array [
                     "665",
                   ],
@@ -11228,7 +11597,10 @@ Object {
                 "
 ",
                 Object {
-                  "attributes": Object {},
+                  "attributes": Object {
+                    "attributes": Object {},
+                    "type": "-prism-copyright",
+                  },
                   "children": Array [
                     "COPYRIGHT ©2018 THE CONDÉ NAST PUBLICATIONS. ALL RIGHTS RESERVED.",
                   ],
@@ -11288,7 +11660,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11300,7 +11675,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11321,7 +11699,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11333,7 +11714,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11354,7 +11738,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11366,7 +11753,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11427,7 +11817,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11439,7 +11832,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11449,7 +11845,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "The aesthetics of Yuketen and Monitaly, Matsuda's highly advanced military-inspired apparel brand, work together hand in glove…or foot in shoe.",
                       ],
@@ -11470,7 +11869,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11482,7 +11884,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11492,7 +11897,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Yuki Matsuda can often be found at the Rose Bowl Flea Market in Pasadena, California, where he hunts for rare Native American and country-western goods that inspire his fashion lines.",
                       ],
@@ -11513,7 +11921,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-dc-type",
+                      },
                       "children": Array [
                         "psd",
                       ],
@@ -11525,7 +11936,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-credit",
+                      },
                       "children": Array [
                         "Courtesy of Yuketen",
                       ],
@@ -11535,7 +11949,10 @@ Object {
                     "
 ",
                     Object {
-                      "attributes": Object {},
+                      "attributes": Object {
+                        "attributes": Object {},
+                        "type": "-pam-caption",
+                      },
                       "children": Array [
                         "Matsuda only uses leather from Chicago's famed Horween tannery, which has been supplying America's footwear industry since 1905.",
                       ],
