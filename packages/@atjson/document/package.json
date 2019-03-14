@@ -1,6 +1,6 @@
 {
   "name": "@atjson/document",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "description": "Document definition for AtJSON",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

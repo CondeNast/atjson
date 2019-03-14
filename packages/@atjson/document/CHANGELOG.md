@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.2...@atjson/document@0.14.3) (2019-03-14)
+
+
+### 🐛 Fixes
+
+* 🐝🚀 Fix performance regressions ([#118](https://github.com/CondeNast-Copilot/atjson/issues/118))
+
+
+
 ## [0.14.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.1...@atjson/document@0.14.2) (2019-02-12)
 
 

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-core-components@0.11.10...@atjson/offset-core-components@0.11.11) (2019-03-14)
+
+**Note:** Version bump only for package @atjson/offset-core-components
+
+
+
+
+
 ## [0.11.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-core-components@0.11.9...@atjson/offset-core-components@0.11.10) (2019-02-12)
 
 **Note:** Version bump only for package @atjson/offset-core-components
