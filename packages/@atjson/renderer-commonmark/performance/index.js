@@ -56,21 +56,19 @@ class Statistics {
 }
 
 function measure(name, fn) {
-  performance.mark('⏱');
+  performance.mark(`⏱ ${name}`);
   let result = fn();
-  performance.mark('🏁');
-  performance.measure(name, '⏱', '🏁');
-  performance.clearMarks('⏱');
-  performance.clearMarks('🏁');
+  performance.mark(`🏁 ${name}`);
+  performance.measure(name, `⏱ ${name}`, `🏁 ${name}`);
+  performance.clearMarks(`⏱ ${name}`);
+  performance.clearMarks(`🏁 ${name}`);
   return result;
 }
 
 performance.maxEntries = spec.tests.length * 400;
-/*
+
 for (let i = 0; i < 100; i++) {
   spec.tests.forEach((unitTest) => {
-    let md = MarkdownIt('commonmark');
-
     let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
     if (shouldSkip) {
       return;
@@ -80,7 +78,7 @@ for (let i = 0; i < 100; i++) {
     let markdown = unitTest.markdown.replace(/→/g, '\t');
     let original = measure('CommonMarkSource.fromRaw', () => CommonMarkSource.fromRaw(markdown));
     let converted = measure('CommonMarkSource.convertTo(OffsetSource)', () => original.convertTo(OffsetSource));
-    let generatedMarkdown = measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
+    measure('CommonMarkRenderer.render', () => CommonMarkRenderer.render(converted));
     performance.mark('end');
     performance.measure('Round trip', 'start', 'end');
     performance.clearMarks();
@@ -110,9 +108,10 @@ console.log(
 
 // Clear all measures in-between performance tests
 performance.clearMeasures();
-*/
+
 // Slow real-life tests
 let fixtures = [
+  'alexander-mcqueen.md',
   'lambda-literary-awards.md'
 ].map(filename => readFileSync(join(__dirname, 'fixtures', filename)).toString());
 
@@ -130,23 +129,23 @@ for (let i = 0; i < 10; i++) {
 
 console.log(
   [
+    '',
+    '',
     '## 🔥 Slow real-life examples',
     '',
     `The metrics below are taken from real articles written by Condé Nast editors / writers.`,
     '',
     `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
     '',
-    '| Function | Mean | Median | 95th Percentile | Standard Deviation | Total Time |',
-    '|----------|------|--------|-----------------|--------------------|------------|',
+    '| Function | Mean | Median | 95th Percentile | Standard Deviation |',
+    '|----------|------|--------|-----------------|--------------------|',
     ...[
       new Statistics('CommonMarkSource.fromRaw'),
       new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
       new Statistics('CommonMarkRenderer.render'),
-      new Statistics('HIR.new'),
-      new Statistics('insertText'),
       new Statistics('Round trip')
     ].map(stats => {
-      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms | ${stats.totalTime.toFixed(3)}ms |`;
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
     })
   ].join('\n')
 );
