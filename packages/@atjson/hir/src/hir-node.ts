@@ -38,7 +38,7 @@ export default class HIRNode {
   type: string;
   start: number;
   end: number;
-  text?: string;
+  text: string;
 
   private child?: HIRNode;
   private sibling?: HIRNode;
@@ -59,6 +59,7 @@ export default class HIRNode {
       this.start = annotation.start;
       this.end = annotation.end;
       this.rank = annotation.rank;
+      this.text = '';
     } else {
       this.annotation = annotation.annotation;
       this.id = annotation.id;
@@ -66,13 +67,13 @@ export default class HIRNode {
       this.start = annotation.start;
       this.end = annotation.end;
       this.rank = annotation.rank;
-      this.text = annotation.text;
+      this.text = annotation.text || '';
     }
   }
 
   toJSON(): JSON {
     if (this.annotation instanceof Text) {
-      return this.text!;
+      return this.text;
     }
 
     return {
@@ -285,7 +286,7 @@ export default class HIRNode {
         rank: this.rank,
         start: newStart,
         end: newEnd,
-        text: this.text!.slice(newStart - this.start, newEnd - this.start)
+        text: this.text.slice(newStart - this.start, newEnd - this.start)
       }) :
       new HIRNode({
         id: this.id,

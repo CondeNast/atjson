@@ -63,7 +63,7 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
         start: childNode.start,
         end: childNode.end,
         attributes: {
-          text: childNode.text!
+          text: childNode.text
         },
         toJSON(): object {
           return {
@@ -72,7 +72,7 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
             start: childNode.start,
             end: childNode.end,
             attributes: {
-              '-atjson-text': childNode.text!
+              '-atjson-text': childNode.text
             }
           };
         }
@@ -106,7 +106,7 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
     };
 
     if (childNode.type === 'text') {
-      return renderer.text(childNode.text!, {
+      return renderer.text(childNode.text, {
         ...childContext,
         children: []
       });
