@@ -6,10 +6,10 @@ This benchmark was taken on Linux 4.4 on x64 with 2 cores of Intel(R) Xeon(R) CP
 
 | Function | Mean | Median | 95th Percentile | Standard Deviation |
 |----------|------|--------|-----------------|--------------------|
-| CommonMarkSource.fromRaw | 0.529ms | 0.446ms | 0.729ms | 0.426ms |
-| CommonMarkSource.convertTo(OffsetSource) | 0.462ms | 0.357ms | 0.943ms | 0.486ms |
-| CommonMarkRenderer.render | 0.123ms | 0.103ms | 0.226ms | 0.132ms |
-| Round trip | 1.174ms | 0.976ms | 2.544ms | 0.740ms |
+| CommonMarkSource.fromRaw | 0.527ms | 0.441ms | 0.732ms | 0.447ms |
+| CommonMarkSource.convertTo(OffsetSource) | 0.350ms | 0.276ms | 0.686ms | 0.381ms |
+| CommonMarkRenderer.render | 0.121ms | 0.100ms | 0.223ms | 0.145ms |
+| Round trip | 1.058ms | 0.885ms | 2.003ms | 0.670ms |
 
 
 ## 🔥 Slow real-life examples
@@ -20,7 +20,7 @@ This benchmark was taken on Linux 4.4 on x64 with 2 cores of Intel(R) Xeon(R) CP
 
 | Function | Mean | Median | 95th Percentile | Standard Deviation |
 |----------|------|--------|-----------------|--------------------|
-| CommonMarkSource.fromRaw | 15.838ms | 15.352ms | 21.029ms | 4.335ms |
-| CommonMarkSource.convertTo(OffsetSource) | 82.657ms | 82.639ms | 92.944ms | 47.432ms |
-| CommonMarkRenderer.render | 55.546ms | 50.028ms | 94.145ms | 27.963ms |
-| Round trip | 154.220ms | 149.953ms | 202.141ms | 71.081ms |
+| CommonMarkSource.fromRaw | 16.141ms | 16.250ms | 22.019ms | 4.110ms |
+| CommonMarkSource.convertTo(OffsetSource) | 54.865ms | 59.801ms | 67.588ms | 13.472ms |
+| CommonMarkRenderer.render | 61.727ms | 48.693ms | 94.411ms | 51.366ms |
+| Round trip | 132.918ms | 126.297ms | 181.148ms | 64.280ms |
