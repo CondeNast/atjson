@@ -112,7 +112,8 @@ performance.clearMeasures();
 // Slow real-life tests
 let fixtures = [
   'alexander-mcqueen.md',
-  'lambda-literary-awards.md'
+  'lambda-literary-awards.md',
+  'inoa-listings.md' // ~1s
 ].map(filename => readFileSync(join(__dirname, 'fixtures', filename)).toString());
 
 for (let i = 0; i < 10; i++) {

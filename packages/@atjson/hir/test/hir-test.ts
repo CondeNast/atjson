@@ -3,17 +3,6 @@ import TestSource from './test-source';
 import { bold, document, image, italic, li, ol, paragraph } from './utils';
 
 describe('@atjson/hir', () => {
-
-  /**
-   * FIXME I don't know how to test types. This just throws in compile time,
-   * but we should test that invalid objects are in fact caught by the compiler. ???
-   *
-  test('rejects invalid documents', () => {
-    let invalidDoc = { blah: 'x' };
-    expect(() => new HIR(invalidDoc)).toThrow();
-  });
-   */
-
   test('accepts atjson-shaped object', () => {
     let validDoc = new TestSource({
       content: 'test\ndocument\n\nnew paragraph',

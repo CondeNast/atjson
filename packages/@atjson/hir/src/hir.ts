@@ -16,11 +16,13 @@ export default class HIR {
          a.start = Math.max(0, a.start - 1);
       });
 
-    this.rootNode = new HIRNode(new Root({
-      start: 0,
-      end: document.content.length,
-      attributes: {}
-    }));
+    this.rootNode = new HIRNode(
+      new Root({
+        start: 0,
+        end: document.content.length,
+        attributes: {}
+      })
+    );
 
     document.annotations.sort((a: Annotation, b: Annotation) => {
       if (a.start === b.start) {
