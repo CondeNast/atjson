@@ -9,5 +9,5 @@ let markdown = readFileSync(__dirname + '/inoa.md').toString();
 window.run = function () {
   let original = CommonmarkSource.fromRaw(markdown);
   let converted = original.convertTo(OffsetSource);
-  CommonMarkRenderer.render(converted);
+  return CommonMarkRenderer.render(converted);
 };

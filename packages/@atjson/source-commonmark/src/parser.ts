@@ -1,8 +1,6 @@
 import { AnnotationJSON, ParseAnnotation } from '@atjson/document';
-// @ts-ignore
-import entities from 'entities';
-// @ts-ignore
-import MarkdownIt from 'markdown-it';
+import * as entities from 'entities';
+import * as MarkdownIt from 'markdown-it';
 
 export interface Attributes {
   [key: string]: string | number | boolean | null;
