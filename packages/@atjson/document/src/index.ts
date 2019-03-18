@@ -298,7 +298,17 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     let schema = [...DocumentClass.schema, ParseAnnotation];
 
-    if (annotation instanceof Annotation) {
+    if (annotation instanceof UnknownAnnotation) {
+      let KnownAnnotation = schema.find(AnnotationClass => {
+        return annotation.attributes.type === `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+      });
+
+      if (KnownAnnotation) {
+        return KnownAnnotation.hydrate(annotation.toJSON());
+      }
+      return annotation;
+
+    } else if (annotation instanceof Annotation) {
       let AnnotationClass = annotation.constructor as AnnotationConstructor;
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
