@@ -1,6 +1,6 @@
 {
   "name": "@atjson/offset-core-components",
-  "version": "0.11.12",
+  "version": "0.11.13",
   "description": "Offset Core Components",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

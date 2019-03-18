@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.4...@atjson/document@0.14.5) (2019-03-18)
+
+
+### 🐛 Fixes
+
+* 🐛 reify unknown annotations when passing them into `createAnnotation` ([#120](https://github.com/CondeNast-Copilot/atjson/issues/120))
+
+
+
 ## [0.14.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.3...@atjson/document@0.14.4) (2019-03-18)
 
 
