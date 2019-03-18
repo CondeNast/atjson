@@ -1,3 +1,4 @@
+import { UnknownAnnotation } from '../src';
 import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
 
 describe('new Document', () => {
@@ -17,6 +18,48 @@ describe('new Document', () => {
         attributes: {}
       })]
     })).toBeDefined();
+  });
+
+  test('instantiating with Annotations', () => {
+    let doc = new TestSource({
+      content: 'Hello World.',
+      annotations: [new Bold({
+        start: 0,
+        end: 2
+      })]
+    });
+
+    expect(doc.where(a => a instanceof Bold).length).toBe(1);
+  });
+
+  test('instantiating with UnknownAnnotations', () => {
+    let doc = new TestSource({
+      content: 'Hello World.',
+      annotations: [new UnknownAnnotation({
+        start: 0,
+        end: 2,
+        attributes: {
+          type: '-test-bold',
+          attributes: {}
+        }
+      })]
+    });
+
+    expect(doc.where(a => a instanceof Bold).length).toBe(1);
+  });
+
+  test('instantiating with JSON', () => {
+    let doc = new TestSource({
+      content: 'Hello World.',
+      annotations: [{
+        type: '-test-bold',
+        start: 0,
+        end: 2,
+        attributes: {}
+      }]
+    });
+
+    expect(doc.where(a => a instanceof Bold).length).toBe(1);
   });
 
   test('clone', () => {
