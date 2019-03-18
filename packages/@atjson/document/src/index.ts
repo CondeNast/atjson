@@ -231,16 +231,26 @@ export default class Document {
       return this.clone() as InstanceType<To>;
     // Coerce or convert to new type
     } else {
-
       class ConversionDocument extends DocumentClass {
         static schema = DocumentClass.schema.concat(to.schema);
       }
-      let convertedDoc = new ConversionDocument(this.toJSON());
+
+      let convertedDoc = new ConversionDocument({
+        content: this.content,
+        annotations: this.where({}).sort().annotations
+      });
 
       if (converter) {
-        return new to(converter(convertedDoc).toJSON()) as InstanceType<To>;
+        let result = converter(convertedDoc);
+        return new to({
+          content: result.content,
+          annotations: result.where({}).sort().annotations
+        }) as InstanceType<To>;
       }
-      return new to(convertedDoc.toJSON()) as InstanceType<To>;
+      return new to({
+        content: convertedDoc.content,
+        annotations: convertedDoc.where({}).sort().annotations
+      }) as InstanceType<To>;
     }
   }
 

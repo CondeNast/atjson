@@ -33,6 +33,10 @@ class Statistics {
     return this.totalTime / this.entries.length;
   }
 
+  get max() {
+    return this.entries[this.entries.length - 1].duration;
+  }
+
   get totalTime() {
     return this.entries.reduce((totalTime, entry) => {
       return totalTime + entry.duration;
@@ -93,15 +97,15 @@ console.log(
     '',
     `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
     '',
-    '| Function | Mean | Median | 95th Percentile | Standard Deviation |',
-    '|----------|------|--------|-----------------|--------------------|',
+    '| Function | Mean | Median | 95th Percentile | Maximum | Standard Deviation |',
+    '|----------|------|--------|-----------------|---------|--------------------|',
     ...[
       new Statistics('CommonMarkSource.fromRaw'),
       new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
       new Statistics('CommonMarkRenderer.render'),
       new Statistics('Round trip')
     ].map(stats => {
-      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.max}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
     })
   ].join('\n')
 );
@@ -112,7 +116,8 @@ performance.clearMeasures();
 // Slow real-life tests
 let fixtures = [
   'alexander-mcqueen.md',
-  'lambda-literary-awards.md'
+  'lambda-literary-awards.md',
+  'inoa-listings.md' // ~1s
 ].map(filename => readFileSync(join(__dirname, 'fixtures', filename)).toString());
 
 for (let i = 0; i < 10; i++) {
@@ -137,15 +142,15 @@ console.log(
     '',
     `This benchmark was taken on ${osName(os.platform(), os.release())} on ${os.arch()} with ${os.cpus().length} cores of ${os.cpus()[0].model}.`,
     '',
-    '| Function | Mean | Median | 95th Percentile | Standard Deviation |',
-    '|----------|------|--------|-----------------|--------------------|',
+    '| Function | Mean | Median | 95th Percentile | Maximum | Standard Deviation |',
+    '|----------|------|--------|-----------------|---------|--------------------|',
     ...[
       new Statistics('CommonMarkSource.fromRaw'),
       new Statistics('CommonMarkSource.convertTo(OffsetSource)'),
       new Statistics('CommonMarkRenderer.render'),
       new Statistics('Round trip')
     ].map(stats => {
-      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
+      return `| ${stats.name} | ${stats.mean.toFixed(3)}ms | ${stats.median.toFixed(3)}ms | ${stats.percentile(0.95).toFixed(3)}ms | ${stats.max}ms | ${stats.standardDeviation.toFixed(3)}ms |`;
     })
   ].join('\n')
 );

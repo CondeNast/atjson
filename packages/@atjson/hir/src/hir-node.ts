@@ -1,4 +1,4 @@
-import Document, { Annotation, AnnotationConstructor, JSON, ParseAnnotation } from '@atjson/document';
+import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
 import { Root, Text } from './annotations';
 
 export interface Dictionary<T> {
@@ -34,30 +34,46 @@ export default class HIRNode {
 
   annotation: Annotation;
   id: string;
+  rank: number;
+  type: string;
   start: number;
   end: number;
-
-  get type() {
-    return this.annotation.type;
-  }
-
-  get rank() {
-    return this.annotation.rank;
-  }
+  text: string;
 
   private child?: HIRNode;
   private sibling?: HIRNode;
 
-  constructor(annotation: Annotation) {
-    this.annotation = annotation;
-    this.id = annotation.id;
-    this.start = annotation.start;
-    this.end = annotation.end;
+  constructor(annotation: Annotation | {
+    id: string;
+    type: string,
+    start: number,
+    end: number,
+    annotation: Annotation,
+    rank: number,
+    text?: string,
+  }) {
+    if (annotation instanceof Annotation) {
+      this.annotation = annotation;
+      this.id = annotation.id;
+      this.type = annotation.type;
+      this.start = annotation.start;
+      this.end = annotation.end;
+      this.rank = annotation.rank;
+      this.text = '';
+    } else {
+      this.annotation = annotation.annotation;
+      this.id = annotation.id;
+      this.type = annotation.type;
+      this.start = annotation.start;
+      this.end = annotation.end;
+      this.rank = annotation.rank;
+      this.text = annotation.text || '';
+    }
   }
 
   toJSON(): JSON {
     if (this.annotation instanceof Text) {
-      return this.annotation.attributes.text;
+      return this.text;
     }
 
     return {
@@ -104,11 +120,20 @@ export default class HIRNode {
     // Don't insert Object Replacement Characters.
     if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
 
-    let node = new HIRNode(new Text({
+    let annotation = new Text({
       start: this.start,
       end: this.end,
-      attributes: { text }
-    }));
+      attributes: {}
+    });
+    let node = new HIRNode({
+      type: annotation.type,
+      id: annotation.id,
+      start: this.start,
+      end: this.end,
+      rank: annotation.rank,
+      text,
+      annotation
+    });
 
     this.insertNode(node);
   }
@@ -187,7 +212,16 @@ export default class HIRNode {
             this.sibling = preSibling;
           }
         } else {
-          this.sibling.insertNode(node);
+          let sibling = this.sibling;
+          while (node.start > sibling.end &&
+                 node.rank > sibling.rank) {
+            if (sibling.sibling) {
+              sibling = sibling.sibling;
+            } else {
+              break;
+            }
+          }
+          sibling.insertNode(node);
         }
       }
     }
@@ -244,23 +278,24 @@ export default class HIRNode {
       return this;
     }
 
-    let AnnotationClass = this.annotation.constructor as AnnotationConstructor;
-    let slicedAnnotation = this.annotation instanceof Text ?
-      new Text({
-        start: newStart,
-        end: newEnd,
-        attributes: {
-          text: this.annotation.attributes.text.slice(newStart - this.start, newEnd - this.start)
-        }
-      }) :
-      new AnnotationClass({
+    let partial = this.annotation instanceof Text ?
+      new HIRNode({
         id: this.id,
+        type: this.type,
+        annotation: this.annotation,
+        rank: this.rank,
         start: newStart,
         end: newEnd,
-        attributes: this.annotation.attributes
+        text: this.text.slice(newStart - this.start, newEnd - this.start)
+      }) :
+      new HIRNode({
+        id: this.id,
+        type: this.type,
+        rank: this.rank,
+        annotation: this.annotation,
+        start: newStart,
+        end: newEnd
       });
-
-    let partial = new HIRNode(slicedAnnotation);
 
     if (partial.start === partial.end) return;
 
@@ -270,7 +305,7 @@ export default class HIRNode {
 
     // nb move to HIRTextNode
     if (this.annotation instanceof Text &&
-        partial.annotation.attributes.text === '\uFFFC') {
+        partial.text === '\uFFFC') {
       return;
     }
 

@@ -1,4 +1,4 @@
-import Document, { Annotation } from '@atjson/document';
+import Document, { Annotation, AnnotationJSON } from '@atjson/document';
 import { HIR, HIRNode, TextAnnotation } from '@atjson/hir';
 
 interface Mapping {
@@ -47,8 +47,8 @@ export function classify(type: string) {
 
 export interface Context {
   parent: Annotation;
-  previous: Annotation | null;
-  next: Annotation | null;
+  previous: Annotation | (AnnotationJSON & { toJSON(): object; }) | null;
+  next: Annotation | (AnnotationJSON & { toJSON(): object; }) | null;
   children: Annotation[];
   document: Document;
 }
@@ -56,13 +56,37 @@ export interface Context {
 function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): any {
   let annotation = node.annotation;
   let childNodes = node.children();
-  let childAnnotations = childNodes.map(childNode => childNode.annotation);
+  let childAnnotations = childNodes.map(childNode => {
+    if (childNode.annotation instanceof TextAnnotation) {
+      return {
+        type: 'text',
+        start: childNode.start,
+        end: childNode.end,
+        attributes: {
+          text: childNode.text
+        },
+        toJSON(): object {
+          return {
+            id: 'Any<id>',
+            type: '-atjson-text',
+            start: childNode.start,
+            end: childNode.end,
+            attributes: {
+              '-atjson-text': childNode.text
+            }
+          };
+        }
+      };
+    } else {
+      return childNode.annotation;
+    }
+  });
   let generator;
 
   if (context.parent == null) {
     generator = renderer.root();
   } else {
-    generator = renderer.renderAnnotation(annotation, {
+    generator = renderer.renderAnnotation(annotation!, {
       ...context,
       children: childAnnotations
     } as Context);
@@ -75,14 +99,14 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
 
   return generator.next(flatten(childNodes.map((childNode: HIRNode, idx: number) => {
     let childContext = {
-      parent: annotation || null,
+      parent: annotation! || null,
       previous: childAnnotations[idx - 1] || null,
       next: childAnnotations[idx + 1] || null,
       document: context.document!
     };
 
-    if (childNode.annotation instanceof TextAnnotation) {
-      return renderer.text(childNode.annotation.attributes.text, {
+    if (childNode.type === 'text') {
+      return renderer.text(childNode.text, {
         ...childContext,
         children: []
       });

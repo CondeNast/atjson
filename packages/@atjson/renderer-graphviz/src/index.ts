@@ -1,4 +1,4 @@
-import Document, { Annotation } from '@atjson/document';
+import Document from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
 interface Node {
@@ -8,20 +8,20 @@ interface Node {
   text: string;
 }
 
-function getColor(annotation: Annotation) {
-  if (annotation.rank === -Infinity) {
+function getColor(rank: number) {
+  if (rank === -Infinity) {
     return 'style=filled fillcolor="#000000" fontcolor="#FFFFFF"';
-  } else if (annotation.rank <= 0) {
+  } else if (rank <= 0) {
     return 'style=filled fillcolor="#222222" fontcolor="#FFFFFF"';
-  } else if (annotation.rank <= 10) {
+  } else if (rank <= 10) {
     return 'style=filled fillcolor="#444444" fontcolor="#FFFFFF"';
-  } else if (annotation.rank <= 50) {
+  } else if (rank <= 50) {
     return 'style=filled fillcolor="#666666" fontcolor="#FFFFFF"';
-  } else if (annotation.rank <= 100) {
+  } else if (rank <= 100) {
     return 'style=filled fillcolor="#888888" fontcolor="#FFFFFF"';
-  } else if (annotation.rank <= 1000) {
+  } else if (rank <= 1000) {
     return 'style=filled fillcolor="#AAAAAA" fontcolor="#000000"';
-  } else if (annotation.rank <= Number.MAX_SAFE_INTEGER) {
+  } else if (rank <= Number.MAX_SAFE_INTEGER) {
     return 'style=filled fillcolor="#CCCCCC" fontcolor="#000000"';
   } else {
     return 'style=filled fillcolor="#FFFFFF" fontcolor="#000000"';
@@ -31,8 +31,8 @@ function getColor(annotation: Annotation) {
 function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node[]): Node {
   let children = hirNode.children({ includeParseTokens: true });
   let text = hirNode.type;
-  if (hirNode.type === 'text' && hirNode.annotation.attributes.text != null) {
-    text = hirNode.annotation.attributes.text;
+  if (hirNode.type === 'text' && hirNode.text != null) {
+    text = hirNode.text;
   } else {
     text = JSON.stringify(hirNode.annotation.attributes);
   }
@@ -40,7 +40,7 @@ function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node
   let node = {
     id: `${hirNode.type.replace('-', '_')}${nodes.length + 1}`,
     label: hirNode.type,
-    color: getColor(hirNode.annotation),
+    color: getColor(hirNode.rank),
     text
   };
   nodes.push(node);
