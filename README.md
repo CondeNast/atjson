@@ -58,7 +58,7 @@ Stylistic annotations are easily layered on a document using a positional annota
 {
   "content": "The best writing anywhere, everywhere.",
   "annotations": [{
-    type: "italic",
+    type: "-offset-italic",
     start: 4,
     end: 8,
     attributes: {}
@@ -88,13 +88,13 @@ Some common annotations for editorial purposes are comments and suggestions. Com
 {
   "content": "Cat Person",
   "annotations": [{
-    type: "comment",
+    type: "-offset-comment",
     start: 0,
     end: 9
     attributes: {
-      author: "Eustace Tilley",
-      writtenAt: "2018-01-05 21:00T"
-      comment: "What about dog people?"
+      '-offset-author': "Eustace Tilley",
+      '-offset-writtenAt': "2018-01-05 21:00T"
+      '-offset-comment': "What about dog people?"
     }
   }]
 }
@@ -106,13 +106,13 @@ In addition to comments, suggestions can be made to the text in the same manner 
 {
   "content": "Reeducation",
   "annotations": [{
-    type: "suggested-replacement",
+    type: "-offset-suggested-replacement",
     start: 2,
     end: 3
     attributes: {
-      text: "ë",
-      author: "Eustace Tilley",
-      suggestedAt: "2018-01-10 23:00T"
+      '-offset-text': "ë",
+      '-offset-author': "Eustace Tilley",
+      '-offset-suggestedAt': "2018-01-10 23:00T"
     }
   }]
 }
@@ -124,12 +124,12 @@ Objects can also be embedded in documents that can be expanded when the document
 {
   "content": "￼",
   "annotations": [{
-    type: "image",
+    type: "-offset-image",
     start: 0,
     end: 1,
     attributes: {
-      alt: "Logo",
-      url: ""
+      '-offset-alt': "Logo",
+      '-offset-url': ""
     }
   }]
 }
@@ -140,7 +140,7 @@ Objects can also be embedded in documents that can be expanded when the document
 
 We have a source document with annotations:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/original-document.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/war-and-peace.png)
 
 This marked up document equates to:
 
@@ -165,7 +165,7 @@ A number of little notes distributed that morning by a footman in red livery had
 
 ```js
 [{
-  type: "heading",
+  type: "title",
   start: 0,
   end: 13,
   attributes: {
@@ -191,7 +191,7 @@ A number of little notes distributed that morning by a footman in red livery had
   start: 911,
   end: 917
 }, {
-  type: "block-quote",
+  type: "blockquote",
   start: 1096,
   end: 1324
 }, {
@@ -203,72 +203,8 @@ A number of little notes distributed that morning by a footman in red livery had
 
 This visually would look like:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/annotated-document.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/war-and-peace-annotated.png)
 
-From here, we construct a hierarchical intermediate representation of the content.
-
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/hir-document.png)
-
-In JSON, this would roughly look like:
-
-```js
-{
-  type: "document",
-  children: [{
-    type: "title",
-    children: ["War and Peace"]
-  }, {
-    type: "horizontal-rule",
-    children: []
-  }, {
-    type: "part",
-    children: ["Part One"]
-  }, {
-    type: "chapter",
-    children: ["Chapter I."]
-  }, {
-    type: "paragraph",
-    children: ["“", {
-      type: "small-caps",
-      children: "Well"
-    }, ", prince, Genoa and Lucca are now nothing more than apanages, than the private property of the Bonaparte family. I warn you that if you do not tell me we are going to have war, if you still allow yourself to condone all the infamies, all the atrocities of this Antichrist — on my word I believe he is Antichrist — that is the end of acquaintance; you are no longer my friend, you are no longer my faithful slave, as you call yourself.", {
-      type: "footnote",
-      attributes: {
-        note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
-      }
-    }, "Now, be of good courage, I see I frighten you. Come, sit down and tell me all about it.”"
-  }, {
-    type: "paragraph",
-    children: ["It was on a July evening, 1805, that the famous Anna Pavlovna Scherer, maid of honor and confidant of the Empress Maria Feodorovna, thus greeted the influential statesman, Prince Vasili, who was the first to arrive at her reception."]
-  }, {
-    type: "paragraph",
-    children: ["Anna Pavlovna had been coughing for several days; she had the ", {
-      type: "italic",
-      children: ["grippe"]
-    }, ", as she affected to call her influenza — ", {
-      type: "italic",
-      children: ["grippe"],
-    }, " at that time being a new word only occasionally employed."
-  }, {
-    type: "paragraph",
-    children: ["A number of little notes distributed that morning by a footman in red livery had been all couched in the same terms:—"]
-  }, {
-    type: "paragraph",
-    children: [{
-      type: "blockquote",
-      children: ["“If you have nothing better to do, M. le Comte (or mon Prince), and if the prospect of spending the evening with a poor invalid is not too dismal, I shall be charmed to see you at my house between seven and ten. ", {
-        type: "small-caps"
-        children: ["Annette Scherer"]
-      }, "”"]
-    }]
-  }, {
-    type: "paragraph",
-    children: ["“Oh! what a savage attack!” rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren—"]
-  }]
-}
-```
-
-This intermediate form allows us to generate output by walking the representation and having a class render the output for that node.
 
 Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annotations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
 
@@ -282,23 +218,50 @@ export default class HTMLOutput extends Renderer {
     return new Text(escapeHTML(text));
   }
 
-  *renderAnnotation(annotation) {
-    let element = document.createElement(annotation.type);
-    Object.assign(element, annotation.attributes);
-    let children = yield;
-    for (let child in children) {
-      element.appendChild(child);
+  *$(elementName: string, attributes: { [key: string]: string }) {
+    let element = document.createElement(elementName);
+    for (let key of attributes) {
+      if (key === 'class') {
+        element.classList.add(attributes[key]);
+      } else {
+        element.setAttribute(key, attributes[key]);
+      }
     }
+    element.appendChildren(yield);
     return element;
   }
-};
+
+  *Title() {
+    return yield *this.$('h1');
+  }
+
+  *Bold() {
+    return yield *this.$('strong');
+  }
+
+  *Blockquote() {
+    return yield *this.$('blockquote');
+  }
+
+  *Paragraph() {
+    return yield *this.$('p');
+  }
+
+  *Italic() {
+    return yield *this.$('em');
+  }
+
+  *SmallCaps() {
+    return yield *this.$('span', { class: 'small-caps' });
+  }
+}
 ```
 
 The `renderText` method is called for every chunk of text in the document, to provide the ability to escape HTML or in the case above, create DOM text nodes from the text. `renderAnnotation` is a generator method that is called for each annotation in the document. When implementing this function, you must `yield` so annotations that are nested under the current one you're working on are surfaced.
 
 We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
 
-## How do I use existing documents? 
+## How do I use existing documents?
 AtJSON documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized AtJSON document.
 
 A markdown document, much like the one being written here, can be represented in AtJSON by annotating the document with the markup.
@@ -306,9 +269,10 @@ A markdown document, much like the one being written here, can be represented in
 This can be done using our built-in parser:
 
 ```js
+import OffsetSource from '@atjson/offset-annotations';
 import CommonMarkSource from '@atjson/source-commonmark';
 
-let document = new CommonMarkSource("# Hello, world").toAtJSON();
+let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(OffsetSource);
 ```
 
 This will result in the following document:
@@ -317,23 +281,23 @@ This will result in the following document:
 {
   content: "# Hello, world",
   annotations: [{
-    type: "heading",
+    type: "-offset-heading",
     attributes: {
       level: 1
     },
     start: 0,
     end: 14
   }, {
-    type: "parse-token",
+    type: "-atjson-parse-token",
     start: 0,
     end: 2
   }]
 }
 ```
 
-The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `parse-token`, which we remove from the document during the output phase.
+The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `ParseToken`, which we remove from the document during the output phase.
 
-When the intermediate representation is created, this document will be altered to look like:
+When rendering the document, text covered by parse tokens will be removed:
 
 ```js
 {
@@ -354,15 +318,14 @@ When the intermediate representation is created, this document will be altered t
 Documents can have annotations and text dynamically added and deleted from them. The APIs for this are designed to be easy-to-use (if they're not, please let us know :sweat_smile:)
 
 ```js
-import Document from '@atjson/document';
+import OffsetSource, { Bold } from '@atjson/offset-annotations';
 
-let document = new Document();
+let document = new OffsetSource();
 document.insertText(0, 'Hello!');
-document.addAnnotations({
-  type: "bold",
+document.addAnnotations(new Bold({
   start: 0,
   end: 6
-});
+}));
 
 // This should extend the annotation
 document.insertText(5, " folks");
