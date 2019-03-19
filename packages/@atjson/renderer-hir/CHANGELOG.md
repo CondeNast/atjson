@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.13.3...@atjson/renderer-hir@0.13.4) (2019-03-19)
+
+**Note:** Version bump only for package @atjson/renderer-hir
+
+
+
+
+
 ## [0.13.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.13.2...@atjson/renderer-hir@0.13.3) (2019-03-18)
 
 **Note:** Version bump only for package @atjson/renderer-hir

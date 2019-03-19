@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-prism",
-  "version": "0.15.7",
+  "version": "0.15.8",
   "description": "Converts PRISM XML into annotations",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

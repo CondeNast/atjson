@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.10](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.14.9...@atjson/source-commonmark@0.14.10) (2019-03-19)
+
+
+### 🐛 Fixes
+
+* 🐝 : Remove code for parcel workaround ([#121](https://github.com/CondeNast-Copilot/atjson/issues/121))
+
+
+
 ## [0.14.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.14.8...@atjson/source-commonmark@0.14.9) (2019-03-18)
 
 **Note:** Version bump only for package @atjson/source-commonmark
