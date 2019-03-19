@@ -88,13 +88,13 @@ Some common annotations for editorial purposes are comments and suggestions. Com
 {
   "content": "Cat Person",
   "annotations": [{
-    type: "-offset-Comment",
+    type: "-offset-comment",
     start: 0,
     end: 9
     attributes: {
-      author: "Eustace Tilley",
-      writtenAt: "2018-01-05 21:00T"
-      comment: "What about dog people?"
+      '-offset-author': "Eustace Tilley",
+      '-offset-writtenAt': "2018-01-05 21:00T"
+      '-offset-comment': "What about dog people?"
     }
   }]
 }
@@ -106,13 +106,13 @@ In addition to comments, suggestions can be made to the text in the same manner 
 {
   "content": "Reeducation",
   "annotations": [{
-    type: "-offset-SuggestedReplacement",
+    type: "-offset-suggested-replacement",
     start: 2,
     end: 3
     attributes: {
-      text: "ë",
-      author: "Eustace Tilley",
-      suggestedAt: "2018-01-10 23:00T"
+      '-offset-text': "ë",
+      '-offset-author': "Eustace Tilley",
+      '-offset-suggestedAt': "2018-01-10 23:00T"
     }
   }]
 }
@@ -124,12 +124,12 @@ Objects can also be embedded in documents that can be expanded when the document
 {
   "content": "￼",
   "annotations": [{
-    type: "-offset-Image",
+    type: "-offset-image",
     start: 0,
     end: 1,
     attributes: {
-      alt: "Logo",
-      url: ""
+      '-offset-alt': "Logo",
+      '-offset-url': ""
     }
   }]
 }
@@ -165,37 +165,37 @@ A number of little notes distributed that morning by a footman in red livery had
 
 ```js
 [{
-  type: "Title",
+  type: "title",
   start: 0,
   end: 13,
   attributes: {
     level: 1
   }
 }, {
-  type: "SmallCaps",
+  type: "small-caps",
   start: 38,
   end: 42
 }, {
-  type: "Footnote",
+  type: "footnote",
   start: 37,
   end: 478,
   attributes: {
     note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
   }
 }, {
-  type: "Italic",
+  type: "italic",
   start: 863,
   end: 869
 }, {
-  type: "Italic",
+  type: "italic",
   start: 911,
   end: 917
 }, {
-  type: "Blockquote",
+  type: "blockquote",
   start: 1096,
   end: 1324
 }, {
-  type: "SmallCaps",
+  type: "small-caps",
   start: 1308,
   end: 1323
 }]
@@ -281,14 +281,14 @@ This will result in the following document:
 {
   content: "# Hello, world",
   annotations: [{
-    type: "-offset-Heading",
+    type: "-offset-heading",
     attributes: {
       level: 1
     },
     start: 0,
     end: 14
   }, {
-    type: "-atjson-ParseToken",
+    type: "-atjson-parse-token",
     start: 0,
     end: 2
   }]
@@ -303,7 +303,7 @@ When rendering the document, text covered by parse tokens will be removed:
 {
   content: "Hello, world",
   annotations: [{
-    type: "Heading",
+    type: "heading",
     attributes: {
       level: 1
     },
