@@ -261,11 +261,11 @@ This data is stored as unknown annotations, which are an annotation that stores 
 
 ```json
 {
-  type: '-html-marquee',
-  start: 0,
-  left: 10,
-  attributes: {
-   '-html-style': 'rainbow'
+  "type": "-html-marquee",
+  "start": 0,
+  "left": 10,
+  "attributes": {
+    "-html-style": "rainbow"
   }
 }
 ```
