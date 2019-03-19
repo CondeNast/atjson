@@ -58,7 +58,7 @@ Stylistic annotations are easily layered on a document using a positional annota
 {
   "content": "The best writing anywhere, everywhere.",
   "annotations": [{
-    type: "-offset-Italic",
+    type: "-offset-italic",
     start: 4,
     end: 8,
     attributes: {}
