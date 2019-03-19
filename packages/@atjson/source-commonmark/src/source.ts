@@ -3,11 +3,6 @@ import * as MarkdownIt from 'markdown-it';
 import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, HTMLBlock, HTMLInline, Hardbreak, Heading, HorizontalRule, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
 import Parser from './parser';
 
-if ((MarkdownIt as any).default) {
-  // @ts-ignore
-  MarkdownIt = MarkdownIt.default;
-}
-
 export default class CommonMarkSource extends Document {
   static contentType = 'application/vnd.atjson+commonmark';
   static schema = [Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong];
