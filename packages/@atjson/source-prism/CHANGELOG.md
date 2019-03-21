@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.15.8...@atjson/source-prism@0.15.9) (2019-03-21)
+
+
+### 🐛 Fixes
+
+* 🐝 Fix unknown annotations passing attributes by reference and HIR optimization bug ([#122](https://github.com/CondeNast-Copilot/atjson/issues/122))
+
+
+
 ## [0.15.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.15.7...@atjson/source-prism@0.15.8) (2019-03-19)
 
 **Note:** Version bump only for package @atjson/source-prism

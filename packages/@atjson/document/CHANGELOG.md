@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.6...@atjson/document@0.14.7) (2019-03-21)
+
+
+### 🐛 Fixes
+
+* 🐝 Fix unknown annotations passing attributes by reference and HIR optimization bug ([#122](https://github.com/CondeNast-Copilot/atjson/issues/122))
+
+
+
 ## [0.14.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.5...@atjson/document@0.14.6) (2019-03-19)
 
 **Note:** Version bump only for package @atjson/document

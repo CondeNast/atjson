@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.15](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/hir@0.11.14...@atjson/hir@0.11.15) (2019-03-21)
+
+
+### 🐛 Fixes
+
+* 🐝 Fix unknown annotations passing attributes by reference and HIR optimization bug ([#122](https://github.com/CondeNast-Copilot/atjson/issues/122))
+
+
+
 ## [0.11.14](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/hir@0.11.13...@atjson/hir@0.11.14) (2019-03-19)
 
 **Note:** Version bump only for package @atjson/hir

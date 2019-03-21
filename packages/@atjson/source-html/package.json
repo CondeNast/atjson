@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-html",
-  "version": "0.13.15",
+  "version": "0.13.16",
   "description": "Create AtJSON documents from HTML source",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

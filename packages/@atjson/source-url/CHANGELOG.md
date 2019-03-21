@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-url@0.13.8...@atjson/source-url@0.13.9) (2019-03-21)
+
+**Note:** Version bump only for package @atjson/source-url
+
+
+
+
+
 ## [0.13.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-url@0.13.7...@atjson/source-url@0.13.8) (2019-03-19)
 
 **Note:** Version bump only for package @atjson/source-url
