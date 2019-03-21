@@ -149,18 +149,26 @@ export default class HIRNode {
      * given node (node)
      */
     if (this.type !== 'text') {
+      // |--------------| <- this
+      // |--------------| <- node
       if (this.start === node.start && this.end === node.end) {
         this.insertChild(node);
         return;
       }
 
+      // |--------------| <-this
+      //     |----------? <- node
       if (this.start <= node.start) {
+        // |--------|
+        //          | <- 0 length annotation at the end of another
         if (node.start === node.end && this.end === node.end && this.rank === node.rank) {
           this.insertSibling(node);
           return;
         }
 
         let childNode = node.trim(this.start, this.end);
+        // |----------| <- this
+        //      |-----| <- split node
         if (childNode) {
           this.insertChild(childNode);
           if (childNode.end === node.end) insertedWholeNode = true;
@@ -168,7 +176,11 @@ export default class HIRNode {
       }
     }
 
+    // |-------|    <- this
+    //     |------| <- node
     if (this.end <= node.end && !insertedWholeNode) {
+      // |-----|    <- this
+      //       |--| <- node
       let siblingNode = node.trim(this.end, node.end);
       if (siblingNode) this.insertSibling(siblingNode);
     }
@@ -212,17 +224,17 @@ export default class HIRNode {
             this.sibling = preSibling;
           }
         } else {
-          this.sibling.insertNode(node);
-         /* let sibling = this.sibling;
-          while (node.start >= sibling.end &&
-                 node.rank > sibling.rank) {
+          let sibling: HIRNode = this.sibling;
+          while (sibling.sibling &&
+                 node.start >= sibling.sibling.end &&
+                 node.rank >= sibling.sibling.rank) {
             if (sibling.sibling) {
               sibling = sibling.sibling;
             } else {
               break;
             }
           }
-          sibling.insertNode(node);*/
+          sibling.insertNode(node);
         }
       }
     }
