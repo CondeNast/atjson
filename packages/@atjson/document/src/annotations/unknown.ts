@@ -1,4 +1,5 @@
 import Annotation from '../annotation';
+import { clone } from '../attributes';
 import JSON from '../json';
 
 export default class UnknownAnnotation extends Annotation {
@@ -19,7 +20,7 @@ export default class UnknownAnnotation extends Annotation {
       start: this.start,
       end: this.end,
       type: this.attributes.type,
-      attributes: this.attributes.attributes
+      attributes: clone(this.attributes.attributes)
     };
   }
 }

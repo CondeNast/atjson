@@ -71,7 +71,7 @@ export default class HIRNode {
     }
   }
 
-  toJSON(): JSON {
+  toJSON(options?: { includeParseTokens: boolean }): JSON {
     if (this.annotation instanceof Text) {
       return this.text;
     }
@@ -80,8 +80,8 @@ export default class HIRNode {
       id: this.id,
       type: this.type,
       attributes: toJSON(this.annotation.attributes),
-      children: this.children().map(child => {
-        return child.toJSON();
+      children: this.children(options).map(child => {
+        return child.toJSON(options);
       })
     };
   }
@@ -212,9 +212,10 @@ export default class HIRNode {
             this.sibling = preSibling;
           }
         } else {
-          let sibling = this.sibling;
-          while (node.start > sibling.end &&
-                 node.rank > sibling.rank) {
+          let sibling: HIRNode = this.sibling;
+          while (sibling.sibling &&
+                 node.start >= sibling.sibling.end &&
+                 node.rank >= sibling.sibling.rank) {
             if (sibling.sibling) {
               sibling = sibling.sibling;
             } else {

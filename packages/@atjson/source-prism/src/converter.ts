@@ -4,13 +4,13 @@ import PRISMSource from './source';
 
 PRISMSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-html-head' }).update(head => {
+    doc.where(a => a.start >= head.start && a.end <= head.end).remove();
     doc.deleteText(head.start, head.end);
-    doc.removeAnnotation(head);
   });
 
   doc.where({ type: '-pam-media' }).update(media => {
+    doc.where(a => a.start >= media.start && a.end <= media.end).remove();
     doc.deleteText(media.start, media.end);
-    doc.removeAnnotation(media);
   });
 
   return doc.convertTo(HTMLSource).convertTo(OffsetSource);
