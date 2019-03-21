@@ -6,19 +6,21 @@ This benchmark was taken on Linux 4.4 on x64 with 2 cores of Intel(R) Xeon(R) CP
 
 | Function | Mean | Median | 95th Percentile | Maximum | Standard Deviation |
 |----------|------|--------|-----------------|---------|--------------------|
-| CommonMarkSource.fromRaw | 0.553ms | 0.455ms | 0.761ms | 14.403093ms | 0.498ms |
-| CommonMarkSource.convertTo(OffsetSource) | 0.372ms | 0.289ms | 0.727ms | 12.897888ms | 0.427ms |
-| CommonMarkRenderer.render | 0.124ms | 0.102ms | 0.233ms | 14.365726ms | 0.160ms |
-| Round trip | 1.110ms | 0.916ms | 2.092ms | 15.745058ms | 0.742ms |
+| CommonMarkSource.fromRaw | 0.537ms | 0.447ms | 0.749ms | 14.923424ms | 0.461ms |
+| CommonMarkSource.convertTo(OffsetSource) | 0.350ms | 0.273ms | 0.686ms | 19.071475ms | 0.398ms |
+| CommonMarkRenderer.render | 0.121ms | 0.100ms | 0.225ms | 15.635972ms | 0.153ms |
+| Round trip | 1.066ms | 0.885ms | 2.039ms | 20.8971ms | 0.697ms |
+
 
 ## 🔥 Slow real-life examples
 
 The metrics below are taken from real articles written by Condé Nast editors / writers.
+
 This benchmark was taken on Linux 4.4 on x64 with 2 cores of Intel(R) Xeon(R) CPU @ 2.50GHz.
 
 | Function | Mean | Median | 95th Percentile | Maximum | Standard Deviation |
 |----------|------|--------|-----------------|---------|--------------------|
-| CommonMarkSource.fromRaw | 18.574ms | 17.502ms | 26.469ms | 29.002717ms | 5.269ms |
-| CommonMarkSource.convertTo(OffsetSource) | 73.971ms | 71.398ms | 84.026ms | 342.511906ms | 52.406ms |
-| CommonMarkRenderer.render | 61.822ms | 56.030ms | 103.968ms | 113.207644ms | 30.290ms |
-| Round trip | 154.625ms | 146.649ms | 213.088ms | 428.68274ms | 71.121ms |
+| CommonMarkSource.fromRaw | 15.999ms | 16.813ms | 20.101ms | 24.556882ms | 3.862ms |
+| CommonMarkSource.convertTo(OffsetSource) | 53.303ms | 57.552ms | 68.802ms | 73.211224ms | 14.161ms |
+| CommonMarkRenderer.render | 45.427ms | 28.878ms | 90.374ms | 92.986452ms | 28.938ms |
+| Round trip | 114.932ms | 106.452ms | 176.815ms | 184.183862ms | 43.939ms |
