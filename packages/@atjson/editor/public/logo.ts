@@ -1,6 +1,6 @@
-import WebComponent from '../src/mixins/component';
+import WebComponent, { define } from '../src/component';
 
-export default class OffsetLogo extends WebComponent {
+export default define('offset-logo', class OffsetLogo extends WebComponent {
 
   static template = '<canvas></canvas>';
   static style = 'canvas { width: 300px; height: 150px; }';
@@ -131,8 +131,4 @@ export default class OffsetLogo extends WebComponent {
     this.initCanvas();
     this.render();
   }
-}
-
-if (!window.customElements.get('offset-logo')) {
-  window.customElements.define('offset-logo', OffsetLogo);
-}
+});
