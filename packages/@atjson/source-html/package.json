@@ -9,16 +9,19 @@
     "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
     "prepublishOnly": "npm run build",
+    "start": "parcel public/index.html -d public/dist --open",
     "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
   },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "dependencies": {
     "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations",
-    "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "parse5": "^4.0.0"
   }
 }
