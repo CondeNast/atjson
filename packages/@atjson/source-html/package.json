@@ -18,6 +18,7 @@
   "dependencies": {
     "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "parse5": "^4.0.0"
   }
 }
