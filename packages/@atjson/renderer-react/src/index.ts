@@ -3,7 +3,7 @@ import Renderer, { classify } from '@atjson/renderer-hir';
 import * as React from 'react';
 
 export interface ComponentLookup {
-  [key: string]: React.StatelessComponent | React.ComponentClass;
+  [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
 }
 
 export default class ReactRenderer extends Renderer {
