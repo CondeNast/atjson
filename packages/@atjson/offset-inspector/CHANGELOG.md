@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.15](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.12.14...@atjson/offset-inspector@0.12.15) (2019-04-10)
+
+**Note:** Version bump only for package @atjson/offset-inspector
+
+
+
+
+
 ## [0.12.14](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.12.13...@atjson/offset-inspector@0.12.14) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/offset-inspector

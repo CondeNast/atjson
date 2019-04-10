@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.18...@atjson/source-gdocs-paste@0.14.0) (2019-04-10)
+
+
+### ✨ New Features
+
+* ✨ Add public app to source-html ([#123](https://github.com/CondeNast-Copilot/atjson/issues/123))
+
+
+
 ## [0.13.18](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.13.17...@atjson/source-gdocs-paste@0.13.18) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste

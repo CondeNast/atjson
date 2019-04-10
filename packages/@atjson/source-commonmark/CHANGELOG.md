@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.12](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.14.11...@atjson/source-commonmark@0.14.12) (2019-04-10)
+
+**Note:** Version bump only for package @atjson/source-commonmark
+
+
+
+
+
 ## [0.14.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-commonmark@0.14.10...@atjson/source-commonmark@0.14.11) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/source-commonmark

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.12.7...@atjson/renderer-react@0.12.8) (2019-04-10)
+
+
+### 🐛 Fixes
+
+* 🐛 ⚛️ Fix React Renderer so it works again ([#124](https://github.com/CondeNast-Copilot/atjson/issues/124))
+
+
+
 ## [0.12.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.12.6...@atjson/renderer-react@0.12.7) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/renderer-react

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.15.9...@atjson/source-prism@0.16.0) (2019-04-10)
+
+
+### ✨ New Features
+
+* ✨ Add public app to source-html ([#123](https://github.com/CondeNast-Copilot/atjson/issues/123))
+
+
+
 ## [0.15.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.15.8...@atjson/source-prism@0.15.9) (2019-03-21)
 
 

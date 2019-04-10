@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.13.5...@atjson/renderer-hir@0.13.6) (2019-04-10)
+
+
+### 🐛 Fixes
+
+* 🐛 ⚛️ Fix React Renderer so it works again ([#124](https://github.com/CondeNast-Copilot/atjson/issues/124))
+
+
+
 ## [0.13.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.13.4...@atjson/renderer-hir@0.13.5) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/renderer-hir
