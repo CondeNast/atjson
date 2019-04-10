@@ -19,14 +19,6 @@ export default class ReactRenderer extends Renderer {
     this.componentLookup = componentLookup;
   }
 
-  registerComponent(type: string, component: React.StatelessComponent | React.ComponentClass) {
-    this.componentLookup[type] = component;
-  }
-
-  unregisterComponent(type: string) {
-    delete this.componentLookup[type];
-  }
-
   *root() {
     let AnnotationComponent = this.componentLookup.root || this.componentLookup.Root;
     if (AnnotationComponent) {
