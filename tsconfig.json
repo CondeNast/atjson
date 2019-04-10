@@ -23,6 +23,7 @@
       "parse5": ["./node_modules/parse5/lib/index.d.ts"]
     },
     "removeComments": true,
+    "jsx": "react",
     "skipDefaultLibCheck": true,
     "strict": true,
     "target": "ES6"

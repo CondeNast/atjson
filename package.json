@@ -61,6 +61,7 @@
       "ts",
       "tsx",
       "js",
+      "jsx",
       "json"
     ],
     "globals": {
@@ -76,7 +77,7 @@
     "testURL": "http://localhost",
     "preset": "ts-jest",
     "testMatch": [
-      "**/*-test.(ts|tsx|js)"
+      "**/*-test.(ts|tsx|js|jsx)"
     ]
   }
 }
