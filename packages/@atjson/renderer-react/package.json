@@ -18,5 +18,8 @@
   "dependencies": {
     "@atjson/renderer-hir": "file:../renderer-hir",
     "react": "^16.2.0"
+  },
+  "devDependencies": {
+    "@atjson/offset-annotations": "file:../offset-annotations"
   }
 }

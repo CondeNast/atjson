@@ -118,8 +118,9 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
 
 export default class Renderer {
 
-  static render(document: Document) {
-    let renderer = new this();
+  static render(document: Document, ...args: any[]) {
+    // @ts-ignore
+    let renderer = new this(...args);
 
     return compile(renderer, new HIR(document).rootNode, { document });
   }

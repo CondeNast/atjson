@@ -1,18 +1,17 @@
-import { Annotation } from '@atjson/document';
-import Renderer from '@atjson/renderer-hir';
+import Document, { Annotation } from '@atjson/document';
+import Renderer, { classify } from '@atjson/renderer-hir';
 import * as React from 'react';
 
-export interface Component {
-  new (...args: any[]): React.Component;
-}
-
-export type StatelessComponent = (...args: any[]) => any;
-
 export interface ComponentLookup {
-  [key: string]: Component | StatelessComponent;
+  [key: string]: React.StatelessComponent | React.ComponentClass;
 }
 
 export default class ReactRenderer extends Renderer {
+
+  static render(document: Document, components: ComponentLookup) {
+    return super.render(document, components);
+  }
+
   private componentLookup: ComponentLookup;
 
   constructor(componentLookup: ComponentLookup) {
@@ -20,7 +19,7 @@ export default class ReactRenderer extends Renderer {
     this.componentLookup = componentLookup;
   }
 
-  registerComponent(type: string, component: Component | StatelessComponent) {
+  registerComponent(type: string, component: React.StatelessComponent | React.ComponentClass) {
     this.componentLookup[type] = component;
   }
 
@@ -28,8 +27,22 @@ export default class ReactRenderer extends Renderer {
     delete this.componentLookup[type];
   }
 
+  *root() {
+    let AnnotationComponent = this.componentLookup.root || this.componentLookup.Root;
+    if (AnnotationComponent) {
+      return React.createElement(
+        AnnotationComponent,
+        {},
+        ...yield
+      );
+    } else {
+      let components = yield;
+      return components;
+    }
+  }
+
   *renderAnnotation(annotation: Annotation): IterableIterator<React.Component | void> {
-    let AnnotationComponent = this.componentLookup[annotation.type];
+    let AnnotationComponent = this.componentLookup[annotation.type] || this.componentLookup[classify(annotation.type)];
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
@@ -38,7 +51,8 @@ export default class ReactRenderer extends Renderer {
       );
     } else {
       // console.warn(`No component found for "${node.type}"- content will be yielded`);
-      return;
+      let components = yield;
+      return components;
     }
   }
 }
