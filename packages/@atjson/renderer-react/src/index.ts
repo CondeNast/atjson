@@ -6,9 +6,11 @@ export interface ComponentLookup {
   [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
 }
 
+// @ts-ignore
 export default class ReactRenderer extends Renderer {
 
   static render(document: Document, components: ComponentLookup) {
+    // @ts-ignore
     return super.render(document, components);
   }
 
