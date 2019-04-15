@@ -67,7 +67,7 @@ export default class AnnotationsInspector extends WebComponent {
         setTimeout(() => { delete this._updateCallback; }, 0);
       };
       window.requestIdleCallback(this._updateCallback);
-    };
+    });
   }
 }
 

@@ -138,7 +138,7 @@ describe('url-source', () => {
         'https://www.facebook.com/Vogue/videos/vb.42933792278/258591818132754/?type=2&theater',
         'https://www.facebook.com/Vogue/posts/258591818132754'
       ])('%s', text => {
-        let url = URLSource.fromRaw(text);\
+        let url = URLSource.fromRaw(text);
         expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe('<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/258591818132754" data-show-text="true"></div>');
       });
     });
