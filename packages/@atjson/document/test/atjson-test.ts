@@ -226,23 +226,23 @@ describe('new Document', () => {
     });
 
     test('source documents are unaltered', () => {
-      let doc = document.slice(7, 14);
+      let doc = document.slice(7, 12);
 
       expect(doc.toJSON()).toEqual({
-        content: 'world!\n\uFFFC',
+        content: 'world',
         contentType: 'application/vnd.atjson+test',
         schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
         annotations: [{
           id: '2',
           type: '-test-italic',
           start: 0,
-          end: 6,
+          end: 5,
           attributes: {}
         }, {
           id: '3',
           type: '-test-underline',
           start: 0,
-          end: 6,
+          end: 5,
           attributes: {}
         }]
       });

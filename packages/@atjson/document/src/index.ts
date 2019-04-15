@@ -212,16 +212,16 @@ export default class Document {
   slice(start: number, end: number): Document {
     let DocumentClass = this.constructor as typeof Document;
     let slicedAnnotations = this.where(a => {
-      return (a.start >= start && a.start < end) ||
-             (a.end > start && a.end <= end);
+      return Math.max(a.start, start) < end &&
+             Math.min(a.end, end) > start;
     });
 
     let doc = new DocumentClass({
       content: this.content,
       annotations: slicedAnnotations.map(annotation => annotation.clone())
     });
-    doc.deleteText(0, start);
     doc.deleteText(end, doc.content.length);
+    doc.deleteText(0, start);
 
     return doc;
   }
