@@ -1,4 +1,4 @@
-import { UnknownAnnotation } from '../src';
+import { UnknownAnnotation, ParseAnnotation } from '../src';
 import TestSource, { Bold, CaptionSource, Image, Italic } from './test-source';
 
 describe('new Document', () => {
@@ -250,6 +250,42 @@ describe('new Document', () => {
           start: 0,
           end: 5,
           attributes: {}
+        }]
+      });
+    });
+
+    test('slice with parse annotations', () => {
+      let document = new TestSource({
+        content: '<em>Hello, <b>world</b>!</em>',
+        annotations: [
+          new ParseAnnotation({ start: 0, end: 4 }),
+          new Italic({ start: 0, end: 29 }),
+          new Bold({ start: 11, end: 23 }),
+          new ParseAnnotation({ start: 11, end: 14 }),
+          new ParseAnnotation({ start: 19, end: 23 }),
+          new ParseAnnotation({ start: 24, end: 29 })
+        ]
+      });
+      let doc = document.slice(4, 24);
+
+      expect(doc.toJSON()).toMatchObject({
+        content: 'Hello, <b>world</b>!',
+        annotations: [{
+          type: '-test-italic',
+          start: 0,
+          end: 20
+        }, {
+          type: '-atjson-parse-token',
+          start: 7,
+          end: 10
+        }, {
+          type: '-test-bold',
+          start: 7,
+          end: 19
+        }, {
+          type: '-atjson-parse-token',
+          start: 15,
+          end: 19
         }]
       });
     });
