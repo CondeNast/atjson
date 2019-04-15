@@ -1,6 +1,6 @@
 {
   "name": "@atjson/editor",
-  "version": "0.13.16",
+  "version": "0.13.17",
   "description": "AtJSON Editor",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
