@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.16](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.12.15...@atjson/offset-inspector@0.12.16) (2019-04-15)
+
+
+### 🐛 Fixes
+
+* 🐝 fix slice so it only includes overlapping annotations from the parent document and the correct underlying text ([#125](https://github.com/CondeNast-Copilot/atjson/issues/125))
+
+
+
 ## [0.12.15](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-inspector@0.12.14...@atjson/offset-inspector@0.12.15) (2019-04-10)
 
 **Note:** Version bump only for package @atjson/offset-inspector

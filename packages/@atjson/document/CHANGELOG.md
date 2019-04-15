@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.7...@atjson/document@0.14.8) (2019-04-15)
+
+
+### 🐛 Fixes
+
+* 🐝 fix slice so it only includes overlapping annotations from the parent document and the correct underlying text ([#125](https://github.com/CondeNast-Copilot/atjson/issues/125))
+
+
+
 ## [0.14.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.6...@atjson/document@0.14.7) (2019-03-21)
 
 

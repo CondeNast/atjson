@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.16](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-core-components@0.11.15...@atjson/offset-core-components@0.11.16) (2019-04-15)
+
+
+### 🐛 Fixes
+
+* 🐝 fix slice so it only includes overlapping annotations from the parent document and the correct underlying text ([#125](https://github.com/CondeNast-Copilot/atjson/issues/125))
+
+
+
 ## [0.11.15](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-core-components@0.11.14...@atjson/offset-core-components@0.11.15) (2019-03-21)
 
 **Note:** Version bump only for package @atjson/offset-core-components
