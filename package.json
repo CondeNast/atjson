@@ -22,7 +22,7 @@
     "ts-loader": "^4.0.0",
     "tslint": "^5.11.0",
     "typedoc": "^0.14.2",
-    "typedoc-plugin-monorepo": "^0.1.0",
+    "typedoc-plugin-lerna-packages": "^0.1.5",
     "typescript": "^3.1.1",
     "uuid": "^3.3.2"
   },

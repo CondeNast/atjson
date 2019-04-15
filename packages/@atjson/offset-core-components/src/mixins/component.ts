@@ -115,14 +115,14 @@ export default class WebComponent extends HTMLElement {
           return method.call(this, evt);
         }
       };
-      element.addEventListener(eventName, this.eventHandlers[definition]);
+      element!.addEventListener(eventName, this.eventHandlers[definition]);
     });
   }
 
   disconnectedCallback() {
     Object.keys(this.eventHandlers).forEach(definition => {
       let { eventName, element } = getEventNameAndElement(this, definition);
-      element.removeEventListener(eventName, this.eventHandlers[definition]);
+      element!.removeEventListener(eventName, this.eventHandlers[definition]);
     });
     this.eventHandlers = {};
   }

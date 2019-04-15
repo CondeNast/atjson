@@ -210,9 +210,17 @@ export default class Document {
    * Slices return part of a document from the parent document.
    */
   slice(start: number, end: number): Document {
-    let doc = this.clone();
-    doc.deleteText(0, start);
+    let DocumentClass = this.constructor as typeof Document;
+    let slicedAnnotations = this.where(a => {
+      return a.start <= start && a.end >= start;
+    });
+
+    let doc = new DocumentClass({
+      content: this.content,
+      annotations: slicedAnnotations.map(annotation => annotation.clone())
+    });
     doc.deleteText(end, doc.content.length);
+    doc.deleteText(0, start);
 
     return doc;
   }

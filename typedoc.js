@@ -21,6 +21,5 @@ module.exports = {
   "mode": "modules",
   "name": "@atjson",
   "tsconfig": "./tsconfig.json",
-  "external-modulemap": ".*packages\/(@atjson\/[^\/]+)\/.*",
   "readme": "./README.md"
 };

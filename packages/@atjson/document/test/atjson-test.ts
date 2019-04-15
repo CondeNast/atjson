@@ -225,39 +225,54 @@ describe('new Document', () => {
       }]
     });
 
-    test('source documents are unaltered', () => {
-      let doc = document.slice(1, 15);
+    test('slice matching boundary', () => {
+      let doc = document.slice(0, 5);
 
       expect(doc.toJSON()).toEqual({
-        content: 'ello, world!\n\uFFFC',
+        content: 'Hello',
         contentType: 'application/vnd.atjson+test',
         schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
         annotations: [{
           id: '1',
           type: '-test-bold',
           start: 0,
-          end: 4,
+          end: 5,
           attributes: {}
         }, {
           id: '2',
           type: '-test-italic',
           start: 0,
-          end: 12,
+          end: 5,
           attributes: {}
         }, {
           id: '3',
           type: '-test-underline',
           start: 0,
-          end: 12,
+          end: 5,
+          attributes: {}
+        }]
+      });
+    });
+
+    test('source documents are unaltered', () => {
+      let doc = document.slice(7, 12);
+
+      expect(doc.toJSON()).toEqual({
+        content: 'world',
+        contentType: 'application/vnd.atjson+test',
+        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
+        annotations: [{
+          id: '2',
+          type: '-test-italic',
+          start: 0,
+          end: 5,
           attributes: {}
         }, {
-          id: '4',
-          type: '-test-instagram',
-          start: 13,
-          end: 14,
-          attributes: {
-            '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
-          }
+          id: '3',
+          type: '-test-underline',
+          start: 0,
+          end: 5,
+          attributes: {}
         }]
       });
 
