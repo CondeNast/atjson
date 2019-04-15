@@ -212,8 +212,7 @@ export default class Document {
   slice(start: number, end: number): Document {
     let DocumentClass = this.constructor as typeof Document;
     let slicedAnnotations = this.where(a => {
-      return Math.max(a.start, start) < end &&
-             Math.min(a.end, end) > start;
+      return a.start <= start && a.end >= start;
     });
 
     let doc = new DocumentClass({
