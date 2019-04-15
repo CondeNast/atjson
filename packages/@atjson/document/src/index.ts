@@ -213,9 +213,9 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     let slicedAnnotations = this.where(a => {
       if (start < a.start) {
-        return start <= a.start && end > a.start;
+        return end > a.start;
       } else {
-        return a.start <= start && a.end > start;
+        return a.end > start;
       }
     });
 
