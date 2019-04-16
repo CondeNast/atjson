@@ -20,6 +20,6 @@
   ],
   "dependencies": {
     "@atjson/document": "file:../document",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.11.0"
   }
 }

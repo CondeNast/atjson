@@ -20,10 +20,10 @@
     "shelljs": "^0.8.2",
     "ts-jest": "^24.0.2",
     "ts-loader": "^4.0.0",
-    "tslint": "^5.11.0",
+    "tslint": "^5.15.0",
     "typedoc": "^0.14.2",
     "typedoc-plugin-lerna-packages": "^0.1.5",
-    "typescript": "^3.1.1",
+    "typescript": "^3.4.3",
     "uuid": "^3.3.2"
   },
   "dependencies": {
@@ -50,6 +50,7 @@
   "scripts": {
     "build": "lerna run build",
     "docs": "typedoc",
+    "lint": "lerna run lint",
     "publish": "lerna publish",
     "test": "./node_modules/jest/bin/jest.js"
   },

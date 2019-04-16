@@ -26,6 +26,6 @@
     "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "@atjson/renderer-webcomponent": "file:../renderer-webcomponent",
     "@types/dom-inputevent": "^1.0.1",
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.11.0"
   }
 }
