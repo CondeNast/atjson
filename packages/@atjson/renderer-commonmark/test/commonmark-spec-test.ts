@@ -13,11 +13,20 @@ const skippedTests = [
   491  // Alt text that is never used
 ];
 
-const unitTestsBySection: { [moduleName: string]: spec.tests } = spec.tests.reduce((modules, unitTest) => {
+const unitTestsBySection: {
+  [moduleName: string]: Array<{
+    markdown: string;
+    html: string;
+    section: string;
+    number: number;
+  }>
+} = {};
+
+spec.tests.reduce((modules, unitTest) => {
   if (!modules[unitTest.section]) modules[unitTest.section] = [];
   modules[unitTest.section].push(unitTest);
   return modules;
-}, {});
+}, unitTestsBySection);
 
 Object.keys(unitTestsBySection).forEach(moduleName => {
   const unitTests = unitTestsBySection[moduleName];
