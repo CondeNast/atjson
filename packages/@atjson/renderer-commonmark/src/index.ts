@@ -2,11 +2,11 @@ import Document, { Annotation, ParseAnnotation, UnknownAnnotation } from '@atjso
 import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
 import Renderer, { Context } from '@atjson/renderer-hir';
 import {
-  BEGINNING_WHITESPACE_PUNCTUATION,
-  ENDING_WHITESPACE_PUNCTUATION,
-  WHITESPACE_PUNCTUATION,
   BEGINNING_WHITESPACE,
-  ENDING_WHITESPACE
+  BEGINNING_WHITESPACE_PUNCTUATION,
+  ENDING_WHITESPACE,
+  ENDING_WHITESPACE_PUNCTUATION,
+  WHITESPACE_PUNCTUATION
 } from './lib/punctuation';
 export * from './lib/punctuation';
 
@@ -180,8 +180,8 @@ export default class CommonmarkRenderer extends Renderer {
 
   state: any;
 
-  constructor() {
-    super();
+  constructor(document: Document) {
+    super(document);
     this.state = {};
   }
 

@@ -47,7 +47,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       /.*\.twitter\.com$/.test(url.attributes.host)
     ) && /\/[^\/]+\/status\/[^\/]+/.test(url.attributes.pathname);
   }).update((url: URLAnnotation) => {
-    let [username,, tweetId] = without<string>(url.attributes.pathname.split('/'), '');
+    let [username, , tweetId] = without<string>(url.attributes.pathname.split('/'), '');
     doc.replaceAnnotation(url, new TwitterEmbed({
       id: url.id,
       start: url.start,

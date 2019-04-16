@@ -2,22 +2,19 @@ import Document, { Annotation } from '@atjson/document';
 import Renderer, { classify } from '@atjson/renderer-hir';
 import * as React from 'react';
 
-export interface ComponentLookup {
-  [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
-}
-
-// @ts-ignore
 export default class ReactRenderer extends Renderer {
 
-  static render(document: Document, components: ComponentLookup) {
-    // @ts-ignore
-    return super.render(document, components);
-  }
+  private componentLookup: {
+    [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
+  };
 
-  private componentLookup: ComponentLookup;
-
-  constructor(componentLookup: ComponentLookup) {
-    super();
+  constructor(
+    document: Document,
+    componentLookup: {
+      [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
+    }
+  ) {
+    super(document);
     this.componentLookup = componentLookup;
   }
 
