@@ -180,8 +180,8 @@ export default class CommonmarkRenderer extends Renderer {
 
   state: any;
 
-  constructor() {
-    super();
+  constructor(document: Document) {
+    super(document);
     this.state = {};
   }
 
