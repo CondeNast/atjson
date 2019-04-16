@@ -118,12 +118,15 @@ function compile(renderer: Renderer, node: HIRNode, context: Partial<Context>): 
 
 export default class Renderer {
 
-  static render(document: Document, ...args: any[]) {
-    // @ts-ignore
-    let renderer = new this(...args);
+  static render<T extends typeof Renderer>(this: T, ...params: ConstructorParameters<T>) {
+    let document = params[0];
+    let renderer = new this(document, ...params.slice(1));
 
     return compile(renderer, new HIR(document).rootNode, { document });
   }
+
+  // tslint:disable-next-line:no-empty
+  constructor(_document: Document, ..._args: any[]) {}
 
   *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
     let generator = (this as any)[annotation.type] || (this as any)[classify(annotation.type)];
