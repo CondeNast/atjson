@@ -371,6 +371,50 @@ After all the lists
     expect(CommonmarkRenderer.render(document)).toBe('**bold**_then italic_\n\n_italic_**then bold**\n\n');
   });
 
+  describe('html entities', () => {
+    describe('escapeHtmlEntities', () => {
+      test('&', () => {
+        let doc = new OffsetSource({ content: '&', annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe('&');
+      });
+
+      test('<', () => {
+        let doc = new OffsetSource({ content: '<', annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe('&lt;');
+      });
+
+      test.each([
+        '&amp;',
+        '&nbsp;',
+        '&lt;'
+      ])('$1', entity => {
+        let doc = new OffsetSource({ content: entity, annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe('&amp;' + entity.slice(1));
+      });
+    });
+
+    describe(`don't escapeHtmlEntities`, () => {
+      test('&', () => {
+        let doc = new OffsetSource({ content: '&', annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe('&');
+      });
+
+      test('<', () => {
+        let doc = new OffsetSource({ content: '<', annotations: [] });
+        expect(CommonmarkRenderer.render(doc, { escapeHtmlEntities: false })).toBe('<');
+      });
+
+      test.each([
+        '&amp;',
+        '&nbsp;',
+        '&lt;'
+      ])('$1', entity => {
+        let doc = new OffsetSource({ content: entity, annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe('&amp;' + entity.slice(1));
+      });
+    });
+  });
+
   describe('boundary punctuation', () => {
 
     describe('is adjacent to non-whitespace non-punctuation characters', () => {
@@ -483,7 +527,7 @@ After all the lists
         expect(CommonmarkRenderer.render(document)).toBe('*italic.*.non-italic');
       });
 
-      // *italic&*non-italic -> *italic*&amp;non-italic
+      // *italic&*non-italic -> *italic*&non-italic
       test('entities are not split by pushing punctuation out of annotations', () => {
         let document = new OffsetSource({
           content: 'italic&non-italic',
@@ -492,10 +536,10 @@ After all the lists
           }]
         });
 
-        expect(CommonmarkRenderer.render(document)).toBe('*italic*&amp;non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('*italic*&non-italic');
       });
 
-      // a*&}italic&]*non-italic -> a&amp;*\}italic&amp;*\]non-italic
+      // a*&}italic&]*non-italic -> a&*\}italic&*\]non-italic
       test('entities and escaped punctuation work together', () => {
         let document = new OffsetSource({
           content: 'a&}italic&]non-italic',
@@ -504,7 +548,7 @@ After all the lists
           }]
         });
 
-        expect(CommonmarkRenderer.render(document)).toBe('a&amp;*\\}italic&amp;*\\]non-italic');
+        expect(CommonmarkRenderer.render(document)).toBe('a&*\\}italic&*\\]non-italic');
       });
 
       // **bold**_, then italic_ -> **bold**, *then italic*

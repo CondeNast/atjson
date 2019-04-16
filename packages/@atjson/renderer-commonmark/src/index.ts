@@ -56,7 +56,11 @@ function getNextChar(doc: Document, start: number) {
   return doc.content[end];
 }
 
-export function* splitDelimiterRuns(annotation: Annotation, context: Context): Iterable<any> {
+export function* splitDelimiterRuns(
+  annotation: Annotation,
+  context: Context,
+  options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+): Iterable<any> {
   let rawText = yield;
   let text = rawText.map(unescapeEntities).join('');
   let start = 0;
@@ -93,11 +97,19 @@ export function* splitDelimiterRuns(annotation: Annotation, context: Context): I
     }
   }
 
-  return [
-    text.slice(0, start),
-    text.slice(start, end),
-    text.slice(end)
-  ].map(escapeEntities);
+  if (options.escapeHtmlEntities) {
+    return [
+      text.slice(0, start),
+      text.slice(start, end),
+      text.slice(end)
+    ].map(escapeHtmlEntities);
+  } else {
+    return [
+      text.slice(0, start),
+      text.slice(start, end),
+      text.slice(end)
+    ].map(escapeEntities);
+  }
 }
 
 export function* split(): Iterable<any> {
@@ -126,7 +138,10 @@ export function* split(): Iterable<any> {
 }
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
-function escapePunctuation(text: string) {
+function escapePunctuation(
+  text: string,
+  options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+) {
   let escaped = text.replace(/([#!*+=\\\^_`{|}~])/g, '\\$1')
                     .replace(/(\[)([^\]]*$)/g, '\\$1$2')          // Escape bare opening brackets [
                     .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2')       // Escape bare closing brackets ]
@@ -134,20 +149,31 @@ function escapePunctuation(text: string) {
                     .replace(/^(\s*\d+)\.(\s+)/gm, '$1\\.$2')     // Escape list items; not all numbers
                     .replace(/(^[\s]*)-/g, '$1\\-')               // `  - list item`
                     .replace(/(\r\n|\r|\n)([\s]*)-/g, '$1$2\\-'); // `- list item\n - list item`
-  return escapeEntities(escaped);
+
+  if (options.escapeHtmlEntities) {
+    return escapeHtmlEntities(escaped);
+  } else {
+    return escapeEntities(escaped);
+  }
+}
+
+function escapeHtmlEntities(text: string) {
+  return text.replace(/&amp;/g, '&amp;amp;')
+             .replace(/&lt;/g, '&amp;lt;')
+             .replace(/&nbsp;/g, '&amp;nbsp;')
+             .replace(/</g, '&lt;')
+             .replace(/\u00A0/gu, '&nbsp;');
 }
 
 function escapeEntities(text: string) {
-  return text.replace(/&/g, '&amp;')
-             .replace(/</g, '&lt;')
-             .replace(/>/g, '&gt;')
+  return text.replace(/&amp;/g, '&amp;amp;')
+             .replace(/&nbsp;/g, '&amp;nbsp;')
              .replace(/\u00A0/gu, '&nbsp;');
 }
 
 function unescapeEntities(text: string) {
   return text.replace(/&amp;/ig, '&')
              .replace(/&lt;/ig, '<')
-             .replace(/&rt;/ig, '>')
              .replace(/&nbsp;/ig, '\u00A0');
 }
 
@@ -178,18 +204,39 @@ function getNumberOfRequiredBackticks(text: string) {
 
 export default class CommonmarkRenderer extends Renderer {
 
-  state: any;
+  /**
+   * Controls whether HTML entities should be escaped. This
+   * may be desireable if markdown is being generated for humans
+   * and your markdown flavor doesn't support HTML.
+   *
+   * By default, `escapeHtmlEntities` is set to `true` if your
+   * schema has an annotation with the type `html`. You can override
+   * this configuration by passing in another parameter to the constructor.
+   */
+  protected options: {
+    escapeHtmlEntities: boolean;
+  };
 
-  constructor(document: Document) {
+  protected state: any;
+
+  constructor(document: Document, options?: { escapeHtmlEntities: boolean }) {
     super(document);
     this.state = {};
+    if (options == null) {
+      let DocumentClass = document.constructor as typeof Document;
+      this.options = {
+        escapeHtmlEntities: !!DocumentClass.schema.find(a => a.type === 'html')
+      };
+    } else {
+      this.options = options;
+    }
   }
 
   text(text: string) {
     if (this.state.isPreformatted) {
       return text;
     }
-    return escapePunctuation(text);
+    return escapePunctuation(text, this.options);
   }
 
   *root() {
@@ -203,8 +250,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(_bold: Bold, context: Context): Iterable<any> {
-    let [before, text, after] = yield* splitDelimiterRuns(_bold, context);
+  *Bold(bold: Bold, context: Context): Iterable<any> {
+    let [before, text, after] = yield* splitDelimiterRuns(bold, context, this.options);
     if (text.length === 0) {
       return before + after;
     } else {
@@ -277,23 +324,24 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Iterable<any> {
+    let AltTextRenderer = this.constructor as typeof CommonmarkRenderer;
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
-      return `![${(this.constructor as typeof CommonmarkRenderer).render(image.attributes.description)}](${image.attributes.url} "${title}")`;
+      return `![${AltTextRenderer.render(image.attributes.description, this.options)}](${image.attributes.url} "${title}")`;
     }
-    return `![${(this.constructor as typeof CommonmarkRenderer).render(image.attributes.description)}](${image.attributes.url})`;
+    return `![${AltTextRenderer.render(image.attributes.description, this.options)}](${image.attributes.url})`;
   }
 
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *Italic(_italic: Italic, context: Context): Iterable<any> {
+  *Italic(italic: Italic, context: Context): Iterable<any> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
     this.state.isItalicized = true;
 
-    let [before, text, after] = yield* splitDelimiterRuns(_italic, context);
+    let [before, text, after] = yield* splitDelimiterRuns(italic, context, this.options);
     this.state = state;
 
     if (text.length === 0) {
