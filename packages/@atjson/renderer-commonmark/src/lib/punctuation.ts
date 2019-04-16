@@ -9,7 +9,7 @@
  * ES9 provides out-of-the-box support for these unicode categories
  * via Unicode Property Escapes: https://github.com/tc39/proposal-regexp-unicode-property-escapes
  * and once that is more widely supported this file can be removed.
- *  */
+ */
 
 export const ASCII_PUNCTUATION = /[!-\/:-@\[-`{-~]/;
 

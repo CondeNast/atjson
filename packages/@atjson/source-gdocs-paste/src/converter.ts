@@ -1,7 +1,7 @@
 import { Annotation, BlockAnnotation, ParseAnnotation } from '@atjson/document';
 import OffsetSource, { LineBreak, Paragraph } from '@atjson/offset-annotations';
-import GDocsSource from './source';
 import { Heading } from './annotations';
+import GDocsSource from './source';
 
 GDocsSource.defineConverterTo(OffsetSource, doc => {
   // Remove all underlines that align with links, since

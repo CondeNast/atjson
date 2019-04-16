@@ -32,18 +32,18 @@ function prefix(attributes: any): any {
 export default class Parser {
   content: string;
   annotations: AnnotationJSON[];
-  Mobiledoc: Mobiledoc;
+  mobiledoc: Mobiledoc;
 
   private inProgressAnnotations: Array<Partial<AnnotationJSON>>;
 
-  constructor(Mobiledoc: Mobiledoc) {
+  constructor(mobiledoc: Mobiledoc) {
     this.annotations = [];
     this.inProgressAnnotations = [];
-    this.Mobiledoc = Mobiledoc;
+    this.mobiledoc = mobiledoc;
     let content = '';
     let start = 0;
 
-    Mobiledoc.sections.forEach(section => {
+    mobiledoc.sections.forEach(section => {
       let identifier = section[0];
       let partial = '';
       if (identifier === 1) {
@@ -63,7 +63,7 @@ export default class Parser {
 
   processCard(section: CardSection, start: number) {
     let [, cardIndex] = section;
-    let card = this.Mobiledoc.cards[cardIndex];
+    let card = this.mobiledoc.cards[cardIndex];
     this.annotations.push({
       type: `-mobiledoc-${card[0]}-card`,
       start,
@@ -96,7 +96,7 @@ export default class Parser {
       if (identifier === 0) {
         partial = this.processMarkup(tags, closed, textOrAtomIndex as string, offset);
       } else if (identifier === 1) {
-        partial = this.processAtom(this.Mobiledoc.atoms[textOrAtomIndex as number], offset);
+        partial = this.processAtom(this.mobiledoc.atoms[textOrAtomIndex as number], offset);
       }
       sectionText += partial;
       offset += partial.length;
@@ -126,7 +126,7 @@ export default class Parser {
         if (identifier === 0) {
           partial = this.processMarkup(tags, closed, textOrAtomIndex as string, offset);
         } else if (identifier === 1) {
-          partial = this.processAtom(this.Mobiledoc.atoms[textOrAtomIndex as number], offset);
+          partial = this.processAtom(this.mobiledoc.atoms[textOrAtomIndex as number], offset);
         }
         item += partial;
         offset += partial.length;
@@ -155,7 +155,7 @@ export default class Parser {
     let end = start + text.length;
 
     while (markupIndexes.length) {
-      let markup = this.Mobiledoc.markups[markupIndexes.shift()!];
+      let markup = this.mobiledoc.markups[markupIndexes.shift()!];
       let attributes: any = {};
       if (markup[1]) {
         let attributeList = markup[1];

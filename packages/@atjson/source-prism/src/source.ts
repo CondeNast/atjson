@@ -1,4 +1,4 @@
-import Document, { Annotation, AnnotationJSON, ParseAnnotation, AdjacentBoundaryBehaviour } from '@atjson/document';
+import Document, { AdjacentBoundaryBehaviour, Annotation, AnnotationJSON, ParseAnnotation } from '@atjson/document';
 import HTMLSource from '@atjson/source-html';
 import * as entities from 'entities';
 import * as sax from 'sax';
@@ -82,7 +82,7 @@ export default class PRISMSource extends Document {
 
     let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
 
-    parser.onopentag = (node) => {
+    parser.onopentag = node => {
       let vendorPrefix = getVendorPrefix(node.name);
       let type = getType(node.name);
       if (node.isSelfClosing) {
@@ -114,7 +114,7 @@ export default class PRISMSource extends Document {
       }
     };
 
-    parser.onclosetag = (tagName) => {
+    parser.onclosetag = tagName => {
       let annotation = partialAnnotations.pop()!;
 
       // The annotation was short closed and got a duplicate close tag action
@@ -149,7 +149,7 @@ export default class PRISMSource extends Document {
       .forEach(({ start, end, matches }) => {
         let entity = entities.decodeXML(matches[0]);
         prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
-        prism.deleteText(start + entity.length, end + entity.length)
+        prism.deleteText(start + entity.length, end + entity.length);
       });
 
     return prism;
