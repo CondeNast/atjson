@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.16](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.15...@atjson/renderer-commonmark@0.15.16) (2019-04-16)
+
+
+### 🐛 Fixes
+
+* 🐛 allow more escape sequences to be removed from commonmark rendering
+
+
+
 ## [0.15.15](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.14...@atjson/renderer-commonmark@0.15.15) (2019-04-15)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
