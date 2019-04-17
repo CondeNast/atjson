@@ -4,22 +4,22 @@ import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change
 import Document from './index';
 import JSON from './json';
 
-export type ConcreteAnnotation<T extends Annotation> = T;
-export interface AnnotationConstructor {
+export type ConcreteAnnotation<T extends Annotation<any>> = T;
+export interface AnnotationConstructor<T, Attributes> {
   vendorPrefix: string;
   type: string;
   subdocuments: { [key: string]: typeof Document };
-  new(attributes: { id?: string, start: number, end: number, attributes: NonNullable<any> }): Annotation;
-  hydrate(attrs: { id?: string, start: number, end: number, attributes: JSON }): Annotation;
+  new(attributes: { id?: string, start: number, end: number, attributes?: Attributes }): T;
+  hydrate(attrs: { id?: string, start: number, end: number, attributes: JSON }): T;
 }
 
-export default abstract class Annotation {
+export default abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
   static subdocuments: { [key: string]: typeof Document } = {};
 
   static hydrate(
-    this: AnnotationConstructor,
+    this: AnnotationConstructor<any, any>,
     attrs: { id?: string, start: number, end: number, attributes: JSON }
   ) {
     return new this({
@@ -35,19 +35,19 @@ export default abstract class Annotation {
   id: string;
   start: number;
   end: number;
-  attributes: NonNullable<any>;
+  attributes: Attributes;
 
-  constructor(attrs: { id?: string, start: number, end: number, attributes?: NonNullable<any> }) {
-    let AnnotationClass = this.constructor as AnnotationConstructor;
+  constructor(attrs: { id?: string, start: number, end: number, attributes?: Attributes }) {
+    let AnnotationClass = this.constructor as AnnotationConstructor<any, Attributes>;
     this.type = AnnotationClass.type;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
 
-    this.attributes = attrs.attributes || {};
+    this.attributes = attrs.attributes || {} as Attributes;
   }
 
-  isAlignedWith(annotation: Annotation) {
+  isAlignedWith(annotation: Annotation<any>) {
     return this.start === annotation.start &&
            this.end === annotation.end;
   }
@@ -162,8 +162,8 @@ export default abstract class Annotation {
     }
   }
 
-  clone() {
-    let AnnotationClass = this.constructor as AnnotationConstructor;
+  clone<This extends Annotation>(this: This) {
+    let AnnotationClass = this.constructor as AnnotationConstructor<This, Attributes>;
 
     return new AnnotationClass({
       id: this.id,
@@ -173,8 +173,8 @@ export default abstract class Annotation {
     });
   }
 
-  toJSON() {
-    let AnnotationClass = this.constructor as AnnotationConstructor;
+  toJSON<This extends Annotation>(this: This) {
+    let AnnotationClass = this.constructor as AnnotationConstructor<This, Attributes>;
     let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       id: this.id,

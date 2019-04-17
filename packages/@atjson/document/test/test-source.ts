@@ -1,11 +1,10 @@
 import Document, { AdjacentBoundaryBehaviour, Change, InlineAnnotation, Insertion, ObjectAnnotation } from '../src';
 
-export class Anchor extends InlineAnnotation {
+export class Anchor extends InlineAnnotation<{
+  href: string;
+}> {
   static vendorPrefix = 'test';
   static type = 'a';
-  attributes!: {
-    href: string;
-  };
 }
 
 export class Bold extends InlineAnnotation {
@@ -33,39 +32,36 @@ export class Paragraph extends ObjectAnnotation {
   static type = 'paragraph';
 }
 
-export class Code extends ObjectAnnotation {
+export class Code extends ObjectAnnotation<{
+  class: string;
+  language?: string;
+  textStyle?: string;
+  locale?: string;
+}> {
   static vendorPrefix = 'test';
   static type = 'code';
-  attributes!: {
-    class: string;
-    language?: string;
-    textStyle?: string;
-  };
 }
 
-export class Locale extends ObjectAnnotation {
+export class Locale extends ObjectAnnotation<{
+  locale: string;
+}> {
   static vendorPrefix = 'test';
   static type = 'locale';
-  attributes!: {
-    locale: string;
-  };
 }
 
-export class Preformatted extends ObjectAnnotation {
+export class Preformatted extends ObjectAnnotation<{
+  style: string;
+}> {
   static vendorPrefix = 'test';
   static type = 'pre';
-  attributes!: {
-    style: string;
-  };
 }
 
-export class Image extends ObjectAnnotation {
+export class Image extends ObjectAnnotation<{
+  caption: CaptionSource
+}> {
   static vendorPrefix = 'test';
   static type = 'image';
   static subdocuments = { caption: CaptionSource };
-  attributes!: {
-    caption: Document;
-  };
 }
 
 export class Manual extends ObjectAnnotation {
