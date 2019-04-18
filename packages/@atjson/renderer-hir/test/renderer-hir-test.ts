@@ -76,8 +76,8 @@ describe('@atjson/renderer-hir', () => {
     ];
 
     class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
-        let expected = callStack.shift() as Context & { annotation: Annotation };
+      *renderAnnotation(annotation: Annotation<any>, context: Context): IterableIterator<any> {
+        let expected = callStack.shift() as Context & { annotation: Annotation<any> };
         expect(annotation.toJSON()).toMatchObject(expected.annotation.toJSON());
 
         if (parent) {
