@@ -21,6 +21,7 @@ export default class IframeEmbed extends ObjectAnnotation {
     width?: string;
     height?: string;
     caption?: CaptionSource;
+    sandbox?: string;
   };
 
   get url() {
