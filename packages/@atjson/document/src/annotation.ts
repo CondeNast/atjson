@@ -18,11 +18,8 @@ export default abstract class Annotation<Attributes = {}> {
   static type: string;
   static subdocuments: { [key: string]: typeof Document } = {};
 
-  static hydrate(
-    this: AnnotationConstructor<any, any>,
-    attrs: { id?: string, start: number, end: number, attributes: JSON }
-  ) {
-    return new this({
+  static hydrate(attrs: { id?: string, start: number, end: number, attributes: JSON }) {
+    return new (this as any)({
       id: attrs.id,
       start: attrs.start,
       end: attrs.end,
