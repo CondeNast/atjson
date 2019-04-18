@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.19](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/editor@0.13.18...@atjson/editor@0.13.19) (2019-04-18)
+
+**Note:** Version bump only for package @atjson/editor
+
+
+
+
+
 ## [0.13.18](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/editor@0.13.17...@atjson/editor@0.13.18) (2019-04-16)
 
 **Note:** Version bump only for package @atjson/editor
