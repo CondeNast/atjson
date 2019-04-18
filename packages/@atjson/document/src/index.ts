@@ -145,7 +145,7 @@ export default class Document {
     return new AnnotationCollection(this, this.annotations);
   }
 
-  removeAnnotation(annotation: Annotation): Annotation | void {
+  removeAnnotation(annotation: Annotation<any>): Annotation<any> | void {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       this.triggerChange();
@@ -153,7 +153,7 @@ export default class Document {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, ...newAnnotations: Array<AnnotationJSON | Annotation>): Annotation[] {
+  replaceAnnotation(annotation: Annotation<any>, ...newAnnotations: Array<AnnotationJSON | Annotation<any>>): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       let annotations = newAnnotations.map(newAnnotation => this.createAnnotation(newAnnotation));

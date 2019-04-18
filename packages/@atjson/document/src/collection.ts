@@ -238,7 +238,7 @@ export class NamedCollection<Left extends string> extends Collection {
         return filter(leftAnnotation, rightAnnotation);
       });
 
-      type JoinItem = Record<Left, Annotation> & Record<Right, Array<Annotation<any>>>;
+      type JoinItem = Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>;
 
       let join = {
         [this.name]: leftAnnotation,
