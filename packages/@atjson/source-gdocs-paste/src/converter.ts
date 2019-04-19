@@ -137,7 +137,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       (l: Annotation, r: Annotation) => l.start >= r.start && l.end <= r.end + 1)
     .outerJoin(
       doc.where({type: '-offset-list-item'}).as('listItems'),
-      (l: {lineBreak: LineBreak, lists: Annotation[]}, r: Annotation) => {
+      (l: {lineBreak: LineBreak, lists: Array<Annotation<any>> }, r: Annotation<any>) => {
         return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
       })
     .update(({lineBreak, listItems}) => {

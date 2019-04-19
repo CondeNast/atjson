@@ -46,10 +46,10 @@ export function classify(type: string) {
 }
 
 export interface Context {
-  parent: Annotation;
-  previous: Annotation | (AnnotationJSON & { toJSON(): object; }) | null;
-  next: Annotation | (AnnotationJSON & { toJSON(): object; }) | null;
-  children: Annotation[];
+  parent: Annotation<any>;
+  previous: Annotation<any> | (AnnotationJSON & { toJSON(): object; }) | null;
+  next: Annotation<any> | (AnnotationJSON & { toJSON(): object; }) | null;
+  children: Array<Annotation<any>>;
   document: Document;
 }
 
@@ -128,7 +128,7 @@ export default class Renderer {
   // tslint:disable-next-line:no-empty
   constructor(_document: Document, ..._args: any[]) {}
 
-  *renderAnnotation(annotation: Annotation, context: Context): IterableIterator<any> {
+  *renderAnnotation(annotation: Annotation<any>, context: Context): IterableIterator<any> {
     let generator = (this as any)[annotation.type] || (this as any)[classify(annotation.type)];
     if (generator) {
       return yield* generator.call(this, annotation, context);

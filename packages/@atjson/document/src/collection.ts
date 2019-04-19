@@ -13,14 +13,14 @@ function matches(annotation: any, filter: { [key: string]: any; }): boolean {
 
 export class Collection {
   document: Document;
-  annotations: Annotation[];
+  annotations: Array<Annotation<any>>;
 
-  constructor(document: Document, annotations: Annotation[]) {
+  constructor(document: Document, annotations: Array<Annotation<any>>) {
     this.document = document;
     this.annotations = annotations;
   }
 
-  *[Symbol.iterator](): IterableIterator<Annotation> {
+  *[Symbol.iterator](): IterableIterator<Annotation<any>> {
     for (let annotation of this.annotations) {
       yield annotation;
     }
@@ -30,19 +30,19 @@ export class Collection {
     return this.annotations.length;
   }
 
-  map<T>(mapper: (annotation: Annotation) => T) {
+  map<T>(mapper: (annotation: Annotation<any>) => T) {
     return this.annotations.map(mapper);
   }
 
-  forEach(callback: (annotation: Annotation) => void) {
+  forEach(callback: (annotation: Annotation<any>) => void) {
     this.annotations.forEach(callback);
   }
 
-  reduce<T>(reducer: (accumulator: T, currentValue: Annotation, currentIndex: number, array: Annotation[]) => T, initialValue: T) {
+  reduce<T>(reducer: (accumulator: T, currentValue: Annotation<any>, currentIndex: number, array: Array<Annotation<any>>) => T, initialValue: T) {
     return this.annotations.reduce(reducer, initialValue);
   }
 
-  sort(sortFunction?: (a: Annotation, b: Annotation) => number) {
+  sort(sortFunction?: (a: Annotation<any>, b: Annotation<any>) => number) {
     if (sortFunction) {
       this.annotations = this.annotations.sort(sortFunction);
     } else {
@@ -57,7 +57,7 @@ export class Collection {
     return this;
   }
 
-  where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
+  where(filter: { [key: string]: any; } | ((annotation: Annotation<any>) => boolean)) {
     if (filter instanceof Function) {
       return new AnnotationCollection(this.document, this.annotations.filter(filter));
     }
@@ -72,11 +72,11 @@ export class Collection {
     return new NamedCollection<T>(this.document, this.annotations, name);
   }
 
-  update(updater: (annotation: Annotation) => void | { add?: Annotation[]; remove?: Annotation[]; retain?: Annotation[]; update?: Array<[Annotation, Annotation]>; }) {
-    let newAnnotations: Annotation[] = [];
+  update(updater: (annotation: Annotation<any>) => void | { add?: Array<Annotation<any>>; remove?: Array<Annotation<any>>; retain?: Array<Annotation<any>>; update?: Array<[Annotation, Annotation]>; }) {
+    let newAnnotations: Array<Annotation<any>> = [];
 
     this.annotations.map(updater).map(result => {
-      let annotations: Annotation[] = [];
+      let annotations: Array<Annotation<any>> = [];
 
       if (result) {
         if (result.add) annotations.push(...result.add);
@@ -218,12 +218,12 @@ export default class AnnotationCollection extends Collection {
 export class NamedCollection<Left extends string> extends Collection {
   readonly name: Left;
 
-  constructor(document: Document, annotations: Annotation[], name: Left) {
+  constructor(document: Document, annotations: Array<Annotation<any>>, name: Left) {
     super(document, annotations);
     this.name = name;
   }
 
-  outerJoin<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+  outerJoin<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean): never | Join<Left, Right> {
     if (rightCollection.document !== this.document) {
       // n.b. there is a case that this is OK, if the RHS's document is null,
       // then we're just joining on annotations that shouldn't have positions in
@@ -233,12 +233,12 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.forEach((leftAnnotation: Annotation): void => {
-      let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
+    this.forEach((leftAnnotation: Annotation<any>): void => {
+      let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation<any>) => {
         return filter(leftAnnotation, rightAnnotation);
       });
 
-      type JoinItem = Record<Left, Annotation> & Record<Right, Annotation[]>;
+      type JoinItem = Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>;
 
       let join = {
         [this.name]: leftAnnotation,
@@ -250,7 +250,7 @@ export class NamedCollection<Left extends string> extends Collection {
     return results;
   }
 
-  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation, rhs: Annotation) => boolean): never | Join<Left, Right> {
+  join<Right extends string>(rightCollection: NamedCollection<Right>, filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean): never | Join<Left, Right> {
     return this.outerJoin(rightCollection, filter).where(record => record[rightCollection.name].length > 0 );
   }
 }

@@ -1,6 +1,6 @@
 import Annotation from '../annotation';
 
-export default abstract class BlockAnnotation extends Annotation {
+export default abstract class BlockAnnotation<Attributes = {}> extends Annotation<Attributes> {
   get rank() {
     return 10;
   }

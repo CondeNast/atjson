@@ -43,12 +43,12 @@ export default class HIRNode {
   private child?: HIRNode;
   private sibling?: HIRNode;
 
-  constructor(annotation: Annotation | {
+  constructor(annotation: Annotation<any> | {
     id: string;
     type: string,
     start: number,
     end: number,
-    annotation: Annotation,
+    annotation: Annotation<any>,
     rank: number,
     text?: string,
   }) {

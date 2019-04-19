@@ -13,11 +13,46 @@ export interface AnnotationJSON {
   attributes: JSON;
 }
 
+/**
+ * AttributesOf returns a type that is the inferred attributes
+ * of an annotation.
+ *
+ * If you're using Annotations with the ReactRenderer, you can
+ * use the same types across your Annotations and Components.
+ *
+ * For example, a heading annotation:
+ *
+ * ```ts
+ * import { BlockAnnotation } from '@atjson/document';
+ * 
+ * export default Heading extends BlockAnnotation<{
+ *   level: 1 | 2 | 3 | 4 | 5 | 6;
+ * }> {
+ *   static vendorPrefix = 'test';
+ *   static type = 'heading';
+ * }
+ * ```
+ *
+ * You could then pull in the annotation and reuse it in React:
+ *
+ * ```ts
+ * import * as React from 'react';
+ * import { AttributesOf } from '@atjson/document';
+ * import HeadingAnnotation from './heading';
+ *
+ * export const Heading: React.StatelessComponent<AttributesOf<HeadingAnnotation>> = () => {
+ *   // React's propTypes are now { level: 1 | 2 | 3 | 4 | 5 | 6 }
+ * };
+ * ```
+ */
+type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<infer Attributes> ? Attributes : never;
+
 export {
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationCollection,
   AnnotationConstructor,
+  AttributesOf,
   BlockAnnotation,
   Change,
   Deletion,
@@ -32,7 +67,7 @@ export {
 
 export default class Document {
   static contentType: string;
-  static schema: AnnotationConstructor[] = [];
+  static schema: Array<AnnotationConstructor<any, any>> = [];
 
   static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
     if (!this.converters.has(this)) {
@@ -46,12 +81,12 @@ export default class Document {
 
   content: string;
   readonly contentType: string;
-  annotations: Annotation[];
+  annotations: Array<Annotation<any>>;
   changeListeners: Array<() => void>;
 
   private pendingChangeEvent: any;
 
-  constructor(options: { content: string, annotations: Array<AnnotationJSON | Annotation> }) {
+  constructor(options: { content: string, annotations: Array<AnnotationJSON | Annotation<any>> }) {
     let DocumentClass = this.constructor as typeof Document;
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
@@ -81,7 +116,7 @@ export default class Document {
    * acceptable, but side-affects created by queries will
    * not be called.
    */
-  addAnnotations(...annotations: Array<Annotation | AnnotationJSON>): void {
+  addAnnotations(...annotations: Array<Annotation<any> | AnnotationJSON>): void {
     this.annotations.push(...annotations.map(annotation => this.createAnnotation(annotation)));
     this.triggerChange();
   }
@@ -102,7 +137,7 @@ export default class Document {
    *
    * tk: join documentation
    */
-  where(filter: { [key: string]: any; } | ((annotation: Annotation) => boolean)) {
+  where(filter: { [key: string]: any; } | ((annotation: Annotation<any>) => boolean)) {
     return this.all().where(filter);
   }
 
@@ -110,7 +145,7 @@ export default class Document {
     return new AnnotationCollection(this, this.annotations);
   }
 
-  removeAnnotation(annotation: Annotation): Annotation | void {
+  removeAnnotation(annotation: Annotation<any>): Annotation<any> | void {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       this.triggerChange();
@@ -118,7 +153,7 @@ export default class Document {
     }
   }
 
-  replaceAnnotation(annotation: Annotation, ...newAnnotations: Array<AnnotationJSON | Annotation>): Annotation[] {
+  replaceAnnotation(annotation: Annotation<any>, ...newAnnotations: Array<AnnotationJSON | Annotation<any>>): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       let annotations = newAnnotations.map(newAnnotation => this.createAnnotation(newAnnotation));
@@ -306,7 +341,7 @@ export default class Document {
     return matches;
   }
 
-  private createAnnotation(annotation: Annotation | AnnotationJSON): Annotation {
+  private createAnnotation(annotation: Annotation<any> | AnnotationJSON): Annotation<any> {
     let DocumentClass = this.constructor as typeof Document;
     let schema = [...DocumentClass.schema, ParseAnnotation];
 
@@ -321,7 +356,7 @@ export default class Document {
       return annotation;
 
     } else if (annotation instanceof Annotation) {
-      let AnnotationClass = annotation.constructor as AnnotationConstructor;
+      let AnnotationClass = annotation.constructor as AnnotationConstructor<any, any>;
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
         return new UnknownAnnotation({
