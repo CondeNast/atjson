@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.16.4...@atjson/source-prism@0.16.5) (2019-04-19)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+
+
+
+
 ## [0.16.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.16.3...@atjson/source-prism@0.16.4) (2019-04-18)
 
 **Note:** Version bump only for package @atjson/source-prism

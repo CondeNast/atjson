@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.14.4...@atjson/source-gdocs-paste@0.15.0) (2019-04-19)
+
+
+### ✨ New Features
+
+* ✨🥃 add an interface for declaring annotation attributes ([#130](https://github.com/CondeNast-Copilot/atjson/issues/130))
+
+
+
 ## [0.14.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.14.3...@atjson/source-gdocs-paste@0.14.4) (2019-04-18)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste

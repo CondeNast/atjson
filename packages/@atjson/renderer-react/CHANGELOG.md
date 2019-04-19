@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.14](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.12.13...@atjson/renderer-react@0.12.14) (2019-04-19)
+
+**Note:** Version bump only for package @atjson/renderer-react
+
+
+
+
+
 ## [0.12.13](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.12.12...@atjson/renderer-react@0.12.13) (2019-04-18)
 
 **Note:** Version bump only for package @atjson/renderer-react
