@@ -1,5 +1,7 @@
 import OffsetSource, { Bold, Italic, Link, Paragraph, Underline } from '@atjson/offset-annotations';
+import Component, { define } from '../src/component';
 import '../src/components/offset-editor';
+import '../src/components/text-selection';
 import './logo';
 
 // Web components in the registry can't be redefined,
@@ -9,6 +11,41 @@ if (module.hot) {
     window.location.reload();
   });
 }
+
+define('offset-bold', class Bold extends Component {
+  static template = '<strong><slot></slot></strong>';
+});
+
+define('offset-underline', class Underline extends Component {
+  static template = '<slot></slot>';
+  static style = `:host {
+    text-decoration: underline;
+  }`;
+});
+
+define('offset-italic', class Italic extends Component {
+  static template = '<em><slot></slot></em>';
+});
+
+define('offset-paragraph', class Paragraph extends Component {
+  static template = '<p><slot></slot></p>';
+});
+
+define('offset-link', class Link extends Component {
+  static observedAttributes = ['url'];
+  static template = '<a><slot></slot></a>';
+  static events = {
+    'click a'(evt: MouseEvent) {
+      evt.preventDefault();
+      return false;
+    }
+  };
+
+  url: string;
+  attributeChangedCallback() {
+    this.shadowRoot.querySelector('a').setAttribute('href', this.getAttribute('url'));
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
 

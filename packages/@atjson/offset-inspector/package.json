@@ -24,5 +24,8 @@
     "@atjson/offset-core-components": "file:../offset-core-components",
     "@atjson/renderer-commonmark": "file:../renderer-commonmark",
     "@atjson/renderer-webcomponent": "file:../renderer-webcomponent"
+  },
+  "devDependencies": {
+    "sass": "^1.20.1"
   }
 }

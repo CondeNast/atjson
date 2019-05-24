@@ -3,6 +3,12 @@ import WebComponentRenderer from '@atjson/renderer-webcomponent';
 import Component, { define } from '../component';
 import { getOffset, getTextNodes } from '../lib/selection';
 
+interface DOMInputEventLvl2 extends InputEvent {
+  dataTransfer: DataTransfer;
+  inputType: string;
+  getTargetRanges: () => Range[];
+}
+
 export default define('offset-editor', class OffsetEditor extends Component {
   static template = '<slot></slot>';
   static events = {
@@ -40,6 +46,36 @@ export default define('offset-editor', class OffsetEditor extends Component {
     },
     'compositionend'(this: OffsetEditor) {
       this.composing = false;
+    },
+    'beforeInput'(this: OffsetEditor, evt: DOMInputEventLvl2) {
+      if (this.cursor == null) return;
+
+      let { start, end } = this.cursor;
+
+      if (evt.inputType === 'insertFromPaste') {
+        let mimeTypes = evt.dataTransfer.types;
+        let matchedMimeType = mimeTypes.find(mimeType => {
+          return this.pasteHandlers[mimeType] !== null;
+        });
+
+        if (matchedMimeType) {
+          let data = evt.dataTransfer.getData(matchedMimeType);
+          let result = this.pasteHandlers[matchedMimeType].fromRaw(data);
+          if (start === end) {
+            this.document.insertText(start, result.content);
+          } else {
+            this.document.insertText(end, result.content);
+            this.document.deleteText(start, end);
+          }
+        } else {
+          let text = evt.dataTransfer.getData('text/plain');
+          if (start === end) {
+            this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
+          } else {
+            this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text } }));
+          }
+        }
+      }
     }
   };
 
@@ -49,12 +85,16 @@ export default define('offset-editor', class OffsetEditor extends Component {
   private textNodes: Text[];
   private observer?: MutationObserver | null;
   private cursor?: { start: number, end: number } | null;
+  private pasteHandlers: {
+    [mimeType: string]: typeof AtJSONDocument & { fromRaw(data: any): AtJSONDocument; }
+  };
 
   constructor() {
     super();
     this.textNodes = [];
     this.composing = false;
     this.document = new AtJSONDocument({ content: '', annotations: [] });
+    this.pasteHandlers = {};
   }
 
   connectedCallback() {
@@ -85,6 +125,10 @@ export default define('offset-editor', class OffsetEditor extends Component {
       let evt = new CustomEvent('change', { bubbles: true, composed: true, detail: { document: this.document } });
       this.dispatchEvent(evt);
     });
+  }
+
+  registerPasteHandler(mimeType: string, source: typeof AtJSONDocument & { fromRaw(data: any): AtJSONDocument; }) {
+    this.pasteHandlers[mimeType] = source;
   }
 
   render() {

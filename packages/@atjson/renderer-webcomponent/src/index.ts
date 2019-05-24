@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document, { Annotation } from '@atjson/document';
 import { HIR, HIRNode } from '@atjson/hir';
 
 interface WebComponentRenderer {
@@ -55,8 +55,17 @@ class WebComponentRenderer {
       let children = node.children();
       if (children.length > 0) {
         let element: Element;
-        if (typeof (this as any)[node.type] === 'function') {
-          element = this[node.type](node);
+        let annotation = node.annotation;
+        let AnnotationClass = annotation.constructor as typeof Annotation;
+        let elementName = `${AnnotationClass.vendorPrefix}-${annotation.type}`;
+        let hasCustomElement = !!window.customElements.get(elementName);
+        if (hasCustomElement) {
+          element = document.createElement(elementName);
+          Object.keys(annotation.attributes).forEach(key => {
+            let attributes = annotation.attributes as any;
+            element.setAttribute(key, attributes[key]);
+            (element as any)[key] = attributes[key];
+          });
         } else {
           element = document.createElement('span');
           element.classList.add('unknown-annotation');
