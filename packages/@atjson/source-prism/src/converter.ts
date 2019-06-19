@@ -1,3 +1,4 @@
+import { getConverterFor } from '@atjson/document';
 import OffsetSource from '@atjson/offset-annotations';
 import HTMLSource from '@atjson/source-html';
 import PRISMSource from './source';
@@ -13,5 +14,6 @@ PRISMSource.defineConverterTo(OffsetSource, doc => {
     doc.deleteText(media.start, media.end);
   });
 
-  return doc.convertTo(HTMLSource).convertTo(OffsetSource);
+  let convertHTML = getConverterFor(HTMLSource, OffsetSource);
+  return convertHTML(doc);
 });

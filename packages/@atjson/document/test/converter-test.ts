@@ -2,11 +2,9 @@ import TestSource, { Bold, Paragraph } from './test-source';
 import { TextSource } from './text-source-test';
 
 describe('Document#convert', () => {
-  test('sources without conversions are coerced', () => {
+  test('sources without conversions throw errors', () => {
     let textDoc = TextSource.fromRaw('Hello, World!');
-    let testDoc = textDoc.convertTo(TestSource);
-    expect(testDoc).toBeInstanceOf(TestSource);
-    expect(testDoc.all().toJSON()).toEqual(textDoc.all().toJSON());
+    expect(() => textDoc.convertTo(TestSource)).toThrowError();
   });
 
   test('sources with conversions are called', () => {
@@ -38,7 +36,7 @@ describe('Document#convert', () => {
     }]);
   });
 
-  test('converting to the same type is a no-op', () => {
+  test('converting to the same type will throw an error if one is not defined', () => {
     let testDoc = new TestSource({
       content: 'Hello, World!',
       annotations: [
@@ -47,6 +45,6 @@ describe('Document#convert', () => {
       ]
     });
 
-    expect(testDoc.convertTo(TestSource).toJSON()).toEqual(testDoc.toJSON());
+    expect(() => testDoc.convertTo(TestSource)).toThrowError();
   });
 });

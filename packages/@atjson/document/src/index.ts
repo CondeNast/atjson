@@ -65,19 +65,48 @@ export {
   UnknownAnnotation
 };
 
+export function getConverterFor(from: typeof Document, to: typeof Document): never | ((doc: Document) => Document) {
+  let exports = (typeof window !== 'undefined' ? window : global) as any;
+
+  let converters = exports.__atjson_converters__;
+  let converter = converters ?
+    converters[from.contentType] ?
+      converters[from.contentType][to.contentType] :
+    null :
+  null;
+  if (converter == null) {
+    throw new Error(`🚨 There is no converter registered between ${from.name} and ${to.name}.\n\nRegister a converter for this:\n\n${from.name}.defineConverterTo(${to.name}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`);
+  }
+
+  return converter;
+}
+
 export default class Document {
   static contentType: string;
   static schema: Array<AnnotationConstructor<any, any>> = [];
+  static debug: boolean = false;
 
   static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
-    if (!this.converters.has(this)) {
-      this.converters = new WeakMap();
-      this.converters.set(this, doc => doc);
-    }
-    this.converters.set(to, converter);
-  }
+    // We may have multiple / conflicting versions of
+    // @atjson/document. To allow this, we need to
+    // register converters on the global to ensure
+    // that they can be shared across versions of the library.
+    let exports = (typeof window !== 'undefined' ? window : global) as any;
 
-  private static converters: WeakMap<typeof Document, (doc: Document) => Document> = new WeakMap();
+    let converters = exports.__atjson_converters__;
+    if (converters == null) {
+      converters = exports.__atjson_converters__ = {};
+    }
+
+    if (converters[this.contentType] == null) {
+      converters[this.contentType] = {};
+    }
+
+    if (!(to instanceof Document) && this.debug) {
+      console.debug(`📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}. If this intentional, carry on! Otherwise, you may need to dig in to see if there's any version mismatches.`);
+    }
+    converters[this.contentType][to.contentType] = converter;
+  }
 
   content: string;
   readonly contentType: string;
@@ -264,41 +293,27 @@ export default class Document {
     return doc;
   }
 
-  convertTo<To extends typeof Document>(to: To): InstanceType<To> {
+  convertTo<To extends typeof Document>(to: To): InstanceType<To> | never {
     let DocumentClass = this.constructor as typeof Document;
-    let converters = DocumentClass.converters;
-    let converter = converters && converters.get(to);
+    let converter = getConverterFor(DocumentClass, to);
 
-    if (!(to.prototype instanceof Document)) {
-      throw new Error(`💣 ${to.toString()} is not a type of Document and can't be converted to.`);
+    class ConversionDocument extends DocumentClass {
+      static schema = DocumentClass.schema.concat(to.schema);
+      convertTo<Other extends typeof Document>(other: Other): never {
+        throw new Error(`🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${DocumentClass.name}.defineConverterTo(${to.name}, doc => {\n  let convert${other.name.replace('Source', '')} = getConverterFor(${other.name}, ${to.name});\n  return convert${other.name.replace('Source', '')}(doc);\n});`);
+      }
     }
 
-    // From === To
-    if (to === DocumentClass) {
-      return this.clone() as InstanceType<To>;
-    // Coerce or convert to new type
-    } else {
-      class ConversionDocument extends DocumentClass {
-        static schema = DocumentClass.schema.concat(to.schema);
-      }
+    let convertedDoc = new ConversionDocument({
+      content: this.content,
+      annotations: this.where({}).sort().annotations
+    });
 
-      let convertedDoc = new ConversionDocument({
-        content: this.content,
-        annotations: this.where({}).sort().annotations
-      });
-
-      if (converter) {
-        let result = converter(convertedDoc);
-        return new to({
-          content: result.content,
-          annotations: result.where({}).sort().annotations
-        }) as InstanceType<To>;
-      }
-      return new to({
-        content: convertedDoc.content,
-        annotations: convertedDoc.where({}).sort().annotations
-      }) as InstanceType<To>;
-    }
+    let result = converter(convertedDoc);
+    return new to({
+      content: result.content,
+      annotations: result.where({}).sort().annotations
+    }) as InstanceType<To>;
   }
 
   toJSON() {
