@@ -65,17 +65,37 @@ export {
   UnknownAnnotation
 };
 
-export function getConverterFor(from: typeof Document, to: typeof Document): never | ((doc: Document) => Document) {
+/**
+ * Get the function that converts between two documents. Use this to grab a converter
+ * for testing, or for nesting conversions.
+ *
+ * An example of how to use this is:
+ * ```ts
+ * import { getConverterFor } from '@atjson/document';
+ * import OffsetSource from '@atjson/offset-annotations';
+ * import CommonmarkSource from '@atjson/source-commonmark';
+ *
+ * let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
+ * // or
+ * let convertCommonmark = getConverterFor('application/vnd.atjson+commonmark', 'application/vnd.atjson+offset');
+ * ```
+ */
+export function getConverterFor(from: typeof Document | string, to: typeof Document | string): never | ((doc: Document) => Document) {
   let exports = (typeof window !== 'undefined' ? window : global) as any;
+  let fromType = typeof from === 'string' ? from : from.contentType;
+  let toType = typeof to === 'string' ? to : to.contentType;
 
   let converters = exports.__atjson_converters__;
   let converter = converters ?
-    converters[from.contentType] ?
-      converters[from.contentType][to.contentType] :
+    converters[fromType] ?
+      converters[fromType][toType] :
     null :
   null;
+
   if (converter == null) {
-    throw new Error(`🚨 There is no converter registered between ${from.name} and ${to.name}.\n\nRegister a converter for this:\n\n${from.name}.defineConverterTo(${to.name}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`);
+    let fromName = typeof from === 'string' ? from : from.name;
+    let toName = typeof to === 'string' ? to : to.name;
+    throw new Error(`🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`);
   }
 
   return converter;
@@ -84,7 +104,6 @@ export function getConverterFor(from: typeof Document, to: typeof Document): nev
 export default class Document {
   static contentType: string;
   static schema: Array<AnnotationConstructor<any, any>> = [];
-  static debug: boolean = false;
 
   static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
     // We may have multiple / conflicting versions of
@@ -102,8 +121,8 @@ export default class Document {
       converters[this.contentType] = {};
     }
 
-    if (!(to instanceof Document) && this.debug) {
-      console.debug(`📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}. If this intentional, carry on! Otherwise, you may need to dig in to see if there's any version mismatches.`);
+    if (!(to instanceof Document)) {
+      throw new Error(`📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`);
     }
     converters[this.contentType][to.contentType] = converter;
   }
