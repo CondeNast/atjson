@@ -18,9 +18,11 @@ class MarkdownItSource extends CommonmarkSource {
 }
 
 MarkdownItSource.defineConverterTo(OffsetSource, doc => {
-  doc.where({ type: '-commonmark-s' }).set({ type: '-offset-strikethrough' });
   let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
-  return convertCommonmark(doc);
+  convertCommonmark(doc);
+  doc.where({ type: '-commonmark-s' }).set({ type: '-offset-strikethrough' });
+
+  return doc;
 });
 
 describe('strikethrough', () => {
