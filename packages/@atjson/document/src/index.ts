@@ -121,7 +121,7 @@ export default class Document {
       converters[this.contentType] = {};
     }
 
-    if (!(to instanceof Document)) {
+    if (!(to.prototype instanceof Document)) {
       throw new Error(`📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`);
     }
     converters[this.contentType][to.contentType] = converter;
