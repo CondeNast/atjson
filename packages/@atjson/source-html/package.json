@@ -23,5 +23,8 @@
     "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations",
     "parse5": "^4.0.0"
+  },
+  "devDependencies": {
+    "puppeteer": "^1.18.1"
   }
 }
