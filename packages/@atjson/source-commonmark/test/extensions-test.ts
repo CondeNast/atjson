@@ -1,4 +1,4 @@
-import { InlineAnnotation } from '@atjson/document';
+import { InlineAnnotation, getConverterFor } from '@atjson/document';
 import OffsetSource from '@atjson/offset-annotations';
 import * as MarkdownIt from 'markdown-it';
 import CommonmarkSource from '../src';
@@ -18,9 +18,11 @@ class MarkdownItSource extends CommonmarkSource {
 }
 
 MarkdownItSource.defineConverterTo(OffsetSource, doc => {
+  let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
+  convertCommonmark(doc);
   doc.where({ type: '-commonmark-s' }).set({ type: '-offset-strikethrough' });
 
-  return doc.convertTo(CommonmarkSource).convertTo(OffsetSource);
+  return doc;
 });
 
 describe('strikethrough', () => {

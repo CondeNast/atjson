@@ -1,8 +1,12 @@
+import { getConverterFor } from '@atjson/document';
 import OffsetSource from '@atjson/offset-annotations';
 import HTMLSource from '@atjson/source-html';
 import PRISMSource from './source';
 
 PRISMSource.defineConverterTo(OffsetSource, doc => {
+  let convertHTML = getConverterFor(HTMLSource, OffsetSource);
+  convertHTML(doc);
+
   doc.where({ type: '-html-head' }).update(head => {
     doc.where(a => a.start >= head.start && a.end <= head.end).remove();
     doc.deleteText(head.start, head.end);
@@ -13,5 +17,5 @@ PRISMSource.defineConverterTo(OffsetSource, doc => {
     doc.deleteText(media.start, media.end);
   });
 
-  return doc.convertTo(HTMLSource).convertTo(OffsetSource);
+  return doc;
 });
