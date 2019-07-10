@@ -17,7 +17,12 @@ function isText(node: parse5.AST.Default.Node) {
 
 function getAttributes(node: parse5.AST.Default.Element): NonNullable<any> {
   let attrs: NonNullable<any> = (node.attrs || []).reduce((attributes: NonNullable<any>, attr: parse5.AST.Default.Attribute) => {
-    attributes[`-html-${attr.name}`] = attr.value;
+    if (attr.name.indexOf('data-') === 0) {
+      if (attributes['-html-dataset'] == null) attributes['-html-dataset'] = {};
+      attributes['-html-dataset'][attr.name.slice(5)] = attr.value;
+    } else {
+      attributes[`-html-${attr.name}`] = attr.value;
+    }
     return attributes;
   }, {});
 

@@ -27,7 +27,7 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
       end: list.end,
       attributes: {
         '-offset-type': 'numbered',
-        '-offset-startsAt': parseInt(list.attributes.starts || '0', 10)
+        '-offset-startsAt': parseInt(list.attributes.start || '1', 10)
       }
     });
   });
