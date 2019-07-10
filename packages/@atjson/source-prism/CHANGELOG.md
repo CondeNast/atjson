@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.16.5...@atjson/source-prism@0.17.0) (2019-07-10)
+
+
+### ✨ New Features
+
+* ✨ Generate HTML annotations from spec ([#134](https://github.com/CondeNast-Copilot/atjson/issues/134))
+* ✨ Reduce magic in converting documents. ([#132](https://github.com/CondeNast-Copilot/atjson/issues/132))
+
+
+### 🐛 Fixes
+
+* 🐞 Fix references to wrong github repository ([#135](https://github.com/CondeNast-Copilot/atjson/issues/135))
+
+
+### 🚨 Breaking Changes
+
+* When converting a document, it will no longer coerce a document. You will need to do this yourself!
+* You can no longer nest converters inside of another converter. Instead import `getConverterFor` from @atjson/document and use the function supplied from that.
+
+These improvements are designed to improve the developer experience of atjson for developers. We've encountered some frustrations where:
+
+1. Conversions wouldn't run because there are two different versions of @atjson/document installed.
+
+    📝 If you are using atjson, update your dependencies to this version. Any version increment after this shouldn't break your converters.
+
+2. Converters would get called, but the document was made up of only UnknownAnnotations.
+
+    👩🏽‍🏫 You're no longer allowed to nest converters. This change was done to make converting less confusing, because it was super weird to have all your annotations be "Unknown" if you ran a converter before running the rest of your conversion code. Also, it will no longer clone the document, so this should hopefully make some conversions speedier! 🐰
+
+3. It was unclear when convertTo would actually run any code.
+
+     📣We've changed this so all converters are user-defined code. If there is no converter defined, it will let you know!
+
+
 ## [0.16.5](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.16.4...@atjson/source-prism@0.16.5) (2019-04-19)
 
 **Note:** Version bump only for package @atjson/source-prism

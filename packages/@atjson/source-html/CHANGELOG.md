@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.14.4...@atjson/source-html@0.17.0) (2019-07-10)
+
+
+### ✨ New Features
+
+* ✨ Generate HTML annotations from spec ([#134](https://github.com/CondeNast-Copilot/atjson/issues/134))
+
+
+### 🐛 Fixes
+
+* 🐞 Fix references to wrong github repository ([#135](https://github.com/CondeNast-Copilot/atjson/issues/135))
+
+
+
 ## [0.14.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.14.3...@atjson/source-html@0.14.4) (2019-04-19)
 
 **Note:** Version bump only for package @atjson/source-html

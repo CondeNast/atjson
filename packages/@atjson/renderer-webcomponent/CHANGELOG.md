@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-webcomponent@0.12.12...@atjson/renderer-webcomponent@0.17.0) (2019-07-10)
+
+
+### 🐛 Fixes
+
+* 🐞 Fix references to wrong github repository ([#135](https://github.com/CondeNast-Copilot/atjson/issues/135))
+
+
+
 ## [0.12.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.12.11...@atjson/renderer-webcomponent@0.12.12) (2019-04-19)
 
 **Note:** Version bump only for package @atjson/renderer-webcomponent

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.15.18...@atjson/renderer-commonmark@0.17.0) (2019-07-10)
+
+
+### 🐛 Fixes
+
+* 🐞 Fix references to wrong github repository ([#135](https://github.com/CondeNast-Copilot/atjson/issues/135))
+
+
+
 ## [0.15.18](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.15.17...@atjson/renderer-commonmark@0.15.18) (2019-04-19)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
