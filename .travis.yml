@@ -39,7 +39,7 @@ after_success:
       # Create a new worktree where we create documentation
       # We set the branch as gh-pages and remove all files from
       # the git repo
-      git clone git@github.com:CondeNast-Copilot/atjson.git deploy-atjson --branch gh-pages
+      git clone git@github.com:CondeNast/atjson.git deploy-atjson --branch gh-pages
 
       # Clean up old documentation for latest
       if [[ $TRAVIS_BRANCH == latest ]]; then
@@ -66,5 +66,5 @@ after_success:
       else
         git commit -m ":package::books: Release documentation for latest."
       fi
-      git push git@github.com:CondeNast-Copilot/atjson.git gh-pages
+      git push git@github.com:CondeNast/atjson.git gh-pages
     fi

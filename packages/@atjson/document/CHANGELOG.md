@@ -3,16 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.15.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.9...@atjson/document@0.15.0) (2019-04-19)
+## [0.15.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.9...@atjson/document@0.15.0) (2019-04-19)
 
 
 ### ✨ New Features
 
-* ✨🥃 add an interface for declaring annotation attributes ([#130](https://github.com/CondeNast-Copilot/atjson/issues/130))
+* ✨🥃 add an interface for declaring annotation attributes ([#130](https://github.com/CondeNast/atjson/issues/130))
 
 
 
-## [0.14.9](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.8...@atjson/document@0.14.9) (2019-04-15)
+## [0.14.9](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.8...@atjson/document@0.14.9) (2019-04-15)
 
 
 ### 🐛 Fixes
@@ -21,25 +21,25 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.14.8](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.7...@atjson/document@0.14.8) (2019-04-15)
+## [0.14.8](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.7...@atjson/document@0.14.8) (2019-04-15)
 
 
 ### 🐛 Fixes
 
-* 🐝 fix slice so it only includes overlapping annotations from the parent document and the correct underlying text ([#125](https://github.com/CondeNast-Copilot/atjson/issues/125))
+* 🐝 fix slice so it only includes overlapping annotations from the parent document and the correct underlying text ([#125](https://github.com/CondeNast/atjson/issues/125))
 
 
 
-## [0.14.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.6...@atjson/document@0.14.7) (2019-03-21)
+## [0.14.7](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.6...@atjson/document@0.14.7) (2019-03-21)
 
 
 ### 🐛 Fixes
 
-* 🐝 Fix unknown annotations passing attributes by reference and HIR optimization bug ([#122](https://github.com/CondeNast-Copilot/atjson/issues/122))
+* 🐝 Fix unknown annotations passing attributes by reference and HIR optimization bug ([#122](https://github.com/CondeNast/atjson/issues/122))
 
 
 
-## [0.14.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.5...@atjson/document@0.14.6) (2019-03-19)
+## [0.14.6](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.5...@atjson/document@0.14.6) (2019-03-19)
 
 **Note:** Version bump only for package @atjson/document
 
@@ -47,43 +47,43 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.14.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.4...@atjson/document@0.14.5) (2019-03-18)
+## [0.14.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.4...@atjson/document@0.14.5) (2019-03-18)
 
 
 ### 🐛 Fixes
 
-* 🐛 reify unknown annotations when passing them into `createAnnotation` ([#120](https://github.com/CondeNast-Copilot/atjson/issues/120))
+* 🐛 reify unknown annotations when passing them into `createAnnotation` ([#120](https://github.com/CondeNast/atjson/issues/120))
 
 
 
-## [0.14.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.3...@atjson/document@0.14.4) (2019-03-18)
-
-
-### 🐛 Fixes
-
-* 🚀🐛 Performance fixes ([#119](https://github.com/CondeNast-Copilot/atjson/issues/119))
-
-
-
-## [0.14.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.2...@atjson/document@0.14.3) (2019-03-14)
+## [0.14.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.3...@atjson/document@0.14.4) (2019-03-18)
 
 
 ### 🐛 Fixes
 
-* 🐝🚀 Fix performance regressions ([#118](https://github.com/CondeNast-Copilot/atjson/issues/118))
+* 🚀🐛 Performance fixes ([#119](https://github.com/CondeNast/atjson/issues/119))
 
 
 
-## [0.14.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.1...@atjson/document@0.14.2) (2019-02-12)
+## [0.14.3](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.2...@atjson/document@0.14.3) (2019-03-14)
 
 
 ### 🐛 Fixes
 
-* 🐝 Allow annotation classes in document constructor ([#106](https://github.com/CondeNast-Copilot/atjson/issues/106))
+* 🐝🚀 Fix performance regressions ([#118](https://github.com/CondeNast/atjson/issues/118))
 
 
 
-## [0.14.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.14.0...@atjson/document@0.14.1) (2019-01-14)
+## [0.14.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.1...@atjson/document@0.14.2) (2019-02-12)
+
+
+### 🐛 Fixes
+
+* 🐝 Allow annotation classes in document constructor ([#106](https://github.com/CondeNast/atjson/issues/106))
+
+
+
+## [0.14.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.14.0...@atjson/document@0.14.1) (2019-01-14)
 
 
 ### 🐛 Fixes
@@ -92,7 +92,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.14.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.5...@atjson/document@0.14.0) (2019-01-09)
+## [0.14.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.5...@atjson/document@0.14.0) (2019-01-09)
 
 
 ### ✨ New Features
@@ -106,7 +106,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.13.5](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.4...@atjson/document@0.13.5) (2019-01-07)
+## [0.13.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.4...@atjson/document@0.13.5) (2019-01-07)
 
 ### ✨ New Features
 
@@ -116,7 +116,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.13.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.3...@atjson/document@0.13.4) (2018-12-11)
+## [0.13.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.3...@atjson/document@0.13.4) (2018-12-11)
 
 
 ### 🐛 Fixes
@@ -125,7 +125,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.13.3](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.2...@atjson/document@0.13.3) (2018-12-11)
+## [0.13.3](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.2...@atjson/document@0.13.3) (2018-12-11)
 
 **Note:** Version bump only for package @atjson/document
 
@@ -133,7 +133,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.13.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.1...@atjson/document@0.13.2) (2018-12-11)
+## [0.13.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.1...@atjson/document@0.13.2) (2018-12-11)
 
 **Note:** Version bump only for package @atjson/document
 
@@ -141,35 +141,35 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-## [0.13.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.13.0...@atjson/document@0.13.1) (2018-12-11)
+## [0.13.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.13.0...@atjson/document@0.13.1) (2018-12-11)
 
 **Note:** Version bump only for package @atjson/document
 
 
-## [0.13.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.12.0...@atjson/document@0.13.0) (2018-12-11)
+## [0.13.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.12.0...@atjson/document@0.13.0) (2018-12-11)
 
 
 ### ✨ New Features
 
-* ✨ Coerce or convert to sources ([#93](https://github.com/CondeNast-Copilot/atjson/issues/93))
+* ✨ Coerce or convert to sources ([#93](https://github.com/CondeNast/atjson/issues/93))
 
 
-## [0.12.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.11.0...@atjson/document@0.12.0) (2018-11-29)
-
-
-### ✨ New Features
-
-* ✨🔮 allow Annotation classes or AnnotationJSON to all Document methods ([#90](https://github.com/CondeNast-Copilot/atjson/issues/90))
-* ✨📡 dynamically convert between types of sources ([#88](https://github.com/CondeNast-Copilot/atjson/issues/88))
-
-
-
-## [0.11.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.9.0...@atjson/document@0.11.0) (2018-10-22)
+## [0.12.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.11.0...@atjson/document@0.12.0) (2018-11-29)
 
 
 ### ✨ New Features
 
-* ✨👑✨ Make Annotations classes instead of JS objects ([#57](https://github.com/CondeNast-Copilot/atjson/issues/57))
+* ✨🔮 allow Annotation classes or AnnotationJSON to all Document methods ([#90](https://github.com/CondeNast/atjson/issues/90))
+* ✨📡 dynamically convert between types of sources ([#88](https://github.com/CondeNast/atjson/issues/88))
+
+
+
+## [0.11.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.9.0...@atjson/document@0.11.0) (2018-10-22)
+
+
+### ✨ New Features
+
+* ✨👑✨ Make Annotations classes instead of JS objects ([#57](https://github.com/CondeNast/atjson/issues/57))
 
 
 ### 🚨 Breaking Changes
@@ -189,21 +189,21 @@ A summary of changes are the following:
 🖍 Annotations are now prefixed at rest. For the CommonMark Link annotation, it will be stored as `-commonmark-link` as the `type` and the attributes will be prefixed with `-commonmark` as well, meaning that instead of seeing `href` in the `attributes`, you will see `-commonmark-href`. When the annotation JSON is hydrated into an annotation class, prefixes are automatically removed. This prevents any collisions that may (and will) happen when converting between document types.
 
 
-## [0.9.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.7...@atjson/document@0.9.0) (2018-10-10)
+## [0.9.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.8.7...@atjson/document@0.9.0) (2018-10-10)
 
 
 ### ✨ New Features
 
-* ✨🤠 Typed Annotation Collections / Joins! ([#85](https://github.com/CondeNast-Copilot/atjson/issues/85))
+* ✨🤠 Typed Annotation Collections / Joins! ([#85](https://github.com/CondeNast/atjson/issues/85))
 
 
 
-## [0.8.7](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.6...@atjson/document@0.8.7) (2018-09-14)
+## [0.8.7](https://github.com/CondeNast/atjson/compare/@atjson/document@0.8.6...@atjson/document@0.8.7) (2018-09-14)
 
 **Note:** Version bump only for package @atjson/document
 
 
-## [0.8.6](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.8.5...@atjson/document@0.8.6) (2018-09-07)
+## [0.8.6](https://github.com/CondeNast/atjson/compare/@atjson/document@0.8.5...@atjson/document@0.8.6) (2018-09-07)
 
 ### ✨ New Features
 

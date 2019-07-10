@@ -1,4 +1,4 @@
-:tipping_hand_woman: AtJSON has a [Code of Conduct](https://github.com/CondeNast-Copilot/atjson/blob/latest/CODE_OF_CONDUCT.md) that we expect all of our contributors to abide by, please check it out before contributing!
+:tipping_hand_woman: AtJSON has a [Code of Conduct](https://github.com/CondeNast/atjson/blob/latest/CODE_OF_CONDUCT.md) that we expect all of our contributors to abide by, please check it out before contributing!
 
 ***
 
@@ -7,7 +7,7 @@ AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:Lern
 :computer: To get started, clone atjson onto your computer and navigate into the project.
 
 ```bash
-git clone https://github.com/CondeNast-Copilot/atjson.git
+git clone https://github.com/CondeNast/atjson.git
 cd atjson
 ```
 
