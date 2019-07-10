@@ -4,9 +4,7 @@ import * as entities from 'entities';
 import * as sax from 'sax';
 import {
   Article,
-  Body,
   Description,
-  Head,
   Media,
   Message,
   Title
@@ -48,9 +46,7 @@ export default class PRISMSource extends Document {
   static contentType = 'application/vnd.atjson+prism';
   static schema = [...HTMLSource.schema].concat([
     Article,
-    Body,
     Description,
-    Head,
     Media,
     Message,
     Title

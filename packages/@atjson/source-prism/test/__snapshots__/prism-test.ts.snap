@@ -712,15 +712,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "NAVA'S PAINTINGS OF PRIMORDIAL MONSTERS",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                       ],
                       "id": "Any<id>",
@@ -740,15 +737,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "GQ STYLE:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                         " How did you arrive at your painting style? What factors influenced your development most?",
                       ],
@@ -768,15 +762,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "ROBERT NAVA:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                       ],
                       "id": "Any<id>",
@@ -1090,15 +1081,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "PHILADELPHIA NATIVE",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                       ],
                       "id": "Any<id>",
@@ -1127,15 +1115,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "GQ STYLE:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                         " How did you arrive at your painting style? What factors influenced your development most?",
                       ],
@@ -1155,19 +1140,16 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "DEVAN SHIMOYAMA:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "b",
                         },
                       ],
                       "id": "Any<id>",
-                      "type": "b",
+                      "type": "small",
                     },
                     " My painting style came about from my love of experimenting with all kinds of materials, drag culture, and fashion. I remember when I was first starting to paint, I was fascinated by how unconventional painting materials would mix together to create these psychedelic, shimmering encrusted spills. I'd play around with spray paint, quick-dry enamel, and fabric dye. Those eventually led to my interest in other unconventional painting materials that are much more in line with what drag performers use to get a look together, like rhinestones, glitter, feathers, et cetera, which they're using to create the illusion and fantasy of a wealthy, beautiful fictional character.",
                   ],
@@ -1616,19 +1598,16 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "BORN IN AUSTIN,",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "b",
                         },
                       ],
                       "id": "Any<id>",
-                      "type": "b",
+                      "type": "small",
                     },
                     " Smith paints cartoonish figures and surreal scenarios in photo-realistic detail, all of it oozing with sensuality and stark feminine energy. We caught up with Smith at her studio in Brooklyn as she prepared for a show at Galerie Perrotin in Manhattan and for her first solo museum show, which opens at Le Consortium in Dijon, France, in November.",
                   ],
@@ -1644,15 +1623,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "GQ STYLE:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                         " How did you arrive at your painting style? What factors influenced your development most?",
                       ],
@@ -1672,15 +1648,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "EMILY MAE SMITH:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                       ],
                       "id": "Any<id>",
@@ -2263,15 +2236,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "BORN IN MADISON, WISCONSIN,",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                       ],
                       "id": "Any<id>",
@@ -2291,15 +2261,12 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "GQ STYLE:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "small",
                         },
                         " How did you arrive at your painting style? What factors influenced your development most?",
                       ],
@@ -2319,19 +2286,16 @@ Object {
                       "attributes": Object {},
                       "children": Array [
                         Object {
-                          "attributes": Object {
-                            "attributes": Object {},
-                            "type": "-html-small",
-                          },
+                          "attributes": Object {},
                           "children": Array [
                             "JOE ROBERTS:",
                           ],
                           "id": "Any<id>",
-                          "type": "unknown",
+                          "type": "b",
                         },
                       ],
                       "id": "Any<id>",
-                      "type": "b",
+                      "type": "small",
                     },
                     " I have been learning how to paint for a million years, and I'm still not very good at it. I don't really have any expectations when I paint. It's more fun that way.",
                   ],
