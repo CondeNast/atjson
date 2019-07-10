@@ -1,4 +1,4 @@
-# AtJSON [![Build Status](https://travis-ci.org/CondeNast-Copilot/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast/atjson) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
+# AtJSON [![Build Status](https://travis-ci.org/CondeNast/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast/atjson) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
 ## Maintainers
 * Tim Evans (@tim-evans tim_evans@condenast.com)
@@ -140,7 +140,7 @@ Objects can also be embedded in documents that can be expanded when the document
 
 We have a source document with annotations:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/war-and-peace.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast/atjson/latest/public/war-and-peace.png)
 
 This marked up document equates to:
 
@@ -203,7 +203,7 @@ A number of little notes distributed that morning by a footman in red livery had
 
 This visually would look like:
 
-![War and Peace](https://raw.githubusercontent.com/CondeNast-Copilot/atjson/latest/public/war-and-peace-annotated.png)
+![War and Peace](https://raw.githubusercontent.com/CondeNast/atjson/latest/public/war-and-peace-annotated.png)
 
 
 Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annotations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
