@@ -3,6 +3,20 @@ import OffsetSource from '@atjson/offset-annotations';
 import HTMLSource from '../src';
 
 describe('@atjson/source-html', () => {
+  test('dataset', () => {
+    let doc = HTMLSource.fromRaw('<div class="spaceship" data-ship-id="92432" data-weapons="kittens"></div>');
+    expect(doc.where({ type: '-html-div' }).toJSON()).toMatchObject([{
+      type: '-html-div',
+      attributes: {
+        '-html-class': 'spaceship',
+        '-html-dataset': {
+          '-html-ship-id': '92432',
+          '-html-weapons': 'kittens'
+        }
+      }
+    }]);
+  });
+
   test('pre-code', () => {
     let doc = HTMLSource.fromRaw('<pre><code>this <b>is</b> a test</code></pre>');
     let hir = new HIR(doc).toJSON();
@@ -322,7 +336,7 @@ describe('@atjson/source-html', () => {
     });
 
     test('ul, ol, li', () => {
-      let doc = HTMLSource.fromRaw('<ol starts="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
+      let doc = HTMLSource.fromRaw('<ol start="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
         type: 'root',
