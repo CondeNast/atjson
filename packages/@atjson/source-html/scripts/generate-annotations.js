@@ -112,8 +112,9 @@ ${
           className: classNames[type],
           permalink: `https://${url.host}${url.pathname}#${id}`,
           extends: (
+            type === 'p' ? 'BlockAnnotation' :
             contentModel.match(/Nothing/) ? 'ObjectAnnotation' :
-            contentModel.match(/Phrasing content/) ? 'InlineAnnotation' : 'BlockAnnotation'
+            contentModel.match(/Phrasing|Transparent/) ? 'InlineAnnotation' : 'BlockAnnotation'
           ),
           section,
           attributes
@@ -160,7 +161,13 @@ import GlobalAttributes from './global-attributes';
 // [§ ${dfn.section}](${dfn.permalink})
 export default class ${dfn.className} extends ${dfn.extends}<GlobalAttributes> {
   static vendorPrefix = 'html';
-  static type = '${dfn.type}';
+  static type = '${dfn.type}';${
+    dfn.type === 'p' ? `
+
+  get rank() {
+    return super.rank * 3 / 2;
+  }` : ''
+}
 }
 `);
     }
