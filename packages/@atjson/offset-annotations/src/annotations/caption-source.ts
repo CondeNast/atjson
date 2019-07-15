@@ -12,6 +12,7 @@ import Superscript from './superscript';
 import Underline from './underline';
 
 export default class CaptionSource extends Document {
+  static contentType = 'application/vnd.atjson+offset-caption';
   static schema = [
     Bold,
     Italic,
