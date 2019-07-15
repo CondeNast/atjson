@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.17.0...@atjson/offset-annotations@0.17.1) (2019-07-15)
+
+
+### 🐛 Fixes
+
+* 🐞 Add contentType to caption source ([#136](https://github.com/CondeNast-Copilot/atjson/issues/136))
+
+
+
 ## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.14.1...@atjson/offset-annotations@0.17.0) (2019-07-10)
 
 

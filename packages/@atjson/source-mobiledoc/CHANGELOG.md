@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.17.0...@atjson/source-mobiledoc@0.17.1) (2019-07-15)
+
+**Note:** Version bump only for package @atjson/source-mobiledoc
+
+
+
+
+
 ## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.13.23...@atjson/source-mobiledoc@0.17.0) (2019-07-10)
 
 
