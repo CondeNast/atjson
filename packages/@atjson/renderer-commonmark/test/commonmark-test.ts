@@ -734,4 +734,103 @@ After all the lists
       });
     });
   });
+
+  describe('delimiter runs with Japanese', () => {
+    test('nested bold and italic', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです__*にします太字*__');
+    });
+
+    test('adjacent bold and italic', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 8, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 8, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし**_ます太字_');
+    });
+
+    test('bold contained on left', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 8, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです***にし**ます太字*');
+    });
+
+    test('bold contained on right', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 8 , end: 12, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです*にし**ます太字***');
+    });
+
+    test('italic contained on left', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 6, end: 8, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです***にし*ます太字**');
+    });
+
+    test('italic contained on right', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 8, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし*ます太字***');
+    });
+
+    test('italic contained in bold', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 8, end: 10, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし*ます*太字**');
+    });
+
+    test('bold contained in italic', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-bold', start: 8 , end: 10, attributes: {} },
+          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです*にし**ます**太字*');
+    });
+  });
+
 });
