@@ -736,7 +736,7 @@ After all the lists
   });
 
   describe('delimiter runs with Japanese', () => {
-    test('nested bold and italic', () => {
+    test('aligned bold and italic, bold first', () => {
       let document = new OffsetSource({
         content: 'タイトルですにします太字',
         annotations: [
@@ -746,6 +746,18 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe('タイトルです__*にします太字*__');
+    });
+
+    test('aligned bold and italic, italic first', () => {
+      let document = new OffsetSource({
+        content: 'タイトルですにします太字',
+        annotations: [
+          { id: '1', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+          { id: '2', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**_にします太字_**');
     });
 
     test('adjacent bold and italic', () => {
