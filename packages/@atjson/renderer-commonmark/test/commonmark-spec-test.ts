@@ -35,7 +35,7 @@ Object.keys(unitTestsBySection).forEach(moduleName => {
     unitTests.forEach(unitTest => {
       let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
 
-      (shouldSkip ? test.skip : test)(unitTest.markdown, () => {
+      (shouldSkip ? test.skip : test)(`${unitTest.markdown}\n${unitTest.html}`, () => {
         let markdown = unitTest.markdown.replace(/→/g, '\t');
         let original = CommonMarkSource.fromRaw(markdown);
         let generatedMarkdown = CommonMarkRenderer.render(original.convertTo(OffsetSource));
