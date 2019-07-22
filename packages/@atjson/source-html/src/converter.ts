@@ -38,6 +38,7 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-html-strong' }).set({ type: '-offset-bold' });
   doc.where({ type: '-html-b' }).set({ type: '-offset-bold' });
   doc.where({ type: '-html-del' }).set({ type: '-offset-strikethrough' });
+  doc.where({ type: '-html-s' }).set({ type: '-offset-strikethrough' });
   doc.where({ type: '-html-sub' }).set({ type: '-offset-subscript' });
   doc.where({ type: '-html-sup' }).set({ type: '-offset-superscript' });
   doc.where({ type: '-html-u' }).set({ type: '-offset-underline' });
