@@ -13,7 +13,6 @@ module.exports = {
       },
       links: [
         {to: 'docs/getting-started', label: 'Docs', position: 'left'},
-        {to: 'blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/CondeNast/atjson',
           label: 'GitHub',
@@ -30,22 +29,17 @@ module.exports = {
             {
               label: 'Docs',
               to: 'docs/getting-started'
-            }
-          ]
-        },
-        {
-          title: 'Social',
-          items: [
+            },
             {
-              label: 'Blog',
-              to: 'blog'
+              label: 'API Documentation',
+              to: 'docs/api'
             }
           ]
-        },
+        }
       ],
       logo: {
         alt: 'Condé Nast',
-        src: 'img/conde-nast.svg'
+        src: '/img/conde-nast.svg'
       },
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`
     }

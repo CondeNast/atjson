@@ -14,7 +14,9 @@
     "@docusaurus/preset-classic": "^2.0.0-alpha.19",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4"
+    "react-dom": "^16.8.4",
+    "resize-observer": "^1.0.0",
+    "styled-components": "^4.3.2"
   },
   "browserslist": {
     "production": [

@@ -1,5 +1,6 @@
 {
   "docs": {
-    "Introduction": ["getting-started"]
+    "Introduction": ["getting-started"],
+    "API Documentation": ["api-overview"]
   }
 }
