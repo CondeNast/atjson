@@ -1,4 +1,4 @@
-import OffsetSource from '@atjson/offset-annotations';
+import OffsetSource, { Code } from '@atjson/offset-annotations';
 import { Image, OrderedList } from './annotations';
 import HTMLSource from './source';
 
@@ -58,6 +58,23 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
       }
     });
   });
+
+  let $pre = doc.where({ type: '-html-pre' }).as('pre');
+  let $code = doc.where({ type: '-html-code' }).as('codeElements');
+
+  $pre.join($code, (pre, code) => pre.start < code.start && code.end < pre.end).update(({ pre, codeElements }) => {
+    let code = codeElements[0];
+    doc.replaceAnnotation(code, new Code({
+      start: code.start,
+      end: code.end,
+      attributes: {
+        style: 'block'
+      }
+    }));
+    doc.removeAnnotation(pre);
+  });
+
+  doc.where({ type: '-html-code' }).set({ type: '-offset-code', attributes: { '-offset-style': 'inline' } });
 
   return doc;
 });

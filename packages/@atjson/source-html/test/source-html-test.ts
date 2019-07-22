@@ -335,6 +335,34 @@ describe('@atjson/source-html', () => {
       });
     });
 
+    test('code', () => {
+      let doc = HTMLSource.fromRaw(`<code>console.log('wowowowow');</code>`);
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
+      expect(hir).toMatchObject({
+        type: 'root',
+        attributes: {},
+        children: [{
+          type: 'code',
+          attributes: { style: 'inline' },
+          children: [`console.log('wowowowow');`]
+        }]
+      });
+    });
+
+    test('pre code', () => {
+      let doc = HTMLSource.fromRaw(`<pre><code>console.log('wowowowow');</code></pre>`);
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
+      expect(hir).toMatchObject({
+        type: 'root',
+        attributes: {},
+        children: [{
+          type: 'code',
+          attributes: { style: 'block' },
+          children: [`console.log('wowowowow');`]
+        }]
+      });
+    });
+
     test('ul, ol, li', () => {
       let doc = HTMLSource.fromRaw('<ol start="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
