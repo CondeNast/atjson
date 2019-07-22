@@ -218,6 +218,24 @@ describe('@atjson/source-html', () => {
       });
     });
 
+    test('s, del', () => {
+      let doc = HTMLSource.fromRaw('This is some <del>deleted</del> and <s>struck</s> text');
+      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
+      expect(hir).toMatchObject({
+        type: 'root',
+        attributes: {},
+        children: ['This is some ', {
+          type: 'strikethrough',
+          attributes: {},
+          children: ['deleted']
+        }, ' and ', {
+          type: 'strikethrough',
+          attributes: {},
+          children: ['struck']
+        }, ' text']
+      });
+    });
+
     test('h1, h2, h3, h4, h5, h6', () => {
       let doc = HTMLSource.fromRaw('<h1>Title</h1><h2>Byline</h2><h3>Section</h3><h4>Normal heading</h4><h5>Small heading</h5><h6>Tiny heading</h6>');
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
