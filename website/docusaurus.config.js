@@ -3,7 +3,7 @@ const { join } = require('path');
 module.exports = {
   title: 'atjson',
   tagline: 'Content that you can query, manipulate, and store with ease',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://condenast.github.io/atjson',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   themeConfig: {

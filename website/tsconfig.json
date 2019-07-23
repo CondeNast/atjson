@@ -26,6 +26,6 @@
     "target": "ES2019"
   },
   "include": [
-    "docs/**/*"
+    "src/**/*"
   ]
 }

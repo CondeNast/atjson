@@ -6,7 +6,7 @@ atjson is a toolchain for manipulating, querying, and verifying content.
 The core of atjson is extensible, and it's completely up to you how you'd
 like to model your content.
 
-import { Note } from './components/Note.tsx';
+import { Note } from '../src/components/Note.tsx';
 
 <Note>
 
@@ -23,7 +23,7 @@ the quick brown fox jumps over the lazy dog. If we were to break down
 the sentence into its linguistic parts, we start seeing relationships
 between parts of the sentence and overlapping linguistic meaning.
 
-import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor, Verb } from './components/QuickBrownFox.tsx';
+import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor, Verb } from '../src/components/QuickBrownFox.tsx';
 
 <QuickBrownFox value={
   new QuickBrownFoxSource({

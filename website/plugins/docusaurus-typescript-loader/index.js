@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = function(context) {
-  const contentPath = path.join(path.resolve(context.siteDir), 'docs');
+  const contentPath = path.join(path.resolve(context.siteDir), 'src');
 
   return {
     name: 'docusaurus-typescript-loader',
