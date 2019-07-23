@@ -1,115 +1,52 @@
 ---
-title: Getting Started
+title: 🐣 Getting Started
 ---
 
-AtJSON is a collection of repositories that together make up a fully-realized content format.
+atjson is a toolchain for manipulating, querying, and verifying content.
+The core of atjson is extensible, and it's completely up to you how you'd
+like to model your content.
 
-## Why another content format?
+import { Note } from './components/Note.tsx';
 
-Our goals at Condé Nast are to provide best-in-class content to our readers, and best-in-class tools for our editors. To do this, we need a format that can be rich, extensible, and portable. It is important that the content source provide little ambiguity about _how_ a story should be displayed.
+<Note>
 
-For Condé Nast, it is essential for our stories to be a format that doesn't age quickly- we have over a hundred years of articles from publications across the world. It is extremely important for us to be able to put these stories written for digital media in our archive for the future. Many current content formats do not strive for rigorousness in this, instead tying the constraints of the format to the current platform of choice. When constructing this format, we chose to separate the original text from the data associated for this purpose.
+**Note**: atjson is made up of a bunch of packages. Think of these as
+building blocks that you can use. The main package is `@atjson/document`,
+which is the fulcrum of the toolchain.
 
-## What does a document look like?
+</Note>
 
-A document has a `content` field and a list of `annotations`, each of which have a spatial offset in the document.
+## an extensible interchange format
 
-The simplest document is one without annotations:
+atjson decouples *content* from *semantics*. Take the sentence,
+the quick brown fox jumps over the lazy dog. If we were to break down
+the sentence into its linguistic parts, we start seeing relationships
+between parts of the sentence and overlapping linguistic meaning.
 
-```js
-{
-  "content": "Hello"
-  "annotations": []
-}
-```
+import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor, Verb } from './components/QuickBrownFox.tsx';
 
-Stylistic annotations are easily layered on a document using a positional annotation:
-
-```js
-{
-  "content": "The best writing anywhere, everywhere.",
-  "annotations": [{
-    type: "-offset-italic",
-    start: 4,
-    end: 8,
-    attributes: {}
-  }]
-}
-```
-
-This document looks like:
-
-> The _best_ writing anywhere, everywhere.
-
-Positions represent the space *in between* characters in the document. That means an annotation that starts at 0 starts before any character in the document. How the indexing works is as the following:
-
-import { CharacterOffsetViewer } from '../components/CharacterOffsetViewer.jsx';
-
-<CharacterOffsetViewer>Hello</CharacterOffsetViewer>
-<CharacterOffsetViewer>Hola</CharacterOffsetViewer>
-<CharacterOffsetViewer>你好</CharacterOffsetViewer>
-<CharacterOffsetViewer>Óla</CharacterOffsetViewer>
-<CharacterOffsetViewer>Привет</CharacterOffsetViewer>
-<CharacterOffsetViewer>안녕하세요</CharacterOffsetViewer>
-<CharacterOffsetViewer>こんにちは</CharacterOffsetViewer>
-<CharacterOffsetViewer>Bonjour</CharacterOffsetViewer>
-<CharacterOffsetViewer rtl={true}>مرحبا</CharacterOffsetViewer>
-<CharacterOffsetViewer>नमस्ते</CharacterOffsetViewer>
-<CharacterOffsetViewer>👋</CharacterOffsetViewer>
-
-## What can I use annotations for?
-
-Annotations can be used for anything to describe the content.
-
-Some common annotations for editorial purposes are comments and suggestions. Comments use annotation offsets to comment on a specific portion of the document:
-
-```js
-{
-  "content": "Cat Person",
-  "annotations": [{
-    type: "-offset-comment",
-    start: 0,
-    end: 9
-    attributes: {
-      '-offset-author': "Eustace Tilley",
-      '-offset-writtenAt': "2018-01-05 21:00T"
-      '-offset-comment': "What about dog people?"
-    }
-  }]
-}
-```
-
-In addition to comments, suggestions can be made to the text in the same manner as comments:
-
-```js
-{
-  "content": "Reeducation",
-  "annotations": [{
-    type: "-offset-suggested-replacement",
-    start: 2,
-    end: 3
-    attributes: {
-      '-offset-text': "ë",
-      '-offset-author': "Eustace Tilley",
-      '-offset-suggestedAt': "2018-01-10 23:00T"
-    }
-  }]
-}
-```
-
-Objects can also be embedded in documents that can be expanded when the document is reified to its final output:
-
-```js
-{
-  "content": "￼",
-  "annotations": [{
-    type: "-offset-image",
-    start: 0,
-    end: 1,
-    attributes: {
-      '-offset-alt': "Logo",
-      '-offset-url': ""
-    }
-  }]
-}
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'The quick brown fox jumped over the lazy dog.',
+    annotations: [new Adjective({
+      start: 4,
+      end: 15
+    }), new Italic({
+      start: 4,
+      end: 9
+    }), new TextColor({
+      start: 10,
+      end: 15,
+      attributes: { color: '#9b2b2b' }
+    }), new Noun({
+      start: 16,
+      end: 19
+    }), new Image({
+      start: 10,
+      end: 19
+    }), new Verb({
+      start: 20,
+      end: 26
+    })]
+  })
+} />

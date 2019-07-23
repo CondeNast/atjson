@@ -10,8 +10,10 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.19",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.19",
+    "@atjson/document": "0.17.0",
+    "@atjson/renderer-react": "^0.17.1",
+    "@docusaurus/core": "^2.0.0-alpha.23",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.23",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
@@ -29,5 +31,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "@types/styled-components": "^4.1.18"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "docusaurus-typescript-loader",
+  "description": "Use TypeScript for with MDX in Docusaurus",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ts-loader": "^6.0.4"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}

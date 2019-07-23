@@ -1,3 +1,5 @@
+const { join } = require('path');
+
 module.exports = {
   title: 'atjson',
   tagline: 'Content that you can query, manipulate, and store with ease',
@@ -12,7 +14,11 @@ module.exports = {
         src: 'img/logo.svg'
       },
       links: [
-        {to: 'docs/getting-started', label: 'Docs', position: 'left'},
+        {
+          to: 'docs/getting-started',
+          label: 'Docs',
+          position: 'right'
+        },
         {
           href: 'https://github.com/CondeNast/atjson',
           label: 'GitHub',
@@ -22,21 +28,6 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Docs',
-              to: 'docs/getting-started'
-            },
-            {
-              label: 'API Documentation',
-              to: 'docs/api'
-            }
-          ]
-        }
-      ],
       logo: {
         alt: 'Condé Nast',
         src: '/img/conde-nast.svg'
@@ -44,6 +35,9 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`
     }
   },
+  plugins: [
+    join(__dirname, 'plugins', 'docusaurus-typescript-loader'),
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',

@@ -1,6 +1,15 @@
 {
   "docs": {
-    "Introduction": ["getting-started"],
-    "API Documentation": ["api-overview"]
+    "Overview": [
+      "getting-started",
+      "structure"
+    ],
+    "Rendering": [
+      "react"
+    ],
+    "Paste Handlers": [
+      "google-docs-paste",
+      "google-docs-explainer"
+    ]
   }
 }

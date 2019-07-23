@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
-import { useResizeObserver } from './hooks';
+import { FC, useLayoutEffect, useRef, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
+// @ts-ignore
+import { useResizeObserver } from './hooks.ts';
 
 const Container = styled.div`
   position: relative;
@@ -26,8 +27,8 @@ const blink = keyframes`
   100% { opacity: 0 }
 `;
 
-const Cursor = styled.rect`
-  fill: ${(props) => props.collapsed ? "#0023FF" : "rgba(0, 52, 255, 0.25)"};
+const Cursor = styled.rect<{ collapsed: boolean }>`
+  fill: ${props => props.collapsed ? '#0023FF' : 'rgba(0, 52, 255, 0.25)'};
   ${props => props.collapsed ? css`animation: ${blink} 1.2s infinite ease-out;` : ''}
 `;
 
@@ -48,22 +49,35 @@ const PositionalInfo = styled.svg`
   height: 100%;
 `;
 
-export const CharacterOffsetViewer = props => {
-  let ref = useRef();
-  let [positions, setPositions] = useState([]);
-  let [offsetDims, setOffsetDims] = useState([]);
+export const CharacterOffsetViewer: FC<{
+  rtl?: boolean;
+  children: string;
+}> = props => {
+  let ref = useRef<HTMLHeadingElement | null>(null);
+  let [positions, setPositions] = useState<Array<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }>>([]);
+  let [offsetDims, setOffsetDims] = useState<Array<{
+    width: number;
+    height: number;
+  }>>([]);
   let [cursor, setCursor] = useState([-1, -1]);
 
   useLayoutEffect(() => {
 
     let selectionDidChange = () => {
       let selection = document.getSelection();
-      let range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-      if (range && (ref.current.contains(range.startContainer) || ref.current === range.startContainer)) {
-        setCursor([range.startOffset, range.endOffset]);
-      } else {
-        setCursor([-1, -1]);
+      if (selection && ref.current) {
+        let range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+        if (range && (ref.current.contains(range.startContainer) || ref.current === range.startContainer)) {
+          setCursor([range.startOffset, range.endOffset]);
+          return;
+        }
       }
+      setCursor([-1, -1]);
     };
     document.addEventListener('selectionchange', selectionDidChange);
 
@@ -71,13 +85,13 @@ export const CharacterOffsetViewer = props => {
       document.removeEventListener('selectionchange', selectionDidChange);
     };
   }, [props.children]);
-  
+
   useResizeObserver(ref, () => {
     let range = document.createRange();
     if (ref.current) {
-      let text = ref.current.querySelector('h4');
+      let text = ref.current.querySelector('h4')!;
       let offset = text.getBoundingClientRect();
-      let textNode = text.childNodes[0];
+      let textNode = text.childNodes[0] as Text;
       let characterPositions = [];
       for (let i = 0, len = textNode.length; i < len; i++) {
         range.setStart(textNode, i);
@@ -125,10 +139,11 @@ export const CharacterOffsetViewer = props => {
     }
   }, [positions]);
 
-  let endPoints = [];
+  let endPoints: Array<{ x: number; y: number; }> = [];
   let padding = 10;
   if (offsetDims.length) {
-    let lhs, rhs;
+    let lhs;
+    let rhs;
     // Move outwards using the center 2
     if (positions.length % 2 === 0) {
       let center = Math.floor(positions.length / 2);
@@ -147,7 +162,7 @@ export const CharacterOffsetViewer = props => {
       endPoints[center] = {
         x: positions[center].x,
         y: positions[center].y + padding / 2
-      }
+      };
       lhs = {
         index: center,
         left: positions[center].x - offsetDims[center].width / 2
@@ -238,21 +253,21 @@ export const CharacterOffsetViewer = props => {
             let dim = offsetDims[index] || {
               width: (index < 10 ? 9 : 18),
               height: 12
-            }
+            };
             let isActive = index >= cursor[0] && index <= cursor[1];
 
             return (
               <>
                 <path
                   d={`M ${x},${y - 1} L ${x},${y} C ${x},${y + 5} ${endPos.x},${y + 5} ${endPos.x},${y + 10}`}
-                  stroke="#0023FF"
+                  stroke='#0023FF'
                   strokeWidth={isActive ? 2 : 1}
-                  fill="none"
+                  fill='none'
                 />
                 <text
                   x={endPos.x - dim.width / 2}
                   y={endPos.y + dim.height}
-                  fill={isActive ? "white" : "#111"}
+                  fill={isActive ? 'white' : '#111'}
                 >{props.rtl ? positions.length - index - 1 : index}</text>
               </>
             );

@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "baseUrl": "./",
+    "declaration": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "inlineSourceMap": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2016.array.include",
+      "es6",
+      "scripthost"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "jsx": "react",
+    "skipDefaultLibCheck": true,
+    "strict": true,
+    "target": "ES2019"
+  },
+  "include": [
+    "docs/**/*"
+  ]
+}

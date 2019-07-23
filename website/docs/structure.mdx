@@ -1,0 +1,15 @@
+---
+title: 🧩 Structure
+---
+
+An atjson document has the content, and the annotations. Annotations are
+data about the content, and have `start` and `end` positions that refer
+to positional offsets in the document.
+
+Positions represent the space *in between* characters in the document. That
+means an annotation that starts at `0` starts before any character in the document.
+
+import { CharacterOffsetViewer } from './components/CharacterOffsetViewer.tsx';
+
+<CharacterOffsetViewer>Hello</CharacterOffsetViewer>
+
