@@ -349,17 +349,55 @@ describe('@atjson/source-html', () => {
       });
     });
 
-    test('pre code', () => {
-      let doc = HTMLSource.fromRaw(`<pre><code>console.log('wowowowow');</code></pre>`);
-      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
-      expect(hir).toMatchObject({
-        type: 'root',
-        attributes: {},
-        children: [{
-          type: 'code',
-          attributes: { style: 'block' },
-          children: [`console.log('wowowowow');`]
-        }]
+    describe('code blocks', () => {
+      test('pre code', () => {
+        let doc = HTMLSource.fromRaw(`<pre> <code>console.log('wowowowow');</code>\n</pre>`);
+        let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
+        expect(hir).toMatchObject({
+          type: 'root',
+          attributes: {},
+          children: [' ', {
+            type: 'code',
+            attributes: { style: 'block' },
+            children: [`console.log('wowowowow');`]
+          }, '\n']
+        });
+      });
+
+      test('multiple code blocks inside of pre', () => {
+        let doc = HTMLSource.fromRaw(`<pre><code>console.log('wow');</code><code>console.log('wowowow');</code></pre>`).convertTo(OffsetSource);
+        doc.where(a => a.type === 'unknown').remove();
+
+        let hir = new HIR(doc).toJSON();
+        expect(hir).toMatchObject({
+          type: 'root',
+          attributes: {},
+          children: [{
+            type: 'code',
+            attributes: { style: 'inline' },
+            children: [`console.log('wow');`]
+          }, {
+            type: 'code',
+            attributes: { style: 'inline' },
+            children: [`console.log('wowowow');`]
+          }]
+        });
+      });
+
+      test('text inside of pre, but not code', () => {
+        let doc = HTMLSource.fromRaw(`<pre>hi<code>console.log('wowowow');</code></pre>`).convertTo(OffsetSource);
+        doc.where(a => a.type === 'unknown').remove();
+
+        let hir = new HIR(doc).toJSON();
+        expect(hir).toMatchObject({
+          type: 'root',
+          attributes: {},
+          children: ['hi', {
+            type: 'code',
+            attributes: { style: 'inline' },
+            children: [`console.log('wowowow');`]
+          }]
+        });
       });
     });
 
