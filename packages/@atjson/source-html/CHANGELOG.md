@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.18.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.17.2...@atjson/source-html@0.18.0) (2019-07-24)
+
+
+### ✨ New Features
+
+* ✨ add converter for code elements in HTML
+
+
+
 ## [0.17.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.17.1...@atjson/source-html@0.17.2) (2019-07-23)
 
 

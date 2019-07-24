@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.17.2](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.17.1...@atjson/offset-annotations@0.17.2) (2019-07-24)
+
+
+### 🐛 Fixes
+
+* 🐞 add typings to offset annotation using the generic extension
+
+
+
 ## [0.17.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.17.0...@atjson/offset-annotations@0.17.1) (2019-07-15)
 
 
