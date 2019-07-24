@@ -1,11 +1,10 @@
 import { Annotation } from '@atjson/document';
 
-export default class HTML extends Annotation {
+export default class HTML extends Annotation<{
+  style: 'inline' | 'block';
+}> {
   static vendorPrefix = 'offset';
   static type = 'html';
-  attributes!: {
-    style: 'inline' | 'block';
-  };
 
   get rank() {
     if (this.attributes.style === 'inline') {

@@ -24,15 +24,14 @@ export class ImageDescriptionSource extends Document {
   ];
 }
 
-export default class Image extends ObjectAnnotation {
+export default class Image extends ObjectAnnotation<{
+  url: string;
+  title?: string;
+  description: ImageDescriptionSource;
+}> {
   static vendorPrefix = 'offset';
   static type = 'image';
   static subdocuments = {
     description: ImageDescriptionSource
-  };
-  attributes!: {
-    url: string;
-    title: string;
-    description: ImageDescriptionSource;
   };
 }

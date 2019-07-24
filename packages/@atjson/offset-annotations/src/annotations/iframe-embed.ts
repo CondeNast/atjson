@@ -11,18 +11,16 @@ export function without<T>(array: T[], value: T): T[] {
   }, result);
 }
 
-export default class IframeEmbed extends ObjectAnnotation {
+export default class IframeEmbed extends ObjectAnnotation<{
+  url: string;
+  width?: string;
+  height?: string;
+  caption?: CaptionSource;
+  sandbox?: string;
+}> {
   static type = 'iframe-embed';
   static vendorPrefix = 'offset';
   static subdocuments = { caption: CaptionSource };
-
-  attributes!: {
-    url: string;
-    width?: string;
-    height?: string;
-    caption?: CaptionSource;
-    sandbox?: string;
-  };
 
   get url() {
     try {

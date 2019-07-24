@@ -1,6 +1,19 @@
-import OffsetSource from '@atjson/offset-annotations';
+import Document from '@atjson/document';
+import OffsetSource, { Code } from '@atjson/offset-annotations';
 import { Image, OrderedList } from './annotations';
 import HTMLSource from './source';
+
+function getText(doc: Document) {
+  let text = '';
+  let index = 0;
+  let parseTokens = doc.where({ type: '-atjson-parse-token' });
+  parseTokens.forEach(token => {
+    text += doc.content.slice(index, token.start);
+    index = token.end;
+  });
+
+  return text;
+}
 
 HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: '-html-a' }).set({ type: '-offset-link' }).rename({ attributes: { '-html-href': '-offset-url' } });
@@ -59,6 +72,31 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
       }
     });
   });
+
+  let $pre = doc.where({ type: '-html-pre' }).as('pre');
+  let $code = doc.where({ type: '-html-code' }).as('codeElements');
+
+  $pre.join($code, (pre, code) => pre.start < code.start && code.end < pre.end)
+    .update(({ pre, codeElements }) => {
+      if (codeElements.length > 1) return;
+
+      let code = codeElements[0];
+      if (!getText(doc.slice(pre.start, code.start)).match(/^\s*$/) ||
+          !getText(doc.slice(code.end, pre.end)).match(/^\s*$/)) {
+        return;
+      }
+
+      doc.replaceAnnotation(code, new Code({
+        start: code.start,
+        end: code.end,
+        attributes: {
+          style: 'block'
+        }
+      }));
+      doc.removeAnnotation(pre);
+    });
+
+  doc.where({ type: '-html-code' }).set({ type: '-offset-code', attributes: { '-offset-style': 'inline' } });
 
   return doc;
 });
