@@ -3,7 +3,8 @@
     "Overview": [
       "getting-started",
       "structure",
-      "prior-art"
+      "prior-art",
+      "querying"
     ],
     "Rendering": [
       "react"

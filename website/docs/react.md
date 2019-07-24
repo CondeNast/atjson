@@ -34,3 +34,13 @@ export const Story: FC<{ children: Document }> = props => {
   return ReactRenderer.render(props.children, components);
 };
 ```
+
+## API
+
+### ReactRenderer.render
+
+```ts
+ReactRenderer.render(document, components);
+```
+
+TK explain render function
