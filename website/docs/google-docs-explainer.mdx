@@ -13,14 +13,14 @@ At `data.resolved`, there are a number of sub-objects that describe the
 document. They are listed here in relative order of relevance to conversion to
 atjson documents.
 
-## `dsl_spacers`: Body Text
+## Body Text: `dsl_spacers`
 
 `dsl_spacers` is the body text in raw form. This includes newlines, and is
 largely analagous to atjson's `content` field. As far as I can tell, there are
 no differences, except for the omission of object replacement characters
 (Google Docs uses `*` instead).
 
-## `dsl_styleslices`: Styles Applied to Text
+## Styles Applied to Text: `dsl_styleslices`
 
 `dsl_styleslices` describes a number of facets of styling that can be applied
 to text. Each "style slice" is a list where each element corresponds to a

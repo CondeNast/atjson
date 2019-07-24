@@ -9,6 +9,7 @@ const Container = styled.div`
 `;
 
 const Text = styled.h4`
+  position: relative;
   text-align: center;
   font-size: 1.5rem;
   padding: 0 0 2rem 0;
@@ -67,7 +68,6 @@ export const CharacterOffsetViewer: FC<{
   let [cursor, setCursor] = useState([-1, -1]);
 
   useLayoutEffect(() => {
-
     let selectionDidChange = () => {
       let selection = document.getSelection();
       if (selection && ref.current) {
@@ -223,7 +223,6 @@ export const CharacterOffsetViewer: FC<{
 
   return (
     <Container ref={ref}>
-      <Text dir={props.rtl ? 'rtl' : 'ltr'}>{props.children}</Text>
       <PositionalInfo>
         {cursor[0] > -1 &&
           <Cursor
@@ -274,6 +273,7 @@ export const CharacterOffsetViewer: FC<{
           })
         }
       </PositionalInfo>
+      <Text dir={props.rtl ? 'rtl' : 'ltr'}>{props.children}</Text>
     </Container>
   );
 };

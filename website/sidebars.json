@@ -2,14 +2,19 @@
   "docs": {
     "Overview": [
       "getting-started",
-      "structure"
+      "structure",
+      "prior-art"
     ],
     "Rendering": [
       "react"
     ],
     "Paste Handlers": [
       "google-docs-paste",
-      "google-docs-explainer"
+      "google-docs-explainer",
+      "url-paste"
+    ],
+    "Analysis": [
+      "analysis"
     ]
   }
 }
