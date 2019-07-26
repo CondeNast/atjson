@@ -5,17 +5,12 @@ import URLSource from '@atjson/source-url';
 import * as React from 'react';
 import { FC, useState } from 'react';
 import styled from 'styled-components';
+import { TextField } from './TextField.tsx';
 
 const Wrapper = styled.div`
   margin: 0 auto;
   text-align: center;
   display: grid;
-`;
-
-const URLField = styled.input.attrs({
-  type: 'url'
-})`
-  font-size: 16px;
 `;
 
 function without<T>(array: T[], value: T): T[] {
@@ -38,7 +33,8 @@ export const URLPaste: FC = () => {
   let [url, setURL] = useState('https://giphy.com/gifs/cover-yorker-7kQgG9mngOlJS');
   return (
     <Wrapper>
-      <URLField
+      <TextField
+        type='url'
         value={url}
         onChange={evt => setURL(evt.target.value)}
       />

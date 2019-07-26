@@ -30,7 +30,8 @@ import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, Tex
     content: 'The quick brown fox jumped over the lazy dog.',
     annotations: [new Adjective({
       start: 4,
-      end: 15
+      end: 15,
+      attributes: { name: 'adjective' }
     }), new Italic({
       start: 4,
       end: 9
@@ -40,13 +41,16 @@ import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, Tex
       attributes: { color: '#9b2b2b' }
     }), new Noun({
       start: 16,
-      end: 19
+      end: 19,
+      attributes: { name: 'noun' }
     }), new Image({
       start: 10,
-      end: 19
+      end: 19,
+      attributes: { src: 'https://cdn.pixabay.com/photo/2018/03/11/20/42/mammals-3218028_960_720.jpg' }
     }), new Verb({
       start: 20,
-      end: 26
+      end: 26,
+      attributes: { name: 'verb' }
     })]
   })
 } />
