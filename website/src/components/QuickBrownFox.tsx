@@ -165,7 +165,7 @@ const ImageComponent: FC<AttributesOf<Image> & Position> = props => {
   return (
     <g>
       <BelowBrace {...props} />
-      <image x={props.x - 30} y={props.y + props.height + 10} xlinkHref={props.src} width={props.width + 60} />
+      <image x={props.x - 30} y={props.y + props.height + 10} xlinkHref={props.src} width={props.width + 60} height={0.6635654659805603 * (props.width + 60)} />
     </g>
   );
 };
