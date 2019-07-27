@@ -8,7 +8,7 @@ import { useResizeObserver } from './hooks.ts';
 const Wrapper = styled.h4`
   position: relative;
   text-align: center;
-  padding: 2rem 0;
+  margin: 3rem 0 8rem;
 `;
 
 const Container = styled.div`
@@ -22,6 +22,19 @@ const SVG = styled.svg`
   width: 100%;
   height: 100%;
   overflow: visible;
+
+  path {
+    pointer-events: none;
+  }
+
+  text {
+    cursor: default;
+  }
+
+  rect {
+    transition: all 120ms;
+    mix-blend-mode: multiply;
+  }
 `;
 
 export class Adjective extends InlineAnnotation<{ name: string }>  {
@@ -162,39 +175,63 @@ const AboveBrace: FC<Position> = props => {
 };
 
 const ImageComponent: FC<AttributesOf<Image> & Position> = props => {
+  let [isHovered, setHovered] = useState(false);
+
   return (
     <g>
       <BelowBrace {...props} />
-      <image x={props.x - 30} y={props.y + props.height + 10} xlinkHref={props.src} width={props.width + 60} height={0.6635654659805603 * (props.width + 60)} />
+      <rect
+        x={props.x - 2}
+        y={props.y}
+        width={props.width + 4}
+        height={props.height}
+        fill={isHovered ? 'rgba(0, 52, 255, 0.25)' : 'rgba(0, 52, 255, 0)'}
+      />
+      <image
+        xlinkHref={props.src}
+        x={props.x - 30}
+        y={props.y + props.height + 10}
+        width={props.width + 60}
+        height={0.6635654659805603 * (props.width + 60)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      />
     </g>
   );
 };
 
 const VerbComponent: FC<AttributesOf<Verb> & Position> = props => {
+  let [isHovered, setHovered] = useState(false);
+
   return (
-    <g>
+    <g
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <AboveBrace {...props} />
-      <text x={props.x} y={props.y - 12} width={props.width} dx={props.width / 2} textAnchor='middle'>{props.name}</text>
+      <rect
+        x={props.x - 2}
+        y={props.y}
+        width={props.width + 4}
+        height={props.height}
+        fill={isHovered ? 'rgba(0, 52, 255, 0.25)' : 'rgba(0, 52, 255, 0)'}
+      />
+      <text
+        x={props.x}
+        y={props.y - 12}
+        width={props.width}
+        dx={props.width / 2}
+        textAnchor='middle'>{props.name}</text>
     </g>
   );
 };
 
 const NounComponent: FC<AttributesOf<Verb> & Position> = props => {
-  return (
-    <g>
-      <AboveBrace {...props} />
-      <text x={props.x} y={props.y - 12} width={props.width} dx={props.width / 2} textAnchor='middle'>{props.name}</text>
-    </g>
-  );
+  return <VerbComponent {...props} />;
 };
 
 const AdjectiveComponent: FC<AttributesOf<Verb> & Position> = props => {
-  return (
-    <g>
-      <AboveBrace {...props} />
-      <text x={props.x} y={props.y - 12} width={props.width} dx={props.width / 2} textAnchor='middle'>{props.name}</text>
-    </g>
-  );
+  return <VerbComponent {...props} />;
 };
 
 function getNodeAndOffset(offset: number, nodes: NodeListOf<ChildNode>): [Node, number] {

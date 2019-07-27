@@ -14,8 +14,9 @@
       "google-docs-explainer",
       "url-paste"
     ],
-    "Analysis": [
-      "analysis"
+    "Applications": [
+      "analysis",
+      "machine-learning"
     ]
   }
 }

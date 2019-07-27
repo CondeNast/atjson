@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   text-align: center;
   display: grid;
+  grid-gap: 1rem;
 `;
 
 function without<T>(array: T[], value: T): T[] {
@@ -26,7 +27,12 @@ function without<T>(array: T[], value: T): T[] {
 const Giphy: FC<AttributesOf<GiphyEmbed>> = props => {
   let url = new URL(props.url);
   let giphyId = without<string>(url.pathname.split('/'), '')[1].split('-').slice(-1)[0];
-  return <img src={`https://media.giphy.com/media/${giphyId}/giphy.webp`} />;
+  return (
+    <picture>
+      <source type='webp' src={`https://media.giphy.com/media/${giphyId}/giphy.webp`} />
+      <img src={`https://media.giphy.com/media/${giphyId}/giphy.gif`} />
+    </picture>
+  );
 };
 
 export const URLPaste: FC = () => {

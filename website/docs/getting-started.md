@@ -51,6 +51,16 @@ import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, Tex
       start: 20,
       end: 26,
       attributes: { name: 'verb' }
+    }), new Adjective({
+      start: 36,
+      end: 40,
+      attributes: { name: 'adjective' }
+    }), new Image({
+      start: 36,
+      end: 44,
+      attributes: { src: 'https://media.giphy.com/media/gdUxfKtxSxqtq/200w_d.gif' }
     })]
   })
 } />
+
+TK TK
