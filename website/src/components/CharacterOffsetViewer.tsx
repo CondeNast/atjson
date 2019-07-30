@@ -221,6 +221,11 @@ export const CharacterOffsetViewer: FC<{
     cursor = [length - end, length - start];
   }
 
+  cursor[1] = Math.min(cursor[1], props.children.length);
+  if (cursor[1] < cursor[0]) {
+    cursor = [cursor[1], cursor[0]];
+  }
+
   return (
     <Container ref={ref}>
       <PositionalInfo>
@@ -256,7 +261,7 @@ export const CharacterOffsetViewer: FC<{
             let isActive = index >= cursor[0] && index <= cursor[1];
 
             return (
-              <>
+              <g key={index}>
                 <path
                   d={`M ${x},${y - 1} L ${x},${y} C ${x},${y + 5} ${endPos.x},${y + 5} ${endPos.x},${y + 10}`}
                   stroke='#0023FF'
@@ -268,7 +273,7 @@ export const CharacterOffsetViewer: FC<{
                   y={endPos.y + dim.height}
                   fill={isActive ? 'white' : '#111'}
                 >{props.rtl ? positions.length - index - 1 : index}</text>
-              </>
+              </g>
             );
           })
         }
