@@ -6,7 +6,8 @@
       "prior-art",
       "querying",
       "updating-documents",
-      "converters"
+      "converters",
+      "glossary"
     ],
     "Sources": [
       "html-source",
