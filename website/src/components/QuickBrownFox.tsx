@@ -37,14 +37,9 @@ const SVG = styled.svg`
   }
 `;
 
-export class Adjective extends InlineAnnotation<{ name: string }>  {
+export class Comment extends InlineAnnotation<{ name: string }>  {
   static vendorPrefix = 'qbf';
-  static type = 'adjective';
-}
-
-export class Noun extends InlineAnnotation<{ name: string }>  {
-  static vendorPrefix = 'qbf';
-  static type = 'noun';
+  static type = 'comment';
 }
 
 export class Image extends InlineAnnotation<{
@@ -66,20 +61,13 @@ export class TextColor extends InlineAnnotation<{
   static type = 'text-color';
 }
 
-export class Verb extends InlineAnnotation<{ name: string }> {
-  static vendorPrefix = 'qbf';
-  static type = 'verb';
-}
-
 export class QuickBrownFoxSource extends Document {
   static contentType = 'application/vnd.atjson+quick-brown-fox';
   static schema = [
-    Adjective,
-    Noun,
+    Comment,
     Image,
     Italic,
-    TextColor,
-    Verb
+    TextColor
   ];
 }
 
@@ -200,7 +188,7 @@ const ImageComponent: FC<AttributesOf<Image> & Position> = props => {
   );
 };
 
-const VerbComponent: FC<AttributesOf<Verb> & Position> = props => {
+const CommentComponent: FC<AttributesOf<Comment> & Position> = props => {
   let [isHovered, setHovered] = useState(false);
 
   return (
@@ -226,14 +214,6 @@ const VerbComponent: FC<AttributesOf<Verb> & Position> = props => {
   );
 };
 
-const NounComponent: FC<AttributesOf<Verb> & Position> = props => {
-  return <VerbComponent {...props} />;
-};
-
-const AdjectiveComponent: FC<AttributesOf<Verb> & Position> = props => {
-  return <VerbComponent {...props} />;
-};
-
 function getNodeAndOffset(offset: number, nodes: NodeListOf<ChildNode>): [Node, number] {
   let start = 0;
   let nodeIndex = 0;
@@ -254,9 +234,7 @@ function getNodeAndOffset(offset: number, nodes: NodeListOf<ChildNode>): [Node, 
 
 const offscreenComponents: { [key: string]: FC<any> } = {
   Image: ImageComponent,
-  Verb: VerbComponent,
-  Noun: NounComponent,
-  Adjective: AdjectiveComponent
+  Comment: CommentComponent
 };
 
 export const QuickBrownFox: FC<{

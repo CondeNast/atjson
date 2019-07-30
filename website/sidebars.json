@@ -4,10 +4,21 @@
       "getting-started",
       "structure",
       "prior-art",
-      "querying"
+      "querying",
+      "updating-documents",
+      "converters"
+    ],
+    "Sources": [
+      "html-source",
+      "markdown-source",
+      "prism-source",
+      "mobiledoc-source"
     ],
     "Rendering": [
-      "react"
+      "react-renderer",
+      "html-renderer",
+      "markdown-renderer",
+      "custom-renderer"
     ],
     "Paste Handlers": [
       "google-docs-paste",

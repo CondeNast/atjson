@@ -23,12 +23,12 @@ the quick brown fox jumps over the lazy dog. If we were to break down
 the sentence into its linguistic parts, we start seeing relationships
 between parts of the sentence and overlapping linguistic meaning.
 
-import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor, Verb } from '../src/components/QuickBrownFox.tsx';
+import { Comment, Image, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor } from '../src/components/QuickBrownFox.tsx';
 
 <QuickBrownFox value={
   new QuickBrownFoxSource({
     content: 'The quick brown fox jumped over the lazy dog.',
-    annotations: [new Adjective({
+    annotations: [new Comment({
       start: 4,
       end: 15,
       attributes: { name: 'adjective' }
@@ -39,7 +39,7 @@ import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, Tex
       start: 10,
       end: 15,
       attributes: { color: '#9b2b2b' }
-    }), new Noun({
+    }), new Comment({
       start: 16,
       end: 19,
       attributes: { name: 'noun' }
@@ -47,11 +47,11 @@ import { Adjective, Noun, Image, Italic, QuickBrownFox, QuickBrownFoxSource, Tex
       start: 10,
       end: 19,
       attributes: { src: 'https://cdn.pixabay.com/photo/2018/03/11/20/42/mammals-3218028_960_720.jpg' }
-    }), new Verb({
+    }), new Comment({
       start: 20,
       end: 26,
       attributes: { name: 'verb' }
-    }), new Adjective({
+    }), new Comment({
       start: 36,
       end: 40,
       attributes: { name: 'adjective' }
