@@ -28,7 +28,7 @@ after_script:
 
 after_success:
   - |
-    if [[ $TRAVIS_BRANCH == latest || -n $TRAVIS_TAG ]]; then
+    if [[ ($TRAVIS_BRANCH == latest && -n $TRAVIS_TAG) && !$TRAVIS_PULL_REQUEST ]]; then
 
       # Start the ssh agent with the deploy key for the documentation
       echo "$DEPLOY_KEY" > /tmp/deploy_key
