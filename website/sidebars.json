@@ -1,0 +1,34 @@
+{
+  "docs": {
+    "Overview": [
+      "getting-started",
+      "structure",
+      "prior-art",
+      "querying",
+      "updating-documents",
+      "converters",
+      "glossary"
+    ],
+    "Sources": [
+      "html-source",
+      "markdown-source",
+      "prism-source",
+      "mobiledoc-source"
+    ],
+    "Rendering": [
+      "react-renderer",
+      "html-renderer",
+      "markdown-renderer",
+      "custom-renderer"
+    ],
+    "Paste Handlers": [
+      "google-docs-paste",
+      "google-docs-explainer",
+      "url-paste"
+    ],
+    "Applications": [
+      "analysis",
+      "machine-learning"
+    ]
+  }
+}

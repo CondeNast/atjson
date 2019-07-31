@@ -1,0 +1,41 @@
+{
+  "name": "website",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docusaurus": "docusaurus",
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "swizzle": "docusaurus swizzle",
+    "deploy": "docusaurus deploy"
+  },
+  "dependencies": {
+    "@atjson/document": "0.17.0",
+    "@atjson/offset-annotations": "^0.17.1",
+    "@atjson/renderer-react": "^0.17.1",
+    "@atjson/source-url": "^0.17.1",
+    "@docusaurus/core": "^2.0.0-alpha.23",
+    "@docusaurus/preset-classic": "^2.0.0-alpha.23",
+    "classnames": "^2.2.6",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "resize-observer": "^1.0.0",
+    "styled-components": "^4.3.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.23",
+    "@types/styled-components": "^4.1.18"
+  }
+}
