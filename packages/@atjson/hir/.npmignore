@@ -1,8 +1,11 @@
+.cache
 .vscode
-.travis.yml
 dist/**/test
 dist/**/node_modules
+src
+public
 test
-scripts
+tmp
+.npmrc
 tsconfig.json
-docs
+tslint.json
