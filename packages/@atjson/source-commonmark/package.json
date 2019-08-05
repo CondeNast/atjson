@@ -16,7 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
@@ -24,6 +23,10 @@
     "markdown-it": "^8.4.1"
   },
   "devDependencies": {
+    "@atjson/document": "file:../document",
     "@atjson/source-html": "file:../source-html"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
   }
 }

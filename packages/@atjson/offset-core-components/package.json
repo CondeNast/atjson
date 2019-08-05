@@ -19,7 +19,12 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/document": "file:../document",
     "node-sass": "^4.11.0"
+  },
+  "devDependencies": {
+    "@atjson/document": "file:../document"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
   }
 }

@@ -16,9 +16,13 @@
     "access": "public"
   },
   "devDependencies": {
+    "@atjson/document": "file:../document",
     "@atjson/source-html": "file:../source-html"
   },
   "dependencies": {
     "@atjson/renderer-hir": "file:../renderer-hir"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
   }
 }

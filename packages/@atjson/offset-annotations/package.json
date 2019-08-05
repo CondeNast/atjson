@@ -15,7 +15,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
+  "devDependencies": {
     "@atjson/document": "file:../document"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
   }
 }
