@@ -21,8 +21,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/document": "file:../document",
     "@types/uuid": "^3.4.4",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@atjson/document": "file:../document"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
   }
 }
