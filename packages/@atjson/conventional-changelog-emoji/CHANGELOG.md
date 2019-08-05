@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.19.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/conventional-changelog-emoji@0.17.0...@atjson/conventional-changelog-emoji@0.19.0) (2019-08-05)
+
+
+### 🔒 Security Updates
+
+* 🔒 fix security audits
+
+
+
 ## [0.17.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/conventional-changelog-emoji@0.10.0...@atjson/conventional-changelog-emoji@0.17.0) (2019-07-10)
 
 
