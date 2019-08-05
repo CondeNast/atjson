@@ -1,11 +1,11 @@
+.cache
 .vscode
-.travis.yml
 dist/**/test
 dist/**/node_modules
-ember-cli-build.js
-scripts
+src
+public
 test
-testem.js
 tmp
+.npmrc
 tsconfig.json
-tsling.json
+tslint.json
