@@ -71,22 +71,24 @@ export default class HIRNode {
     }
   }
 
-  toJSON(options?: { includeParseTokens: boolean }): JSON {
+  toJSON(options?: { includeParseTokens: boolean, removeIdProperty: boolean }): JSON {
     if (this.annotation instanceof Text) {
       return this.text;
     }
-
-    return {
-      id: this.id,
+    let node = {
       type: this.type,
       attributes: toJSON(this.annotation.attributes),
       children: this.children(options).map(child => {
         return child.toJSON(options);
       })
     };
+    if (!options || !options.removeIdProperty) {
+      node.id = this.id;
+    }
+    return node;
   }
 
-  children(options?: { includeParseTokens: boolean }): HIRNode[] {
+  children(options?: { includeParseTokens: boolean, removeIdProperty: boolean }): HIRNode[] {
     if (this.child) {
       let children = [this.child].concat(this.child.siblings());
       if (!options || !options.includeParseTokens) {
