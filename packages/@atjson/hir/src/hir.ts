@@ -39,7 +39,7 @@ export default class HIR {
     this.rootNode.insertText(document.content);
   }
 
-  toJSON(options?: { includeParseTokens: boolean, removeIdProperty: boolean }): JSON {
+  toJSON(options?: { includeParseTokens?: boolean, removeIdProperty?: boolean }): JSON {
     return this.rootNode.toJSON(options);
   }
 }
