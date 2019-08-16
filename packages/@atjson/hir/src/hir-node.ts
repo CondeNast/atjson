@@ -75,14 +75,17 @@ export default class HIRNode {
     if (this.annotation instanceof Text) {
       return this.text;
     }
-    return {
-      id: !(options && options.removeIdProperty) ? this.id : undefined,
+    let json: any = {
       type: this.type,
       attributes: toJSON(this.annotation.attributes),
       children: this.children(options).map(child => {
         return child.toJSON(options);
       })
-    };
+    }
+    if (!(options && options.removeIdProperty)) {
+      json.id = this.id;
+    }
+    return json;
   }
 
   children(options?: { includeParseTokens?: boolean, removeIdProperty?: boolean }): HIRNode[] {
