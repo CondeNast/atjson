@@ -2695,15 +2695,6 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-atjson-reason": "<br/>",
-      },
-      "end": 699,
-      "id": "Any<id>",
-      "start": 694,
-      "type": "-atjson-parse-token",
-    },
-    Object {
       "attributes": Object {},
       "end": 699,
       "id": "Any<id>",
@@ -2714,9 +2705,9 @@ Object {
       "attributes": Object {
         "-atjson-reason": "<br/>",
       },
-      "end": 726,
+      "end": 699,
       "id": "Any<id>",
-      "start": 721,
+      "start": 694,
       "type": "-atjson-parse-token",
     },
     Object {
@@ -2725,6 +2716,15 @@ Object {
       "id": "Any<id>",
       "start": 721,
       "type": "-offset-line-break",
+    },
+    Object {
+      "attributes": Object {
+        "-atjson-reason": "<br/>",
+      },
+      "end": 726,
+      "id": "Any<id>",
+      "start": 721,
+      "type": "-atjson-parse-token",
     },
     Object {
       "attributes": Object {
@@ -2872,6 +2872,13 @@ Object {
       "type": "-offset-bold",
     },
     Object {
+      "attributes": Object {},
+      "end": 1179,
+      "id": "Any<id>",
+      "start": 1174,
+      "type": "-offset-line-break",
+    },
+    Object {
       "attributes": Object {
         "-atjson-reason": "<br/>",
       },
@@ -2879,13 +2886,6 @@ Object {
       "id": "Any<id>",
       "start": 1174,
       "type": "-atjson-parse-token",
-    },
-    Object {
-      "attributes": Object {},
-      "end": 1179,
-      "id": "Any<id>",
-      "start": 1174,
-      "type": "-offset-line-break",
     },
     Object {
       "attributes": Object {
@@ -3840,6 +3840,13 @@ Object {
       "type": "-offset-bold",
     },
     Object {
+      "attributes": Object {},
+      "end": 3660,
+      "id": "Any<id>",
+      "start": 3655,
+      "type": "-offset-line-break",
+    },
+    Object {
       "attributes": Object {
         "-atjson-reason": "<br/>",
       },
@@ -3847,13 +3854,6 @@ Object {
       "id": "Any<id>",
       "start": 3655,
       "type": "-atjson-parse-token",
-    },
-    Object {
-      "attributes": Object {},
-      "end": 3660,
-      "id": "Any<id>",
-      "start": 3655,
-      "type": "-offset-line-break",
     },
     Object {
       "attributes": Object {
@@ -4858,6 +4858,13 @@ Object {
       "type": "-offset-bold",
     },
     Object {
+      "attributes": Object {},
+      "end": 8247,
+      "id": "Any<id>",
+      "start": 8242,
+      "type": "-offset-line-break",
+    },
+    Object {
       "attributes": Object {
         "-atjson-reason": "<br/>",
       },
@@ -4865,13 +4872,6 @@ Object {
       "id": "Any<id>",
       "start": 8242,
       "type": "-atjson-parse-token",
-    },
-    Object {
-      "attributes": Object {},
-      "end": 8247,
-      "id": "Any<id>",
-      "start": 8242,
-      "type": "-offset-line-break",
     },
     Object {
       "attributes": Object {
