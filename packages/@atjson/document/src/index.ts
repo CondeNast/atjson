@@ -1,7 +1,7 @@
 import Annotation, { AnnotationConstructor } from './annotation';
 import { BlockAnnotation, InlineAnnotation, ObjectAnnotation, ParseAnnotation, UnknownAnnotation } from './annotations';
 import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
-import AnnotationCollection from './collection';
+import AnnotationCollection, { compareAnnotations } from './collection';
 import Join from './join';
 import JSON from './json';
 
@@ -373,6 +373,37 @@ export default class Document {
     } while (regex.global && match);
 
     return matches;
+  }
+
+  canonical() {
+    let canonicalDoc = this.clone();
+    canonicalDoc.where({ type: '-atjson-parse-token' }).update(a => {
+      canonicalDoc.deleteText(a.start, a.end);
+    });
+    canonicalDoc.where({ type: '-atjson-parse-token' })
+      .remove()
+
+    canonicalDoc.annotations.sort(compareAnnotations);
+
+    return canonicalDoc;
+  }
+
+  equals(docToCompare: Document): boolean {
+    let canonicalLeftHandSideDoc = this.canonical();
+    let canonicalRightHandSideDoc = docToCompare.canonical();
+
+    let isContentEqual = canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
+    if (!isContentEqual) {
+      return false;
+    }
+    let isAnnotationLengthEqual = canonicalLeftHandSideDoc.annotations.length === canonicalRightHandSideDoc.annotations.length;
+    if (!isAnnotationLengthEqual) {
+      return false;
+    }
+
+    return canonicalLeftHandSideDoc.annotations.every((lhsAnnotation, index) => {
+      return lhsAnnotation.equals(canonicalRightHandSideDoc.annotations[index]);
+    });
   }
 
   private createAnnotation(annotation: Annotation<any> | AnnotationJSON): Annotation<any> {

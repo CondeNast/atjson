@@ -1,6 +1,20 @@
 import Document, { Annotation, AnnotationJSON } from './index';
 import Join from './join';
 
+export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
+  let startDelta = a.start - b.start;
+  let endDelta = a.end - b.end;
+  if (startDelta === 0) {
+    if (endDelta === 0) {
+      return a.type > b.type ? 1 : a.type < b.type ? -1 : 0
+    } else {
+      return endDelta;
+    }
+  } else {
+    return startDelta;
+  }
+}
+
 function matches(annotation: any, filter: { [key: string]: any; }): boolean {
   return Object.keys(filter).every(key => {
     let value = filter[key];
@@ -42,18 +56,8 @@ export class Collection {
     return this.annotations.reduce(reducer, initialValue);
   }
 
-  sort(sortFunction?: (a: Annotation<any>, b: Annotation<any>) => number) {
-    if (sortFunction) {
-      this.annotations = this.annotations.sort(sortFunction);
-    } else {
-      this.annotations = this.annotations.sort((a, b) => {
-        if (a.start - b.start === 0) {
-          return a.end - b.end;
-        } else {
-          return a.start - b.start;
-        }
-      });
-    }
+  sort(sortFunction = compareAnnotations) {
+    this.annotations = [...this.annotations].sort(sortFunction);
     return this;
   }
 

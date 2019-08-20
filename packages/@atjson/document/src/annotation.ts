@@ -4,6 +4,26 @@ import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change
 import Document from './index';
 import JSON from './json';
 
+function areAttributesEqual(lhsAnnotationAttributes: any, rhsAnnotationAttributes: any): boolean {
+  for (let key in lhsAnnotationAttributes) {
+    let lhsAttributeValue = lhsAnnotationAttributes[key];
+    let rhsAttributeValue = rhsAnnotationAttributes[key];
+    if (lhsAttributeValue !== rhsAttributeValue) {
+      if (lhsAttributeValue instanceof Document && rhsAttributeValue instanceof Document) {
+        let areNestedDocumentsEqual = lhsAttributeValue.equals(rhsAttributeValue)
+        if (!areNestedDocumentsEqual) return false;
+      } else if (typeof lhsAttributeValue === 'object' && typeof rhsAttributeValue === 'object') {
+        let areNestedAttributesEqual = areAttributesEqual(lhsAttributeValue, rhsAttributeValue)
+        if (!areNestedAttributesEqual) return false;
+      } else {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+
 export type ConcreteAnnotation<T extends Annotation<any>> = T;
 export interface AnnotationConstructor<T, Attributes> {
   vendorPrefix: string;
@@ -40,13 +60,27 @@ export default abstract class Annotation<Attributes = {}> {
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
-
+    
     this.attributes = attrs.attributes || {} as Attributes;
   }
 
   isAlignedWith(annotation: Annotation<any>) {
     return this.start === annotation.start &&
            this.end === annotation.end;
+  }
+
+  equals(annotationToCompare: Annotation<any>) {
+    let AnnotationClass = this.constructor as AnnotationConstructor<any, any>;
+    let AnnotationToCompareClass = annotationToCompare.constructor as AnnotationConstructor<any, any>;
+
+    let lhsAnnotationAttributes = this.attributes;
+    let rhsAnnotationAttributes = annotationToCompare.attributes;
+
+    return this.start === annotationToCompare.start &&
+      this.end === annotationToCompare.end &&
+      this.type === annotationToCompare.type &&
+      AnnotationClass.vendorPrefix === AnnotationToCompareClass.vendorPrefix &&
+      areAttributesEqual(lhsAnnotationAttributes, rhsAnnotationAttributes);
   }
 
   /**
