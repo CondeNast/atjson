@@ -19,7 +19,7 @@
     "@atjson/offset-annotations": "file:../offset-annotations",
     "@types/entities": "^1.1.0",
     "@types/markdown-it": "^0.0.4",
-    "entities": "^1.1.1",
+    "entities": "^2.0.0",
     "markdown-it": "^8.4.1"
   },
   "devDependencies": {
