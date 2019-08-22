@@ -1,17 +1,18 @@
 import Document, { Annotation } from '@atjson/document';
 import Renderer, { classify } from '@atjson/renderer-hir';
 import * as React from 'react';
+import { ComponentType } from 'react';
 
 export default class ReactRenderer extends Renderer {
 
   private componentLookup: {
-    [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
+    [key: string]: ComponentType<any>;
   };
 
   constructor(
     document: Document,
     componentLookup: {
-      [key: string]: React.StatelessComponent<any> | React.ComponentClass<any>;
+      [key: string]: ComponentType<any>;
     }
   ) {
     super(document);

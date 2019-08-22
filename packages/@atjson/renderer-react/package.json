@@ -16,10 +16,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "file:../renderer-hir",
-    "react": "^16.2.0"
+    "@atjson/renderer-hir": "file:../renderer-hir"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "devDependencies": {
+    "@atjson/document": "file:../document",
     "@atjson/offset-annotations": "file:../offset-annotations"
   }
 }
