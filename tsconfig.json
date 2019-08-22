@@ -20,7 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "parse5": ["./node_modules/parse5/lib/index.d.ts"]
+      "parse5": ["./node_modules/@types/parse5/index.d.ts"]
     },
     "removeComments": true,
     "jsx": "react",

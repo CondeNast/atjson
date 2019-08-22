@@ -1,22 +1,23 @@
 import { AnnotationJSON, ParseAnnotation } from '@atjson/document';
-import * as parse5 from 'parse5/lib';
+import * as parse5 from 'parse5';
 
-function isElement(node: parse5.AST.Default.Node) {
+function isElement(node: parse5.DefaultTreeNode): node is parse5.DefaultTreeElement {
   return node.nodeName !== undefined &&
          node.nodeName !== '#text' &&
          node.nodeName !== '';
 }
 
-function isParentNode(node: parse5.AST.Default.DocumentFragment | any) {
-  return node.nodeName === '#document-fragment';
+function isDocumentFragment(node: parse5.DocumentFragment): node is parse5.DefaultTreeDocumentFragment {
+  let nodeName = 'nodeName' in node ? node.nodeName : null;
+  return nodeName === '#document-fragment';
 }
 
-function isText(node: parse5.AST.Default.Node) {
+function isText(node: parse5.DefaultTreeNode): node is parse5.DefaultTreeTextNode {
   return node.nodeName === '#text';
 }
 
-function getAttributes(node: parse5.AST.Default.Element): NonNullable<any> {
-  let attrs: NonNullable<any> = (node.attrs || []).reduce((attributes: NonNullable<any>, attr: parse5.AST.Default.Attribute) => {
+function getAttributes(node: parse5.DefaultTreeElement): NonNullable<any> {
+  let attrs: NonNullable<any> = (node.attrs || []).reduce((attributes: NonNullable<any>, attr: parse5.Attribute) => {
     if (attr.name.indexOf('data-') === 0) {
       if (attributes['-html-dataset'] == null) attributes['-html-dataset'] = {};
       attributes['-html-dataset'][attr.name.slice(5)] = attr.value;
@@ -49,18 +50,18 @@ export default class Parser {
     this.annotations = [];
     this.offset = 0;
 
-    let tree = parse5.parseFragment(html, { locationInfo: true }) as parse5.AST.Default.DocumentFragment;
-    if (isParentNode(tree)) {
+    let tree = parse5.parseFragment(html, { sourceCodeLocationInfo: true });
+    if (isDocumentFragment(tree)) {
       this.walk(tree.childNodes);
     } else {
       throw new Error('Invalid return from parser. Failing.');
     }
   }
 
-  walk(nodes: parse5.AST.Default.Node[]) {
-    return (nodes || []).forEach((node: parse5.AST.Default.Node) => {
+  walk(nodes: parse5.DefaultTreeNode[]) {
+    return (nodes || []).forEach(node => {
       if (isElement(node)) {
-        let elementNode = node as parse5.AST.Default.Element;
+        let elementNode = node;
         let annotationGenerator = this.convertNodeToAnnotation(elementNode);
         // <tag>
         annotationGenerator.next();
@@ -68,8 +69,8 @@ export default class Parser {
         // </tag>
         annotationGenerator.next();
       } else if (isText(node)) {
-        let textNode = node as parse5.AST.Default.TextNode;
-        let location = textNode.__location;
+        let textNode = node;
+        let location = textNode.sourceCodeLocation;
         if (location) {
           let html = this.html.slice(location.startOffset, location.endOffset);
           let text = textNode.value;
@@ -80,8 +81,8 @@ export default class Parser {
     });
   }
 
-  convertTag(node: parse5.AST.Default.Element, which: 'startTag' | 'endTag'): number {
-    let location = node.__location;
+  convertTag(node: parse5.DefaultTreeElement, which: 'startTag' | 'endTag'): number {
+    let location = node.sourceCodeLocation;
     if (location == null) return -1;
 
     let { startOffset: start, endOffset: end } = location[which];
@@ -95,8 +96,8 @@ export default class Parser {
     return end - this.offset;
   }
 
-  *convertNodeToAnnotation(node: parse5.AST.Default.Element): IterableIterator<void> {
-    let location = node.__location;
+  *convertNodeToAnnotation(node: parse5.DefaultTreeElement): IterableIterator<void> {
+    let location = node.sourceCodeLocation;
     let tagName = node.tagName;
 
     if (location == null) {
