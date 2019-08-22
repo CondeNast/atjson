@@ -1,5 +1,7 @@
+import { AttributesOf } from '@atjson/document';
 import OffsetSource, { Bold, GiphyEmbed, Italic, LineBreak, Link, YouTubeEmbed } from '@atjson/offset-annotations';
 import * as React from 'react';
+import { FC } from 'react';
 import * as ReactDOMServer from 'react-dom/server';
 import ReactRenderer from '../src';
 
@@ -7,63 +9,36 @@ function renderDocument(doc: OffsetSource, components: { [key: string]: React.St
   return ReactDOMServer.renderToStaticMarkup(ReactRenderer.render(doc, components));
 }
 
-const RootComponent: React.StatelessComponent<{}> = props => {
+const RootComponent: FC<{}> = props => {
   return <article>{props.children}</article>;
 };
 
-const BoldComponent: React.StatelessComponent<{}> = props => {
+const BoldComponent: FC<{}> = props => {
   return <strong>{props.children}</strong>;
 };
 
-const ItalicComponent: React.StatelessComponent<{}> = props => {
+const ItalicComponent: FC<{}> = props => {
   return <em>{props.children}</em>;
 };
 
-const LinkComponent: React.StatelessComponent<{
-  url: string;
-  shouldOpenInNewTab: boolean;
-}> = props => {
-  if (props.shouldOpenInNewTab) {
-    return <a href={props.url} target='__blank' rel='noreferrer noopener'>{props.children}</a>;
-  }
-  return <a href={props.url}>{props.children}</a>;
+const LinkComponent: FC<AttributesOf<Link>> = props => {
+  return <a href={props.url} target='__blank' rel='noreferrer noopener' title={props.title}>{props.children}</a>;
 };
 
-const LineBreakComponent: React.StatelessComponent<{}> = () => {
+const LineBreakComponent: FC<{}> = () => {
   return <br/>;
 };
 
-const GiphyEmbedComponent: React.StatelessComponent<{ url: string }> = props => {
-  let id = props.url!.match(/\/gifs\/(.*)-([^-]*)/)[2];
-  let src = `https://media.giphy.com/media/${id}/giphy.gif`;
-  return <img src={src} />;
+const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = props => {
+  let match = props.url.match(/\/gifs\/(.*)-([^-]*)/);
+  if (match) {
+    return <img src={`https://media.giphy.com/media/${match[2]}/giphy.gif`} />;
+  }
+  return <s>Sorry</s>;
 };
 
-const YouTubeEmbedComponent: React.StatelessComponent<{
-  url: string;
-  showRelatedVideos: boolean;
-  showPlayerControls: boolean;
-  showInfo: boolean;
-  noCookies: boolean;
-}> = props => {
-  let videoId = props.url!.match(/[?|&]v=([^&]*)/)[1];
-  let domain = props.noCookies ? 'youtube-nocookie' : 'youtube';
-  let queryParams = [];
-  if (props.showRelatedVideos === false) {
-    queryParams.push('rel=0');
-  }
-  if (props.showPlayerControls === false) {
-    queryParams.push('controls=0');
-  }
-  if (props.showInfo === false) {
-    queryParams.push('showinfo=0');
-  }
-  let queryString = '';
-  if (queryParams.length) {
-    queryString = '?' + queryParams.join('&');
-  }
-  let src = `https://www.${domain}.com/embed/${videoId}${queryString}`;
-  return <iframe width='560' height='315' src={src} frameBorder={0} allowFullScreen={true}></iframe>;
+const YouTubeEmbedComponent: FC<AttributesOf<YouTubeEmbed>> = props => {
+  return <iframe width='560' height='315' src={props.url} frameBorder={0} allowFullScreen={true}></iframe>;
 };
 
 describe('ReactRenderer', () => {
@@ -86,6 +61,18 @@ describe('ReactRenderer', () => {
   });
 
   it('renders nested components', () => {
+    let video = new YouTubeEmbed({
+      start: 9,
+      end: 10,
+      attributes: {
+        url: 'https://www.youtube.com/embed/U8x85EY03vY'
+      }
+    });
+    video.isUsingCookielessDomain = true;
+    video.areControlsShown = false;
+    video.isPlayerInfoShown = false;
+    video.areRelatedVideosShown = false;
+
     let doc = new OffsetSource({
       content: 'Good boy\n ',
       annotations: [
@@ -97,17 +84,7 @@ describe('ReactRenderer', () => {
           }
         }),
         new LineBreak({ start: 8, end: 9 }),
-        new YouTubeEmbed({
-          start: 9,
-          end: 10,
-          attributes: {
-            url: 'https://www.youtube.com/watch?v=U8x85EY03vY',
-            showRelatedVideos: false,
-            showPlayerControls: false,
-            showInfo: false,
-            noCookies: true
-          }
-        })
+        video
       ]
     });
 
@@ -119,7 +96,7 @@ describe('ReactRenderer', () => {
       LineBreak: LineBreakComponent,
       YoutubeEmbed: YouTubeEmbedComponent
     })).toBe(
-      `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?rel=0&amp;controls=0&amp;showinfo=0" frameBorder="0" allowfullscreen=""></iframe></a></article>`
+      `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a></article>`
     );
   });
 
@@ -131,8 +108,7 @@ describe('ReactRenderer', () => {
           start: 0,
           end: 19,
           attributes: {
-            url: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy',
-            shouldOpenInNewTab: true
+            url: 'https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy'
           }
         }),
         new LineBreak({ start: 16, end: 17 }),
