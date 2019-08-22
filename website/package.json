@@ -14,7 +14,7 @@
     "@atjson/offset-annotations": "0.17.1",
     "@atjson/renderer-react": "0.17.1",
     "@atjson/source-url": "0.17.1",
-    "@docusaurus/core": "2.0.0-alpha.23",
+    "@docusaurus/core": "2.0.0-alpha.24",
     "@docusaurus/preset-classic": "2.0.0-alpha.23",
     "classnames": "2.2.6",
     "react": "16.8.6",
