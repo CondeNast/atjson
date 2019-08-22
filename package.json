@@ -6,7 +6,7 @@
     "@types/node": "11.13.5",
     "@types/q": "1.5.2",
     "@types/react": "16.8.13",
-    "@types/react-dom": "16.8.4",
+    "@types/react-dom": "16.9.0",
     "@types/uuid": "3.4.4",
     "commonmark": "0.28.1",
     "commonmark-spec": "0.28.0",
