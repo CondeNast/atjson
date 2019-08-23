@@ -12,7 +12,7 @@
     "commonmark": "0.28.1",
     "commonmark-spec": "0.28.0",
     "conventional-changelog-core": "3.1.6",
-    "jest": "24.7.1",
+    "jest": "24.9.0",
     "lerna": "3.16.4",
     "markdown-it": "8.4.2",
     "os-name": "3.1.0",
