@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.20.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.19.0...@atjson/source-prism@0.20.0) (2019-08-26)
+
+
+### ✨ New Features
+
+* ✨ Add equal() and canonical() on the document class
+
+
+
 ## [0.19.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.17.3...@atjson/source-prism@0.19.0) (2019-08-05)
 
 **Note:** Version bump only for package @atjson/source-prism
