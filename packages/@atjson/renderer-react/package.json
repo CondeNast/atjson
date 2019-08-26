@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-react",
-  "version": "0.19.0",
+  "version": "0.19.1",
   "description": "A brand new TypeScript library.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
