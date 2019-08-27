@@ -6,9 +6,11 @@
       "prior-art",
       "querying",
       "updating-documents",
-      "document-api",
       "converters",
       "glossary"
+    ],
+    "API Documentation": [
+      "document-api"
     ],
     "Sources": [
       "html-source",

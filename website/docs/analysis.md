@@ -1,5 +1,5 @@
 ---
-title: 📊 Analysis
+title: Analysis
 ---
 
 atjson is very useful for doing large scale analysis of rich content.

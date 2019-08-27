@@ -1,5 +1,5 @@
 ---
-title: 🐣 Getting Started
+title: Getting Started
 ---
 
 atjson is a toolchain for manipulating, querying, and verifying content.

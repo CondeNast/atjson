@@ -1,5 +1,5 @@
 ---
-title: 🧭 HTML
+title: HTML
 ---
 
 Take an annotated document and render it into HTML. By default, this will take an offset document and render it to HTML.

@@ -3,6 +3,7 @@ import Renderer from '@atjson/renderer-react';
 import * as React from 'react';
 import { FC, useRef, useState } from 'react';
 import styled from 'styled-components';
+// @ts-ignore
 import { useResizeObserver } from './hooks.ts';
 
 const Wrapper = styled.h4`

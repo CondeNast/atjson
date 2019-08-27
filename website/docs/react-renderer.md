@@ -1,5 +1,5 @@
 ---
-title: 🧩 React
+title: React
 ---
 
 atjson has a package for rendering documents into React. The renderer
@@ -18,7 +18,7 @@ import { Note } from '../src/components/Note.tsx';
 <Note>
 
 We're writing our components in TypeScript here to take advantage
-of type propagation from annotation to React components. You can
+of type propagation from annotations to React components. You can
 use whatever language that compiles down to Javascript that is
 most comfortable for you.
 
@@ -37,7 +37,7 @@ export const Story: FC<{ children: Document }> = props => {
 
 ## API
 
-### ReactRenderer.render
+### `ReactRenderer.render()`
 
 ```ts
 ReactRenderer.render(document, components);

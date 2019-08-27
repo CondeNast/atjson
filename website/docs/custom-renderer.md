@@ -1,5 +1,5 @@
 ---
-title: 🌳 Custom Renderer
+title: Custom Renderer
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: 🖋 Updating Documents
+title: Updating Documents
 ---
 
 TK
