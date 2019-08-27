@@ -1,5 +1,5 @@
 ---
-title: 📝 Google Docs Paste
+title: Google Docs Paste
 ---
 
 The Google Docs paste source turns Google Docs pastes into an

@@ -1,5 +1,5 @@
 ---
-title: ⬇️ Markdown
+title: Markdown
 ---
 
 TK

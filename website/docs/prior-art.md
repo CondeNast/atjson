@@ -1,5 +1,5 @@
 ---
-title: 🎨 Prior Art
+title: Prior Art
 ---
 
 CoreText  

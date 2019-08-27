@@ -1,5 +1,5 @@
 ---
-title: 🔗 URL expansion
+title: URL expansion
 ---
 
 This source transforms URLs into annotations. It allows a text editor to auto-unfurl URLs into annotations, most commonly used for social media embeds and videos.

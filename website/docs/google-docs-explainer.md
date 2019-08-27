@@ -1,5 +1,5 @@
 ---
-title: 🕵🏾‍♀️ Google Docs Content Format Explainer
+title: Google Docs Content Format Explainer
 ---
 
 This is a rough sketch of the google docs paste format, which is accessible

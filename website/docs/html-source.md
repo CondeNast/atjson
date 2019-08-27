@@ -1,5 +1,5 @@
 ---
-title: 🧭 HTML
+title: HTML
 ---
 
 The HTML source turns an HTML document into an annotated document, with the raw HTML source as the text, and all the tags (and attributes) as annotations.

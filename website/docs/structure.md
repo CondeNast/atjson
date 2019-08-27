@@ -1,5 +1,5 @@
 ---
-title: 🧱 Structure
+title: Structure
 ---
 
 An atjson document has the content, and the annotations. Annotations are
