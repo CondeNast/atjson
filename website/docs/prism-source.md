@@ -1,5 +1,5 @@
 ---
-title: 🗞 PRISM XML
+title: PRISM XML
 ---
 
 TK

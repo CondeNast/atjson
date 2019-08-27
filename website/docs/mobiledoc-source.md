@@ -1,5 +1,5 @@
 ---
-title: 📖 Mobiledoc
+title: Mobiledoc
 ---
 
 [Mobiledoc](https://github.com/bustle/mobiledoc-kit) is a format created by [201 Created](https://www.201-created.com/) for use on [Bustle](https://www.bustle.com/).

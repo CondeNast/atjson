@@ -1,5 +1,5 @@
 ---
-title: 🌖 Converters
+title: Converters
 ---
 
 Why do we need converters?
