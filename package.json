@@ -12,11 +12,14 @@
     "commonmark": "0.28.1",
     "commonmark-spec": "0.28.0",
     "conventional-changelog-core": "3.1.6",
+    "husky": "3.0.5",
     "jest": "24.9.0",
     "lerna": "3.16.4",
+    "lint-staged": "9.2.5",
     "markdown-it": "8.4.2",
     "os-name": "3.1.0",
     "parcel-bundler": "1.12.3",
+    "prettier": "1.18.2",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "shelljs": "0.8.3",
@@ -82,6 +85,17 @@
     "preset": "ts-jest",
     "testMatch": [
       "**/*-test.(ts|tsx|js|jsx)"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,css,js,jsx,json,md}": [
+      "prettier --write",
+      "git add"
     ]
   }
 }
