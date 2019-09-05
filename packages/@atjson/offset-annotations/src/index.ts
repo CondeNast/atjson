@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document from "@atjson/document";
 import {
   Blockquote,
   Bold,
@@ -24,12 +24,12 @@ import {
   TwitterEmbed,
   Underline,
   YouTubeEmbed
-} from './annotations';
+} from "./annotations";
 
-export * from './annotations';
+export * from "./annotations";
 
 export default class OffsetSource extends Document {
-  static contentType = 'application/vnd.atjson+offset';
+  static contentType = "application/vnd.atjson+offset";
   static schema = [
     Blockquote,
     Bold,

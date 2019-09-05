@@ -1,5 +1,5 @@
-import Document, { Annotation, JSON, ParseAnnotation } from '@atjson/document';
-import { Root, Text } from './annotations';
+import Document, { Annotation, JSON, ParseAnnotation } from "@atjson/document";
+import { Root, Text } from "./annotations";
 
 export interface Dictionary<T> {
   [key: string]: T | undefined;
@@ -15,23 +15,25 @@ function toJSON(attribute: NonNullable<any>): JSON {
     return attribute.toJSON();
   } else if (attribute == null) {
     return null;
-  } else if (typeof attribute === 'object') {
-    return Object.keys(attribute).reduce((copy: NonNullable<any>, key: string) => {
-      let value = attribute[key];
-      if (value == null) {
-        copy[key] = value;
-      } else {
-        copy[key] = toJSON(value);
-      }
-      return copy;
-    }, {});
+  } else if (typeof attribute === "object") {
+    return Object.keys(attribute).reduce(
+      (copy: NonNullable<any>, key: string) => {
+        let value = attribute[key];
+        if (value == null) {
+          copy[key] = value;
+        } else {
+          copy[key] = toJSON(value);
+        }
+        return copy;
+      },
+      {}
+    );
   } else {
     return attribute;
   }
 }
 
 export default class HIRNode {
-
   annotation: Annotation;
   id: string;
   rank: number;
@@ -43,15 +45,19 @@ export default class HIRNode {
   private child?: HIRNode;
   private sibling?: HIRNode;
 
-  constructor(annotation: Annotation<any> | {
-    id: string;
-    type: string,
-    start: number,
-    end: number,
-    annotation: Annotation<any>,
-    rank: number,
-    text?: string,
-  }) {
+  constructor(
+    annotation:
+      | Annotation<any>
+      | {
+          id: string;
+          type: string;
+          start: number;
+          end: number;
+          annotation: Annotation<any>;
+          rank: number;
+          text?: string;
+        }
+  ) {
     if (annotation instanceof Annotation) {
       this.annotation = annotation;
       this.id = annotation.id;
@@ -59,7 +65,7 @@ export default class HIRNode {
       this.start = annotation.start;
       this.end = annotation.end;
       this.rank = annotation.rank;
-      this.text = '';
+      this.text = "";
     } else {
       this.annotation = annotation.annotation;
       this.id = annotation.id;
@@ -67,7 +73,7 @@ export default class HIRNode {
       this.start = annotation.start;
       this.end = annotation.end;
       this.rank = annotation.rank;
-      this.text = annotation.text || '';
+      this.text = annotation.text || "";
     }
   }
 
@@ -90,7 +96,9 @@ export default class HIRNode {
     if (this.child) {
       let children = [this.child].concat(this.child.siblings());
       if (!options || !options.includeParseTokens) {
-        children = children.filter(node => !(node.annotation instanceof ParseAnnotation));
+        children = children.filter(
+          node => !(node.annotation instanceof ParseAnnotation)
+        );
       }
       return children;
     } else {
@@ -112,13 +120,16 @@ export default class HIRNode {
 
   insertText(text: string): void {
     if (!(this.annotation instanceof Root)) {
-      throw new Error('temporary exception; this should only exist in the root node subclass');
+      throw new Error(
+        "temporary exception; this should only exist in the root node subclass"
+      );
     }
 
     if (text.length === 0) return;
 
     // Don't insert Object Replacement Characters.
-    if (text.length === 1 && this.end - this.start === 1 && text === '\uFFFC') return;
+    if (text.length === 1 && this.end - this.start === 1 && text === "\uFFFC")
+      return;
 
     let annotation = new Text({
       start: this.start,
@@ -148,14 +159,18 @@ export default class HIRNode {
      * with the text node, and if so, subsume the text node (this) into the
      * given node (node)
      */
-    if (this.type !== 'text') {
+    if (this.type !== "text") {
       if (this.start === node.start && this.end === node.end) {
         this.insertChild(node);
         return;
       }
 
       if (this.start <= node.start) {
-        if (node.start === node.end && this.end === node.end && this.rank === node.rank) {
+        if (
+          node.start === node.end &&
+          this.end === node.end &&
+          this.rank === node.rank
+        ) {
           this.insertSibling(node);
           return;
         }
@@ -213,9 +228,11 @@ export default class HIRNode {
           }
         } else {
           let sibling: HIRNode = this.sibling;
-          while (sibling.sibling &&
-                 node.start >= sibling.sibling.end &&
-                 node.rank >= sibling.sibling.rank) {
+          while (
+            sibling.sibling &&
+            node.start >= sibling.sibling.end &&
+            node.rank >= sibling.sibling.rank
+          ) {
             if (sibling.sibling) {
               sibling = sibling.sibling;
             } else {
@@ -231,7 +248,6 @@ export default class HIRNode {
   insertChild(node: HIRNode): void {
     if (!this.child) {
       this.child = node;
-
     } else {
       // FIXME FIXME FIXME this needs some refactoring for clarity / symmetry.
       if (node.rank < this.child.rank) {
@@ -279,34 +295,34 @@ export default class HIRNode {
       return this;
     }
 
-    let partial = this.annotation instanceof Text ?
-      new HIRNode({
-        id: this.id,
-        type: this.type,
-        annotation: this.annotation,
-        rank: this.rank,
-        start: newStart,
-        end: newEnd,
-        text: this.text.slice(newStart - this.start, newEnd - this.start)
-      }) :
-      new HIRNode({
-        id: this.id,
-        type: this.type,
-        rank: this.rank,
-        annotation: this.annotation,
-        start: newStart,
-        end: newEnd
-      });
+    let partial =
+      this.annotation instanceof Text
+        ? new HIRNode({
+            id: this.id,
+            type: this.type,
+            annotation: this.annotation,
+            rank: this.rank,
+            start: newStart,
+            end: newEnd,
+            text: this.text.slice(newStart - this.start, newEnd - this.start)
+          })
+        : new HIRNode({
+            id: this.id,
+            type: this.type,
+            rank: this.rank,
+            annotation: this.annotation,
+            start: newStart,
+            end: newEnd
+          });
 
     if (partial.start === partial.end) return;
 
     if (partial.start > partial.end) {
-      throw new Error('something has gone catastrophically wrong');
+      throw new Error("something has gone catastrophically wrong");
     }
 
     // nb move to HIRTextNode
-    if (this.annotation instanceof Text &&
-        partial.text === '\uFFFC') {
+    if (this.annotation instanceof Text && partial.text === "\uFFFC") {
       return;
     }
 

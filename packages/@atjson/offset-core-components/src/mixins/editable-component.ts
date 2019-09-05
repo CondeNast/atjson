@@ -1,7 +1,6 @@
-import WebComponent from './component';
+import WebComponent from "./component";
 
 export default class EditableComponent extends WebComponent {
-
   static style = `
     :host {
       position: relative;
@@ -35,30 +34,30 @@ export default class EditableComponent extends WebComponent {
     }`;
 
   static events = {
-    cursorfocus: 'cursorFocus',
-    cursorblur: 'cursorBlur'
+    cursorfocus: "cursorFocus",
+    cursorblur: "cursorBlur"
   };
 
   static annotationName: string;
 
   static get selectionButton() {
-    let el = document.createElement('button');
-    el.setAttribute('data-type', this.annotationName);
+    let el = document.createElement("button");
+    el.setAttribute("data-type", this.annotationName);
     el.innerHTML = this.annotationName;
     return el;
   }
 
   static elementRenderer(node: any): Element {
-    let d = document.createElement('div');
-    d.setAttribute('data-type', node.type);
+    let d = document.createElement("div");
+    d.setAttribute("data-type", node.type);
     return d;
   }
 
   cursorFocus() {
-    this.classList.add('cursorfocus');
+    this.classList.add("cursorfocus");
   }
 
   cursorBlur() {
-    this.classList.remove('cursorfocus');
+    this.classList.remove("cursorfocus");
   }
 }

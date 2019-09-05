@@ -1,4 +1,4 @@
-import { AnnotationJSON } from '@atjson/document';
+import { AnnotationJSON } from "@atjson/document";
 
 export type Atom = [string, string, any];
 export type Card = [string, any];
@@ -19,11 +19,14 @@ export interface Mobiledoc {
 function prefix(attributes: any): any {
   if (Array.isArray(attributes)) {
     return attributes.map((item: any) => prefix(item));
-  } else if (typeof attributes === 'object' && attributes != null) {
-    return Object.keys(attributes).reduce((prefixedAttributes: any, key: string) => {
-      prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
-      return prefixedAttributes;
-    }, {} as any);
+  } else if (typeof attributes === "object" && attributes != null) {
+    return Object.keys(attributes).reduce(
+      (prefixedAttributes: any, key: string) => {
+        prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
+        return prefixedAttributes;
+      },
+      {} as any
+    );
   } else {
     return attributes;
   }
@@ -40,12 +43,12 @@ export default class Parser {
     this.annotations = [];
     this.inProgressAnnotations = [];
     this.mobiledoc = mobiledoc;
-    let content = '';
+    let content = "";
     let start = 0;
 
     mobiledoc.sections.forEach(section => {
       let identifier = section[0];
-      let partial = '';
+      let partial = "";
       if (identifier === 1) {
         partial = this.processSection(section as Section, start);
       } else if (identifier === 2) {
@@ -70,7 +73,7 @@ export default class Parser {
       end: start + 1,
       attributes: prefix(card[1])
     });
-    return '\uFFFC';
+    return "\uFFFC";
   }
 
   processImage(section: ImageSection, start: number) {
@@ -80,23 +83,31 @@ export default class Parser {
       start,
       end: start + 1,
       attributes: {
-        '-mobiledoc-src': src
+        "-mobiledoc-src": src
       }
     });
-    return '\uFFFC';
+    return "\uFFFC";
   }
 
   processSection(section: Section, start: number) {
     let [, tagName, markers] = section;
 
-    let sectionText = '';
+    let sectionText = "";
     let offset = start;
     markers.forEach(([identifier, tags, closed, textOrAtomIndex]) => {
-      let partial = '';
+      let partial = "";
       if (identifier === 0) {
-        partial = this.processMarkup(tags, closed, textOrAtomIndex as string, offset);
+        partial = this.processMarkup(
+          tags,
+          closed,
+          textOrAtomIndex as string,
+          offset
+        );
       } else if (identifier === 1) {
-        partial = this.processAtom(this.mobiledoc.atoms[textOrAtomIndex as number], offset);
+        partial = this.processAtom(
+          this.mobiledoc.atoms[textOrAtomIndex as number],
+          offset
+        );
       }
       sectionText += partial;
       offset += partial.length;
@@ -114,26 +125,34 @@ export default class Parser {
 
   processList(section: ListSection, start: number) {
     let [, tagName, listItems] = section;
-    let listText = '';
+    let listText = "";
     let offset = start;
 
     listItems.forEach((markers: Marker[]) => {
-      let item = '';
+      let item = "";
       let itemStart = offset;
 
       markers.forEach(([identifier, tags, closed, textOrAtomIndex]) => {
-        let partial = '';
+        let partial = "";
         if (identifier === 0) {
-          partial = this.processMarkup(tags, closed, textOrAtomIndex as string, offset);
+          partial = this.processMarkup(
+            tags,
+            closed,
+            textOrAtomIndex as string,
+            offset
+          );
         } else if (identifier === 1) {
-          partial = this.processAtom(this.mobiledoc.atoms[textOrAtomIndex as number], offset);
+          partial = this.processAtom(
+            this.mobiledoc.atoms[textOrAtomIndex as number],
+            offset
+          );
         }
         item += partial;
         offset += partial.length;
       });
 
       this.annotations.push({
-        type: '-mobiledoc-li',
+        type: "-mobiledoc-li",
         start: itemStart,
         end: offset,
         attributes: {}
@@ -151,7 +170,12 @@ export default class Parser {
     return listText;
   }
 
-  processMarkup(markupIndexes: number[], numberOfClosedMarkups: number, text: string, start: number) {
+  processMarkup(
+    markupIndexes: number[],
+    numberOfClosedMarkups: number,
+    text: string,
+    start: number
+  ) {
     let end = start + text.length;
 
     while (markupIndexes.length) {

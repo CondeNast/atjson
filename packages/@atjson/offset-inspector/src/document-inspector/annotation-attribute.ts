@@ -1,7 +1,8 @@
-import WebComponent from '../../src/mixins/component';
+import WebComponent from "../../src/mixins/component";
 
 export default class AnnotationAttribute extends WebComponent {
-  static template = '<div class="attribute"><span class="name"></span>: "<span class="value"></span>"</div>';
+  static template =
+    '<div class="attribute"><span class="name"></span>: "<span class="value"></span>"</div>';
 
   static style = `
     .attribute {
@@ -19,20 +20,24 @@ export default class AnnotationAttribute extends WebComponent {
     }
   `;
 
-  static observedAttributes = ['name', 'value'];
+  static observedAttributes = ["name", "value"];
 
   attributeChangedCallback(attribute) {
     switch (attribute) {
-      case 'name':
-        this.shadowRoot.querySelector('.name').innerHTML = this.getAttribute('name');
+      case "name":
+        this.shadowRoot.querySelector(".name").innerHTML = this.getAttribute(
+          "name"
+        );
         break;
-      case 'value':
-        this.shadowRoot.querySelector('.value').innerHTML = this.getAttribute('value');
+      case "value":
+        this.shadowRoot.querySelector(".value").innerHTML = this.getAttribute(
+          "value"
+        );
         break;
     }
   }
 }
 
-if (!window.customElements.get('annotation-attribute')) {
-  window.customElements.define('annotation-attribute', AnnotationAttribute);
+if (!window.customElements.get("annotation-attribute")) {
+  window.customElements.define("annotation-attribute", AnnotationAttribute);
 }

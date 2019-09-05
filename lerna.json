@@ -1,8 +1,6 @@
 {
   "version": "independent",
-  "packages": [
-    "packages/@atjson/*"
-  ],
+  "packages": ["packages/@atjson/*"],
   "command": {
     "publish": {
       "exact": true,
@@ -11,9 +9,7 @@
     },
     "bootstrap": {
       "hoist": true,
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
+      "npmClientArgs": ["--no-package-lock"]
     }
   }
 }

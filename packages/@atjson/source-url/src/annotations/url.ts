@@ -1,8 +1,8 @@
-import { ObjectAnnotation } from '@atjson/document';
+import { ObjectAnnotation } from "@atjson/document";
 
 export default class URLAnnotation extends ObjectAnnotation {
-  static type = 'url';
-  static vendorPrefix = 'whatwg';
+  static type = "url";
+  static vendorPrefix = "whatwg";
   attributes!: {
     host: string;
     hash: string;
@@ -10,6 +10,6 @@ export default class URLAnnotation extends ObjectAnnotation {
     protocol: string;
     searchParams: {
       [key: string]: string;
-    }
+    };
   };
 }

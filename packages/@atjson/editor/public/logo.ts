@@ -1,20 +1,29 @@
-import WebComponent from '../src/mixins/component';
+import WebComponent from "../src/mixins/component";
 
 export default class OffsetLogo extends WebComponent {
-
-  static template = '<canvas></canvas>';
-  static style = 'canvas { width: 300px; height: 150px; }';
+  static template = "<canvas></canvas>";
+  static style = "canvas { width: 300px; height: 150px; }";
 
   ctx: CanvasRenderingContext2D;
-  origin: { x: number, y: number };
+  origin: { x: number; y: number };
   loop?: boolean;
   channels?: any[];
 
-  initChannel(color, initialRotation, initialOffset, rotationAngleMultiplier, magicNumber) {
-    let rotationAngle = (Math.abs(Math.cos(1 * Math.PI / 180.0)) + 1) * 2 / 3;
+  initChannel(
+    color,
+    initialRotation,
+    initialOffset,
+    rotationAngleMultiplier,
+    magicNumber
+  ) {
+    let rotationAngle =
+      ((Math.abs(Math.cos((1 * Math.PI) / 180.0)) + 1) * 2) / 3;
     return {
       color,
-      point: this.rotatePoint(initialRotation, { x: this.origin.x + initialOffset.x, y: this.origin.y + initialOffset.x }),
+      point: this.rotatePoint(initialRotation, {
+        x: this.origin.x + initialOffset.x,
+        y: this.origin.y + initialOffset.x
+      }),
       angle: rotationAngle * rotationAngleMultiplier,
       dx: 0,
       dtheta: 0,
@@ -23,33 +32,33 @@ export default class OffsetLogo extends WebComponent {
   }
 
   initCanvas() {
-    let canvas = this.shadowRoot.querySelector('canvas');
+    let canvas = this.shadowRoot.querySelector("canvas");
     if (canvas === null) return;
     canvas.width = 300;
     canvas.height = 150;
-    canvas.style.width = '150';
-    canvas.style.height = '75';
+    canvas.style.width = "150";
+    canvas.style.height = "75";
 
-    let ctx = canvas.getContext('2d');
-    if (ctx === null) throw new Error('Unable to initialize Canvas');
+    let ctx = canvas.getContext("2d");
+    if (ctx === null) throw new Error("Unable to initialize Canvas");
     ctx.scale(2, 2);
 
-    ctx.globalCompositeOperation = 'darken';
-    let fontSize = canvas.width / 7 + 'px';
+    ctx.globalCompositeOperation = "darken";
+    let fontSize = canvas.width / 7 + "px";
     ctx.font = `italic ${fontSize} Georgia`;
 
     this.origin = { x: 5, y: canvas.height / 4.0 };
     this.ctx = ctx;
 
     this.channels = [
-      this.initChannel('cyan', 0, { x: -2, y: -2 }, 1, 5),
-      this.initChannel('magenta', 120, { x: -2, y: -2 }, -1, 95),
-      this.initChannel('yellow', 240, { x: -2, y: -2 }, 1, 50)
+      this.initChannel("cyan", 0, { x: -2, y: -2 }, 1, 5),
+      this.initChannel("magenta", 120, { x: -2, y: -2 }, -1, 95),
+      this.initChannel("yellow", 240, { x: -2, y: -2 }, 1, 50)
     ];
   }
 
   rotatePoint(angle: number, point) {
-    let radians = angle * Math.PI / 180.0;
+    let radians = (angle * Math.PI) / 180.0;
     let cos = Math.cos(radians);
     let sin = Math.sin(radians);
     let dX = point.x - this.origin.x;
@@ -61,7 +70,7 @@ export default class OffsetLogo extends WebComponent {
 
   drawOffset(point, color) {
     this.ctx.fillStyle = color;
-    this.ctx.fillText('offset', point.x, point.y);
+    this.ctx.fillText("offset", point.x, point.y);
   }
 
   mutateChannel(channel) {
@@ -72,7 +81,7 @@ export default class OffsetLogo extends WebComponent {
       channel.dtheta += thetaSign * Math.random();
     }
 
-    if (channel.angle < 0.05 && channel.angle > 0 ) {
+    if (channel.angle < 0.05 && channel.angle > 0) {
       channel.angle = -0.05;
     } else if (channel.angle < 0 && channel.angle > -0.05) {
       channel.angle = 0.05;
@@ -95,7 +104,8 @@ export default class OffsetLogo extends WebComponent {
   }
 
   drawChannel(channel: any) {
-    let rotationAngle = (Math.abs(Math.cos(1 * Math.PI / 180.0)) + 1) * 2 / 3;
+    let rotationAngle =
+      ((Math.abs(Math.cos((1 * Math.PI) / 180.0)) + 1) * 2) / 3;
     channel.point = this.rotatePoint(rotationAngle, channel.point);
     this.drawOffset(channel.point, channel.color);
 
@@ -116,7 +126,7 @@ export default class OffsetLogo extends WebComponent {
 
     this.render();
 
-    if (this.hasAttribute('continuous') && !this.loop) {
+    if (this.hasAttribute("continuous") && !this.loop) {
       let loop = () => {
         this.render();
         window.requestAnimationFrame(loop);
@@ -133,6 +143,6 @@ export default class OffsetLogo extends WebComponent {
   }
 }
 
-if (!window.customElements.get('offset-logo')) {
-  window.customElements.define('offset-logo', OffsetLogo);
+if (!window.customElements.get("offset-logo")) {
+  window.customElements.define("offset-logo", OffsetLogo);
 }

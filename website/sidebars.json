@@ -9,9 +9,7 @@
       "converters",
       "glossary"
     ],
-    "API Documentation": [
-      "document-api"
-    ],
+    "API Documentation": ["document-api"],
     "Sources": [
       "html-source",
       "markdown-source",
@@ -29,9 +27,6 @@
       "google-docs-explainer",
       "url-paste"
     ],
-    "Applications": [
-      "analysis",
-      "machine-learning"
-    ]
+    "Applications": ["analysis", "machine-learning"]
   }
 }

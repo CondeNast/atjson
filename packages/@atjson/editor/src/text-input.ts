@@ -1,4 +1,4 @@
-import EventComponent from './mixins/events';
+import EventComponent from "./mixins/events";
 
 /* const supports = {
   beforeinput: InputEvent.prototype.hasOwnProperty('inputType')
@@ -57,13 +57,13 @@ function getTextNodes(node: Node): Text[] {
  */
 class TextInput extends EventComponent {
   static events = {
-    'beforeinput': 'beforeinput',
-    'compositionend': 'compositionend',
-    'change text-selection': 'setSelection',
-    'clear text-selection': 'clearSelection'
+    beforeinput: "beforeinput",
+    compositionend: "compositionend",
+    "change text-selection": "setSelection",
+    "clear text-selection": "clearSelection"
   };
 
-  private selection?: { start: number, end: number, collapsed: boolean } | null;
+  private selection?: { start: number; end: number; collapsed: boolean } | null;
 
   clearSelection() {
     this.selection = null;
@@ -79,14 +79,23 @@ class TextInput extends EventComponent {
     let { start, end } = this.selection;
 
     if (start === end) {
-      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
+      this.dispatchEvent(
+        new CustomEvent("insertText", {
+          bubbles: true,
+          detail: { position: start, text: evt.data }
+        })
+      );
     } else {
-      this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
+      this.dispatchEvent(
+        new CustomEvent("replaceText", {
+          bubbles: true,
+          detail: { start, end, text: evt.data }
+        })
+      );
     }
   }
 
   beforeinput(evt: DOMInputEventLvl2) {
-
     if (evt.isComposing) return;
 
     let start: number;
@@ -102,172 +111,241 @@ class TextInput extends EventComponent {
     }
 
     switch (evt.inputType) {
-    case 'insertText':
-      if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: evt.data } }));
-      } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text: evt.data } }));
-      }
-      break;
+      case "insertText":
+        if (start === end) {
+          this.dispatchEvent(
+            new CustomEvent("insertText", {
+              bubbles: true,
+              detail: { position: start, text: evt.data }
+            })
+          );
+        } else {
+          this.dispatchEvent(
+            new CustomEvent("replaceText", {
+              bubbles: true,
+              detail: { start, end, text: evt.data }
+            })
+          );
+        }
+        break;
 
-    case 'insertLineBreak':
-      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text: '\u2028' } }));
-      this.dispatchEvent(new CustomEvent('addAnnotation', {
-        bubbles: true,
-        detail: { type: 'line-break', start, end: end + 1 }
-      }));
-      break;
+      case "insertLineBreak":
+        this.dispatchEvent(
+          new CustomEvent("insertText", {
+            bubbles: true,
+            detail: { position: start, text: "\u2028" }
+          })
+        );
+        this.dispatchEvent(
+          new CustomEvent("addAnnotation", {
+            bubbles: true,
+            detail: { type: "line-break", start, end: end + 1 }
+          })
+        );
+        break;
 
-    case 'insertFromPaste':
-      text = evt.dataTransfer.getData('text/plain');
+      case "insertFromPaste":
+        text = evt.dataTransfer.getData("text/plain");
 
-      if (start === end) {
-        this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
-      } else {
-        this.dispatchEvent(new CustomEvent('replaceText', { bubbles: true, detail: { start, end, text } }));
-      }
-      break;
+        if (start === end) {
+          this.dispatchEvent(
+            new CustomEvent("insertText", {
+              bubbles: true,
+              detail: { position: start, text }
+            })
+          );
+        } else {
+          this.dispatchEvent(
+            new CustomEvent("replaceText", {
+              bubbles: true,
+              detail: { start, end, text }
+            })
+          );
+        }
+        break;
 
-    case 'insertFromDrop':
-      text = evt.dataTransfer.getData('text/plain');
+      case "insertFromDrop":
+        text = evt.dataTransfer.getData("text/plain");
 
-      target = evt.getTargetRanges()[0];
-      start = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
+        target = evt.getTargetRanges()[0];
+        start = this.nodeAndOffsetToDocumentOffset(
+          target.startContainer,
+          target.startOffset
+        );
 
-      this.dispatchEvent(new CustomEvent('insertText', { bubbles: true, detail: { position: start, text } }));
+        this.dispatchEvent(
+          new CustomEvent("insertText", {
+            bubbles: true,
+            detail: { position: start, text }
+          })
+        );
 
-      break;
+        break;
 
-    case 'deleteContentBackward':
-      if (this.selection.collapsed) {
-        start--;
-      }
-      this.dispatchEvent(new CustomEvent('deleteText', {
-        bubbles: true,
-        detail: { start, end }
-      }));
-      break;
+      case "deleteContentBackward":
+        if (this.selection.collapsed) {
+          start--;
+        }
+        this.dispatchEvent(
+          new CustomEvent("deleteText", {
+            bubbles: true,
+            detail: { start, end }
+          })
+        );
+        break;
 
-    case 'deleteWordBackward':
-    case 'deleteWordForward':
-      if (evt.inputType === 'deleteWordBackward' && this.selection.collapsed) {
-        end++;
-      }
+      case "deleteWordBackward":
+      case "deleteWordForward":
+        if (
+          evt.inputType === "deleteWordBackward" &&
+          this.selection.collapsed
+        ) {
+          end++;
+        }
 
-      target = evt.getTargetRanges()[0];
-      let deletionStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
-      let deletionEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
+        target = evt.getTargetRanges()[0];
+        let deletionStart = this.nodeAndOffsetToDocumentOffset(
+          target.startContainer,
+          target.startOffset
+        );
+        let deletionEnd = this.nodeAndOffsetToDocumentOffset(
+          target.endContainer,
+          target.endOffset
+        );
 
-      this.dispatchEvent(new CustomEvent('deleteText', {
-        bubbles: true,
-        detail: { start: deletionStart, end: deletionEnd }
-      }));
-      break;
+        this.dispatchEvent(
+          new CustomEvent("deleteText", {
+            bubbles: true,
+            detail: { start: deletionStart, end: deletionEnd }
+          })
+        );
+        break;
 
-    case 'deleteContentForward':
-      if (this.selection.collapsed) {
-        end++;
-      }
-      this.dispatchEvent(new CustomEvent('deleteText', {
-        bubbles: true,
-        detail: { start, end }
-      }));
-      break;
+      case "deleteContentForward":
+        if (this.selection.collapsed) {
+          end++;
+        }
+        this.dispatchEvent(
+          new CustomEvent("deleteText", {
+            bubbles: true,
+            detail: { start, end }
+          })
+        );
+        break;
 
-    case 'deleteByCut':
-    case 'deleteContent':
-    case 'deleteByDrag':
-      this.dispatchEvent(new CustomEvent('deleteText', {
-        bubbles: true,
-        detail: { start, end }
-      }));
-      break;
+      case "deleteByCut":
+      case "deleteContent":
+      case "deleteByDrag":
+        this.dispatchEvent(
+          new CustomEvent("deleteText", {
+            bubbles: true,
+            detail: { start, end }
+          })
+        );
+        break;
 
-    case 'insertReplacementText':
-      // n.b. this assumes that there is only one target range.
-      if (evt.getTargetRanges().length !== 1) {
-        throw new Error('Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got ' + evt.getTargetRanges().length);
-      }
+      case "insertReplacementText":
+        // n.b. this assumes that there is only one target range.
+        if (evt.getTargetRanges().length !== 1) {
+          throw new Error(
+            "Unhandled scenario. Breaking in an unelegant way. Expected exactly one target range in insertReplacementText handler, got " +
+              evt.getTargetRanges().length
+          );
+        }
 
-      target = evt.getTargetRanges()[0];
-      let replaceStart = this.nodeAndOffsetToDocumentOffset(target.startContainer, target.startOffset);
-      let replaceEnd = this.nodeAndOffsetToDocumentOffset(target.endContainer, target.endOffset);
+        target = evt.getTargetRanges()[0];
+        let replaceStart = this.nodeAndOffsetToDocumentOffset(
+          target.startContainer,
+          target.startOffset
+        );
+        let replaceEnd = this.nodeAndOffsetToDocumentOffset(
+          target.endContainer,
+          target.endOffset
+        );
 
-      evt.dataTransfer.items[0].getAsString((replString: string) => {
-        this.dispatchEvent(new CustomEvent('replaceText', {
-          bubbles: true,
-          detail: { start: replaceStart, end: replaceEnd, text: replString }
-        }));
-      });
+        evt.dataTransfer.items[0].getAsString((replString: string) => {
+          this.dispatchEvent(
+            new CustomEvent("replaceText", {
+              bubbles: true,
+              detail: { start: replaceStart, end: replaceEnd, text: replString }
+            })
+          );
+        });
 
-      break;
+        break;
 
-    case 'formatBold':
-      this.dispatchEvent(new CustomEvent('addAnnotation', {
-        bubbles: true,
-        detail: { start, end, type: 'bold' }
-      }));
-      break;
+      case "formatBold":
+        this.dispatchEvent(
+          new CustomEvent("addAnnotation", {
+            bubbles: true,
+            detail: { start, end, type: "bold" }
+          })
+        );
+        break;
 
-    case 'formatItalic':
-      this.dispatchEvent(new CustomEvent('addAnnotation', {
-        bubbles: true,
-        detail: { start, end, type: 'italic' }
-      }));
-      break;
+      case "formatItalic":
+        this.dispatchEvent(
+          new CustomEvent("addAnnotation", {
+            bubbles: true,
+            detail: { start, end, type: "italic" }
+          })
+        );
+        break;
 
-    case 'formatUnderline':
-      evt.preventDefault();
-      break;
+      case "formatUnderline":
+        evt.preventDefault();
+        break;
 
-    case 'insertParagraph':
-      evt.preventDefault();
-      this.dispatchEvent(new CustomEvent('insertText', {
-        bubbles: true,
-        detail: { position: start, text: '\n' }
-      }));
-      break;
+      case "insertParagraph":
+        evt.preventDefault();
+        this.dispatchEvent(
+          new CustomEvent("insertText", {
+            bubbles: true,
+            detail: { position: start, text: "\n" }
+          })
+        );
+        break;
 
-    case 'insertOrderedList':
-    case 'insertUnorderedList':
-    case 'insertHorizontalRule':
-    case 'insertFromYank':
-    case 'insertTranspose':
-    case 'insertCompositionText':
-    case 'insertFromComposition':
-    case 'insertLink':
-    case 'deleteByComposition':
-    case 'deleteCompositionText':
-    case 'deleteSoftLineBackward':
-    case 'deleteSoftLineForward':
-    case 'deleteEntireSoftLine':
-    case 'deleteHardLineBackward':
-    case 'deleteHardLineForward':
-    case 'deleteContentBackward':
-    case 'deleteContentForward':
-    case 'historyUndo':
-    case 'historyRedo':
-    case 'formatStrikeThrough':
-    case 'formatSuperscript':
-    case 'formatSubscript':
-    case 'formatJustifyFull':
-    case 'formatJustifyCenter':
-    case 'formatJustifyRight':
-    case 'formatJustifyLeft':
-    case 'formatIndent':
-    case 'formatOutdent':
-    case 'formatRemove':
-    case 'formatSetBlockTextDirection':
-    case 'formatSetInlineTextDirection':
-    case 'formatBackColor':
-    case 'formatFontColor':
-    case 'formatFontName':
-      // console.debug('Unsupported Input Event: ', evt);
-      break;
+      case "insertOrderedList":
+      case "insertUnorderedList":
+      case "insertHorizontalRule":
+      case "insertFromYank":
+      case "insertTranspose":
+      case "insertCompositionText":
+      case "insertFromComposition":
+      case "insertLink":
+      case "deleteByComposition":
+      case "deleteCompositionText":
+      case "deleteSoftLineBackward":
+      case "deleteSoftLineForward":
+      case "deleteEntireSoftLine":
+      case "deleteHardLineBackward":
+      case "deleteHardLineForward":
+      case "deleteContentBackward":
+      case "deleteContentForward":
+      case "historyUndo":
+      case "historyRedo":
+      case "formatStrikeThrough":
+      case "formatSuperscript":
+      case "formatSubscript":
+      case "formatJustifyFull":
+      case "formatJustifyCenter":
+      case "formatJustifyRight":
+      case "formatJustifyLeft":
+      case "formatIndent":
+      case "formatOutdent":
+      case "formatRemove":
+      case "formatSetBlockTextDirection":
+      case "formatSetInlineTextDirection":
+      case "formatBackColor":
+      case "formatFontColor":
+      case "formatFontName":
+        // console.debug('Unsupported Input Event: ', evt);
+        break;
 
-    default:
-      // console.debug('Unknown Input Event: ', evt);
-      break;
+      default:
+        // console.debug('Unknown Input Event: ', evt);
+        break;
     }
   }
 
@@ -288,15 +366,15 @@ class TextInput extends EventComponent {
       if (currNode === node) {
         return currOffset + offset;
       } else {
-        currOffset += (currNode.nodeValue || '').length;
+        currOffset += (currNode.nodeValue || "").length;
       }
     }
 
     // console.debug('No matching node', { node: node, textNodes: textNodes });
-    throw new Error('Did not find a matching node. Was matching against');
+    throw new Error("Did not find a matching node. Was matching against");
   }
 }
 
-customElements.define('text-input', TextInput);
+customElements.define("text-input", TextInput);
 
 export default TextInput;

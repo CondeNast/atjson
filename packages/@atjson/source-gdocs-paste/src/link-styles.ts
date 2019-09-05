@@ -1,7 +1,9 @@
-import { AnnotationJSON } from '@atjson/document';
-import { GDocsStyleSlice } from './types';
+import { AnnotationJSON } from "@atjson/document";
+import { GDocsStyleSlice } from "./types";
 
-export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): AnnotationJSON[] {
+export default function extractLinkStyles(
+  linkStyles: GDocsStyleSlice[]
+): AnnotationJSON[] {
   let currentLink: AnnotationJSON | null = null;
   let links: AnnotationJSON[] = [];
 
@@ -23,12 +25,12 @@ export default function extractLinkStyles(linkStyles: GDocsStyleSlice[]): Annota
     // If the linkStyles[i] entry is not null, then we have a new link starting here.
     if (link.lnks_link !== null) {
       currentLink = {
-        type: '-gdocs-lnks_link',
+        type: "-gdocs-lnks_link",
         start: i,
         end: -1,
         attributes: {
-          '-gdocs-ulnk_url': link.lnks_link.ulnk_url,
-          '-gdocs-lnk_type': link.lnks_link.lnk_type
+          "-gdocs-ulnk_url": link.lnks_link.ulnk_url,
+          "-gdocs-lnk_type": link.lnks_link.lnk_type
         }
       };
     }

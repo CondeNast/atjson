@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = function(context) {
-  const contentPath = path.join(path.resolve(context.siteDir), 'src');
+  const contentPath = path.join(path.resolve(context.siteDir), "src");
 
   return {
-    name: 'docusaurus-typescript-loader',
+    name: "docusaurus-typescript-loader",
 
     getPathsToWatch() {
       return [contentPath];
@@ -20,9 +20,12 @@ module.exports = function(context) {
               exclude: /node_modules/,
               use: [
                 {
-                  loader: 'ts-loader',
+                  loader: "ts-loader",
                   options: {
-                    configFile: path.join(path.resolve(context.siteDir), 'tsconfig.json')
+                    configFile: path.join(
+                      path.resolve(context.siteDir),
+                      "tsconfig.json"
+                    )
                   }
                 }
               ]
@@ -30,6 +33,6 @@ module.exports = function(context) {
           ]
         }
       };
-    },
+    }
   };
 };

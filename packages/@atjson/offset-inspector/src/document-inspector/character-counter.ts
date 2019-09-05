@@ -1,4 +1,4 @@
-import WebComponent from '../../src/mixins/component';
+import WebComponent from "../../src/mixins/component";
 
 export default class CharacterCounter extends WebComponent {
   static template = `
@@ -36,32 +36,34 @@ export default class CharacterCounter extends WebComponent {
     }
   `;
 
-  static observedAttributes = ['start', 'end', 'content'];
+  static observedAttributes = ["start", "end", "content"];
 
   updateContent() {
-    const start = parseInt(this.getAttribute('start'), 10);
-    const end = parseInt(this.getAttribute('end'), 10);
-    let contentSpan = this.shadowRoot.querySelector('.content');
-    let rawContent = '';
-    let contentAttr = this.getAttribute('content');
-    if (typeof contentAttr === 'string') {
-      rawContent = contentAttr.replace(/\n/g, '¶');
+    const start = parseInt(this.getAttribute("start"), 10);
+    const end = parseInt(this.getAttribute("end"), 10);
+    let contentSpan = this.shadowRoot.querySelector(".content");
+    let rawContent = "";
+    let contentAttr = this.getAttribute("content");
+    if (typeof contentAttr === "string") {
+      rawContent = contentAttr.replace(/\n/g, "¶");
     }
-    let content = document.createElement('span');
+    let content = document.createElement("span");
 
     let contentStart = document.createTextNode(rawContent.substr(0, start));
     let contentEnd = document.createTextNode(rawContent.substr(end));
-    let highlight = document.createElement('span');
+    let highlight = document.createElement("span");
 
     if (start === end) {
-      highlight.classList.add('caret-wrapper');
-      let caret = document.createElement('span');
-      caret.classList.add('caret');
-      caret.textContent = '\u200B';
+      highlight.classList.add("caret-wrapper");
+      let caret = document.createElement("span");
+      caret.classList.add("caret");
+      caret.textContent = "\u200B";
       highlight.appendChild(caret);
-    }  else {
-      let contentHighlight = document.createTextNode(rawContent.substr(start, end - start));
-      highlight.classList.add('highlight');
+    } else {
+      let contentHighlight = document.createTextNode(
+        rawContent.substr(start, end - start)
+      );
+      highlight.classList.add("highlight");
       highlight.appendChild(contentHighlight);
     }
 
@@ -69,15 +71,16 @@ export default class CharacterCounter extends WebComponent {
     content.appendChild(highlight);
     content.appendChild(contentEnd);
 
-    if (contentSpan.children[0]) contentSpan.removeChild(contentSpan.children[0]);
+    if (contentSpan.children[0])
+      contentSpan.removeChild(contentSpan.children[0]);
     contentSpan.appendChild(content);
   }
 
   attributeChangedCallback(attribute) {
     switch (attribute) {
-      case 'start':
-      case 'end':
-      case 'content':
+      case "start":
+      case "end":
+      case "content":
         window.requestIdleCallback(() => {
           this.updateContent();
         });
@@ -86,6 +89,6 @@ export default class CharacterCounter extends WebComponent {
   }
 }
 
-if (!window.customElements.get('character-counter')) {
-  window.customElements.define('character-counter', CharacterCounter);
+if (!window.customElements.get("character-counter")) {
+  window.customElements.define("character-counter", CharacterCounter);
 }

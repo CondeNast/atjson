@@ -20,12 +20,27 @@
       }
     ],
     "prefer-const": false,
-    "quotemark": [true, "single"],
+    "quotemark": [false],
     "trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
-    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore", "allow-pascal-case"],
-    "whitespace": [true,
-      "check-branch", "check-decl", "check-module", "check-operator", "check-preblock",
-      "check-rest-spread", "check-separator", "check-type", "check-type-operator", "check-typecast"
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-module",
+      "check-operator",
+      "check-preblock",
+      "check-rest-spread",
+      "check-separator",
+      "check-type",
+      "check-type-operator",
+      "check-typecast"
     ]
   }
 }
