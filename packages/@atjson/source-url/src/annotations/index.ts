@@ -1,1 +1,1 @@
-export { default as URLAnnotation } from './url';
+export { default as URLAnnotation } from "./url";

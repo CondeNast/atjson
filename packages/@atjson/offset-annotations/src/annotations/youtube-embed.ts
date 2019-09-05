@@ -1,13 +1,13 @@
-import IframeEmbed, { without } from './iframe-embed';
+import IframeEmbed, { without } from "./iframe-embed";
 
 export default class YouTubeEmbed extends IframeEmbed {
-  static type = 'youtube-embed';
-  static vendorPrefix = 'offset';
+  static type = "youtube-embed";
+  static vendorPrefix = "offset";
 
   get videoId() {
     let url = this.url;
     if (url) {
-      return without<string>(url.pathname.split('/'), '')[1];
+      return without<string>(url.pathname.split("/"), "")[1];
     }
     return null;
   }
@@ -15,7 +15,7 @@ export default class YouTubeEmbed extends IframeEmbed {
   get startsAt(): number {
     let url = this.url;
     if (url) {
-      return parseInt(url.searchParams.get('t') || '0', 10);
+      return parseInt(url.searchParams.get("t") || "0", 10);
     }
     return 0;
   }
@@ -24,9 +24,9 @@ export default class YouTubeEmbed extends IframeEmbed {
     let url = this.url;
     if (url) {
       if (seconds === 0) {
-        url.searchParams.delete('t');
+        url.searchParams.delete("t");
       } else {
-        url.searchParams.set('t', seconds.toString());
+        url.searchParams.set("t", seconds.toString());
       }
       this.attributes.url = url.toString();
     }
@@ -35,7 +35,7 @@ export default class YouTubeEmbed extends IframeEmbed {
   get isPlayerInfoShown(): boolean {
     let url = this.url;
     if (url) {
-      return url.searchParams.get('showinfo') === '0';
+      return url.searchParams.get("showinfo") === "0";
     }
     return false;
   }
@@ -44,9 +44,9 @@ export default class YouTubeEmbed extends IframeEmbed {
     let url = this.url;
     if (url) {
       if (shown) {
-        url.searchParams.delete('showinfo');
+        url.searchParams.delete("showinfo");
       } else {
-        url.searchParams.set('showinfo', '0');
+        url.searchParams.set("showinfo", "0");
       }
       this.attributes.url = url.toString();
     }
@@ -55,7 +55,7 @@ export default class YouTubeEmbed extends IframeEmbed {
   get areRelatedVideosShown(): boolean {
     let url = this.url;
     if (url) {
-      return url.searchParams.get('rel') === '0';
+      return url.searchParams.get("rel") === "0";
     }
     return false;
   }
@@ -64,9 +64,9 @@ export default class YouTubeEmbed extends IframeEmbed {
     let url = this.url;
     if (url) {
       if (shown) {
-        url.searchParams.delete('rel');
+        url.searchParams.delete("rel");
       } else {
-        url.searchParams.set('rel', '0');
+        url.searchParams.set("rel", "0");
       }
       this.attributes.url = url.toString();
     }
@@ -75,7 +75,7 @@ export default class YouTubeEmbed extends IframeEmbed {
   get areControlsShown(): boolean {
     let url = this.url;
     if (url) {
-      return url.searchParams.get('controls') === '0';
+      return url.searchParams.get("controls") === "0";
     }
     return false;
   }
@@ -84,9 +84,9 @@ export default class YouTubeEmbed extends IframeEmbed {
     let url = this.url;
     if (url) {
       if (shown) {
-        url.searchParams.delete('controls');
+        url.searchParams.delete("controls");
       } else {
-        url.searchParams.set('controls', '0');
+        url.searchParams.set("controls", "0");
       }
       this.attributes.url = url.toString();
     }
@@ -95,7 +95,7 @@ export default class YouTubeEmbed extends IframeEmbed {
   get isUsingCookielessDomain(): boolean {
     let url = this.url;
     if (url) {
-      return url.host === 'www.youtube-nocookie.com';
+      return url.host === "www.youtube-nocookie.com";
     }
     return false;
   }
@@ -104,9 +104,9 @@ export default class YouTubeEmbed extends IframeEmbed {
     let url = this.url;
     if (url) {
       if (cookieless) {
-        url.host = 'www.youtube-nocookie.com';
+        url.host = "www.youtube-nocookie.com";
       } else {
-        url.host = 'www.youtube.com';
+        url.host = "www.youtube.com";
       }
       this.attributes.url = url.toString();
     }

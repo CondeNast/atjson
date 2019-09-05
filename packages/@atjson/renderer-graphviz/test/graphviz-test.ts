@@ -1,42 +1,44 @@
-import Document, { InlineAnnotation } from '@atjson/document';
-import GraphvizRenderer from '../src/index';
-import { writeFileSync } from 'fs';
-import { join } from 'path';
+import Document, { InlineAnnotation } from "@atjson/document";
+import GraphvizRenderer from "../src/index";
+import { writeFileSync } from "fs";
+import { join } from "path";
 
 class Bold extends InlineAnnotation {
-  static vendorPrefix = 'test';
-  static type = 'bold';
+  static vendorPrefix = "test";
+  static type = "bold";
 }
 
 class Italic extends InlineAnnotation {
-  static vendorPrefix = 'test';
-  static type = 'italic';
+  static vendorPrefix = "test";
+  static type = "italic";
 }
 
 class Link extends InlineAnnotation {
-  static vendorPrefix = 'test';
-  static type = 'link';
+  static vendorPrefix = "test";
+  static type = "link";
   attributes!: {
     url: string;
   };
 }
 
 class TestSource extends Document {
-  static contentType = 'application/vnd.atjson+test';
+  static contentType = "application/vnd.atjson+test";
   static schema = [Bold, Italic, Link];
 }
 
-describe('graphviz', () => {
-  test('a simple document', () => {
+describe("graphviz", () => {
+  test("a simple document", () => {
     let doc = new TestSource({
-      content: 'Hello, world',
-      annotations: [{
-        id: '1',
-        type: '-test-bold',
-        start: 0,
-        end: 5,
-        attributes: {}
-      }]
+      content: "Hello, world",
+      annotations: [
+        {
+          id: "1",
+          type: "-test-bold",
+          start: 0,
+          end: 5,
+          attributes: {}
+        }
+      ]
     });
     expect(GraphvizRenderer.render(doc)).toBe(`digraph atjson{
   node [shape=oval];
@@ -50,48 +52,54 @@ describe('graphviz', () => {
 }`);
   });
 
-  test('example', () => {
+  test("example", () => {
     let doc = new TestSource({
-      content: 'The best writing anywhere, everywhere.',
-      annotations: [{
-        id: '1',
-        type: '-test-italic',
-        start: 4,
-        end: 8,
-        attributes: {}
-      }, {
-        id: '2',
-        type: '-test-bold',
-        start: 17,
-        end: 25,
-        attributes: {}
-      }, {
-        id: '3',
-        type: '-test-link',
-        start: 0,
-        end: 38,
-        attributes: {
-          '-test-url': 'https://newyorker.com'
+      content: "The best writing anywhere, everywhere.",
+      annotations: [
+        {
+          id: "1",
+          type: "-test-italic",
+          start: 4,
+          end: 8,
+          attributes: {}
+        },
+        {
+          id: "2",
+          type: "-test-bold",
+          start: 17,
+          end: 25,
+          attributes: {}
+        },
+        {
+          id: "3",
+          type: "-test-link",
+          start: 0,
+          end: 38,
+          attributes: {
+            "-test-url": "https://newyorker.com"
+          }
         }
-      }]
+      ]
     });
 
-    let result = GraphvizRenderer.render(doc, { shape: 'record' });
+    let result = GraphvizRenderer.render(doc, { shape: "record" });
     expect(result).toMatchSnapshot();
-    writeFileSync(join(__dirname, '../example.dot'), result);
+    writeFileSync(join(__dirname, "../example.dot"), result);
   });
 
-  for (let shape of ['record', 'Mrecord']) {
+  for (let shape of ["record", "Mrecord"]) {
     test(`${shape} node shapes`, () => {
       let doc = new TestSource({
-        content: 'Hello, world',
-        annotations: [{
-          id: '1',
-          type: '-test-bold',
-          start: 0,
-          end: 5,
-          attributes: {}
-        }]
+        content: "Hello, world",
+        annotations: [
+          {
+            id: "1",
+            type: "-test-bold",
+            start: 0,
+            end: 5,
+            attributes: {}
+          }
+        ]
       });
 
       expect(GraphvizRenderer.render(doc, { shape })).toBe(`digraph atjson{

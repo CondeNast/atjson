@@ -1,8 +1,8 @@
-import { Annotation } from '@atjson/document';
+import { Annotation } from "@atjson/document";
 
 export default class TextAnnotation extends Annotation {
-  static vendorPrefix = 'atjson';
-  static type = 'text';
+  static vendorPrefix = "atjson";
+  static type = "text";
   attributes!: {
     text: string;
   };

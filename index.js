@@ -1,17 +1,21 @@
-const appName = require('./package').name;
-const express = require('express');
+const appName = require("./package").name;
+const express = require("express");
 const app = express();
 
-const basePath = '/packages/@atjson/offset-inspector/dist';
+const basePath = "/packages/@atjson/offset-inspector/dist";
 
-app.use(express.static(__dirname + basePath, {
-  index: false
-}));
+app.use(
+  express.static(__dirname + basePath, {
+    index: false
+  })
+);
 
 // /ping for a healthy app!
-app.get('/ping', (req, res) => res.send(200));
+app.get("/ping", (req, res) => res.send(200));
 
-let index = require('fs').readFileSync(__dirname + basePath + '/index.html').toString();
+let index = require("fs")
+  .readFileSync(__dirname + basePath + "/index.html")
+  .toString();
 //let environment = require('./config/environment')(process.env['NODE_ENV'] || 'development');
 
 // Dynamic configuration is stored in a meta tag named "${package.name}/config"
@@ -26,13 +30,13 @@ index = index.replace(metaTag, function (match) {
 */
 
 // Return the index.html with appropriate configuration variables
-app.get('*', function (req, res) {
+app.get("*", function(req, res) {
   res.send(index);
 });
 
-if (process.env['NODE_PORT']) {
-  let port = process.env['NODE_PORT'];
-  app.listen(port, function () {
+if (process.env["NODE_PORT"]) {
+  let port = process.env["NODE_PORT"];
+  app.listen(port, function() {
     console.log(`${appName} listening on port ${port}`);
   });
 }

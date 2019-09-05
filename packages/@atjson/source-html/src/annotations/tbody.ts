@@ -1,9 +1,9 @@
 // ⚠️ Generated via script; modifications may be overridden
-import { BlockAnnotation } from '@atjson/document';
-import GlobalAttributes from './global-attributes';
+import { BlockAnnotation } from "@atjson/document";
+import GlobalAttributes from "./global-attributes";
 
 // [§ 4.9.5 The tbody element](https://html.spec.whatwg.org/multipage/tables.html#the-tbody-element)
 export default class TableBody extends BlockAnnotation<GlobalAttributes> {
-  static vendorPrefix = 'html';
-  static type = 'tbody';
+  static vendorPrefix = "html";
+  static type = "tbody";
 }

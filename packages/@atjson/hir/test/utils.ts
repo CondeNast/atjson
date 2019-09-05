@@ -1,8 +1,10 @@
-type node = {
-  type: string;
-  attributes: any;
-  children: node[];
-} | string;
+type node =
+  | {
+      type: string;
+      attributes: any;
+      children: node[];
+    }
+  | string;
 
 // HIR test helpers for quickly generating JSON for
 // the JSON output
@@ -16,20 +18,31 @@ function node(type: string) {
   };
 }
 
-let bold = node('bold');
-let blockquote = node('blockquote');
-let document = node('root');
-let image = (attributes= {}) => {
+let bold = node("bold");
+let blockquote = node("blockquote");
+let document = node("root");
+let image = (attributes = {}) => {
   return {
-    type: 'image',
+    type: "image",
     attributes,
     children: []
   };
 };
-let italic = node('italic');
-let li = node('list-item');
-let ol = node('ordered-list');
-let paragraph = node('paragraph');
-let ul = node('unordered-list');
+let italic = node("italic");
+let li = node("list-item");
+let ol = node("ordered-list");
+let paragraph = node("paragraph");
+let ul = node("unordered-list");
 
-export { bold, blockquote, document, image, italic, li, node, ol, paragraph, ul };
+export {
+  bold,
+  blockquote,
+  document,
+  image,
+  italic,
+  li,
+  node,
+  ol,
+  paragraph,
+  ul
+};

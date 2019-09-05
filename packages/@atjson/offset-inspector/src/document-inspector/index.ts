@@ -1,10 +1,9 @@
-import Document from '@atjson/document';
-import WebComponent from '../mixins/component';
-import './annotations-inspector';
-import './character-counter';
+import Document from "@atjson/document";
+import WebComponent from "../mixins/component";
+import "./annotations-inspector";
+import "./character-counter";
 
 export default class InspectorGadget extends WebComponent {
-
   static template = `
     <div class="heading"><div>AtJSON</div></div>
     <section class="content">
@@ -88,42 +87,42 @@ export default class InspectorGadget extends WebComponent {
 
   document: Document;
 
-  updatePosition({start, end}) {
-    this.shadowRoot.querySelector('.start').textContent = start;
-    this.shadowRoot.querySelector('.end').textContent = end;
+  updatePosition({ start, end }) {
+    this.shadowRoot.querySelector(".start").textContent = start;
+    this.shadowRoot.querySelector(".end").textContent = end;
 
     if (start === end) {
-      this.shadowRoot.querySelector('.position').classList.add('is-caret');
+      this.shadowRoot.querySelector(".position").classList.add("is-caret");
     } else {
-      this.shadowRoot.querySelector('.position').classList.remove('is-caret');
+      this.shadowRoot.querySelector(".position").classList.remove("is-caret");
     }
   }
 
   setDocument(doc) {
     this.document = doc;
-    this.shadowRoot.querySelector('annotations-inspector').setDocument(doc);
-    this.document.addEventListener('change', (() => {
+    this.shadowRoot.querySelector("annotations-inspector").setDocument(doc);
+    this.document.addEventListener("change", () => {
       if (this.deferred) clearTimeout(this.deferred);
       this.deferred = setTimeout(() => {
-        let charCounter = this.shadowRoot.querySelector('character-counter');
-        charCounter.setAttribute('content', this.document.content);
+        let charCounter = this.shadowRoot.querySelector("character-counter");
+        charCounter.setAttribute("content", this.document.content);
       }, 500);
-    }));
+    });
   }
 
   setSelection(el) {
-    el.addEventListener('change', evt => {
+    el.addEventListener("change", evt => {
       if (this.selDeferred) clearTimeout(this.selDeferred);
       this.selDeferred = setTimeout(_ => {
-        let charCounter = this.shadowRoot.querySelector('character-counter');
-        charCounter.setAttribute('start', evt.detail.start);
-        charCounter.setAttribute('end', evt.detail.end);
+        let charCounter = this.shadowRoot.querySelector("character-counter");
+        charCounter.setAttribute("start", evt.detail.start);
+        charCounter.setAttribute("end", evt.detail.end);
         this.updatePosition(evt.detail);
       }, 500);
     });
   }
 }
 
-if (!window.customElements.get('inspector-gadget')) {
-  window.customElements.define('inspector-gadget', InspectorGadget);
+if (!window.customElements.get("inspector-gadget")) {
+  window.customElements.define("inspector-gadget", InspectorGadget);
 }

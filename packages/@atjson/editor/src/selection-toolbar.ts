@@ -1,4 +1,4 @@
-import WebComponent from './mixins/component';
+import WebComponent from "./mixins/component";
 
 export default class SelectionToolbar extends WebComponent {
   static template = ``;
@@ -10,7 +10,7 @@ export default class SelectionToolbar extends WebComponent {
   `;
 
   static events = {
-    selectionchange: 'onSelectionChange'
+    selectionchange: "onSelectionChange"
   };
 
   // Bubble down the selection change event so that the button can decide if it
@@ -19,12 +19,16 @@ export default class SelectionToolbar extends WebComponent {
     if (!this.shadowRoot) return;
 
     this.shadowRoot.childNodes.forEach(element => {
-      let event = new CustomEvent(evt.type, { bubbles: false, cancelable: true, detail: evt.detail });
+      let event = new CustomEvent(evt.type, {
+        bubbles: false,
+        cancelable: true,
+        detail: evt.detail
+      });
       element.dispatchEvent(event);
     });
   }
 }
 
-if (!window.customElements.get('selection-toolbar')) {
-  window.customElements.define('selection-toolbar', SelectionToolbar);
+if (!window.customElements.get("selection-toolbar")) {
+  window.customElements.define("selection-toolbar", SelectionToolbar);
 }

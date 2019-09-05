@@ -1,18 +1,17 @@
-import WebComponent from '../mixins/component';
+import WebComponent from "../mixins/component";
 
 export default class LinkEditor extends WebComponent {
-
   static template = `<a target="_blank">🔗</a>&nbsp;<div class="default"><input type="text" class="urlinput" /></div><div class="extended"><input type="checkbox" name="nofollow" class="nofollow" /><label for="nofollow">No&nbsp;Follow</label></div>&nbsp; <button class="config">⚙️</button><button class="cancel">❌</button><button class="save">✔️</button>&nbsp;`;
 
   static events = {
-    'beforeinput': 'beforeInput',
-    'click .cancel': 'cursorBlur',
-    'click .save': 'onSave',
-    'click .config': 'onConfig',
-    'keypress .urlinput': 'handleKeypress'
+    beforeinput: "beforeInput",
+    "click .cancel": "cursorBlur",
+    "click .save": "onSave",
+    "click .config": "onConfig",
+    "keypress .urlinput": "handleKeypress"
   };
 
-  static observedAttributes = ['url', 'nofollow'];
+  static observedAttributes = ["url", "nofollow"];
 
   static style = `
     :host {
@@ -38,7 +37,7 @@ export default class LinkEditor extends WebComponent {
   `;
 
   onConfig() {
-    this.classList.toggle('config');
+    this.classList.toggle("config");
   }
 
   beforeInput(evt: Event) {
@@ -52,56 +51,64 @@ export default class LinkEditor extends WebComponent {
   }
 
   onSave(evt: Event) {
-    this.setAttribute('url', this.urlInput.value);
+    this.setAttribute("url", this.urlInput.value);
 
     if (this.nofollowInput.checked) {
-      this.setAttribute('nofollow', '');
+      this.setAttribute("nofollow", "");
     } else {
-      this.removeAttribute('nofollow');
+      this.removeAttribute("nofollow");
     }
 
-    this.dispatchEvent(new CustomEvent('attributechange', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        attributes: {
-          url: this.urlInput.value,
-          nofollow: this.nofollowInput.checked
+    this.dispatchEvent(
+      new CustomEvent("attributechange", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          attributes: {
+            url: this.urlInput.value,
+            nofollow: this.nofollowInput.checked
+          }
         }
-      }
-    }));
+      })
+    );
 
-    this.dispatchEvent(new CustomEvent('resumeinput', { bubbles: true, composed: true }));
+    this.dispatchEvent(
+      new CustomEvent("resumeinput", { bubbles: true, composed: true })
+    );
 
     evt.stopPropagation();
   }
 
   attributeChangedCallback(attribute: string) {
     switch (attribute) {
-      case 'url':
-        this.urlInput.setAttribute('value', this.getAttribute('url') || '');
+      case "url":
+        this.urlInput.setAttribute("value", this.getAttribute("url") || "");
         break;
-      case 'nofollow':
-        this.nofollowInput.checked = this.hasAttribute('nofollow');
+      case "nofollow":
+        this.nofollowInput.checked = this.hasAttribute("nofollow");
         break;
     }
   }
 
   private get urlInput(): HTMLInputElement {
-    if (!this.shadowRoot) throw new Error('No shadowRoot found!');
-    let input: HTMLInputElement | null = this.shadowRoot.querySelector('.urlinput');
-    if (!input) throw new Error('No URL Input Element Found!');
+    if (!this.shadowRoot) throw new Error("No shadowRoot found!");
+    let input: HTMLInputElement | null = this.shadowRoot.querySelector(
+      ".urlinput"
+    );
+    if (!input) throw new Error("No URL Input Element Found!");
     return input;
   }
 
   private get nofollowInput(): HTMLInputElement {
-    if (!this.shadowRoot) throw new Error('No shadowRoot found!');
-    let input: HTMLInputElement | null = this.shadowRoot.querySelector('.nofollow');
-    if (!input) throw new Error('No nofollow Input Element Found!');
+    if (!this.shadowRoot) throw new Error("No shadowRoot found!");
+    let input: HTMLInputElement | null = this.shadowRoot.querySelector(
+      ".nofollow"
+    );
+    if (!input) throw new Error("No nofollow Input Element Found!");
     return input;
   }
 }
 
-if (!window.customElements.get('link-editor')) {
-  window.customElements.define('link-editor', LinkEditor);
+if (!window.customElements.get("link-editor")) {
+  window.customElements.define("link-editor", LinkEditor);
 }

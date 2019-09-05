@@ -1,16 +1,19 @@
-import { AnnotationJSON, ParseAnnotation } from '@atjson/document';
-import * as entities from 'entities';
-import * as MarkdownIt from 'markdown-it';
+import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import * as entities from "entities";
+import * as MarkdownIt from "markdown-it";
 
 export interface Attributes {
   [key: string]: string | number | boolean | null;
 }
 
 function getAttributes(token: MarkdownIt.Token): Attributes {
-  return (token.attrs || []).reduce((attributes: Attributes, attribute: string[]) => {
-    attributes[`-commonmark-${attribute[0]}`] = attribute[1];
-    return attributes;
-  }, {});
+  return (token.attrs || []).reduce(
+    (attributes: Attributes, attribute: string[]) => {
+      attributes[`-commonmark-${attribute[0]}`] = attribute[1];
+      return attributes;
+    },
+    {}
+  );
 }
 
 export interface Node {
@@ -26,21 +29,21 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
   let currentNode = rootNode;
   tokens.forEach(token => {
     // Ignore softbreak as per markdown-it defaults
-    if (token.tag === 'br' && token.type === 'softbreak') {
+    if (token.tag === "br" && token.type === "softbreak") {
       currentNode.children.push({
-        name: 'text',
-        value: '\n',
+        name: "text",
+        value: "\n",
         parent: currentNode,
         children: []
       });
-    } else if (token.type === 'text') {
+    } else if (token.type === "text") {
       currentNode.children.push({
-        name: 'text',
+        name: "text",
         value: token.content,
         parent: currentNode,
         children: []
       });
-    } else if (token.type === 'inline') {
+    } else if (token.type === "inline") {
       toTree(token.children, currentNode);
     } else if (token.children && token.children.length > 0) {
       let node = {
@@ -53,7 +56,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       toTree(token.children, node);
     } else if (token.nesting === 1) {
       let node = {
-        name: token.type.replace(/_open$/, ''),
+        name: token.type.replace(/_open$/, ""),
         open: token,
         close: token,
         parent: currentNode,
@@ -61,7 +64,6 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       };
       currentNode.children.push(node);
       currentNode = node;
-
     } else if (token.nesting === -1) {
       currentNode.close = token;
       if (currentNode.parent) {
@@ -73,12 +75,12 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
       // character, we need to provide spaces around
       // the code, otherwise we'll get two code blocks
       // instead of one code block with backticks in it
-      if (token.type === 'code_inline') {
-        if (text[0] === '`') {
-          text = ' ' + text;
+      if (token.type === "code_inline") {
+        if (text[0] === "`") {
+          text = " " + text;
         }
-        if (text[text.length - 1] === '`') {
-          text += ' ';
+        if (text[text.length - 1] === "`") {
+          text += " ";
         }
       }
       currentNode.children.push({
@@ -86,12 +88,14 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
         open: token,
         close: token,
         parent: currentNode,
-        children: [{
-          name: 'text',
-          value: text,
-          parent: currentNode,
-          children: []
-        }]
+        children: [
+          {
+            name: "text",
+            value: text,
+            parent: currentNode,
+            children: []
+          }
+        ]
       });
     }
   });
@@ -100,7 +104,7 @@ function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
 
 function getText(node: Node): Node[] {
   return node.children.reduce((textNodes: Node[], child: Node) => {
-    if (child.name === 'text') {
+    if (child.name === "text") {
       textNodes.push(child);
     } else if (child.children) {
       textNodes.push(...getText(child));
@@ -115,41 +119,54 @@ export default class Parser {
   private handlers: any;
 
   constructor(tokens: MarkdownIt.Token[], handlers: any) {
-    this.content = '';
+    this.content = "";
     this.handlers = handlers;
     this.annotations = [];
-    this.walk(toTree(tokens, { name: 'root', children: [] }).children);
+    this.walk(toTree(tokens, { name: "root", children: [] }).children);
   }
 
   walk(nodes: Node[]) {
     nodes.forEach((node: Node) => {
-      if (node.name === 'text') {
+      if (node.name === "text") {
         this.content += node.value;
       } else if (node.open) {
         // Markdown-It strips out all unicode whitespace characters.
-        if (node.name === 'paragraph' && node.children.length === 0) {
+        if (node.name === "paragraph" && node.children.length === 0) {
           node.children.push({
-            name: 'text',
+            name: "text",
             parent: node,
-            value: '\u202F',
+            value: "\u202F",
             children: []
           });
-        } else if (node.name === 'image' && node.open) {
+        } else if (node.name === "image" && node.open) {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push(['alt', getText(node).map(n => n.value).join('')]);
+          token.attrs.push([
+            "alt",
+            getText(node)
+              .map(n => n.value)
+              .join("")
+          ]);
           node.children = [];
         }
         let attrs: Attributes = {};
         // Identify whether the list is tight (paragraphs collapse)
-        if ((node.name === 'bullet_list' || node.name === 'ordered_list') && node.open) {
+        if (
+          (node.name === "bullet_list" || node.name === "ordered_list") &&
+          node.open
+        ) {
           let isTight = node.children.some(items => {
-            return items.children.filter(child => child.name === 'paragraph')
-                                 .some(child => !!(child.open && child.open.hidden));
+            return items.children
+              .filter(child => child.name === "paragraph")
+              .some(child => !!(child.open && child.open.hidden));
           });
-          attrs['-commonmark-tight'] = isTight;
+          attrs["-commonmark-tight"] = isTight;
         }
-        let annotationGenerator = this.convertTokenToAnnotation(node.name, node.open, attrs);
+        let annotationGenerator = this.convertTokenToAnnotation(
+          node.name,
+          node.open,
+          attrs
+        );
         annotationGenerator.next();
         this.walk(node.children);
         annotationGenerator.next();
@@ -157,44 +174,53 @@ export default class Parser {
     });
   }
 
-  *convertTokenToAnnotation(name: string, open: MarkdownIt.Token, attrs: Attributes): IterableIterator<void> {
+  *convertTokenToAnnotation(
+    name: string,
+    open: MarkdownIt.Token,
+    attrs: Attributes
+  ): IterableIterator<void> {
     let start = this.content.length;
-    this.content += '\uFFFC';
-    this.annotations.push(new ParseAnnotation({
-      start,
-      end: start + 1,
-      attributes: {
-        reason: `${name}_open`
-      }
-    }));
+    this.content += "\uFFFC";
+    this.annotations.push(
+      new ParseAnnotation({
+        start,
+        end: start + 1,
+        attributes: {
+          reason: `${name}_open`
+        }
+      })
+    );
 
     let closingToken = yield;
 
-    this.content += '\uFFFC';
+    this.content += "\uFFFC";
 
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs || {});
-    if (name === 'heading') {
-      attributes['-commonmark-level'] = parseInt(open.tag[1], 10);
+    if (name === "heading") {
+      attributes["-commonmark-level"] = parseInt(open.tag[1], 10);
     }
-    if (name === 'fence') {
-      attributes['-commonmark-info'] = entities.decodeHTML5(open.info.trim());
+    if (name === "fence") {
+      attributes["-commonmark-info"] = entities.decodeHTML5(open.info.trim());
     }
 
     if (this.handlers[name]) {
       Object.assign(attributes, this.handlers[name](open, closingToken));
     }
-    this.annotations.push(new ParseAnnotation({
-      start: end - 1,
-      end,
-      attributes: {
-        reason: `${name}_close`
+    this.annotations.push(
+      new ParseAnnotation({
+        start: end - 1,
+        end,
+        attributes: {
+          reason: `${name}_close`
+        }
+      }),
+      {
+        type: `-commonmark-${name}`,
+        start,
+        end,
+        attributes
       }
-    }), {
-      type: `-commonmark-${name}`,
-      start,
-      end,
-      attributes
-    });
+    );
   }
 }

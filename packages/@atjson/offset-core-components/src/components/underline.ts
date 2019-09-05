@@ -1,8 +1,7 @@
 export default class OffsetUnderlineElement {
-
-  static annotationName = 'underline';
+  static annotationName = "underline";
 
   static elementRenderer(): Element {
-    return document.createElement('u');
+    return document.createElement("u");
   }
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const TextField = styled.input`
   font-size: 16px;
@@ -6,9 +6,9 @@ export const TextField = styled.input`
   padding: 0.5rem 1rem;
   appearance: none;
   border-radius: 4px;
-  border: 1px solid #DBDEE0;
+  border: 1px solid #dbdee0;
   background-repeat: no-repeat;
-  background-position: .5em .5em;
+  background-position: 0.5em 0.5em;
   background-size: 1.5em;
   box-sizing: border-box;
   transition-property: border-color, color, box-shadow;
@@ -16,12 +16,12 @@ export const TextField = styled.input`
   transition-timing-function: ease-in-out;
 
   :hover {
-    border-color: #0036FF;
+    border-color: #0036ff;
   }
 
   :focus {
     outline: none;
-    border-color: #0036FF;
-    box-shadow: 0 0 0 2px #0036FF33;
+    border-color: #0036ff;
+    box-shadow: 0 0 0 2px #0036ff33;
   }
 `;

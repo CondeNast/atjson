@@ -1,4 +1,4 @@
-import Document from '@atjson/document';
+import Document from "@atjson/document";
 import {
   Anchor,
   Aside,
@@ -24,11 +24,11 @@ import {
   Superscript,
   Underline,
   UnorderedList
-} from './annotations';
-import Parser, { Mobiledoc } from './parser';
+} from "./annotations";
+import Parser, { Mobiledoc } from "./parser";
 
 export default class MobiledocSource extends Document {
-  static contentType = 'appplication/vnd.atjson+mobiledoc';
+  static contentType = "appplication/vnd.atjson+mobiledoc";
   static schema = [
     Anchor,
     Aside,

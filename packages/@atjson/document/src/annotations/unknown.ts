@@ -1,13 +1,13 @@
-import Annotation from '../annotation';
-import { clone } from '../attributes';
-import JSON from '../json';
+import Annotation from "../annotation";
+import { clone } from "../attributes";
+import JSON from "../json";
 
 export default class UnknownAnnotation extends Annotation<{
   type: string;
   attributes: JSON;
 }> {
-  static vendorPrefix = 'atjson';
-  static type = 'unknown';
+  static vendorPrefix = "atjson";
+  static type = "unknown";
 
   get rank() {
     return Number.MAX_SAFE_INTEGER;

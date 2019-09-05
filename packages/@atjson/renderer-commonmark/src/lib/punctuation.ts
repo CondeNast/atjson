@@ -35,21 +35,34 @@ export const UNICODE_OTHER_PUNCTUATION = /\u0021-\u0023\u0025-\u0027\u002a\u002c
 export const UNICODE_OPEN_PUNCTUATION = /\u0028\u005b\u007b\u0f3a\u0f3c\u169b\u201a\u201e\u2045\u207d\u208d\u2329\u2768\u276a\u276c\u276e\u2770\u2772\u2774\u27c5\u27e6\u27e8\u27ea\u27ec\u27ee\u2983\u2985\u2987\u2989\u298b\u298d\u298f\u2991\u2993\u2995\u2997\u29d8\u29da\u29fc\u2e22\u2e24\u2e26\u2e28\u3008\u300a\u300c\u300e\u3010\u3014\u3016\u3018\u301a\u301d\ufd3e\ufe17\ufe35\ufe37\ufe39\ufe3b\ufe3d\ufe3f\ufe41\ufe43\ufe47\ufe59\ufe5b\ufe5d\uff08\uff3b\uff5b\uff5f\uff62/u;
 
 // ES9: /\p{P}/
-export const UNICODE_PUNCTUATION = new RegExp(`[${[
-  UNICODE_CONNECTOR_PUNCTUATION,
-  UNICODE_DASH_PUNCTUATION,
-  UNICODE_CLOSE_PUNCTUATION,
-  UNICODE_FINAL_PUNCTUATION,
-  UNICODE_INITIAL_PUNCTUATION,
-  UNICODE_OTHER_PUNCTUATION,
-  UNICODE_OPEN_PUNCTUATION
-].map(regex => regex.source).join('')}]`, 'u');
+export const UNICODE_PUNCTUATION = new RegExp(
+  `[${[
+    UNICODE_CONNECTOR_PUNCTUATION,
+    UNICODE_DASH_PUNCTUATION,
+    UNICODE_CLOSE_PUNCTUATION,
+    UNICODE_FINAL_PUNCTUATION,
+    UNICODE_INITIAL_PUNCTUATION,
+    UNICODE_OTHER_PUNCTUATION,
+    UNICODE_OPEN_PUNCTUATION
+  ]
+    .map(regex => regex.source)
+    .join("")}]`,
+  "u"
+);
 
-export const MD_PUNCTUATION = new RegExp(`${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}`);
+export const MD_PUNCTUATION = new RegExp(
+  `${ASCII_PUNCTUATION.source}|${UNICODE_PUNCTUATION.source}`
+);
 
 // Whitespace or (possibly escaped) Ascii punctuation or Unicode punctuation
-export const WHITESPACE_PUNCTUATION = new RegExp(`((\\s|&nbsp;){1}|(\\\\?${MD_PUNCTUATION.source}))`);
-export const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(`^${WHITESPACE_PUNCTUATION.source}`);
-export const ENDING_WHITESPACE_PUNCTUATION = new RegExp(`${WHITESPACE_PUNCTUATION.source}$`);
+export const WHITESPACE_PUNCTUATION = new RegExp(
+  `((\\s|&nbsp;){1}|(\\\\?${MD_PUNCTUATION.source}))`
+);
+export const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(
+  `^${WHITESPACE_PUNCTUATION.source}`
+);
+export const ENDING_WHITESPACE_PUNCTUATION = new RegExp(
+  `${WHITESPACE_PUNCTUATION.source}$`
+);
 export const BEGINNING_WHITESPACE = /^(\s|&nbsp;){1}/;
 export const ENDING_WHITESPACE = /(\s|&nbsp;){1}$/;

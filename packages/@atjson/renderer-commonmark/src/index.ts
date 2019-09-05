@@ -1,20 +1,35 @@
-import Document, { Annotation, ParseAnnotation, UnknownAnnotation } from '@atjson/document';
-import { Bold, Code, HTML, Heading, Image, Italic, Link, List } from '@atjson/offset-annotations';
-import Renderer, { Context } from '@atjson/renderer-hir';
+import Document, {
+  Annotation,
+  ParseAnnotation,
+  UnknownAnnotation
+} from "@atjson/document";
+import {
+  Bold,
+  Code,
+  HTML,
+  Heading,
+  Image,
+  Italic,
+  Link,
+  List
+} from "@atjson/offset-annotations";
+import Renderer, { Context } from "@atjson/renderer-hir";
 import {
   BEGINNING_WHITESPACE,
   BEGINNING_WHITESPACE_PUNCTUATION,
   ENDING_WHITESPACE,
   ENDING_WHITESPACE_PUNCTUATION,
   WHITESPACE_PUNCTUATION
-} from './lib/punctuation';
-export * from './lib/punctuation';
+} from "./lib/punctuation";
+export * from "./lib/punctuation";
 
 function getPreviousChar(doc: Document, end: number) {
   let start = end;
 
   while (start > 0) {
-    let parseAnnotations = doc.where(a => a instanceof ParseAnnotation && a.end >= start && a.start < start);
+    let parseAnnotations = doc.where(
+      a => a instanceof ParseAnnotation && a.end >= start && a.start < start
+    );
     if (parseAnnotations.length) {
       start = Math.min(...parseAnnotations.annotations.map(a => a.start));
     } else {
@@ -23,11 +38,16 @@ function getPreviousChar(doc: Document, end: number) {
   }
 
   let wrappingAnnotations = doc
-    .where(a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation))
-    .where(a => (a.start >= start && a.start < end) || (a.end >= start && a.end <= end));
+    .where(
+      a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation)
+    )
+    .where(
+      a =>
+        (a.start >= start && a.start < end) || (a.end >= start && a.end <= end)
+    );
 
   if (wrappingAnnotations.length) {
-    return '';
+    return "";
   }
 
   return doc.content[start - 1];
@@ -37,7 +57,9 @@ function getNextChar(doc: Document, start: number) {
   let end = start;
 
   while (end < doc.content.length) {
-    let parseAnnotations = doc.where(a => a instanceof ParseAnnotation && a.start <= end && a.end > end);
+    let parseAnnotations = doc.where(
+      a => a instanceof ParseAnnotation && a.start <= end && a.end > end
+    );
     if (parseAnnotations.length) {
       end = Math.max(...parseAnnotations.annotations.map(a => a.end));
     } else {
@@ -46,11 +68,16 @@ function getNextChar(doc: Document, start: number) {
   }
 
   let wrappingAnnotations = doc
-    .where(a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation))
-    .where(a => (a.start >= start && a.start <= end) || (a.end > start && a.end <= end));
+    .where(
+      a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation)
+    )
+    .where(
+      a =>
+        (a.start >= start && a.start <= end) || (a.end > start && a.end <= end)
+    );
 
   if (wrappingAnnotations.length) {
-    return '';
+    return "";
   }
 
   return doc.content[end];
@@ -62,7 +89,7 @@ export function* splitDelimiterRuns(
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
 ): Iterable<any> {
   let rawText = yield;
-  let text = rawText.map(unescapeEntities).join('');
+  let text = rawText.map(unescapeEntities).join("");
   let start = 0;
   let end = text.length;
   let match;
@@ -87,9 +114,12 @@ export function* splitDelimiterRuns(
     if (match[2]) {
       end -= match[2].length;
     } else if (match[3]) {
-
       let nextChar = getNextChar(context.document, annotation.end);
-      if (end === text.length && nextChar && !nextChar.match(WHITESPACE_PUNCTUATION)) {
+      if (
+        end === text.length &&
+        nextChar &&
+        !nextChar.match(WHITESPACE_PUNCTUATION)
+      ) {
         end -= match[3].length;
       } else {
         break;
@@ -98,23 +128,19 @@ export function* splitDelimiterRuns(
   }
 
   if (options.escapeHtmlEntities) {
-    return [
-      text.slice(0, start),
-      text.slice(start, end),
-      text.slice(end)
-    ].map(escapeHtmlEntities);
+    return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
+      escapeHtmlEntities
+    );
   } else {
-    return [
-      text.slice(0, start),
-      text.slice(start, end),
-      text.slice(end)
-    ].map(escapeEntities);
+    return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
+      escapeEntities
+    );
   }
 }
 
 export function* split(): Iterable<any> {
   let rawText = yield;
-  let text = rawText.join('');
+  let text = rawText.join("");
   let start = 0;
   let end = text.length;
   let match;
@@ -130,11 +156,7 @@ export function* split(): Iterable<any> {
     end -= match[1].length;
   }
 
-  return [
-    text.slice(0, start),
-    text.slice(start, end),
-    text.slice(end)
-  ];
+  return [text.slice(0, start), text.slice(start, end), text.slice(end)];
 }
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
@@ -142,13 +164,14 @@ function escapePunctuation(
   text: string,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
 ) {
-  let escaped = text.replace(/([#!*+=\\\^_`{|}~])/g, '\\$1')
-                    .replace(/(\[)([^\]]*$)/g, '\\$1$2')          // Escape bare opening brackets [
-                    .replace(/(^[^\[]*)(\].*$)/g, '$1\\$2')       // Escape bare closing brackets ]
-                    .replace(/(\]\()/g, ']\\(')                   // Escape parenthesis ](
-                    .replace(/^(\s*\d+)\.(\s+)/gm, '$1\\.$2')     // Escape list items; not all numbers
-                    .replace(/(^[\s]*)-/g, '$1\\-')               // `  - list item`
-                    .replace(/(\r\n|\r|\n)([\s]*)-/g, '$1$2\\-'); // `- list item\n - list item`
+  let escaped = text
+    .replace(/([#!*+=\\\^_`{|}~])/g, "\\$1")
+    .replace(/(\[)([^\]]*$)/g, "\\$1$2") // Escape bare opening brackets [
+    .replace(/(^[^\[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
+    .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
+    .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
+    .replace(/(^[\s]*)-/g, "$1\\-") // `  - list item`
+    .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\-"); // `- list item\n - list item`
 
   if (options.escapeHtmlEntities) {
     return escapeHtmlEntities(escaped);
@@ -158,35 +181,37 @@ function escapePunctuation(
 }
 
 function escapeHtmlEntities(text: string) {
-  return text.replace(/&amp;/g, '&amp;amp;')
-             .replace(/&lt;/g, '&amp;lt;')
-             .replace(/&nbsp;/g, '&amp;nbsp;')
-             .replace(/</g, '&lt;')
-             .replace(/\u00A0/gu, '&nbsp;');
+  return text
+    .replace(/&amp;/g, "&amp;amp;")
+    .replace(/&lt;/g, "&amp;lt;")
+    .replace(/&nbsp;/g, "&amp;nbsp;")
+    .replace(/</g, "&lt;")
+    .replace(/\u00A0/gu, "&nbsp;");
 }
 
 function escapeEntities(text: string) {
-  return text.replace(/&amp;/g, '&amp;amp;')
-             .replace(/&nbsp;/g, '&amp;nbsp;')
-             .replace(/\u00A0/gu, '&nbsp;');
+  return text
+    .replace(/&amp;/g, "&amp;amp;")
+    .replace(/&nbsp;/g, "&amp;nbsp;")
+    .replace(/\u00A0/gu, "&nbsp;");
 }
 
 function unescapeEntities(text: string) {
-  return text.replace(/&amp;/ig, '&')
-             .replace(/&lt;/ig, '<')
-             .replace(/&nbsp;/ig, '\u00A0');
+  return text
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&nbsp;/gi, "\u00A0");
 }
 
 function escapeAttribute(text: string) {
-  return text.replace(/\(/g, '\\(')
-             .replace(/\)/g, '\\)');
+  return text.replace(/\(/g, "\\(").replace(/\)/g, "\\)");
 }
 
 function getNumberOfRequiredBackticks(text: string) {
   let index = 0;
   let counts = [0];
   for (let i = 0, len = text.length; i < len; i++) {
-    if (text[i] === '`') {
+    if (text[i] === "`") {
       counts[index] = counts[index] + 1;
     } else if (counts[index] !== 0) {
       counts.push(0);
@@ -203,7 +228,6 @@ function getNumberOfRequiredBackticks(text: string) {
 }
 
 export default class CommonmarkRenderer extends Renderer {
-
   /**
    * Controls whether HTML entities should be escaped. This
    * may be desireable if markdown is being generated for humans
@@ -225,7 +249,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (options == null) {
       let DocumentClass = document.constructor as typeof Document;
       this.options = {
-        escapeHtmlEntities: !!DocumentClass.schema.find(a => a.type === 'html')
+        escapeHtmlEntities: !!DocumentClass.schema.find(a => a.type === "html")
       };
     } else {
       this.options = options;
@@ -241,7 +265,7 @@ export default class CommonmarkRenderer extends Renderer {
 
   *root() {
     let rawText = yield;
-    return rawText.join('');
+    return rawText.join("");
   }
 
   /**
@@ -251,11 +275,19 @@ export default class CommonmarkRenderer extends Renderer {
    * words; underscores cannot split words.
    */
   *Bold(bold: Bold, context: Context): Iterable<any> {
-    let [before, text, after] = yield* splitDelimiterRuns(bold, context, this.options);
+    let [before, text, after] = yield* splitDelimiterRuns(
+      bold,
+      context,
+      this.options
+    );
     if (text.length === 0) {
       return before + after;
     } else {
-      if (!context.previous && !context.next && context.parent instanceof Italic) {
+      if (
+        !context.previous &&
+        !context.next &&
+        context.parent instanceof Italic
+      ) {
         return `${before}__${text}__${after}`;
       }
       return `${before}**${text}**${after}`;
@@ -270,17 +302,26 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Blockquote(): Iterable<any> {
     let text = yield;
-    let lines: string[] = text.join('').split('\n');
+    let lines: string[] = text.join("").split("\n");
     let endOfQuote = lines.length;
     let startOfQuote = 0;
 
-    while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/)) startOfQuote++;
-    while (endOfQuote > startOfQuote + 1 && lines[endOfQuote - 1].match(/^\s*$/)) endOfQuote--;
+    while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/))
+      startOfQuote++;
+    while (
+      endOfQuote > startOfQuote + 1 &&
+      lines[endOfQuote - 1].match(/^\s*$/)
+    )
+      endOfQuote--;
 
-    let quote = lines.slice(startOfQuote, endOfQuote).map(line => `> ${line}`).join('\n') + '\n';
+    let quote =
+      lines
+        .slice(startOfQuote, endOfQuote)
+        .map(line => `> ${line}`)
+        .join("\n") + "\n";
 
     if (!this.state.tight) {
-      quote += '\n';
+      quote += "\n";
     }
     return quote;
   }
@@ -296,11 +337,11 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Heading(heading: Heading): Iterable<any> {
     let rawText = yield;
-    let text = rawText.join('');
-    let level = new Array(heading.attributes.level + 1).join('#');
+    let text = rawText.join("");
+    let level = new Array(heading.attributes.level + 1).join("#");
 
     // Multiline headings are supported for level 1 and 2
-    if (text.indexOf('\n') !== -1) {
+    if (text.indexOf("\n") !== -1) {
       if (heading.attributes.level === 1) {
         return `${text}\n====\n`;
       } else if (heading.attributes.level === 2) {
@@ -316,7 +357,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Iterable<any> {
-    return '***\n';
+    return "***\n";
   }
 
   /**
@@ -327,9 +368,15 @@ export default class CommonmarkRenderer extends Renderer {
     let AltTextRenderer = this.constructor as typeof CommonmarkRenderer;
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
-      return `![${AltTextRenderer.render(image.attributes.description, this.options)}](${image.attributes.url} "${title}")`;
+      return `![${AltTextRenderer.render(
+        image.attributes.description,
+        this.options
+      )}](${image.attributes.url} "${title}")`;
     }
-    return `![${AltTextRenderer.render(image.attributes.description, this.options)}](${image.attributes.url})`;
+    return `![${AltTextRenderer.render(
+      image.attributes.description,
+      this.options
+    )}](${image.attributes.url})`;
   }
 
   /**
@@ -341,18 +388,24 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
     this.state.isItalicized = true;
 
-    let [before, text, after] = yield* splitDelimiterRuns(italic, context, this.options);
+    let [before, text, after] = yield* splitDelimiterRuns(
+      italic,
+      context,
+      this.options
+    );
     this.state = state;
 
     if (text.length === 0) {
       return before + after;
     } else {
-      let markup = state.isItalicized ? '_' : '*';
-      let hasWrappingBoldMarkup = !context.previous && !context.next && context.parent instanceof Bold;
-      let hasAdjacentBoldMarkup = (context.next instanceof Bold && after.length === 0) ||
-                                  (context.previous instanceof Bold && before.length === 0);
+      let markup = state.isItalicized ? "_" : "*";
+      let hasWrappingBoldMarkup =
+        !context.previous && !context.next && context.parent instanceof Bold;
+      let hasAdjacentBoldMarkup =
+        (context.next instanceof Bold && after.length === 0) ||
+        (context.previous instanceof Bold && before.length === 0);
       if (hasWrappingBoldMarkup || hasAdjacentBoldMarkup) {
-        markup = '_';
+        markup = "_";
       }
       return `${before}${markup}${text}${markup}${after}`;
     }
@@ -363,7 +416,7 @@ export default class CommonmarkRenderer extends Renderer {
    * or it can be a backslash at the end of the line\
    */
   *LineBreak(): Iterable<any> {
-    return '  \n';
+    return "  \n";
   }
 
   /**
@@ -391,34 +444,39 @@ export default class CommonmarkRenderer extends Renderer {
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
     let rawText = yield;
-    let text = rawText.join('');
+    let text = rawText.join("");
     this.state = state;
 
-    if (code.attributes.style === 'fence') {
-      text = '\n' + text;
-      let info = code.attributes.info || '';
-      let newlines = '\n';
+    if (code.attributes.style === "fence") {
+      text = "\n" + text;
+      let info = code.attributes.info || "";
+      let newlines = "\n";
       if (this.state.isList && context.next) {
-        newlines += '\n';
+        newlines += "\n";
       }
 
-      if (text.indexOf('```') !== -1) {
+      if (text.indexOf("```") !== -1) {
         return `~~~${info}${text}~~~${newlines}`;
       } else {
         return `\`\`\`${info}${text}\`\`\`${newlines}`;
       }
-    } else if (code.attributes.style === 'block') {
-      return text.split('\n').map((line: string) => `    ${line}`).join('\n') + '\n';
+    } else if (code.attributes.style === "block") {
+      return (
+        text
+          .split("\n")
+          .map((line: string) => `    ${line}`)
+          .join("\n") + "\n"
+      );
     } else {
       // MarkdownIt strips all leading and trailing whitespace from code blocks,
       // which means that we get an empty string for a single whitespace (` `).
       if (text.length === 0) {
-        return '` `';
+        return "` `";
 
-      // We need to properly escape backticks inside of code blocks
-      // by using variable numbers of backticks.
+        // We need to properly escape backticks inside of code blocks
+        // by using variable numbers of backticks.
       } else {
-        let backticks = '`'.repeat(getNumberOfRequiredBackticks(text));
+        let backticks = "`".repeat(getNumberOfRequiredBackticks(text));
         return `${backticks}${text}${backticks}`;
       }
     }
@@ -429,12 +487,12 @@ export default class CommonmarkRenderer extends Renderer {
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
     let rawText = yield;
-    let text = rawText.join('');
+    let text = rawText.join("");
 
     this.state = state;
 
-    if (html.attributes.style === 'block') {
-      return text + '\n';
+    if (html.attributes.style === "block") {
+      return text + "\n";
     }
     return text;
   }
@@ -446,26 +504,33 @@ export default class CommonmarkRenderer extends Renderer {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
-    if (this.state.type === 'numbered') {
+    if (this.state.type === "numbered") {
       marker = `${digit}${delimiter}`;
       this.state.digit++;
     }
 
-    let indent = ' '.repeat(marker.length + 1);
+    let indent = " ".repeat(marker.length + 1);
     let text = yield;
-    let item = text.join('');
+    let item = text.join("");
     let firstCharacter = 0;
-    while (item[firstCharacter] === ' ') firstCharacter++;
+    while (item[firstCharacter] === " ") firstCharacter++;
 
-    let lines: string[] = item.split('\n');
-    lines.push((lines.pop() || '').replace(/[ ]+$/, ''));
-    lines.unshift((lines.shift() || '').replace(/^[ ]+/, ''));
+    let lines: string[] = item.split("\n");
+    lines.push((lines.pop() || "").replace(/[ ]+$/, ""));
+    lines.unshift((lines.shift() || "").replace(/^[ ]+/, ""));
     let [first, ...rest] = lines;
 
-    item = ' '.repeat(firstCharacter) + first + '\n' + rest.map(line => indent + line).join('\n').replace(/[ ]+$/, '');
+    item =
+      " ".repeat(firstCharacter) +
+      first +
+      "\n" +
+      rest
+        .map(line => indent + line)
+        .join("\n")
+        .replace(/[ ]+$/, "");
 
     if (this.state.tight) {
-      item = item.replace(/([ \n])+$/, '\n');
+      item = item.replace(/([ \n])+$/, "\n");
     }
 
     // Code blocks using spaces can follow lists,
@@ -491,23 +556,27 @@ export default class CommonmarkRenderer extends Renderer {
       start = list.attributes.startsAt;
     }
 
-    let delimiter = '';
+    let delimiter = "";
 
-    if (list.attributes.type === 'numbered') {
-      delimiter = '.';
+    if (list.attributes.type === "numbered") {
+      delimiter = ".";
 
-      if (context.previous instanceof List &&
-          context.previous.attributes.type === 'numbered' &&
-          context.previous.attributes.delimiter === '.') {
-        delimiter = ')';
+      if (
+        context.previous instanceof List &&
+        context.previous.attributes.type === "numbered" &&
+        context.previous.attributes.delimiter === "."
+      ) {
+        delimiter = ")";
       }
-    } else if (list.attributes.type === 'bulleted') {
-      delimiter = '-';
+    } else if (list.attributes.type === "bulleted") {
+      delimiter = "-";
 
-      if (context.previous instanceof List &&
-          context.previous.attributes.type === 'bulleted' &&
-          context.previous.attributes.delimiter === '-') {
-        delimiter = '+';
+      if (
+        context.previous instanceof List &&
+        context.previous.attributes.type === "bulleted" &&
+        context.previous.attributes.delimiter === "-"
+      ) {
+        delimiter = "+";
       }
     }
     list.attributes.delimiter = delimiter;
@@ -515,8 +584,8 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
 
     // Handle indendation for code blocks that immediately follow a list.
-    let hasCodeBlockFollowing = context.next instanceof Code &&
-                                context.next.attributes.style === 'block';
+    let hasCodeBlockFollowing =
+      context.next instanceof Code && context.next.attributes.style === "block";
     Object.assign(this.state, {
       isList: true,
       type: list.attributes.type,
@@ -529,7 +598,7 @@ export default class CommonmarkRenderer extends Renderer {
     let text = yield;
 
     this.state = state;
-    return text.join('') + '\n';
+    return text.join("") + "\n";
   }
 
   /**
@@ -537,19 +606,19 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Paragraph(): Iterable<any> {
     let rawText = yield;
-    let text = rawText.join('');
+    let text = rawText.join("");
 
     // Remove leading and trailing newlines from paragraphs
     // with text in them.
     // This ensures that paragraphs preceded with tabs or spaces
     // will not turn into code blocks
     if (!text.match(/^\s+$/g)) {
-      text = text.replace(/^\s+/g, '').replace(/\s+$/g, '');
+      text = text.replace(/^\s+/g, "").replace(/\s+$/g, "");
     }
 
     if (this.state.tight) {
-      return text + '\n';
+      return text + "\n";
     }
-    return text + '\n\n';
+    return text + "\n\n";
   }
 }

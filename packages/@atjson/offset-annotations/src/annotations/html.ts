@@ -1,13 +1,13 @@
-import { Annotation } from '@atjson/document';
+import { Annotation } from "@atjson/document";
 
 export default class HTML extends Annotation<{
-  style: 'inline' | 'block';
+  style: "inline" | "block";
 }> {
-  static vendorPrefix = 'offset';
-  static type = 'html';
+  static vendorPrefix = "offset";
+  static type = "html";
 
   get rank() {
-    if (this.attributes.style === 'inline') {
+    if (this.attributes.style === "inline") {
       return 100;
     }
     return 10;

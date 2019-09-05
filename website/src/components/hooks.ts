@@ -1,6 +1,6 @@
-import { MutableRefObject, useLayoutEffect } from 'react';
-import { ResizeObserver } from 'resize-observer';
-import { ResizeObserverCallback } from 'resize-observer/lib/ResizeObserverCallback';
+import { MutableRefObject, useLayoutEffect } from "react";
+import { ResizeObserver } from "resize-observer";
+import { ResizeObserverCallback } from "resize-observer/lib/ResizeObserverCallback";
 
 export const useResizeObserver = (
   ref: MutableRefObject<any>,

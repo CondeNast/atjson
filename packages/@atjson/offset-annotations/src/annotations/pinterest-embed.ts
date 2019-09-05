@@ -1,13 +1,13 @@
-import IframeEmbed, { without } from './iframe-embed';
+import IframeEmbed, { without } from "./iframe-embed";
 
 export default class PinterestEmbed extends IframeEmbed {
-  static type = 'pinterest-embed';
-  static vendorPrefix = 'offset';
+  static type = "pinterest-embed";
+  static vendorPrefix = "offset";
 
   get isPin(): boolean {
     let url = this.url;
     if (url) {
-      return without<string>(url.pathname.split('/'), '')[0] === 'pin';
+      return without<string>(url.pathname.split("/"), "")[0] === "pin";
     }
     return false;
   }
@@ -15,7 +15,9 @@ export default class PinterestEmbed extends IframeEmbed {
   get isProfile(): boolean {
     let url = this.url;
     if (url) {
-      return !this.isPin && without<string>(url.pathname.split('/'), '').length === 2;
+      return (
+        !this.isPin && without<string>(url.pathname.split("/"), "").length === 2
+      );
     }
     return false;
   }
@@ -23,7 +25,7 @@ export default class PinterestEmbed extends IframeEmbed {
   get isBoard() {
     let url = this.url;
     if (url) {
-      return without<string>(url.pathname.split('/'), '').length === 1;
+      return without<string>(url.pathname.split("/"), "").length === 1;
     }
     return false;
   }
@@ -31,7 +33,7 @@ export default class PinterestEmbed extends IframeEmbed {
   get pinId() {
     let url = this.url;
     if (this.isPin && url) {
-      return without<string>(url.pathname.split('/'), '')[1];
+      return without<string>(url.pathname.split("/"), "")[1];
     }
     return null;
   }
@@ -39,7 +41,7 @@ export default class PinterestEmbed extends IframeEmbed {
   get profileName() {
     let url = this.url;
     if (!this.isPin && url) {
-      return without<string>(url.pathname.split('/'), '')[0];
+      return without<string>(url.pathname.split("/"), "")[0];
     }
     return null;
   }

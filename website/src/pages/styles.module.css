@@ -4,10 +4,10 @@
   text-align: center;
   position: relative;
   overflow: hidden;
-  min-height: 550px; 
+  min-height: 550px;
 }
 
-.buttons  {
+.buttons {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,22 +28,22 @@
   }
 }
 @media screen and (max-width: 799px) {
-.header {
+  .header {
     /* display just one highlight */
     height: calc(100vh - 310px);
   }
 }
-@media screen and (min-width: 800px) and (max-height: 999px) { 
+@media screen and (min-width: 800px) and (max-height: 999px) {
   /* if the viewport is not tall enough, display just the header */
   .header {
     height: calc(100vh - 120px);
   }
 }
-@media screen and (min-width: 800px) and (min-height: 1000px) { 
+@media screen and (min-width: 800px) and (min-height: 1000px) {
   /* if the viewport is tall enough, split between header and highlights */
   .header {
     padding: 4rem 0;
-    height: calc((100vh - 60px - 60px) * .6);
+    height: calc((100vh - 60px - 60px) * 0.6);
   }
 }
 
@@ -74,6 +74,6 @@
 }
 @media screen and (min-width: 1024px) {
   .highlights {
-    height: calc((100vh - 60px - 60px) * .4);
+    height: calc((100vh - 60px - 60px) * 0.4);
   }
 }

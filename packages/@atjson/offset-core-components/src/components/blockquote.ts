@@ -1,8 +1,7 @@
 export default class OffsetBlockquoteElement {
-
-  static annotationName = 'blockquote';
+  static annotationName = "blockquote";
 
   static elementRenderer(): Element {
-    return document.createElement('blockquote');
+    return document.createElement("blockquote");
   }
 }
