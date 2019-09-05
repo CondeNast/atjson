@@ -9,7 +9,7 @@ export enum AdjacentBoundaryBehaviour {
 }
 
 export class Deletion extends Change {
-  readonly type = 'deletion';
+  readonly type = "deletion";
   constructor(
     readonly start: number,
     readonly end: number,
@@ -20,7 +20,7 @@ export class Deletion extends Change {
 }
 
 export class Insertion extends Change {
-  readonly type = 'insertion';
+  readonly type = "insertion";
   constructor(
     readonly start: number,
     readonly text: string,

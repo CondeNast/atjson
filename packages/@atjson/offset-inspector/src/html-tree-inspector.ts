@@ -1,14 +1,13 @@
-import Document from '@atjson/document';
-import WebComponentRenderer from '@atjson/renderer-webcomponent';
-import WebComponent from './mixins/component';
+import Document from "@atjson/document";
+import WebComponentRenderer from "@atjson/renderer-webcomponent";
+import WebComponent from "./mixins/component";
 
 export default class HTMLTreeInspector extends WebComponent {
-
   static template = '<div class="wrapper"></div>';
 
   static events = {
-    click: 'handleClick',
-    change: 'render'
+    click: "handleClick",
+    change: "render"
   };
 
   static style = `
@@ -99,37 +98,39 @@ export default class HTMLTreeInspector extends WebComponent {
 
     this.deferred = () => {
       let doc = event.detail.document;
-      let outputElement = this.shadowRoot.querySelector('.wrapper');
+      let outputElement = this.shadowRoot.querySelector(".wrapper");
       let rendered = new WebComponentRenderer(doc).render();
 
       let children = this.renderChildren(rendered.childNodes);
-      outputElement.innerHTML = '';
+      outputElement.innerHTML = "";
       outputElement.appendChild(children);
 
       delete this.deferred;
     };
 
     window.requestIdleCallback(this.deferred);
-
   }
 
   handleClick(event: MouseEvent) {
-    if (event.path[0].classList.contains('arrow')) {
-      event.path[1].classList.toggle('collapsed');
+    if (event.path[0].classList.contains("arrow")) {
+      event.path[1].classList.toggle("collapsed");
     }
   }
 
   addComponent(component) {
-    WebComponentRenderer.prototype[component.annotationName] = component.elementRenderer;
+    WebComponentRenderer.prototype[component.annotationName] =
+      component.elementRenderer;
   }
 
   private renderChildren(children) {
-    let ol = document.createElement('ol');
+    let ol = document.createElement("ol");
     for (let child of children) {
-      let li = document.createElement('li');
+      let li = document.createElement("li");
 
       if (child.nodeType === 3) {
-        let text = document.createTextNode('"' + child.textContent.replace('\n', '\\n') + '"');
+        let text = document.createTextNode(
+          '"' + child.textContent.replace("\n", "\\n") + '"'
+        );
         li.appendChild(text);
         ol.appendChild(li);
         continue;
@@ -139,7 +140,9 @@ export default class HTMLTreeInspector extends WebComponent {
       let closeTag = this.genTag(child, true);
 
       if (child.childNodes.length === 1 && child.childNodes[0].nodeType === 3) {
-        let innerText = document.createTextNode(child.childNodes[0].textContent.replace('\n', '\\n'));
+        let innerText = document.createTextNode(
+          child.childNodes[0].textContent.replace("\n", "\\n")
+        );
         li.appendChild(openTag);
         li.appendChild(innerText);
         li.appendChild(closeTag);
@@ -156,21 +159,21 @@ export default class HTMLTreeInspector extends WebComponent {
   }
 
   private genAttrs(node: HTMLElement) {
-    let attrs = document.createElement('span');
-    attrs.classList.add('html-attributes');
+    let attrs = document.createElement("span");
+    attrs.classList.add("html-attributes");
 
     for (let attr of node.attributes) {
-      if (attr.name === 'data-annotation-id') continue;
+      if (attr.name === "data-annotation-id") continue;
 
-      let attrElement = document.createElement('span');
-      attrElement.classList.add('html-attribute');
+      let attrElement = document.createElement("span");
+      attrElement.classList.add("html-attribute");
 
-      let attrName = document.createElement('span');
-      attrName.classList.add('html-attribute-name');
+      let attrName = document.createElement("span");
+      attrName.classList.add("html-attribute-name");
       attrName.textContent = attr.name;
 
-      let attrValue = document.createElement('span');
-      attrValue.classList.add('html-attribute-value');
+      let attrValue = document.createElement("span");
+      attrValue.classList.add("html-attribute-value");
       attrValue.textContent = attr.value;
 
       attrElement.appendChild(attrName);
@@ -184,19 +187,19 @@ export default class HTMLTreeInspector extends WebComponent {
   }
 
   private genTag(node: HTMLElement, closing: boolean = false) {
-    let tag = document.createElement('span');
+    let tag = document.createElement("span");
 
-    let openStr = '<';
-    if (closing) openStr += '/';
+    let openStr = "<";
+    if (closing) openStr += "/";
 
     let open = document.createTextNode(openStr);
-    let close = document.createTextNode('>');
+    let close = document.createTextNode(">");
 
-    tag.classList.add('html-tag');
-    if (closing) tag.classList.add('closing');
+    tag.classList.add("html-tag");
+    if (closing) tag.classList.add("closing");
 
-    let tagName = document.createElement('span');
-    tagName.classList.add('html-tag-name');
+    let tagName = document.createElement("span");
+    tagName.classList.add("html-tag-name");
     tagName.textContent = node.tagName.toLowerCase();
 
     tag.appendChild(open);
@@ -209,21 +212,21 @@ export default class HTMLTreeInspector extends WebComponent {
   }
 
   private renderArrow(li: HTMLLIElement) {
-    li.classList.add('collapsed');
-    li.classList.add('collapsible');
-    let arrow = document.createElement('span');
-    arrow.classList.add('arrow');
+    li.classList.add("collapsed");
+    li.classList.add("collapsible");
+    let arrow = document.createElement("span");
+    arrow.classList.add("arrow");
     li.appendChild(arrow);
   }
 
   private renderEllip(li: HTMLLIElement) {
-    let ellip = document.createElement('span');
-    ellip.textContent = '\u2026';
-    ellip.classList.add('ellip');
+    let ellip = document.createElement("span");
+    ellip.textContent = "\u2026";
+    ellip.classList.add("ellip");
     li.appendChild(ellip);
   }
 }
 
-if (!window.customElements.get('html-tree-inspector')) {
-  window.customElements.define('html-tree-inspector', HTMLTreeInspector);
+if (!window.customElements.get("html-tree-inspector")) {
+  window.customElements.define("html-tree-inspector", HTMLTreeInspector);
 }

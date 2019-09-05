@@ -1,46 +1,53 @@
-import Document from '@atjson/document';
-import CommonmarkRenderer from '@atjson/renderer-commonmark';
-import InspectorGadget from './document-inspector';
-import './document-inspector';
-import './html-tree-inspector';
-import WebComponent from './mixins/component';
+import Document from "@atjson/document";
+import CommonmarkRenderer from "@atjson/renderer-commonmark";
+import InspectorGadget from "./document-inspector";
+import "./document-inspector";
+import "./html-tree-inspector";
+import WebComponent from "./mixins/component";
 
 export default class OffsetEditorDemo extends WebComponent {
-  static template = '<h1><offset-logo></offset-logo></h1>' +
-                    '<div class="demo">' +
-                      '<section class="editor">' +
-                        '<header class="tabs">' +
-                          '<div class="editor-tab active" data-target="editor-container">Editor</div>' +
-                          '<div class="html-tab" data-target="html-container">HTML</div>' +
-                          '<div class="commonmark-tab" data-target="commonmark-container">Commonmark</div>' +
-                        '</header>' +
-                        '<section class="editor-container active"><slot></slot></section>' +
-                        '<section class="html-container"><html-tree-inspector></html-tree-inspector></section>' +
-                        '<section class="commonmark-container"><div class="markdown"></div></section>' +
-                      '</section>' +
-                      '<section class="inspector">' +
-                        '<section class="inspector-gadget"><inspector-gadget></inspector-gadget></section>' +
-                      '</section>' +
-                    '</div>';
+  static template =
+    "<h1><offset-logo></offset-logo></h1>" +
+    '<div class="demo">' +
+    '<section class="editor">' +
+    '<header class="tabs">' +
+    '<div class="editor-tab active" data-target="editor-container">Editor</div>' +
+    '<div class="html-tab" data-target="html-container">HTML</div>' +
+    '<div class="commonmark-tab" data-target="commonmark-container">Commonmark</div>' +
+    "</header>" +
+    '<section class="editor-container active"><slot></slot></section>' +
+    '<section class="html-container"><html-tree-inspector></html-tree-inspector></section>' +
+    '<section class="commonmark-container"><div class="markdown"></div></section>' +
+    "</section>" +
+    '<section class="inspector">' +
+    '<section class="inspector-gadget"><inspector-gadget></inspector-gadget></section>' +
+    "</section>" +
+    "</div>";
 
   static events = {
-    'change': 'renderAll',
+    change: "renderAll",
 
-    'click .tabs'(event) {
-      let targetTabClass = event.path[0].getAttribute('data-target');
-      let active = this.shadowRoot.querySelector('.editor > .active');
+    "click .tabs"(event) {
+      let targetTabClass = event.path[0].getAttribute("data-target");
+      let active = this.shadowRoot.querySelector(".editor > .active");
       if (active) {
-        active.classList.remove('active');
+        active.classList.remove("active");
       }
-      this.shadowRoot.querySelector('.editor > .' + targetTabClass).classList.add('active');
-      this.shadowRoot.querySelector('.editor > .tabs > .active').classList.remove('active');
-      event.path[0].classList.add('active');
+      this.shadowRoot
+        .querySelector(".editor > ." + targetTabClass)
+        .classList.add("active");
+      this.shadowRoot
+        .querySelector(".editor > .tabs > .active")
+        .classList.remove("active");
+      event.path[0].classList.add("active");
 
       this.renderAll();
     },
 
-    'addComponent'(event) {
-      this.shadowRoot.querySelector('html-tree-inspector').addComponent(event.detail.component);
+    addComponent(event) {
+      this.shadowRoot
+        .querySelector("html-tree-inspector")
+        .addComponent(event.detail.component);
     }
   };
 
@@ -136,7 +143,6 @@ export default class OffsetEditorDemo extends WebComponent {
   _document?: Document;
 
   renderAll(evt?: CustomEvent) {
-
     if (evt) this._document = evt.detail.document;
 
     let doc: Document;
@@ -159,8 +165,8 @@ export default class OffsetEditorDemo extends WebComponent {
   }
 
   renderMarkdown(doc: Document) {
-    if (this.activeTab('commonmark-tab')) {
-      let outputElement = this.shadowRoot.querySelector('.markdown');
+    if (this.activeTab("commonmark-tab")) {
+      let outputElement = this.shadowRoot.querySelector(".markdown");
       let rendered = CommonmarkRenderer.render(doc);
       if (outputElement) {
         outputElement.textContent = rendered;
@@ -172,8 +178,10 @@ export default class OffsetEditorDemo extends WebComponent {
     // This is really ineffecient, because we're calling it every document
     // change at the moment. To fix this, we need a new "changedocument" or
     // similar event on the editor.
-    let inspectorGadget: InspectorGadget = this.shadowRoot.querySelector('inspector-gadget');
-    let editor = this.querySelector('offset-editor');
+    let inspectorGadget: InspectorGadget = this.shadowRoot.querySelector(
+      "inspector-gadget"
+    );
+    let editor = this.querySelector("offset-editor");
 
     if (inspectorGadget) {
       inspectorGadget.setDocument(doc);
@@ -182,15 +190,17 @@ export default class OffsetEditorDemo extends WebComponent {
   }
 
   updateHtmlTreeInspector(doc: Document) {
-    if (this.activeTab('html-tab')) {
-      this.shadowRoot.querySelector('html-tree-inspector').dispatchEvent(
-        new CustomEvent('change', {detail: {document: doc}})
-      );
+    if (this.activeTab("html-tab")) {
+      this.shadowRoot
+        .querySelector("html-tree-inspector")
+        .dispatchEvent(
+          new CustomEvent("change", { detail: { document: doc } })
+        );
     }
   }
 
   activeTab(wanted: string) {
-    let activeTab = this.shadowRoot.querySelector('.tabs > .active');
+    let activeTab = this.shadowRoot.querySelector(".tabs > .active");
     if (activeTab) {
       return activeTab.classList.contains(wanted);
     } else {
@@ -199,6 +209,6 @@ export default class OffsetEditorDemo extends WebComponent {
   }
 }
 
-if (!window.customElements.get('offset-editor-demo')) {
-  window.customElements.define('offset-editor-demo', OffsetEditorDemo);
+if (!window.customElements.get("offset-editor-demo")) {
+  window.customElements.define("offset-editor-demo", OffsetEditorDemo);
 }

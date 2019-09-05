@@ -1,5 +1,5 @@
-import { ObjectAnnotation } from '@atjson/document';
-import CaptionSource from './caption-source';
+import { ObjectAnnotation } from "@atjson/document";
+import CaptionSource from "./caption-source";
 
 export function without<T>(array: T[], value: T): T[] {
   let result: T[] = [];
@@ -18,8 +18,8 @@ export default class IframeEmbed extends ObjectAnnotation<{
   caption?: CaptionSource;
   sandbox?: string;
 }> {
-  static type = 'iframe-embed';
-  static vendorPrefix = 'offset';
+  static type = "iframe-embed";
+  static vendorPrefix = "offset";
   static subdocuments = { caption: CaptionSource };
 
   get url() {

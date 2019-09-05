@@ -1,10 +1,9 @@
-import EditableComponent from '../mixins/editable-component';
+import EditableComponent from "../mixins/editable-component";
 
 export default class OffsetSuperscriptElement extends EditableComponent {
-
-  static annotationName = 'superscript';
+  static annotationName = "superscript";
 
   static elementRenderer = (): Element => {
-    return document.createElement('sup');
-  }
+    return document.createElement("sup");
+  };
 }

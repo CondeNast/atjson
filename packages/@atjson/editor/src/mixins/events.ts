@@ -9,18 +9,20 @@ export interface EventHandlerReferences {
 }
 
 function getEventNameAndElement(element: HTMLElement, definition: string) {
-  let [eventName, ...selectors] = definition.split(' ');
-  let selector = selectors.join(' ');
-  if (selector === 'document') {
+  let [eventName, ...selectors] = definition.split(" ");
+  let selector = selectors.join(" ");
+  if (selector === "document") {
     return { eventName, element: document };
-  } else if (selector === 'window') {
+  } else if (selector === "window") {
     return { eventName, element: window };
-  } else if (selector === '') {
+  } else if (selector === "") {
     return { eventName, element };
   } else {
     let querySelector;
     if (element.shadowRoot) {
-      querySelector = element.shadowRoot.querySelector(selector) || element.querySelector(selector);
+      querySelector =
+        element.shadowRoot.querySelector(selector) ||
+        element.querySelector(selector);
     } else {
       querySelector = element.querySelector(selector);
     }
@@ -73,12 +75,16 @@ export default class EventComponent extends HTMLElement {
       let { eventName, element } = getEventNameAndElement(this, definition);
       let method = events[definition];
       this.eventHandlers[definition] = (evt): boolean | never => {
-        if (typeof method === 'string') {
+        if (typeof method === "string") {
           const eventHandler: (event: Event) => boolean | never = this[method];
           if (eventHandler instanceof Function) {
             return eventHandler.call(this, evt);
           } else {
-            throw new Error(`😭 \`${method}\` was not defined on ${this.tagName}- did you misspell  or forget to add it?`);
+            throw new Error(
+              `😭 \`${method}\` was not defined on ${
+                this.tagName
+              }- did you misspell  or forget to add it?`
+            );
           }
         } else {
           return method.call(this, evt);

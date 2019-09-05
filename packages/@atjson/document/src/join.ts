@@ -1,6 +1,6 @@
-import Annotation from './annotation';
-import { NamedCollection } from './collection';
-import { JSONArray, JSONObject } from './json';
+import Annotation from "./annotation";
+import { NamedCollection } from "./collection";
+import { JSONArray, JSONObject } from "./json";
 
 /**
  * Joins are a way to identify related annotations and be able to do
@@ -77,20 +77,34 @@ import { JSONArray, JSONObject } from './json';
  */
 export default class Join<Left extends string, Right extends string> {
   private leftJoin: NamedCollection<Left>;
-  private _joins: Array<Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>>;
+  private _joins: Array<
+    Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+  >;
 
-  constructor(leftJoin: NamedCollection<Left>, joins: Array<Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>>) {
+  constructor(
+    leftJoin: NamedCollection<Left>,
+    joins: Array<
+      Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+    >
+  ) {
     this.leftJoin = leftJoin;
     this._joins = joins;
   }
 
-  *[Symbol.iterator](): IterableIterator<Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>> {
+  *[Symbol.iterator](): IterableIterator<
+    Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+  > {
     for (let join of this._joins) {
       yield join;
     }
   }
 
-  forEach(callback: (join: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>) => void) {
+  forEach(
+    callback: (
+      join: Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>
+    ) => void
+  ) {
     this._joins.forEach(callback);
   }
 
@@ -114,22 +128,34 @@ export default class Join<Left extends string, Right extends string> {
     });
   }
 
-  outerJoin<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
+  outerJoin<J extends string>(
+    rightCollection: NamedCollection<J>,
+    filter: (
+      lhs: Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>,
+      rhs: Annotation
+    ) => boolean
+  ): never | Join<Left, Right | J> {
     if (rightCollection.document !== this.leftJoin.document) {
       // n.b. there is a case that this is OK, if the right hand side's document is null,
       // then we're just joining on annotations that shouldn't have positions in
       // the document.
-      throw new Error('Joining annotations from two different documents is non-sensical. Refusing to continue.');
+      throw new Error(
+        "Joining annotations from two different documents is non-sensical. Refusing to continue."
+      );
     }
 
     let results = new Join<Left, Right | J>(this.leftJoin, []);
 
     this._joins.forEach(join => {
-      let joinAnnotations = rightCollection.annotations.filter((rightAnnotation: Annotation) => {
-        return filter(join, rightAnnotation);
-      });
+      let joinAnnotations = rightCollection.annotations.filter(
+        (rightAnnotation: Annotation) => {
+          return filter(join, rightAnnotation);
+        }
+      );
 
-      type JoinItem = Record<Left,  Annotation<any>> & Record<Right | J, Array<Annotation<any>>>;
+      type JoinItem = Record<Left, Annotation<any>> &
+        Record<Right | J, Array<Annotation<any>>>;
 
       // TypeScript doesn't allow us to safely index this, even though
       // the type system should detect this
@@ -140,19 +166,40 @@ export default class Join<Left extends string, Right extends string> {
     return results;
   }
 
-  join<J extends string>(rightCollection: NamedCollection<J>, filter: (lhs: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>, rhs: Annotation) => boolean): never | Join<Left, Right | J> {
-    return this.outerJoin(rightCollection, filter).where(record => record[rightCollection.name].length > 0);
+  join<J extends string>(
+    rightCollection: NamedCollection<J>,
+    filter: (
+      lhs: Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>,
+      rhs: Annotation
+    ) => boolean
+  ): never | Join<Left, Right | J> {
+    return this.outerJoin(rightCollection, filter).where(
+      record => record[rightCollection.name].length > 0
+    );
   }
 
-  where(filter: ((join: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>) => boolean)): Join<Left, Right> {
+  where(
+    filter: (
+      join: Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>
+    ) => boolean
+  ): Join<Left, Right> {
     return new Join<Left, Right>(this.leftJoin, this._joins.filter(filter));
   }
 
-  push(join: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>) {
+  push(
+    join: Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+  ) {
     this._joins.push(join);
   }
 
-  update(callback: (join: Record<Left,  Annotation<any>> & Record<Right, Array<Annotation<any>>>) => void) {
+  update(
+    callback: (
+      join: Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>
+    ) => void
+  ) {
     this._joins.forEach(callback);
   }
 }

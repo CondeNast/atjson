@@ -1,51 +1,49 @@
-const { join } = require('path');
+const { join } = require("path");
 
 module.exports = {
-  title: 'atjson',
-  tagline: 'Content that you can query, manipulate, and store with ease',
-  url: 'https://condenast.github.io/atjson',
-  baseUrl: '/',
-  favicon: 'img/favicon.ico',
+  title: "atjson",
+  tagline: "Content that you can query, manipulate, and store with ease",
+  url: "https://condenast.github.io/atjson",
+  baseUrl: "/",
+  favicon: "img/favicon.ico",
   themeConfig: {
     navbar: {
-      title: 'atjson',
+      title: "atjson",
       logo: {
-        alt: 'My site Logo',
-        src: 'img/logo.svg'
+        alt: "My site Logo",
+        src: "img/logo.svg"
       },
       links: [
         {
-          to: 'docs/getting-started',
-          label: 'Docs',
-          position: 'right'
+          to: "docs/getting-started",
+          label: "Docs",
+          position: "right"
         },
         {
-          href: 'https://github.com/CondeNast/atjson',
-          label: 'GitHub',
-          position: 'right'
+          href: "https://github.com/CondeNast/atjson",
+          label: "GitHub",
+          position: "right"
         }
       ]
     },
     footer: {
-      style: 'dark',
+      style: "dark",
       logo: {
-        alt: 'Condé Nast',
-        src: '/img/conde-nast.svg'
+        alt: "Condé Nast",
+        src: "/img/conde-nast.svg"
       },
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`
     }
   },
-  plugins: [
-    join(__dirname, 'plugins', 'docusaurus-typescript-loader'),
-  ],
+  plugins: [join(__dirname, "plugins", "docusaurus-typescript-loader")],
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve('./sidebars.json')
+          sidebarPath: require.resolve("./sidebars.json")
         }
-      },
-    ],
-  ],
+      }
+    ]
+  ]
 };

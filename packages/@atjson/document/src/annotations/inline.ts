@@ -1,6 +1,8 @@
-import Annotation from '../annotation';
+import Annotation from "../annotation";
 
-export default abstract class InlineAnnotation<Attributes = {}> extends Annotation<Attributes> {
+export default abstract class InlineAnnotation<
+  Attributes = {}
+> extends Annotation<Attributes> {
   get rank() {
     return 100;
   }

@@ -1,10 +1,10 @@
-import Document, { Annotation } from '@atjson/document';
-import WebComponentRenderer from '@atjson/renderer-webcomponent';
-import EventComponent from './mixins/events';
-import './selection-toolbar';
-import './text-input';
-import TextSelection from './text-selection';
-import './text-selection';
+import Document, { Annotation } from "@atjson/document";
+import WebComponentRenderer from "@atjson/renderer-webcomponent";
+import EventComponent from "./mixins/events";
+import "./selection-toolbar";
+import "./text-input";
+import TextSelection from "./text-selection";
+import "./text-selection";
 
 export interface Range {
   start: number;
@@ -20,22 +20,22 @@ export interface Range {
 
 */
 export default class OffsetEditor extends EventComponent {
-
-  static template = '<text-input>' +
-                      '<text-selection>' +
-                        '<selection-toolbar slot="toolbar"></selection-toolbar>' +
-                        '<div class="editor" style="white-space: pre-wrap" contenteditable></div>' +
-                      '</text-selection>' +
-                    '</text-input>';
+  static template =
+    "<text-input>" +
+    "<text-selection>" +
+    '<selection-toolbar slot="toolbar"></selection-toolbar>' +
+    '<div class="editor" style="white-space: pre-wrap" contenteditable></div>' +
+    "</text-selection>" +
+    "</text-input>";
 
   static events = {
-    'change text-selection': 'handleTextSelectionChange',
-    'insertText text-input': 'handleTextInsert',
-    'deleteText text-input': 'handleTextDelete',
-    'replaceText text-input': 'handleTextReplace',
-    'addAnnotation': 'handleAnnotationAdd',
-    'deleteAnnotation': 'handleAnnotationDelete',
-    'attributechange': 'handleAttributeChange'
+    "change text-selection": "handleTextSelectionChange",
+    "insertText text-input": "handleTextInsert",
+    "deleteText text-input": "handleTextDelete",
+    "replaceText text-input": "handleTextReplace",
+    addAnnotation: "handleAnnotationAdd",
+    deleteAnnotation: "handleAnnotationDelete",
+    attributechange: "handleAttributeChange"
   };
 
   selection: Range;
@@ -43,7 +43,7 @@ export default class OffsetEditor extends EventComponent {
 
   constructor() {
     super();
-    this.document = new Document('');
+    this.document = new Document("");
     this.selection = { start: 0, end: 0 };
   }
 
@@ -53,11 +53,15 @@ export default class OffsetEditor extends EventComponent {
 
   scheduleRender() {
     window.requestAnimationFrame(() => {
-      let editor = this.querySelector('.editor');
+      let editor = this.querySelector(".editor");
 
       if (editor !== null) {
         this.render(editor);
-        let evt = new CustomEvent('change', { bubbles: true, composed: true, detail: { document: this.document } });
+        let evt = new CustomEvent("change", {
+          bubbles: true,
+          composed: true,
+          detail: { document: this.document }
+        });
         this.dispatchEvent(evt);
       }
     });
@@ -76,7 +80,9 @@ export default class OffsetEditor extends EventComponent {
       editor.innerHTML = rendered.innerHTML;
 
       if (this.selection) {
-        let textSelection: TextSelection | null = this.querySelector('text-selection');
+        let textSelection: TextSelection | null = this.querySelector(
+          "text-selection"
+        );
         if (textSelection) {
           textSelection.setSelection(this.selection);
           // textSelection.setSelection(this.selection, { suppressEvents: true });
@@ -97,25 +103,27 @@ export default class OffsetEditor extends EventComponent {
       }
     });
 
-    this.document.addEventListener('change', (() => this.scheduleRender() ));
+    this.document.addEventListener("change", () => this.scheduleRender());
   }
 
   addContentFeature(component: any) {
     this.selectionToolbar.appendChild(component.selectionButton);
 
     if (component.annotationName) {
-      WebComponentRenderer.prototype[component.annotationName] = component.elementRenderer;
+      WebComponentRenderer.prototype[component.annotationName] =
+        component.elementRenderer;
     }
   }
 
   getSelection() {
-    return this.querySelector('text-selection');
+    return this.querySelector("text-selection");
   }
 
   private get selectionToolbar() {
-    let selectionToolbar = this.querySelector('selection-toolbar');
-    if (!selectionToolbar) throw new Error('Could not find selection-toolbar.');
-    if (!selectionToolbar.shadowRoot) throw new Error('Expected selectionToolbar to have shadowRoot.');
+    let selectionToolbar = this.querySelector("selection-toolbar");
+    if (!selectionToolbar) throw new Error("Could not find selection-toolbar.");
+    if (!selectionToolbar.shadowRoot)
+      throw new Error("Expected selectionToolbar to have shadowRoot.");
     return selectionToolbar;
   }
 
@@ -123,26 +131,33 @@ export default class OffsetEditor extends EventComponent {
     // n.b. this was this.constructor.template but typescript doesn't like that... for now no inheritance :(
     this.innerHTML = OffsetEditor.template;
     super.connectedCallback();
-    this.render(this.querySelector('.editor'));
+    this.render(this.querySelector(".editor"));
   }
 
   handleTextSelectionChange(evt: CustomEvent) {
     this.selection = evt.detail;
 
-    let selectedAnnotations = this.document.annotations.filter((a: Annotation) => {
-      return (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
-              (a.start <= evt.detail.end && a.end >= evt.detail.end);
-    });
+    let selectedAnnotations = this.document.annotations.filter(
+      (a: Annotation) => {
+        return (
+          (a.start <= evt.detail.start && a.end >= evt.detail.start) ||
+          (a.start <= evt.detail.end && a.end >= evt.detail.end)
+        );
+      }
+    );
 
-    let selectionChangeEvent = new CustomEvent('selectionchange', {
-      detail: Object.assign({
-        selectedAnnotations,
-        document: this.document
-      }, evt.detail),
+    let selectionChangeEvent = new CustomEvent("selectionchange", {
+      detail: Object.assign(
+        {
+          selectedAnnotations,
+          document: this.document
+        },
+        evt.detail
+      ),
       bubbles: false
     });
 
-    let toolbar = this.querySelector('selection-toolbar');
+    let toolbar = this.querySelector("selection-toolbar");
     if (toolbar) toolbar.dispatchEvent(selectionChangeEvent);
   }
 
@@ -176,60 +191,98 @@ export default class OffsetEditor extends EventComponent {
   }
 
   handleAnnotationAdd(evt: CustomEvent) {
-    if (evt.detail.type === 'bold' || evt.detail.type === 'italic') {
+    if (evt.detail.type === "bold" || evt.detail.type === "italic") {
+      const contained = (a: Annotation, b: Annotation) =>
+        a.start >= b.start && a.end <= b.end;
+      const offset = (a: Annotation, b: Annotation) =>
+        a.start <= b.end && a.end >= b.start;
+      let overlapping = this.document.annotations
+        .filter((a: Annotation) => a.type === evt.detail.type)
+        .filter(
+          (a: Annotation) =>
+            contained(a, evt.detail) ||
+            contained(evt.detail, a) ||
+            offset(a, evt.detail) ||
+            offset(evt.detail, a)
+        );
 
-      const contained = (a: Annotation, b: Annotation) => a.start >= b.start && a.end <= b.end;
-      const offset = (a: Annotation, b: Annotation) => a.start <= b.end && a.end >= b.start;
-      let overlapping = this.document.annotations.filter((a: Annotation) => a.type === evt.detail.type)
-                                                  .filter((a: Annotation) => contained(a, evt.detail) || contained(evt.detail, a) || offset(a, evt.detail) || offset(evt.detail, a));
-
-      let min = overlapping.reduce((a: number, b: Annotation) => Math.min(a, b.start), this.document.content.length);
-      let max = overlapping.reduce((a: number, b: Annotation) => Math.max(a, b.end), 0);
+      let min = overlapping.reduce(
+        (a: number, b: Annotation) => Math.min(a, b.start),
+        this.document.content.length
+      );
+      let max = overlapping.reduce(
+        (a: number, b: Annotation) => Math.max(a, b.end),
+        0
+      );
 
       if (overlapping.length === 0) {
         this.document.addAnnotations(evt.detail);
-
-      } else if (min <= evt.detail.start && evt.detail.end <= max && overlapping.length === 1) {
+      } else if (
+        min <= evt.detail.start &&
+        evt.detail.end <= max &&
+        overlapping.length === 1
+      ) {
         // invert the state.
         let prev = overlapping[0];
-        let newFirst = Object.assign({}, prev, evt.detail, { start: prev.start, end: evt.detail.start });
-        let newLast = Object.assign({}, prev, evt.detail, { start: evt.detail.end, end: prev.end });
+        let newFirst = Object.assign({}, prev, evt.detail, {
+          start: prev.start,
+          end: evt.detail.start
+        });
+        let newLast = Object.assign({}, prev, evt.detail, {
+          start: evt.detail.end,
+          end: prev.end
+        });
         if (min !== evt.detail.start) this.document.addAnnotations(newFirst);
         if (max !== evt.detail.end) this.document.addAnnotations(newLast);
-
       } else {
-        this.document.addAnnotations(Object.assign({}, overlapping[0], evt.detail, { start: Math.min(min, evt.detail.start), end: Math.max(max, evt.detail.end) }));
+        this.document.addAnnotations(
+          Object.assign({}, overlapping[0], evt.detail, {
+            start: Math.min(min, evt.detail.start),
+            end: Math.max(max, evt.detail.end)
+          })
+        );
       }
 
       overlapping.forEach((o: Annotation) => this.document.removeAnnotation(o));
-
     } else {
       this.document.addAnnotations(evt.detail);
     }
   }
 
   handleAnnotationDelete(evt: CustomEvent) {
-    let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
+    let annotation = this.document.annotations.find(
+      (a: Annotation) => a.id === evt.detail.annotationId
+    );
     if (annotation) this.document.removeAnnotation(annotation);
   }
 
   handleAttributeChange(evt: CustomEvent) {
     if (evt.detail.annotationId) {
-      let annotation = this.document.annotations.find((a: Annotation) => a.id === evt.detail.annotationId);
+      let annotation = this.document.annotations.find(
+        (a: Annotation) => a.id === evt.detail.annotationId
+      );
       if (annotation) {
-        let newAnnotation = Object.assign(annotation, {attributes: evt.detail.attributes});
+        let newAnnotation = Object.assign(annotation, {
+          attributes: evt.detail.attributes
+        });
         this.document.replaceAnnotation(annotation, newAnnotation);
       }
     } else if (evt.target instanceof Element) {
-      let annotationId = evt.target.getAttribute('data-annotation-id');
-      let annotation = this.document.annotations.find((a: Annotation) => a.id !== undefined && a.id.toString() === annotationId);
+      let annotationId = evt.target.getAttribute("data-annotation-id");
+      let annotation = this.document.annotations.find(
+        (a: Annotation) =>
+          a.id !== undefined && a.id.toString() === annotationId
+      );
       if (annotation) {
-        this.document.replaceAnnotation(annotation, Object.assign(annotation, evt.detail));
+        this.document.replaceAnnotation(
+          annotation,
+          Object.assign(annotation, evt.detail)
+        );
       }
     }
   }
 }
 
-if (!window.customElements.get('offset-editor')) {
-  window.customElements.define('offset-editor', OffsetEditor);
+if (!window.customElements.get("offset-editor")) {
+  window.customElements.define("offset-editor", OffsetEditor);
 }

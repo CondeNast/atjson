@@ -1,4 +1,4 @@
-import EventComponent from './mixins/events';
+import EventComponent from "./mixins/events";
 
 const TEXT_NODE_TYPE = 3;
 const DOCUMENT_POSITION_PRECEDING = 2;
@@ -70,13 +70,12 @@ function previousTextNode(node: Node): TextRangePoint {
  * @emits CustomEvent#clear - called when the text selecton is cleared
  */
 class TextSelection extends EventComponent {
-
-  static observedAttributes = ['start', 'end'];
+  static observedAttributes = ["start", "end"];
   static events = {
-    'selectionchange document': 'selectedTextDidChange',
-    'compositionstart': 'startComposition',
-    'compositionend': 'endComposition',
-    'resumeinput': 'resumeInput'
+    "selectionchange document": "selectedTextDidChange",
+    compositionstart: "startComposition",
+    compositionend: "endComposition",
+    resumeinput: "resumeInput"
   };
 
   composing: boolean;
@@ -118,7 +117,7 @@ class TextSelection extends EventComponent {
     for (let i = 0; i < l; i++) {
       let node = this.textNodes[i];
 
-      if (offset + (node.nodeValue || '').length >= range.start) {
+      if (offset + (node.nodeValue || "").length >= range.start) {
         let selection = document.getSelection();
         let r = document.createRange();
         r.setStart(node, range.start - offset);
@@ -134,21 +133,26 @@ class TextSelection extends EventComponent {
         break;
       }
 
-      offset += (node.nodeValue || '').length;
+      offset += (node.nodeValue || "").length;
     }
   }
 
   connectedCallback() {
     super.connectedCallback();
-    let shadowRoot = this.attachShadow({mode: 'open'});
-    let template = document.createElement('template');
-    template.innerHTML = '<style>.toolbar { position: absolute; display: none; }</style><div class="toolbar"><slot name="toolbar"></slot></div><slot></slot>';
+    let shadowRoot = this.attachShadow({ mode: "open" });
+    let template = document.createElement("template");
+    template.innerHTML =
+      '<style>.toolbar { position: absolute; display: none; }</style><div class="toolbar"><slot name="toolbar"></slot></div><slot></slot>';
     shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Setup observers so when the underlying text changes,
     // we update the text nodes that we want to map our selection from
     this.observer = new MutationObserver(() => this.reset());
-    this.observer.observe(this, { childList: true, characterData: true, subtree: true });
+    this.observer.observe(this, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
 
     this.reset();
   }
@@ -169,30 +173,33 @@ class TextSelection extends EventComponent {
 
   // Handle cursor focus/blur events for elements at a cursor position.
   handleCursorFocus(range: Range, selectionRange: Selection) {
-
     // If we're focused on a text node, that means we have a cursor.
     if (selectionRange.focusNode.nodeType === 3) {
-
       // First, clear any existing focus. We do this first because in the next step, we reset it.
-      if (this._focusNode && (this._focusNode !== selectionRange.focusNode || range.start !== range.end)) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+      if (
+        this._focusNode &&
+        (this._focusNode !== selectionRange.focusNode ||
+          range.start !== range.end)
+      ) {
+        this._focusNode.dispatchEvent(
+          new CustomEvent("cursorblur", { bubbles: true })
+        );
         delete this._focusNode;
       }
 
       // If we have a collapsed range.
       if (range.start === range.end) {
-
         if (!this._previousRange || range.start !== this._previousRange.start) {
           // And the focused node is *not* the same as the previously focused node.
           if (this._focusNode !== selectionRange.focusNode) {
-
             // then fire a focus event for parents of this text node to pick up.
             this._focusNode = selectionRange.focusNode;
             this._previousRange = range;
-            this._focusNode.dispatchEvent(new CustomEvent('cursorfocus', { bubbles: true }));
+            this._focusNode.dispatchEvent(
+              new CustomEvent("cursorfocus", { bubbles: true })
+            );
           }
         } else {
-
           // We don't want to re-fire (this case is likely encountered in a
           // re-render), but since we don't have a _focusNode we just reset it
           // here to prevent re-firing on the next selection change.
@@ -205,19 +212,25 @@ class TextSelection extends EventComponent {
   updateToolbar(range: Range, selectionRange: Selection) {
     if (!this.shadowRoot) return;
 
-    let toolbar: HTMLElement | null = this.shadowRoot.querySelector('.toolbar');
+    let toolbar: HTMLElement | null = this.shadowRoot.querySelector(".toolbar");
 
     if (!toolbar) return;
 
     let toolbarStyle = toolbar.style;
     if (range.start === range.end) {
-      toolbarStyle.display = 'none';
+      toolbarStyle.display = "none";
     } else {
       window.requestAnimationFrame(_ => {
         if (!toolbar) return;
-        let selectionBoundingRect = selectionRange.getRangeAt(0).getBoundingClientRect();
-        toolbarStyle.display = 'block';
-        toolbarStyle.top = (selectionBoundingRect.top - toolbar.offsetHeight - 3).toString();
+        let selectionBoundingRect = selectionRange
+          .getRangeAt(0)
+          .getBoundingClientRect();
+        toolbarStyle.display = "block";
+        toolbarStyle.top = (
+          selectionBoundingRect.top -
+          toolbar.offsetHeight -
+          3
+        ).toString();
         toolbarStyle.left = selectionBoundingRect.left.toString();
       });
     }
@@ -227,21 +240,26 @@ class TextSelection extends EventComponent {
     if (this._previousRange) {
       this.setSelection(this._previousRange);
       if (this._focusNode) {
-        this._focusNode.dispatchEvent(new CustomEvent('cursorblur', { bubbles: true }));
+        this._focusNode.dispatchEvent(
+          new CustomEvent("cursorblur", { bubbles: true })
+        );
       }
     }
   }
 
-  private getNodeAndOffset([node, offset]: NodeRangePoint, leading: boolean): TextRangePoint | never | null {
+  private getNodeAndOffset(
+    [node, offset]: NodeRangePoint,
+    leading: boolean
+  ): TextRangePoint | never | null {
     // No node to get an offset for; bail
     if (node == null) {
       return [null, offset];
 
-    // The offset is a text offset
+      // The offset is a text offset
     } else if (node.nodeType === TEXT_NODE_TYPE) {
       return [node as Text, offset];
 
-    // If the node is outside the
+      // If the node is outside the
     } else if (!this.contains(node) && this !== node) {
       switch (this.compareDocumentPosition(node)) {
         case DOCUMENT_POSITION_PRECEDING:
@@ -250,10 +268,10 @@ class TextSelection extends EventComponent {
           return nextTextNode(node);
         default:
           return [null, 0];
-        }
+      }
 
-    // If the node isn't a text node, the offset refers to a
-    // node offset. We will disambiguate this to a text offset
+      // If the node isn't a text node, the offset refers to a
+      // node offset. We will disambiguate this to a text offset
     } else if (node.childNodes.length > offset) {
       let offsetNode = node.childNodes[offset];
       let textNodes = getTextNodes(offsetNode);
@@ -275,14 +293,13 @@ class TextSelection extends EventComponent {
       // throw new Error("The selection for this node is ambiguous- we received a node with child nodes, but expected to get a leaf node");
       return null;
 
-    // Firefox can return an offset that is the length
-    // of the node list, which signifies that the node
-    // and offset is the last node at the last character :/
+      // Firefox can return an offset that is the length
+      // of the node list, which signifies that the node
+      // and offset is the last node at the last character :/
     } else if (node.childNodes.length === offset) {
       let textNodes = getTextNodes(node);
       let textNode = textNodes[textNodes.length - 1];
       return [textNode, textNode ? textNode.length : 0];
-
     } else {
       return [null, offset];
     }
@@ -295,47 +312,52 @@ class TextSelection extends EventComponent {
     let firstNode = this.textNodes[0];
     let lastNode = this.textNodes[this.textNodes.length - 1];
 
-    if (firstNode.compareDocumentPosition(text) === DOCUMENT_POSITION_PRECEDING) {
+    if (
+      firstNode.compareDocumentPosition(text) === DOCUMENT_POSITION_PRECEDING
+    ) {
       return [firstNode, 0];
-
-    } else if (lastNode.compareDocumentPosition(text) === DOCUMENT_POSITION_FOLLOWING) {
+    } else if (
+      lastNode.compareDocumentPosition(text) === DOCUMENT_POSITION_FOLLOWING
+    ) {
       return [lastNode, lastNode.length];
-
     }
     return [text, offset];
   }
 
   private clearSelection() {
-    this.removeAttribute('start');
-    this.removeAttribute('end');
-    this.dispatchEvent(new CustomEvent('clear'));
+    this.removeAttribute("start");
+    this.removeAttribute("end");
+    this.dispatchEvent(new CustomEvent("clear"));
   }
 
   // @ts-ignore called from events
   private selectedTextDidChange() {
-
     if (this.composing) return;
 
     let selection = document.getSelection();
     let nodes = this.textNodes;
 
-    let nodeRange: NodeRange = [[selection.baseNode, selection.baseOffset],
-                            [selection.extentNode, selection.extentOffset]];
+    let nodeRange: NodeRange = [
+      [selection.baseNode, selection.baseOffset],
+      [selection.extentNode, selection.extentOffset]
+    ];
     if (selection.anchorNode) {
-      nodeRange = [[selection.anchorNode, selection.anchorOffset],
-                   [selection.focusNode, selection.focusOffset]];
+      nodeRange = [
+        [selection.anchorNode, selection.anchorOffset],
+        [selection.focusNode, selection.focusOffset]
+      ];
     }
     nodeRange = nodeRange.sort(([aNode, aOffset], [bNode, bOffset]) => {
       if (!aNode || !bNode) return 0;
 
       // Sort by node position then offset
       switch (aNode.compareDocumentPosition(bNode)) {
-      case DOCUMENT_POSITION_PRECEDING:
-        return 1;
-      case DOCUMENT_POSITION_FOLLOWING:
-        return -1;
-      default:
-        return aOffset - bOffset;
+        case DOCUMENT_POSITION_PRECEDING:
+          return 1;
+        case DOCUMENT_POSITION_FOLLOWING:
+          return -1;
+        default:
+          return aOffset - bOffset;
       }
     });
 
@@ -366,7 +388,10 @@ class TextSelection extends EventComponent {
     let isNonZeroRange = startTextNode !== endTextNode || start[1] !== end[1];
 
     let domRange = document.createRange();
-    if (startTextNode.parentNode instanceof Node && endTextNode.parentNode instanceof Node) {
+    if (
+      startTextNode.parentNode instanceof Node &&
+      endTextNode.parentNode instanceof Node
+    ) {
       domRange.setStart(startTextNode, start[1]);
       domRange.setEnd(endTextNode, end[1]);
       let commonAncestor = domRange.commonAncestorContainer;
@@ -382,9 +407,11 @@ class TextSelection extends EventComponent {
         end = this.clampRangePoint(end);
       }
 
-      let lengths = nodes.map(node => (node.nodeValue || '').length);
+      let lengths = nodes.map(node => (node.nodeValue || "").length);
       let range = {
-        start: lengths.slice(0, nodes.indexOf(startTextNode)).reduce(sum, start[1]),
+        start: lengths
+          .slice(0, nodes.indexOf(startTextNode))
+          .reduce(sum, start[1]),
         end: lengths.slice(0, nodes.indexOf(endTextNode)).reduce(sum, end[1])
       };
 
@@ -400,23 +427,26 @@ class TextSelection extends EventComponent {
         this.updateToolbar(range, selection);
       }, 500);
 
-      this.setAttribute('start', range.start.toString());
-      this.setAttribute('end', range.end.toString());
-      this.dispatchEvent(new CustomEvent('change', {
-        detail: {
-          start: range.start,
-          end: range.end,
-          collapsed: range.start === range.end
-        }
-      }));
+      this.setAttribute("start", range.start.toString());
+      this.setAttribute("end", range.end.toString());
+      this.dispatchEvent(
+        new CustomEvent("change", {
+          detail: {
+            start: range.start,
+            end: range.end,
+            collapsed: range.start === range.end
+          }
+        })
+      );
       return true;
-
     } else {
-      throw new Error('This should not happen. This check is for typescript, but should never be triggered.');
+      throw new Error(
+        "This should not happen. This check is for typescript, but should never be triggered."
+      );
     }
   }
 }
 
-customElements.define('text-selection', TextSelection);
+customElements.define("text-selection", TextSelection);
 
 export default TextSelection;

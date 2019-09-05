@@ -1,13 +1,13 @@
-import IframeEmbed, { without } from './iframe-embed';
+import IframeEmbed, { without } from "./iframe-embed";
 
 export default class TwitterEmbed extends IframeEmbed {
-  static type = 'twitter-embed';
-  static vendorPrefix = 'offset';
+  static type = "twitter-embed";
+  static vendorPrefix = "offset";
 
   get tweetBy() {
     let url = this.url;
     if (url) {
-      return without<string>(url.pathname.split('/'), '')[0];
+      return without<string>(url.pathname.split("/"), "")[0];
     }
     return null;
   }
@@ -15,7 +15,7 @@ export default class TwitterEmbed extends IframeEmbed {
   get tweetId() {
     let url = this.url;
     if (url) {
-      return without<string>(url.pathname.split('/'), '')[2];
+      return without<string>(url.pathname.split("/"), "")[2];
     }
     return null;
   }

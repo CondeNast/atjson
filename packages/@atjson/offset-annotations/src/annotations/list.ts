@@ -1,5 +1,4 @@
-
-import { BlockAnnotation } from '@atjson/document';
+import { BlockAnnotation } from "@atjson/document";
 
 export default class List extends BlockAnnotation<{
   type: string;
@@ -8,6 +7,6 @@ export default class List extends BlockAnnotation<{
   level?: number;
   startsAt?: number;
 }> {
-  static vendorPrefix = 'offset';
-  static type = 'list';
+  static vendorPrefix = "offset";
+  static type = "list";
 }

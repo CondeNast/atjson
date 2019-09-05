@@ -1,5 +1,5 @@
-import { AnnotationJSON } from '@atjson/document';
-import { GDocsStyleSlice } from './types';
+import { AnnotationJSON } from "@atjson/document";
+import { GDocsStyleSlice } from "./types";
 
 /*
  * Import paragraph styles.
@@ -32,7 +32,9 @@ import { GDocsStyleSlice } from './types';
  *   ps_sm: unknown
  *
  */
-export default function extractParagraphStyles(styles: GDocsStyleSlice[]): AnnotationJSON[] {
+export default function extractParagraphStyles(
+  styles: GDocsStyleSlice[]
+): AnnotationJSON[] {
   let lastParagraphStart = 0;
   let annotations: AnnotationJSON[] = [];
 
@@ -43,11 +45,11 @@ export default function extractParagraphStyles(styles: GDocsStyleSlice[]): Annot
 
     if (style.ps_hd !== 0) {
       annotations.push({
-        type: '-gdocs-ps_hd',
+        type: "-gdocs-ps_hd",
         start: lastParagraphStart,
         end: i,
         attributes: {
-          '-gdocs-level': style.ps_hd
+          "-gdocs-level": style.ps_hd
         }
       });
     }

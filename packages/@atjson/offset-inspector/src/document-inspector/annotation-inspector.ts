@@ -1,8 +1,7 @@
-import WebComponent from '../../src/mixins/component';
-import './annotation-attribute';
+import WebComponent from "../../src/mixins/component";
+import "./annotation-attribute";
 
 export default class AnnotationInspector extends WebComponent {
-
   static template = `
     <div class="annotation">
       <span class="type"></span>
@@ -38,23 +37,29 @@ export default class AnnotationInspector extends WebComponent {
     }
   `;
 
-  static observedAttributes = ['type', 'start', 'end'];
+  static observedAttributes = ["type", "start", "end"];
 
   attributeChangedCallback(attribute) {
     switch (attribute) {
-      case 'type':
-        this.shadowRoot.querySelector('.type').innerHTML = this.getAttribute('type');
+      case "type":
+        this.shadowRoot.querySelector(".type").innerHTML = this.getAttribute(
+          "type"
+        );
         break;
-      case 'start':
-        this.shadowRoot.querySelector('.start').innerHTML = this.getAttribute('start');
+      case "start":
+        this.shadowRoot.querySelector(".start").innerHTML = this.getAttribute(
+          "start"
+        );
         break;
-      case 'end':
-        this.shadowRoot.querySelector('.end').innerHTML = this.getAttribute('end');
+      case "end":
+        this.shadowRoot.querySelector(".end").innerHTML = this.getAttribute(
+          "end"
+        );
         break;
     }
   }
 }
 
-if (!window.customElements.get('annotation-inspector')) {
-  window.customElements.define('annotation-inspector', AnnotationInspector);
+if (!window.customElements.get("annotation-inspector")) {
+  window.customElements.define("annotation-inspector", AnnotationInspector);
 }

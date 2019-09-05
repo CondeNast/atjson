@@ -1,5 +1,5 @@
-import Document from '@atjson/document';
-import { HIR, HIRNode } from '@atjson/hir';
+import Document from "@atjson/document";
+import { HIR, HIRNode } from "@atjson/hir";
 
 interface Node {
   id: string;
@@ -28,17 +28,21 @@ function getColor(rank: number) {
   }
 }
 
-function generateGraph(hirNode: HIRNode, edges: Array<[Node, Node]>, nodes: Node[]): Node {
+function generateGraph(
+  hirNode: HIRNode,
+  edges: Array<[Node, Node]>,
+  nodes: Node[]
+): Node {
   let children = hirNode.children({ includeParseTokens: true });
   let text = hirNode.type;
-  if (hirNode.type === 'text' && hirNode.text != null) {
+  if (hirNode.type === "text" && hirNode.text != null) {
     text = hirNode.text;
   } else {
     text = JSON.stringify(hirNode.annotation.attributes);
   }
 
   let node = {
-    id: `${hirNode.type.replace('-', '_')}${nodes.length + 1}`,
+    id: `${hirNode.type.replace("-", "_")}${nodes.length + 1}`,
     label: hirNode.type,
     color: getColor(hirNode.rank),
     text
@@ -57,18 +61,45 @@ export interface GraphvizOptions {
 }
 
 export default class GraphvizRenderer {
-  static render(document: Document, options: GraphvizOptions = { shape: 'oval' }): string {
+  static render(
+    document: Document,
+    options: GraphvizOptions = { shape: "oval" }
+  ): string {
     let edges: Array<[Node, Node]> = [];
     let nodes: Node[] = [];
     generateGraph(new HIR(document).rootNode, edges, nodes);
 
     let dot: string;
-    if (options.shape === 'record' || options.shape === 'Mrecord') {
-      dot = nodes.map(node => `  ${node.id} [label="{${node.label}|${node.text.replace(/"/g, '\\"')}}" ${node.color}];`).join('\n') + '\n' +
-            edges.map(([parent, child]) => `  ${parent.id} -> ${child.id};`).join('\n');
+    if (options.shape === "record" || options.shape === "Mrecord") {
+      dot =
+        nodes
+          .map(
+            node =>
+              `  ${node.id} [label="{${node.label}|${node.text.replace(
+                /"/g,
+                '\\"'
+              )}}" ${node.color}];`
+          )
+          .join("\n") +
+        "\n" +
+        edges
+          .map(([parent, child]) => `  ${parent.id} -> ${child.id};`)
+          .join("\n");
     } else {
-      dot = nodes.map(node => `  ${node.id} [label="${node.label}\\n${node.text.replace(/"/g, '\\"')}" ${node.color}];`).join('\n') + '\n' +
-            edges.map(([parent, child]) => `  ${parent.id} -> ${child.id};`).join('\n');
+      dot =
+        nodes
+          .map(
+            node =>
+              `  ${node.id} [label="${node.label}\\n${node.text.replace(
+                /"/g,
+                '\\"'
+              )}" ${node.color}];`
+          )
+          .join("\n") +
+        "\n" +
+        edges
+          .map(([parent, child]) => `  ${parent.id} -> ${child.id};`)
+          .join("\n");
     }
 
     return `digraph atjson{

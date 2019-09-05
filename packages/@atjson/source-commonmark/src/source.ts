@@ -1,15 +1,54 @@
-import Document from '@atjson/document';
-import * as MarkdownIt from 'markdown-it';
-import { Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, HTMLBlock, HTMLInline, Hardbreak, Heading, HorizontalRule, Image, Link, ListItem, OrderedList, Paragraph, Strong } from './annotations';
-import Parser from './parser';
+import Document from "@atjson/document";
+import * as MarkdownIt from "markdown-it";
+import {
+  Blockquote,
+  BulletList,
+  CodeBlock,
+  CodeInline,
+  Emphasis,
+  Fence,
+  HTMLBlock,
+  HTMLInline,
+  Hardbreak,
+  Heading,
+  HorizontalRule,
+  Image,
+  Link,
+  ListItem,
+  OrderedList,
+  Paragraph,
+  Strong
+} from "./annotations";
+import Parser from "./parser";
 
 export default class CommonMarkSource extends Document {
-  static contentType = 'application/vnd.atjson+commonmark';
-  static schema = [Blockquote, BulletList, CodeBlock, CodeInline, Emphasis, Fence, Hardbreak, Heading, HorizontalRule, HTMLBlock, HTMLInline, Image, Link, ListItem, OrderedList, Paragraph, Strong];
+  static contentType = "application/vnd.atjson+commonmark";
+  static schema = [
+    Blockquote,
+    BulletList,
+    CodeBlock,
+    CodeInline,
+    Emphasis,
+    Fence,
+    Hardbreak,
+    Heading,
+    HorizontalRule,
+    HTMLBlock,
+    HTMLInline,
+    Image,
+    Link,
+    ListItem,
+    OrderedList,
+    Paragraph,
+    Strong
+  ];
 
   static fromRaw(markdown: string) {
     let md = this.markdownParser;
-    let parser = new Parser(md.parse(markdown, { linkify: false }), this.contentHandlers);
+    let parser = new Parser(
+      md.parse(markdown, { linkify: false }),
+      this.contentHandlers
+    );
 
     return new this({
       content: parser.content,
@@ -18,7 +57,7 @@ export default class CommonMarkSource extends Document {
   }
 
   static get markdownParser() {
-    return MarkdownIt('commonmark');
+    return MarkdownIt("commonmark");
   }
 
   static get contentHandlers() {

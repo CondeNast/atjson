@@ -1,49 +1,54 @@
-import Document, { AdjacentBoundaryBehaviour, Annotation, AnnotationJSON, ParseAnnotation } from '@atjson/document';
-import HTMLSource from '@atjson/source-html';
-import * as entities from 'entities';
-import * as sax from 'sax';
-import {
-  Article,
-  Description,
-  Media,
-  Message,
-  Title
-} from './annotations';
+import Document, {
+  AdjacentBoundaryBehaviour,
+  Annotation,
+  AnnotationJSON,
+  ParseAnnotation
+} from "@atjson/document";
+import HTMLSource from "@atjson/source-html";
+import * as entities from "entities";
+import * as sax from "sax";
+import { Article, Description, Media, Message, Title } from "./annotations";
 
 function prefix(vendorPrefix: string, attributes: any): any {
   if (Array.isArray(attributes)) {
     return attributes.map((item: any) => prefix(vendorPrefix, item));
-  } else if (typeof attributes === 'object' && attributes != null) {
-    return Object.keys(attributes).reduce((prefixedAttributes: any, namespacedKey: string) => {
-      let [namespace, key] = namespacedKey.split(':');
-      if (key == null) {
-        key = namespace;
-        namespace = vendorPrefix;
-      }
-      prefixedAttributes[`-${namespace}-${key}`] = prefix(vendorPrefix, attributes[key]);
-      return prefixedAttributes;
-    }, {} as any);
+  } else if (typeof attributes === "object" && attributes != null) {
+    return Object.keys(attributes).reduce(
+      (prefixedAttributes: any, namespacedKey: string) => {
+        let [namespace, key] = namespacedKey.split(":");
+        if (key == null) {
+          key = namespace;
+          namespace = vendorPrefix;
+        }
+        prefixedAttributes[`-${namespace}-${key}`] = prefix(
+          vendorPrefix,
+          attributes[key]
+        );
+        return prefixedAttributes;
+      },
+      {} as any
+    );
   } else {
     return attributes;
   }
 }
 
 function getVendorPrefix(tagName: string) {
-  let [namespace, tag] = tagName.split(':');
+  let [namespace, tag] = tagName.split(":");
   if (tag == null) {
-    return 'html';
+    return "html";
   } else {
     return namespace;
   }
 }
 
 function getType(tagName: string) {
-  let parts = tagName.split(':');
+  let parts = tagName.split(":");
   return parts[parts.length - 1];
 }
 
 export default class PRISMSource extends Document {
-  static contentType = 'application/vnd.atjson+prism';
+  static contentType = "application/vnd.atjson+prism";
   static schema = [...HTMLSource.schema].concat([
     Article,
     Description,
@@ -64,16 +69,18 @@ export default class PRISMSource extends Document {
     let content = xml;
     let annotations: Array<Annotation | AnnotationJSON> = [];
 
-    let xmlStart = xml.indexOf('<?xml');
-    let xmlEnd = xml.indexOf('?>', xmlStart) + 2;
+    let xmlStart = xml.indexOf("<?xml");
+    let xmlEnd = xml.indexOf("?>", xmlStart) + 2;
     if (xmlStart > -1 && xmlEnd > 1) {
-      annotations.push(new ParseAnnotation({
-        start: xmlStart,
-        end: xmlEnd,
-        attributes: {
-          reason: '<?xml>'
-        }
-      }));
+      annotations.push(
+        new ParseAnnotation({
+          start: xmlStart,
+          end: xmlEnd,
+          attributes: {
+            reason: "<?xml>"
+          }
+        })
+      );
     }
 
     let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
@@ -82,31 +89,36 @@ export default class PRISMSource extends Document {
       let vendorPrefix = getVendorPrefix(node.name);
       let type = getType(node.name);
       if (node.isSelfClosing) {
-        annotations.push({
-          type: `-${vendorPrefix}-${type}`,
-          start: parser.startTagPosition - 1,
-          end: parser.position,
-          attributes: prefix(vendorPrefix, node.attributes)
-        }, new ParseAnnotation({
-          start: parser.startTagPosition - 1,
-          end: parser.position,
-          attributes: {
-            reason: `<${node.name}/>`
-          }
-        }));
+        annotations.push(
+          {
+            type: `-${vendorPrefix}-${type}`,
+            start: parser.startTagPosition - 1,
+            end: parser.position,
+            attributes: prefix(vendorPrefix, node.attributes)
+          },
+          new ParseAnnotation({
+            start: parser.startTagPosition - 1,
+            end: parser.position,
+            attributes: {
+              reason: `<${node.name}/>`
+            }
+          })
+        );
       } else {
         partialAnnotations.push({
           type: `-${vendorPrefix}-${type}`,
           start: parser.startTagPosition - 1,
           attributes: prefix(vendorPrefix, node.attributes)
         });
-        annotations.push(new ParseAnnotation({
-          start: parser.startTagPosition - 1,
-          end: parser.position,
-          attributes: {
-            reason: `<${node.name}>`
-          }
-        }));
+        annotations.push(
+          new ParseAnnotation({
+            start: parser.startTagPosition - 1,
+            end: parser.position,
+            attributes: {
+              reason: `<${node.name}>`
+            }
+          })
+        );
       }
     };
 
@@ -114,7 +126,9 @@ export default class PRISMSource extends Document {
       let annotation = partialAnnotations.pop()!;
 
       // The annotation was short closed and got a duplicate close tag action
-      if (annotation.type !== `-${getVendorPrefix(tagName)}-${getType(tagName)}`) {
+      if (
+        annotation.type !== `-${getVendorPrefix(tagName)}-${getType(tagName)}`
+      ) {
         partialAnnotations.push(annotation);
         return;
       }
@@ -140,7 +154,8 @@ export default class PRISMSource extends Document {
       annotations
     });
 
-    prism.match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/ig)
+    prism
+      .match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/gi)
       .reverse()
       .forEach(({ start, end, matches }) => {
         let entity = entities.decodeXML(matches[0]);

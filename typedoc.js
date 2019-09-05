@@ -1,5 +1,5 @@
 module.exports = {
-  "src": [
+  src: [
     "./packages/@atjson/document/src",
     "./packages/@atjson/hir/src",
     "./packages/@atjson/offset-annotations/src",
@@ -17,9 +17,9 @@ module.exports = {
     "./packages/@atjson/source-mobiledoc/src",
     "./packages/@atjson/source-url/src"
   ],
-  "out": "docs",
-  "mode": "modules",
-  "name": "@atjson",
-  "tsconfig": "./tsconfig.json",
-  "readme": "./README.md"
+  out: "docs",
+  mode: "modules",
+  name: "@atjson",
+  tsconfig: "./tsconfig.json",
+  readme: "./README.md"
 };

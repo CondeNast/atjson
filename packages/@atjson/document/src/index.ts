@@ -1,9 +1,19 @@
-import Annotation, { AnnotationConstructor } from './annotation';
-import { BlockAnnotation, InlineAnnotation, ObjectAnnotation, ParseAnnotation, UnknownAnnotation } from './annotations';
-import Change, { AdjacentBoundaryBehaviour, Deletion, Insertion } from './change';
-import AnnotationCollection, { compareAnnotations } from './collection';
-import Join from './join';
-import JSON from './json';
+import Annotation, { AnnotationConstructor } from "./annotation";
+import {
+  BlockAnnotation,
+  InlineAnnotation,
+  ObjectAnnotation,
+  ParseAnnotation,
+  UnknownAnnotation
+} from "./annotations";
+import Change, {
+  AdjacentBoundaryBehaviour,
+  Deletion,
+  Insertion
+} from "./change";
+import AnnotationCollection, { compareAnnotations } from "./collection";
+import Join from "./join";
+import JSON from "./json";
 
 export interface AnnotationJSON {
   id?: string;
@@ -24,7 +34,7 @@ export interface AnnotationJSON {
  *
  * ```ts
  * import { BlockAnnotation } from '@atjson/document';
- * 
+ *
  * export default Heading extends BlockAnnotation<{
  *   level: 1 | 2 | 3 | 4 | 5 | 6;
  * }> {
@@ -45,7 +55,11 @@ export interface AnnotationJSON {
  * };
  * ```
  */
-type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<infer Attributes> ? Attributes : never;
+type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
+  infer Attributes
+>
+  ? Attributes
+  : never;
 
 export {
   AdjacentBoundaryBehaviour,
@@ -80,22 +94,27 @@ export {
  * let convertCommonmark = getConverterFor('application/vnd.atjson+commonmark', 'application/vnd.atjson+offset');
  * ```
  */
-export function getConverterFor(from: typeof Document | string, to: typeof Document | string): never | ((doc: Document) => Document) {
-  let exports = (typeof window !== 'undefined' ? window : global) as any;
-  let fromType = typeof from === 'string' ? from : from.contentType;
-  let toType = typeof to === 'string' ? to : to.contentType;
+export function getConverterFor(
+  from: typeof Document | string,
+  to: typeof Document | string
+): never | ((doc: Document) => Document) {
+  let exports = (typeof window !== "undefined" ? window : global) as any;
+  let fromType = typeof from === "string" ? from : from.contentType;
+  let toType = typeof to === "string" ? to : to.contentType;
 
   let converters = exports.__atjson_converters__;
-  let converter = converters ?
-    converters[fromType] ?
-      converters[fromType][toType] :
-    null :
-  null;
+  let converter = converters
+    ? converters[fromType]
+      ? converters[fromType][toType]
+      : null
+    : null;
 
   if (converter == null) {
-    let fromName = typeof from === 'string' ? from : from.name;
-    let toName = typeof to === 'string' ? to : to.name;
-    throw new Error(`🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`);
+    let fromName = typeof from === "string" ? from : from.name;
+    let toName = typeof to === "string" ? to : to.name;
+    throw new Error(
+      `🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`
+    );
   }
 
   return converter;
@@ -105,12 +124,15 @@ export default class Document {
   static contentType: string;
   static schema: Array<AnnotationConstructor<any, any>> = [];
 
-  static defineConverterTo(to: typeof Document, converter: (doc: Document) => Document) {
+  static defineConverterTo(
+    to: typeof Document,
+    converter: (doc: Document) => Document
+  ) {
     // We may have multiple / conflicting versions of
     // @atjson/document. To allow this, we need to
     // register converters on the global to ensure
     // that they can be shared across versions of the library.
-    let exports = (typeof window !== 'undefined' ? window : global) as any;
+    let exports = (typeof window !== "undefined" ? window : global) as any;
 
     let converters = exports.__atjson_converters__;
     if (converters == null) {
@@ -122,7 +144,13 @@ export default class Document {
     }
 
     if (!(to.prototype instanceof Document)) {
-      throw new Error(`📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`);
+      throw new Error(
+        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${
+          to.name
+        } doesn't extend the same Document class as ${
+          this.name
+        }.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`
+      );
     }
     converters[this.contentType][to.contentType] = converter;
   }
@@ -134,12 +162,17 @@ export default class Document {
 
   private pendingChangeEvent: any;
 
-  constructor(options: { content: string, annotations: Array<AnnotationJSON | Annotation<any>> }) {
+  constructor(options: {
+    content: string;
+    annotations: Array<AnnotationJSON | Annotation<any>>;
+  }) {
     let DocumentClass = this.constructor as typeof Document;
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.content = options.content;
-    this.annotations = options.annotations.map(annotation => this.createAnnotation(annotation));
+    this.annotations = options.annotations.map(annotation =>
+      this.createAnnotation(annotation)
+    );
   }
 
   /**
@@ -148,7 +181,8 @@ export default class Document {
    * to quickly roll my own here. To be updated.
    */
   addEventListener(eventName: string, func: () => void): void {
-    if (eventName !== 'change') throw new Error('Unsupported event. `change` is the only constant.');
+    if (eventName !== "change")
+      throw new Error("Unsupported event. `change` is the only constant.");
     this.changeListeners.push(func);
   }
 
@@ -164,8 +198,12 @@ export default class Document {
    * acceptable, but side-affects created by queries will
    * not be called.
    */
-  addAnnotations(...annotations: Array<Annotation<any> | AnnotationJSON>): void {
-    this.annotations.push(...annotations.map(annotation => this.createAnnotation(annotation)));
+  addAnnotations(
+    ...annotations: Array<Annotation<any> | AnnotationJSON>
+  ): void {
+    this.annotations.push(
+      ...annotations.map(annotation => this.createAnnotation(annotation))
+    );
     this.triggerChange();
   }
 
@@ -185,7 +223,9 @@ export default class Document {
    *
    * tk: join documentation
    */
-  where(filter: { [key: string]: any; } | ((annotation: Annotation<any>) => boolean)) {
+  where(
+    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
+  ) {
     return this.all().where(filter);
   }
 
@@ -201,10 +241,15 @@ export default class Document {
     }
   }
 
-  replaceAnnotation(annotation: Annotation<any>, ...newAnnotations: Array<AnnotationJSON | Annotation<any>>): Array<Annotation<any>> {
+  replaceAnnotation(
+    annotation: Annotation<any>,
+    ...newAnnotations: Array<AnnotationJSON | Annotation<any>>
+  ): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      let annotations = newAnnotations.map(newAnnotation => this.createAnnotation(newAnnotation));
+      let annotations = newAnnotations.map(newAnnotation =>
+        this.createAnnotation(newAnnotation)
+      );
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -213,8 +258,13 @@ export default class Document {
     return [];
   }
 
-  insertText(start: number, text: string, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
-    if (start < 0 || start > this.content.length) throw new Error('Invalid position.');
+  insertText(
+    start: number,
+    text: string,
+    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+  ) {
+    if (start < 0 || start > this.content.length)
+      throw new Error("Invalid position.");
 
     let insertion = new Insertion(start, text, behaviour);
     try {
@@ -223,10 +273,11 @@ export default class Document {
         annotation.handleChange(insertion);
       }
 
-      this.content = this.content.slice(0, start) + text + this.content.slice(start);
+      this.content =
+        this.content.slice(0, start) + text + this.content.slice(start);
     } catch (e) {
       // tslint:disable-next-line:no-console
-      console.error('Failed to insert text', e);
+      console.error("Failed to insert text", e);
     }
 
     /*
@@ -257,7 +308,11 @@ export default class Document {
     this.triggerChange();
   }
 
-  deleteText(start: number, end: number, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default) {
+  deleteText(
+    start: number,
+    end: number,
+    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+  ) {
     // This should really not just truncate annotations, but rather tombstone
     // the modified annotations as an atjson sub-document inside the annotation
     // that's being used to delete stuff.
@@ -270,7 +325,7 @@ export default class Document {
       this.content = this.content.slice(0, start) + this.content.slice(end);
     } catch (e) {
       // tslint:disable-next-line:no-console
-      console.error('Failed to delete text', e);
+      console.error("Failed to delete text", e);
     }
 
     /* to be moved to block annotation
@@ -319,7 +374,18 @@ export default class Document {
     class ConversionDocument extends DocumentClass {
       static schema = DocumentClass.schema.concat(to.schema);
       convertTo<Other extends typeof Document>(other: Other): never {
-        throw new Error(`🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${DocumentClass.name}.defineConverterTo(${to.name}, doc => {\n  let convert${other.name.replace('Source', '')} = getConverterFor(${other.name}, ${to.name});\n  return convert${other.name.replace('Source', '')}(doc);\n});`);
+        throw new Error(
+          `🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${
+            DocumentClass.name
+          }.defineConverterTo(${
+            to.name
+          }, doc => {\n  let convert${other.name.replace(
+            "Source",
+            ""
+          )} = getConverterFor(${other.name}, ${
+            to.name
+          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`
+        );
       }
     }
 
@@ -342,8 +408,13 @@ export default class Document {
     return {
       content: this.content,
       contentType: this.contentType,
-      annotations: this.where({}).sort().toJSON(),
-      schema: schema.map(AnnotationClass => `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`)
+      annotations: this.where({})
+        .sort()
+        .toJSON(),
+      schema: schema.map(
+        AnnotationClass =>
+          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+      )
     };
   }
 
@@ -355,7 +426,11 @@ export default class Document {
     });
   }
 
-  match(regex: RegExp, start?: number, end?: number): Array<{ start: number, end: number, matches: string[] }> {
+  match(
+    regex: RegExp,
+    start?: number,
+    end?: number
+  ): Array<{ start: number; end: number; matches: string[] }> {
     let content = this.content.slice(start, end);
     let offset = start || 0;
     let matches = [];
@@ -377,11 +452,10 @@ export default class Document {
 
   canonical() {
     let canonicalDoc = this.clone();
-    canonicalDoc.where({ type: '-atjson-parse-token' }).update(a => {
+    canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
       canonicalDoc.deleteText(a.start, a.end);
     });
-    canonicalDoc.where({ type: '-atjson-parse-token' })
-      .remove()
+    canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
 
     canonicalDoc.annotations.sort(compareAnnotations);
 
@@ -392,36 +466,50 @@ export default class Document {
     let canonicalLeftHandSideDoc = this.canonical();
     let canonicalRightHandSideDoc = docToCompare.canonical();
 
-    let isContentEqual = canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
+    let isContentEqual =
+      canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
     if (!isContentEqual) {
       return false;
     }
-    let isAnnotationLengthEqual = canonicalLeftHandSideDoc.annotations.length === canonicalRightHandSideDoc.annotations.length;
+    let isAnnotationLengthEqual =
+      canonicalLeftHandSideDoc.annotations.length ===
+      canonicalRightHandSideDoc.annotations.length;
     if (!isAnnotationLengthEqual) {
       return false;
     }
 
-    return canonicalLeftHandSideDoc.annotations.every((lhsAnnotation, index) => {
-      return lhsAnnotation.equals(canonicalRightHandSideDoc.annotations[index]);
-    });
+    return canonicalLeftHandSideDoc.annotations.every(
+      (lhsAnnotation, index) => {
+        return lhsAnnotation.equals(
+          canonicalRightHandSideDoc.annotations[index]
+        );
+      }
+    );
   }
 
-  private createAnnotation(annotation: Annotation<any> | AnnotationJSON): Annotation<any> {
+  private createAnnotation(
+    annotation: Annotation<any> | AnnotationJSON
+  ): Annotation<any> {
     let DocumentClass = this.constructor as typeof Document;
     let schema = [...DocumentClass.schema, ParseAnnotation];
 
     if (annotation instanceof UnknownAnnotation) {
       let KnownAnnotation = schema.find(AnnotationClass => {
-        return annotation.attributes.type === `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+        return (
+          annotation.attributes.type ===
+          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+        );
       });
 
       if (KnownAnnotation) {
         return KnownAnnotation.hydrate(annotation.toJSON());
       }
       return annotation;
-
     } else if (annotation instanceof Annotation) {
-      let AnnotationClass = annotation.constructor as AnnotationConstructor<any, any>;
+      let AnnotationClass = annotation.constructor as AnnotationConstructor<
+        any,
+        any
+      >;
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
         return new UnknownAnnotation({
@@ -437,7 +525,9 @@ export default class Document {
       return annotation;
     } else {
       let ConcreteAnnotation = schema.find(AnnotationClass => {
-        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${
+          AnnotationClass.type
+        }`;
         return annotation.type === fullyQualifiedType;
       });
 
