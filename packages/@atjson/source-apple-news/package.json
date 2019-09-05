@@ -1,0 +1,35 @@
+{
+  "name": "@atjson/source-apple-news",
+  "version": "0.19.1",
+  "description": "Use atjson with Apple News articles",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "prepublishOnly": "npm run build",
+    "start": "parcel public/index.html -d public/dist --open",
+    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
+  },
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
+  "devDependencies": {
+    "@atjson/document": "file:../document",
+    "@atjson/source-html": "file:../source-html",
+    "@atjson/renderer-commonmark": "file:../renderer-commonmark",
+    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@types/prettier": "1.12.0",
+    "@types/puppeteer": "^1.19.1",
+    "prettier": "1.18.2",
+    "puppeteer": "^1.19.0"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
+  }
+}
