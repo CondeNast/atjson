@@ -666,6 +666,40 @@ export interface ArticleLink {
 }
 
 /**
+ * A *nested* component is a child of the parent component that contains it. The child component is positioned and rendered relative to that parent.  The minimum size of a container component is determined by the size of its child components.
+ *
+ * Tip
+ *
+ * If you use an anchor to attach multiple children to the same side of their parent component, the children will "stack" to create a cleanly aligned header. For information about using container components and anchors, see [Advanced Design Tutorial 2: Layout and Positioning](https://developer.apple.com/documentation/apple_news/apple_news_format_tutorials#2969756).
+ *
+ * Many design and layout effects require you to use hierarchies of nested components. For example, you can create a layering effect by nesting content (such as a `title`) inside a parent component that has a background [Fill](https://developer.apple.com/documentation/apple_news/fill). Any content displayed by the parent—as well as any content from its child components—is layered in front of the parent’s background fill, as shown in this example.
+ *
+ * ![](https://docs-assets.developer.apple.com/published/33ecdabf9e/b5a4c4b1-fcd4-4d01-8de9-cad5bc7cf8a4.png)
+ *
+ * Apple News Format has several container components that allow you to nest other components within them:
+ *
+ * •	[Chapter](https://developer.apple.com/documentation/apple_news/chapter)
+ *
+ * •	[Header](https://developer.apple.com/documentation/apple_news/header)
+ *
+ * •	[Section](https://developer.apple.com/documentation/apple_news/section-ka8)
+ *
+ * •	[Container](https://developer.apple.com/documentation/apple_news/container)
+ *
+ * The [Aside](https://developer.apple.com/documentation/apple_news/aside) component also lets you nest other components, but generally contains content that is not directly related to your article.
+ *
+ * The following example shows a section component with two child components (`title` and `photo`) defined in its components array.
+ * @see https://developer.apple.com/documentation/apple_news/apple_news_format/components/nesting_components_in_an_article
+ */
+export type ArticleStructure =
+  | ArticleLink
+  | Aside
+  | Chapter
+  | Container
+  | Header
+  | Section;
+
+/**
  * Use the `ArticleThumbnail` object to display the thumbnail of an article. This component is used inside an [ArticleLink](https://developer.apple.com/documentation/apple_news/articlelink) component. The value of the `URL` property is automatically populated to reference the thumbnail image associated with the article (using the `articleIdentifier` property of the `ArticleLink` component). To provide a custom thumbnail, use another component, such as [Image](https://developer.apple.com/documentation/apple_news/image).
  * @example
  * ```json
@@ -10476,6 +10510,26 @@ export interface TableStyle {
    */
   rows?: TableRowStyle;
 }
+
+/**
+ * Apple News Format offers a range of `Text` components, each with its own `role`. You can use the [Title](https://developer.apple.com/documentation/apple_news/title) component for title text, [Body](https://developer.apple.com/documentation/apple_news/body) for body text, [Intro](https://developer.apple.com/documentation/apple_news/intro) for an article introduction, [Caption](https://developer.apple.com/documentation/apple_news/caption) text for media.
+ *
+ * The text you provide can be formatted as HTML or Markdown, or it can be unformatted. Your component’s overall text style is determined by its [ComponentTextStyle](https://developer.apple.com/documentation/apple_news/componenttextstyle). For styling ranges of text, your HTML or Markdown can apply [TextStyle](https://developer.apple.com/documentation/apple_news/textstyle) objects, and your unformatted text can be formatted by [InlineTextStyle](https://developer.apple.com/documentation/apple_news/inlinetextstyle) objects.
+ * @see https://developer.apple.com/documentation/apple_news/text
+ */
+export type Text =
+  | ArticleTitle
+  | Author
+  | Body
+  | Byline
+  | Caption
+  | Heading
+  | Illustrator
+  | Intro
+  | Photographer
+  | PullQuote
+  | Quote
+  | Title;
 
 /**
  * Use the `TextDecoration` object to define a stroke that can be used for strikethrough or underline.

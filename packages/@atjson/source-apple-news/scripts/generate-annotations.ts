@@ -149,8 +149,6 @@ writeFileSync(
   format(
     `
 // ⚠️ Generated via script; modifications may be overridden
-import { Component } from "../apple-news-format";
-
 ${annotations
   .map(component => {
     return `import { ${component} } from "./${component}";`;
@@ -164,8 +162,22 @@ ${annotations
   .join("\n")}
 
 export default [${annotations.join(", ")}];
+`,
+    {
+      parser: "typescript"
+    }
+  )
+);
 
-export function getAnnotationFor(component: Component) {
+writeFileSync(
+  join(__dirname, `../src/utils.ts`),
+  format(
+    `
+// ⚠️ Generated via script; modifications may be overridden
+import { ArticleStructure, Component, Text } from "./apple-news-format";
+import { ${components.sort().join(", ")} } from "./annotations";
+
+export function createAnnotation(start: number, end: number, component: Component) {
   switch (component.role) {
   ${components
     .map(name => {
@@ -175,13 +187,45 @@ export function getAnnotationFor(component: Component) {
         .map(role => {
           return `  case ${role}:`;
         })
-        .join("\n")}
-    return ${name};`;
+        .join("\n")} {
+    let { ${component.definitions.text ? "text, " : ""}${
+        component.definitions.components ? "components, " : ""
+      }...attributes } = component;
+    return new ${name}({
+      start,
+      end,
+      attributes
+    });
+  }`;
     })
     .join("\n")}
     default:
       throw new Error(\`🚨 No annotation was found that matched the role in \${JSON.stringify(component, null, 2)}\`);
   }
+}
+
+export function hasText(component: Component): component is Text {
+  return [${components
+    .filter(name => {
+      return definitions[name].definitions.text;
+    })
+    .map(name => {
+      let component = definitions[name];
+      return component.definitions.role.type.split(" | ").join(", ");
+    })
+    .join(", ")}].indexOf(component.role) !== -1;
+}
+
+export function hasComponents(component: Component): component is ArticleStructure {
+  return [${components
+    .filter(name => {
+      return definitions[name].definitions.components;
+    })
+    .map(name => {
+      let component = definitions[name];
+      return component.definitions.role.type.split(" | ").join(", ");
+    })
+    .join(", ")}].indexOf(component.role) !== -1;
 }
 `,
     {

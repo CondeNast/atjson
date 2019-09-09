@@ -1,36 +1,10 @@
 import { Annotation, ParseAnnotation } from "@atjson/document";
-import { ArticleDocument, getAnnotationFor } from "./annotations";
+import { ArticleDocument } from "./annotations";
 import {
   ArticleDocument as IArticleDocument,
   Component
 } from "./apple-news-format";
-
-function hasText(
-  component: Component
-): component is Component & {
-  text: string;
-  format?: "markdown" | "html" | "none";
-} {
-  return "text" in component;
-}
-
-function hasComponents(
-  component: Component
-): component is Component & { components: Component[] } {
-  return "components" in component;
-}
-
-function getAttributes(component: Component) {
-  return Object.keys(component).reduce(
-    (attributes, key) => {
-      if (key !== "text" && key !== "components") {
-        attributes[key] = (component as any)[key];
-      }
-      return attributes;
-    },
-    {} as any
-  );
-}
+import { createAnnotation, hasComponents, hasText } from "./utils";
 
 export default class Parser {
   content: string;
@@ -55,13 +29,12 @@ export default class Parser {
   }
 
   walk(component: Component) {
-    let AnnotationClass = getAnnotationFor(component) as any;
     let start = this.content.length;
 
     if (hasText(component)) {
       // Handle HTML and Markdown
       this.content += component.text;
-    } else if (hasComponents(component)) {
+    } else if (hasComponents(component) && component.components) {
       component.components.forEach(child => {
         this.walk(child);
       });
@@ -70,18 +43,14 @@ export default class Parser {
         new ParseAnnotation({
           start,
           end: start + 1,
-          attributes: { reason: `${AnnotationClass.type}` }
+          attributes: { reason: `${component.role}` }
         })
       );
       this.content += "\uFFFC";
     }
 
     this.annotations.push(
-      new AnnotationClass({
-        start,
-        end: this.content.length,
-        attributes: getAttributes(component)
-      })
+      createAnnotation(start, this.content.length, component)
     );
   }
 }
