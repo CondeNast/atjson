@@ -9,7 +9,7 @@
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
     "@types/uuid": "3.4.4",
-    "commonmark": "0.28.1",
+    "commonmark": "0.29.0",
     "commonmark-spec": "0.28.0",
     "conventional-changelog-core": "3.1.6",
     "husky": "3.0.5",
