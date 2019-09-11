@@ -27,7 +27,7 @@
     "ts-loader": "5.3.3",
     "tslint": "5.16.0",
     "typedoc": "0.15.0",
-    "typedoc-plugin-lerna-packages": "0.1.5",
+    "typedoc-plugin-lerna-packages": "0.2.1",
     "typescript": "3.5.3",
     "uuid": "3.3.2"
   },
