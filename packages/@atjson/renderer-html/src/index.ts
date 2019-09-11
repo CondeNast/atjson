@@ -87,10 +87,6 @@ export default class HTMLRenderer extends Renderer {
         src: image.attributes.url,
         title: image.attributes.title,
         alt: image.attributes.description
-          ? (this.constructor as typeof HTMLRenderer).render(
-              image.attributes.description
-            )
-          : undefined
       },
       selfClosing: true
     });
