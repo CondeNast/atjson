@@ -5,7 +5,6 @@ import OffsetSource, {
   Heading,
   HorizontalRule,
   Image,
-  ImageDescriptionSource,
   Italic,
   LineBreak,
   Link,
@@ -77,10 +76,7 @@ describe("renderer-html", () => {
       attributes: {
         url:
           "https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif",
-        description: new ImageDescriptionSource({
-          content: "Hippo Hula Hooping",
-          annotations: []
-        }),
+        description: "Hippo Hula Hooping",
         title: "Haigney Hippo"
       }
     });

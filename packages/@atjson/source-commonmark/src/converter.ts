@@ -46,10 +46,7 @@ CommonmarkSource.defineConverterTo(OffsetSource, doc => {
       attributes: {
         "-offset-url": image.attributes.src,
         "-offset-title": image.attributes.title,
-        "-offset-description": {
-          content: image.attributes.alt,
-          annotations: []
-        }
+        "-offset-description": image.attributes.alt
       }
     });
   });

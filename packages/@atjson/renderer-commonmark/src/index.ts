@@ -365,18 +365,12 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Iterable<any> {
-    let AltTextRenderer = this.constructor as typeof CommonmarkRenderer;
+    let description = escapePunctuation(image.attributes.description || "");
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
-      return `![${AltTextRenderer.render(
-        image.attributes.description,
-        this.options
-      )}](${image.attributes.url} "${title}")`;
+      return `![${description}](${image.attributes.url} "${title}")`;
     }
-    return `![${AltTextRenderer.render(
-      image.attributes.description,
-      this.options
-    )}](${image.attributes.url})`;
+    return `![${description}](${image.attributes.url})`;
   }
 
   /**

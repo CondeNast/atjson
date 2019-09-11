@@ -28,25 +28,15 @@ describe("commonmark", () => {
           end: 1,
           attributes: {
             "-offset-url": "http://commonmark.org/images/markdown-mark.png",
-            "-offset-description": {
-              content: "Commonmark!",
-              annotations: [
-                {
-                  id: "2",
-                  type: "-offset-bold",
-                  start: 0,
-                  end: 10,
-                  attributes: {}
-                }
-              ]
-            }
+            "-offset-description":
+              "Image descriptions ![are escaped](example.jpg)"
           }
         }
       ]
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "![**Commonmark**\\!](http://commonmark.org/images/markdown-mark.png)"
+      "![Image descriptions \\![are escaped]\\(example.jpg)](http://commonmark.org/images/markdown-mark.png)"
     );
   });
 

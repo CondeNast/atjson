@@ -134,3 +134,42 @@ describe("list", () => {
     ]);
   });
 });
+
+describe("images", () => {
+  test("alt text is stripped", () => {
+    let doc = CommonMarkSource.fromRaw(
+      "![Markdown **is stripped** from *this*](test.jpg)"
+    ).canonical();
+    expect(doc.annotations).toMatchObject([
+      {
+        type: "image",
+        attributes: {
+          src: "test.jpg",
+          alt: "Markdown is stripped from this"
+        }
+      },
+      {
+        type: "paragraph"
+      }
+    ]);
+  });
+
+  test("title", () => {
+    let doc = CommonMarkSource.fromRaw(
+      '![](test.jpg "Title of test.jpg")'
+    ).canonical();
+    expect(doc.annotations).toMatchObject([
+      {
+        type: "image",
+        attributes: {
+          src: "test.jpg",
+          title: "Title of test.jpg",
+          alt: ""
+        }
+      },
+      {
+        type: "paragraph"
+      }
+    ]);
+  });
+});
