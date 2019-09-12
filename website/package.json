@@ -10,32 +10,28 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@atjson/document": "0.20.0",
-    "@atjson/offset-annotations": "0.19.1",
-    "@atjson/renderer-react": "0.19.1",
-    "@atjson/source-commonmark": "0.19.1",
-    "@atjson/source-html": "0.19.1",
-    "@atjson/source-url": "0.19.1",
+    "@atjson/document": "file:../packages/@atjson/document",
+    "@atjson/offset-annotations": "file:../packages/@atjson/offset-annotations",
+    "@atjson/renderer-react": "file:../packages/@atjson/renderer-react",
+    "@atjson/source-commonmark": "file:../packages/@atjson/source-commonmark",
+    "@atjson/source-html": "file:../packages/@atjson/source-html",
+    "@atjson/source-url": "file:../packages/@atjson/source-url",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-typescript": "^7.6.0",
     "@docusaurus/core": "2.0.0-alpha.24",
     "@docusaurus/preset-classic": "2.0.0-alpha.24",
     "classnames": "2.2.6",
+    "docusaurus-typescript-loader": "file:./plugins/docusaurus-typescript-loader",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "resize-observer": "1.0.0",
     "styled-components": "4.3.2"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    "last 2 chrome versions",
+    "last 2 firefox versions"
+  ],
   "devDependencies": {
     "@types/react": "16.9.2",
     "@types/styled-components": "4.1.19"
