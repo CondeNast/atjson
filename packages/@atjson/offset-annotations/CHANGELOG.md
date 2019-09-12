@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.19.1...@atjson/offset-annotations@0.21.0) (2019-09-12)
+
+
+### 🐛 Fixes
+
+* 🐞 Make Image description a string (fixes [#189](https://github.com/CondeNast/atjson/issues/189))
+
+
+### 🚨 Breaking Changes
+
+* If you are using the Image annotation, you will need to change your component or render function to handle description as a string, not as a document
+
+
 ## [0.19.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.19.0...@atjson/offset-annotations@0.19.1) (2019-08-26)
 
 

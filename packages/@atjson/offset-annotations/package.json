@@ -1,6 +1,6 @@
 {
   "name": "@atjson/offset-annotations",
-  "version": "0.19.1",
+  "version": "0.21.0",
   "description": "Annotations used for stories",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
