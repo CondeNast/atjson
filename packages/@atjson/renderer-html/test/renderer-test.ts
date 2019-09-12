@@ -11,6 +11,7 @@ import OffsetSource, {
   List,
   ListItem,
   Paragraph,
+  Strikethrough,
   Subscript,
   Superscript,
   Underline
@@ -248,6 +249,15 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
+  });
+
+  test("strikethrough", () => {
+    let doc = new OffsetSource({
+      content: "Hello",
+      annotations: [new Strikethrough({ start: 0, end: 5 })]
+    });
+
+    expect(Renderer.render(doc)).toEqual("<s>Hello</s>");
   });
 
   test("subscript", () => {

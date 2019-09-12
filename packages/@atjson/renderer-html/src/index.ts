@@ -129,6 +129,10 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("p");
   }
 
+  *Strikethrough() {
+    return yield* this.$("s");
+  }
+
   *Subscript() {
     return yield* this.$("sub");
   }
