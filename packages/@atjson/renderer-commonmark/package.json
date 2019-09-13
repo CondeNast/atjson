@@ -18,7 +18,8 @@
   },
   "devDependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/source-commonmark": "file:../source-commonmark"
+    "@atjson/source-commonmark": "file:../source-commonmark",
+    "@types/markdown-it": "0.0.4"
   },
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
