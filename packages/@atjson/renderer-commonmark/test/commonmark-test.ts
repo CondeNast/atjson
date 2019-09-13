@@ -685,7 +685,7 @@ After all the lists
 
       test.each(["&amp;", "&nbsp;", "&lt;"])("$1", entity => {
         let doc = new OffsetSource({ content: entity, annotations: [] });
-        expect(CommonmarkRenderer.render(doc)).toBe("&amp;" + entity.slice(1));
+        expect(CommonmarkRenderer.render(doc)).toBe("\\" + entity);
       });
     });
 
@@ -704,7 +704,7 @@ After all the lists
 
       test.each(["&amp;", "&nbsp;", "&lt;"])("$1", entity => {
         let doc = new OffsetSource({ content: entity, annotations: [] });
-        expect(CommonmarkRenderer.render(doc)).toBe("&amp;" + entity.slice(1));
+        expect(CommonmarkRenderer.render(doc)).toBe("\\&" + entity.slice(1));
       });
     });
   });
@@ -1337,114 +1337,137 @@ After all the lists
     });
   });
 
-  describe('delimiter runs with Japanese', () => {
-    test('aligned bold and italic, bold first', () => {
+  describe("delimiter runs with Japanese", () => {
+    test("aligned bold and italic, bold first", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 12, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 6, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです__*にします太字*__');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです***にします太字***"
+      );
     });
 
-    test('aligned bold and italic, italic first', () => {
+    test("aligned bold and italic, italic first", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-italic', start: 6, end: 12, attributes: {} }
-          { id: '2', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
+          {
+            id: "1",
+            type: "-offset-italic",
+            start: 6,
+            end: 12,
+            attributes: {}
+          },
+          { id: "2", type: "-offset-bold", start: 6, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**_にします太字_**');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです***にします太字***"
+      );
     });
 
-    test('adjacent bold and italic', () => {
+    test("adjacent bold and italic", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 8, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 8, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 8, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 8, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし**_ます太字_');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです**にし**_ます太字_"
+      );
     });
 
-    test('bold contained on left', () => {
+    test("bold contained on left", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 8, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 8, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 6, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです***にし**ます太字*');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです***にし**ます太字*"
+      );
     });
 
-    test('bold contained on right', () => {
+    test("bold contained on right", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 8 , end: 12, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 8, end: 12, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 6, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです*にし**ます太字***');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです*にし**ます太字***"
+      );
     });
 
-    test('italic contained on left', () => {
+    test("italic contained on left", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 6, end: 8, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 12, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 6, end: 8, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです***にし*ます太字**');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです***にし*ます太字**"
+      );
     });
 
-    test('italic contained on right', () => {
+    test("italic contained on right", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 8, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 12, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 8, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし*ます太字***');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです**にし*ます太字***"
+      );
     });
 
-    test('italic contained in bold', () => {
+    test("italic contained in bold", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 6 , end: 12, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 8, end: 10, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 6, end: 12, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 8, end: 10, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです**にし*ます*太字**');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです**にし*ます*太字**"
+      );
     });
 
-    test('bold contained in italic', () => {
+    test("bold contained in italic", () => {
       let document = new OffsetSource({
-        content: 'タイトルですにします太字',
+        content: "タイトルですにします太字",
         annotations: [
-          { id: '1', type: '-offset-bold', start: 8 , end: 10, attributes: {} },
-          { id: '2', type: '-offset-italic', start: 6, end: 12, attributes: {} }
+          { id: "1", type: "-offset-bold", start: 8, end: 10, attributes: {} },
+          { id: "2", type: "-offset-italic", start: 6, end: 12, attributes: {} }
         ]
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe('タイトルです*にし**ます**太字*');
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "タイトルです*にし**ます**太字*"
+      );
     });
   });
-
 });

@@ -2340,6 +2340,7 @@ exports[`Backslash escapes \\*not emphasized*
 \\* not a list
 \\# not a heading
 \\[foo]: /url "not a reference"
+\\&ouml; not a character entity
  1`] = `
 Object {
   "attributes": Object {},
@@ -2354,7 +2355,8 @@ Object {
 1. not a list
 * not a list
 # not a heading
-[foo]: /url \\"not a reference\\"",
+[foo]: /url \\"not a reference\\"
+&ouml; not a character entity",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -2373,6 +2375,7 @@ exports[`Backslash escapes \\*not emphasized*
 \\* not a list
 \\# not a heading
 \\[foo]: /url "not a reference"
+\\&ouml; not a character entity
  2`] = `
 Object {
   "attributes": Object {},
@@ -2387,7 +2390,8 @@ Object {
 1. not a list
 * not a list
 # not a heading
-[foo]: /url \\"not a reference\\"",
+[foo]: /url \\"not a reference\\"
+&ouml; not a character entity",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -4794,6 +4798,58 @@ Object {
 }
 `;
 
+exports[`Code spans \`  \`\`  \`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " \`\` ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \`  \`\`  \`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " \`\` ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
 exports[`Code spans \` \`\` \`
  1`] = `
 Object {
@@ -4832,6 +4888,110 @@ Object {
           "attributes": Object {},
           "children": Array [
             " \`\` ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` a\`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " a",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` a\`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " a",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` foo \`\` bar \`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo \`\` bar",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` foo \`\` bar \`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo \`\` bar",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -4956,6 +5116,8 @@ Object {
 
 exports[`Code spans \`\`
 foo
+bar  
+baz
 \`\`
  1`] = `
 Object {
@@ -4967,7 +5129,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            "foo bar   baz",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -4984,6 +5146,8 @@ Object {
 
 exports[`Code spans \`\`
 foo
+bar  
+baz
 \`\`
  2`] = `
 Object {
@@ -4995,7 +5159,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo",
+            "foo bar   baz",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -5010,7 +5174,63 @@ Object {
 }
 `;
 
-exports[`Code spans \`\` foo \` bar  \`\`
+exports[`Code spans \`\`
+foo 
+\`\`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \`\`
+foo 
+\`\`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \`\` foo \` bar \`\`
  1`] = `
 Object {
   "attributes": Object {},
@@ -5036,7 +5256,7 @@ Object {
 }
 `;
 
-exports[`Code spans \`\` foo \` bar  \`\`
+exports[`Code spans \`\` foo \` bar \`\`
  2`] = `
 Object {
   "attributes": Object {},
@@ -5100,7 +5320,7 @@ Object {
 }
 `;
 
-exports[`Code spans \`a  b\`
+exports[`Code spans \`\`foo\`bar\`\`
  1`] = `
 Object {
   "attributes": Object {},
@@ -5111,7 +5331,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "a  b",
+            "foo\`bar",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -5126,7 +5346,7 @@ Object {
 }
 `;
 
-exports[`Code spans \`a  b\`
+exports[`Code spans \`\`foo\`bar\`\`
  2`] = `
 Object {
   "attributes": Object {},
@@ -5137,7 +5357,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "a  b",
+            "foo\`bar",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -5190,8 +5410,8 @@ Object {
 }
 `;
 
-exports[`Code spans \`foo   bar
-  baz\`
+exports[`Code spans \`foo   bar 
+baz\`
  1`] = `
 Object {
   "attributes": Object {},
@@ -5202,7 +5422,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo bar baz",
+            "foo   bar  baz",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -5217,8 +5437,8 @@ Object {
 }
 `;
 
-exports[`Code spans \`foo   bar
-  baz\`
+exports[`Code spans \`foo   bar 
+baz\`
  2`] = `
 Object {
   "attributes": Object {},
@@ -5229,59 +5449,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "foo bar baz",
-          ],
-          "id": "Any<id>",
-          "type": "code_inline",
-        },
-      ],
-      "id": "Any<id>",
-      "type": "paragraph",
-    },
-  ],
-  "id": "Any<id>",
-  "type": "root",
-}
-`;
-
-exports[`Code spans \`foo \`\` bar\`
- 1`] = `
-Object {
-  "attributes": Object {},
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "foo \`\` bar",
-          ],
-          "id": "Any<id>",
-          "type": "code_inline",
-        },
-      ],
-      "id": "Any<id>",
-      "type": "paragraph",
-    },
-  ],
-  "id": "Any<id>",
-  "type": "root",
-}
-`;
-
-exports[`Code spans \`foo \`\` bar\`
- 2`] = `
-Object {
-  "attributes": Object {},
-  "children": Array [
-    Object {
-      "attributes": Object {},
-      "children": Array [
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            "foo \`\` bar",
+            "foo   bar  baz",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -5442,6 +5610,132 @@ Object {
           "attributes": Object {},
           "children": Array [
             "bar",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` \`
+\`  \`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "  ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` \`
+\`  \`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+        "
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "  ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` b \`
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " b ",
+          ],
+          "id": "Any<id>",
+          "type": "code_inline",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Code spans \` b \`
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            " b ",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -8618,6 +8912,58 @@ Object {
           "type": "em",
         },
         "***",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis *foo**bar*
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo**bar",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis *foo**bar*
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo**bar",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -12106,6 +12452,160 @@ Object {
 }
 `;
 
+exports[`Emphasis and strong emphasis foo******bar*********baz
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "bar",
+                  ],
+                  "id": "Any<id>",
+                  "type": "strong",
+                },
+              ],
+              "id": "Any<id>",
+              "type": "strong",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "strong",
+        },
+        "***baz",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis foo******bar*********baz
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                Object {
+                  "attributes": Object {},
+                  "children": Array [
+                    "bar",
+                  ],
+                  "id": "Any<id>",
+                  "type": "strong",
+                },
+              ],
+              "id": "Any<id>",
+              "type": "strong",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "strong",
+        },
+        "***baz",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis foo***bar***baz
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "id": "Any<id>",
+              "type": "strong",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
+        "baz",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Emphasis and strong emphasis foo***bar***baz
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "bar",
+              ],
+              "id": "Any<id>",
+              "type": "strong",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
+        "baz",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
 exports[`Emphasis and strong emphasis foo**bar**
  1`] = `
 Object {
@@ -12514,7 +13014,7 @@ Object {
 }
 `;
 
-exports[`Entity and numeric character references &#35; &#1234; &#992; &#98765432; &#0;
+exports[`Entity and numeric character references &#9;foo
  1`] = `
 Object {
   "attributes": Object {},
@@ -12522,7 +13022,7 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "# Ӓ Ϡ � �",
+        "	foo",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -12533,7 +13033,7 @@ Object {
 }
 `;
 
-exports[`Entity and numeric character references &#35; &#1234; &#992; &#98765432; &#0;
+exports[`Entity and numeric character references &#9;foo
  2`] = `
 Object {
   "attributes": Object {},
@@ -12541,7 +13041,193 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "# Ӓ Ϡ � �",
+        "foo",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#35; &#1234; &#992; &#0;
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "# Ӓ Ϡ �",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#35; &#1234; &#992; &#0;
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "# Ӓ Ϡ �",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#42; foo
+
+* foo
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "* foo",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {
+        "tight": true,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "bullet_list",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#42; foo
+
+* foo
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "* foo",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {
+        "tight": true,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "foo",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "bullet_list",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#42;foo&#42;
+*foo*
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "*foo*
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references &#42;foo&#42;
+*foo*
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "*foo*
+",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -12667,6 +13353,8 @@ Object {
 `;
 
 exports[`Entity and numeric character references &nbsp &x; &#; &#x;
+&#987654321;
+&#abcdef0;
 &ThisIsNotDefined; &hi?;
  1`] = `
 Object {
@@ -12676,6 +13364,8 @@ Object {
       "attributes": Object {},
       "children": Array [
         "&nbsp &x; &#; &#x;
+&#987654321;
+&#abcdef0;
 &ThisIsNotDefined; &hi?;",
       ],
       "id": "Any<id>",
@@ -12688,6 +13378,8 @@ Object {
 `;
 
 exports[`Entity and numeric character references &nbsp &x; &#; &#x;
+&#987654321;
+&#abcdef0;
 &ThisIsNotDefined; &hi?;
  2`] = `
 Object {
@@ -12697,6 +13389,8 @@ Object {
       "attributes": Object {},
       "children": Array [
         "&nbsp &x; &#; &#x;
+&#987654321;
+&#abcdef0;
 &ThisIsNotDefined; &hi?;",
       ],
       "id": "Any<id>",
@@ -12787,6 +13481,44 @@ Object {
       ],
       "id": "Any<id>",
       "type": "html_block",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references [a](url &quot;tit&quot;)
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[a](url \\"tit\\")",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references [a](url &quot;tit&quot;)
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[a](url \\"tit\\")",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
     },
   ],
   "id": "Any<id>",
@@ -13004,6 +13736,48 @@ Object {
           "id": "Any<id>",
           "type": "code_inline",
         },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references foo&#10;&#10;bar
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo
+
+bar",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Entity and numeric character references foo&#10;&#10;bar
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "foo
+
+bar",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -13801,7 +14575,9 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {},
-          "children": Array [],
+          "children": Array [
+            " ",
+          ],
           "id": "Any<id>",
           "type": "code_inline",
         },
@@ -13828,7 +14604,9 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {},
-          "children": Array [],
+          "children": Array [
+            " ",
+          ],
           "id": "Any<id>",
           "type": "code_inline",
         },
@@ -14197,6 +14975,54 @@ Object {
       "children": Array [
         "aaa
 \`\`\`
+",
+      ],
+      "id": "Any<id>",
+      "type": "fence",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Fenced code blocks ~~~ aa \`\`\` ~~~
+foo
+~~~
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "info": "aa \`\`\` ~~~",
+      },
+      "children": Array [
+        "foo
+",
+      ],
+      "id": "Any<id>",
+      "type": "fence",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Fenced code blocks ~~~ aa \`\`\` ~~~
+foo
+~~~
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "info": "aa \`\`\` ~~~",
+      },
+      "children": Array [
+        "foo
 ",
       ],
       "id": "Any<id>",
@@ -16443,9 +17269,11 @@ Object {
 foo
 ",
       ],
+      "id": "Any<id>",
       "type": "html_block",
     },
   ],
+  "id": "Any<id>",
   "type": "root",
 }
 `;
@@ -16468,9 +17296,11 @@ foo
 
 ",
       ],
+      "id": "Any<id>",
       "type": "html_block",
     },
   ],
+  "id": "Any<id>",
   "type": "root",
 }
 `;
@@ -17797,7 +18627,7 @@ bar\\">",
 }
 `;
 
-exports[`Hard line breaks \`code  
+exports[`Hard line breaks \`code 
 span\`
  1`] = `
 Object {
@@ -17809,7 +18639,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "code span",
+            "code  span",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -17824,7 +18654,7 @@ Object {
 }
 `;
 
-exports[`Hard line breaks \`code  
+exports[`Hard line breaks \`code 
 span\`
  2`] = `
 Object {
@@ -17836,7 +18666,7 @@ Object {
         Object {
           "attributes": Object {},
           "children": Array [
-            "code span",
+            "code  span",
           ],
           "id": "Any<id>",
           "type": "code_inline",
@@ -20674,7 +21504,7 @@ Object {
 `;
 
 exports[`Link reference definitions [Foo bar]:
-<my%20url>
+<my url>
 'title'
 
 [Foo bar]
@@ -20707,7 +21537,7 @@ Object {
 `;
 
 exports[`Link reference definitions [Foo bar]:
-<my%20url>
+<my url>
 'title'
 
 [Foo bar]
@@ -21258,6 +22088,26 @@ Object {
 `;
 
 exports[`Link reference definitions [foo]: /url
+ 3`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: /url
+ 4`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: /url
 "title" ok
  1`] = `
 Object {
@@ -21297,6 +22147,152 @@ Object {
 }
 `;
 
+exports[`Link reference definitions [foo]: /url
+===
+[foo]
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "===
+",
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: /url
+===
+[foo]
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "===
+",
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: /url
+bar
+===
+[foo]
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "level": 1,
+      },
+      "children": Array [
+        "bar",
+      ],
+      "id": "Any<id>",
+      "type": "heading",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: /url
+bar
+===
+[foo]
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "level": 1,
+      },
+      "children": Array [
+        "bar",
+      ],
+      "id": "Any<id>",
+      "type": "heading",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "/url",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
 exports[`Link reference definitions [foo]: /url "title"
 
 [foo]
@@ -21605,6 +22601,142 @@ Object {
           "id": "Any<id>",
           "type": "link",
         },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: <>
+
+[foo]
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: <>
+
+[foo]
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "",
+          },
+          "children": Array [
+            "foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: <bar>(baz)
+
+[foo]
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo]: ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<bar>",
+          ],
+          "id": "Any<id>",
+          "type": "html_inline",
+        },
+        "(baz)",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo]",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Link reference definitions [foo]: <bar>(baz)
+
+[foo]
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo]: ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<bar>",
+          ],
+          "id": "Any<id>",
+          "type": "html_inline",
+        },
+        "(baz)",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[foo]",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -21819,12 +22951,15 @@ Object {
             "src": "uri3",
           },
           "children": Array [],
+          "id": "Any<id>",
           "type": "image",
         },
       ],
+      "id": "Any<id>",
       "type": "paragraph",
     },
   ],
+  "id": "Any<id>",
   "type": "root",
 }
 `;
@@ -21839,16 +22974,19 @@ Object {
       "children": Array [
         Object {
           "attributes": Object {
-            "alt": "foo",
+            "alt": "[foo](uri2)",
             "src": "uri3",
           },
           "children": Array [],
+          "id": "Any<id>",
           "type": "image",
         },
       ],
+      "id": "Any<id>",
       "type": "paragraph",
     },
   ],
+  "id": "Any<id>",
   "type": "root",
 }
 `;
@@ -22829,6 +23967,126 @@ Object {
           },
           "children": Array [
             "Foo",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [a](<b)c
+[a](<b)c>
+[a](<b>c)
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[a](<b)c
+[a](<b)c>
+[a](",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b>",
+          ],
+          "id": "Any<id>",
+          "type": "html_inline",
+        },
+        "c)",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [a](<b)c
+[a](<b)c>
+[a](<b>c)
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[a](<b)c
+[a](<b)c>
+[a](",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "<b>",
+          ],
+          "id": "Any<id>",
+          "type": "html_inline",
+        },
+        "c)",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [a](<b)c>)
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "b)c",
+          },
+          "children": Array [
+            "a",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [a](<b)c>)
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        Object {
+          "attributes": Object {
+            "href": "b)c",
+          },
+          "children": Array [
+            "a",
           ],
           "id": "Any<id>",
           "type": "link",
@@ -26361,7 +27619,16 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "[link](</my uri>)",
+        Object {
+          "attributes": Object {
+            "href": "/my%20uri",
+          },
+          "children": Array [
+            "link",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -26380,7 +27647,16 @@ Object {
     Object {
       "attributes": Object {},
       "children": Array [
-        "[link](</my uri>)",
+        Object {
+          "attributes": Object {
+            "href": "/my%20uri",
+          },
+          "children": Array [
+            "link",
+          ],
+          "id": "Any<id>",
+          "type": "link",
+        },
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -26553,6 +27829,44 @@ Object {
           "id": "Any<id>",
           "type": "link",
         },
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [link](<foo\\>)
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[link](<foo>)",
+      ],
+      "id": "Any<id>",
+      "type": "paragraph",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Links [link](<foo\\>)
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "[link](<foo>)",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -33212,10 +34526,6 @@ exports[`Lists - a
   - c
    - d
     - e
-   - f
-  - g
- - h
-- i
  1`] = `
 Object {
   "attributes": Object {},
@@ -33276,82 +34586,8 @@ Object {
             Object {
               "attributes": Object {},
               "children": Array [
-                "d",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "e",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "f",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "g",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "h",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "i",
+                "d
+- e",
               ],
               "id": "Any<id>",
               "type": "paragraph",
@@ -33375,10 +34611,224 @@ exports[`Lists - a
   - c
    - d
     - e
-   - f
-  - g
- - h
-- i
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "tight": true,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d
+- e",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "bullet_list",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+ - b
+  - c
+   - d
+  - e
+ - f
+- g
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "tight": true,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "c",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "d",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "e",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "f",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "g",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "bullet_list",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Lists - a
+ - b
+  - c
+   - d
+  - e
+ - f
+- g
  2`] = `
 Object {
   "attributes": Object {},
@@ -33493,36 +34943,6 @@ Object {
           "id": "Any<id>",
           "type": "list_item",
         },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "h",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
-        Object {
-          "attributes": Object {},
-          "children": Array [
-            Object {
-              "attributes": Object {},
-              "children": Array [
-                "i",
-              ],
-              "id": "Any<id>",
-              "type": "paragraph",
-            },
-          ],
-          "id": "Any<id>",
-          "type": "list_item",
-        },
       ],
       "id": "Any<id>",
       "type": "bullet_list",
@@ -35019,6 +36439,132 @@ Object {
           "id": "Any<id>",
           "type": "list_item",
         },
+      ],
+      "id": "Any<id>",
+      "type": "ordered_list",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "3. c
+",
+      ],
+      "id": "Any<id>",
+      "type": "code_block",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Lists 1. a
+
+  2. b
+
+    3. c
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "tight": false,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "ordered_list",
+    },
+    Object {
+      "attributes": Object {},
+      "children": Array [
+        "3. c
+",
+      ],
+      "id": "Any<id>",
+      "type": "code_block",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Lists 1. a
+
+  2. b
+
+   3. c
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "tight": false,
+      },
+      "children": Array [
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "a",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            Object {
+              "attributes": Object {},
+              "children": Array [
+                "b",
+              ],
+              "id": "Any<id>",
+              "type": "paragraph",
+            },
+          ],
+          "id": "Any<id>",
+          "type": "list_item",
+        },
         Object {
           "attributes": Object {},
           "children": Array [
@@ -35048,7 +36594,7 @@ exports[`Lists 1. a
 
   2. b
 
-    3. c
+   3. c
  2`] = `
 Object {
   "attributes": Object {},
@@ -36047,6 +37593,8 @@ Object {
 
 exports[`Raw HTML < a><
 foo><bar/ >
+<foo bar=baz
+bim!bop />
  1`] = `
 Object {
   "attributes": Object {},
@@ -36055,7 +37603,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         "< a><
-foo><bar/ >",
+foo><bar/ >
+<foo bar=baz
+bim!bop />",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -36068,6 +37618,8 @@ foo><bar/ >",
 
 exports[`Raw HTML < a><
 foo><bar/ >
+<foo bar=baz
+bim!bop />
  2`] = `
 Object {
   "attributes": Object {},
@@ -36076,7 +37628,9 @@ Object {
       "attributes": Object {},
       "children": Array [
         "< a><
-foo><bar/ >",
+foo><bar/ >
+<foo bar=baz
+bim!bop />",
       ],
       "id": "Any<id>",
       "type": "paragraph",
@@ -37387,6 +38941,70 @@ Object {
       },
       "children": Array [
         "Foo",
+      ],
+      "id": "Any<id>",
+      "type": "heading",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Setext headings   Foo *bar
+baz*→
+====
+ 1`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "level": 1,
+      },
+      "children": Array [
+        "Foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar
+baz",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
+      ],
+      "id": "Any<id>",
+      "type": "heading",
+    },
+  ],
+  "id": "Any<id>",
+  "type": "root",
+}
+`;
+
+exports[`Setext headings   Foo *bar
+baz*→
+====
+ 2`] = `
+Object {
+  "attributes": Object {},
+  "children": Array [
+    Object {
+      "attributes": Object {
+        "level": 1,
+      },
+      "children": Array [
+        "Foo ",
+        Object {
+          "attributes": Object {},
+          "children": Array [
+            "bar
+baz",
+          ],
+          "id": "Any<id>",
+          "type": "em",
+        },
       ],
       "id": "Any<id>",
       "type": "heading",
