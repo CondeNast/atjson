@@ -115,24 +115,65 @@ describe("renderer-html", () => {
     expect(Renderer.render(doc)).toEqual(`<br />`);
   });
 
-  test("link", () => {
-    let doc = new OffsetSource({
-      content: "Hello",
-      annotations: [
-        new Link({
-          start: 0,
-          end: 5,
-          attributes: {
-            url: "https://condenast.com",
-            title: "Condé Nast"
-          }
-        })
-      ]
+  describe("links", () => {
+    test("url / title", () => {
+      let doc = new OffsetSource({
+        content: "Hello",
+        annotations: [
+          new Link({
+            start: 0,
+            end: 5,
+            attributes: {
+              url: "https://condenast.com",
+              title: "Condé Nast"
+            }
+          })
+        ]
+      });
+
+      expect(Renderer.render(doc)).toEqual(
+        `<a href="https://condenast.com" title="Cond&#xE9; Nast">Hello</a>`
+      );
     });
 
-    expect(Renderer.render(doc)).toEqual(
-      `<a href="https://condenast.com" title="Condé Nast">Hello</a>`
-    );
+    test("URL encoding", () => {
+      let doc = new OffsetSource({
+        content: "日本人",
+        annotations: [
+          new Link({
+            start: 0,
+            end: 6,
+            attributes: {
+              url: "https://en.wiktionary.org/wiki/日本人"
+            }
+          })
+        ]
+      });
+
+      expect(Renderer.render(doc)).toEqual(
+        `<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>`
+      );
+    });
+
+    test("entity escapes", () => {
+      let doc = new OffsetSource({
+        content: "Test",
+        annotations: [
+          new Link({
+            start: 0,
+            end: 4,
+            attributes: {
+              url: "https://example.com?q=this is a search",
+              title: `"test" <tag>`
+            }
+          })
+        ]
+      });
+
+      expect(Renderer.render(doc)).toEqual(
+        `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`
+      );
+    });
   });
 
   describe("ordered list", () => {

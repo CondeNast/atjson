@@ -1,5 +1,6 @@
 import { Code, Heading, Image, Link, List } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
+import * as entities from "entities";
 
 export default class HTMLRenderer extends Renderer {
   /**
@@ -22,7 +23,7 @@ export default class HTMLRenderer extends Renderer {
         } else if (typeof value === "boolean" && value === true) {
           results.push(`${key}`);
         } else if (value != null && value !== false) {
-          results.push(`${key}="${value}"`);
+          results.push(`${key}="${entities.encode(value)}"`);
         }
         return results;
       },
@@ -46,6 +47,10 @@ export default class HTMLRenderer extends Renderer {
     }
 
     return `<${tagName}>${innerHTML.join("")}</${tagName}>`;
+  }
+
+  text(text: string) {
+    return entities.encode(text);
   }
 
   *root() {
@@ -103,7 +108,7 @@ export default class HTMLRenderer extends Renderer {
   *Link(link: Link) {
     return yield* this.$("a", {
       attributes: {
-        href: link.attributes.url,
+        href: encodeURI(link.attributes.url),
         title: link.attributes.title
       }
     });
