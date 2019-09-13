@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@atjson/document": "0.20.0",
-    "@atjson/offset-annotations": "0.19.1",
+    "@atjson/offset-annotations": "0.21.0",
     "@atjson/renderer-react": "0.19.1",
     "@atjson/source-commonmark": "0.19.1",
     "@atjson/source-html": "0.19.1",
