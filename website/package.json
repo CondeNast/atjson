@@ -15,7 +15,7 @@
     "@atjson/renderer-react": "0.19.1",
     "@atjson/source-commonmark": "0.19.1",
     "@atjson/source-html": "0.19.1",
-    "@atjson/source-url": "0.19.1",
+    "@atjson/source-url": "0.21.0",
     "@docusaurus/core": "2.0.0-alpha.24",
     "@docusaurus/preset-classic": "2.0.0-alpha.24",
     "classnames": "2.2.6",
