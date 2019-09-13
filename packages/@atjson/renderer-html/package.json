@@ -16,7 +16,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "file:../renderer-hir"
+    "@atjson/renderer-hir": "file:../renderer-hir",
+    "entities": "^2.0.0"
   },
   "devDependencies": {
     "@atjson/document": "file:../document",
