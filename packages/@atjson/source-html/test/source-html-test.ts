@@ -203,9 +203,29 @@ describe("@atjson/source-html", () => {
     });
   });
 
-  test('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA"></a>', () => {
+  test("entities in attributes", () => {
     let doc = HTMLSource.fromRaw(
-      '<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA"></a>'
+      `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`
+    );
+    expect(doc.canonical()).toMatchObject({
+      content: "Test",
+      annotations: [
+        {
+          type: "a",
+          start: 0,
+          end: 4,
+          attributes: {
+            href: "https://example.com?q=this is a search",
+            title: `"test" <tag>`
+          }
+        }
+      ]
+    });
+  });
+
+  test('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>', () => {
+    let doc = HTMLSource.fromRaw(
+      '<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>'
     );
     let hir = new HIR(doc).toJSON();
     expect(hir).toMatchObject({
@@ -217,7 +237,7 @@ describe("@atjson/source-html", () => {
           attributes: {
             href: "https://en.wiktionary.org/wiki/日本人"
           },
-          children: []
+          children: ["日本人"]
         }
       ]
     });
