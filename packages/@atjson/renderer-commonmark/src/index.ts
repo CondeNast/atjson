@@ -50,7 +50,7 @@ function getPreviousChar(doc: Document, end: number) {
     return "";
   }
 
-  return doc.content[start - 1];
+  return doc.content[start - 1] || "";
 }
 
 function getNextChar(doc: Document, start: number) {
@@ -80,7 +80,7 @@ function getNextChar(doc: Document, start: number) {
     return "";
   }
 
-  return doc.content[end];
+  return doc.content[end] || "";
 }
 
 export function* splitDelimiterRuns(
@@ -182,18 +182,13 @@ function escapePunctuation(
 
 function escapeHtmlEntities(text: string) {
   return text
-    .replace(/&amp;/g, "&amp;amp;")
-    .replace(/&lt;/g, "&amp;lt;")
-    .replace(/&nbsp;/g, "&amp;nbsp;")
+    .replace(/&([^\s]+);/g, "\\&$1;")
     .replace(/</g, "&lt;")
     .replace(/\u00A0/gu, "&nbsp;");
 }
 
 function escapeEntities(text: string) {
-  return text
-    .replace(/&amp;/g, "&amp;amp;")
-    .replace(/&nbsp;/g, "&amp;nbsp;")
-    .replace(/\u00A0/gu, "&nbsp;");
+  return text.replace(/&([^\s]+);/g, "\\&$1;").replace(/\u00A0/gu, "&nbsp;");
 }
 
 function unescapeEntities(text: string) {
@@ -283,10 +278,19 @@ export default class CommonmarkRenderer extends Renderer {
     if (text.length === 0) {
       return before + after;
     } else {
+      // When there is no surrounding whitespace,
+      // we will allow for an incorrect nesting of
+      // bold / italic to maintain the general intent
+      // over correctness.
+      let hasSurroundingWhitespace =
+        !!getPreviousChar(context.document, context.parent.start).match(/\s/) ||
+        !!getNextChar(context.document, context.parent.end).match(/\s/);
+
       if (
         !context.previous &&
         !context.next &&
-        context.parent instanceof Italic
+        context.parent instanceof Italic &&
+        hasSurroundingWhitespace
       ) {
         return `${before}__${text}__${after}`;
       }
@@ -395,10 +399,17 @@ export default class CommonmarkRenderer extends Renderer {
       let markup = state.isItalicized ? "_" : "*";
       let hasWrappingBoldMarkup =
         !context.previous && !context.next && context.parent instanceof Bold;
+      let hasSurroundingWhitespace =
+        !!getPreviousChar(context.document, context.parent.start).match(/\s/) ||
+        !!getNextChar(context.document, context.parent.end).match(/\s/);
       let hasAdjacentBoldMarkup =
         (context.next instanceof Bold && after.length === 0) ||
         (context.previous instanceof Bold && before.length === 0);
-      if (hasWrappingBoldMarkup || hasAdjacentBoldMarkup) {
+
+      if (
+        (hasWrappingBoldMarkup && hasSurroundingWhitespace) ||
+        hasAdjacentBoldMarkup
+      ) {
         markup = "_";
       }
       return `${before}${markup}${text}${markup}${after}`;
@@ -449,7 +460,7 @@ export default class CommonmarkRenderer extends Renderer {
         newlines += "\n";
       }
 
-      if (text.indexOf("```") !== -1) {
+      if (text.indexOf("```") !== -1 || info.indexOf("```") !== -1) {
         return `~~~${info}${text}~~~${newlines}`;
       } else {
         return `\`\`\`${info}${text}\`\`\`${newlines}`;
@@ -609,6 +620,9 @@ export default class CommonmarkRenderer extends Renderer {
     if (!text.match(/^\s+$/g)) {
       text = text.replace(/^\s+/g, "").replace(/\s+$/g, "");
     }
+
+    // Two newlines in raw text need to be encoded as HTML
+    text = text.replace(/\n\n/g, "&#10;&#10;");
 
     if (this.state.tight) {
       return text + "\n";
