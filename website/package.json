@@ -10,7 +10,7 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@atjson/document": "0.20.0",
+    "@atjson/document": "0.21.0",
     "@atjson/offset-annotations": "0.19.1",
     "@atjson/renderer-react": "0.19.1",
     "@atjson/source-commonmark": "0.19.1",
