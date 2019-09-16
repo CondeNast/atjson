@@ -6,19 +6,20 @@ This benchmark was taken on Linux 4.15 on x64 with 2 cores of Intel(R) Xeon(R) C
 
 | Function                                 | Mean    | Median  | 95th Percentile | Maximum     | Standard Deviation |
 | ---------------------------------------- | ------- | ------- | --------------- | ----------- | ------------------ |
-| CommonMarkSource.fromRaw                 | 0.534ms | 0.452ms | 0.679ms         | 14.500851ms | 0.440ms            |
-| CommonMarkSource.convertTo(OffsetSource) | 0.346ms | 0.275ms | 0.683ms         | 30.790797ms | 0.381ms            |
-| CommonMarkRenderer.render                | 0.122ms | 0.100ms | 0.229ms         | 9.148015ms  | 0.138ms            |
-| Round trip                               | 1.060ms | 0.892ms | 1.996ms         | 33.880747ms | 0.659ms            |
+| CommonMarkSource.fromRaw                 | 0.519ms | 0.441ms | 0.668ms         | 17.366959ms | 0.413ms            |
+| CommonMarkSource.convertTo(OffsetSource) | 0.329ms | 0.263ms | 0.651ms         | 18.963138ms | 0.346ms            |
+| CommonMarkRenderer.render                | 0.115ms | 0.096ms | 0.213ms         | 8.253514ms  | 0.120ms            |
+| Round trip                               | 1.019ms | 0.862ms | 1.906ms         | 20.015846ms | 0.606ms            |
 
 ## 🔥 Slow real-life examples
 
 The metrics below are taken from real articles written by Condé Nast editors / writers.
+
 This benchmark was taken on Linux 4.15 on x64 with 2 cores of Intel(R) Xeon(R) CPU @ 2.30GHz.
 
-| Function                                 | Mean      | Median    | 95th Percentile | Maximum     | Standard Deviation |
-| ---------------------------------------- | --------- | --------- | --------------- | ----------- | ------------------ |
-| CommonMarkSource.fromRaw                 | 16.651ms  | 17.249ms  | 21.922ms        | 25.410353ms | 4.310ms            |
-| CommonMarkSource.convertTo(OffsetSource) | 55.546ms  | 59.412ms  | 70.075ms        | 70.838805ms | 13.071ms           |
-| CommonMarkRenderer.render                | 142.241ms | 74.734ms  | 264.477ms       | 489.62111ms | 106.671ms          |
-| Round trip                               | 214.641ms | 150.147ms | 356.532ms       | 577.1695ms  | 117.661ms          |
+| Function                                 | Mean      | Median   | 95th Percentile | Maximum      | Standard Deviation |
+| ---------------------------------------- | --------- | -------- | --------------- | ------------ | ------------------ |
+| CommonMarkSource.fromRaw                 | 15.253ms  | 14.560ms | 20.339ms        | 28.965387ms  | 4.404ms            |
+| CommonMarkSource.convertTo(OffsetSource) | 50.502ms  | 53.683ms | 63.324ms        | 66.260717ms  | 12.187ms           |
+| CommonMarkRenderer.render                | 43.071ms  | 26.425ms | 83.398ms        | 95.180577ms  | 29.000ms           |
+| Round trip                               | 108.981ms | 95.380ms | 170.216ms       | 186.697165ms | 42.548ms           |
