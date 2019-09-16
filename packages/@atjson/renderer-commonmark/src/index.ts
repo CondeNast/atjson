@@ -94,6 +94,16 @@ export function* splitDelimiterRuns(
   let end = text.length;
   let match;
 
+  let child = context.children.length === 1 ? context.children[0] : null;
+  if (
+    child &&
+    child.start === annotation.start &&
+    child.end === annotation.end &&
+    (child instanceof Bold || child instanceof Italic)
+  ) {
+    return ["", text, ""];
+  }
+
   while (start < end) {
     match = text.slice(start).match(BEGINNING_WHITESPACE_PUNCTUATION);
     if (!match) break;
@@ -282,15 +292,14 @@ export default class CommonmarkRenderer extends Renderer {
       // we will allow for an incorrect nesting of
       // bold / italic to maintain the general intent
       // over correctness.
-      let hasSurroundingWhitespace =
-        !!getPreviousChar(context.document, context.parent.start).match(/\s/) ||
-        !!getNextChar(context.document, context.parent.end).match(/\s/);
+      let hasInnerMarkup =
+        context.children.length === 1 && before === "" && after === "";
 
       if (
         !context.previous &&
         !context.next &&
         context.parent instanceof Italic &&
-        hasSurroundingWhitespace
+        !hasInnerMarkup
       ) {
         return `${before}__${text}__${after}`;
       }
@@ -399,15 +408,15 @@ export default class CommonmarkRenderer extends Renderer {
       let markup = state.isItalicized ? "_" : "*";
       let hasWrappingBoldMarkup =
         !context.previous && !context.next && context.parent instanceof Bold;
-      let hasSurroundingWhitespace =
-        !!getPreviousChar(context.document, context.parent.start).match(/\s/) ||
-        !!getNextChar(context.document, context.parent.end).match(/\s/);
       let hasAdjacentBoldMarkup =
         (context.next instanceof Bold && after.length === 0) ||
         (context.previous instanceof Bold && before.length === 0);
+      let hasAlignedParent =
+        context.parent.start === italic.start &&
+        context.parent.end === italic.end;
 
       if (
-        (hasWrappingBoldMarkup && hasSurroundingWhitespace) ||
+        (hasWrappingBoldMarkup && !hasAlignedParent) ||
         hasAdjacentBoldMarkup
       ) {
         markup = "_";
