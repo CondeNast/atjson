@@ -542,7 +542,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**_bold then italic_** *__italic then bold__*"
+      "**_bold then italic_** ***italic then bold***"
     );
   });
 
