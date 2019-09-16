@@ -1,12 +1,11 @@
 import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
 import * as entities from "entities";
-import * as MarkdownIt from "markdown-it";
 
 export interface Attributes {
   [key: string]: string | number | boolean | null;
 }
 
-function getAttributes(token: MarkdownIt.Token): Attributes {
+function getAttributes(token: Token): Attributes {
   return (token.attrs || []).reduce(
     (attributes: Attributes, attribute: string[]) => {
       attributes[`-commonmark-${attribute[0]}`] = attribute[1];
@@ -16,16 +15,32 @@ function getAttributes(token: MarkdownIt.Token): Attributes {
   );
 }
 
+interface Token {
+  attrs: string[][];
+  block: boolean;
+  children: Token[];
+  content: string;
+  hidden: boolean;
+  info: string;
+  level: number;
+  map: number[];
+  markup: string;
+  meta: any;
+  nesting: number;
+  tag: string;
+  type: string;
+}
+
 export interface Node {
   name: string;
-  open?: MarkdownIt.Token;
-  close?: MarkdownIt.Token;
-  value?: MarkdownIt.Token | string;
+  open?: Token;
+  close?: Token;
+  value?: Token | string;
   parent?: Node;
   children: Node[];
 }
 
-function toTree(tokens: MarkdownIt.Token[], rootNode: Node) {
+function toTree(tokens: Token[], rootNode: Node) {
   let currentNode = rootNode;
   tokens.forEach(token => {
     // Ignore softbreak as per markdown-it defaults
@@ -118,7 +133,7 @@ export default class Parser {
   annotations: AnnotationJSON[];
   private handlers: any;
 
-  constructor(tokens: MarkdownIt.Token[], handlers: any) {
+  constructor(tokens: Token[], handlers: any) {
     this.content = "";
     this.handlers = handlers;
     this.annotations = [];
@@ -176,7 +191,7 @@ export default class Parser {
 
   *convertTokenToAnnotation(
     name: string,
-    open: MarkdownIt.Token,
+    open: Token,
     attrs: Attributes
   ): IterableIterator<void> {
     let start = this.content.length;
