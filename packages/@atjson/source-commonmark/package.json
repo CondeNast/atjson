@@ -22,9 +22,7 @@
   },
   "devDependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/source-html": "file:../source-html",
-    "@types/entities": "1.1.1",
-    "@types/markdown-it": "^0.0.8"
+    "@atjson/source-html": "file:../source-html"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.17.0 < 1"
