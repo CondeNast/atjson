@@ -10,12 +10,12 @@
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
-    "@atjson/document": "file:../packages/@atjson/document",
-    "@atjson/offset-annotations": "file:../packages/@atjson/offset-annotations",
-    "@atjson/renderer-react": "file:../packages/@atjson/renderer-react",
-    "@atjson/source-commonmark": "file:../packages/@atjson/source-commonmark",
-    "@atjson/source-html": "file:../packages/@atjson/source-html",
-    "@atjson/source-url": "file:../packages/@atjson/source-url",
+    "@atjson/document": "*",
+    "@atjson/offset-annotations": "*",
+    "@atjson/renderer-react": "*",
+    "@atjson/source-commonmark": "*",
+    "@atjson/source-html": "*",
+    "@atjson/source-url": "*",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/preset-typescript": "^7.6.0",
