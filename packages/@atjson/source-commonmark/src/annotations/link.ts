@@ -5,6 +5,6 @@ export default class Link extends InlineAnnotation {
   static vendorPrefix = "commonmark";
   attributes!: {
     href: string;
-    title: string;
+    title?: string;
   };
 }
