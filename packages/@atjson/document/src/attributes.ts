@@ -22,7 +22,7 @@ export function unprefix(
       content: string;
       annotations: AnnotationJSON[];
     };
-    return new subdocuments[(path.join("."))](serializedDocument);
+    return new subdocuments[path.join(".")](serializedDocument);
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {
@@ -92,7 +92,9 @@ export function clone(attribute: any): NonNullable<any> {
     let copy: NonNullable<any> = {};
     for (let i = 0, len = keys.length; i < len; i++) {
       let key = keys[i];
-      copy[key] = clone(attribute[key]);
+      if (attribute[key] !== undefined) {
+        copy[key] = clone(attribute[key]);
+      }
     }
     return copy;
   } else {

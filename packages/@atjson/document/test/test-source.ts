@@ -8,6 +8,7 @@ import Document, {
 
 export class Anchor extends InlineAnnotation<{
   href: string;
+  target?: string | null;
 }> {
   static vendorPrefix = "test";
   static type = "a";

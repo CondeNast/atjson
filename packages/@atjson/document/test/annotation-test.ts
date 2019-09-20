@@ -1,4 +1,5 @@
-import TestSource, { Bold } from "./test-source";
+import TestSource, { Anchor, Bold } from "./test-source";
+
 describe("Annotation", () => {
   describe("equals", () => {
     test("annotations are properly compared for equality", () => {
@@ -96,6 +97,34 @@ describe("Annotation", () => {
           unequalRightHandSideTestDoc.annotations[0]
         )
       ).toBe(false);
+    });
+  });
+
+  describe("clone", () => {
+    test("undefined attributes", () => {
+      let link = new Anchor({
+        start: 0,
+        end: 1,
+        attributes: {
+          href: "https://www.example.com",
+          target: undefined
+        }
+      });
+
+      expect(link.equals(link.clone())).toBe(true);
+    });
+
+    test("null attributes", () => {
+      let link = new Anchor({
+        start: 0,
+        end: 1,
+        attributes: {
+          href: "https://www.example.com",
+          target: null
+        }
+      });
+
+      expect(link.equals(link.clone())).toBe(true);
     });
   });
 });
