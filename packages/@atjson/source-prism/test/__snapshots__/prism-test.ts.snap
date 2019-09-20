@@ -8,24 +8,13 @@ Object {
 ",
     Object {
       "attributes": Object {
-        "-xmlns-dc": null,
-        "-xmlns-dcterms": null,
-        "-xmlns-pam": null,
-        "-xmlns-pim": null,
-        "-xmlns-prism": null,
-        "-xmlns-prl": null,
-        "-xmlns-xhtml": null,
-        "-xmlns-xsi": null,
-        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {
-            "-xml-lang": null,
-          },
+          "attributes": Object {},
           "children": Array [
             "
 ",
@@ -6972,24 +6961,13 @@ Object {
 ",
     Object {
       "attributes": Object {
-        "-xmlns-dc": null,
-        "-xmlns-dcterms": null,
-        "-xmlns-pam": null,
-        "-xmlns-pim": null,
-        "-xmlns-prism": null,
-        "-xmlns-prl": null,
-        "-xmlns-xhtml": null,
-        "-xmlns-xsi": null,
-        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {
-            "-xml-lang": null,
-          },
+          "attributes": Object {},
           "children": Array [
             "
 ",
@@ -8072,24 +8050,13 @@ Object {
 ",
     Object {
       "attributes": Object {
-        "-xmlns-dc": null,
-        "-xmlns-dcterms": null,
-        "-xmlns-pam": null,
-        "-xmlns-pim": null,
-        "-xmlns-prism": null,
-        "-xmlns-prl": null,
-        "-xmlns-xhtml": null,
-        "-xmlns-xsi": null,
-        "-xsi-schemalocation": null,
         "xmlns": "http://www.w3.org/1999/xhtml",
       },
       "children": Array [
         "
 ",
         Object {
-          "attributes": Object {
-            "-xml-lang": null,
-          },
+          "attributes": Object {},
           "children": Array [
             "
 ",
