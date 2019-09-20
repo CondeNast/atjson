@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-html",
-  "version": "0.21.1",
+  "version": "0.21.2",
   "description": "Render HTML documents from atjson",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

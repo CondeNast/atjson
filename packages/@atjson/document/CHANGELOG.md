@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.21.0...@atjson/document@0.21.1) (2019-09-20)
+
+
+### 🐛 Fixes
+
+* 🐞 `clone` and `toJSON` coerced `undefined` values into `null`
+
+
+
 ## [0.21.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.20.0...@atjson/document@0.21.0) (2019-09-12)
 
 **Note:** Version bump only for package @atjson/document
