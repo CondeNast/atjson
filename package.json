@@ -10,7 +10,7 @@
     "@types/q": "1.5.2",
     "@types/react": "16.9.2",
     "@types/react-dom": "16.9.0",
-    "@types/uuid": "3.4.4",
+    "@types/uuid": "3.4.5",
     "commonmark": "0.29.0",
     "commonmark-spec": "0.29.0",
     "conventional-changelog-core": "3.1.6",
@@ -31,7 +31,7 @@
     "typedoc": "0.15.0",
     "typedoc-plugin-lerna-packages": "0.2.1",
     "typescript": "3.5.3",
-    "uuid": "3.3.2"
+    "uuid": "3.3.3"
   },
   "dependencies": {
     "@atjson/conventional-changelog-emoji": "file:packages/@atjson/conventional-changelog-emoji",
