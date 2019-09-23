@@ -59,6 +59,7 @@
     "build": "lerna run build",
     "docs": "typedoc",
     "lint": "lerna run lint",
+    "typecheck": "lerna run typecheck",
     "publish": "lerna publish",
     "test": "./node_modules/jest/bin/jest.js"
   },

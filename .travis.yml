@@ -27,7 +27,12 @@ jobs:
       script: npx lerna run lint
     - stage: Performance
       script:
-        - npx lerna run build
+        - pushd packages/\@atjson/source-commonmark/
+        - npm run build
+        - popd
+        - pushd packages/\@atjson/offset-annotations/
+        - npm run build
+        - popd
         - pushd packages/\@atjson/renderer-commonmark/
         - time node ./performance/index.js
         - popd
