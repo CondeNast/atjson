@@ -13,58 +13,21 @@ install:
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
 
-script:
-  - npx lerna run lint
-  - npx lerna run build
-  - npm test -- --no-cache --coverage --maxWorkers=4
-  - pushd packages/\@atjson/renderer-commonmark/
-  - time node ./performance/index.js
-  - popd
-
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-
-after_success:
-  - |
-    if [[ ($TRAVIS_BRANCH == latest && -n $TRAVIS_TAG) && !$TRAVIS_PULL_REQUEST ]]; then
-
-      # Start the ssh agent with the deploy key for the documentation
-      echo "$DEPLOY_KEY" > /tmp/deploy_key
-      chmod 600 /tmp/deploy_key
-      eval "$(ssh-agent -s)"
-      ssh-add /tmp/deploy_key
-
-      # Create a new worktree where we create documentation
-      # We set the branch as gh-pages and remove all files from
-      # the git repo
-      git clone git@github.com:CondeNast/atjson.git deploy-atjson --branch gh-pages
-
-      # Clean up old documentation for latest
-      if [[ $TRAVIS_BRANCH == latest ]]; then
-        pushd deploy-atjson
-        git rm --ignore-unmatch -r latest
-        popd
-      fi
-
-      # Then, we build the documentation and copy it into the branch
-      npm run build
-      npm run docs
-      if [[ -n $TRAVIS_TAG ]]; then
-        cp -R docs deploy-atjson/$TRAVIS_TAG
-      else
-        cp -R docs deploy-atjson/latest
-      fi
-
-      pushd deploy-atjson
-
-      # We commit the changes, then push to gh-pages
-      git add -A .
-      if [[ -n $TRAVIS_TAG ]]; then
-        git commit -m ":package::books: Release documentation for $TRAVIS_TAG."
-      else
-        git commit -m ":package::books: Release documentation for latest."
-      fi
-      git push git@github.com:CondeNast/atjson.git gh-pages
-    fi
+jobs:
+  include:
+    - stage: Test
+      script:
+        - ./cc-test-reporter before-build
+        - npm test -- --no-cache --coverage --maxWorkers=4
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+    - stage: Type Check
+      script: npx lerna run build
+    - stage: Lint
+      script: npx lerna run lint
+    - stage: Performance
+      script:
+        - npx lerna run build
+        - pushd packages/\@atjson/renderer-commonmark/
+        - time node ./performance/index.js
+        - popd
