@@ -8,7 +8,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "7.6.2",
     "@babel/preset-typescript": "7.6.0"
   },
   "engines": {
