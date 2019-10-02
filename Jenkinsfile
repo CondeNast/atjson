@@ -4,10 +4,12 @@ departuresBuild(project: 'atjson') {
     sh 'npm ci; npm run build'
   }
 
-  s3Upload(
-    awsAccount: 'cndigital',
-    region: 'us-east-1',
-    sourceDir: 'website/build',
-    s3Path: 'cn-static-sites/atjson.condenast.io'
-  )
+  if (env.BRANCH_NAME == "latest") {
+    s3Upload(
+      awsAccount: 'cndigital',
+      region: 'us-east-1',
+      sourceDir: 'website/build',
+      s3Path: 'cn-static-sites/atjson.condenast.io'
+    )
+  }
 }
