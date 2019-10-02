@@ -3,7 +3,7 @@ departuresBuild(project: 'atjson') {
     withNodeJs(version: 'node-v8.16.0', npmVersion: '6.4.0') {
       sh '''
         pushd website
-        npm ci --unsafe-perm
+        npm install
         npm run build
         popd
       '''
