@@ -1,6 +1,13 @@
-CnNodeBuild(project: "atjson",
-            nodeVersion: "node-v8.12.0",
-            npmVersion: "6.2.0") {
-  sh "npm ci --unsafe-perm"
-  sh "npx lerna run build"
+departuresBuild(project: 'atjson') {
+  withNodeJs(version: 'node-v8.12.0', npmVersion: '6.2.0') {
+    sh 'cd website'
+    sh 'npm ci; npm run build'
+  }
+
+  s3Upload(
+    awsAccount: 'cndigital',
+    region: 'us-east-1',
+    sourceDir: 'website/build',
+    s3Path: 'cn-static-sites/atjson.condenast.io'
+  )
 }
