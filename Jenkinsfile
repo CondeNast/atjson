@@ -1,6 +1,6 @@
 departuresBuild(project: 'atjson') {
   if (env.BRANCH_NAME == "latest") {
-    withNodeJs(version: 'node-v8.12.0', npmVersion: '6.2.0') {
+    withNodeJs(version: 'node-v8.16.0', npmVersion: '6.4.0') {
       sh '''
         pushd website
         npm ci --unsafe-perm
