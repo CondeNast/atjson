@@ -312,6 +312,20 @@ export default class Document {
     return doc;
   }
 
+  /**
+   * Cuts out part of the document, modifying `this` and returning the removed portion
+   */
+  cut(start: number, end: number, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default): Document {
+    let slice = this.slice(start, end);
+    this.where(annotation => annotation.start >= start && annotation.end <= end)
+      .update(annotation => {
+        this.removeAnnotation(annotation);
+      });
+    this.deleteText(start, end, behaviour);
+
+    return slice;
+  }
+
   convertTo<To extends typeof Document>(to: To): InstanceType<To> | never {
     let DocumentClass = this.constructor as typeof Document;
     let converter = getConverterFor(DocumentClass, to);
