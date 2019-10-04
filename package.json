@@ -8,7 +8,7 @@
     "@types/node": "12.7.9",
     "@types/parse5": "5.0.2",
     "@types/q": "1.5.2",
-    "@types/react": "16.9.4",
+    "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "@types/uuid": "3.4.5",
     "commonmark": "0.29.0",
