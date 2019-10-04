@@ -1,4 +1,4 @@
-import { UnknownAnnotation, ParseAnnotation } from "../src";
+import { ParseAnnotation, UnknownAnnotation } from "../src";
 import TestSource, { Bold, CaptionSource, Image, Italic } from "./test-source";
 
 describe("new Document", () => {
@@ -339,21 +339,9 @@ describe("new Document", () => {
     test("source documents are unaltered", () => {
       let doc = document.slice(7, 12);
 
-      expect(doc.toJSON()).toEqual({
+      expect(doc.toJSON()).toMatchObject({
         content: "world",
         contentType: "application/vnd.atjson+test",
-        schema: [
-          "-test-a",
-          "-test-bold",
-          "-test-code",
-          "-test-image",
-          "-test-instagram",
-          "-test-italic",
-          "-test-locale",
-          "-test-manual",
-          "-test-paragraph",
-          "-test-pre"
-        ],
         annotations: [
           {
             id: "2",
@@ -372,21 +360,9 @@ describe("new Document", () => {
         ]
       });
 
-      expect(document.toJSON()).toEqual({
+      expect(document.toJSON()).toMatchObject({
         content: "Hello, world!\n\uFFFC",
         contentType: "application/vnd.atjson+test",
-        schema: [
-          "-test-a",
-          "-test-bold",
-          "-test-code",
-          "-test-image",
-          "-test-instagram",
-          "-test-italic",
-          "-test-locale",
-          "-test-manual",
-          "-test-paragraph",
-          "-test-pre"
-        ],
         annotations: [
           {
             id: "1",
@@ -423,96 +399,107 @@ describe("new Document", () => {
     });
   });
 
-  describe('cut', () => {
-
-    test('cut matching boundary', () => {
+  describe("cut", () => {
+    test("cut matching boundary", () => {
       let document = new TestSource({
-        content: 'Hello, world!\n\uFFFC',
-        annotations: [{
-          id: '1',
-          type: '-test-bold',
-          start: 0,
-          end: 5,
-          attributes: {}
-        }, {
-          id: '2',
-          type: '-test-italic',
-          start: 0,
-          end: 13,
-          attributes: {}
-        }, {
-          id: '3',
-          type: '-test-underline',
-          start: 0,
-          end: 13,
-          attributes: {}
-        }, {
-          id: '4',
-          type: '-test-instagram',
-          start: 14,
-          end: 15,
-          attributes: {
-            '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
+        content: "Hello, world!\n\uFFFC",
+        annotations: [
+          {
+            id: "1",
+            type: "-test-bold",
+            start: 0,
+            end: 5,
+            attributes: {}
+          },
+          {
+            id: "2",
+            type: "-test-italic",
+            start: 0,
+            end: 13,
+            attributes: {}
+          },
+          {
+            id: "3",
+            type: "-test-underline",
+            start: 0,
+            end: 13,
+            attributes: {}
+          },
+          {
+            id: "4",
+            type: "-test-instagram",
+            start: 14,
+            end: 15,
+            attributes: {
+              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+            }
           }
-        }]
+        ]
       });
 
       let cut = document.cut(0, 5);
 
-      expect(cut.toJSON()).toEqual({
-        content: 'Hello',
-        contentType: 'application/vnd.atjson+test',
-        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
-        annotations: [{
-          id: '1',
-          type: '-test-bold',
-          start: 0,
-          end: 5,
-          attributes: {}
-        }, {
-          id: '2',
-          type: '-test-italic',
-          start: 0,
-          end: 5,
-          attributes: {}
-        }, {
-          id: '3',
-          type: '-test-underline',
-          start: 0,
-          end: 5,
-          attributes: {}
-        }]
+      expect(cut.toJSON()).toMatchObject({
+        content: "Hello",
+        contentType: "application/vnd.atjson+test",
+        annotations: [
+          {
+            id: "1",
+            type: "-test-bold",
+            start: 0,
+            end: 5,
+            attributes: {}
+          },
+          {
+            id: "2",
+            type: "-test-italic",
+            start: 0,
+            end: 5,
+            attributes: {}
+          },
+          {
+            id: "3",
+            type: "-test-underline",
+            start: 0,
+            end: 5,
+            attributes: {}
+          }
+        ]
       });
 
       expect(document.toJSON()).toMatchObject({
-        content: ', world!\n\uFFFC',
-        annotations: [{
-          id: '2',
-          type: '-test-italic',
-          start: 0,
-          end: 8,
-          attributes: {}
-        }, {
-          id: '3',
-          type: '-test-underline',
-          start: 0,
-          end: 8,
-          attributes: {}
-        }, {
-          id: '4',
-          type: '-test-instagram',
-          start: 9,
-          end: 10,
-          attributes: {
-            '-test-uri': 'https://www.instagram.com/p/BeW0pqZDUuK/'
+        content: ", world!\n\uFFFC",
+        annotations: [
+          {
+            id: "2",
+            type: "-test-italic",
+            start: 0,
+            end: 8,
+            attributes: {}
+          },
+          {
+            id: "3",
+            type: "-test-underline",
+            start: 0,
+            end: 8,
+            attributes: {}
+          },
+          {
+            id: "4",
+            type: "-test-instagram",
+            start: 9,
+            end: 10,
+            attributes: {
+              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+            }
           }
-        }]
+        ]
       });
     });
 
-    test('cut with parse annotations', () => {
+    test("cut with parse annotations", () => {
       let document = new TestSource({
-        content: '<em>Hello, <b>world</b>!</em>',
+        content: "<em>Hello, <b>world</b>!</em>",
         annotations: [
           new ParseAnnotation({ start: 0, end: 4 }),
           new Italic({ start: 0, end: 29 }),
@@ -525,54 +512,58 @@ describe("new Document", () => {
       let cut = document.cut(11, 23);
 
       expect(cut.toJSON()).toMatchObject({
-        content: '<b>world</b>',
-        contentType: 'application/vnd.atjson+test',
-        schema: ['-test-a', '-test-bold', '-test-code', '-test-image', '-test-instagram', '-test-italic', '-test-locale', '-test-manual', '-test-paragraph', '-test-pre'],
-        annotations: [{
-          type: '-atjson-parse-token',
-          start: 0,
-          end: 3,
-          attributes: {}
-        }, {
-          type: '-test-italic',
-          start: 0,
-          end: 12,
-          attributes: {}
-        }, {
-          type: '-test-bold',
-          start: 0,
-          end: 12,
-          attributes: {}
-        }, {
-          type: '-atjson-parse-token',
-          start: 8,
-          end: 12,
-          attributes: {}
-        }]
+        content: "<b>world</b>",
+        contentType: "application/vnd.atjson+test",
+        annotations: [
+          {
+            type: "-atjson-parse-token",
+            start: 0,
+            end: 3,
+            attributes: {}
+          },
+          {
+            type: "-test-bold",
+            start: 0,
+            end: 12,
+            attributes: {}
+          },
+          {
+            type: "-test-italic",
+            start: 0,
+            end: 12,
+            attributes: {}
+          },
+          {
+            type: "-atjson-parse-token",
+            start: 8,
+            end: 12,
+            attributes: {}
+          }
+        ]
       });
 
       expect(document.toJSON()).toMatchObject({
-        content: '<em>Hello, !</em>',
+        content: "<em>Hello, !</em>",
         annotations: [
           {
             attributes: {},
             end: 4,
             start: 0,
-            type: '-atjson-parse-token'
+            type: "-atjson-parse-token"
           },
           {
             attributes: {},
             end: 17,
             start: 0,
-            type: '-test-italic'
+            type: "-test-italic"
           },
           {
             attributes: {},
             end: 17,
             start: 12,
-            type: '-atjson-parse-token'
+            type: "-atjson-parse-token"
           }
-         ]
+        ]
       });
     });
   });
