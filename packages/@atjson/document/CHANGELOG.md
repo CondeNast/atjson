@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.21.1...@atjson/document@0.22.0) (2019-10-04)
+
+
+### ✨ New Features
+
+* ✨ add cut method to document class ([#225](https://github.com/CondeNast-Copilot/atjson/issues/225))
+
+
+
 ## [0.21.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.21.0...@atjson/document@0.21.1) (2019-09-20)
 
 
