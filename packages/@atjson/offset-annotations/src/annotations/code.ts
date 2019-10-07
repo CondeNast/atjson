@@ -1,6 +1,6 @@
 import { Annotation } from "@atjson/document";
 
-export default class Code extends Annotation<{
+export class Code extends Annotation<{
   style: "block" | "inline" | "fence";
   info?: string;
 }> {

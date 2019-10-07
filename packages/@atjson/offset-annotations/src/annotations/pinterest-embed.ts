@@ -1,6 +1,7 @@
-import IframeEmbed, { without } from "./iframe-embed";
+import { without } from "../utils";
+import IframeEmbed from "./iframe-embed";
 
-export default class PinterestEmbed extends IframeEmbed {
+export class PinterestEmbed extends IframeEmbed {
   static type = "pinterest-embed";
   static vendorPrefix = "offset";
 

@@ -25,6 +25,7 @@ import {
   Underline,
   YouTubeEmbed
 } from "./annotations";
+export { default as CaptionSource } from "./annotations/caption-source";
 
 export * from "./annotations";
 

@@ -1,6 +1,6 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export default class ListItem extends BlockAnnotation {
+export class ListItem extends BlockAnnotation {
   static vendorPrefix = "offset";
   static type = "list-item";
 }

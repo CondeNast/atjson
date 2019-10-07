@@ -1,6 +1,7 @@
-import IframeEmbed, { without } from "./iframe-embed";
+import { without } from "../utils";
+import IframeEmbed from "./iframe-embed";
 
-export default class YouTubeEmbed extends IframeEmbed {
+export class YouTubeEmbed extends IframeEmbed {
   static type = "youtube-embed";
   static vendorPrefix = "offset";
 
