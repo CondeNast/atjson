@@ -28,7 +28,8 @@ Commits look like `✌️ My awesome change (#12)`. There’s emoji at the begin
 |🐝|🐛 Fixes|patch|✅|
 |🔒|🔒 Security Updates|patch|✅|
 |🚀|🚀 Performance|patch|🚫|
-|🛀|🛀 Code Cleanup|patch|🚫|
+|🧹|🧹 Code Cleanup|patch|🚫
+|🧼|🧼 Code Cleanup|patch|🚫|
 |⏪|⏪ Undo Changes|revert|🚫|
 |💅|💄 Style|patch|🚫|
 |💄|💄 Style|patch|🚫|

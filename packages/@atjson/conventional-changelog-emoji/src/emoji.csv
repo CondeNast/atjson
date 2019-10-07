@@ -19,7 +19,8 @@ Emoji, Changelog Heading, Severity, Included in Changelog?
 🐞,🐛 Fixes,patch,✅
 🔒,🔒 Security Updates,patch,✅
 🚀,🚀 Performance,patch,🚫
-🛀,🛀 Code Cleanup,patch,🚫
+🧹,🧹 Code Cleanup,patch,🚫
+🧼,🧼 Code Cleanup,patch,🚫
 ⏪,⏪ Undo Changes,revert,🚫
 💅,💄 Style Changes,patch,🚫
 💄,💄 Style Changes,patch,🚫
