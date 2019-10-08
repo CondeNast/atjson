@@ -1,4 +1,4 @@
-import { Annotation } from "../src";
+import Document, { Annotation } from "../src";
 import TestSource, { Bold, Paragraph } from "./test-source";
 import { TextSource } from "./text-source-test";
 
@@ -75,5 +75,23 @@ describe("Document#convert", () => {
       content: "Hello, World!",
       annotations: [{ start: 0, end: 13 }, { start: 0, end: 5 }]
     });
+  });
+
+  test("slice of conversion document is in the original source", () => {
+    let testDoc = new TestSource({
+      content: "Hello, World!",
+      annotations: []
+    });
+
+    TestSource.defineConverterTo(TextSource, doc => {
+      let slice = doc.slice(0, 1);
+      let SliceClass = slice.constructor as typeof Document;
+
+      expect(SliceClass).toEqual(TestSource);
+
+      return doc;
+    });
+
+    testDoc.convertTo(TextSource);
   });
 });
