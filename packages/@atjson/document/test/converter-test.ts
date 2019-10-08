@@ -1,3 +1,4 @@
+import { Annotation } from "../src";
 import TestSource, { Bold, Paragraph } from "./test-source";
 import { TextSource } from "./text-source-test";
 
@@ -48,5 +49,31 @@ describe("Document#convert", () => {
     });
 
     expect(() => testDoc.convertTo(TestSource)).toThrowError();
+  });
+
+  test("conversion doesn't modify the original document", () => {
+    TestSource.defineConverterTo(TextSource, doc => {
+      doc.annotations.forEach((a: Annotation) => {
+        a.start = 0;
+        a.end = 0;
+      });
+
+      return doc;
+    });
+
+    let testDoc = new TestSource({
+      content: "Hello, World!",
+      annotations: [
+        new Paragraph({ start: 0, end: 13 }),
+        new Bold({ start: 0, end: 5 })
+      ]
+    });
+
+    testDoc.convertTo(TextSource);
+
+    expect(testDoc).toMatchObject({
+      content: "Hello, World!",
+      annotations: [{ start: 0, end: 13 }, { start: 0, end: 5 }]
+    });
   });
 });
