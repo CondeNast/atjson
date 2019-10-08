@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.1...@atjson/document@0.22.2) (2019-10-08)
+
+### 🐛 Fixes
+
+- 🐞 override `slice` on conversion document class to return slices in the original source ([#238](https://github.com/CondeNast/atjson/issues/238))
+
 ## [0.22.1](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.22.0...@atjson/document@0.22.1) (2019-10-08)
 
 ### 🐛 Fixes
