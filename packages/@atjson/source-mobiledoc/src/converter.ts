@@ -1,7 +1,8 @@
-import OffsetSource from "@atjson/offset-annotations";
-import MobiledocSource from "./source";
+import Document from "@atjson/document";
+import OffsetSchema from "@atjson/schema-offset";
+import MobiledocSchema from "./schema";
 
-MobiledocSource.defineConverterTo(OffsetSource, doc => {
+Document.defineConverterTo(MobiledocSchema, OffsetSchema, doc => {
   doc
     .where({ type: "-mobiledoc-a" })
     .set({ type: "-offset-link" })

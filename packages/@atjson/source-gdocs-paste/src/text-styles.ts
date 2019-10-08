@@ -1,15 +1,15 @@
-import { AnnotationJSON } from "@atjson/document";
+import { SerializedAnnotation } from "@atjson/document";
 import { GDocsStyleSlice } from "./types";
 
 interface ParseState {
-  [key: string]: AnnotationJSON;
+  [key: string]: SerializedAnnotation;
 }
 
 export default function extractTextStyles(
   styles: GDocsStyleSlice[]
-): AnnotationJSON[] {
+): SerializedAnnotation[] {
   let state: ParseState = {};
-  let annotations: AnnotationJSON[] = [];
+  let annotations: SerializedAnnotation[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];

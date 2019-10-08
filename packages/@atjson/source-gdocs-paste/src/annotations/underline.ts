@@ -1,6 +1,9 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class Underline extends InlineAnnotation {
+export class Underline extends InlineAnnotation {
   static vendorPrefix = "gdocs";
-  static type = "ts_un"; // Text style: underline
+  /**
+   * Text style: underline
+   */
+  static type = "ts_un" as const;
 }

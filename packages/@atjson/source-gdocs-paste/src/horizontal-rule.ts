@@ -1,10 +1,10 @@
-import { AnnotationJSON } from "@atjson/document";
+import { SerializedAnnotation } from "@atjson/document";
 import { GDocsStyleSlice } from "./types";
 
 export default function extractHorizontalRule(
   styles: GDocsStyleSlice[]
-): AnnotationJSON[] {
-  let annotations: AnnotationJSON[] = [];
+): SerializedAnnotation[] {
+  let annotations: SerializedAnnotation[] = [];
 
   for (let i = 0; i < styles.length; i++) {
     let style = styles[i];

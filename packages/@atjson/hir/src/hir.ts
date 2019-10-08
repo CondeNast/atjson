@@ -5,8 +5,8 @@ import HIRNode from "./hir-node";
 export default class HIR {
   rootNode: HIRNode;
 
-  constructor(doc: Document) {
-    let document: Document = doc.clone();
+  constructor(doc: Document<any>) {
+    let document = doc.clone();
 
     document.annotations
       .filter(a => a.start === a.end)

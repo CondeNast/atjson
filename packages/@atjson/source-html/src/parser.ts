@@ -1,4 +1,4 @@
-import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import { ParseAnnotation, SerializedAnnotation } from "@atjson/document";
 import * as parse5 from "parse5";
 
 function isElement(
@@ -49,7 +49,7 @@ function getAttributes(node: parse5.DefaultTreeElement): NonNullable<any> {
 export default class Parser {
   content: string;
 
-  annotations: AnnotationJSON[];
+  annotations: SerializedAnnotation[];
 
   private html: string;
 

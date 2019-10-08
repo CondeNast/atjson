@@ -1,9 +1,9 @@
 import { InlineAnnotation } from "@atjson/document";
 import { HIR } from "@atjson/hir";
-import MobiledocSource from "../src";
+import MobiledocSchema, { fromRaw } from "../src";
 import { ListSection } from "../src/parser";
 
-describe("@atjson/source-Mobiledoc", () => {
+describe("@atjson/source-mobiledoc", () => {
   describe("sections", () => {
     describe.each([
       "p",
@@ -18,7 +18,7 @@ describe("@atjson/source-Mobiledoc", () => {
       "aside"
     ])("%s", type => {
       test("with text", () => {
-        let doc = MobiledocSource.fromRaw({
+        let doc = fromRaw({
           version: "0.3.1",
           atoms: [],
           cards: [],
@@ -41,7 +41,7 @@ describe("@atjson/source-Mobiledoc", () => {
       });
 
       test("without text", () => {
-        let doc = MobiledocSource.fromRaw({
+        let doc = fromRaw({
           version: "0.3.1",
           atoms: [],
           cards: [],
@@ -69,7 +69,7 @@ describe("@atjson/source-Mobiledoc", () => {
     test.each(["b", "code", "em", "i", "s", "strong", "sub", "sup", "u"])(
       "%s",
       type => {
-        let doc = MobiledocSource.fromRaw({
+        let doc = fromRaw({
           version: "0.3.1",
           atoms: [],
           cards: [],
@@ -100,7 +100,7 @@ describe("@atjson/source-Mobiledoc", () => {
     );
 
     test("simple markup", () => {
-      let doc = MobiledocSource.fromRaw({
+      let doc = fromRaw({
         version: "0.3.1",
         atoms: [],
         cards: [],
@@ -148,7 +148,7 @@ describe("@atjson/source-Mobiledoc", () => {
     });
 
     test("multiple markups at a single position", () => {
-      let doc = MobiledocSource.fromRaw({
+      let doc = fromRaw({
         version: "0.3.1",
         atoms: [],
         cards: [],
@@ -184,7 +184,7 @@ describe("@atjson/source-Mobiledoc", () => {
     });
 
     test("overlapping markup", () => {
-      let doc = MobiledocSource.fromRaw({
+      let doc = fromRaw({
         version: "0.3.1",
         atoms: [],
         cards: [],
@@ -251,17 +251,25 @@ describe("@atjson/source-Mobiledoc", () => {
       };
     }
 
-    class MentionSource extends MobiledocSource {
-      static schema = [...MobiledocSource.schema, Mention];
-    }
+    const MentionSchema = {
+      type: MobiledocSchema.type,
+      version: MobiledocSchema.version,
+      annotations: {
+        ...MobiledocSchema.annotations,
+        Mention
+      }
+    };
 
-    let doc = MentionSource.fromRaw({
-      version: "0.3.1",
-      atoms: [["mention", "@bob", { id: 42 }]],
-      cards: [],
-      markups: [],
-      sections: [[1, "P", [[1, [], 0, 0]]]]
-    });
+    let doc = fromRaw(
+      {
+        version: "0.3.1",
+        atoms: [["mention", "@bob", { id: 42 }]],
+        cards: [],
+        markups: [],
+        sections: [[1, "P", [[1, [], 0, 0]]]]
+      },
+      MentionSchema
+    );
 
     let hir = new HIR(doc).toJSON();
 
@@ -294,27 +302,35 @@ describe("@atjson/source-Mobiledoc", () => {
       };
     }
 
-    class GallerySource extends MobiledocSource {
-      static schema = [...MobiledocSource.schema, Gallery];
-    }
+    const GallerySchema = {
+      type: MobiledocSchema.type,
+      version: MobiledocSchema.version,
+      annotations: {
+        ...MobiledocSchema.annotations,
+        Gallery
+      }
+    };
 
-    let doc = GallerySource.fromRaw({
-      version: "0.3.1",
-      atoms: [],
-      cards: [
-        [
-          "gallery",
-          {
-            style: "mosaic",
-            ids: [2, 4, 8, 14],
-            size: null,
-            dropped: undefined
-          }
-        ]
-      ],
-      markups: [],
-      sections: [[10, 0]]
-    });
+    let doc = fromRaw(
+      {
+        version: "0.3.1",
+        atoms: [],
+        cards: [
+          [
+            "gallery",
+            {
+              style: "mosaic",
+              ids: [2, 4, 8, 14],
+              size: null,
+              dropped: undefined
+            }
+          ]
+        ],
+        markups: [],
+        sections: [[10, 0]]
+      },
+      GallerySchema
+    );
 
     let hir = new HIR(doc).toJSON();
 
@@ -335,7 +351,7 @@ describe("@atjson/source-Mobiledoc", () => {
   });
 
   test("image", () => {
-    let doc = MobiledocSource.fromRaw({
+    let doc = fromRaw({
       version: "0.3.1",
       atoms: [],
       cards: [],
@@ -362,7 +378,7 @@ describe("@atjson/source-Mobiledoc", () => {
 
   describe("list", () => {
     test.each(["ol", "ul"])("%s", type => {
-      let doc = MobiledocSource.fromRaw({
+      let doc = fromRaw({
         version: "0.3.1",
         atoms: [],
         cards: [],

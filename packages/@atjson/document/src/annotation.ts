@@ -7,14 +7,20 @@ import Change, {
 } from "./change";
 import Document from "./index";
 import JSON from "./json";
+import { SchemaDefinition } from "./schema";
 
-function areAttributesEqual(
-  lhsAnnotationAttributes: any,
-  rhsAnnotationAttributes: any
-): boolean {
-  for (let key in lhsAnnotationAttributes) {
-    let lhsAttributeValue = lhsAnnotationAttributes[key];
-    let rhsAttributeValue = rhsAnnotationAttributes[key];
+export interface SerializedAnnotation {
+  id?: string;
+  type: string;
+  start: number;
+  end: number;
+  attributes: JSON;
+}
+
+function areAttributesEqual(a: any, b: any): boolean {
+  for (let key in a) {
+    let lhsAttributeValue = a[key];
+    let rhsAttributeValue = b[key];
     if (lhsAttributeValue !== rhsAttributeValue) {
       if (
         lhsAttributeValue instanceof Document &&
@@ -41,32 +47,14 @@ function areAttributesEqual(
   return true;
 }
 
-export type ConcreteAnnotation<T extends Annotation<any>> = T;
-export interface AnnotationConstructor<T, Attributes> {
-  vendorPrefix: string;
-  type: string;
-  subdocuments: { [key: string]: typeof Document };
-  new (attributes: {
-    id?: string;
-    start: number;
-    end: number;
-    attributes?: Attributes;
-  }): T;
-  hydrate(attrs: {
-    id?: string;
-    start: number;
-    end: number;
-    attributes: JSON;
-  }): T;
-}
-
 export default abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
-  static subdocuments: { [key: string]: typeof Document } = {};
+  static subdocuments: { [key: string]: SchemaDefinition } = {};
 
   static hydrate(attrs: {
     id?: string;
+    type: string;
     start: number;
     end: number;
     attributes: JSON;
@@ -96,10 +84,7 @@ export default abstract class Annotation<Attributes = {}> {
     end: number;
     attributes?: Attributes;
   }) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      any,
-      Attributes
-    >;
+    let AnnotationClass = this.constructor as typeof Annotation;
     this.type = AnnotationClass.type;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
@@ -112,22 +97,14 @@ export default abstract class Annotation<Attributes = {}> {
     return this.start === annotation.start && this.end === annotation.end;
   }
 
-  equals(annotationToCompare: Annotation<any>) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<any, any>;
-    let AnnotationToCompareClass = annotationToCompare.constructor as AnnotationConstructor<
-      any,
-      any
-    >;
-
-    let lhsAnnotationAttributes = this.attributes;
-    let rhsAnnotationAttributes = annotationToCompare.attributes;
-
+  equals(other: Annotation<any>) {
     return (
-      this.start === annotationToCompare.start &&
-      this.end === annotationToCompare.end &&
-      this.type === annotationToCompare.type &&
-      AnnotationClass.vendorPrefix === AnnotationToCompareClass.vendorPrefix &&
-      areAttributesEqual(lhsAnnotationAttributes, rhsAnnotationAttributes)
+      this.start === other.start &&
+      this.end === other.end &&
+      this.type === other.type &&
+      (this.constructor as typeof Annotation).vendorPrefix ===
+        (other.constructor as typeof Annotation).vendorPrefix &&
+      areAttributesEqual(this.attributes, other.attributes)
     );
   }
 
@@ -240,10 +217,12 @@ export default abstract class Annotation<Attributes = {}> {
   }
 
   clone<This extends Annotation>(this: This) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      This,
-      Attributes
-    >;
+    let AnnotationClass = this.constructor as (new (attrs: {
+      id?: string;
+      start: number;
+      end: number;
+      attributes?: Attributes;
+    }) => This);
 
     return new AnnotationClass({
       id: this.id,
@@ -254,11 +233,7 @@ export default abstract class Annotation<Attributes = {}> {
   }
 
   toJSON<This extends Annotation>(this: This) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      This,
-      Attributes
-    >;
-    let vendorPrefix = AnnotationClass.vendorPrefix;
+    let vendorPrefix = (this.constructor as typeof Annotation).vendorPrefix;
     return {
       id: this.id,
       type: `-${vendorPrefix}-${this.type}`,

@@ -23,6 +23,6 @@
   },
   "devDependencies": {
     "@atjson/document": "file:../document",
-    "@atjson/offset-annotations": "file:../offset-annotations"
+    "@atjson/schema-offset": "file:../schema-offset"
   }
 }

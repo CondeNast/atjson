@@ -1,9 +1,14 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class VerticalAdjust extends InlineAnnotation {
+export class VerticalAdjust extends InlineAnnotation<{
+  /**
+   * Vertical adjust: subscript / superscript
+   */
+  va: "sub" | "sup";
+}> {
   static vendorPrefix = "gdocs";
-  static type = "ts_va"; // Text style: underline
-  attributes!: {
-    va: "sub" | "sup"; // Vertical adjust: subscript / superscript
-  };
+  /**
+   * Text style: vertical adjust
+   */
+  static type = "ts_va" as const;
 }

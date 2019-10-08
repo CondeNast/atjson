@@ -1,4 +1,4 @@
-import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import { ParseAnnotation, SerializedAnnotation } from "@atjson/document";
 import * as entities from "entities";
 
 export interface Attributes {
@@ -130,7 +130,7 @@ function getText(node: Node): Node[] {
 
 export default class Parser {
   content: string;
-  annotations: AnnotationJSON[];
+  annotations: SerializedAnnotation[];
   private handlers: any;
 
   constructor(tokens: Token[], handlers: any) {

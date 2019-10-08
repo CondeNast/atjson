@@ -12,7 +12,7 @@ import {
   Italic,
   Link,
   List
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import {
   BEGINNING_WHITESPACE,

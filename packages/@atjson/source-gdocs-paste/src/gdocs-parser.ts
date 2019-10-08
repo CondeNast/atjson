@@ -1,4 +1,4 @@
-import { AnnotationJSON } from "@atjson/document";
+import { SerializedAnnotation } from "@atjson/document";
 
 import { GDocsEntityMap, GDocsStyleSlice } from "./types";
 
@@ -18,7 +18,7 @@ export interface Transforms {
     entityMap: GDocsEntityMap,
     trailing?: GDocsStyleSlice,
     text?: string
-  ) => AnnotationJSON[];
+  ) => SerializedAnnotation[];
 }
 
 export default class GDocsParser {
@@ -40,7 +40,7 @@ export default class GDocsParser {
     return this.gdocsSource.resolved.dsl_spacers;
   }
 
-  getAnnotations(): AnnotationJSON[] {
+  getAnnotations(): SerializedAnnotation[] {
     const styleSlices = this.gdocsSource.resolved.dsl_styleslices;
     const transforms = GDocsParser.transforms;
     const entityMap: GDocsEntityMap = this.gdocsSource.resolved.dsl_entitymap;
@@ -58,6 +58,6 @@ export default class GDocsParser {
 
     return [].concat
       .apply([], annotations)
-      .filter((a: AnnotationJSON | null) => a != null);
+      .filter((a: SerializedAnnotation | null) => a != null);
   }
 }

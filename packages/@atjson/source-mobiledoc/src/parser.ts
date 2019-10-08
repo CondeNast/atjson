@@ -1,4 +1,4 @@
-import { AnnotationJSON } from "@atjson/document";
+import { SerializedAnnotation } from "@atjson/document";
 
 export type Atom = [string, string, any];
 export type Card = [string, any];
@@ -34,10 +34,10 @@ function prefix(attributes: any): any {
 
 export default class Parser {
   content: string;
-  annotations: AnnotationJSON[];
+  annotations: SerializedAnnotation[];
   mobiledoc: Mobiledoc;
 
-  private inProgressAnnotations: Array<Partial<AnnotationJSON>>;
+  private inProgressAnnotations: Array<Partial<SerializedAnnotation>>;
 
   constructor(mobiledoc: Mobiledoc) {
     this.annotations = [];
@@ -200,7 +200,7 @@ export default class Parser {
       numberOfClosedMarkups--;
       let annotation = this.inProgressAnnotations.pop()!;
       annotation.end = end;
-      this.annotations.push(annotation as AnnotationJSON);
+      this.annotations.push(annotation as SerializedAnnotation);
     }
 
     return text;

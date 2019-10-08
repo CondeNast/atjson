@@ -20,7 +20,7 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/schema-offset": "file:../schema-offset",
     "parse5": "^5.0.0"
   },
   "devDependencies": {

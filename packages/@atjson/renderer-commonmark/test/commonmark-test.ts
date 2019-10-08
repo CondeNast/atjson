@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
 

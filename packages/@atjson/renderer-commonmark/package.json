@@ -22,7 +22,7 @@
     "@types/markdown-it": "0.0.9"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/schema-offset": "file:../schema-offset",
     "@atjson/renderer-hir": "file:../renderer-hir"
   },
   "peerDependencies": {

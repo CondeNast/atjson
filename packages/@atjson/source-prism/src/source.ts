@@ -1,13 +1,12 @@
 import Document, {
   AdjacentBoundaryBehaviour,
   Annotation,
-  AnnotationJSON,
+  SerializedAnnotation,
   ParseAnnotation
 } from "@atjson/document";
-import HTMLSource from "@atjson/source-html";
 import * as entities from "entities";
 import * as sax from "sax";
-import { Article, Description, Media, Message, Title } from "./annotations";
+import schema from "./schema";
 
 function prefix(vendorPrefix: string, attributes: any): any {
   if (Array.isArray(attributes)) {
@@ -47,122 +46,112 @@ function getType(tagName: string) {
   return parts[parts.length - 1];
 }
 
-export default class PRISMSource extends Document {
-  static contentType = "application/vnd.atjson+prism";
-  static schema = [...HTMLSource.schema].concat([
-    Article,
-    Description,
-    Media,
-    Message,
-    Title
-  ]);
+export default function(xml: string) {
+  let parser = sax.parser(false, {
+    trim: false,
+    normalize: false,
+    lowercase: true,
+    xmlns: false,
+    position: true
+  });
 
-  static fromRaw(xml: string) {
-    let parser = sax.parser(false, {
-      trim: false,
-      normalize: false,
-      lowercase: true,
-      xmlns: false,
-      position: true
-    });
+  let content = xml;
+  let annotations: Array<Annotation | SerializedAnnotation> = [];
 
-    let content = xml;
-    let annotations: Array<Annotation | AnnotationJSON> = [];
+  let xmlStart = xml.indexOf("<?xml");
+  let xmlEnd = xml.indexOf("?>", xmlStart) + 2;
+  if (xmlStart > -1 && xmlEnd > 1) {
+    annotations.push(
+      new ParseAnnotation({
+        start: xmlStart,
+        end: xmlEnd,
+        attributes: {
+          reason: "<?xml>"
+        }
+      })
+    );
+  }
 
-    let xmlStart = xml.indexOf("<?xml");
-    let xmlEnd = xml.indexOf("?>", xmlStart) + 2;
-    if (xmlStart > -1 && xmlEnd > 1) {
+  let partialAnnotations: Array<Partial<SerializedAnnotation>> = [];
+
+  parser.onopentag = node => {
+    let vendorPrefix = getVendorPrefix(node.name);
+    let type = getType(node.name);
+    if (node.isSelfClosing) {
       annotations.push(
-        new ParseAnnotation({
-          start: xmlStart,
-          end: xmlEnd,
-          attributes: {
-            reason: "<?xml>"
-          }
-        })
-      );
-    }
-
-    let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
-
-    parser.onopentag = node => {
-      let vendorPrefix = getVendorPrefix(node.name);
-      let type = getType(node.name);
-      if (node.isSelfClosing) {
-        annotations.push(
-          {
-            type: `-${vendorPrefix}-${type}`,
-            start: parser.startTagPosition - 1,
-            end: parser.position,
-            attributes: prefix(vendorPrefix, node.attributes)
-          },
-          new ParseAnnotation({
-            start: parser.startTagPosition - 1,
-            end: parser.position,
-            attributes: {
-              reason: `<${node.name}/>`
-            }
-          })
-        );
-      } else {
-        partialAnnotations.push({
+        {
           type: `-${vendorPrefix}-${type}`,
           start: parser.startTagPosition - 1,
+          end: parser.position,
           attributes: prefix(vendorPrefix, node.attributes)
-        });
-        annotations.push(
-          new ParseAnnotation({
-            start: parser.startTagPosition - 1,
-            end: parser.position,
-            attributes: {
-              reason: `<${node.name}>`
-            }
-          })
-        );
-      }
-    };
-
-    parser.onclosetag = tagName => {
-      let annotation = partialAnnotations.pop()!;
-
-      // The annotation was short closed and got a duplicate close tag action
-      if (
-        annotation.type !== `-${getVendorPrefix(tagName)}-${getType(tagName)}`
-      ) {
-        partialAnnotations.push(annotation);
-        return;
-      }
-
-      annotation.end = parser.position;
-
-      annotations.push(
-        annotation as AnnotationJSON,
+        },
         new ParseAnnotation({
           start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: {
-            reason: `</${tagName}>`
+            reason: `<${node.name}/>`
           }
         })
       );
-    };
+    } else {
+      partialAnnotations.push({
+        type: `-${vendorPrefix}-${type}`,
+        start: parser.startTagPosition - 1,
+        attributes: prefix(vendorPrefix, node.attributes)
+      });
+      annotations.push(
+        new ParseAnnotation({
+          start: parser.startTagPosition - 1,
+          end: parser.position,
+          attributes: {
+            reason: `<${node.name}>`
+          }
+        })
+      );
+    }
+  };
 
-    parser.write(xml).close();
+  parser.onclosetag = tagName => {
+    let annotation = partialAnnotations.pop()!;
 
-    let prism = new this({
-      content,
-      annotations
+    // The annotation was short closed and got a duplicate close tag action
+    if (
+      annotation.type !== `-${getVendorPrefix(tagName)}-${getType(tagName)}`
+    ) {
+      partialAnnotations.push(annotation);
+      return;
+    }
+
+    annotation.end = parser.position;
+
+    annotations.push(
+      annotation as SerializedAnnotation,
+      new ParseAnnotation({
+        start: parser.startTagPosition - 1,
+        end: parser.position,
+        attributes: {
+          reason: `</${tagName}>`
+        }
+      })
+    );
+  };
+
+  parser.write(xml).close();
+
+  let prism = new Document({
+    content,
+    annotations,
+    schema
+  });
+
+  prism
+    .match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/gi)
+    .reverse()
+    .forEach(({ start, end, matches }) => {
+      let entity = entities.decodeXML(matches[0]);
+      prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
+      prism.deleteText(start + entity.length, end + entity.length);
     });
 
-    prism
-      .match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/gi)
-      .reverse()
-      .forEach(({ start, end, matches }) => {
-        let entity = entities.decodeXML(matches[0]);
-        prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
-        prism.deleteText(start + entity.length, end + entity.length);
-      });
-
-    return prism;
-  }
+  return prism;
 }

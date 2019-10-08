@@ -1,9 +1,8 @@
 import Document from "@atjson/document";
-import OffsetSource, { Code } from "@atjson/offset-annotations";
-import { Image, OrderedList } from "./annotations";
-import HTMLSource from "./source";
+import OffsetSchema, { Code, Image, List } from "@atjson/schema-offset";
+import HTMLSchema from "./schema";
 
-function getText(doc: Document) {
+function getText(doc: Document<any>) {
   let text = "";
   let index = 0;
   let parseTokens = doc.where({ type: "-atjson-parse-token" });
@@ -15,80 +14,86 @@ function getText(doc: Document) {
   return text;
 }
 
-HTMLSource.defineConverterTo(OffsetSource, doc => {
+Document.defineConverterTo(HTMLSchema, OffsetSchema, doc => {
   doc
-    .where({ type: "-html-a" })
+    .where("Anchor")
     .set({ type: "-offset-link" })
     .rename({ attributes: { "-html-href": "-offset-url" } });
 
-  doc.where({ type: "-html-blockquote" }).set({ type: "-offset-blockquote" });
+  doc.where("Blockquote").set({ type: "-offset-blockquote" });
 
   doc
-    .where({ type: "-html-h1" })
+    .where("H1")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 1 } });
   doc
-    .where({ type: "-html-h2" })
+    .where("H2")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 2 } });
   doc
-    .where({ type: "-html-h3" })
+    .where("H3")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 3 } });
   doc
-    .where({ type: "-html-h4" })
+    .where("H4")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 4 } });
   doc
-    .where({ type: "-html-h5" })
+    .where("H5")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 5 } });
   doc
-    .where({ type: "-html-h6" })
+    .where("H6")
     .set({ type: "-offset-heading", attributes: { "-offset-level": 6 } });
 
-  doc.where({ type: "-html-p" }).set({ type: "-offset-paragraph" });
-  doc.where({ type: "-html-br" }).set({ type: "-offset-line-break" });
-  doc.where({ type: "-html-hr" }).set({ type: "-offset-horizontal-rule" });
+  doc.where("Paragraph").set({ type: "-offset-paragraph" });
+  doc.where("LineBreak").set({ type: "-offset-line-break" });
+  doc.where("HorizontalRule").set({ type: "-offset-horizontal-rule" });
 
   doc
-    .where({ type: "-html-ul" })
+    .where("UnorderedList")
     .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } });
-  doc.where({ type: "-html-ol" }).update((list: OrderedList) => {
-    doc.replaceAnnotation(list, {
-      id: list.id,
-      type: "-offset-list",
-      start: list.start,
-      end: list.end,
-      attributes: {
-        "-offset-type": "numbered",
-        "-offset-startsAt": parseInt(list.attributes.start || "1", 10)
-      }
-    });
+  doc.where("OrderedList").update(list => {
+    doc.replaceAnnotation(
+      list,
+      new List({
+        id: list.id,
+        start: list.start,
+        end: list.end,
+        attributes: {
+          type: "numbered",
+          startsAt: parseInt(list.attributes.start || "1", 10)
+        }
+      })
+    );
   });
-  doc.where({ type: "-html-li" }).set({ type: "-offset-list-item" });
+  doc.where("ListItem").set({ type: "-offset-list-item" });
 
-  doc.where({ type: "-html-em" }).set({ type: "-offset-italic" });
-  doc.where({ type: "-html-i" }).set({ type: "-offset-italic" });
-  doc.where({ type: "-html-strong" }).set({ type: "-offset-bold" });
-  doc.where({ type: "-html-b" }).set({ type: "-offset-bold" });
-  doc.where({ type: "-html-del" }).set({ type: "-offset-strikethrough" });
-  doc.where({ type: "-html-s" }).set({ type: "-offset-strikethrough" });
-  doc.where({ type: "-html-sub" }).set({ type: "-offset-subscript" });
-  doc.where({ type: "-html-sup" }).set({ type: "-offset-superscript" });
-  doc.where({ type: "-html-u" }).set({ type: "-offset-underline" });
+  doc.where("Emphasis").set({ type: "-offset-italic" });
+  doc.where("Italic").set({ type: "-offset-italic" });
+  doc.where("Strong").set({ type: "-offset-bold" });
+  doc.where("Bold").set({ type: "-offset-bold" });
+  doc.where("Delete").set({ type: "-offset-strikethrough" });
+  doc.where("Strikethrough").set({ type: "-offset-strikethrough" });
+  doc.where("Subscript").set({ type: "-offset-subscript" });
+  doc.where("Superscript").set({ type: "-offset-superscript" });
+  doc.where("Underline").set({ type: "-offset-underline" });
 
-  doc.where({ type: "-html-img" }).update((image: Image) => {
-    doc.replaceAnnotation(image, {
-      id: image.id,
-      type: "-offset-image",
-      start: image.start,
-      end: image.end,
-      attributes: {
-        "-offset-url": image.attributes.src,
-        "-offset-title": image.attributes.title,
-        "-offset-description": image.attributes.alt
-      }
-    });
+  doc.where("Image").update(image => {
+    if (image.attributes.src) {
+      doc.replaceAnnotation(
+        image,
+        new Image({
+          id: image.id,
+          start: image.start,
+          end: image.end,
+          attributes: {
+            url: image.attributes.src,
+            title: image.attributes.title,
+            description: image.attributes.alt
+          }
+        })
+      );
+    }
   });
 
-  let $pre = doc.where({ type: "-html-pre" }).as("pre");
-  let $code = doc.where({ type: "-html-code" }).as("codeElements");
+  let $pre = doc.where("PreformattedText").as("pre");
+  let $code = doc.where("Code").as("codeElements");
 
   $pre
     .join($code, (pre, code) => pre.start < code.start && code.end < pre.end)
@@ -117,7 +122,7 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
     });
 
   doc
-    .where({ type: "-html-code" })
+    .where("Code")
     .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
 
   return doc;

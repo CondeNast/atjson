@@ -9,7 +9,7 @@ export default class ReactRenderer extends Renderer {
   };
 
   constructor(
-    document: Document,
+    document: Document<any>,
     componentLookup: {
       [key: string]: ComponentType<any>;
     }

@@ -15,7 +15,7 @@ import OffsetSource, {
   Subscript,
   Superscript,
   Underline
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import Renderer from "../src";
 
 describe("renderer-html", () => {

@@ -1,9 +1,8 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export default class OrderedList extends BlockAnnotation {
+export class OrderedList extends BlockAnnotation<{
+  starts?: number;
+}> {
   static vendorPrefix = "mobiledoc";
   static type = "ol";
-  attributes!: {
-    starts: string;
-  };
 }

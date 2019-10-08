@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "file:../offset-annotations"
+    "@atjson/schema-offset": "file:../schema-offset"
   },
   "devDependencies": {
     "@atjson/document": "file:../document"

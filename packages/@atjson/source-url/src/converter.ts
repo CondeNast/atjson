@@ -1,13 +1,13 @@
-import OffsetSource, {
+import Document from "@atjson/document";
+import OffsetSchema, {
   FacebookEmbed,
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
   TwitterEmbed,
   YouTubeEmbed
-} from "@atjson/offset-annotations";
-import { URLAnnotation } from "./annotations";
-import URLSource from "./source";
+} from "@atjson/schema-offset";
+import URLSchema from "./schema";
 
 function without<T>(array: T[], value: T): T[] {
   let result: T[] = [];
@@ -19,14 +19,16 @@ function without<T>(array: T[], value: T): T[] {
   }, result);
 }
 
-URLSource.defineConverterTo(OffsetSource, doc => {
+Document.defineConverterTo(URLSchema, OffsetSchema, doc => {
+  let urls = doc.where("URL");
+
   // Instagram
   // - www.instagram.com/p/:id
   // - www.instagr.am/p/:id
   // - instagram.com/p/:id
   // - instagr.am/p/:id
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         [
           "www.instagram.com",
@@ -37,7 +39,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
         url.attributes.pathname.startsWith("/p/")
       );
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       let [, id] = without<string>(url.attributes.pathname.split("/"), "");
       doc.replaceAnnotation(
         url,
@@ -55,15 +57,15 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // Twitter
   // - www.twitter.com/:handle/status/:tweetId
   // - m.twitter.com/:handle/status/:tweetId
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         (url.attributes.host === "twitter.com" ||
           /.*\.twitter\.com$/.test(url.attributes.host)) &&
         /\/[^\/]+\/status\/[^\/]+/.test(url.attributes.pathname)
       );
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       let [username, , tweetId] = without<string>(
         url.attributes.pathname.split("/"),
         ""
@@ -84,15 +86,15 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // Youtube embed code
   // - youtu.be/
   // - youtube-nocookie.com/embed/
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         url.attributes.host === "youtu.be" ||
         (url.attributes.host === "www.youtube-nocookie.com" &&
           url.attributes.pathname.startsWith("/embed/"))
       );
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       let parts = without<string>(url.attributes.pathname.split("/"), "");
       let id = parts.pop();
       let youtubeURL = `https://www.youtube.com/embed/${id}`;
@@ -119,8 +121,8 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // - www.youtube.com/watch?v=
   // - m.youtube.com/watch?v=
   // - youtube.com/watch?v=
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         ["www.youtube.com", "m.youtube.com", "youtube.com"].includes(
           url.attributes.host
@@ -129,10 +131,8 @@ URLSource.defineConverterTo(OffsetSource, doc => {
         url.attributes.searchParams.v !== null
       );
     })
-    .update((url: URLAnnotation) => {
-      let youtubeURL = `https://www.youtube.com/embed/${
-        url.attributes.searchParams.v
-      }`;
+    .update(url => {
+      let youtubeURL = `https://www.youtube.com/embed/${url.attributes.searchParams.v}`;
       if (url.attributes.searchParams.t) {
         youtubeURL += `?t=${url.attributes.searchParams.t}`;
       }
@@ -153,11 +153,11 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // - www.pinterest.com/:user
   // - www.pinterest.com/:user/:board
   // - www.pinterest.com/pin/:id
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return ["www.pinterest.com"].includes(url.attributes.host);
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       doc.replaceAnnotation(
         url,
         new PinterestEmbed({
@@ -174,15 +174,15 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // Facebook embeds
   // - www.facebook.com/:user/:type/:id
   // - www.facebook.com/:user/:type/:context-id/:id
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         url.attributes.host === "www.facebook.com" &&
         (url.attributes.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+/) ||
           url.attributes.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+\/[^\/]+/))
       );
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       let parts = without<string>(url.attributes.pathname.split("/"), "");
       let id = parts.pop();
       let username = parts.shift();
@@ -202,15 +202,15 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // Giphy URLs
   // - giphy.com/gifs/:slug-:id
   // - giphy.com/embed/:id
-  doc
-    .where((url: URLAnnotation) => {
+  urls
+    .where(url => {
       return (
         url.attributes.host === "giphy.com" &&
         (url.attributes.pathname.startsWith("/gifs/") ||
           url.attributes.pathname.startsWith("/embed/"))
       );
     })
-    .update((url: URLAnnotation) => {
+    .update(url => {
       let pathParts = without<string>(url.attributes.pathname.split("/"), "");
       let id = "";
       if (pathParts[0] === "embed") {
@@ -232,5 +232,5 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       );
     });
 
-  return new OffsetSource(doc.toJSON());
+  return doc;
 });

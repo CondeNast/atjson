@@ -1,9 +1,17 @@
-import { Annotation, BlockAnnotation, ParseAnnotation } from "@atjson/document";
-import OffsetSource, { LineBreak, Paragraph } from "@atjson/offset-annotations";
-import { Heading } from "./annotations";
-import GDocsSource from "./source";
+import Document, {
+  Annotation,
+  BlockAnnotation,
+  ParseAnnotation
+} from "@atjson/document";
+import OffsetSchema, {
+  LineBreak,
+  Paragraph,
+  List,
+  ListItem
+} from "@atjson/schema-offset";
+import KixSchema from "./schema";
 
-GDocsSource.defineConverterTo(OffsetSource, doc => {
+Document.defineConverterTo(KixSchema, OffsetSchema, doc => {
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.
   // If necessary, underlined text can be added afterwards;
@@ -40,8 +48,8 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   // in GDocs which is not yet supported, as these should be thought of
   // as non-body annotations
   doc
-    .where({ type: "-gdocs-ps_hd" })
-    .where((annotation: Heading) => annotation.attributes.level >= 100)
+    .where("Heading")
+    .where(annotation => annotation.attributes.level >= 100)
     .remove();
 
   doc
@@ -64,10 +72,10 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .rename({ attributes: { "-gdocs-ulnk_url": "-offset-url" } });
 
   doc
-    .where({ type: "-offset-list" })
+    .where(List)
     .as("list")
     .join(
-      doc.where({ type: "-offset-list-item" }).as("listItems"),
+      doc.where(ListItem).as("listItems"),
       (l, r) => l.start === r.start && l.end === r.end
     )
     .update(({ list, listItems }) => {
@@ -174,18 +182,12 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     )
     .as("lineBreak")
     .join(
-      doc.where({ type: "-offset-list" }).as("lists"),
-      (l: Annotation, r: Annotation) => l.start >= r.start && l.end <= r.end + 1
+      doc.where(List).as("lists"),
+      (l, r) => l.start >= r.start && l.end <= r.end + 1
     )
-    .outerJoin(
-      doc.where({ type: "-offset-list-item" }).as("listItems"),
-      (
-        l: { lineBreak: LineBreak; lists: Array<Annotation<any>> },
-        r: Annotation<any>
-      ) => {
-        return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
-      }
-    )
+    .outerJoin(doc.where(ListItem).as("listItems"), (l, r) => {
+      return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
+    })
     .update(({ lineBreak, listItems }) => {
       if (listItems.length === 0) {
         doc.removeAnnotation(lineBreak);
@@ -195,12 +197,9 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   // LineBreaks may have been created at a block boundary co-terminating
   // with a paragraph, so delete those which match a paragraph end
   doc
-    .where(annotation => annotation instanceof LineBreak)
+    .where(LineBreak)
     .as("lineBreak")
-    .join(
-      doc.where(annotation => annotation instanceof Paragraph).as("paragraphs"),
-      (l: Annotation, r: Annotation) => l.end === r.end
-    )
+    .join(doc.where(Paragraph).as("paragraphs"), (l, r) => l.end === r.end)
     .update(({ lineBreak }) => {
       doc.removeAnnotation(lineBreak);
     });

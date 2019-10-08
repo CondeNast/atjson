@@ -1,5 +1,5 @@
-import { Code, Heading, Image, Link, List } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
+import { Code, Heading, Image, Link, List } from "@atjson/schema-offset";
 import * as entities from "entities";
 
 export default class HTMLRenderer extends Renderer {

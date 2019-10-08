@@ -1,12 +1,12 @@
 import { HIR } from "@atjson/hir";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import * as fs from "fs";
 import * as path from "path";
-import PRISMSource from "../src";
+import { fromRaw } from "../src";
 
 describe("@atjson/source-prism", () => {
   it("parses xml declaration", () => {
-    let doc = PRISMSource.fromRaw('<?xml version="1.0" encoding="utf-8"?>');
+    let doc = fromRaw('<?xml version="1.0" encoding="utf-8"?>');
 
     expect(doc.where({}).toJSON()).toMatchObject([
       {
@@ -21,7 +21,7 @@ describe("@atjson/source-prism", () => {
   });
 
   it("does not require xml declaration", () => {
-    let doc = PRISMSource.fromRaw("<body>some text</body>");
+    let doc = fromRaw("<body>some text</body>");
 
     expect(
       doc
@@ -46,7 +46,7 @@ describe("@atjson/source-prism", () => {
   });
 
   it("parses xml tags", () => {
-    let doc = PRISMSource.fromRaw(
+    let doc = fromRaw(
       `<?xml version="1.0" encoding="utf-8"?><pam:message><pam:article><head /><body>text</body></pam:article></pam:message>`
     );
     let hir = new HIR(doc);
@@ -137,7 +137,7 @@ describe("@atjson/source-prism", () => {
       ["&gt;", ">"],
       ["&rsquo;", "&rsquo;"] // other named entities are not supported
     ])("converts %s to %s", (entity, expected) => {
-      let doc = PRISMSource.fromRaw(
+      let doc = fromRaw(
         `<?xml version="1.0" encoding="utf-8"?><body>${entity}</body>`
       );
 
@@ -147,7 +147,7 @@ describe("@atjson/source-prism", () => {
     });
 
     it("repositions annotations after replacing entities", () => {
-      let doc = PRISMSource.fromRaw(
+      let doc = fromRaw(
         "<pam:article><head><dc:title>Title</dc:title></head><body><p>&#8704;x&#8712;Λ, x&#8744;&#172;x&#x220E;</p></body></pam:article>"
       );
 
@@ -236,7 +236,7 @@ describe("@atjson/source-prism", () => {
         let fixturePath = path.join(__dirname, "fixtures", xmlFile);
         let xml = fs.readFileSync(fixturePath).toString();
 
-        let doc = PRISMSource.fromRaw(xml);
+        let doc = fromRaw(xml);
         let hir = new HIR(doc);
 
         expect(hir.toJSON()).toMatchSnapshot();

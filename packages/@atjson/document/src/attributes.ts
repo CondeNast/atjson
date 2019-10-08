@@ -1,9 +1,11 @@
-import Document, { AnnotationJSON } from "./index";
+import { SerializedAnnotation } from "./annotation";
+import Document from "./document";
 import JSON, { JSONObject } from "./json";
+import { SchemaDefinition } from "./schema";
 
 export function unprefix(
   vendorPrefix: string,
-  subdocuments: { [key: string]: typeof Document },
+  subdocuments: { [key: string]: SchemaDefinition },
   attribute: JSON,
   path: Array<string | number> = []
 ): NonNullable<any> {
@@ -20,9 +22,12 @@ export function unprefix(
   } else if (subdocuments[path.join(".")]) {
     let serializedDocument = (attribute as any) as {
       content: string;
-      annotations: AnnotationJSON[];
+      annotations: SerializedAnnotation[];
     };
-    return new subdocuments[path.join(".")](serializedDocument);
+    return new Document({
+      ...serializedDocument,
+      schema: subdocuments[path.join(".")]
+    });
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {

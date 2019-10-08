@@ -1,8 +1,8 @@
-import OffsetSource from "@atjson/offset-annotations";
-import { Image } from "./annotations";
-import CommonmarkSource from "./source";
+import Document from "@atjson/document";
+import OffsetSchema, { Image } from "@atjson/schema-offset";
+import CommonmarkSchema from "./schema";
 
-CommonmarkSource.defineConverterTo(OffsetSource, doc => {
+Document.defineConverterTo(CommonmarkSchema, OffsetSchema, doc => {
   doc
     .where({ type: "-commonmark-blockquote" })
     .set({ type: "-offset-blockquote" });
@@ -37,21 +37,23 @@ CommonmarkSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where({ type: "-commonmark-html_inline" })
     .set({ type: "-offset-html", attributes: { "-offset-style": "inline" } });
-  doc.where({ type: "-commonmark-image" }).update((image: Image) => {
-    doc.replaceAnnotation(image, {
-      id: image.id,
-      type: "-offset-image",
-      start: image.start,
-      end: image.end,
-      attributes: {
-        "-offset-url": image.attributes.src,
-        "-offset-title": image.attributes.title,
-        "-offset-description": image.attributes.alt
-      }
-    });
+  doc.where("Image").update(image => {
+    doc.replaceAnnotation(
+      image,
+      new Image({
+        id: image.id,
+        start: image.start,
+        end: image.end,
+        attributes: {
+          url: image.attributes.src,
+          title: image.attributes.title,
+          description: image.attributes.alt
+        }
+      })
+    );
   });
   doc
-    .where({ type: "-commonmark-link" })
+    .where("Link")
     .set({ type: "-offset-link" })
     .rename({
       attributes: {

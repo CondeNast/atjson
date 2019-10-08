@@ -1,140 +1,40 @@
-import { ParseAnnotation, UnknownAnnotation } from "../src";
-import TestSource, { Bold, CaptionSource, Image, Italic } from "./test-source";
+import Document, { ParseAnnotation } from "../src";
+import TestSource, { Bold, CaptionSchema, Image, Italic } from "./test-source";
+import TestSchema from "./test-source";
 
 describe("new Document", () => {
-  test("constructor accepts an object", () => {
-    expect(
-      new TestSource({
-        content: "Hello World.",
-        annotations: []
-      })
-    ).toBeDefined();
-  });
-
-  test("constructor will set annotations", () => {
-    expect(
-      new TestSource({
-        content: "Hello World.",
-        annotations: [
-          new Bold({
-            start: 0,
-            end: 2,
-            attributes: {}
-          })
-        ]
-      })
-    ).toBeDefined();
-  });
-
-  test("instantiating with Annotations", () => {
-    let doc = new TestSource({
-      content: "Hello World.",
-      annotations: [
-        new Bold({
-          start: 0,
-          end: 2
-        })
-      ]
-    });
-
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
-  });
-
-  test("instantiating with UnknownAnnotations", () => {
-    let doc = new TestSource({
-      content: "Hello World.",
-      annotations: [
-        new UnknownAnnotation({
-          start: 0,
-          end: 2,
-          attributes: {
-            type: "-test-bold",
-            attributes: {}
-          }
-        })
-      ]
-    });
-
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
-  });
-
-  test("instantiating with JSON", () => {
-    let doc = new TestSource({
-      content: "Hello World.",
-      annotations: [
-        {
-          type: "-test-bold",
-          start: 0,
-          end: 2,
-          attributes: {}
-        }
-      ]
-    });
-
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
-  });
-
-  test("clone", () => {
-    let document = new TestSource({
-      content: "Hello World.",
-      annotations: [
-        new Bold({
-          start: 0,
-          end: 2,
-          attributes: {}
-        })
-      ]
-    });
-    let clone = document.clone();
-    let [bold] = document.annotations;
-    let [cloneBold] = clone.annotations;
-
-    expect(clone).toBeInstanceOf(TestSource);
-    expect(document.content).toEqual(clone.content);
-    expect(bold).not.toBe(cloneBold);
-    expect(bold).toBeInstanceOf(Bold);
-    expect(cloneBold).toBeInstanceOf(Bold);
-    expect(document.toJSON()).toEqual(clone.toJSON());
-  });
-
   test("nested documents", () => {
-    let document = new TestSource({
+    let document = new Document({
       content: "\uFFFC",
       annotations: [
-        {
-          id: "1",
-          type: "-test-image",
+        new Image({
           start: 0,
           end: 1,
           attributes: {
-            "-test-url": "http://www.example.com/test.jpg",
-            "-test-caption": {
+            url: "http://www.example.com/test.jpg",
+            caption: new Document({
               content: "An example caption",
-              annotations: [
-                {
-                  type: "-test-italic",
-                  start: 3,
-                  end: 10,
-                  attributes: {}
-                }
-              ]
-            }
+              annotations: [new Italic({ start: 3, end: 10 })],
+              schema: CaptionSchema
+            })
           }
-        }
-      ]
+        })
+      ],
+      schema: TestSchema
     });
 
     let image = document.annotations[0] as Image;
     let [italic] = image.attributes.caption.annotations;
 
     expect(document.content).toEqual("\uFFFC");
-    expect(image.attributes.caption).toBeInstanceOf(CaptionSource);
+    expect(image.attributes.caption).toBeInstanceOf(Document);
     expect(italic).toBeInstanceOf(Italic);
     expect(image.attributes.caption.content).toEqual("An example caption");
+    expect(image.attributes.caption.schema).toEqual(CaptionSchema);
   });
 
   describe("match", () => {
-    let document = new TestSource({
+    let document = new Document({
       content:
         "Kublai Khan does not necessarily believe everything Marco \
         Polo says when he describes the cities visited on his expeditions, but the emperor of the Tartars does continue listening \
@@ -156,7 +56,8 @@ describe("new Document", () => {
         armies' protection, offering in exchange annual tributes of \
         precious metals, tanned hides, anti tortoise shell.\
         \u220E",
-      annotations: []
+      annotations: [],
+      schema: TestSchema
     });
 
     const MATCHES_AND = [
@@ -215,7 +116,7 @@ describe("new Document", () => {
   });
 
   describe("slice", () => {
-    let document = new TestSource({
+    let document = new Document({
       content: "Hello, world!\n\uFFFC",
       annotations: [
         {
@@ -248,27 +149,15 @@ describe("new Document", () => {
             "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     test("slice matching boundary", () => {
       let doc = document.slice(0, 5);
 
-      expect(doc.toJSON()).toEqual({
+      expect(doc.toJSON()).toMatchObject({
         content: "Hello",
-        contentType: "application/vnd.atjson+test",
-        schema: [
-          "-test-a",
-          "-test-bold",
-          "-test-code",
-          "-test-image",
-          "-test-instagram",
-          "-test-italic",
-          "-test-locale",
-          "-test-manual",
-          "-test-paragraph",
-          "-test-pre"
-        ],
         annotations: [
           {
             id: "1",
@@ -296,7 +185,7 @@ describe("new Document", () => {
     });
 
     test("slice with parse annotations", () => {
-      let document = new TestSource({
+      let document = new Document({
         content: "<em>Hello, <b>world</b>!</em>",
         annotations: [
           new ParseAnnotation({ start: 0, end: 4 }),
@@ -305,7 +194,8 @@ describe("new Document", () => {
           new ParseAnnotation({ start: 11, end: 14 }),
           new ParseAnnotation({ start: 19, end: 23 }),
           new ParseAnnotation({ start: 24, end: 29 })
-        ]
+        ],
+        schema: TestSchema
       });
       let doc = document.slice(4, 24);
 
@@ -401,7 +291,7 @@ describe("new Document", () => {
 
   describe("cut", () => {
     test("cut matching boundary", () => {
-      let document = new TestSource({
+      let document = new Document({
         content: "Hello, world!\n\uFFFC",
         annotations: [
           {
@@ -434,7 +324,8 @@ describe("new Document", () => {
               "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
             }
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
       let cut = document.cut(0, 5);
@@ -498,7 +389,7 @@ describe("new Document", () => {
     });
 
     test("cut with parse annotations", () => {
-      let document = new TestSource({
+      let document = new Document({
         content: "<em>Hello, <b>world</b>!</em>",
         annotations: [
           new ParseAnnotation({ start: 0, end: 4 }),
@@ -507,7 +398,8 @@ describe("new Document", () => {
           new ParseAnnotation({ start: 11, end: 14 }),
           new ParseAnnotation({ start: 19, end: 23 }),
           new ParseAnnotation({ start: 24, end: 29 })
-        ]
+        ],
+        schema: TestSchema
       });
       let cut = document.cut(11, 23);
 

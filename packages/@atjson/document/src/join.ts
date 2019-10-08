@@ -1,5 +1,6 @@
 import Annotation from "./annotation";
-import { NamedCollection } from "./collection";
+import NamedCollection from "./named-collection";
+import { SchemaDefinition } from "./schema";
 import { JSONArray, JSONObject } from "./json";
 
 /**
@@ -75,36 +76,98 @@ import { JSONArray, JSONObject } from "./json";
  * });
  * ```
  */
-export default class Join<Left extends string, Right extends string> {
-  private leftJoin: NamedCollection<Left>;
-  private _joins: Array<
-    Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
-  >;
+export default class Join<
+  Schema extends SchemaDefinition,
+  LeftName extends string,
+  LeftAnnotations extends Annotation<any>,
+  Right
+> {
+  private leftJoin: NamedCollection<LeftName, Schema, LeftAnnotations>;
+  private _joins: Array<Record<LeftName, LeftAnnotations> & Right>;
 
   constructor(
-    leftJoin: NamedCollection<Left>,
-    joins: Array<
-      Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
-    >
+    leftJoin: NamedCollection<LeftName, Schema, LeftAnnotations>,
+    joins: Array<Record<LeftName, LeftAnnotations> & Right>
   ) {
     this.leftJoin = leftJoin;
     this._joins = joins;
   }
 
-  *[Symbol.iterator](): IterableIterator<
-    Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+  outerJoin<OtherName extends string, OtherAnnotations extends Annotation<any>>(
+    collection: NamedCollection<OtherName, Schema, OtherAnnotations>,
+    filter: (
+      lhs: Record<LeftName, LeftAnnotations> & Right,
+      rhs: Annotation
+    ) => boolean
+  ):
+    | never
+    | Join<
+        Schema,
+        LeftName,
+        LeftAnnotations,
+        Right & Record<OtherName, OtherAnnotations[]>
+      > {
+    let results = new Join<
+      Schema,
+      LeftName,
+      LeftAnnotations,
+      Right & Record<OtherName, OtherAnnotations[]>
+    >(this.leftJoin, []);
+
+    this._joins.forEach(join => {
+      let joinAnnotations = collection.annotations.filter(right =>
+        filter(join, right)
+      );
+
+      type JoinItem = Record<LeftName, LeftAnnotations> &
+        Right &
+        Record<OtherName, OtherAnnotations[]>;
+
+      // TypeScript doesn't allow us to safely index this, even though
+      // the type system should detect this
+      (join as any)[collection.name] = joinAnnotations;
+      results.push(join as JoinItem);
+    });
+
+    return results;
+  }
+
+  join<OtherName extends string, OtherAnnotations extends Annotation<any>>(
+    rightCollection: NamedCollection<OtherName, Schema, OtherAnnotations>,
+    filter: (
+      lhs: Record<LeftName, LeftAnnotations> & Right,
+      rhs: Annotation
+    ) => boolean
+  ): Join<
+    Schema,
+    LeftName,
+    LeftAnnotations,
+    Right & Record<OtherName, OtherAnnotations[]>
   > {
+    return this.outerJoin(rightCollection, filter).where(
+      record => record[rightCollection.name].length > 0
+    );
+  }
+
+  where(filter: (join: Record<LeftName, LeftAnnotations> & Right) => boolean) {
+    return new Join(this.leftJoin, this._joins.filter(filter));
+  }
+
+  push(join: Record<LeftName, LeftAnnotations> & Right) {
+    this._joins.push(join);
+  }
+
+  update(callback: (join: Record<LeftName, LeftAnnotations> & Right) => void) {
+    this._joins.forEach(callback);
+  }
+
+  *[Symbol.iterator](): Iterator<Record<LeftName, LeftAnnotations> & Right> {
     for (let join of this._joins) {
       yield join;
     }
   }
 
-  forEach(
-    callback: (
-      join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => void
-  ) {
+  forEach(callback: (join: Record<LeftName, LeftAnnotations> & Right) => void) {
     this._joins.forEach(callback);
   }
 
@@ -126,80 +189,5 @@ export default class Join<Left extends string, Right extends string> {
       });
       return json;
     });
-  }
-
-  outerJoin<J extends string>(
-    rightCollection: NamedCollection<J>,
-    filter: (
-      lhs: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation
-    ) => boolean
-  ): never | Join<Left, Right | J> {
-    if (rightCollection.document !== this.leftJoin.document) {
-      // n.b. there is a case that this is OK, if the right hand side's document is null,
-      // then we're just joining on annotations that shouldn't have positions in
-      // the document.
-      throw new Error(
-        "Joining annotations from two different documents is non-sensical. Refusing to continue."
-      );
-    }
-
-    let results = new Join<Left, Right | J>(this.leftJoin, []);
-
-    this._joins.forEach(join => {
-      let joinAnnotations = rightCollection.annotations.filter(
-        (rightAnnotation: Annotation) => {
-          return filter(join, rightAnnotation);
-        }
-      );
-
-      type JoinItem = Record<Left, Annotation<any>> &
-        Record<Right | J, Array<Annotation<any>>>;
-
-      // TypeScript doesn't allow us to safely index this, even though
-      // the type system should detect this
-      (join as any)[rightCollection.name] = joinAnnotations;
-      results.push(join as JoinItem);
-    });
-
-    return results;
-  }
-
-  join<J extends string>(
-    rightCollection: NamedCollection<J>,
-    filter: (
-      lhs: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation
-    ) => boolean
-  ): never | Join<Left, Right | J> {
-    return this.outerJoin(rightCollection, filter).where(
-      record => record[rightCollection.name].length > 0
-    );
-  }
-
-  where(
-    filter: (
-      join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => boolean
-  ): Join<Left, Right> {
-    return new Join<Left, Right>(this.leftJoin, this._joins.filter(filter));
-  }
-
-  push(
-    join: Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
-  ) {
-    this._joins.push(join);
-  }
-
-  update(
-    callback: (
-      join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => void
-  ) {
-    this._joins.forEach(callback);
   }
 }

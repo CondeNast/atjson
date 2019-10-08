@@ -1,4 +1,4 @@
-import Document, { Annotation, AnnotationJSON } from "@atjson/document";
+import Document, { Annotation, SerializedAnnotation } from "@atjson/document";
 import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
 interface Mapping {
@@ -51,10 +51,13 @@ export function classify(type: string) {
 
 export interface Context {
   parent: Annotation<any>;
-  previous: Annotation<any> | (AnnotationJSON & { toJSON(): object }) | null;
-  next: Annotation<any> | (AnnotationJSON & { toJSON(): object }) | null;
+  previous:
+    | Annotation<any>
+    | (SerializedAnnotation & { toJSON(): object })
+    | null;
+  next: Annotation<any> | (SerializedAnnotation & { toJSON(): object }) | null;
   children: Array<Annotation<any>>;
-  document: Document;
+  document: Document<any>;
 }
 
 function compile(
@@ -140,7 +143,7 @@ export default class Renderer {
   }
 
   // tslint:disable-next-line:no-empty
-  constructor(_document: Document, ..._args: any[]) {}
+  constructor(_document: Document<any>, ..._args: any[]) {}
 
   *renderAnnotation(
     annotation: Annotation<any>,

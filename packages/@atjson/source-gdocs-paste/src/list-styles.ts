@@ -1,4 +1,4 @@
-import { AnnotationJSON } from "@atjson/document";
+import { SerializedAnnotation } from "@atjson/document";
 import { GDocsEntityMap, GDocsStyleSlice } from "./types";
 
 function createListAnnotation(
@@ -41,10 +41,10 @@ export default function extractListStyles(
   entityMap: GDocsEntityMap,
   trailing?: GDocsStyleSlice,
   text?: string
-): AnnotationJSON[] {
+): SerializedAnnotation[] {
   let lastParagraphStart = 0;
-  let listAnnotations: { [key: string]: AnnotationJSON } = {};
-  let listItems: AnnotationJSON[] = [];
+  let listAnnotations: { [key: string]: SerializedAnnotation } = {};
+  let listItems: SerializedAnnotation[] = [];
 
   for (let i = 0; i < lists.length; i++) {
     let list = lists[i];
@@ -89,7 +89,7 @@ export default function extractListStyles(
     );
   }
 
-  let annotations: AnnotationJSON[] = listItems;
+  let annotations: SerializedAnnotation[] = listItems;
   for (let listAnnotation in listAnnotations) {
     annotations.push(listAnnotations[listAnnotation]);
   }

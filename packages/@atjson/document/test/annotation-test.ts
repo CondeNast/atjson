@@ -1,105 +1,7 @@
-import TestSource, { Anchor, Bold } from "./test-source";
+import Document from "../src";
+import { Anchor, Bold, CaptionSchema, Image, Italic } from "./test-source";
 
 describe("Annotation", () => {
-  describe("equals", () => {
-    test("annotations are properly compared for equality", () => {
-      let lhsAnnotation = new Bold({ start: 0, end: 5 });
-      let rhsAnnotation = new Bold({ start: 0, end: 5 });
-
-      expect(lhsAnnotation.equals(rhsAnnotation)).toBe(true);
-    });
-    test("annotations are compared recursively", () => {
-      let leftHandSideTestDoc = new TestSource({
-        content: "\uFFFC",
-        annotations: [
-          {
-            id: "1",
-            type: "-test-image",
-            start: 0,
-            end: 1,
-            attributes: {
-              "-test-url": "http://www.example.com/test.jpg",
-              "-test-caption": {
-                content: "An example caption",
-                annotations: [
-                  {
-                    type: "-test-italic",
-                    start: 3,
-                    end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      });
-
-      let rightHandSideTestDoc = new TestSource({
-        content: "\uFFFC",
-        annotations: [
-          {
-            id: "1",
-            type: "-test-image",
-            start: 0,
-            end: 1,
-            attributes: {
-              "-test-url": "http://www.example.com/test.jpg",
-              "-test-caption": {
-                content: "An example caption",
-                annotations: [
-                  {
-                    type: "-test-italic",
-                    start: 3,
-                    end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      });
-
-      let unequalRightHandSideTestDoc = new TestSource({
-        content: "\uFFFC",
-        annotations: [
-          {
-            id: "1",
-            type: "-test-image",
-            start: 0,
-            end: 1,
-            attributes: {
-              "-test-url": "http://www.example.com/test.jpg",
-              "-test-caption": {
-                content: "An example caption",
-                annotations: [
-                  {
-                    type: "-test-italic",
-                    start: 4,
-                    end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
-      });
-
-      expect(
-        leftHandSideTestDoc.annotations[0].equals(
-          rightHandSideTestDoc.annotations[0]
-        )
-      ).toBe(true);
-      expect(
-        leftHandSideTestDoc.annotations[0].equals(
-          unequalRightHandSideTestDoc.annotations[0]
-        )
-      ).toBe(false);
-    });
-  });
-
   describe("clone", () => {
     test("undefined attributes", () => {
       let link = new Anchor({
@@ -125,6 +27,46 @@ describe("Annotation", () => {
       });
 
       expect(link.equals(link.clone())).toBe(true);
+    });
+  });
+
+  describe("equals", () => {
+    test("annotations are properly compared for equality", () => {
+      expect(
+        new Bold({ start: 0, end: 5 }).equals(new Bold({ start: 0, end: 5 }))
+      ).toBeTruthy();
+    });
+
+    test("subdocuments", () => {
+      let image = new Image({
+        start: 0,
+        end: 1,
+        attributes: {
+          url: "http://www.example.com/test.jpg",
+          caption: new Document({
+            content: "An example caption",
+            annotations: [new Italic({ start: 3, end: 10 })],
+            schema: CaptionSchema
+          })
+        }
+      });
+
+      expect(image.equals(image.clone())).toBeTruthy();
+
+      let other = new Image({
+        start: 0,
+        end: 1,
+        attributes: {
+          url: "http://www.example.com/test.jpg",
+          caption: new Document({
+            content: "An example caption",
+            annotations: [new Italic({ start: 4, end: 10 })],
+            schema: CaptionSchema
+          })
+        }
+      });
+
+      expect(image.equals(other)).toBeFalsy();
     });
   });
 });

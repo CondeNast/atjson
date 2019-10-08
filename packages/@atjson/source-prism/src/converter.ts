@@ -1,20 +1,18 @@
-import { getConverterFor } from "@atjson/document";
-import OffsetSource from "@atjson/offset-annotations";
-import HTMLSource from "@atjson/source-html";
-import PRISMSource from "./source";
+import Document, { getConverterFor } from "@atjson/document";
+import OffsetSchema from "@atjson/schema-offset";
+import { schema as HTMLSchema } from "@atjson/source-html";
+import PRISMSchema from "./schema";
 
-PRISMSource.defineConverterTo(OffsetSource, doc => {
-  let convertHTML = getConverterFor(HTMLSource, OffsetSource);
+Document.defineConverterTo(PRISMSchema, OffsetSchema, doc => {
+  let convertHTML = getConverterFor(HTMLSchema, OffsetSchema);
   convertHTML(doc);
 
   doc.where({ type: "-html-head" }).update(head => {
-    doc.where(a => a.start >= head.start && a.end <= head.end).remove();
-    doc.deleteText(head.start, head.end);
+    doc.cut(head.start, head.end);
   });
 
   doc.where({ type: "-pam-media" }).update(media => {
-    doc.where(a => a.start >= media.start && a.end <= media.end).remove();
-    doc.deleteText(media.start, media.end);
+    doc.cut(media.start, media.end);
   });
 
   return doc;

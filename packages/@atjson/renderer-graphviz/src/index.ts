@@ -62,7 +62,7 @@ export interface GraphvizOptions {
 
 export default class GraphvizRenderer {
   static render(
-    document: Document,
+    document: Document<any>,
     options: GraphvizOptions = { shape: "oval" }
   ): string {
     let edges: Array<[Node, Node]> = [];
