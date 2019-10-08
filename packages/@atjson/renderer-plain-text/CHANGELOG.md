@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.4](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-plain-text@0.21.3...@atjson/renderer-plain-text@0.21.4) (2019-10-08)
+
+**Note:** Version bump only for package @atjson/renderer-plain-text
+
 ## [0.21.4-dev.0](/compare/@atjson/renderer-plain-text@0.21.3...@atjson/renderer-plain-text@0.21.4-dev.0) (2019-10-08)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
