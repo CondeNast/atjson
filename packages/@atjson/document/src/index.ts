@@ -145,11 +145,7 @@ export default class Document {
 
     if (!(to.prototype instanceof Document)) {
       throw new Error(
-        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${
-          to.name
-        } doesn't extend the same Document class as ${
-          this.name
-        }.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`
+        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`
       );
     }
     converters[this.contentType][to.contentType] = converter;
@@ -370,12 +366,17 @@ export default class Document {
   /**
    * Cuts out part of the document, modifying `this` and returning the removed portion
    */
-  cut(start: number, end: number, behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default): Document {
+  cut(
+    start: number,
+    end: number,
+    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+  ): Document {
     let slice = this.slice(start, end);
-    this.where(annotation => annotation.start >= start && annotation.end <= end)
-      .update(annotation => {
-        this.removeAnnotation(annotation);
-      });
+    this.where(
+      annotation => annotation.start >= start && annotation.end <= end
+    ).update(annotation => {
+      this.removeAnnotation(annotation);
+    });
     this.deleteText(start, end, behaviour);
 
     return slice;
@@ -405,7 +406,9 @@ export default class Document {
 
     let convertedDoc = new ConversionDocument({
       content: this.content,
-      annotations: this.where({}).sort().annotations
+      annotations: this.where({})
+        .sort()
+        .map(a => a.clone())
     });
 
     let result = converter(convertedDoc);
@@ -539,9 +542,7 @@ export default class Document {
       return annotation;
     } else {
       let ConcreteAnnotation = schema.find(AnnotationClass => {
-        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${
-          AnnotationClass.type
-        }`;
+        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
         return annotation.type === fullyQualifiedType;
       });
 
