@@ -83,16 +83,8 @@ export {
  * Get the function that converts between two documents. Use this to grab a converter
  * for testing, or for nesting conversions.
  *
- * An example of how to use this is:
- * ```ts
- * import { getConverterFor } from '@atjson/document';
- * import OffsetSource from '@atjson/offset-annotations';
- * import CommonmarkSource from '@atjson/source-commonmark';
- *
- * let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
- * // or
- * let convertCommonmark = getConverterFor('application/vnd.atjson+commonmark', 'application/vnd.atjson+offset');
- * ```
+ * the converter returned from this will in general mutate its argument;
+ * you should probably use convertTo unless you're in the middle of defining a converter
  */
 export function getConverterFor(
   from: typeof Document | string,
@@ -388,6 +380,19 @@ export default class Document {
 
     class ConversionDocument extends DocumentClass {
       static schema = DocumentClass.schema.concat(to.schema);
+
+      /**
+       * overrides Document.slice to return the result in the original source
+       */
+      slice(start: number, end: number): Document {
+        let sliceDoc = super.slice(start, end);
+
+        return new DocumentClass({
+          content: sliceDoc.content,
+          annotations: sliceDoc.annotations
+        });
+      }
+
       convertTo<Other extends typeof Document>(other: Other): never {
         throw new Error(
           `🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${
