@@ -19,7 +19,7 @@ module.exports = function(context) {
     },
 
     configureWebpack(_config, isServer, { getBabelLoader, getCacheLoader }) {
-      let config = {
+      return {
         module: {
           rules: [
             {
@@ -66,8 +66,6 @@ module.exports = function(context) {
           ]
         }
       };
-      console.log(JSON.stringify(config, null, 2));
-      return config;
     }
   };
 };
