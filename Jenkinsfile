@@ -1,6 +1,6 @@
 departuresBuild(project: 'atjson') {
   if (env.BRANCH_NAME == "latest") {
-    withNodeJs(version: 'node-v10.0.0', npmVersion: '6.4.0') {
+    withNodeJs(version: 'node-v10.16.3', npmVersion: '6.4.0') {
       sh '''
         pushd website
         npm install
