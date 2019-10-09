@@ -37,7 +37,7 @@ module.exports = function(context) {
                     "@babel/react"
                   ]
                 })
-              ]
+              ].filter(loader => loader != null)
             },
             {
               test: /\.tsx?$/,
@@ -61,7 +61,7 @@ module.exports = function(context) {
                     "@babel/plugin-proposal-object-rest-spread"
                   ]
                 })
-              ]
+              ].filter(loader => loader != null)
             }
           ]
         }
