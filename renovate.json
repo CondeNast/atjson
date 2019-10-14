@@ -2,5 +2,12 @@
   "extends": ["config:base"],
   "timezone": "America/New_York",
   "schedule": ["after 10pm and before 5am on every weekday", "every weekend"],
-  "rebaseStalePrs": false
+  "rebaseStalePrs": false,
+  "packageRules": [
+    {
+      "packagePatterns": ["@docusaurus/*"],
+      "groupName": "docusaurus monorepo",
+      "groupSlug": "docusaurus-monorepo"
+    }
+  ]
 }
