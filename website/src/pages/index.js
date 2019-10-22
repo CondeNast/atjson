@@ -10,7 +10,7 @@ import classnames from "classnames";
 import Layout from "@theme/Layout";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import withBaseUrl from "@docusaurus/withBaseUrl";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 import styles from "./styles.module.css";
 
 const highlights = null;
@@ -27,7 +27,7 @@ function Home() {
     >
       <header className={classnames("hero hero--dark", styles.header)}>
         <div className="container">
-          <img src={withBaseUrl("img/logo.svg")} alt="logo" />
+          <img src={useBaseUrl("img/logo.svg")} alt="logo" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>
@@ -36,7 +36,7 @@ function Home() {
                 "button button--outline button--primary button--lg",
                 styles.getStarted
               )}
-              to={withBaseUrl("docs/getting-started")}
+              to={useBaseUrl("docs/getting-started")}
             >
               Get Started
             </Link>
