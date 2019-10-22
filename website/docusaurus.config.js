@@ -41,7 +41,9 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         docs: {
-          sidebarPath: require.resolve("./sidebars.json")
+          sidebarPath: require.resolve("./sidebars.json"),
+          editUrl:
+            "https://github.com/CondeNast/atjson/edit/latest/website/docs/"
         }
       }
     ]
