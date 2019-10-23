@@ -96,11 +96,11 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       let parts = without<string>(url.attributes.pathname.split("/"), "");
       let id = parts.pop();
       let youtubeURL = `https://www.youtube.com/embed/${id}`;
-      if (url.attributes!.host === "www.youtube-nocookie.com") {
+      if (url.attributes.host === "www.youtube-nocookie.com") {
         youtubeURL = `https://www.youtube-nocookie.com/embed/${id}`;
       }
-      if (url.attributes!.searchParams.t) {
-        youtubeURL += `?t=${url.attributes!.searchParams.t}`;
+      if (url.attributes.searchParams.t) {
+        youtubeURL += `?t=${url.attributes.searchParams.t}`;
       }
       doc.replaceAnnotation(
         url,
@@ -130,9 +130,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       );
     })
     .update((url: URLAnnotation) => {
-      let youtubeURL = `https://www.youtube.com/embed/${
-        url.attributes.searchParams.v
-      }`;
+      let youtubeURL = `https://www.youtube.com/embed/${url.attributes.searchParams.v}`;
       if (url.attributes.searchParams.t) {
         youtubeURL += `?t=${url.attributes.searchParams.t}`;
       }

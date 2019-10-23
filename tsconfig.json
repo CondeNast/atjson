@@ -1,12 +1,14 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "alwaysStrict": true,
     "baseUrl": "./",
+    "composite": true,
     "declaration": true,
+    "declarationMap": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
-    "lib": ["dom", "dom.iterable", "es2016.array.include", "es6", "scripthost"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -18,8 +20,9 @@
     },
     "removeComments": true,
     "jsx": "react",
-    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ES6"
-  }
+  },
+  "exclude": ["node_modules", "dist", "public", "test"]
 }

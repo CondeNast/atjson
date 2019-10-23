@@ -1,16 +1,10 @@
 {
   "name": "@atjson/source-mobiledoc",
   "version": "0.21.5",
-  "description": "Create AtJSON documents from Mobiledoc source",
+  "description": "Create atjson documents from Mobiledoc",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
-  "scripts": {
-    "build": "rm -rf dist; tsc -p . && tsc -p . --module ESNext --outDir dist/modules/ --target ES2017",
-    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
-    "prepublishOnly": "npm run build",
-    "test": "../../../node_modules/.bin/jest packages/@atjson/$(basename $PWD) --config=../../../package.json"
-  },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
