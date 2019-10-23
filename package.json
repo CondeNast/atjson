@@ -25,22 +25,16 @@
     "react": "16.11.0",
     "react-dom": "16.11.0",
     "shelljs": "0.8.3",
-    "ts-jest": "24.1.0",
-    "ts-loader": "6.2.1",
     "tslint": "5.20.0",
-    "typedoc": "0.15.0",
-    "typedoc-plugin-lerna-packages": "0.2.1",
+    "ts-jest": "24.1.0",
+    "ts-loader": "6.2.0",
     "typescript": "3.5.3",
     "uuid": "3.3.3"
   },
   "dependencies": {
-    "@atjson/conventional-changelog-emoji": "file:packages/@atjson/conventional-changelog-emoji",
     "@atjson/document": "file:packages/@atjson/document",
-    "@atjson/editor": "file:packages/@atjson/editor",
     "@atjson/hir": "file:packages/@atjson/hir",
     "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",
-    "@atjson/offset-core-components": "file:packages/@atjson/offset-core-components",
-    "@atjson/offset-inspector": "file:packages/@atjson/offset-inspector",
     "@atjson/renderer-commonmark": "file:packages/@atjson/renderer-commonmark",
     "@atjson/renderer-graphviz": "file:packages/@atjson/renderer-graphviz",
     "@atjson/renderer-hir": "file:packages/@atjson/renderer-hir",
@@ -56,11 +50,13 @@
     "@atjson/source-url": "file:packages/@atjson/source-url"
   },
   "scripts": {
-    "build": "lerna run build",
-    "docs": "typedoc",
-    "lint": "lerna run lint",
+    "build": "tsc -b packages/**/* --verbose && tsc -b packages/@atjson/**/tsconfig.modules.json --verbose",
+    "clean": "tsc -b packages/**/* --clean && tsc -b packages/@atjson/**/tsconfig.modules.json --clean",
+    "lint": "tslint packages/**/src/*.ts packages/**/test/*.ts",
+    "prepublishOnly": "npm run build",
     "publish": "lerna publish",
-    "test": "./node_modules/jest/bin/jest.js"
+    "test": "./node_modules/jest/bin/jest.js",
+    "typecheck": "tsc -b packages/**/* --force"
   },
   "workspaces": [
     "packages/@atjson/*"
@@ -75,9 +71,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "diagnostics": {
-          "warnOnly": true
-        }
+        "diagnostics": false
       }
     },
     "moduleNameMapper": {
