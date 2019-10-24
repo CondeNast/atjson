@@ -1470,4 +1470,56 @@ After all the lists
       );
     });
   });
+
+  describe("line breaks", () => {
+    test("consecutive line breaks", () => {
+      let document = new OffsetSource({
+        content: "a\n\nb",
+        annotations: [
+          { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
+          { type: "-offset-line-break", start: 2, end: 3, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toEqual("a\\\n\\\nb");
+    });
+
+    test.each([
+      ["paragraph", "a\n\n"],
+      ["blockquote", "> a\n\n"],
+      ["heading", "## a\n"]
+    ])("ending a %s are ignored", (name, output) => {
+      let document = new OffsetSource({
+        content: "a\n",
+        annotations: [
+          {
+            type: `-offset-${name}`,
+            start: 0,
+            end: 2,
+            attributes: { "-offset-level": 2 }
+          },
+          { type: "-offset-line-break", start: 1, end: 2, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toEqual(output);
+    });
+
+    test("in a code block", () => {
+      let document = new OffsetSource({
+        content: "a\nb",
+        annotations: [
+          {
+            type: "-offset-code",
+            start: 0,
+            end: 3,
+            attributes: { "-offset-style": "inline" }
+          },
+          { type: "-offset-line-break", start: 1, end: 2, attributes: {} }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toEqual("`a\nb`");
+    });
+  });
 });
