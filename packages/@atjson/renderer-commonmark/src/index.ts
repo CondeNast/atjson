@@ -432,11 +432,13 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *LineBreak(_: any, context: Context): Iterable<any> {
     // Line breaks cannot end markdown block elements or paragraphs
+    // https://spec.commonmark.org/0.29/#example-641
     if (context.parent instanceof BlockAnnotation && context.next == null) {
       return "";
     }
 
     // MD code and html blocks cannot contain line breaks
+    // https://spec.commonmark.org/0.29/#example-637
     if (context.parent.type === "code" || context.parent.type === "html") {
       return "\n";
     }
