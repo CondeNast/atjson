@@ -1,5 +1,6 @@
 import Document, {
   Annotation,
+  BlockAnnotation,
   ParseAnnotation,
   UnknownAnnotation
 } from "@atjson/document";
@@ -429,8 +430,18 @@ export default class CommonmarkRenderer extends Renderer {
    * A line break in Commonmark can be two white spaces at the end of the line  <--
    * or it can be a backslash at the end of the line\
    */
-  *LineBreak(): Iterable<any> {
-    return "  \n";
+  *LineBreak(_: any, context: Context): Iterable<any> {
+    // Line breaks cannot end markdown block elements or paragraphs
+    if (context.parent instanceof BlockAnnotation && context.next == null) {
+      return "";
+    }
+
+    // MD code and html blocks cannot contain line breaks
+    if (context.parent.type === "code" || context.parent.type === "html") {
+      return "\n";
+    }
+
+    return "\\\n";
   }
 
   /**
