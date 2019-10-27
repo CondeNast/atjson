@@ -1,5 +1,5 @@
-export { default as Article } from "./article";
-export { default as Description } from "./description";
-export { default as Media } from "./media";
-export { default as Message } from "./message";
-export { default as Title } from "./title";
+export * from "./article";
+export * from "./description";
+export * from "./media";
+export * from "./message";
+export * from "./title";
