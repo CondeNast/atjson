@@ -1,6 +1,6 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class Superscript extends InlineAnnotation {
+export class Superscript extends InlineAnnotation {
   static vendorPrefix = "mobiledoc";
   static type = "sup";
 }
