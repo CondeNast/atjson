@@ -1,6 +1,6 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class Anchor extends InlineAnnotation<{
+export class Anchor extends InlineAnnotation<{
   href: string;
   target?: string;
   rel?: string;
