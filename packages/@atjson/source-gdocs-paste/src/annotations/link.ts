@@ -1,6 +1,6 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class Link extends InlineAnnotation<{
+export class Link extends InlineAnnotation<{
   ulnk_url: string;
   lnk_type: number;
 }> {
