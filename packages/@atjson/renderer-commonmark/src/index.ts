@@ -100,7 +100,7 @@ export function* splitDelimiterRuns(
     child &&
     child.start === annotation.start &&
     child.end === annotation.end &&
-    (child instanceof Bold || child instanceof Italic)
+    (isBold(child) || isItalic(child))
   ) {
     return ["", text, ""];
   }
@@ -233,6 +233,22 @@ function getNumberOfRequiredBackticks(text: string) {
   }, 1);
 }
 
+function isBold(annotation?: any) {
+  return annotation && annotation.type === "bold";
+}
+
+function isItalic(annotation?: any) {
+  return annotation && annotation.type === "italic";
+}
+
+function isList(annotation?: any) {
+  return annotation && annotation.type === "list";
+}
+
+function isCode(annotation?: any) {
+  return annotation && annotation.type === "code";
+}
+
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -299,7 +315,7 @@ export default class CommonmarkRenderer extends Renderer {
       if (
         !context.previous &&
         !context.next &&
-        context.parent instanceof Italic &&
+        isItalic(context.parent) &&
         !hasInnerMarkup
       ) {
         return `${before}__${text}__${after}`;
@@ -408,10 +424,10 @@ export default class CommonmarkRenderer extends Renderer {
     } else {
       let markup = state.isItalicized ? "_" : "*";
       let hasWrappingBoldMarkup =
-        !context.previous && !context.next && context.parent instanceof Bold;
+        !context.previous && !context.next && isBold(context.parent);
       let hasAdjacentBoldMarkup =
-        (context.next instanceof Bold && after.length === 0) ||
-        (context.previous instanceof Bold && before.length === 0);
+        (isBold(context.next) && after.length === 0) ||
+        (isBold(context.previous) && before.length === 0);
       let hasAlignedParent =
         context.parent.start === italic.start &&
         context.parent.end === italic.end;
@@ -589,9 +605,9 @@ export default class CommonmarkRenderer extends Renderer {
       delimiter = ".";
 
       if (
-        context.previous instanceof List &&
-        context.previous.attributes.type === "numbered" &&
-        context.previous.attributes.delimiter === "."
+        isList(context.previous) &&
+        context.previous!.attributes.type === "numbered" &&
+        context.previous!.attributes.delimiter === "."
       ) {
         delimiter = ")";
       }
@@ -599,9 +615,9 @@ export default class CommonmarkRenderer extends Renderer {
       delimiter = "-";
 
       if (
-        context.previous instanceof List &&
-        context.previous.attributes.type === "bulleted" &&
-        context.previous.attributes.delimiter === "-"
+        isList(context.previous) &&
+        context.previous!.attributes.type === "bulleted" &&
+        context.previous!.attributes.delimiter === "-"
       ) {
         delimiter = "+";
       }
@@ -612,7 +628,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     // Handle indendation for code blocks that immediately follow a list.
     let hasCodeBlockFollowing =
-      context.next instanceof Code && context.next.attributes.style === "block";
+      isCode(context.next) && context.next!.attributes.style === "block";
     Object.assign(this.state, {
       isList: true,
       type: list.attributes.type,
