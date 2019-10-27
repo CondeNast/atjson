@@ -1,6 +1,6 @@
 import { Annotation } from "@atjson/document";
 
-export default class HTML extends Annotation<{
+export class HTML extends Annotation<{
   style: "inline" | "block";
 }> {
   static vendorPrefix = "offset";
