@@ -1,6 +1,6 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export default class OrderedList extends BlockAnnotation<{
+export class OrderedList extends BlockAnnotation<{
   start: number;
   tight: boolean;
 }> {

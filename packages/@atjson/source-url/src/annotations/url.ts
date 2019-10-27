@@ -1,6 +1,6 @@
 import { ObjectAnnotation } from "@atjson/document";
 
-export default class URLAnnotation extends ObjectAnnotation<{
+export class URLAnnotation extends ObjectAnnotation<{
   host: string;
   hash: string;
   pathname: string;
