@@ -1,6 +1,6 @@
 import Annotation from "../annotation";
 
-export default class ParseAnnotation<
+export class ParseAnnotation<
   Attributes extends {
     reason: string;
   } = { reason: string }
