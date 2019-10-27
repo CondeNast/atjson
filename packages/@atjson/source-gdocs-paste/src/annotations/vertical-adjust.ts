@@ -1,6 +1,6 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class VerticalAdjust extends InlineAnnotation<{
+export class VerticalAdjust extends InlineAnnotation<{
   // Vertical adjust: subscript / superscript
   va: "sub" | "sup";
 }> {

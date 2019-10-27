@@ -1,6 +1,6 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export default class List extends BlockAnnotation<{
+export class List extends BlockAnnotation<{
   ls_id: string;
   ls_b_gs: string;
   ls_b_gt: number;
