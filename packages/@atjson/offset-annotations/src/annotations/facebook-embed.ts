@@ -1,6 +1,6 @@
-import IframeEmbed from "./iframe-embed";
+import { IframeEmbed } from "./iframe-embed";
 
-export default class FacebookEmbed extends IframeEmbed {
+export class FacebookEmbed extends IframeEmbed {
   static type = "facebook-embed";
   static vendorPrefix = "offset";
 }

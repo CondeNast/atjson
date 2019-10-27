@@ -1,6 +1,6 @@
-import IframeEmbed, { without } from "./iframe-embed";
+import { IframeEmbed, without } from "./iframe-embed";
 
-export default class InstagramEmbed extends IframeEmbed {
+export class InstagramEmbed extends IframeEmbed {
   static type = "instagram-embed";
   static vendorPrefix = "offset";
 

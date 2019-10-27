@@ -1,6 +1,6 @@
-import IframeEmbed, { without } from "./iframe-embed";
+import { IframeEmbed, without } from "./iframe-embed";
 
-export default class GiphyEmbed extends IframeEmbed {
+export class GiphyEmbed extends IframeEmbed {
   static type = "giphy-embed";
   static vendorPrefix = "offset";
 

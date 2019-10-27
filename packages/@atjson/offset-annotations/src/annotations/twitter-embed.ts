@@ -1,6 +1,6 @@
-import IframeEmbed, { without } from "./iframe-embed";
+import { IframeEmbed, without } from "./iframe-embed";
 
-export default class TwitterEmbed extends IframeEmbed {
+export class TwitterEmbed extends IframeEmbed {
   static type = "twitter-embed";
   static vendorPrefix = "offset";
 
