@@ -2,7 +2,7 @@ import Annotation from "../annotation";
 import { clone } from "../attributes";
 import JSON from "../json";
 
-export default class UnknownAnnotation extends Annotation<{
+export class UnknownAnnotation extends Annotation<{
   type: string;
   attributes: JSON;
 }> {

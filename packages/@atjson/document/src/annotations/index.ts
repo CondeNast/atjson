@@ -1,5 +1,5 @@
-export { default as BlockAnnotation } from "./block";
-export { default as InlineAnnotation } from "./inline";
-export { default as ObjectAnnotation } from "./object";
-export { default as ParseAnnotation } from "./parse";
-export { default as UnknownAnnotation } from "./unknown";
+export * from "./block";
+export * from "./inline";
+export * from "./object";
+export * from "./parse";
+export * from "./unknown";
