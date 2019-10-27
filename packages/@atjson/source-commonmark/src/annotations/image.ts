@@ -1,6 +1,6 @@
 import { ObjectAnnotation } from "@atjson/document";
 
-export default class Image extends ObjectAnnotation<{
+export class Image extends ObjectAnnotation<{
   alt?: string;
   src: string;
   title?: string;

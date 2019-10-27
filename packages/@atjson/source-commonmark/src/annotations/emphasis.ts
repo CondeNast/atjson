@@ -1,6 +1,6 @@
 import { InlineAnnotation } from "@atjson/document";
 
-export default class Emphasis extends InlineAnnotation {
+export class Emphasis extends InlineAnnotation {
   static type = "em";
   static vendorPrefix = "commonmark";
 }
