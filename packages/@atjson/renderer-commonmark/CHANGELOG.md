@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.9-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.8...@atjson/renderer-commonmark@0.21.9-dev.0) (2019-10-28)
+
+### 🐛 Fixes
+
+- 🐝 : decouple annotation classes in renderer
+
 ## [0.21.8](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.7...@atjson/renderer-commonmark@0.21.8) (2019-10-24)
 
 ### 🐛 Fixes
