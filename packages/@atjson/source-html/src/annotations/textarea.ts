@@ -1,12 +1,11 @@
 // ⚠️ Generated via script; modifications may be overridden
 import { BlockAnnotation } from "@atjson/document";
-import GlobalAttributes from "./global-attributes";
+import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.10.11 The textarea element](https://html.spec.whatwg.org/multipage/form-elements.html#the-textarea-element)
-export default class Textarea extends BlockAnnotation<
+export class Textarea extends BlockAnnotation<
   GlobalAttributes & {
     autocomplete?: string;
-    autofocus?: string;
     cols?: string;
     dirname?: string;
     disabled?: string;

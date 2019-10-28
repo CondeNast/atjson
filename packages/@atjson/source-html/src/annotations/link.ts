@@ -1,9 +1,9 @@
 // ⚠️ Generated via script; modifications may be overridden
 import { ObjectAnnotation } from "@atjson/document";
-import GlobalAttributes from "./global-attributes";
+import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.2.4 The link element](https://html.spec.whatwg.org/multipage/semantics.html#the-link-element)
-export default class Link extends ObjectAnnotation<
+export class Link extends ObjectAnnotation<
   GlobalAttributes & {
     href?: string;
     crossorigin?: string;

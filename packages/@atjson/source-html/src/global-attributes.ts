@@ -4,9 +4,10 @@
  * Global HTML attributes for all HTML elements,
  * as defined in the [HTML Spec](https://html.spec.whatwg.org/multipage/dom.html#global-attributes)
  */
-export default interface GlobalAttributes {
+export interface GlobalAttributes {
   accesskey?: string;
   autocapitalize?: string;
+  autofocus?: string;
   contenteditable?: string;
   dir?: string;
   draggable?: string;
@@ -26,5 +27,5 @@ export default interface GlobalAttributes {
   tabindex?: string;
   title?: string;
   translate?: string;
-  dataset?: any;
+  dataset?: { [attribute: string]: string };
 }

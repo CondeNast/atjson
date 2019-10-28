@@ -5,6 +5,10 @@
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
+  "scripts": {
+    "generate-annotation-class-names": "npx ts-node ./scripts/generate-annotation-names.ts",
+    "generate-annotations": "npx ts-node ./scripts/generate-annotations.ts"
+  },
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
