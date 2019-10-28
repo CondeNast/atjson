@@ -1,9 +1,9 @@
 // ⚠️ Generated via script; modifications may be overridden
 import { ObjectAnnotation } from "@atjson/document";
-import GlobalAttributes from "./global-attributes";
+import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.8.3 The img element](https://html.spec.whatwg.org/multipage/embedded-content.html#the-img-element)
-export default class Image extends ObjectAnnotation<
+export class Image extends ObjectAnnotation<
   GlobalAttributes & {
     alt?: string;
     src?: string;

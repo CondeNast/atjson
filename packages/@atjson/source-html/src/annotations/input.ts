@@ -1,14 +1,13 @@
 // ⚠️ Generated via script; modifications may be overridden
 import { ObjectAnnotation } from "@atjson/document";
-import GlobalAttributes from "./global-attributes";
+import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.10.5 The input element](https://html.spec.whatwg.org/multipage/input.html#the-input-element)
-export default class Input extends ObjectAnnotation<
+export class Input extends ObjectAnnotation<
   GlobalAttributes & {
     accept?: string;
     alt?: string;
     autocomplete?: string;
-    autofocus?: string;
     checked?: string;
     dirname?: string;
     disabled?: string;

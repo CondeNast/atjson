@@ -1,9 +1,9 @@
 // ⚠️ Generated via script; modifications may be overridden
 import { ObjectAnnotation } from "@atjson/document";
-import GlobalAttributes from "./global-attributes";
+import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.8.5 The iframe element](https://html.spec.whatwg.org/multipage/iframe-embed-object.html#the-iframe-element)
-export default class Iframe extends ObjectAnnotation<
+export class Iframe extends ObjectAnnotation<
   GlobalAttributes & {
     src?: string;
     srcdoc?: string;

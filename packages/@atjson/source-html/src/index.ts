@@ -1,5 +1,5 @@
 export * from "./annotations";
+export * from "./global-attributes";
 import "./converter";
 
 export { default } from "./source";
-export { default as GlobalAttributes } from "./annotations/global-attributes";
