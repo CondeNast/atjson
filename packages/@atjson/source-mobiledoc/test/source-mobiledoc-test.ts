@@ -243,12 +243,11 @@ describe("@atjson/source-Mobiledoc", () => {
   });
 
   test("atom", () => {
-    class Mention extends InlineAnnotation {
+    class Mention extends InlineAnnotation<{
+      id: number;
+    }> {
       static vendorPrefix = "mobiledoc";
       static type = "mention-atom";
-      attributes!: {
-        id: number;
-      };
     }
 
     class MentionSource extends MobiledocSource {
@@ -285,13 +284,12 @@ describe("@atjson/source-Mobiledoc", () => {
   });
 
   test("card", () => {
-    class Gallery extends InlineAnnotation {
+    class Gallery extends InlineAnnotation<{
+      style: "mosaic" | "slideshow" | "list";
+      ids: number[];
+    }> {
       static vendorPrefix = "mobiledoc";
       static type = "gallery-card";
-      attributes!: {
-        style: "mosaic" | "slideshow" | "list";
-        ids: number[];
-      };
     }
 
     class GallerySource extends MobiledocSource {

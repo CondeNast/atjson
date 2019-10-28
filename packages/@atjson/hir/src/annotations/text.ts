@@ -1,11 +1,10 @@
 import { Annotation } from "@atjson/document";
 
-export default class TextAnnotation extends Annotation {
+export default class TextAnnotation extends Annotation<{
+  text: string;
+}> {
   static vendorPrefix = "atjson";
   static type = "text";
-  attributes!: {
-    text: string;
-  };
 
   get rank() {
     return Infinity;

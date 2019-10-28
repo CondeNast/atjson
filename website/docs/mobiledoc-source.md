@@ -20,28 +20,28 @@ npm install --save @atjson/source-mobiledoc
 
 All markup and sections provided by Mobiledoc have corresponding annotations. These annotations are:
 
-| Name          | Annotation type |
-|---------------|-----------------|
-| Links         | `-mobiledoc-a`  |
-| Pull Quote    | `-mobiledoc-aside` |
-|               | `-mobiledoc-pull-quote` |
-| Headings      | `-mobiledoc-h1` |
-|               | `-mobiledoc-h2` |
-|               | `-mobiledoc-h3` |
-|               | `-mobiledoc-h4` |
-|               | `-mobiledoc-h5` |
-|               | `-mobiledoc-h6` |
-| Image         | `-mobiledoc-img` |
-| Italic        | `-mobiledoc-em` |
-| List Item     | `-mobiledoc-li` |
-| Numbered List | `-mobiledoc-ol` |
-| Bulleted List | `-mobiledoc-ol` |
-| Paragraph     | `-mobiledoc-p` |
-| Strike-through | `-mobiledoc-s` |
-| Bold          | `-mobiledoc-strong` |
-| Subscript     | `-mobiledoc-sub` |
-| Superscript   | `-mobiledoc-sup` |
-| Underline     | `-mobiledoc-u` |
+| Name           | Annotation type         |
+| -------------- | ----------------------- |
+| Links          | `-mobiledoc-a`          |
+| Pull Quote     | `-mobiledoc-aside`      |
+|                | `-mobiledoc-pull-quote` |
+| Headings       | `-mobiledoc-h1`         |
+|                | `-mobiledoc-h2`         |
+|                | `-mobiledoc-h3`         |
+|                | `-mobiledoc-h4`         |
+|                | `-mobiledoc-h5`         |
+|                | `-mobiledoc-h6`         |
+| Image          | `-mobiledoc-img`        |
+| Italic         | `-mobiledoc-em`         |
+| List Item      | `-mobiledoc-li`         |
+| Numbered List  | `-mobiledoc-ol`         |
+| Bulleted List  | `-mobiledoc-ol`         |
+| Paragraph      | `-mobiledoc-p`          |
+| Strike-through | `-mobiledoc-s`          |
+| Bold           | `-mobiledoc-strong`     |
+| Subscript      | `-mobiledoc-sub`        |
+| Superscript    | `-mobiledoc-sup`        |
+| Underline      | `-mobiledoc-u`          |
 
 If you are a developer using Mobiledoc and have made custom extensions to Mobiledoc to support more sections or other types of markup, the bits of code that you'll need are the following:
 
@@ -107,12 +107,11 @@ Let's go through the exercise of adding a mention atom that works like Twitter h
 ```ts
 import { InlineAnnotation } from '@atjson/document';
 
-export default MentionAtom extends InlineAnnotation {
+export default MentionAtom extends InlineAnnotation<{
+  id: string;
+}> {
   static vendorPrefix = 'mobiledoc';
   static type = 'mention-atom';
-  attributes!: {
-    id: string;
-  };
 }
 ```
 
@@ -125,7 +124,7 @@ export default MyMobiledocSource extends MobiledocSource {
 }
 ```
 
-## What is a Mobiledoc? 
+## What is a Mobiledoc?
 
 Mobiledoc is a JSON representation of a document with a few notable bits. The format is a compressed tree view of a document, where metadata about the document is _mostly_ stored apart from the contents.
 
@@ -133,6 +132,6 @@ Mobiledoc's storage format is most similar to AtJSON's heirarchical intermediate
 
 [Read up more on the format itself](https://github.com/bustle/mobiledoc-kit/blob/master/MOBILEDOC.md).
 
-
 ### Read More
+
 - http://bustle.github.io/mobiledoc-kit/demo/docs/

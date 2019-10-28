@@ -13,12 +13,11 @@ class Italic extends InlineAnnotation {
   static type = "italic";
 }
 
-class Link extends InlineAnnotation {
+class Link extends InlineAnnotation<{
+  url: string;
+}> {
   static vendorPrefix = "test";
   static type = "link";
-  attributes!: {
-    url: string;
-  };
 }
 
 class TestSource extends Document {
