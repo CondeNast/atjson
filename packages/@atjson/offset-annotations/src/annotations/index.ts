@@ -18,6 +18,8 @@ export { default as ListItem } from "./list-item";
 export { default as Paragraph } from "./paragraph";
 export { default as PinterestEmbed } from "./pinterest-embed";
 export { default as Pullquote } from "./pullquote";
+export { default as Section } from "./section";
+export { default as SmallCaps } from "./small-caps";
 export { default as Strikethrough } from "./strikethrough";
 export { default as Subscript } from "./subscript";
 export { default as Superscript } from "./superscript";
