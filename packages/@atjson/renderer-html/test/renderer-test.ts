@@ -11,6 +11,8 @@ import OffsetSource, {
   List,
   ListItem,
   Paragraph,
+  Section,
+  SmallCaps,
   Strikethrough,
   Subscript,
   Superscript,
@@ -116,7 +118,7 @@ describe("renderer-html", () => {
   });
 
   describe("links", () => {
-    test("url / title", () => {
+    test("url / title, rel, target", () => {
       let doc = new OffsetSource({
         content: "Hello",
         annotations: [
@@ -125,14 +127,16 @@ describe("renderer-html", () => {
             end: 5,
             attributes: {
               url: "https://condenast.com",
-              title: "Condé Nast"
+              title: "Condé Nast",
+              rel: "nofollow",
+              target: "_blank"
             }
           })
         ]
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://condenast.com" title="Cond&#xE9; Nast">Hello</a>`
+        `<a href="https://condenast.com" title="Cond&#xE9; Nast" rel="nofollow" target="_blank">Hello</a>`
       );
     });
 
@@ -290,6 +294,31 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
+  });
+
+  test("section", () => {
+    let doc = new OffsetSource({
+      content: "Text in a paragraph in a section.",
+      annotations: [
+        new Section({ start: 0, end: 33 }),
+        new Paragraph({ start: 0, end: 33 })
+      ]
+    });
+
+    expect(Renderer.render(doc)).toEqual(
+      "<section><p>Text in a paragraph in a section.</p></section>"
+    );
+  });
+
+  test("smallcaps", () => {
+    let doc = new OffsetSource({
+      content: "Text with smallcaps.",
+      annotations: [new SmallCaps({ start: 10, end: 19 })]
+    });
+
+    expect(Renderer.render(doc)).toEqual(
+      'Text with <span class="smallcaps">smallcaps</span>.'
+    );
   });
 
   test("strikethrough", () => {
