@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0-dev273.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.21.4...@atjson/offset-annotations@0.22.0-dev273.0) (2019-10-31)
+
+### ✨ New Features
+
+- ✨ : Link rel target; Bq inset; Section; SmallCaps
+
 ## [0.21.4](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.21.3...@atjson/offset-annotations@0.21.4) (2019-10-08)
 
 **Note:** Version bump only for package @atjson/offset-annotations

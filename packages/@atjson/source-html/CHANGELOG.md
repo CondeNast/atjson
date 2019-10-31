@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0-dev273.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.21.5...@atjson/source-html@0.22.0-dev273.0) (2019-10-31)
+
+### ✨ New Features
+
+- ✨ : Convert section, smallcaps, link rel target
+
 ## [0.21.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.21.4...@atjson/source-html@0.21.5) (2019-10-08)
 
 **Note:** Version bump only for package @atjson/source-html
