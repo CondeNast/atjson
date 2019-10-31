@@ -6,6 +6,7 @@ import Link from "./link";
 import List from "./list";
 import ListItem from "./list-item";
 import Paragraph from "./paragraph";
+import SmallCaps from "./small-caps";
 import Strikethrough from "./strikethrough";
 import Subscript from "./subscript";
 import Superscript from "./superscript";
@@ -21,6 +22,7 @@ export default class CaptionSource extends Document {
     List,
     ListItem,
     Paragraph,
+    SmallCaps,
     Subscript,
     Strikethrough,
     Superscript,
