@@ -1,4 +1,4 @@
-import Document from "@atjson/document";
+import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { Code } from "@atjson/offset-annotations";
 import { Image, OrderedList } from "./annotations";
 import HTMLSource from "./source";
@@ -19,7 +19,13 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where({ type: "-html-a" })
     .set({ type: "-offset-link" })
-    .rename({ attributes: { "-html-href": "-offset-url" } });
+    .rename({
+      attributes: {
+        "-html-href": "-offset-url",
+        "-html-rel": "-offset-rel",
+        "-html-target": "-offset-target"
+      }
+    });
 
   doc.where({ type: "-html-blockquote" }).set({ type: "-offset-blockquote" });
 
@@ -119,6 +125,22 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where({ type: "-html-code" })
     .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
+
+  doc.where({ type: "-html-section" }).set({ type: "-offset-section" });
+
+  doc
+    .where((a: Annotation<any>) => {
+      let classes: string = a.attributes.class;
+      return (
+        a.type === "span" &&
+        classes &&
+        classes
+          .trim()
+          .split(" ")
+          .includes("smallcaps")
+      );
+    })
+    .set({ type: "-offset-small-caps" });
 
   return doc;
 });

@@ -385,7 +385,7 @@ describe("@atjson/source-html", () => {
 
     test("a", () => {
       let doc = HTMLSource.fromRaw(
-        'This <a href="https://condenast.com">is a link</a>'
+        'This <a href="https://condenast.com" rel="nofollow" target="_blank">is a link</a>'
       );
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
@@ -396,7 +396,9 @@ describe("@atjson/source-html", () => {
           {
             type: "link",
             attributes: {
-              url: "https://condenast.com"
+              url: "https://condenast.com",
+              rel: "nofollow",
+              target: "_blank"
             },
             children: ["is a link"]
           }
@@ -589,6 +591,51 @@ describe("@atjson/source-html", () => {
                 attributes: {},
                 children: ["Second"]
               }
+            ]
+          }
+        ]
+      });
+    });
+
+    test("section", () => {
+      let doc = HTMLSource.fromRaw(
+        `<section><p>Paragraph in a section.</p></section>`
+      ).convertTo(OffsetSource);
+
+      let hir = new HIR(doc).toJSON();
+      expect(hir).toMatchObject({
+        type: "root",
+        children: [
+          {
+            type: "section",
+            children: [
+              {
+                type: "paragraph",
+                children: ["Paragraph in a section."]
+              }
+            ]
+          }
+        ]
+      });
+    });
+
+    test("smallcaps", () => {
+      let doc = HTMLSource.fromRaw(
+        `<p><span class="smallcaps">SmallCaps</span> in a paragraph.</p>`
+      ).convertTo(OffsetSource);
+
+      let hir = new HIR(doc).toJSON();
+      expect(hir).toMatchObject({
+        type: "root",
+        children: [
+          {
+            type: "paragraph",
+            children: [
+              {
+                type: "small-caps",
+                children: ["SmallCaps"]
+              },
+              " in a paragraph."
             ]
           }
         ]
