@@ -15,20 +15,7 @@ export default class HTMLRenderer extends Renderer {
    */
   *$(tagName: string, props?: { attributes?: any; selfClosing?: boolean }) {
     let attributes = props ? props.attributes || {} : {};
-    let htmlAttributes = Object.keys(attributes).reduce(
-      (results, key) => {
-        let value = attributes[key];
-        if (typeof value === "number") {
-          results.push(`${key}=${value}`);
-        } else if (typeof value === "boolean" && value === true) {
-          results.push(`${key}`);
-        } else if (value != null && value !== false) {
-          results.push(`${key}="${entities.encode(value)}"`);
-        }
-        return results;
-      },
-      [] as string[]
-    );
+    let htmlAttributes = this.htmlAttributes(attributes);
     let innerHTML: string[] = yield;
 
     let selfClosing = props ? props.selfClosing : false;
@@ -51,6 +38,25 @@ export default class HTMLRenderer extends Renderer {
 
   text(text: string) {
     return entities.encode(text);
+  }
+
+  htmlAttributes(attributes: {
+    [index: string]: string | number | boolean | undefined;
+  }) {
+    return Object.keys(attributes).reduce(
+      (results, key) => {
+        let value = attributes[key];
+        if (typeof value === "number") {
+          results.push(`${key}=${value}`);
+        } else if (typeof value === "boolean" && value === true) {
+          results.push(`${key}`);
+        } else if (value != null && value !== false) {
+          results.push(`${key}="${entities.encode(value)}"`);
+        }
+        return results;
+      },
+      [] as string[]
+    );
   }
 
   *root() {
@@ -109,7 +115,9 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("a", {
       attributes: {
         href: encodeURI(link.attributes.url),
-        title: link.attributes.title
+        title: link.attributes.title,
+        rel: link.attributes.rel,
+        target: link.attributes.target
       }
     });
   }
@@ -132,6 +140,14 @@ export default class HTMLRenderer extends Renderer {
 
   *Paragraph() {
     return yield* this.$("p");
+  }
+
+  *Section() {
+    return yield* this.$("section");
+  }
+
+  *SmallCaps() {
+    return yield* this.$("span", { attributes: { class: "smallcaps" } });
   }
 
   *Strikethrough() {
