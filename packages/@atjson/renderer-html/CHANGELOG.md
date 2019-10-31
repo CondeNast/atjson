@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.21.5...@atjson/renderer-html@0.22.0) (2019-10-31)
+
+### ✨ New Features
+
+- ✨ : Render section, smallcaps, link target, rel
+
 ## [0.22.0-dev273.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.21.5...@atjson/renderer-html@0.22.0-dev273.0) (2019-10-31)
 
 ### ✨ New Features
