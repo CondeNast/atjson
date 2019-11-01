@@ -134,7 +134,7 @@ export default class HIRNode {
     let annotation = new Text({
       start: this.start,
       end: this.end,
-      attributes: {}
+      attributes: { text }
     });
     let node = new HIRNode({
       type: annotation.type,
