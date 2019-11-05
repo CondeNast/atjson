@@ -28,7 +28,7 @@
     "tslint": "5.20.0",
     "ts-jest": "24.1.0",
     "ts-loader": "6.2.0",
-    "typescript": "3.5.3",
+    "typescript": "3.7.2",
     "uuid": "3.3.3"
   },
   "dependencies": {
