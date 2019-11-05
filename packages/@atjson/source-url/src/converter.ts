@@ -84,23 +84,33 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   // Youtube embed code
   // - youtu.be/
   // - youtube-nocookie.com/embed/
+  // - youtube.com/embed
   doc
     .where((url: URLAnnotation) => {
       return (
         url.attributes.host === "youtu.be" ||
-        (url.attributes.host === "www.youtube-nocookie.com" &&
+        (["www.youtube-nocookie.com", "www.youtube.com"].includes(
+          url.attributes.host
+        ) &&
           url.attributes.pathname.startsWith("/embed/"))
       );
     })
     .update((url: URLAnnotation) => {
       let parts = without<string>(url.attributes.pathname.split("/"), "");
       let id = parts.pop();
-      let youtubeURL = `https://www.youtube.com/embed/${id}`;
-      if (url.attributes.host === "www.youtube-nocookie.com") {
-        youtubeURL = `https://www.youtube-nocookie.com/embed/${id}`;
-      }
+      let youtubeURL =
+        url.attributes.host === "www.youtube-nocookie.com"
+          ? new URL(`https://www.youtube-nocookie.com/embed/${id}`)
+          : new URL(`https://www.youtube.com/embed/${id}`);
+
       if (url.attributes.searchParams.t) {
-        youtubeURL += `?t=${url.attributes.searchParams.t}`;
+        youtubeURL.searchParams.set("t", url.attributes.searchParams.t);
+      }
+      if (url.attributes.searchParams.controls) {
+        youtubeURL.searchParams.set(
+          "controls",
+          url.attributes.searchParams.controls
+        );
       }
       doc.replaceAnnotation(
         url,
@@ -109,7 +119,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
           start: url.start,
           end: url.end,
           attributes: {
-            url: youtubeURL
+            url: youtubeURL.href
           }
         })
       );
@@ -169,7 +179,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       );
     });
 
-  // Facebook embeds
+  // Facebook URLs
   // - www.facebook.com/:user/:type/:id
   // - www.facebook.com/:user/:type/:context-id/:id
   doc
@@ -192,6 +202,30 @@ URLSource.defineConverterTo(OffsetSource, doc => {
           end: url.end,
           attributes: {
             url: `https://www.facebook.com/${username}/posts/${id}`
+          }
+        })
+      );
+    });
+
+  // Facebook embed urls
+  // - https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F{user}}%2Fposts%2F{id}"
+  doc
+    .where((url: URLAnnotation) => {
+      return (
+        url.attributes.host === "www.facebook.com" &&
+        url.attributes.pathname === "/plugins/post.php" &&
+        url.attributes.searchParams.href
+      );
+    })
+    .update((url: URLAnnotation) => {
+      doc.replaceAnnotation(
+        url,
+        new FacebookEmbed({
+          id: url.id,
+          start: url.start,
+          end: url.end,
+          attributes: {
+            url: url.attributes.searchParams.href
           }
         })
       );
