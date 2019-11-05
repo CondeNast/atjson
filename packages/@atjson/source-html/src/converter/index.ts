@@ -2,7 +2,7 @@ import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { Code } from "@atjson/offset-annotations";
 import { Image, OrderedList } from "../annotations";
 import HTMLSource from "../source";
-import socialEmbeds from "./social-embeds";
+import convertSocialEmbeds from "./convertSocialEmbeds";
 
 function getText(doc: Document) {
   let text = "";
@@ -13,11 +13,12 @@ function getText(doc: Document) {
     index = token.end;
   });
 
+  text += doc.content.slice(index, doc.content.length);
   return text;
 }
 
 HTMLSource.defineConverterTo(OffsetSource, doc => {
-  socialEmbeds(doc);
+  convertSocialEmbeds(doc);
 
   doc
     .where({ type: "-html-a" })
