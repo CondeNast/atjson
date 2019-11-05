@@ -17,9 +17,7 @@ class EmbedRenderer extends CommonMarkRenderer {
     if (iframeWidth) {
       width = ` data-width="${iframeWidth}"`;
     }
-    return `<div class="fb-post" data-href="${
-      facebook.attributes.url
-    }"${width} data-show-text="true"></div>`;
+    return `<div class="fb-post" data-href="${facebook.attributes.url}"${width} data-show-text="true"></div>`;
   }
 
   *"giphy-embed"(giphy: GiphyEmbed) {
@@ -27,34 +25,22 @@ class EmbedRenderer extends CommonMarkRenderer {
   }
 
   *"instagram-embed"(instagram: InstagramEmbed) {
-    return `<blockquote class="instagram-media" data-instgrm-permalink="${
-      instagram.attributes.url
-    }" data-instgrm-version="12"></blockquote>`;
+    return `<blockquote class="instagram-media" data-instgrm-permalink="${instagram.attributes.url}" data-instgrm-version="12"></blockquote>`;
   }
 
   *"pinterest-embed"(pinterest: PinterestEmbed) {
-    return `<a href="${
-      pinterest.attributes.url
-    }" data-pin-do="embedPin" data-pin-width="large">${
-      pinterest.attributes.url
-    }</a>`;
+    return `<a href="${pinterest.attributes.url}" data-pin-do="embedPin" data-pin-width="large">${pinterest.attributes.url}</a>`;
   }
 
   *"twitter-embed"(tweet: TwitterEmbed) {
-    return `<blockquote lang="en" data-type="twitter" data-url="${
-      tweet.attributes.url
-    }"><p><a href="${tweet.attributes.url}">${
-      tweet.attributes.url
-    }</a></p></blockquote>`;
+    return `<blockquote lang="en" data-type="twitter" data-url="${tweet.attributes.url}"><p><a href="${tweet.attributes.url}">${tweet.attributes.url}</a></p></blockquote>`;
   }
 
   *"youtube-embed"(video: YouTubeEmbed) {
     let { width, height } = video.attributes;
     let iframeWidth = width ? ` width=${width}` : "";
     let iframeHeight = height ? ` height=${height}` : "";
-    return `<iframe${iframeWidth}${iframeHeight} src="${
-      video.attributes.url
-    }" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    return `<iframe${iframeWidth}${iframeHeight} src="${video.attributes.url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   }
 }
 
@@ -119,8 +105,14 @@ describe("url-source", () => {
     });
 
     test.each([
+      "https://www.youtube.com/embed/Mh5LY4Mz15o",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?t=165",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?controls=0",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?t=165&controls=0",
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o",
-      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15ot=165"
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165",
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?controls=0",
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165&controls=0"
     ])("%s", text => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
@@ -189,6 +181,17 @@ describe("url-source", () => {
         let url = URLSource.fromRaw(text);
         expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
           '<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/258591818132754" data-show-text="true"></div>'
+        );
+      });
+    });
+
+    describe("embed url", () => {
+      test("https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743&width=500", () => {
+        let url = URLSource.fromRaw(
+          "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743"
+        );
+        expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+          '<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text="true"></div>'
         );
       });
     });
