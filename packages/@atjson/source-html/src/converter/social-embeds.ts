@@ -1,7 +1,4 @@
-import Document, {
-  Annotation,
-  AdjacentBoundaryBehaviour
-} from "@atjson/document";
+import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { IframeEmbed } from "@atjson/offset-annotations";
 import UrlSource from "@atjson/source-url";
 

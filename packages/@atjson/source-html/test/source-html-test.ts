@@ -644,18 +644,12 @@ describe("@atjson/source-html", () => {
 
     describe("social embeds", () => {
       test.each([
-        [
-          "https://www.youtube.com/embed/0-jus6AGHzQ",
-          "https://www.youtube.com/embed/0-jus6AGHzQ"
-        ],
-        [
-          "https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0",
-          "https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"
-        ]
-      ])("YouTube iframe %s", (src, url) => {
+        ["https://www.youtube.com/embed/0-jus6AGHzQ"],
+        ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
+      ])("YouTube iframe %s", url => {
         let doc = HTMLSource.fromRaw(
           `<iframe width="560" height="315"
-            src="${src}"
+            src="${url}"
             frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen></iframe>`
