@@ -3,6 +3,97 @@ import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
+  describe("parser", () => {
+    test("annotation wraps start and end tags", () => {
+      let doc = HTMLSource.fromRaw("<p>Paragraph with <b>bold</b></p>");
+
+      expect(doc.annotations.sort()).toMatchObject([
+        {
+          type: "parse-token",
+          start: 0,
+          end: 3,
+          attributes: { reason: "<p>" }
+        },
+        {
+          type: "parse-token",
+          start: 18,
+          end: 21,
+          attributes: { reason: "<b>" }
+        },
+        {
+          type: "parse-token",
+          start: 25,
+          end: 29,
+          attributes: { reason: "</b>" }
+        },
+        { type: "b", start: 18, end: 29 },
+        {
+          type: "parse-token",
+          start: 29,
+          end: 33,
+          attributes: { reason: "</p>" }
+        },
+        { type: "p", start: 0, end: 33 }
+      ]);
+    });
+
+    test("annotation wraps self-closing tags", () => {
+      let doc = HTMLSource.fromRaw("<p>Paragraph with <img/></p>");
+
+      expect(doc.annotations.sort()).toMatchObject([
+        {
+          type: "parse-token",
+          start: 0,
+          end: 3,
+          attributes: { reason: "<p>" }
+        },
+        {
+          type: "parse-token",
+          start: 18,
+          end: 24,
+          attributes: { reason: "<img>" }
+        },
+        { type: "img", start: 18, end: 24 },
+        {
+          type: "parse-token",
+          start: 24,
+          end: 28,
+          attributes: { reason: "</p>" }
+        },
+        { type: "p", start: 0, end: 28 }
+      ]);
+    });
+
+    test("annotation wraps unclosed tags", () => {
+      let doc = HTMLSource.fromRaw(
+        "<p>Paragraph with no closing<p>New paragraph</p>"
+      );
+
+      expect(doc.annotations.sort()).toMatchObject([
+        {
+          type: "parse-token",
+          start: 0,
+          end: 3,
+          attributes: { reason: "<p>" }
+        },
+        { type: "p", start: 0, end: 28 },
+        {
+          type: "parse-token",
+          start: 28,
+          end: 31,
+          attributes: { reason: "<p>" }
+        },
+        {
+          type: "parse-token",
+          start: 44,
+          end: 48,
+          attributes: { reason: "</p>" }
+        },
+        { type: "p", start: 28, end: 48 }
+      ]);
+    });
+  });
+
   test("dataset", () => {
     let doc = HTMLSource.fromRaw(
       '<div class="spaceship" data-ship-id="92432" data-weapons="kittens"></div>'

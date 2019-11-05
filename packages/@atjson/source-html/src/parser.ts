@@ -125,20 +125,21 @@ export default class Parser {
     }
 
     if (location.startTag && location.endTag) {
-      let start = this.convertTag(node, "startTag");
+      let start = location.startTag.startOffset - this.offset;
+      this.convertTag(node, "startTag");
 
       yield;
 
+      let end = this.convertTag(node, "endTag");
       this.annotations.push({
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
-        end: location.endTag.startOffset - this.offset
+        end
       });
-
-      this.convertTag(node, "endTag");
     } else if (location.startTag) {
-      let start = this.convertTag(node, "startTag");
+      let start = location.startTag.startOffset - this.offset;
+      this.convertTag(node, "startTag");
 
       yield;
 
