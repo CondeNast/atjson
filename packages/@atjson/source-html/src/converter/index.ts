@@ -1,7 +1,8 @@
 import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { Code } from "@atjson/offset-annotations";
-import { Image, OrderedList } from "./annotations";
-import HTMLSource from "./source";
+import { Image, OrderedList } from "../annotations";
+import HTMLSource from "../source";
+import socialEmbeds from "./social-embeds";
 
 function getText(doc: Document) {
   let text = "";
@@ -16,6 +17,8 @@ function getText(doc: Document) {
 }
 
 HTMLSource.defineConverterTo(OffsetSource, doc => {
+  socialEmbeds(doc);
+
   doc
     .where({ type: "-html-a" })
     .set({ type: "-offset-link" })
