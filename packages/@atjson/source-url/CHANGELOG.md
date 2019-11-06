@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0-dev276.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.21.5...@atjson/source-url@0.22.0-dev276.0) (2019-11-06)
+
+### ✨ New Features
+
+- ✨ : Convert more youtube and facebook embed urls
+
+### 🐛 Fixes
+
+- 🐝 : Identify urls in converter with SocialURLs util
+
 ## [0.21.5](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.21.4...@atjson/source-url@0.21.5) (2019-10-31)
 
 **Note:** Version bump only for package @atjson/source-url

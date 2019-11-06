@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0-dev276.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.22.0...@atjson/source-html@0.23.0-dev276.0) (2019-11-06)
+
+### ✨ New Features
+
+- ✨ : Convert iframes and social embeds
+- ✨ : Set start/end to include the parsed tags
+
+### 🐛 Fixes
+
+- 🐝 : Replace dep on URLSource with SocialURLs util
+
 ## [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.21.5...@atjson/source-html@0.22.0) (2019-10-31)
 
 ### ✨ New Features
