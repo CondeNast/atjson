@@ -123,7 +123,12 @@ export default class PRISMSource extends Document {
     };
 
     parser.onclosetag = tagName => {
-      let annotation = partialAnnotations.pop()!;
+      let annotation = partialAnnotations.pop();
+      if (annotation == null) {
+        throw new Error(
+          "Expected there to be an annotation from the opening tag, but got none."
+        );
+      }
 
       // The annotation was short closed and got a duplicate close tag action
       if (

@@ -56,8 +56,8 @@ export default class GDocsParser {
       return null;
     });
 
-    return [].concat
-      .apply([], annotations)
+    return []
+      .concat(...annotations)
       .filter((a: AnnotationJSON | null) => a != null);
   }
 }

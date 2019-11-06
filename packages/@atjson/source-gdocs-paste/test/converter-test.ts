@@ -4,7 +4,7 @@ import * as path from "path";
 import GDocsSource from "../src";
 
 describe("@atjson/source-gdocs-paste", () => {
-  var atjson: OffsetSource;
+  let atjson: OffsetSource;
 
   beforeAll(() => {
     // https://docs.google.com/document/d/18pp4dAGx5II596HHGOLUXXcc6VKLAVRBUMLm9Ge8eOE/edit?usp=sharing
@@ -160,6 +160,7 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
   });
 
   it("removes all vertical tabs", () => {
+    // eslint-disable-next-line no-control-regex
     expect(atjson.match(/\u000b/g)).toEqual([]);
   });
 

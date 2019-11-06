@@ -233,9 +233,8 @@ export default abstract class Annotation<Attributes = {}> {
       // no-op; we would delete the annotation, but we should defer to the
       // annotation as to whether or not it's deletable, since some zero-length
       // annotations should be retained.
-      // n.b. the += 0 is just to silence tslint ;-)
+      // eslint-disable-next-line no-empty
     } else if (change.start === this.end) {
-      this.end += 0;
     }
   }
 
