@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-commonmark",
-  "version": "0.21.8",
+  "version": "0.21.9-dev276.0",
   "description": "Create atjson documents from CommonMark.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
