@@ -9,4 +9,3 @@ test
 tmp
 .npmrc
 tsconfig.json
-tslint.json

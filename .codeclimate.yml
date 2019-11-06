@@ -6,9 +6,6 @@ engines:
       languages:
         - typescript
         - javascript
-  tslint:
-    enabled: true
-    channel: beta
   fixme:
     enabled: true
 ratings:
