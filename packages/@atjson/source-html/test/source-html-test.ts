@@ -826,8 +826,7 @@ describe("@atjson/source-html", () => {
                 url: "https://www.instagram.com/p/B37oY9WgHP7"
               },
               children: []
-            },
-            " "
+            }
           ]
         });
       });
@@ -847,8 +846,7 @@ describe("@atjson/source-html", () => {
                 url: "https://twitter.com/nycgov/status/1191528054608334848"
               },
               children: []
-            },
-            " "
+            }
           ]
         });
       });

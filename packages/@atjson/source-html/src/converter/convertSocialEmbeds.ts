@@ -1,6 +1,6 @@
 import Document, { Annotation } from "@atjson/document";
-import OffsetSource, { IframeEmbed } from "@atjson/offset-annotations";
-import UrlSource from "@atjson/source-url";
+import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
+import { Script } from "../annotations";
 
 function isInstagramOrTwitterBlockquote(annotation: Annotation<any>) {
   if (annotation.type !== "blockquote") {
@@ -31,25 +31,32 @@ function isFacebookDiv(annotation: Annotation<any>) {
   );
 }
 
+function identifyURL(src: string) {
+  let url;
+  try {
+    url = new URL(src);
+  } catch {
+    return {};
+  }
+
+  return SocialURLs.identify(url);
+}
+
 export default function(doc: Document) {
   doc.where({ type: "-html-iframe" }).update(iframe => {
-    let { height, width, src: url } = iframe.attributes;
-    let urlDoc = UrlSource.fromRaw(url).convertTo(OffsetSource);
-    let embed;
-    if (urlDoc.annotations.length) {
-      embed = urlDoc.annotations[0];
-      embed.start = iframe.start;
-      embed.end = iframe.end;
-    } else {
-      embed = new IframeEmbed({
-        start: iframe.start,
-        end: iframe.end,
-        attributes: {
-          url
-        }
-      });
-    }
-    embed.attributes = { ...embed.attributes, height, width };
+    let { start, end } = iframe;
+    let { height, width, src } = iframe.attributes;
+
+    let { url = src, AnnotationClass = IframeEmbed } = identifyURL(src);
+    let embed = new AnnotationClass({
+      start: start,
+      end: end,
+      attributes: {
+        url,
+        height,
+        width
+      }
+    });
     doc.replaceAnnotation(iframe, embed);
   });
 
@@ -73,26 +80,39 @@ export default function(doc: Document) {
     .join(doc.where({ type: "-html-a" }).as("links"), (blockquote, link) => {
       return blockquote.start < link.start && blockquote.end > link.end;
     })
-    .update(({ blockquote, links }) => {
-      let embed;
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      ({ blockquote }, script: Script) => {
+        let src = script.attributes.src;
+        return (
+          blockquote.end <= script.start &&
+          script.start <= blockquote.end + 1 &&
+          (!src || src.includes("instagram.com") || src.includes("twitter.com"))
+        );
+      }
+    )
+    .update(({ blockquote, links, scripts }) => {
+      let url, AnnotationClass;
       for (let link of links) {
-        let embeds = UrlSource.fromRaw(link.attributes.href)
-          .convertTo(OffsetSource)
-          .where((a: Annotation<any>) => a.type !== "unknown");
-
-        if (embeds.length) {
-          embed = embeds.annotations[0];
+        ({ url, AnnotationClass } = identifyURL(link.attributes.href));
+        if (url && AnnotationClass) {
           break;
         }
       }
-
-      if (embed) {
-        doc.cut(blockquote.start, blockquote.end);
-        doc.insertText(blockquote.start, "\uFFFC");
-        embed.start = blockquote.start;
-        embed.end = blockquote.start + 1;
-
-        doc.addAnnotations(embed);
+      if (url && AnnotationClass) {
+        let start = blockquote.start;
+        let end = scripts.length ? scripts[0].end : blockquote.end;
+        doc.cut(start, end);
+        doc.insertText(start, "\uFFFC");
+        doc.addAnnotations(
+          new AnnotationClass({
+            start: start,
+            end: start + 1,
+            attributes: {
+              url
+            }
+          })
+        );
       }
     });
 
@@ -105,18 +125,20 @@ export default function(doc: Document) {
    *   </div>
    */
   doc.where(isFacebookDiv).update(div => {
-    let embeds = UrlSource.fromRaw(div.attributes.dataset.href)
-      .convertTo(OffsetSource)
-      .where((a: Annotation<any>) => a.type !== "unknown");
+    let { url, AnnotationClass } = identifyURL(div.attributes.dataset.href);
 
-    if (embeds.length) {
-      let embed = embeds.annotations[0];
+    if (url && AnnotationClass) {
       doc.cut(div.start, div.end);
       doc.insertText(div.start, "\uFFFC");
-      embed.start = div.start;
-      embed.end = div.start + 1;
-
-      doc.addAnnotations(embed);
+      doc.addAnnotations(
+        new AnnotationClass({
+          start: div.start,
+          end: div.start + 1,
+          attributes: {
+            url
+          }
+        })
+      );
     }
   });
 

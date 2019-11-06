@@ -14,7 +14,6 @@
   ],
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
-    "@atjson/source-url": "file:../source-url",
     "parse5": "^5.0.0"
   },
   "devDependencies": {
