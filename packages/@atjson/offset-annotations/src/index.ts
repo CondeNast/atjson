@@ -30,6 +30,7 @@ import {
 } from "./annotations";
 
 export * from "./annotations";
+export * from "./utils";
 
 export default class OffsetSource extends Document {
   static contentType = "application/vnd.atjson+offset";
