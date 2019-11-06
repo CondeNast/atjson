@@ -88,7 +88,7 @@ export function* splitDelimiterRuns(
   annotation: Annotation,
   context: Context,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
-): Iterable<any> {
+): Generator<void, [string, string, string], string[]> {
   let rawText = yield;
   let text = rawText.map(unescapeEntities).join("");
   let start = 0;
@@ -102,7 +102,7 @@ export function* splitDelimiterRuns(
     child.end === annotation.end &&
     (child instanceof Bold || child instanceof Italic)
   ) {
-    return ["", text, ""];
+    return ["", text, ""] as [string, string, string];
   }
 
   while (start < end) {
@@ -141,15 +141,15 @@ export function* splitDelimiterRuns(
   if (options.escapeHtmlEntities) {
     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
       escapeHtmlEntities
-    );
+    ) as [string, string, string];
   } else {
     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
       escapeEntities
-    );
+    ) as [string, string, string];
   }
 }
 
-export function* split(): Iterable<any> {
+export function* split(): Generator<void, string[], string[]> {
   let rawText = yield;
   let text = rawText.join("");
   let start = 0;
@@ -280,7 +280,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(bold: Bold, context: Context): Iterable<any> {
+  *Bold(bold: Bold, context: Context): Iterator<void, string, string[]> {
     let [before, text, after] = yield* splitDelimiterRuns(
       bold,
       context,
@@ -314,7 +314,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *Blockquote(): Iterable<any> {
+  *Blockquote(): Iterator<void, string, string[]> {
     let text = yield;
     let lines: string[] = text.join("").split("\n");
     let endOfQuote = lines.length;
@@ -349,7 +349,7 @@ export default class CommonmarkRenderer extends Renderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *Heading(heading: Heading): Iterable<any> {
+  *Heading(heading: Heading): Iterator<void, string, string[]> {
     let rawText = yield;
     let text = rawText.join("");
     let level = new Array(heading.attributes.level + 1).join("#");
@@ -370,7 +370,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ***
    * Into multiple sections.
    */
-  *HorizontalRule(): Iterable<any> {
+  *HorizontalRule(): Iterator<void, string, string[]> {
     return "***\n";
   }
 
@@ -378,7 +378,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *Image(image: Image): Iterable<any> {
+  *Image(image: Image): Iterator<void, string, string[]> {
     let description = escapePunctuation(image.attributes.description || "");
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
@@ -390,7 +390,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *Italic(italic: Italic, context: Context): Iterable<any> {
+  *Italic(italic: Italic, context: Context): Iterator<void, string, string[]> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -430,7 +430,7 @@ export default class CommonmarkRenderer extends Renderer {
    * A line break in Commonmark can be two white spaces at the end of the line  <--
    * or it can be a backslash at the end of the line\
    */
-  *LineBreak(_: any, context: Context): Iterable<any> {
+  *LineBreak(_: any, context: Context): Iterator<void, string, string[]> {
     // Line breaks cannot end markdown block elements or paragraphs
     // https://spec.commonmark.org/0.29/#example-641
     if (context.parent instanceof BlockAnnotation && context.next == null) {
@@ -449,7 +449,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *Link(link: Link): Iterable<any> {
+  *Link(link: Link): Iterator<void, string, string[]> {
     let [before, text, after] = yield* split();
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
@@ -466,7 +466,7 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *Code(code: Code, context: Context): Iterable<any> {
+  *Code(code: Code, context: Context): Iterator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -509,7 +509,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *Html(html: HTML): Iterable<any> {
+  *Html(html: HTML): Iterator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
 
@@ -527,7 +527,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *ListItem(): Iterable<any> {
+  *ListItem(): Iterator<void, string, string[]> {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -576,7 +576,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *List(list: List, context: Context): Iterable<any> {
+  *List(list: List, context: Context): Iterator<void, string, string[]> {
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -631,7 +631,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(): Iterable<any> {
+  *Paragraph(): Iterator<void, string, string[]> {
     let rawText = yield;
     let text = rawText.join("");
 

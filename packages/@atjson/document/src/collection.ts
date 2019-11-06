@@ -140,25 +140,28 @@ function flattenPropertyPaths(
   options: { keys: boolean; values?: boolean },
   prefix?: string
 ): FlattenedRenaming {
-  return Object.keys(mapping).reduce((result: Renaming, key: string) => {
-    let value = mapping[key];
-    let fullyQualifiedKey = key;
-    if (prefix) {
-      fullyQualifiedKey = `${prefix}.${key}`;
-      if (options.values) {
-        value = `${prefix}.${value}`;
+  return Object.keys(mapping).reduce(
+    (result: FlattenedRenaming, key: string) => {
+      let value = mapping[key];
+      let fullyQualifiedKey = key;
+      if (prefix) {
+        fullyQualifiedKey = `${prefix}.${key}`;
+        if (options.values) {
+          value = `${prefix}.${value}`;
+        }
       }
-    }
-    if (typeof value !== "object") {
-      result[fullyQualifiedKey] = value;
-    } else {
-      Object.assign(
-        result,
-        flattenPropertyPaths(value, options, fullyQualifiedKey)
-      );
-    }
-    return result;
-  }, {});
+      if (typeof value !== "object") {
+        result[fullyQualifiedKey] = value;
+      } else {
+        Object.assign(
+          result,
+          flattenPropertyPaths(value, options, fullyQualifiedKey)
+        );
+      }
+      return result;
+    },
+    {}
+  );
 }
 
 function without(object: any, attributes: string[]): any {
@@ -290,24 +293,22 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.forEach(
-      (leftAnnotation: Annotation<any>): void => {
-        let joinAnnotations = rightCollection.annotations.filter(
-          (rightAnnotation: Annotation<any>) => {
-            return filter(leftAnnotation, rightAnnotation);
-          }
-        );
+    this.forEach((leftAnnotation: Annotation<any>): void => {
+      let joinAnnotations = rightCollection.annotations.filter(
+        (rightAnnotation: Annotation<any>) => {
+          return filter(leftAnnotation, rightAnnotation);
+        }
+      );
 
-        type JoinItem = Record<Left, Annotation<any>> &
-          Record<Right, Array<Annotation<any>>>;
+      type JoinItem = Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>;
 
-        let join = {
-          [this.name]: leftAnnotation,
-          [rightCollection.name]: joinAnnotations
-        };
-        results.push(join as JoinItem);
-      }
-    );
+      let join = {
+        [this.name]: leftAnnotation,
+        [rightCollection.name]: joinAnnotations
+      };
+      results.push(join as JoinItem);
+    });
 
     return results;
   }
