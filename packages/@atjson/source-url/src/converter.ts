@@ -7,7 +7,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
     .where((annotation: URLAnnotation) => annotation.type === "url")
     .update((annotation: URLAnnotation) => {
       let { url, AnnotationClass } = SocialURLs.identify(annotation.attributes);
-      if (url) {
+      if (url && AnnotationClass) {
         doc.replaceAnnotation(
           annotation,
           new AnnotationClass({

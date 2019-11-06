@@ -1,4 +1,4 @@
-import Document, { Annotation } from "@atjson/document";
+import Document, { Annotation, ParseAnnotation } from "@atjson/document";
 import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
@@ -102,12 +102,22 @@ export default function(doc: Document) {
       if (url && AnnotationClass) {
         let start = blockquote.start;
         let end = scripts.length ? scripts[0].end : blockquote.end;
-        doc.cut(start, end);
-        doc.insertText(start, "\uFFFC");
+        doc
+          .where(
+            annotation => start <= annotation.start && annotation.end <= end
+          )
+          .remove();
         doc.addAnnotations(
+          new ParseAnnotation({
+            start,
+            end,
+            attributes: {
+              reason: AnnotationClass.type + "-embed"
+            }
+          }),
           new AnnotationClass({
-            start: start,
-            end: start + 1,
+            start,
+            end,
             attributes: {
               url
             }
@@ -128,12 +138,21 @@ export default function(doc: Document) {
     let { url, AnnotationClass } = identifyURL(div.attributes.dataset.href);
 
     if (url && AnnotationClass) {
-      doc.cut(div.start, div.end);
-      doc.insertText(div.start, "\uFFFC");
+      let { start, end } = div;
+      doc
+        .where(annotation => start <= annotation.start && annotation.end <= end)
+        .remove();
       doc.addAnnotations(
+        new ParseAnnotation({
+          start,
+          end,
+          attributes: {
+            reason: "facebook-embed"
+          }
+        }),
         new AnnotationClass({
-          start: div.start,
-          end: div.start + 1,
+          start,
+          end,
           attributes: {
             url
           }
