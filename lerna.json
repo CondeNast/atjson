@@ -5,7 +5,7 @@
     "publish": {
       "exact": true,
       "conventionalCommits": true,
-      "changelogPreset": "./conventional-changelog-emoji"
+      "changelogPreset": "@atjson/conventional-changelog-emoji"
     },
     "bootstrap": {
       "hoist": true,
