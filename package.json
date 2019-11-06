@@ -2,7 +2,7 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/conventional-changelog-emoji": "^0.19.0",
+    "@atjson/conventional-changelog-emoji": "0.19.0",
     "@types/entities": "1.1.1",
     "@types/jest": "24.0.21",
     "@types/markdown-it": "0.0.9",
