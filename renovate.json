@@ -14,6 +14,11 @@
       "packagePatterns": ["@types/*"],
       "groupName": "Type Declarations",
       "groupSlug": "type-declarations"
+    },
+    {
+      "packagePatterns": ["eslint", "eslint-plugin-*", "@typescript-eslint/*"],
+      "groupName": "ESLint",
+      "groupSlug": "eslint-packages"
     }
   ]
 }
