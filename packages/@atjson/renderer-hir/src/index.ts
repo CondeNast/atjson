@@ -60,7 +60,7 @@ export interface Context {
 function compile(
   renderer: Renderer,
   node: HIRNode,
-  context: Partial<Context>
+  context: Partial<Context> & { document: Document }
 ): any {
   let annotation = node.annotation;
   let childNodes = node.children();
@@ -94,7 +94,7 @@ function compile(
   if (context.parent == null) {
     generator = renderer.root();
   } else {
-    generator = renderer.renderAnnotation(annotation!, {
+    generator = renderer.renderAnnotation(annotation, {
       ...context,
       children: childAnnotations
     } as Context);
@@ -109,10 +109,10 @@ function compile(
     flatten(
       childNodes.map((childNode: HIRNode, idx: number) => {
         let childContext = {
-          parent: annotation! || null,
+          parent: annotation || null,
           previous: childAnnotations[idx - 1] || null,
           next: childAnnotations[idx + 1] || null,
-          document: context.document!
+          document: context.document
         };
 
         if (childNode.type === "text") {
@@ -139,7 +139,7 @@ export default class Renderer {
     return compile(renderer, new HIR(document).rootNode, { document });
   }
 
-  // tslint:disable-next-line:no-empty
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   constructor(_document: Document, ..._args: any[]) {}
 
   *renderAnnotation(
@@ -159,6 +159,7 @@ export default class Renderer {
     return yield;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   text(text: string, _: Context): string {
     return text;
   }

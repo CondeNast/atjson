@@ -264,7 +264,7 @@ export default class Document {
       this.content =
         this.content.slice(0, start) + text + this.content.slice(start);
     } catch (e) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error("Failed to insert text", e);
     }
 
@@ -312,7 +312,7 @@ export default class Document {
       }
       this.content = this.content.slice(0, start) + this.content.slice(end);
     } catch (e) {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.error("Failed to delete text", e);
     }
 

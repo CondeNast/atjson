@@ -290,24 +290,22 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.forEach(
-      (leftAnnotation: Annotation<any>): void => {
-        let joinAnnotations = rightCollection.annotations.filter(
-          (rightAnnotation: Annotation<any>) => {
-            return filter(leftAnnotation, rightAnnotation);
-          }
-        );
+    this.forEach((leftAnnotation: Annotation<any>): void => {
+      let joinAnnotations = rightCollection.annotations.filter(
+        (rightAnnotation: Annotation<any>) => {
+          return filter(leftAnnotation, rightAnnotation);
+        }
+      );
 
-        type JoinItem = Record<Left, Annotation<any>> &
-          Record<Right, Array<Annotation<any>>>;
+      type JoinItem = Record<Left, Annotation<any>> &
+        Record<Right, Array<Annotation<any>>>;
 
-        let join = {
-          [this.name]: leftAnnotation,
-          [rightCollection.name]: joinAnnotations
-        };
-        results.push(join as JoinItem);
-      }
-    );
+      let join = {
+        [this.name]: leftAnnotation,
+        [rightCollection.name]: joinAnnotations
+      };
+      results.push(join as JoinItem);
+    });
 
     return results;
   }

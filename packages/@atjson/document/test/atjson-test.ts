@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 import { ParseAnnotation, UnknownAnnotation } from "../src";
 import TestSource, { Bold, CaptionSource, Image, Italic } from "./test-source";
 

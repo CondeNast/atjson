@@ -179,7 +179,12 @@ export default class Parser {
     let end = start + text.length;
 
     while (markupIndexes.length) {
-      let markup = this.mobiledoc.markups[markupIndexes.shift()!];
+      let index = markupIndexes.shift();
+      if (index == null)
+        throw new Error(
+          "The MobileDoc is malformed— the markup object is not correct."
+        );
+      let markup = this.mobiledoc.markups[index];
       let attributes: any = {};
       if (markup[1]) {
         let attributeList = markup[1];
@@ -198,7 +203,12 @@ export default class Parser {
 
     while (numberOfClosedMarkups > 0) {
       numberOfClosedMarkups--;
-      let annotation = this.inProgressAnnotations.pop()!;
+      let annotation = this.inProgressAnnotations.pop();
+      if (annotation == null) {
+        throw new Error(
+          "The markup to have an associated annotation, but got none."
+        );
+      }
       annotation.end = end;
       this.annotations.push(annotation as AnnotationJSON);
     }

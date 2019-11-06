@@ -87,6 +87,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     });
 
   // Replace vertical tabs with newlines
+  // eslint-disable-next-line no-control-regex
   doc.content = doc.content.replace(/\u000B/g, "\n");
 
   // Convert newlines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
