@@ -140,25 +140,28 @@ function flattenPropertyPaths(
   options: { keys: boolean; values?: boolean },
   prefix?: string
 ): FlattenedRenaming {
-  return Object.keys(mapping).reduce((result: Renaming, key: string) => {
-    let value = mapping[key];
-    let fullyQualifiedKey = key;
-    if (prefix) {
-      fullyQualifiedKey = `${prefix}.${key}`;
-      if (options.values) {
-        value = `${prefix}.${value}`;
+  return Object.keys(mapping).reduce(
+    (result: FlattenedRenaming, key: string) => {
+      let value = mapping[key];
+      let fullyQualifiedKey = key;
+      if (prefix) {
+        fullyQualifiedKey = `${prefix}.${key}`;
+        if (options.values) {
+          value = `${prefix}.${value}`;
+        }
       }
-    }
-    if (typeof value !== "object") {
-      result[fullyQualifiedKey] = value;
-    } else {
-      Object.assign(
-        result,
-        flattenPropertyPaths(value, options, fullyQualifiedKey)
-      );
-    }
-    return result;
-  }, {});
+      if (typeof value !== "object") {
+        result[fullyQualifiedKey] = value;
+      } else {
+        Object.assign(
+          result,
+          flattenPropertyPaths(value, options, fullyQualifiedKey)
+        );
+      }
+      return result;
+    },
+    {}
+  );
 }
 
 function without(object: any, attributes: string[]): any {

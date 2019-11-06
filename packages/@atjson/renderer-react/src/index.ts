@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ComponentType } from "react";
+import { ComponentType, ReactElement } from "react";
 
 export default class ReactRenderer extends Renderer {
   private componentLookup: {
@@ -31,7 +31,7 @@ export default class ReactRenderer extends Renderer {
 
   *renderAnnotation(
     annotation: Annotation
-  ): IterableIterator<React.Component | void> {
+  ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
     let AnnotationComponent =
       this.componentLookup[annotation.type] ||
       this.componentLookup[classify(annotation.type)];

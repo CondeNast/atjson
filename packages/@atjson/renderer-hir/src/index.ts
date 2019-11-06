@@ -21,7 +21,7 @@ export function escapeHTML(text: string): string {
   return text.replace(/[&<>"'`=]/g, (chr: EscapeCharacter) => escape[chr]);
 }
 
-function flatten(array: any[]): any[] {
+function flatten<T>(array: Array<T | T[]>): T[] {
   let flattenedArray = [];
   for (let i = 0, len = array.length; i < len; i++) {
     let item = array[i];
@@ -89,7 +89,7 @@ function compile(
       return childNode.annotation;
     }
   });
-  let generator;
+  let generator: Iterator<void, any, any[]>;
 
   if (context.parent == null) {
     generator = renderer.root();
@@ -120,9 +120,9 @@ function compile(
             ...childContext,
             children: []
           });
-        } else {
-          return compile(renderer, childNode, childContext);
         }
+
+        return compile(renderer, childNode, childContext) as any[];
       })
     )
   ).value;
@@ -145,7 +145,7 @@ export default class Renderer {
   *renderAnnotation(
     annotation: Annotation<any>,
     context: Context
-  ): IterableIterator<any> {
+  ): Iterator<void, any, any> {
     let generator =
       (this as any)[annotation.type] ||
       (this as any)[classify(annotation.type)];
@@ -155,7 +155,7 @@ export default class Renderer {
     return yield;
   }
 
-  *root(): IterableIterator<any> {
+  *root(): Iterator<void, any, any[]> {
     return yield;
   }
 
