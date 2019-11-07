@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.22.0...@atjson/offset-annotations@0.23.0) (2019-11-07)
+
+### ✨ New Features
+
+- ✨ : Add utility methods for identifying social urls
+
 ## [0.23.0-dev276.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.22.0...@atjson/offset-annotations@0.23.0-dev276.0) (2019-11-06)
 
 ### ✨ New Features
