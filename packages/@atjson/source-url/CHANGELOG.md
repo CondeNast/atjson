@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.22.0...@atjson/source-url@0.22.1) (2019-11-08)
+
+**Note:** Version bump only for package @atjson/source-url
+
 ## [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.21.5...@atjson/source-url@0.22.0) (2019-11-07)
 
 ### ✨ New Features
