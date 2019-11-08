@@ -1,4 +1,3 @@
-import { URL } from "url";
 import {
   IframeEmbed,
   FacebookEmbed,
