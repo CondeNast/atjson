@@ -14,7 +14,7 @@
     "@types/uuid": "3.4.6",
     "commonmark": "0.29.0",
     "commonmark-spec": "0.29.0",
-    "conventional-changelog-core": "4.0.2",
+    "conventional-changelog-core": "4.1.0",
     "husky": "3.0.9",
     "jest": "24.9.0",
     "lerna": "3.18.4",
