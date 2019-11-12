@@ -9,6 +9,7 @@ export * from "./horizontal-rule";
 export * from "./html";
 export * from "./iframe-embed";
 export * from "./image";
+export * from "./indent";
 export * from "./instagram-embed";
 export * from "./italic";
 export * from "./line-break";
