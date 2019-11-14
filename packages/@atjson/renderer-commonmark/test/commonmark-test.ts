@@ -900,7 +900,10 @@ After all the lists
           ]
         });
 
-        expect(CommonmarkRenderer.render(document)).toBe("*a*.b");
+        // preserved here for correct behaviour in case we decide not to throw,
+        // or to implement an `ignoreUnknown` flag or similar.
+        //expect(CommonmarkRenderer.render(document)).toBe("*a*.b");
+        expect(() => CommonmarkRenderer.render(document)).toThrow();
       });
 
       // This is a weird case in that it results in asymmetric parens, but is probably the
