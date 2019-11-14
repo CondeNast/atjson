@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-react",
-  "version": "0.21.7",
+  "version": "0.21.8",
   "description": "Render atjson documents into a React app",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
