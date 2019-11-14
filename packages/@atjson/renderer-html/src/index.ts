@@ -2,6 +2,23 @@ import { Code, Heading, Image, Link, List } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
 
+const VOID_ELEMENTS = [
+  "area",
+  "base",
+  "br",
+  "col",
+  "embed",
+  "hr",
+  "img",
+  "input",
+  "link",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr"
+];
+
 export default class HTMLRenderer extends Renderer {
   /**
    * Renders an HTML string from an object.
@@ -13,12 +30,11 @@ export default class HTMLRenderer extends Renderer {
    * @param tagName The HTML tag name to use.
    * @param props The HTML attributes (if there are any) and whether the element is self-closing.
    */
-  *$(tagName: string, props?: { attributes?: any; selfClosing?: boolean }) {
-    let attributes = props ? props.attributes || {} : {};
+  *$(tagName: string, attributes: any = {}) {
     let htmlAttributes = this.htmlAttributes(attributes);
     let innerHTML: string[] = yield;
 
-    let selfClosing = props ? props.selfClosing : false;
+    let selfClosing = VOID_ELEMENTS.indexOf(tagName.toLowerCase()) !== -1;
     if (selfClosing) {
       if (htmlAttributes.length) {
         return `<${tagName} ${htmlAttributes.join(" ")} />`;
@@ -89,17 +105,14 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *HorizontalRule() {
-    return yield* this.$("hr", { selfClosing: true });
+    return yield* this.$("hr");
   }
 
   *Image(image: Image) {
     return yield* this.$("img", {
-      attributes: {
-        src: image.attributes.url,
-        title: image.attributes.title,
-        alt: image.attributes.description
-      },
-      selfClosing: true
+      src: image.attributes.url,
+      title: image.attributes.title,
+      alt: image.attributes.description
     });
   }
 
@@ -108,17 +121,15 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *LineBreak() {
-    return yield* this.$("br", { selfClosing: true });
+    return yield* this.$("br");
   }
 
   *Link(link: Link) {
     return yield* this.$("a", {
-      attributes: {
-        href: encodeURI(link.attributes.url),
-        title: link.attributes.title,
-        rel: link.attributes.rel,
-        target: link.attributes.target
-      }
+      href: encodeURI(link.attributes.url),
+      title: link.attributes.title,
+      rel: link.attributes.rel,
+      target: link.attributes.target
     });
   }
 
@@ -126,11 +137,9 @@ export default class HTMLRenderer extends Renderer {
     let tagName = list.attributes.type === "numbered" ? "ol" : "ul";
 
     return yield* this.$(tagName, {
-      attributes: {
-        starts: list.attributes.startsAt,
-        compact: list.attributes.tight,
-        type: list.attributes.delimiter
-      }
+      starts: list.attributes.startsAt,
+      compact: list.attributes.tight,
+      type: list.attributes.delimiter
     });
   }
 
@@ -147,7 +156,7 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *SmallCaps() {
-    return yield* this.$("span", { attributes: { class: "smallcaps" } });
+    return yield* this.$("span", { class: "smallcaps" });
   }
 
   *Strikethrough() {
