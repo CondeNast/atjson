@@ -25,14 +25,12 @@ import HTMLRenderer from '@atjson/renderer-html';
 export default MyHTMLRenderer extends HTMLRenderer {
   *YoutubeEmbed(embed: YouTubeEmbed) {
     return yield* this.$('iframe', {
-      attributes: {
-        width: embed.attributes.width,
-        height: embed.attributes.height,
-        src: embed.attributes.url,
-        frameborder: '0',
-        allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
-        allowfullscreen: true
-      }
+      width: embed.attributes.width,
+      height: embed.attributes.height,
+      src: embed.attributes.url,
+      frameborder: '0',
+      allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+      allowfullscreen: true
     });
   }
 }
