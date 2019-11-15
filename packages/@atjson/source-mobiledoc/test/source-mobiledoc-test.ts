@@ -370,7 +370,10 @@ describe("@atjson/source-Mobiledoc", () => {
             3,
             type,
             [
-              [[0, [], 0, "first item "], [0, [0], 1, "with italic text"]],
+              [
+                [0, [], 0, "first item "],
+                [0, [0], 1, "with italic text"]
+              ],
               [
                 [0, [], 0, "second item "],
                 [0, [1], 1, "with struck-through text"]

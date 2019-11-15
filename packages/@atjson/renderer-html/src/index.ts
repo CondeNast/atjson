@@ -59,20 +59,17 @@ export default class HTMLRenderer extends Renderer {
   htmlAttributes(attributes: {
     [index: string]: string | number | boolean | undefined;
   }) {
-    return Object.keys(attributes).reduce(
-      (results, key) => {
-        let value = attributes[key];
-        if (typeof value === "number") {
-          results.push(`${key}=${value}`);
-        } else if (typeof value === "boolean" && value === true) {
-          results.push(`${key}`);
-        } else if (value != null && value !== false) {
-          results.push(`${key}="${entities.encode(value)}"`);
-        }
-        return results;
-      },
-      [] as string[]
-    );
+    return Object.keys(attributes).reduce((results, key) => {
+      let value = attributes[key];
+      if (typeof value === "number") {
+        results.push(`${key}=${value}`);
+      } else if (typeof value === "boolean" && value === true) {
+        results.push(`${key}`);
+      } else if (value != null && value !== false) {
+        results.push(`${key}="${entities.encode(value)}"`);
+      }
+      return results;
+    }, [] as string[]);
   }
 
   *root() {

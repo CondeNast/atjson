@@ -73,7 +73,10 @@ describe("Document#convert", () => {
 
     expect(testDoc).toMatchObject({
       content: "Hello, World!",
-      annotations: [{ start: 0, end: 13 }, { start: 0, end: 5 }]
+      annotations: [
+        { start: 0, end: 13 },
+        { start: 0, end: 5 }
+      ]
     });
   });
 
