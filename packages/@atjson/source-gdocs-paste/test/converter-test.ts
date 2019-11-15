@@ -129,7 +129,10 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
     };
   });
 
-  const LISTS = [[214, 486], [521, 538]].map(([start, end]) => {
+  const LISTS = [
+    [214, 486],
+    [521, 538]
+  ].map(([start, end]) => {
     return {
       start,
       end,
@@ -139,17 +142,20 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
     };
   });
 
-  const LIST_ITEMS = [[214, 324], [325, 405], [406, 486], [521, 537]].map(
-    ([start, end]) => {
-      return {
-        start,
-        end,
-        type: "-offset-list-item",
-        attributes: {},
-        id: expect.anything()
-      };
-    }
-  );
+  const LIST_ITEMS = [
+    [214, 324],
+    [325, 405],
+    [406, 486],
+    [521, 537]
+  ].map(([start, end]) => {
+    return {
+      start,
+      end,
+      type: "-offset-list-item",
+      attributes: {},
+      id: expect.anything()
+    };
+  });
 
   beforeAll(() => {
     // https://docs.google.com/document/d/1PzhE6OJqRIHrDZcXBjw7UsjUhH_ITPP7tgg2s9fhPf4/edit
