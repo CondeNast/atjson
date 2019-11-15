@@ -12,6 +12,7 @@
   "dependencies": {
     "@atjson/document": "*",
     "@atjson/offset-annotations": "*",
+    "@atjson/renderer-html": "*",
     "@atjson/renderer-react": "*",
     "@atjson/source-commonmark": "*",
     "@atjson/source-html": "*",
