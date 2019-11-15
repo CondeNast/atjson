@@ -24,5 +24,6 @@ jobs:
     - name: 🐢 Performance
       run: |
         npm ci
+        npm run typecheck
         pushd packages/\@atjson/renderer-commonmark/
         time node ./performance/index.js
