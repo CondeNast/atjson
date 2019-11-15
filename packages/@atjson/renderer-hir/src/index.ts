@@ -156,7 +156,7 @@ function normalizeChildNode(childNode: HIRNode) {
   }
 }
 
-function textAnnotationFromNode(childNode: HIRNode): Annotation {
+function textAnnotationFromNode(childNode: HIRNode) {
   return {
     type: "text",
     start: childNode.start,
@@ -203,9 +203,7 @@ export default class Renderer {
       return yield* generator.call(this, annotation, context);
     } else {
       // tslint:disable-next-line:no-console
-      console.warn(
-        `No renderer was provided for annotations of type ${annotation.type} in the renderer ${this.constructor.name}. Possibly important information has been dropped.`
-      );
+      console.warn(`[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`);
       // tslint:disable-next-line:no-console
       console.debug("Unsupported annotation:", annotation);
       return yield;

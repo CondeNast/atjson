@@ -1,5 +1,4 @@
-import Document from "@atjson/document";
-import Annotation from "@atjson/annotation";
+import Document, { Annotation } from "@atjson/document";
 import Renderer from "@atjson/renderer-hir";
 
 export default class PlainTextRenderer extends Renderer {
