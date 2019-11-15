@@ -19,25 +19,29 @@ The HTML renderer has a `$` method that's designed to make it easy to extend and
 To extend the current HTML renderer to support YouTube embeds (the kind that show up when you use the share menu), we'd use the following code:
 
 ```ts
-import { YouTubeEmbed } from '@atjson/offset-annotations';
-import HTMLRenderer from '@atjson/renderer-html';
+import { YouTubeEmbed } from "@atjson/offset-annotations";
+import HTMLRenderer from "@atjson/renderer-html";
 
-export default MyHTMLRenderer extends HTMLRenderer {
+export default class MyHTMLRenderer extends HTMLRenderer {
   *YoutubeEmbed(embed: YouTubeEmbed) {
-    return yield* this.$('iframe', {
+    return yield* this.$("iframe", {
       width: embed.attributes.width,
       height: embed.attributes.height,
       src: embed.attributes.url,
-      frameborder: '0',
-      allow: 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture',
+      frameborder: "0",
+      allow:
+        "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: true
     });
   }
 }
 ```
 
-Now when we put in a video, like `https://www.youtube.com/watch?v=RrkL9e2w7gQ`, we'll get the following:
+<!--
+  Below, we're actually using the above code to generate
+  the YouTube <iframe> and the DOM rendered from this.
+-->
 
-```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/RrkL9e2w7gQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-```
+import { HTMLRendererDemo } from "../src/components/HTMLRendererDemo.tsx";
+
+<HTMLRendererDemo />
