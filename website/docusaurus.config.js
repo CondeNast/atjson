@@ -2,17 +2,13 @@ const { join } = require("path");
 
 module.exports = {
   title: "atjson",
-  tagline: "Content that you can query, manipulate, and store with ease",
+  tagline: "TK",
   url: "https://atjson.condenast.io",
   baseUrl: "/",
   favicon: "img/favicon.ico",
   themeConfig: {
     navbar: {
       title: "atjson",
-      logo: {
-        alt: "My site Logo",
-        src: "img/logo.svg"
-      },
       links: [
         {
           to: "docs/getting-started",
@@ -27,10 +23,10 @@ module.exports = {
       ]
     },
     footer: {
-      style: "dark",
       logo: {
         alt: "Condé Nast",
-        src: "/img/conde-nast.svg"
+        src: "/img/conde-nast.svg",
+        href: "https://technology.condenast.com"
       },
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`
     }
@@ -40,6 +36,9 @@ module.exports = {
     [
       "@docusaurus/preset-classic",
       {
+        theme: {
+          customCss: require.resolve("./src/css/custom.css")
+        },
         docs: {
           sidebarPath: require.resolve("./sidebars.json"),
           editUrl: "https://github.com/CondeNast/atjson/edit/latest/website/"

@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i&display=swap");
+
+:root {
+  --ifm-font-family-monospace: "IBM Plex Mono", SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  --ifm-font-family-base: "IBM Plex Sans", system-ui, -apple-system, Segoe UI,
+    Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont,
+    "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+  --ifm-code-font-size: 100% !important;
+  --ifm-footer-background-color: #fff;
+  --ifm-footer-color: #333;
+  --ifm-button-border-radius: 4px;
+
+  --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg alt="Arrow" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill="rgba(23, 23, 23)" d="M7.99998 10.4634L13.2407 4.34924C13.6001 3.92991 14.2314 3.88135 14.6508 4.24077C15.0701 4.6002 15.1187 5.2315 14.7592 5.65082L8.75924 12.6508C8.36014 13.1164 7.63982 13.1164 7.24073 12.6508L1.24073 5.65082C0.881304 5.2315 0.929865 4.6002 1.34919 4.24077C1.76852 3.88135 2.39982 3.92991 2.75924 4.34924L7.99998 10.4634Z"></path></svg>');
+}
+
+.docTitle_node_modules-\@docusaurus-theme-classic-src-theme-DocItem- {
+  font-size: 2.5rem !important;
+  margin-bottom: 2.5rem !important;
+}
+
+.menu .menu__link.menu__link--sublist::after {
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+}
+
+footer {
+  border-top: 1px solid var(--ifm-contents-border-color);
+  font-size: 80%;
+}
