@@ -651,4 +651,9 @@ export default class CommonmarkRenderer extends Renderer {
     }
     return text + "\n\n";
   }
+
+  *FixedIndent(): Iterable<any> {
+    let rawText = yield;
+    return rawText.join("");
+  }
 }

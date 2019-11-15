@@ -1522,4 +1522,31 @@ After all the lists
       expect(CommonmarkRenderer.render(document)).toEqual("`a\nb`");
     });
   });
+
+  describe("fixed indent", () => {
+    test("handles indent annotations of different sizes", () => {
+      let document = new OffsetSource({
+        content:
+          "Normal text, \u2003Indented text\nMore text, \u2003\u2003\u2003Also indented",
+        annotations: [
+          {
+            type: "-offset-fixed-indent",
+            start: 13,
+            end: 27,
+            attributes: {}
+          },
+          {
+            type: "-offset-fixed-indent",
+            start: 39,
+            end: 55,
+            attributes: {}
+          }
+        ]
+      });
+
+      expect(CommonmarkRenderer.render(document)).toEqual(
+        "Normal text, \u2003Indented text\nMore text, \u2003\u2003\u2003Also indented"
+      );
+    });
+  });
 });
