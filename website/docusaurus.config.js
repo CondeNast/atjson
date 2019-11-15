@@ -42,8 +42,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve("./sidebars.json"),
-          editUrl:
-            "https://github.com/CondeNast/atjson/edit/latest/website/docs/"
+          editUrl: "https://github.com/CondeNast/atjson/edit/latest/website/"
         }
       }
     ]
