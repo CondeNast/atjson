@@ -15,7 +15,7 @@
     "noUnusedParameters": true,
     "removeComments": true,
     "jsx": "react",
-    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ES2019"
   },

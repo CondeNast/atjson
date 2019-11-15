@@ -25,9 +25,8 @@ function Home() {
       title={`Hello from ${siteConfig.title}`}
       description="Description will go into a meta tag in <head />"
     >
-      <header className={classnames("hero hero--dark", styles.header)}>
+      <header className={classnames("hero", styles.header)}>
         <div className="container">
-          <img src={useBaseUrl("img/logo.svg")} alt="logo" />
           <h1 className="hero__title">{siteConfig.title}</h1>
           <p className="hero__subtitle">{siteConfig.tagline}</p>
           <div className={styles.buttons}>

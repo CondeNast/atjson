@@ -9,4 +9,8 @@ export const Note = styled.div`
   p:last-child {
     margin-bottom: 0;
   }
+
+  code {
+    background-color: #ffed80;
+  }
 `;

@@ -21,7 +21,8 @@ export const TextField = styled.input`
 
   :focus {
     outline: none;
-    border-color: #0036ff;
+    border: 2px solid #0036ff;
     box-shadow: 0 0 0 2px #0036ff33;
+    padding: calc(0.5rem - 1px) calc(1rem - 1px);
   }
 `;
