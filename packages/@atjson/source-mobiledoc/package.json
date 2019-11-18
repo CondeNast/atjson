@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-mobiledoc",
-  "version": "0.21.8",
+  "version": "0.21.9",
   "description": "Create atjson documents from Mobiledoc",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
