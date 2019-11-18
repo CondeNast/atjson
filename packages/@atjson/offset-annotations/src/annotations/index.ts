@@ -3,6 +3,7 @@ export * from "./bold";
 export * from "./caption-source";
 export * from "./code";
 export * from "./facebook-embed";
+export * from "./fixed-indent";
 export * from "./giphy-embed";
 export * from "./heading";
 export * from "./horizontal-rule";
