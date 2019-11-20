@@ -1,6 +1,9 @@
 import { IframeEmbed, without } from "./iframe-embed";
 
-export class GiphyEmbed extends IframeEmbed {
+export class GiphyEmbed extends IframeEmbed<{
+  align?: string;
+  size?: string;
+}> {
   static type = "giphy-embed";
   static vendorPrefix = "offset";
 
