@@ -1305,6 +1305,40 @@ After all the lists
     );
   });
 
+  test("emspaces are encoded", () => {
+    let document = new OffsetSource({
+      content: "\u2003\u2003\u2003\u2003Hello \n    This is my text",
+      annotations: [
+        {
+          id: "1",
+          type: "-offset-paragraph",
+          start: 0,
+          end: 11,
+          attributes: {}
+        },
+        {
+          id: "2",
+          type: "-offset-paragraph",
+          start: 11,
+          end: 30,
+          attributes: {}
+        }
+      ]
+    });
+
+    let markdown = CommonmarkRenderer.render(document);
+
+    expect(markdown).toBe(
+      "&emsp;&emsp;&emsp;&emsp;Hello\n\nThis is my text\n\n"
+    );
+    // Make sure we're not generating code in the round-trip
+    expect(markdown).toEqual(
+      CommonmarkRenderer.render(
+        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)
+      )
+    );
+  });
+
   describe("escape sequences", () => {
     describe("numbers", () => {
       test.each(["5.8 million", "in 2016.", "2.0", "$280,000."])(
@@ -1545,7 +1579,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toEqual(
-        "Normal text, \u2003Indented text\nMore text, \u2003\u2003\u2003Also indented"
+        "Normal text, &emsp;Indented text\nMore text, &emsp;&emsp;&emsp;Also indented"
       );
     });
   });

@@ -197,7 +197,8 @@ function escapeHtmlEntities(text: string) {
   return text
     .replace(/&([^\s]+);/g, "\\&$1;")
     .replace(/</g, "&lt;")
-    .replace(/\u00A0/gu, "&nbsp;");
+    .replace(/\u00A0/gu, "&nbsp;")
+    .replace(/\u2003/gu, "&emsp;");
 }
 
 function escapeEntities(text: string) {
@@ -208,7 +209,8 @@ function unescapeEntities(text: string) {
   return text
     .replace(/&amp;/gi, "&")
     .replace(/&lt;/gi, "<")
-    .replace(/&nbsp;/gi, "\u00A0");
+    .replace(/&nbsp;/gi, "\u00A0")
+    .replace(/&emsp;/gi, "\u2003");
 }
 
 function escapeAttribute(text: string) {
