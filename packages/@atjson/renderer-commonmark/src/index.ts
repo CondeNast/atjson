@@ -20,6 +20,8 @@ import {
   BEGINNING_WHITESPACE_PUNCTUATION,
   ENDING_WHITESPACE,
   ENDING_WHITESPACE_PUNCTUATION,
+  LEADING_MD_SPACES,
+  TRAILING_MD_SPACES,
   WHITESPACE_PUNCTUATION
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
@@ -635,12 +637,13 @@ export default class CommonmarkRenderer extends Renderer {
     let rawText = yield;
     let text = rawText.join("");
 
-    // Remove leading and trailing newlines from paragraphs
-    // with text in them.
-    // This ensures that paragraphs preceded with tabs or spaces
-    // will not turn into code blocks
+    // If a paragraph has text, remove leading and trailing MD-meaningful
+    // space characters which could be interpreted as indented code blocks
+    // or line breaks
     if (!text.match(/^\s+$/g)) {
-      text = text.replace(/^\s+/g, "").replace(/\s+$/g, "");
+      text = text
+        .replace(LEADING_MD_SPACES, "")
+        .replace(TRAILING_MD_SPACES, "");
     }
 
     // Two newlines in raw text need to be encoded as HTML
