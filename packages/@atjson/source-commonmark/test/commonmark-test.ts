@@ -15,7 +15,7 @@ describe("whitespace", () => {
 
   describe("non-breaking spaces", () => {
     test("html entities are converted to unicode characters", () => {
-      let doc = CommonMarkSource.fromRaw("1\n\n&#8239;\n\n&nbsp;\n\n2");
+      let doc = CommonMarkSource.fromRaw("1\n\n&#8239;\n\n&nbsp;&emsp;\n\n2");
       let hir = new HIR(doc);
       expect(hir.toJSON()).toMatchObject({
         type: "root",
@@ -34,7 +34,7 @@ describe("whitespace", () => {
           {
             type: "paragraph",
             attributes: {},
-            children: ["\u00A0"]
+            children: ["\u00A0\u2003"]
           },
           {
             type: "paragraph",
