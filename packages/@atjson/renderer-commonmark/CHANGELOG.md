@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.14](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.13...@atjson/renderer-commonmark@0.21.14) (2019-11-25)
+
+### 🐛 Fixes
+
+- 🐞 Encode \u2003 as &emsp;
+- 🐞 Only strip MD-meaningful spaces in paragraphs
+
 ## [0.21.14-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.13...@atjson/renderer-commonmark@0.21.14-dev.0) (2019-11-22)
 
 ### 🐛 Fixes
