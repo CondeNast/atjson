@@ -850,6 +850,26 @@ describe("@atjson/source-html", () => {
           ]
         });
       });
+
+      test("Giphy embed", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://giphy.com/embed/13CoXDiaCcCoyk" width="480" height="398" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/wiggle-shaq-13CoXDiaCcCoyk">via GIPHY</a></p>`
+        ).convertTo(OffsetSource);
+
+        expect(doc.canonical()).toMatchObject({
+          content: "",
+          annotations: [
+            {
+              type: "giphy-embed",
+              start: 0,
+              end: 0,
+              attributes: {
+                url: "https://giphy.com/embed/13CoXDiaCcCoyk"
+              }
+            }
+          ]
+        });
+      });
     });
   });
 });

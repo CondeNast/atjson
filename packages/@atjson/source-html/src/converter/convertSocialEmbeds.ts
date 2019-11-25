@@ -1,6 +1,6 @@
 import Document, { Annotation, ParseAnnotation } from "@atjson/document";
 import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
-import { Script } from "../annotations";
+import { Script, Link } from "../annotations";
 
 function isInstagramOrTwitterBlockquote(annotation: Annotation<any>) {
   if (annotation.type !== "blockquote") {
@@ -43,23 +43,6 @@ function identifyURL(src: string) {
 }
 
 export default function(doc: Document) {
-  doc.where({ type: "-html-iframe" }).update(iframe => {
-    let { start, end } = iframe;
-    let { height, width, src } = iframe.attributes;
-
-    let { url = src, AnnotationClass = IframeEmbed } = identifyURL(src);
-    let embed = new AnnotationClass({
-      start: start,
-      end: end,
-      attributes: {
-        url,
-        height,
-        width
-      }
-    });
-    doc.replaceAnnotation(iframe, embed);
-  });
-
   /**
    * Instagram/Twitter embeds in blockquotes:
    *   <blockquote class="instagram-media" data-instgrm-permalink="url">
@@ -159,6 +142,77 @@ export default function(doc: Document) {
         })
       );
     }
+  });
+
+  // Handle Giphy embeds; they have
+  //   <iframe></iframe><p><a>via Giphy</a></p>
+  doc
+    .where(a => a.type === "iframe")
+    .as("iframe")
+    .join(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      (iframe, paragraph) => {
+        return (
+          iframe.end <= paragraph.start && iframe.start <= paragraph.end + 1
+        );
+      }
+    )
+    .join(
+      doc.where({ type: "-html-a" }).as("links"),
+      ({ paragraphs }, link: Link) => {
+        let paragraph = paragraphs[0];
+        return (
+          link.start > paragraph.start &&
+          link.end < paragraph.end &&
+          (link.attributes.href || "").indexOf("giphy") !== -1
+        );
+      }
+    )
+    .update(({ iframe, paragraphs, links }) => {
+      let { start, end } = iframe;
+      let { height, width, src } = iframe.attributes;
+
+      let { url, AnnotationClass } = identifyURL(src);
+      if (url && AnnotationClass) {
+        doc.removeAnnotation(links[0]);
+        doc.removeAnnotation(paragraphs[0]);
+        doc.replaceAnnotation(
+          iframe,
+          new AnnotationClass({
+            start: start,
+            end: end,
+            attributes: {
+              url,
+              height,
+              width
+            }
+          }),
+          new ParseAnnotation({
+            start: paragraphs[0].start,
+            end: paragraphs[0].end,
+            attributes: {
+              reason: "Giphy embed paragraph"
+            }
+          })
+        );
+      }
+    });
+
+  doc.where({ type: "-html-iframe" }).update(iframe => {
+    let { start, end } = iframe;
+    let { height, width, src } = iframe.attributes;
+
+    let { url = src, AnnotationClass = IframeEmbed } = identifyURL(src);
+    let embed = new AnnotationClass({
+      start: start,
+      end: end,
+      attributes: {
+        url,
+        height,
+        width
+      }
+    });
+    doc.replaceAnnotation(iframe, embed);
   });
 
   return doc;
