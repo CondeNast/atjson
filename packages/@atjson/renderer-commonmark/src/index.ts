@@ -202,7 +202,10 @@ function escapeHtmlEntities(text: string) {
 }
 
 function escapeEntities(text: string) {
-  return text.replace(/&([^\s]+);/g, "\\&$1;").replace(/\u00A0/gu, "&nbsp;");
+  return text
+    .replace(/&([^\s]+);/g, "\\&$1;")
+    .replace(/\u00A0/gu, "&nbsp;")
+    .replace(/\u2003/gu, "&emsp;");
 }
 
 function unescapeEntities(text: string) {
