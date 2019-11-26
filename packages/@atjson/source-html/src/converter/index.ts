@@ -2,7 +2,7 @@ import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { Code } from "@atjson/offset-annotations";
 import { Image, OrderedList } from "../annotations";
 import HTMLSource from "../source";
-import convertSocialEmbeds from "./convertSocialEmbeds";
+import convertSocialEmbeds from "./social-embeds";
 
 function getText(doc: Document) {
   let text = "";
