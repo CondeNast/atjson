@@ -65,7 +65,7 @@
     "clean": "tsc -b packages/**/* --clean && tsc -b packages/@atjson/**/tsconfig.modules.json --clean",
     "lint": "eslint packages/**/src/*.ts packages/**/test/*.ts",
     "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts --fix",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "rm -rf packages/@atjson/**/dist && npm run build",
     "publish": "lerna publish",
     "test": "./node_modules/jest/bin/jest.js",
     "typecheck": "tsc -b packages/**/* --force"
