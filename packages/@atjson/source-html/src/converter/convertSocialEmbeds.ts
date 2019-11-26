@@ -153,7 +153,7 @@ export default function(doc: Document) {
       doc.where({ type: "-html-p" }).as("paragraphs"),
       (iframe, paragraph) => {
         return (
-          iframe.end <= paragraph.start && iframe.start <= paragraph.end + 1
+          iframe.end <= paragraph.start && paragraph.start <= iframe.end + 1
         );
       }
     )
