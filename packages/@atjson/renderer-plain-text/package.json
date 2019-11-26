@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-plain-text",
-  "version": "0.21.10",
+  "version": "0.21.11",
   "description": "Render atjson documents in plain text",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
