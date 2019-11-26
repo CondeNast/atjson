@@ -687,6 +687,17 @@ After all the lists
         let doc = new OffsetSource({ content: entity, annotations: [] });
         expect(CommonmarkRenderer.render(doc)).toBe("\\" + entity);
       });
+
+      test.each([
+        ["&emsp;", "\u2003"],
+        ["&nbsp;", "\u00a0"]
+      ])("%s", (entity, unicode) => {
+        let doc = new OffsetSource({ content: unicode, annotations: [] });
+        expect(CommonmarkRenderer.render(doc)).toBe(entity);
+        expect(
+          CommonmarkRenderer.render(doc, { escapeHtmlEntities: false })
+        ).toBe(entity);
+      });
     });
 
     describe(`don't escapeHtmlEntities`, () => {
