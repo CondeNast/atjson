@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
     "atjson"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

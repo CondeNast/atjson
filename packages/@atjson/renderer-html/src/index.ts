@@ -1,4 +1,11 @@
-import { Code, Heading, Image, Link, List } from "@atjson/offset-annotations";
+import {
+  CerosEmbed,
+  Code,
+  Heading,
+  Image,
+  Link,
+  List
+} from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
 
@@ -83,6 +90,48 @@ export default class HTMLRenderer extends Renderer {
 
   *Bold() {
     return yield* this.$("strong");
+  }
+
+  *CerosEmbed(embed: CerosEmbed) {
+    return `<div ${this.htmlAttributes({
+      style: [
+        "position: relative",
+        "width: auto",
+        `padding: 0 0 ${100 / embed.attributes.aspectRatio}%`,
+        "height: 0",
+        "top: 0",
+        "left: 0",
+        "bottom: 0",
+        "right: 0",
+        "margin: 0",
+        "border: 0 none"
+      ].join(";"),
+      id: `experience-${embed.id}`,
+      "data-aspectRatio": embed.attributes.aspectRatio?.toString(),
+      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString()
+    }).join(" ")}><iframe ${this.htmlAttributes({
+      allowfullscreen: true,
+      src: embed.attributes.url,
+      style: [
+        "position: absolute",
+        "top: 0",
+        "left: 0",
+        "bottom: 0",
+        "right: 0",
+        "margin: 0",
+        "padding: 0",
+        "border: 0 none",
+        "height: 1px",
+        "width: 1px",
+        "min-height: 100%",
+        "min-width: 100%"
+      ].join(";"),
+      frameborder: "0",
+      class: "ceros-experience",
+      scrolling: "no"
+    }).join(
+      " "
+    )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
   }
 
   *Code(code: Code) {
