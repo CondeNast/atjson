@@ -203,7 +203,9 @@ export default class Renderer {
       return yield* generator.call(this, annotation, context);
     } else {
       // tslint:disable-next-line:no-console
-      console.warn(`[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`);
+      console.warn(
+        `[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`
+      );
       // tslint:disable-next-line:no-console
       console.debug("Unsupported annotation:", annotation);
       return yield;
