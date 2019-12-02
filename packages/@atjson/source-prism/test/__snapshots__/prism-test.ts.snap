@@ -6927,6 +6927,7 @@ Object {
   "schema": Array [
     "-offset-blockquote",
     "-offset-bold",
+    "-offset-ceros-embed",
     "-offset-code",
     "-offset-facebook-embed",
     "-offset-fixed-indent",
@@ -8020,6 +8021,7 @@ Object {
   "schema": Array [
     "-offset-blockquote",
     "-offset-bold",
+    "-offset-ceros-embed",
     "-offset-code",
     "-offset-facebook-embed",
     "-offset-fixed-indent",
@@ -8955,6 +8957,7 @@ Object {
   "schema": Array [
     "-offset-blockquote",
     "-offset-bold",
+    "-offset-ceros-embed",
     "-offset-code",
     "-offset-facebook-embed",
     "-offset-fixed-indent",

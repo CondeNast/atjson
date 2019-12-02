@@ -2,6 +2,7 @@ import Document from "@atjson/document";
 import {
   Blockquote,
   Bold,
+  CerosEmbed,
   Code,
   FacebookEmbed,
   FixedIndent,
@@ -38,6 +39,7 @@ export default class OffsetSource extends Document {
   static schema = [
     Blockquote,
     Bold,
+    CerosEmbed,
     Code,
     FacebookEmbed,
     FixedIndent,

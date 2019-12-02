@@ -3,6 +3,7 @@ import OffsetSource, { Code } from "@atjson/offset-annotations";
 import { Image, OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
+import convertThirdPartyEmbeds from "./third-party-embeds";
 
 function getText(doc: Document) {
   let text = "";
@@ -18,6 +19,7 @@ function getText(doc: Document) {
 }
 
 HTMLSource.defineConverterTo(OffsetSource, doc => {
+  convertThirdPartyEmbeds(doc);
   convertSocialEmbeds(doc);
 
   doc
