@@ -144,6 +144,7 @@ function normalizeChildNode(childNode: HIRNode) {
     return textAnnotationFromNode(childNode);
   } else if (childNode.annotation instanceof UnknownAnnotation) {
     // FIXME This is not helpful debugging information, but I'm not sure the best way to surface more detail.
+    // eslint-disable-next-line no-console
     console.debug(
       "Encountered unknown annotation in render:",
       childNode.annotation
@@ -202,11 +203,11 @@ export default class Renderer {
     if (generator) {
       return yield* generator.call(this, annotation, context);
     } else {
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.warn(
         `[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`
       );
-      // tslint:disable-next-line:no-console
+      // eslint-disable-next-line no-console
       console.debug("Unsupported annotation:", annotation);
       return yield;
     }
