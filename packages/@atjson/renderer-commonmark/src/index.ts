@@ -475,7 +475,10 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Code(code: Code, context: Context): Iterator<void, string, string[]> {
     let state = Object.assign({}, this.state);
-    Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
+    Object.assign(this.state, {
+      isPreformatted: true,
+      htmlSafe: true
+    });
 
     let rawText = yield;
     let text = rawText.join("");
@@ -518,7 +521,10 @@ export default class CommonmarkRenderer extends Renderer {
 
   *Html(html: HTML): Iterator<void, string, string[]> {
     let state = Object.assign({}, this.state);
-    Object.assign(this.state, { isPreformatted: true, htmlSafe: true });
+    Object.assign(this.state, {
+      isPreformatted: true,
+      htmlSafe: true
+    });
 
     let rawText = yield;
     let text = rawText.join("");
@@ -660,7 +666,7 @@ export default class CommonmarkRenderer extends Renderer {
     return text + "\n\n";
   }
 
-  *FixedIndent(): Iterable<any> {
+  *FixedIndent(): Iterator<void, string, string[]> {
     let rawText = yield;
     return rawText.join("");
   }
