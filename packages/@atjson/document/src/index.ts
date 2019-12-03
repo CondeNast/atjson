@@ -112,6 +112,51 @@ export function getConverterFor(
   return converter;
 }
 
+/**
+ * This function merges and sorts the provided ranges
+ *
+ * @param ranges list of { start, end } structs to sort and merge
+ * @returns a list of non-overlapping { start, end } structs, sorted by start position
+ */
+export function mergeRanges(ranges: Array<{ start: number; end: number }>) {
+  if (ranges.length === 0) return [];
+
+  /**
+   * sort the ranges in ascending order by start position
+   * this allows us to efficiently merge them, which will allow us to efficiently delete text
+   */
+  let sortedRanges = ranges.sort(({ start: startL }, { start: startR }) => {
+    return startL - startR;
+  });
+
+  /**
+   * merge overlapping ranges so we don't need to worry about them when we're deleting text and adjusting annotations
+   *
+   * do this by passing over the sorted ranges (taking the first as a starting accumulator)
+   * for each new range we see, if it overlaps *and* overhangs the current accumulator we extend the accumulator
+   * if it doesn't overlap the current accumulator, we know it must come *after* the accumulator since the ranges are sorted
+   * so we add the accumulator to the merged ranges and make the next range the new accumulator
+   */
+  let [currentMergingRange, ...unmergedRanges] = sortedRanges;
+  let mergedRanges = [];
+
+  for (let range of unmergedRanges) {
+    // if the new range overlaps and overhangs the current range, extend the current range
+    if (range.start <= currentMergingRange.end) {
+      if (range.end > currentMergingRange.end) {
+        currentMergingRange.end = range.end;
+      }
+    } else {
+      mergedRanges.push(currentMergingRange);
+      currentMergingRange = range;
+    }
+  }
+
+  mergedRanges.push(currentMergingRange);
+
+  return mergedRanges;
+}
+
 export default class Document {
   static contentType: string;
   static schema: Array<AnnotationConstructor<any, any>> = [];
@@ -470,45 +515,6 @@ export default class Document {
     } while (regex.global && match);
 
     return matches;
-  }
-
-  static _mergeRanges(ranges: Array<{ start: number; end: number }>) {
-    if (ranges.length === 0) return [];
-
-    /**
-     * sort the ranges in ascending order by start position
-     * this allows us to efficiently merge them, which will allow us to efficiently delete text
-     */
-    let sortedRanges = ranges.sort(({ start: startL }, { start: startR }) => {
-      return startL - startR;
-    });
-
-    /**
-     * merge overlapping ranges so we don't need to worry about them when we're deleting text and adjusting annotations
-     *
-     * do this by passing over the sorted ranges (taking the first as a starting accumulator)
-     * for each new range we see, if it overlaps *and* overhangs the current accumulator we extend the accumulator
-     * if it doesn't overlap the current accumulator, we know it must come *after* the accumulator since the ranges are sorted
-     * so we add the accumulator to the merged ranges and make the next range the new accumulator
-     */
-    let [currentMergingRange, ...unmergedRanges] = sortedRanges;
-    let mergedRanges = [];
-
-    for (let range of unmergedRanges) {
-      // if the new range overlaps and overhangs the current range, extend the current range
-      if (range.start <= currentMergingRange.end) {
-        if (range.end > currentMergingRange.end) {
-          currentMergingRange.end = range.end;
-        }
-      } else {
-        mergedRanges.push(currentMergingRange);
-        currentMergingRange = range;
-      }
-    }
-
-    mergedRanges.push(currentMergingRange);
-
-    return mergedRanges;
   }
 
   deleteTextRanges(ranges: Array<{ start: number; end: number }>) {

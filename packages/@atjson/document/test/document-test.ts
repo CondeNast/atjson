@@ -1,11 +1,12 @@
+import { mergeRanges } from "../src";
 import TestSource, { Bold, Paragraph } from "./test-source";
 import { ParseAnnotation } from "../src";
 
 describe("Document#deleteTextRanges", () => {
-  describe("Document#_mergeRanges", () => {
+  describe("mergeRanges", () => {
     test("merges overlapping ranges", () => {
       expect(
-        TestSource._mergeRanges([
+        mergeRanges([
           { start: 0, end: 5 },
           { start: 5, end: 12 },
           { start: 4, end: 8 }
@@ -15,7 +16,7 @@ describe("Document#deleteTextRanges", () => {
 
     test("sorts ranges", () => {
       expect(
-        TestSource._mergeRanges([
+        mergeRanges([
           { start: 8, end: 10 },
           { start: 0, end: 4 }
         ])
@@ -27,7 +28,7 @@ describe("Document#deleteTextRanges", () => {
 
     test("handles more complex cases", () => {
       expect(
-        TestSource._mergeRanges([
+        mergeRanges([
           { start: 16, end: 17 },
           { start: 4, end: 5 },
           { start: 5, end: 10 },
