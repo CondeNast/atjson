@@ -21,7 +21,7 @@ export default function extractTextStyles(
       state.ts_va = {
         type: "-gdocs-ts_va",
         attributes: {
-          "-gdocs-va": style.ts_va
+          va: style.ts_va
         },
         start: i,
         end: -1

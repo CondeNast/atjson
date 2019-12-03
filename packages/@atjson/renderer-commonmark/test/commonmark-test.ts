@@ -27,9 +27,8 @@ describe("commonmark", () => {
           start: 0,
           end: 1,
           attributes: {
-            "-offset-url": "http://commonmark.org/images/markdown-mark.png",
-            "-offset-description":
-              "Image descriptions ![are escaped](example.jpg)"
+            url: "http://commonmark.org/images/markdown-mark.png",
+            description: "Image descriptions ![are escaped](example.jpg)"
           }
         }
       ]
@@ -98,7 +97,7 @@ describe("commonmark", () => {
         {
           id: "4",
           type: "-offset-list",
-          attributes: { "-offset-type": "numbered", "-offset-tight": true },
+          attributes: { type: "numbered", tight: true },
           start: 14,
           end: 81
         },
@@ -133,7 +132,7 @@ describe("commonmark", () => {
         {
           id: "9",
           type: "-offset-list",
-          attributes: { "-offset-type": "bulleted", "-offset-tight": true },
+          attributes: { type: "bulleted", tight: true },
           start: 67,
           end: 81
         },
@@ -215,7 +214,7 @@ After all the lists
             start: 9,
             end: 13,
             attributes: {
-              "-offset-url": "https://example.com"
+              url: "https://example.com"
             }
           }
         ]
@@ -236,7 +235,7 @@ After all the lists
             start: 8,
             end: 14,
             attributes: {
-              "-offset-url": "https://example.com"
+              url: "https://example.com"
             }
           }
         ]
@@ -423,28 +422,28 @@ After all the lists
           type: "-offset-heading",
           start: 0,
           end: 7,
-          attributes: { "-offset-level": 1 }
+          attributes: { level: 1 }
         },
         {
           id: "2",
           type: "-atjson-parse-token",
           start: 6,
           end: 7,
-          attributes: { "-atjson-reason": "newline" }
+          attributes: { reason: "newline" }
         },
         {
           id: "3",
           type: "-offset-heading",
           start: 7,
           end: 16,
-          attributes: { "-offset-level": 2 }
+          attributes: { level: 2 }
         },
         {
           id: "4",
           type: "-atjson-parse-token",
           start: 15,
           end: 16,
-          attributes: { "-atjson-reason": "newline" }
+          attributes: { reason: "newline" }
         }
       ]
     });
@@ -468,7 +467,7 @@ After all the lists
           type: "-offset-link",
           start: 23,
           end: 28,
-          attributes: { "-offset-url": "https://example.com" }
+          attributes: { url: "https://example.com" }
         }
       ]
     });
@@ -1610,7 +1609,7 @@ After all the lists
             type: `-offset-${name}`,
             start: 0,
             end: 2,
-            attributes: { "-offset-level": 2 }
+            attributes: { level: 2 }
           },
           { type: "-offset-line-break", start: 1, end: 2, attributes: {} }
         ]
@@ -1627,7 +1626,7 @@ After all the lists
             type: "-offset-code",
             start: 0,
             end: 3,
-            attributes: { "-offset-style": "inline" }
+            attributes: { style: "inline" }
           },
           { type: "-offset-line-break", start: 1, end: 2, attributes: {} }
         ]

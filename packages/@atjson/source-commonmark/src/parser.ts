@@ -9,7 +9,7 @@ function getAttributes(token: Token): Attributes {
   let attributes: Attributes = {};
   if (token.attrs) {
     for (let attribute of token.attrs) {
-      attributes[`-commonmark-${attribute[0]}`] = attribute[1];
+      attributes[attribute[0]] = attribute[1];
     }
   }
 
@@ -191,7 +191,7 @@ export default class Parser {
             }
           }
 
-          attrs["-commonmark-tight"] = isTight;
+          attrs["tight"] = isTight;
         }
         let annotationGenerator = this.convertTokenToAnnotation(
           node.name,
@@ -229,10 +229,10 @@ export default class Parser {
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs || {});
     if (name === "heading") {
-      attributes["-commonmark-level"] = parseInt(open.tag[1], 10);
+      attributes["level"] = parseInt(open.tag[1], 10);
     }
     if (name === "fence") {
-      attributes["-commonmark-info"] = entities.decodeHTML5(open.info.trim());
+      attributes["info"] = entities.decodeHTML5(open.info.trim());
     }
 
     if (this.handlers[name]) {

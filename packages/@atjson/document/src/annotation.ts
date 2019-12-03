@@ -75,11 +75,7 @@ export default abstract class Annotation<Attributes = {}> {
       id: attrs.id,
       start: attrs.start,
       end: attrs.end,
-      attributes: unprefix(
-        this.vendorPrefix,
-        this.subdocuments,
-        attrs.attributes
-      )
+      attributes: unprefix(this.subdocuments, attrs.attributes)
     });
   }
 
@@ -255,7 +251,7 @@ export default abstract class Annotation<Attributes = {}> {
       type: `-${vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes)
+      attributes: toJSON(this.attributes)
     };
   }
 }

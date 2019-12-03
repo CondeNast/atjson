@@ -137,7 +137,7 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
       start,
       end,
       type: "-offset-list",
-      attributes: { "-offset-type": "numbered" },
+      attributes: { type: "numbered" },
       id: expect.anything()
     };
   });

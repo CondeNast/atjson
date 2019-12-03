@@ -371,8 +371,8 @@ describe("@atjson/hir", () => {
           start: 0,
           end: 1,
           attributes: {
-            "-test-url": "http://www.example.com/test.jpg",
-            "-test-caption": {
+            url: "http://www.example.com/test.jpg",
+            caption: {
               content: "An example caption",
               annotations: [
                 {

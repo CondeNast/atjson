@@ -12,10 +12,10 @@ function createListAnnotation(
     start,
     end,
     attributes: {
-      "-gdocs-ls_id": list.ls_id,
-      "-gdocs-ls_b_gs": entityMap[list.ls_id].le_nb.nl_0.b_gs,
-      "-gdocs-ls_b_gt": entityMap[list.ls_id].le_nb.nl_0.b_gt,
-      "-gdocs-ls_b_a": entityMap[list.ls_id].le_nb.nl_0.b_a
+      ls_id: list.ls_id,
+      ls_b_gs: entityMap[list.ls_id].le_nb.nl_0.b_gs,
+      ls_b_gt: entityMap[list.ls_id].le_nb.nl_0.b_gt,
+      ls_b_a: entityMap[list.ls_id].le_nb.nl_0.b_a
     }
   };
 }
@@ -30,8 +30,8 @@ function createListItemAnnotation(
     start,
     end,
     attributes: {
-      "-gdocs-ls_nest": list.ls_nest,
-      "-gdocs-ls_id": list.ls_id
+      ls_nest: list.ls_nest,
+      ls_id: list.ls_id
     }
   };
 }

@@ -108,8 +108,8 @@ describe("new Document", () => {
           start: 0,
           end: 1,
           attributes: {
-            "-test-url": "http://www.example.com/test.jpg",
-            "-test-caption": {
+            url: "http://www.example.com/test.jpg",
+            caption: {
               content: "An example caption",
               annotations: [
                 {
@@ -246,7 +246,7 @@ describe("new Document", () => {
           start: 14,
           end: 15,
           attributes: {
-            "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+            uri: "https://www.instagram.com/p/BeW0pqZDUuK/"
           }
         }
       ]
@@ -392,7 +392,7 @@ describe("new Document", () => {
             start: 14,
             end: 15,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+              uri: "https://www.instagram.com/p/BeW0pqZDUuK/"
             }
           }
         ]
@@ -432,7 +432,7 @@ describe("new Document", () => {
             start: 14,
             end: 15,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+              uri: "https://www.instagram.com/p/BeW0pqZDUuK/"
             }
           }
         ]
@@ -491,7 +491,7 @@ describe("new Document", () => {
             start: 9,
             end: 10,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+              uri: "https://www.instagram.com/p/BeW0pqZDUuK/"
             }
           }
         ]

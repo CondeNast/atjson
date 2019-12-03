@@ -3,7 +3,7 @@ import { HIR } from "@atjson/hir";
 import MobiledocSource from "../src";
 import { ListSection } from "../src/parser";
 
-describe("@atjson/source-Mobiledoc", () => {
+describe("@atjson/source-mobiledoc", () => {
   describe("sections", () => {
     describe.each([
       "p",

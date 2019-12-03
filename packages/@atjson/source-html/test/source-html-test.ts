@@ -101,10 +101,10 @@ describe("@atjson/source-html", () => {
       {
         type: "-html-div",
         attributes: {
-          "-html-class": "spaceship",
-          "-html-dataset": {
-            "-html-ship-id": "92432",
-            "-html-weapons": "kittens"
+          class: "spaceship",
+          dataset: {
+            "ship-id": "92432",
+            weapons: "kittens"
           }
         }
       }

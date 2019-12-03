@@ -49,7 +49,7 @@ export default function extractParagraphStyles(
         start: lastParagraphStart,
         end: i,
         attributes: {
-          "-gdocs-level": style.ps_hd
+          level: style.ps_hd
         }
       });
     }

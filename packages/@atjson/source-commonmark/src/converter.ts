@@ -9,44 +9,45 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .set({ type: "-offset-blockquote" });
   doc
     .where({ type: "-commonmark-bullet_list" })
-    .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } })
-    .rename({ attributes: { "-commonmark-tight": "-offset-tight" } });
+    .set({ type: "-offset-list", attributes: { type: "bulleted" } });
+
   doc
     .where({ type: "-commonmark-code_block" })
-    .set({ type: "-offset-code", attributes: { "-offset-style": "block" } });
+    .set({ type: "-offset-code", attributes: { style: "block" } });
   doc
     .where({ type: "-commonmark-code_inline" })
-    .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
+    .set({ type: "-offset-code", attributes: { style: "inline" } });
   doc.where({ type: "-commonmark-em" }).set({ type: "-offset-italic" });
   doc
     .where({ type: "-commonmark-fence" })
-    .set({ type: "-offset-code", attributes: { "-offset-style": "fence" } })
-    .rename({ attributes: { "-commonmark-info": "-offset-info" } });
+    .set({ type: "-offset-code", attributes: { style: "fence" } });
+
   doc
     .where({ type: "-commonmark-hardbreak" })
     .set({ type: "-offset-line-break" });
   doc
     .where({ type: "-commonmark-heading" })
     .set({ type: "-offset-heading" })
-    .rename({ attributes: { "-commonmark-level": "-offset-level" } });
+    .rename({ attributes: { level: "level" } });
+
   doc
     .where({ type: "-commonmark-hr" })
     .set({ type: "-offset-horizontal-rule" });
   doc
     .where({ type: "-commonmark-html_block" })
-    .set({ type: "-offset-html", attributes: { "-offset-style": "block" } });
+    .set({ type: "-offset-html", attributes: { style: "block" } });
   doc
     .where({ type: "-commonmark-html_inline" })
-    .set({ type: "-offset-html", attributes: { "-offset-style": "inline" } });
+    .set({ type: "-offset-html", attributes: { style: "inline" } });
 
   doc
     .where({ type: "-commonmark-image" })
     .set({ type: "-offset-image" })
     .rename({
       attributes: {
-        "-commonmark-src": "-offset-url",
-        "-commonmark-title": "-offset-title",
-        "-commonmark-alt": "-offset-description"
+        "src": "url",
+        "title": "title",
+        "alt": "description"
       }
     });
 
@@ -55,8 +56,7 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .set({ type: "-offset-link" })
     .rename({
       attributes: {
-        "-commonmark-href": "-offset-url",
-        "-commonmark-title": "-offset-title"
+        href: "url"
       }
     });
   doc
@@ -64,11 +64,10 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .set({ type: "-offset-list-item" });
   doc
     .where({ type: "-commonmark-ordered_list" })
-    .set({ type: "-offset-list", attributes: { "-offset-type": "numbered" } })
+    .set({ type: "-offset-list", attributes: { type: "numbered" } })
     .rename({
       attributes: {
-        "-commonmark-start": "-offset-startsAt",
-        "-commonmark-tight": "-offset-tight"
+        start: "startsAt"
       }
     });
   doc

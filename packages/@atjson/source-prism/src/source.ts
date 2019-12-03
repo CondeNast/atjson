@@ -9,30 +9,6 @@ import * as entities from "entities";
 import * as sax from "sax";
 import { Article, Description, Media, Message, Title } from "./annotations";
 
-function prefix(vendorPrefix: string, attributes: any): any {
-  if (Array.isArray(attributes)) {
-    return attributes.map(function recurseWithVendor(item: any) {
-      return prefix(vendorPrefix, item);
-    });
-  } else if (typeof attributes === "object" && attributes != null) {
-    let prefixedAttributes: any = {};
-    for (let namespacedKey in attributes) {
-      let [namespace, key] = namespacedKey.split(":");
-      if (key == null) {
-        key = namespace;
-        namespace = vendorPrefix;
-      }
-      prefixedAttributes[`-${namespace}-${key}`] = prefix(
-        vendorPrefix,
-        attributes[key]
-      );
-    }
-    return prefixedAttributes;
-  } else {
-    return attributes;
-  }
-}
-
 function getVendorPrefix(tagName: string) {
   let [namespace, tag] = tagName.split(":");
   if (tag == null) {
@@ -94,7 +70,7 @@ export default class PRISMSource extends Document {
             type: `-${vendorPrefix}-${type}`,
             start: parser.startTagPosition - 1,
             end: parser.position,
-            attributes: prefix(vendorPrefix, node.attributes)
+            attributes: node.attributes as any
           },
           new ParseAnnotation({
             start: parser.startTagPosition - 1,
@@ -108,7 +84,7 @@ export default class PRISMSource extends Document {
         partialAnnotations.push({
           type: `-${vendorPrefix}-${type}`,
           start: parser.startTagPosition - 1,
-          attributes: prefix(vendorPrefix, node.attributes)
+          attributes: node.attributes as any
         });
         annotations.push(
           new ParseAnnotation({

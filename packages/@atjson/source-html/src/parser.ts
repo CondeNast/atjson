@@ -35,16 +35,16 @@ function getAttributes(node: parse5.DefaultTreeElement): NonNullable<any> {
   let attributes: NonNullable<any> = {};
   for (let attr of node.attrs) {
     if (attr.name.indexOf("data-") === 0) {
-      if (attributes["-html-dataset"] == null) attributes["-html-dataset"] = {};
-      attributes["-html-dataset"][attr.name.slice(5)] = attr.value;
+      if (attributes["dataset"] == null) attributes["dataset"] = {};
+      attributes["dataset"][attr.name.slice(5)] = attr.value;
     } else {
-      attributes[`-html-${attr.name}`] = attr.value;
+      attributes[attr.name] = attr.value;
     }
   }
 
-  let href = attributes["-html-href"];
+  let href = attributes["href"];
   if (node.tagName === "a" && typeof href === "string") {
-    attributes["-html-href"] = decodeURI(href);
+    attributes["href"] = decodeURI(href);
   }
 
   return attributes;

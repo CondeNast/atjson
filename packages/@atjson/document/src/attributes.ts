@@ -2,7 +2,6 @@ import Document, { AnnotationJSON } from "./index";
 import JSON, { JSONObject } from "./json";
 
 export function unprefix(
-  vendorPrefix: string,
   subdocuments: { [key: string]: typeof Document },
   attribute: JSON,
   path: Array<string | number> = []
@@ -10,7 +9,6 @@ export function unprefix(
   if (Array.isArray(attribute)) {
     return attribute.map(function unprefixAttr(attr, index) {
       let result = unprefix(
-        vendorPrefix,
         subdocuments,
         attr,
         path.concat(index)
@@ -29,13 +27,11 @@ export function unprefix(
     let attrs: NonNullable<any> = {};
     for (let key in attribute) {
       let value = attribute[key];
-      if (key.indexOf(`-${vendorPrefix}-`) === 0 && value !== undefined) {
-        let unprefixedKey = key.slice(`-${vendorPrefix}-`.length);
-        attrs[unprefixedKey] = unprefix(
-          vendorPrefix,
+      if (value !== undefined) {
+        attrs[key] = unprefix(
           subdocuments,
           value,
-          path.concat(unprefixedKey)
+          path.concat(key)
         );
       } else {
         attrs[key] = value;
@@ -48,10 +44,10 @@ export function unprefix(
   }
 }
 
-export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
+export function toJSON(attribute: NonNullable<any>): any {
   if (Array.isArray(attribute)) {
     return attribute.map(function attributeToJSON(attr) {
-      let result = toJSON(vendorPrefix, attr);
+      let result = toJSON(attr);
       return result;
     });
   } else if (attribute instanceof Document) {
@@ -63,11 +59,7 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
     for (let key in attribute) {
       let value = attribute[key];
       if (value !== undefined) {
-        if (key[0] === "-") {
-          copy[key] = toJSON(vendorPrefix, value);
-        } else {
-          copy[`-${vendorPrefix}-${key}`] = toJSON(vendorPrefix, value);
-        }
+        copy[key] = toJSON(value);
       }
     }
 

@@ -16,20 +16,6 @@ export interface Mobiledoc {
   sections: Array<Section | ImageSection | ListSection | CardSection>;
 }
 
-function prefix(attributes: any): any {
-  if (Array.isArray(attributes)) {
-    return attributes.map(prefix);
-  } else if (typeof attributes === "object" && attributes != null) {
-    let prefixedAttributes: any = {};
-    for (let key in attributes) {
-      prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
-    }
-    return prefixedAttributes;
-  } else {
-    return attributes;
-  }
-}
-
 export default class Parser {
   content: string;
   annotations: AnnotationJSON[];
@@ -70,7 +56,7 @@ export default class Parser {
       type: `-mobiledoc-${card[0]}-card`,
       start,
       end: start + 1,
-      attributes: prefix(card[1])
+      attributes: card[1]
     });
     return "\uFFFC";
   }
@@ -82,7 +68,7 @@ export default class Parser {
       start,
       end: start + 1,
       attributes: {
-        "-mobiledoc-src": src
+        src
       }
     });
     return "\uFFFC";
@@ -190,7 +176,7 @@ export default class Parser {
         for (let i = 0, len = attributeList.length; i < len; i += 2) {
           let key = attributeList[i];
           let value = attributeList[i + 1];
-          attributes[`-mobiledoc-${key}`] = value;
+          attributes[key] = value;
         }
       }
       this.inProgressAnnotations.push({
@@ -222,7 +208,7 @@ export default class Parser {
       type: `-mobiledoc-${name}-atom`,
       start,
       end,
-      attributes: prefix(attributes)
+      attributes
     });
     return text;
   }

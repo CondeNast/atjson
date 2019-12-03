@@ -43,9 +43,9 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
     .set({ type: "-offset-link" })
     .rename({
       attributes: {
-        "-html-href": "-offset-url",
-        "-html-rel": "-offset-rel",
-        "-html-target": "-offset-target"
+        href: "url",
+        rel: "rel",
+        target: "target"
       }
     });
 
@@ -53,22 +53,22 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
   doc
     .where({ type: "-html-h1" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 1 } });
+    .set({ type: "-offset-heading", attributes: { level: 1 } });
   doc
     .where({ type: "-html-h2" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 2 } });
+    .set({ type: "-offset-heading", attributes: { level: 2 } });
   doc
     .where({ type: "-html-h3" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 3 } });
+    .set({ type: "-offset-heading", attributes: { level: 3 } });
   doc
     .where({ type: "-html-h4" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 4 } });
+    .set({ type: "-offset-heading", attributes: { level: 4 } });
   doc
     .where({ type: "-html-h5" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 5 } });
+    .set({ type: "-offset-heading", attributes: { level: 5 } });
   doc
     .where({ type: "-html-h6" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 6 } });
+    .set({ type: "-offset-heading", attributes: { level: 6 } });
 
   doc.where({ type: "-html-p" }).set({ type: "-offset-paragraph" });
   doc.where({ type: "-html-br" }).set({ type: "-offset-line-break" });
@@ -76,7 +76,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
   doc
     .where({ type: "-html-ul" })
-    .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } });
+    .set({ type: "-offset-list", attributes: { type: "bulleted" } });
   doc
     .where({ type: "-html-ol" })
     .update(function updateOList(list: OrderedList) {
@@ -86,8 +86,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
         start: list.start,
         end: list.end,
         attributes: {
-          "-offset-type": "numbered",
-          "-offset-startsAt": parseInt(list.attributes.start || "1", 10)
+          type: "numbered",
+          startsAt: parseInt(list.attributes.start || "1", 10)
         }
       });
     });
@@ -108,9 +108,9 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
     .set({ type: "-offset-image" })
     .rename({
       attributes: {
-        "-html-src": "-offset-url",
-        "-html-title": "-offset-title",
-        "-html-alt": "-offset-description"
+        url: "src",
+        title: "title",
+        description: "alt"
       }
     });
 
@@ -145,7 +145,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
   doc
     .where({ type: "-html-code" })
-    .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
+    .set({ type: "-offset-code", attributes: { style: "inline" } });
 
   doc.where({ type: "-html-section" }).set({ type: "-offset-section" });
 

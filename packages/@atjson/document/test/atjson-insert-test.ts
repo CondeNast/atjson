@@ -27,7 +27,7 @@ describe("Document.insertText", () => {
           start: 1,
           end: 2,
           attributes: {
-            "-test-uri": "https://example.com"
+            uri: "https://example.com"
           }
         }
       ]
@@ -53,7 +53,7 @@ describe("Document.insertText", () => {
         start: 4,
         end: 5,
         attributes: {
-          "-test-uri": "https://example.com"
+          uri: "https://example.com"
         }
       }
     ]);
@@ -75,7 +75,7 @@ describe("Document.insertText", () => {
           start: 0,
           end: 2,
           attributes: {
-            "-test-color": "blue"
+            color: "blue"
           }
         }
       ]
@@ -100,7 +100,7 @@ describe("Document.insertText", () => {
         start: 0,
         end: 2,
         attributes: {
-          "-test-color": "blue"
+          color: "blue"
         }
       }
     ]);

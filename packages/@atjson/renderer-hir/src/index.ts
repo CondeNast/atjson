@@ -85,7 +85,7 @@ function getChildNodeAnnotations(childNode: HIRNode) {
           start: childNode.start,
           end: childNode.end,
           attributes: {
-            "-atjson-text": childNode.text
+            text: childNode.text
           }
         };
       }
