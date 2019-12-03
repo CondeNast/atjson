@@ -524,10 +524,7 @@ export default class Document {
   }
 
   deleteTextRanges(ranges: Array<{ start: number; end: number }>) {
-    console.log("deleteTextRanges()");
-
     if (ranges.length === 0) {
-      console.log("no ranges to delete");
       return;
     }
 
@@ -535,10 +532,8 @@ export default class Document {
      * sorts and merges ranges so that they are non-overlapping and in ascending order by start value
      */
     let mergedRanges = Document._mergeRanges(ranges);
-    console.log({ mergedRanges });
 
     if (mergedRanges.length === 1) {
-      console.log("falling back to deleteText()");
       let [{ start, end }] = mergedRanges;
       return this.deleteText(start, end);
     }
@@ -557,10 +552,6 @@ export default class Document {
       lastEnd = mergedRanges[i + 1].end;
     }
 
-    console.log({
-      oldContent: this.content,
-      newContent: newContent + this.content.slice(lastEnd)
-    });
     this.content = newContent + this.content.slice(lastEnd);
 
     /**
@@ -572,14 +563,12 @@ export default class Document {
       let change = mergedRanges[i];
 
       for (let annotation of this.annotations) {
-        console.log({ i, change, annotation });
         let length = change.end - change.start;
 
         // We're deleting after the annotation, nothing needed to be done.
         //    [   ]
         // -----------*---*---
         if (annotation.end < change.start) {
-          console.log("skipping to next annotation");
           continue;
         }
 
@@ -624,12 +613,9 @@ export default class Document {
             }
           }
         }
-
-        console.log({ updatedAnnotation: annotation });
       }
     }
 
-    console.log("end deleteTextRanges()");
     this.triggerChange();
   }
 
