@@ -472,18 +472,6 @@ export default class Document {
     return matches;
   }
 
-  _old_canonical() {
-    let canonicalDoc = this.clone();
-    canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
-      canonicalDoc.deleteText(a.start, a.end);
-    });
-    canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
-
-    canonicalDoc.annotations.sort(compareAnnotations);
-
-    return canonicalDoc;
-  }
-
   static _mergeRanges(ranges: Array<{ start: number; end: number }>) {
     if (ranges.length === 0) return [];
 

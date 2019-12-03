@@ -1,7 +1,9 @@
-var Benchmark = require("benchmark");
-var report = require("beautify-benchmark");
-var CommonMarkSource = require("@atjson/source-commonmark/dist/commonjs/source")
+const Benchmark = require("benchmark");
+const report = require("beautify-benchmark");
+const CommonMarkSource = require("@atjson/source-commonmark/dist/commonjs/source")
   .default;
+const compareAnnotations = require("@atjson/document/dist/commonjs/collection")
+  .compareAnnotations;
 
 let tests = new Benchmark.Suite();
 
@@ -434,6 +436,18 @@ tests.on("complete", function() {
 });
 
 let document = CommonMarkSource.fromRaw(longDocumentFixture);
+
+document._old_canonical = function() {
+  let canonicalDoc = this.clone();
+  canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
+    canonicalDoc.deleteText(a.start, a.end);
+  });
+  canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
+
+  canonicalDoc.annotations.sort(compareAnnotations);
+
+  return canonicalDoc;
+};
 
 tests.add("old Document#canonical", function() {
   document._old_canonical();
