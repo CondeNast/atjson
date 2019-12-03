@@ -525,7 +525,7 @@ export default class Document {
     /**
      * sorts and merges ranges so that they are non-overlapping and in ascending order by start value
      */
-    let mergedRanges = Document._mergeRanges(ranges);
+    let mergedRanges = mergeRanges(ranges);
 
     if (mergedRanges.length === 1) {
       let [{ start, end }] = mergedRanges;
