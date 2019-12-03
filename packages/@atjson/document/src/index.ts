@@ -472,11 +472,175 @@ export default class Document {
     return matches;
   }
 
-  canonical() {
+  _old_canonical() {
     let canonicalDoc = this.clone();
     canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
       canonicalDoc.deleteText(a.start, a.end);
     });
+    canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
+
+    canonicalDoc.annotations.sort(compareAnnotations);
+
+    return canonicalDoc;
+  }
+
+  static _mergeRanges(ranges: Array<{ start: number; end: number }>) {
+    if (ranges.length === 0) return [];
+
+    /**
+     * sort the ranges in ascending order by start position
+     * this allows us to efficiently merge them, which will allow us to efficiently delete text
+     */
+    let sortedRanges = ranges.sort(({ start: startL }, { start: startR }) => {
+      return startL - startR;
+    });
+
+    /**
+     * merge overlapping ranges so we don't need to worry about them when we're deleting text and adjusting annotations
+     *
+     * do this by passing over the sorted ranges (taking the first as a starting accumulator)
+     * for each new range we see, if it overlaps *and* overhangs the current accumulator we extend the accumulator
+     * if it doesn't overlap the current accumulator, we know it must come *after* the accumulator since the ranges are sorted
+     * so we add the accumulator to the merged ranges and make the next range the new accumulator
+     */
+    let [currentMergingRange, ...unmergedRanges] = sortedRanges;
+    let mergedRanges = [];
+
+    for (let range of unmergedRanges) {
+      // if the new range overlaps and overhangs the current range, extend the current range
+      if (range.start <= currentMergingRange.end) {
+        if (range.end > currentMergingRange.end) {
+          currentMergingRange.end = range.end;
+        }
+      } else {
+        mergedRanges.push(currentMergingRange);
+        currentMergingRange = range;
+      }
+    }
+
+    mergedRanges.push(currentMergingRange);
+
+    return mergedRanges;
+  }
+
+  deleteTextRanges(ranges: Array<{ start: number; end: number }>) {
+    console.log("deleteTextRanges()");
+
+    if (ranges.length === 0) {
+      console.log("no ranges to delete");
+      return;
+    }
+
+    /**
+     * sorts and merges ranges so that they are non-overlapping and in ascending order by start value
+     */
+    let mergedRanges = Document._mergeRanges(ranges);
+    console.log({ mergedRanges });
+
+    if (mergedRanges.length === 1) {
+      console.log("falling back to deleteText()");
+      let [{ start, end }] = mergedRanges;
+      return this.deleteText(start, end);
+    }
+
+    /**
+     * because the ranges are now *sorted* and *non-overlapping* we can straightforwardly extract the text *between* the ranges,
+     * join the extracted text, and make that our new content.
+     */
+    let newContent = this.content.slice(0, mergedRanges[0].start);
+    let lastEnd;
+    for (let i = 0; i < mergedRanges.length - 1; i++) {
+      newContent += this.content.slice(
+        mergedRanges[i].end,
+        mergedRanges[i + 1].start
+      );
+      lastEnd = mergedRanges[i + 1].end;
+    }
+
+    console.log({
+      oldContent: this.content,
+      newContent: newContent + this.content.slice(lastEnd)
+    });
+    this.content = newContent + this.content.slice(lastEnd);
+
+    /**
+     * for adjusting annotations, we need to handle the ranges backwards.
+     * Conveniently they are already sorted and non-overlapping, so we can simply walk the list backwards
+     */
+
+    for (let i = mergedRanges.length - 1; i >= 0; i--) {
+      let change = mergedRanges[i];
+
+      for (let annotation of this.annotations) {
+        console.log({ i, change, annotation });
+        let length = change.end - change.start;
+
+        // We're deleting after the annotation, nothing needed to be done.
+        //    [   ]
+        // -----------*---*---
+        if (annotation.end < change.start) {
+          console.log("skipping to next annotation");
+          continue;
+        }
+
+        // If the annotation is wholly *after* the deleted text, just move
+        // everything.
+        //           [       ]
+        // --*---*-------------
+        if (change.end < annotation.start) {
+          annotation.start -= length;
+          annotation.end -= length;
+        } else {
+          if (change.end < annotation.end) {
+            // Annotation spans the whole deleted text, so just truncate the end of
+            // the annotation (shrink from the right).
+            //   [             ]
+            // ------*------*---------
+            if (change.start > annotation.start) {
+              annotation.end -= length;
+
+              // Annotation occurs within the deleted text, affecting both start and
+              // end of the annotation, but by only part of the deleted text length.
+              //         [         ]
+              // ---*---------*------------
+            } else if (change.start <= annotation.start) {
+              annotation.start -= annotation.start - change.start;
+              annotation.end -= length;
+            }
+          } else if (change.end >= annotation.end) {
+            //             [  ]
+            //          [     ]
+            //          [         ]
+            //              [     ]
+            //    ------*---------*--------
+            if (change.start <= annotation.start) {
+              annotation.start = change.start;
+              annotation.end = change.start;
+
+              //       [        ]
+              //    ------*---------*--------
+            } else if (change.start > annotation.start) {
+              annotation.end = change.start;
+            }
+          }
+        }
+
+        console.log({ updatedAnnotation: annotation });
+      }
+    }
+
+    console.log("end deleteTextRanges()");
+    this.triggerChange();
+  }
+
+  canonical() {
+    let canonicalDoc = this.clone();
+    let ranges: Array<{ start: number; end: number }> = [];
+
+    canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
+      ranges.push({ start: a.start, end: a.end });
+    });
+    canonicalDoc.deleteTextRanges(ranges);
     canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
 
     canonicalDoc.annotations.sort(compareAnnotations);
