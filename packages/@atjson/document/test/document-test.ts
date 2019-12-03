@@ -66,9 +66,9 @@ describe("Document#deleteTextRanges", () => {
       content: "Hello,\n World!",
       annotations: [
         { start: 0, end: 0 },
-        { start: 0, end: 5 },
+        { start: 5, end: 5 },
         { start: 0, end: 6 },
-        { start: 5, end: 5 }
+        { start: 0, end: 5 }
       ]
     });
   });
