@@ -16,6 +16,8 @@
     "@types/uuid": "3.4.6",
     "@typescript-eslint/eslint-plugin": "2.9.0",
     "@typescript-eslint/parser": "2.9.0",
+    "beautify-benchmark": "^0.2.4",
+    "benchmark": "^2.1.4",
     "commonmark": "0.29.0",
     "commonmark-spec": "0.29.0",
     "conventional-changelog-core": "4.1.1",

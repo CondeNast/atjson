@@ -1,5 +1,79 @@
+import { mergeRanges } from "../src";
 import TestSource, { Bold, Paragraph } from "./test-source";
 import { ParseAnnotation } from "../src";
+
+describe("Document#deleteTextRanges", () => {
+  describe("mergeRanges", () => {
+    test("merges overlapping ranges", () => {
+      expect(
+        mergeRanges([
+          { start: 0, end: 5 },
+          { start: 5, end: 12 },
+          { start: 4, end: 8 }
+        ])
+      ).toEqual([{ start: 0, end: 12 }]);
+    });
+
+    test("sorts ranges", () => {
+      expect(
+        mergeRanges([
+          { start: 8, end: 10 },
+          { start: 0, end: 4 }
+        ])
+      ).toEqual([
+        { start: 0, end: 4 },
+        { start: 8, end: 10 }
+      ]);
+    });
+
+    test("handles more complex cases", () => {
+      expect(
+        mergeRanges([
+          { start: 16, end: 17 },
+          { start: 4, end: 5 },
+          { start: 5, end: 10 },
+          { start: 30, end: 33 },
+          { start: 13, end: 13 },
+          { start: 8, end: 10 },
+          { start: 13, end: 14 },
+          { start: 30, end: 33 }
+        ])
+      ).toEqual([
+        { start: 4, end: 10 },
+        { start: 13, end: 14 },
+        { start: 16, end: 17 },
+        { start: 30, end: 33 }
+      ]);
+    });
+  });
+
+  test("adjusts annotations properly", () => {
+    let testDoc = new TestSource({
+      content: "<b>Hello</b>,\n World!",
+      annotations: [
+        new ParseAnnotation({ start: 0, end: 3 }),
+        new ParseAnnotation({ start: 8, end: 12 }),
+        new Paragraph({ start: 0, end: 13 }),
+        new Bold({ start: 0, end: 12 })
+      ]
+    });
+
+    testDoc.deleteTextRanges([
+      { start: 0, end: 3 },
+      { start: 8, end: 12 }
+    ]);
+
+    expect(testDoc).toMatchObject({
+      content: "Hello,\n World!",
+      annotations: [
+        { start: 0, end: 0 },
+        { start: 5, end: 5 },
+        { start: 0, end: 6 },
+        { start: 0, end: 5 }
+      ]
+    });
+  });
+});
 
 describe("Document#canonical", () => {
   test("parse tokens are properly removed", () => {
