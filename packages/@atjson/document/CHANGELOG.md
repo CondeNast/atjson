@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.4...@atjson/document@0.22.5) (2019-12-04)
+
+**Note:** Version bump only for package @atjson/document
+
 ## [0.22.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.3...@atjson/document@0.22.4) (2019-11-18)
 
 **Note:** Version bump only for package @atjson/document

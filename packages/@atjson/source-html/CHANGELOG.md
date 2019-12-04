@@ -3,23 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.24.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.24.0...@atjson/source-html@0.24.1) (2019-11-26)
+## [0.24.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.24.1...@atjson/source-html@0.24.2) (2019-12-04)
 
+**Note:** Version bump only for package @atjson/source-html
+
+## [0.24.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.24.0...@atjson/source-html@0.24.1) (2019-11-26)
 
 ### 🐛 Fixes
 
-* 🐛 move file around so the build gets corrected and iframes get converted
-
-
+- 🐛 move file around so the build gets corrected and iframes get converted
 
 ## [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.23.2...@atjson/source-html@0.24.0) (2019-11-26)
 
-
 ### ✨ New Features
 
-* ✨ handle full giphy embeds when converting from HTML
-
-
+- ✨ handle full giphy embeds when converting from HTML
 
 ## [0.23.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.23.1...@atjson/source-html@0.23.2) (2019-11-18)
 
