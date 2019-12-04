@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { clone, toJSON, unprefix } from "./attributes";
+import { clone, toJSON, hydrate } from "./attributes";
 import Change, {
   AdjacentBoundaryBehaviour,
   Deletion,
@@ -75,7 +75,7 @@ export default abstract class Annotation<Attributes = {}> {
       id: attrs.id,
       start: attrs.start,
       end: attrs.end,
-      attributes: unprefix(this.subdocuments, attrs.attributes)
+      attributes: hydrate(this.subdocuments, attrs.attributes)
     });
   }
 
@@ -251,7 +251,7 @@ export default abstract class Annotation<Attributes = {}> {
       type: `-${vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(this.attributes)
+      attributes: toJSON(AnnotationClass.subdocuments, this.attributes)
     };
   }
 }

@@ -1,72 +1,34 @@
 import Document, { AnnotationJSON } from "./index";
-import JSON, { JSONObject } from "./json";
+import JSON from "./json";
 
-export function unprefix(
-  subdocuments: { [key: string]: typeof Document },
-  attribute: JSON,
-  path: Array<string | number> = []
+export function hydrate(
+  subDocuments: { [key: string]: typeof Document },
+  attribute: JSON
 ): NonNullable<any> {
-  if (Array.isArray(attribute)) {
-    return attribute.map(function unprefixAttr(attr, index) {
-      let result = unprefix(
-        subdocuments,
-        attr,
-        path.concat(index)
-      );
-      return result;
-    });
-  } else if (subdocuments[path.join(".")]) {
-    let serializedDocument = (attribute as any) as {
-      content: string;
-      annotations: AnnotationJSON[];
-    };
-    return new subdocuments[path.join(".")](serializedDocument);
-  } else if (attribute == null) {
-    return null;
-  } else if (typeof attribute === "object") {
-    let attrs: NonNullable<any> = {};
-    for (let key in attribute) {
-      let value = attribute[key];
-      if (value !== undefined) {
-        attrs[key] = unprefix(
-          subdocuments,
-          value,
-          path.concat(key)
-        );
-      } else {
-        attrs[key] = value;
-      }
+  let attributes: NonNullable<any> = { ...(attribute as any) };
+  for (let key in subDocuments) {
+    if (attributes[key] != null) {
+      let serializedDocument = (attributes[key] as any) as {
+        content: string;
+        annotations: AnnotationJSON[];
+      };
+      attributes[key] = new subDocuments[key](serializedDocument);
     }
-
-    return attrs;
-  } else {
-    return attribute;
   }
+  return attributes;
 }
 
-export function toJSON(attribute: NonNullable<any>): any {
-  if (Array.isArray(attribute)) {
-    return attribute.map(function attributeToJSON(attr) {
-      let result = toJSON(attr);
-      return result;
-    });
-  } else if (attribute instanceof Document) {
-    return attribute.toJSON();
-  } else if (attribute == null) {
-    return null;
-  } else if (typeof attribute === "object") {
-    let copy: JSONObject = {};
-    for (let key in attribute) {
-      let value = attribute[key];
-      if (value !== undefined) {
-        copy[key] = toJSON(value);
-      }
+export function toJSON(
+  subDocuments: { [key: string]: typeof Document },
+  attribute: NonNullable<any>
+): any {
+  let attributes: any = { ...(attribute as any) };
+  for (let key in subDocuments) {
+    if (attribute[key] instanceof Document) {
+      attributes[key] = attribute[key].toJSON();
     }
-
-    return copy;
-  } else {
-    return attribute;
   }
+  return attributes;
 }
 
 export function clone(attribute: any): NonNullable<any> {
