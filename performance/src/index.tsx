@@ -8,7 +8,7 @@ export function profile<T>(
   name: string,
   runner: (test: T) => void,
   cases: T[],
-  runs = 20
+  runs = 10
 ) {
   if (!existsSync(join(__dirname, "..", "profiles"))) {
     mkdirSync(join(__dirname, "..", "profiles"));
