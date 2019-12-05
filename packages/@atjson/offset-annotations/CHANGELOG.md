@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.23.3...@atjson/offset-annotations@0.24.0-dev.0) (2019-12-05)
+
+### ✨ New Features
+
+- ✨ Add Offset group and group-item annotations
+
 ## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.23.2...@atjson/offset-annotations@0.23.3) (2019-12-04)
 
 **Note:** Version bump only for package @atjson/offset-annotations
