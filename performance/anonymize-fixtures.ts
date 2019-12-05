@@ -23,10 +23,10 @@ const fixtures = readdirSync(join(__dirname, "proprietary")).map(filename => {
 
 class ChanceRenderer extends CommonmarkRenderer {
   text(text: string) {
-    let leadingWhitespace = text.match(/^(\s*[():.;,]*)/)![0];
+    let leadingWhitespace = text.match(/^(\s*[():.;,[\]_]*)/)![0];
     let trailingWhitespace = text
       .slice(leadingWhitespace.length)
-      .match(/(\s*[():,;]*)$/)![0];
+      .match(/(\s*[():,;[\]_]*)$/)![0];
     let innerText = text.slice(
       leadingWhitespace.length,
       text.length - trailingWhitespace.length - leadingWhitespace.length
