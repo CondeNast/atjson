@@ -19,11 +19,33 @@ async function run() {
   );
 
   await profile(
+    "commonmark-spec equality",
+    test => {
+      let doc = CommonMarkSource.fromRaw(test.markdown);
+      let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
+      doc.equals(CommonMarkSource.fromRaw(md));
+    },
+    spec.tests
+  );
+
+  await profile(
     "degenerate-markdown",
     markdown => {
       CommonMarkRenderer.render(
         CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)
       );
+    },
+    readdirSync(join(__dirname, "fixtures")).map(filename =>
+      readFileSync(join(__dirname, "fixtures", filename)).toString()
+    )
+  );
+
+  await profile(
+    "degenerate-markdown equality",
+    markdown => {
+      let doc = CommonMarkSource.fromRaw(markdown);
+      let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
+      doc.equals(CommonMarkSource.fromRaw(md));
     },
     readdirSync(join(__dirname, "fixtures")).map(filename =>
       readFileSync(join(__dirname, "fixtures", filename)).toString()
