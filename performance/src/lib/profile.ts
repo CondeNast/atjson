@@ -132,7 +132,7 @@ function summarizeRuns(runs: Array<Array<NodeSummary>>) {
           })
           .get(key) as TimingSummary);
       timingSummary.sampleTime.data.push(nodeSummary.sampleTime);
-      timingSummary.cumulativeTime.data.push(nodeSummary.sampleTime);
+      timingSummary.cumulativeTime.data.push(nodeSummary.cumulativeTime);
     });
     return map;
   }, new Map<string, TimingSummary>());
