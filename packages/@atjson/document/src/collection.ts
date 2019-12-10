@@ -257,12 +257,8 @@ export default class AnnotationCollection extends Collection {
   }
 
   remove() {
-    return this.update(annotation => {
-      this.document.removeAnnotation(annotation);
-      return {
-        remove: [annotation]
-      };
-    });
+    this.document.removeAnnotations(this.annotations);
+    this.annotations = [];
   }
 }
 
