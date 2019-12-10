@@ -294,6 +294,7 @@ export default class Document {
     }
 
     this.annotations = keptAnnotations;
+    this.triggerChange();
   }
 
   replaceAnnotation(
