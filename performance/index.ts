@@ -1,6 +1,7 @@
 /* eslint-env node */
 import * as spec from "commonmark-spec";
 import { profile } from "./src";
+import { summarize } from "./src/lib";
 import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import OffsetSource from "@atjson/offset-annotations";
@@ -51,6 +52,11 @@ async function run() {
       readFileSync(join(__dirname, "fixtures", filename)).toString()
     )
   );
+
+  await summarize("commonmark-spec");
+  await summarize("commonmark-spec equality");
+  await summarize("degenerate-markdown");
+  await summarize("degenerate-markdown equality");
 }
 
 run().then(
