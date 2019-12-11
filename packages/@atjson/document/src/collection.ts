@@ -20,7 +20,7 @@ export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
 }
 
 function matches(annotation: any, filter: { [key: string]: any }): boolean {
-  return Object.keys(filter).every(key => {
+  return Object.keys(filter).every(function matchesTest(key) {
     let value = filter[key];
     if (typeof value === "object") {
       return matches((annotation as any)[key], value);
@@ -107,7 +107,9 @@ export class Collection {
       return new AnnotationCollection(this.document, annotations);
     }
 
-    let annotations = this.annotations.filter(annotation => {
+    let annotations = this.annotations.filter(function jsonMatchesFilter(
+      annotation
+    ) {
       return matches(annotation.toJSON(), filter);
     });
     return new AnnotationCollection(this.document, annotations);
@@ -129,29 +131,28 @@ export class Collection {
   ) {
     let newAnnotations: Array<Annotation<any>> = [];
 
-    this.annotations
-      .map(updater)
-      .map(result => {
-        let annotations: Array<Annotation<any>> = [];
-
-        if (result) {
-          if (result.add) annotations.push(...result.add);
-          if (result.update) annotations.push(...result.update.map(a => a[1]));
-          if (result.retain) annotations.push(...result.retain);
-        }
-        return annotations;
-      })
-      .reduce((annotations, annotationList) => {
-        annotations.push(...annotationList);
-        return annotations;
-      }, newAnnotations);
+    for (let annotation of this.annotations) {
+      let updateObject = updater(annotation);
+      if (updateObject) {
+        if (updateObject.add) newAnnotations.push(...updateObject.add);
+        if (updateObject.update)
+          newAnnotations.push(
+            ...updateObject.update.map(function get1(a) {
+              return a[1];
+            })
+          );
+        if (updateObject.retain) newAnnotations.push(...updateObject.retain);
+      }
+    }
 
     this.annotations = newAnnotations;
     return this;
   }
 
   toJSON() {
-    return this.map(a => a.toJSON());
+    return this.map(function annotationToJSON(a) {
+      return a.toJSON();
+    });
   }
 }
 
@@ -168,33 +169,34 @@ function flattenPropertyPaths(
   options: { keys: boolean; values?: boolean },
   prefix?: string
 ): FlattenedRenaming {
-  return Object.keys(mapping).reduce(
-    (result: FlattenedRenaming, key: string) => {
-      let value = mapping[key];
-      let fullyQualifiedKey = key;
-      if (prefix) {
-        fullyQualifiedKey = `${prefix}.${key}`;
-        if (options.values) {
-          value = `${prefix}.${value}`;
-        }
+  return Object.keys(mapping).reduce(function flattenPathsReducer(
+    result: FlattenedRenaming,
+    key: string
+  ) {
+    let value = mapping[key];
+    let fullyQualifiedKey = key;
+    if (prefix) {
+      fullyQualifiedKey = `${prefix}.${key}`;
+      if (options.values) {
+        value = `${prefix}.${value}`;
       }
-      if (typeof value !== "object") {
-        result[fullyQualifiedKey] = value;
-      } else {
-        Object.assign(
-          result,
-          flattenPropertyPaths(value, options, fullyQualifiedKey)
-        );
-      }
-      return result;
-    },
-    {}
-  );
+    }
+    if (typeof value !== "object") {
+      result[fullyQualifiedKey] = value;
+    } else {
+      Object.assign(
+        result,
+        flattenPropertyPaths(value, options, fullyQualifiedKey)
+      );
+    }
+    return result;
+  },
+  {});
 }
 
 function without(object: any, attributes: string[]): any {
   let copy: { [key: string]: any } = {};
-  Object.keys(object).forEach((key: string) => {
+  for (let key in object) {
     let activeAttributes = attributes.filter(
       attribute => attribute.split(".")[0] === key
     );
@@ -211,7 +213,7 @@ function without(object: any, attributes: string[]): any {
         )
       );
     }
-  });
+  }
   return copy;
 }
 
@@ -242,12 +244,13 @@ function set(object: any, key: string, value: any) {
 export default class AnnotationCollection extends Collection {
   set(patch: any) {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
-    return this.update(annotation => {
+    let self = this;
+    return this.update(function patchAnnotationUpdater(annotation) {
       let result = annotation.toJSON() as AnnotationJSON;
       Object.keys(flattenedPatch).forEach(key => {
         set(result, key, flattenedPatch[key]);
       });
-      let newAnnotation = this.document.replaceAnnotation(annotation, result);
+      let newAnnotation = self.document.replaceAnnotation(annotation, result);
       return {
         update: [[annotation, newAnnotation[0]]]
       };
@@ -255,9 +258,10 @@ export default class AnnotationCollection extends Collection {
   }
 
   unset(...keys: string[]) {
-    return this.update(annotation => {
+    let self = this;
+    return this.update(function unsetKeysUpdater(annotation) {
       let result = without(annotation.toJSON(), keys) as AnnotationJSON;
-      let newAnnotation = this.document.replaceAnnotation(annotation, result);
+      let newAnnotation = self.document.replaceAnnotation(annotation, result);
       return {
         update: [[annotation, newAnnotation[0]]]
       };
@@ -269,14 +273,15 @@ export default class AnnotationCollection extends Collection {
       keys: true,
       values: true
     });
-    return this.update(annotation => {
+    let self = this;
+    return this.update(function renameUpdater(annotation) {
       let json = annotation.toJSON() as AnnotationJSON;
       let result = without(annotation.toJSON(), Object.keys(flattenedRenaming));
       Object.keys(flattenedRenaming).forEach(key => {
         let value = get(json, key);
         set(result, flattenedRenaming[key], value);
       });
-      let newAnnotation = this.document.replaceAnnotation(annotation, result);
+      let newAnnotation = self.document.replaceAnnotation(annotation, result);
 
       return {
         update: [[annotation, newAnnotation[0]]]
@@ -317,9 +322,9 @@ export class NamedCollection<Left extends string> extends Collection {
 
     let results = new Join<Left, Right>(this, []);
 
-    this.forEach((leftAnnotation: Annotation<any>): void => {
+    for (let leftAnnotation of this.annotations) {
       let joinAnnotations = rightCollection.annotations.filter(
-        (rightAnnotation: Annotation<any>) => {
+        function testJoinCandidates(rightAnnotation: Annotation<any>) {
           return filter(leftAnnotation, rightAnnotation);
         }
       );
@@ -332,7 +337,7 @@ export class NamedCollection<Left extends string> extends Collection {
         [rightCollection.name]: joinAnnotations
       };
       results.push(join as JoinItem);
-    });
+    }
 
     return results;
   }

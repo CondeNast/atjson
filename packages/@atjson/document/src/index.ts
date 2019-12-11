@@ -670,13 +670,12 @@ export default class Document {
       return false;
     }
 
-    return canonicalLeftHandSideDoc.annotations.every(
-      (lhsAnnotation, index) => {
-        return lhsAnnotation.equals(
-          canonicalRightHandSideDoc.annotations[index]
-        );
-      }
-    );
+    return canonicalLeftHandSideDoc.annotations.every(function lhsEquals(
+      lhsAnnotation,
+      index
+    ) {
+      return lhsAnnotation.equals(canonicalRightHandSideDoc.annotations[index]);
+    });
   }
 
   private createAnnotation(
@@ -750,9 +749,10 @@ export default class Document {
    */
   private triggerChange() {
     if (this.pendingChangeEvent) return;
-    this.pendingChangeEvent = setTimeout(() => {
-      this.changeListeners.forEach(l => l());
-      delete this.pendingChangeEvent;
+    let self = this;
+    this.pendingChangeEvent = setTimeout(function notifyListeners() {
+      self.changeListeners.forEach(l => l());
+      delete self.pendingChangeEvent;
     }, 0);
   }
 }

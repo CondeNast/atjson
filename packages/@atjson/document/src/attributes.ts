@@ -26,24 +26,23 @@ export function unprefix(
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {
-    return Object.keys(attribute).reduce(
-      (attrs: NonNullable<any>, key: string) => {
-        let value = attribute[key];
-        if (key.indexOf(`-${vendorPrefix}-`) === 0 && value !== undefined) {
-          let unprefixedKey = key.slice(`-${vendorPrefix}-`.length);
-          attrs[unprefixedKey] = unprefix(
-            vendorPrefix,
-            subdocuments,
-            value,
-            path.concat(unprefixedKey)
-          );
-        } else {
-          attrs[key] = value;
-        }
-        return attrs;
-      },
-      {}
-    );
+    let attrs: NonNullable<any> = {};
+    for (let key in attribute) {
+      let value = attribute[key];
+      if (key.indexOf(`-${vendorPrefix}-`) === 0 && value !== undefined) {
+        let unprefixedKey = key.slice(`-${vendorPrefix}-`.length);
+        attrs[unprefixedKey] = unprefix(
+          vendorPrefix,
+          subdocuments,
+          value,
+          path.concat(unprefixedKey)
+        );
+      } else {
+        attrs[key] = value;
+      }
+    }
+
+    return attrs;
   } else {
     return attribute;
   }
@@ -51,7 +50,7 @@ export function unprefix(
 
 export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
   if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
+    return attribute.map(function attributeToJSON(attr) {
       let result = toJSON(vendorPrefix, attr);
       return result;
     });
@@ -60,7 +59,8 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {
-    return Object.keys(attribute).reduce((copy: JSONObject, key: string) => {
+    let copy: JSONObject = {};
+    for (let key in attribute) {
       let value = attribute[key];
       if (value !== undefined) {
         if (key[0] === "-") {
@@ -69,8 +69,9 @@ export function toJSON(vendorPrefix: string, attribute: NonNullable<any>): any {
           copy[`-${vendorPrefix}-${key}`] = toJSON(vendorPrefix, value);
         }
       }
-      return copy;
-    }, {});
+    }
+
+    return copy;
   } else {
     return attribute;
   }
@@ -88,10 +89,8 @@ export function clone(attribute: any): NonNullable<any> {
   } else if (attribute instanceof Document) {
     return attribute.clone();
   } else if (typeof attribute === "object") {
-    let keys = Object.keys(attribute);
     let copy: NonNullable<any> = {};
-    for (let i = 0, len = keys.length; i < len; i++) {
-      let key = keys[i];
+    for (let key in attribute) {
       if (attribute[key] !== undefined) {
         copy[key] = clone(attribute[key]);
       }
