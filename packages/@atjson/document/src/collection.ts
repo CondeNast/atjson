@@ -247,9 +247,9 @@ export default class AnnotationCollection extends Collection {
     let self = this;
     return this.update(function patchAnnotationUpdater(annotation) {
       let result = annotation.toJSON() as AnnotationJSON;
-      Object.keys(flattenedPatch).forEach(key => {
+      for (let key in flattenedPatch) {
         set(result, key, flattenedPatch[key]);
-      });
+      }
       let newAnnotation = self.document.replaceAnnotation(annotation, result);
       return {
         update: [[annotation, newAnnotation[0]]]
@@ -277,10 +277,10 @@ export default class AnnotationCollection extends Collection {
     return this.update(function renameUpdater(annotation) {
       let json = annotation.toJSON() as AnnotationJSON;
       let result = without(annotation.toJSON(), Object.keys(flattenedRenaming));
-      Object.keys(flattenedRenaming).forEach(key => {
+      for (let key in flattenedRenaming) {
         let value = get(json, key);
         set(result, flattenedRenaming[key], value);
-      });
+      }
       let newAnnotation = self.document.replaceAnnotation(annotation, result);
 
       return {
