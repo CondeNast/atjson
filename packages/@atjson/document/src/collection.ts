@@ -1,8 +1,7 @@
 import Document, {
   Annotation,
   AnnotationJSON,
-  AnnotationConstructor,
-  UnknownAnnotation
+  AnnotationConstructor
 } from "./index";
 import Join from "./join";
 
