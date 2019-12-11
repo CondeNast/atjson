@@ -12,80 +12,105 @@ export type Node = {
     columnNumber: number;
   };
   hitCount: number;
-  children?: Array<number>;
+  children?: number[];
   positionTicks?: {
     line: number;
     ticks: number;
   };
 };
 
-export type TimedNode = Node & {
-  sampleTime: number;
-};
-
-export type NodeSummary = {
-  functionName: string;
-  url: string;
-  sampleTime: number;
-  cumulativeTime: number;
-};
-
 export type Profile = {
-  nodes: Array<Node>;
-  samples: Array<number>;
-  timeDeltas: Array<number>;
+  nodes: Node[];
+  samples: number[];
+  timeDeltas: number[];
   startTime: number;
   endTime: number;
 };
 
-export type TimingStats = {
+export type TimedNode = Node & {
+  sampleTime: number;
+};
+
+export type TimedFunction = {
+  functionName: string;
+  url: string;
+  callCount: number;
+  sampleTime: number;
+  cumulativeTime: number;
+};
+
+export type TimedProfile = {
+  cumulativeTime: number;
+  functions: TimedFunction[];
+};
+
+export type TimingStat = {
   data: number[];
   mean: number;
   sd?: number;
   quantiles: number[];
 };
 
-export type TimingSummary = {
+export type FunctionStat = {
   functionName: string;
   url: string;
-  sampleTime: TimingStats;
-  cumulativeTime: TimingStats;
+  callCount: number[];
+  sampleTime: TimingStat;
+  cumulativeTime: TimingStat;
 };
 
-function shouldIncludeInSummary(node: NodeSummary) {
+export type ProfileStat = {
+  cumulativeTime: TimingStat;
+  functionStats: FunctionStat[];
+};
+
+interface FunctionInfo {
+  functionName: string;
+  url: string;
+}
+
+function shouldIncludeInSummary(node: TimedFunction) {
   return (
     node.functionName === "(garbage collector)" ||
     node.url.match(/packages\/@atjson/)
   );
 }
 
-function toKey(functionInfo: { functionName: string; url: string }) {
+function toKey(functionInfo: FunctionInfo) {
   return `${functionInfo.url}, ${functionInfo.functionName}`;
 }
 
-function summarizeProfile(profile: Profile) {
+function createTimedFunction(functionInfo: FunctionInfo) {
+  return {
+    functionName: functionInfo.functionName || "(anonymous)",
+    url: functionInfo.url,
+    callCount: 0,
+    sampleTime: 0,
+    cumulativeTime: 0
+  };
+}
+
+function timeProfile(profile: Profile): TimedProfile {
   let nodeMap = profile.nodes.reduce(
     (map, node) => map.set(node.id, { ...node, sampleTime: 0 }),
     new Map<number, TimedNode>()
   );
 
+  let cumulativeTime = 0;
   profile.samples.forEach((id, index) => {
-    nodeMap.get(id)!.sampleTime += profile.timeDeltas[index];
+    let timeDelta = profile.timeDeltas[index];
+    nodeMap.get(id)!.sampleTime += timeDelta;
+    cumulativeTime += timeDelta;
   });
 
-  let summaryMap = new Map<string, NodeSummary>();
+  let timedFunctions = new Map<string, TimedFunction>();
   nodeMap.forEach(node => {
     let key = toKey(node.callFrame);
-    let summary =
-      summaryMap.get(key) ||
-      (summaryMap
-        .set(key, {
-          functionName: node.callFrame.functionName || "(anonymous)",
-          url: node.callFrame.url,
-          sampleTime: 0,
-          cumulativeTime: 0
-        })
-        .get(key) as NodeSummary);
+    let timedFunction = timedFunctions.get(key);
+    if (!timedFunction) {
+      timedFunction = createTimedFunction(node.callFrame);
+      timedFunctions.set(key, timedFunction);
+    }
 
     let childTime = node.children
       ? node.children.reduce(
@@ -93,16 +118,24 @@ function summarizeProfile(profile: Profile) {
           0
         )
       : 0;
-    summary.sampleTime += node.sampleTime;
-    summary.cumulativeTime += node.sampleTime + childTime;
+    timedFunction.callCount += 1;
+    timedFunction.sampleTime += node.sampleTime;
+    timedFunction.cumulativeTime += node.sampleTime + childTime;
   });
 
-  return [...summaryMap.values()]
-    .filter(shouldIncludeInSummary)
-    .sort((n1, n2) => n1.cumulativeTime - n2.cumulativeTime);
+  return {
+    cumulativeTime,
+    functions: [...timedFunctions.values()]
+      .filter(shouldIncludeInSummary)
+      .sort((n1, n2) => n1.cumulativeTime - n2.cumulativeTime)
+  };
 }
 
-function calculateStats(timing: TimingStats) {
+function createTimingStat(): TimingStat {
+  return { data: [], quantiles: [], mean: 0 };
+}
+
+function calculateStats(timing: TimingStat) {
   let data = timing.data;
   if (data.length) {
     timing.quantiles = [
@@ -117,49 +150,61 @@ function calculateStats(timing: TimingStats) {
   }
 }
 
-function summarizeRuns(runs: Array<Array<NodeSummary>>) {
-  let timingSummaries = runs.reduce((map, nodeSummaries) => {
-    nodeSummaries.forEach(nodeSummary => {
-      let key = toKey(nodeSummary);
-      let timingSummary =
-        map.get(key) ||
-        (map
-          .set(key, {
-            functionName: nodeSummary.functionName,
-            url: nodeSummary.url,
-            sampleTime: { data: [], quantiles: [], mean: 0 },
-            cumulativeTime: { data: [], quantiles: [], mean: 0 }
-          })
-          .get(key) as TimingSummary);
-      timingSummary.sampleTime.data.push(nodeSummary.sampleTime);
-      timingSummary.cumulativeTime.data.push(nodeSummary.cumulativeTime);
+function createFunctionStat(functionInfo: FunctionInfo) {
+  return {
+    functionName: functionInfo.functionName,
+    url: functionInfo.url,
+    callCount: [],
+    sampleTime: createTimingStat(),
+    cumulativeTime: createTimingStat()
+  };
+}
+
+function summarizeProfiles(timedProfiles: TimedProfile[]): ProfileStat {
+  let cumulativeTime = createTimingStat();
+  let functionStats = timedProfiles.reduce((map, timedProfile) => {
+    cumulativeTime.data.push(timedProfile.cumulativeTime);
+    timedProfile.functions.forEach(timedFunction => {
+      let key = toKey(timedFunction);
+      let functionStat = map.get(key);
+      if (!functionStat) {
+        functionStat = createFunctionStat(timedFunction);
+        map.set(key, functionStat);
+      }
+
+      functionStat.callCount.push(timedFunction.callCount);
+      functionStat.sampleTime.data.push(timedFunction.sampleTime);
+      functionStat.cumulativeTime.data.push(timedFunction.cumulativeTime);
     });
     return map;
-  }, new Map<string, TimingSummary>());
+  }, new Map<string, FunctionStat>());
 
-  timingSummaries.forEach(timingSummary => {
-    let { sampleTime, cumulativeTime } = timingSummary;
-    calculateStats(sampleTime);
-    calculateStats(cumulativeTime);
+  calculateStats(cumulativeTime);
+  functionStats.forEach(functionStat => {
+    calculateStats(functionStat.sampleTime);
+    calculateStats(functionStat.cumulativeTime);
   });
 
-  return [...timingSummaries.values()].sort(
-    (s1, s2) => s2.cumulativeTime.mean - s1.cumulativeTime.mean
-  );
+  return {
+    cumulativeTime,
+    functionStats: [...functionStats.values()].sort(
+      (s1, s2) => s2.cumulativeTime.mean - s1.cumulativeTime.mean
+    )
+  };
 }
 
 export function summarize(name: string) {
   let directory = join(__dirname, "../..", "profiles", name);
   let files = readdirSync(directory);
 
-  let runs = files
+  let timedProfiles = files
     .filter(filename => filename.endsWith(".cpuprofile"))
     .map(filename => {
       let profile = JSON.parse(
         readFileSync(join(directory, filename)).toString()
       ) as Profile;
-      return summarizeProfile(profile);
+      return timeProfile(profile);
     });
-  let runStats = summarizeRuns(runs);
-  writeFileSync(join(directory, "timing.json"), JSON.stringify(runStats));
+  let profileStat = summarizeProfiles(timedProfiles);
+  writeFileSync(join(directory, "timing.json"), JSON.stringify(profileStat));
 }
