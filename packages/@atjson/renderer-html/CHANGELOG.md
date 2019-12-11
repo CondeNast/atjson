@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.22.5...@atjson/renderer-html@0.23.0) (2019-12-11)
+
+### ✨ New Features
+
+- ✨ add Ceros as an annotation with renderer and source
+
 ## [0.22.5](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.22.4...@atjson/renderer-html@0.22.5) (2019-12-04)
 
 **Note:** Version bump only for package @atjson/renderer-html

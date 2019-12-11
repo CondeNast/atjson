@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.21.12...@atjson/source-prism@0.22.0) (2019-12-11)
+
+### ✨ New Features
+
+- ✨ add Ceros as an annotation with renderer and source
+
 ## [0.21.12](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.21.11...@atjson/source-prism@0.21.12) (2019-12-04)
 
 **Note:** Version bump only for package @atjson/source-prism
