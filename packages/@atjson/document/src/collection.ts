@@ -97,7 +97,9 @@ export class Collection {
         let vendorPrefix = annotationClass.vendorPrefix;
         if (
           filter.type === `-${vendorPrefix}-${a.type}` ||
-          (a instanceof UnknownAnnotation && a.attributes.type === filter.type)
+          (a.type === "unknown" &&
+            vendorPrefix === "atjson" &&
+            a.attributes.type === filter.type)
         ) {
           annotations.push(a);
         }
