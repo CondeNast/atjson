@@ -274,6 +274,29 @@ export default class Document {
     }
   }
 
+  removeAnnotations(annotations: Array<Annotation<any>>) {
+    if (annotations.length < 10) {
+      for (let annotation of annotations) {
+        this.removeAnnotation(annotation);
+      }
+    }
+
+    let sortedAnnotationsToRemove = annotations.sort(compareAnnotations);
+    let docAnnotations = this.annotations.sort(compareAnnotations);
+
+    let keptAnnotations = [];
+    for (let annotation of docAnnotations) {
+      if (annotation === sortedAnnotationsToRemove[0]) {
+        sortedAnnotationsToRemove.shift();
+      } else {
+        keptAnnotations.push(annotation);
+      }
+    }
+
+    this.annotations = keptAnnotations;
+    this.triggerChange();
+  }
+
   replaceAnnotation(
     annotation: Annotation<any>,
     ...newAnnotations: Array<AnnotationJSON | Annotation<any>>
@@ -615,13 +638,16 @@ export default class Document {
 
   canonical() {
     let canonicalDoc = this.clone();
-    let ranges: Array<{ start: number; end: number }> = [];
+    let parseTokensToDelete: Array<Annotation> = [];
 
-    canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
-      ranges.push({ start: a.start, end: a.end });
-    });
-    canonicalDoc.deleteTextRanges(ranges);
-    canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
+    for (let annotation of canonicalDoc.annotations) {
+      if (annotation instanceof ParseAnnotation) {
+        parseTokensToDelete.push(annotation);
+      }
+    }
+
+    canonicalDoc.removeAnnotations(parseTokensToDelete);
+    canonicalDoc.deleteTextRanges(parseTokensToDelete);
 
     canonicalDoc.annotations.sort(compareAnnotations);
 

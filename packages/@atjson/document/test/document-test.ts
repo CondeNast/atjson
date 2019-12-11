@@ -75,6 +75,42 @@ describe("Document#deleteTextRanges", () => {
   });
 });
 
+describe("Document#removeAnnotations", () => {
+  test("removes annotations", () => {
+    let parseAnnotations = [
+      new ParseAnnotation({ start: 3, end: 4 }),
+      new ParseAnnotation({ start: 17, end: 18 }),
+      new ParseAnnotation({ start: 11, end: 12 }),
+      new ParseAnnotation({ start: 15, end: 16 }),
+      new ParseAnnotation({ start: 7, end: 8 }),
+      new ParseAnnotation({ start: 1, end: 2 }),
+      new ParseAnnotation({ start: 21, end: 22 }),
+      new ParseAnnotation({ start: 23, end: 24 }),
+      new ParseAnnotation({ start: 19, end: 20 }),
+      new ParseAnnotation({ start: 13, end: 14 }),
+      new ParseAnnotation({ start: 5, end: 6 }),
+      new ParseAnnotation({ start: 9, end: 10 })
+    ];
+    let testDoc = new TestSource({
+      content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
+      annotations: [
+        ...parseAnnotations,
+        new Paragraph({ start: 0, end: 13 }),
+        new Bold({ start: 0, end: 12 })
+      ]
+    });
+
+    testDoc.removeAnnotations(parseAnnotations);
+
+    expect(testDoc).toMatchObject({
+      annotations: [
+        { type: "bold", start: 0, end: 12 },
+        { type: "paragraph", start: 0, end: 13 }
+      ]
+    });
+  });
+});
+
 describe("Document#canonical", () => {
   test("parse tokens are properly removed", () => {
     let testDoc = new TestSource({

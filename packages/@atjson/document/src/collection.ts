@@ -1,4 +1,8 @@
-import Document, { Annotation, AnnotationJSON } from "./index";
+import Document, {
+  Annotation,
+  AnnotationJSON,
+  AnnotationConstructor
+} from "./index";
 import Join from "./join";
 
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
@@ -77,6 +81,30 @@ export class Collection {
         this.document,
         this.annotations.filter(filter)
       );
+    }
+
+    /**
+     * this is just inlining the logic for the common case where the filter object looks like `{ type: '-vendor-type' }` for performance reasons
+     */
+    if (Object.keys(filter).length === 1 && filter.type != null) {
+      let annotations = [];
+      for (let a of this.annotations) {
+        let annotationClass = a.constructor as AnnotationConstructor<
+          typeof a,
+          typeof a.attributes
+        >;
+        let vendorPrefix = annotationClass.vendorPrefix;
+        if (
+          filter.type === `-${vendorPrefix}-${a.type}` ||
+          (a.type === "unknown" &&
+            vendorPrefix === "atjson" &&
+            a.attributes.type === filter.type)
+        ) {
+          annotations.push(a);
+        }
+      }
+
+      return new AnnotationCollection(this.document, annotations);
     }
 
     let annotations = this.annotations.filter(annotation => {
@@ -257,12 +285,8 @@ export default class AnnotationCollection extends Collection {
   }
 
   remove() {
-    return this.update(annotation => {
-      this.document.removeAnnotation(annotation);
-      return {
-        remove: [annotation]
-      };
-    });
+    this.document.removeAnnotations(this.annotations);
+    this.annotations = [];
   }
 }
 

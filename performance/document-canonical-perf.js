@@ -439,9 +439,11 @@ let document = CommonMarkSource.fromRaw(longDocumentFixture);
 
 document._old_canonical = function() {
   let canonicalDoc = this.clone();
+  let ranges = [];
   canonicalDoc.where({ type: "-atjson-parse-token" }).update(a => {
-    canonicalDoc.deleteText(a.start, a.end);
+    ranges.push({ start: a.start, end: a.end });
   });
+  canonicalDoc.deleteTextRanges(ranges);
   canonicalDoc.where({ type: "-atjson-parse-token" }).remove();
 
   canonicalDoc.annotations.sort(compareAnnotations);
@@ -449,12 +451,17 @@ document._old_canonical = function() {
   return canonicalDoc;
 };
 
-tests.add("old Document#canonical", function() {
+tests.add("warmup", function() {
+  document.canonical();
   document._old_canonical();
 });
 
 tests.add("alt Document#canonical", function() {
   document.canonical();
+});
+
+tests.add("old Document#canonical", function() {
+  document._old_canonical();
 });
 
 tests.run({ async: true });
