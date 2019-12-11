@@ -6,3 +6,4 @@ tmp
 .*.swp
 .cache
 performance/proprietary/*
+performance/profiles/*
