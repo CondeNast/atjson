@@ -197,20 +197,20 @@ function flattenPropertyPaths(
 function without(object: any, attributes: string[]): any {
   let copy: { [key: string]: any } = {};
   for (let key in object) {
-    let activeAttributes = attributes.filter(
-      attribute => attribute.split(".")[0] === key
-    );
+    let activeAttributes = attributes.filter(function startsWithKey(attribute) {
+      return attribute.split(".")[0] === key;
+    });
     if (activeAttributes.length === 0) {
       copy[key] = object[key];
     } else if (activeAttributes.indexOf(key) === -1) {
       copy[key] = without(
         object[key],
-        activeAttributes.map(attribute =>
-          attribute
+        activeAttributes.map(function removeFirstKey(attribute) {
+          return attribute
             .split(".")
             .slice(1)
-            .join(".")
-        )
+            .join(".");
+        })
       );
     }
   }
@@ -347,7 +347,9 @@ export class NamedCollection<Left extends string> extends Collection {
     filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean
   ): never | Join<Left, Right> {
     return this.outerJoin(rightCollection, filter).where(
-      record => record[rightCollection.name].length > 0
+      function testRightCollectionLength(record) {
+        return record[rightCollection.name].length > 0;
+      }
     );
   }
 }

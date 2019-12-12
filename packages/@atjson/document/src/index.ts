@@ -125,7 +125,10 @@ export function mergeRanges(ranges: Array<{ start: number; end: number }>) {
    * sort the ranges in ascending order by start position
    * this allows us to efficiently merge them, which will allow us to efficiently delete text
    */
-  let sortedRanges = ranges.sort(({ start: startL }, { start: startR }) => {
+  let sortedRanges = ranges.sort(function compareRangeStarts(
+    { start: startL },
+    { start: startR }
+  ) {
     return startL - startR;
   });
 
@@ -203,9 +206,12 @@ export default class Document {
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.content = options.content;
-    this.annotations = options.annotations.map(annotation =>
-      this.createAnnotation(annotation)
-    );
+    let self = this;
+    this.annotations = options.annotations.map(function createAnnotation(
+      annotation
+    ) {
+      return self.createAnnotation(annotation);
+    });
   }
 
   /**
@@ -234,8 +240,11 @@ export default class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
+    let self = this;
     this.annotations.push(
-      ...annotations.map(annotation => this.createAnnotation(annotation))
+      ...annotations.map(function createAnnotation(annotation) {
+        return self.createAnnotation(annotation);
+      })
     );
     this.triggerChange();
   }
@@ -303,9 +312,12 @@ export default class Document {
   ): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
-      let annotations = newAnnotations.map(newAnnotation =>
-        this.createAnnotation(newAnnotation)
-      );
+      let self = this;
+      let annotations = newAnnotations.map(function createAnnotation(
+        newAnnotation
+      ) {
+        return self.createAnnotation(newAnnotation);
+      });
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -405,7 +417,7 @@ export default class Document {
    */
   slice(start: number, end: number): Document {
     let DocumentClass = this.constructor as typeof Document;
-    let slicedAnnotations = this.where(a => {
+    let slicedAnnotations = this.where(function sliceContainsAnnotation(a) {
       if (start < a.start) {
         return end > a.start;
       } else {
@@ -415,7 +427,9 @@ export default class Document {
 
     let doc = new DocumentClass({
       content: this.content,
-      annotations: slicedAnnotations.map(annotation => annotation.clone())
+      annotations: slicedAnnotations.map(function cloneAnnotation(annotation) {
+        return annotation.clone();
+      })
     });
     doc.deleteText(end, doc.content.length);
     doc.deleteText(0, start);
@@ -432,11 +446,9 @@ export default class Document {
     behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
   ): Document {
     let slice = this.slice(start, end);
-    this.where(
-      annotation => annotation.start >= start && annotation.end <= end
-    ).update(annotation => {
-      this.removeAnnotation(annotation);
-    });
+    this.where(function annotationWasCut(annotation) {
+      return annotation.start >= start && annotation.end <= end;
+    }).remove();
     this.deleteText(start, end, behaviour);
 
     return slice;
@@ -481,7 +493,9 @@ export default class Document {
       content: this.content,
       annotations: this.where({})
         .sort()
-        .map(a => a.clone())
+        .map(function cloneAnnotation(a) {
+          return a.clone();
+        })
     });
 
     let result = converter(convertedDoc);
@@ -501,10 +515,9 @@ export default class Document {
       annotations: this.where({})
         .sort()
         .toJSON(),
-      schema: schema.map(
-        AnnotationClass =>
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-      )
+      schema: schema.map(function prefixAnnotationType(AnnotationClass) {
+        return `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+      })
     };
   }
 
@@ -512,7 +525,9 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     return new DocumentClass({
       content: this.content,
-      annotations: this.annotations.map(annotation => annotation.clone())
+      annotations: this.annotations.map(function cloneAnnotation(annotation) {
+        return annotation.clone();
+      })
     });
   }
 
@@ -685,7 +700,9 @@ export default class Document {
     let schema = [...DocumentClass.schema, ParseAnnotation];
 
     if (annotation instanceof UnknownAnnotation) {
-      let KnownAnnotation = schema.find(AnnotationClass => {
+      let KnownAnnotation = schema.find(function annotationMatchesClass(
+        AnnotationClass
+      ) {
         return (
           annotation.attributes.type ===
           `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
@@ -715,9 +732,13 @@ export default class Document {
       }
       return annotation;
     } else {
-      let ConcreteAnnotation = schema.find(AnnotationClass => {
-        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
-        return annotation.type === fullyQualifiedType;
+      let ConcreteAnnotation = schema.find(function annotationMatchesClass(
+        AnnotationClass
+      ) {
+        return (
+          annotation.type ===
+          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+        );
       });
 
       if (ConcreteAnnotation) {
@@ -751,7 +772,9 @@ export default class Document {
     if (this.pendingChangeEvent) return;
     let self = this;
     this.pendingChangeEvent = setTimeout(function notifyListeners() {
-      self.changeListeners.forEach(l => l());
+      for (let listener of self.changeListeners) {
+        listener();
+      }
       delete self.pendingChangeEvent;
     }, 0);
   }
