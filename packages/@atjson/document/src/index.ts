@@ -714,10 +714,7 @@ export default class Document {
       }
       return annotation;
     } else if (annotation instanceof Annotation) {
-      let AnnotationClass = annotation.constructor as AnnotationConstructor<
-        any,
-        any
-      >;
+      let AnnotationClass = annotation.getAnnotationConstructor();
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
         return new UnknownAnnotation({

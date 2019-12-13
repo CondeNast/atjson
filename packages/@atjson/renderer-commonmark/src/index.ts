@@ -1,9 +1,4 @@
-import Document, {
-  Annotation,
-  BlockAnnotation,
-  ParseAnnotation,
-  AnnotationConstructor
-} from "@atjson/document";
+import Document, { Annotation, BlockAnnotation } from "@atjson/document";
 import {
   Bold,
   Code,
@@ -35,18 +30,12 @@ function getEnd(a: { end: number }) {
 }
 
 function isParseAnnotation(a: Annotation<any>) {
-  let constructor = a.constructor as AnnotationConstructor<
-    typeof a,
-    typeof a.attributes
-  >;
+  let constructor = a.getAnnotationConstructor();
   return constructor.vendorPrefix === "atjson" && a.type === "parse-token";
 }
 
 function isParseOrUnknown(a: Annotation<any>) {
-  let constructor = a.constructor as AnnotationConstructor<
-    typeof a,
-    typeof a.attributes
-  >;
+  let constructor = a.getAnnotationConstructor();
   return (
     constructor.vendorPrefix === "atjson" &&
     (a.type === "parse-token" || a.type === "unknown")
@@ -89,7 +78,7 @@ function getNextChar(doc: Document, start: number) {
   let end = start;
 
   function isOverlappingParseAnnotation(a: Annotation<any>) {
-    return a instanceof ParseAnnotation && a.start <= end && a.end > end;
+    return isParseAnnotation(a) && a.start <= end && a.end > end;
   }
 
   function isCoveredNonParseAnnotation(a: Annotation<any>) {

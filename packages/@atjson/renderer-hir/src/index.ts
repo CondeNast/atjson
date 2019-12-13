@@ -64,7 +64,9 @@ export interface Context {
 }
 
 function isTextAnnotation(a: Annotation<any>) {
-  return a.getConstructor().vendorPrefix === "atjson" && a.type === "text";
+  return (
+    a.getAnnotationConstructor().vendorPrefix === "atjson" && a.type === "text"
+  );
 }
 
 function getChildNodeAnnotations(childNode: HIRNode) {

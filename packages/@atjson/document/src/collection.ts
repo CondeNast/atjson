@@ -1,8 +1,4 @@
-import Document, {
-  Annotation,
-  AnnotationJSON,
-  AnnotationConstructor
-} from "./index";
+import Document, { Annotation, AnnotationJSON } from "./index";
 import Join from "./join";
 
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
@@ -89,10 +85,7 @@ export class Collection {
     if (Object.keys(filter).length === 1 && filter.type != null) {
       let annotations = [];
       for (let a of this.annotations) {
-        let annotationClass = a.constructor as AnnotationConstructor<
-          typeof a,
-          typeof a.attributes
-        >;
+        let annotationClass = a.getAnnotationConstructor();
         let vendorPrefix = annotationClass.vendorPrefix;
         if (
           filter.type === `-${vendorPrefix}-${a.type}` ||
