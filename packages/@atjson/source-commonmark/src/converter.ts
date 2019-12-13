@@ -2,7 +2,9 @@ import OffsetSource from "@atjson/offset-annotations";
 import { Image } from "./annotations";
 import CommonmarkSource from "./source";
 
-CommonmarkSource.defineConverterTo(OffsetSource, doc => {
+CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
+  doc
+) {
   doc
     .where({ type: "-commonmark-blockquote" })
     .set({ type: "-offset-blockquote" });
@@ -37,19 +39,18 @@ CommonmarkSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where({ type: "-commonmark-html_inline" })
     .set({ type: "-offset-html", attributes: { "-offset-style": "inline" } });
-  doc.where({ type: "-commonmark-image" }).update((image: Image) => {
-    doc.replaceAnnotation(image, {
-      id: image.id,
-      type: "-offset-image",
-      start: image.start,
-      end: image.end,
+
+  doc
+    .where({ type: "-commonmark-image" })
+    .set({ type: "-offset-image" })
+    .rename({
       attributes: {
-        "-offset-url": image.attributes.src,
-        "-offset-title": image.attributes.title,
-        "-offset-description": image.attributes.alt
+        "-commonmark-src": "-offset-url",
+        "-commonmark-title": "-offset-title",
+        "-commonmark-alt": "-offset-description"
       }
     });
-  });
+
   doc
     .where({ type: "-commonmark-link" })
     .set({ type: "-offset-link" })

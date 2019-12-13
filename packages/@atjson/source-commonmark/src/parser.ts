@@ -6,13 +6,14 @@ export interface Attributes {
 }
 
 function getAttributes(token: Token): Attributes {
-  return (token.attrs || []).reduce(
-    (attributes: Attributes, attribute: string[]) => {
+  let attributes: Attributes = {};
+  if (token.attrs) {
+    for (let attribute of token.attrs) {
       attributes[`-commonmark-${attribute[0]}`] = attribute[1];
-      return attributes;
-    },
-    {}
-  );
+    }
+  }
+
+  return attributes;
 }
 
 interface Token {
@@ -42,7 +43,7 @@ export interface Node {
 
 function toTree(tokens: Token[], rootNode: Node) {
   let currentNode = rootNode;
-  tokens.forEach(token => {
+  for (let token of tokens) {
     // Ignore softbreak as per markdown-it defaults
     if (token.tag === "br" && token.type === "softbreak") {
       currentNode.children.push({
@@ -113,19 +114,24 @@ function toTree(tokens: Token[], rootNode: Node) {
         ]
       });
     }
-  });
+  }
   return rootNode;
 }
 
 function getText(node: Node): Node[] {
-  return node.children.reduce((textNodes: Node[], child: Node) => {
+  let textNodes: Node[] = [];
+  for (let child of node.children) {
     if (child.name === "text") {
       textNodes.push(child);
     } else if (child.children) {
       textNodes.push(...getText(child));
     }
-    return textNodes;
-  }, []);
+  }
+  return textNodes;
+}
+
+function getValue(n: Node) {
+  return n.value;
 }
 
 export default class Parser {
@@ -141,7 +147,7 @@ export default class Parser {
   }
 
   walk(nodes: Node[]) {
-    nodes.forEach((node: Node) => {
+    for (let node of nodes) {
       if (node.name === "text") {
         this.content += node.value;
       } else if (node.open) {
@@ -159,7 +165,7 @@ export default class Parser {
           token.attrs.push([
             "alt",
             getText(node)
-              .map(n => n.value)
+              .map(getValue)
               .join("")
           ]);
           node.children = [];
@@ -170,11 +176,20 @@ export default class Parser {
           (node.name === "bullet_list" || node.name === "ordered_list") &&
           node.open
         ) {
-          let isTight = node.children.some(items => {
-            return items.children
-              .filter(child => child.name === "paragraph")
-              .some(child => !!(child.open && child.open.hidden));
-          });
+          let isTight = false;
+
+          outerIsTightLoop: for (let items of node.children) {
+            for (let child of items.children) {
+              if (
+                child.name === "paragraph" &&
+                !!(child.open && child.open.hidden)
+              ) {
+                isTight = true;
+                break outerIsTightLoop;
+              }
+            }
+          }
+
           attrs["-commonmark-tight"] = isTight;
         }
         let annotationGenerator = this.convertTokenToAnnotation(
@@ -186,7 +201,7 @@ export default class Parser {
         this.walk(node.children);
         annotationGenerator.next();
       }
-    });
+    }
   }
 
   *convertTokenToAnnotation(
