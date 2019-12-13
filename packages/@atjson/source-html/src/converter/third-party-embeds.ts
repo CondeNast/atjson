@@ -1,7 +1,32 @@
-import Document from "@atjson/document";
+import Document, { Annotation } from "@atjson/document";
 import { CerosEmbed } from "@atjson/offset-annotations";
 
-export default function(doc: Document) {
+function isCerosExperienceFrame(a: Annotation<any>) {
+  return a.type === "iframe" && a.attributes.class === "ceros-experience";
+}
+
+function isCerosOriginDomainsScript(a: Annotation<any>) {
+  return (
+    a.type === "script" &&
+    a.attributes.dataset &&
+    a.attributes.dataset["ceros-origin-domains"] != null
+  );
+}
+
+function isCerosContainer(a: Annotation<any>) {
+  return (
+    a.attributes.id != null &&
+    a.attributes.id.match(/^experience-.*$/) &&
+    a.attributes.dataset &&
+    a.attributes.dataset.aspectratio != null
+  );
+}
+
+function aCoversB(a: Annotation<any>, b: Annotation<any>) {
+  return a.start < b.start && a.end > b.end;
+}
+
+export default function convertThirdPartyEmbeds(doc: Document) {
   /**
    * Ceros Embeds are iframes wrapped in divs:
    *   <div id="experience-*" data-aspectRatio="{aspectRatio}" data-mobile-aspectRatio="{mobileAspectRatio}">
@@ -9,36 +34,15 @@ export default function(doc: Document) {
    *   </div>
    *   <script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>
    */
-  let containers = doc
-    .where(a => {
-      return (
-        (a.attributes.id ?? "").match(/^experience-.*$/) &&
-        a.attributes.dataset?.aspectratio != null
-      );
-    })
-    .as("container");
-  let iframeTags = doc
-    .where(a => {
-      return a.type === "iframe" && a.attributes.class === "ceros-experience";
-    })
-    .as("iframes");
+  let containers = doc.where(isCerosContainer).as("container");
+  let iframeTags = doc.where(isCerosExperienceFrame).as("iframes");
 
-  doc
-    .where(a => {
-      return (
-        a.type === "script" &&
-        a.attributes.dataset &&
-        a.attributes.dataset["ceros-origin-domains"] != null
-      );
-    })
-    .remove();
+  doc.where(isCerosOriginDomainsScript).remove();
 
   containers
-    .join(iframeTags, (container, iframe) => {
-      return container.start < iframe.start && container.end > iframe.end;
-    })
-    .update(({ container, iframes }) => {
-      iframes.forEach(iframe => doc.removeAnnotation(iframe));
+    .join(iframeTags, aCoversB)
+    .update(function joinContainerWithFrames({ container, iframes }) {
+      doc.removeAnnotations(iframes);
 
       let aspectRatio = parseFloat(container.attributes.dataset.aspectratio);
       let mobileAspectRatio =

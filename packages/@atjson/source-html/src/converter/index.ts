@@ -1,6 +1,6 @@
 import Document, { Annotation } from "@atjson/document";
 import OffsetSource, { Code } from "@atjson/offset-annotations";
-import { Image, OrderedList } from "../annotations";
+import { OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
 import convertThirdPartyEmbeds from "./third-party-embeds";
@@ -9,16 +9,32 @@ function getText(doc: Document) {
   let text = "";
   let index = 0;
   let parseTokens = doc.where({ type: "-atjson-parse-token" });
-  parseTokens.forEach(token => {
+  for (let token of parseTokens) {
     text += doc.content.slice(index, token.start);
     index = token.end;
-  });
+  }
 
   text += doc.content.slice(index, doc.content.length);
   return text;
 }
 
-HTMLSource.defineConverterTo(OffsetSource, doc => {
+function aCoversB(a: Annotation<any>, b: Annotation<any>) {
+  return a.start < b.start && a.end > b.end;
+}
+
+function isSmallCaps(a: Annotation<any>) {
+  let classes: string = a.attributes.class;
+  return (
+    a.type === "span" &&
+    classes &&
+    classes
+      .trim()
+      .split(" ")
+      .includes("smallcaps")
+  );
+}
+
+HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
   convertThirdPartyEmbeds(doc);
   convertSocialEmbeds(doc);
 
@@ -61,18 +77,20 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where({ type: "-html-ul" })
     .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } });
-  doc.where({ type: "-html-ol" }).update((list: OrderedList) => {
-    doc.replaceAnnotation(list, {
-      id: list.id,
-      type: "-offset-list",
-      start: list.start,
-      end: list.end,
-      attributes: {
-        "-offset-type": "numbered",
-        "-offset-startsAt": parseInt(list.attributes.start || "1", 10)
-      }
+  doc
+    .where({ type: "-html-ol" })
+    .update(function updateOList(list: OrderedList) {
+      doc.replaceAnnotation(list, {
+        id: list.id,
+        type: "-offset-list",
+        start: list.start,
+        end: list.end,
+        attributes: {
+          "-offset-type": "numbered",
+          "-offset-startsAt": parseInt(list.attributes.start || "1", 10)
+        }
+      });
     });
-  });
   doc.where({ type: "-html-li" }).set({ type: "-offset-list-item" });
 
   doc.where({ type: "-html-em" }).set({ type: "-offset-italic" });
@@ -85,26 +103,23 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
   doc.where({ type: "-html-sup" }).set({ type: "-offset-superscript" });
   doc.where({ type: "-html-u" }).set({ type: "-offset-underline" });
 
-  doc.where({ type: "-html-img" }).update((image: Image) => {
-    doc.replaceAnnotation(image, {
-      id: image.id,
-      type: "-offset-image",
-      start: image.start,
-      end: image.end,
+  doc
+    .where({ type: "-html-img" })
+    .set({ type: "-offset-image" })
+    .rename({
       attributes: {
-        "-offset-url": image.attributes.src,
-        "-offset-title": image.attributes.title,
-        "-offset-description": image.attributes.alt
+        "-html-src": "-offset-url",
+        "-html-title": "-offset-title",
+        "-html-alt": "-offset-description"
       }
     });
-  });
 
   let $pre = doc.where({ type: "-html-pre" }).as("pre");
   let $code = doc.where({ type: "-html-code" }).as("codeElements");
 
   $pre
-    .join($code, (pre, code) => pre.start < code.start && code.end < pre.end)
-    .update(({ pre, codeElements }) => {
+    .join($code, aCoversB)
+    .update(function joinPreToCodes({ pre, codeElements }) {
       if (codeElements.length > 1) return;
 
       let code = codeElements[0];
@@ -134,19 +149,7 @@ HTMLSource.defineConverterTo(OffsetSource, doc => {
 
   doc.where({ type: "-html-section" }).set({ type: "-offset-section" });
 
-  doc
-    .where((a: Annotation<any>) => {
-      let classes: string = a.attributes.class;
-      return (
-        a.type === "span" &&
-        classes &&
-        classes
-          .trim()
-          .split(" ")
-          .includes("smallcaps")
-      );
-    })
-    .set({ type: "-offset-small-caps" });
+  doc.where(isSmallCaps).set({ type: "-offset-small-caps" });
 
   return doc;
 });
