@@ -273,7 +273,7 @@ function getNumberOfRequiredBackticks(text: string) {
   return total;
 }
 
-function isHTML(a: { type: string }) {
+function isHTML(a: { type: string }): a is HTML {
   return a.type === "html";
 }
 
