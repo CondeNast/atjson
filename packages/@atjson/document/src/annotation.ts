@@ -113,7 +113,7 @@ export default abstract class Annotation<Attributes = {}> {
     return this.start === annotation.start && this.end === annotation.end;
   }
 
-  equals(annotationToCompare: Annotation<any>): Boolean {
+  equals(annotationToCompare: Annotation<any>): boolean {
     let AnnotationClass = this.getAnnotationConstructor();
     let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
 

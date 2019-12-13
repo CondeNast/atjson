@@ -206,12 +206,10 @@ export default class Document {
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.content = options.content;
-    let self = this;
-    this.annotations = options.annotations.map(function createAnnotation(
-      annotation
-    ) {
-      return self.createAnnotation(annotation);
-    });
+
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+    this.annotations = options.annotations.map(createAnnotation);
   }
 
   /**
@@ -240,12 +238,9 @@ export default class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
-    let self = this;
-    this.annotations.push(
-      ...annotations.map(function createAnnotation(annotation) {
-        return self.createAnnotation(annotation);
-      })
-    );
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+    this.annotations.push(...annotations.map(createAnnotation));
     this.triggerChange();
   }
 
@@ -311,13 +306,10 @@ export default class Document {
     ...newAnnotations: Array<AnnotationJSON | Annotation<any>>
   ): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
     if (index > -1) {
-      let self = this;
-      let annotations = newAnnotations.map(function createAnnotation(
-        newAnnotation
-      ) {
-        return self.createAnnotation(newAnnotation);
-      });
+      let annotations = newAnnotations.map(createAnnotation);
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -767,12 +759,12 @@ export default class Document {
    */
   private triggerChange() {
     if (this.pendingChangeEvent) return;
-    let self = this;
-    this.pendingChangeEvent = setTimeout(function notifyListeners() {
-      for (let listener of self.changeListeners) {
+    let notifyListeners = () => {
+      for (let listener of this.changeListeners) {
         listener();
       }
-      delete self.pendingChangeEvent;
-    }, 0);
+      delete this.pendingChangeEvent;
+    };
+    this.pendingChangeEvent = setTimeout(notifyListeners, 0);
   }
 }

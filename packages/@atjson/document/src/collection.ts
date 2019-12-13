@@ -237,28 +237,36 @@ function set(object: any, key: string, value: any) {
 export default class AnnotationCollection extends Collection {
   set(patch: any) {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
-    let self = this;
-    return this.update(function patchAnnotationUpdater(annotation) {
+    let patchAnnotationUpdater = (annotation: Annotation<any>) => {
       let result = annotation.toJSON() as AnnotationJSON;
       for (let key in flattenedPatch) {
         set(result, key, flattenedPatch[key]);
       }
-      let newAnnotation = self.document.replaceAnnotation(annotation, result);
-      return {
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
+
+      let r: { update: [Annotation<any>, Annotation<any>][] } = {
         update: [[annotation, newAnnotation[0]]]
       };
-    });
+
+      return r;
+    };
+
+    return this.update(patchAnnotationUpdater);
   }
 
   unset(...keys: string[]) {
-    let self = this;
-    return this.update(function unsetKeysUpdater(annotation) {
+    let unsetKeysUpdater = (annotation: Annotation<any>) => {
       let result = without(annotation.toJSON(), keys) as AnnotationJSON;
-      let newAnnotation = self.document.replaceAnnotation(annotation, result);
-      return {
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
+
+      let r: { update: [Annotation<any>, Annotation<any>][] } = {
         update: [[annotation, newAnnotation[0]]]
       };
-    });
+
+      return r;
+    };
+
+    return this.update(unsetKeysUpdater);
   }
 
   rename(renaming: Renaming) {
@@ -266,20 +274,23 @@ export default class AnnotationCollection extends Collection {
       keys: true,
       values: true
     });
-    let self = this;
-    return this.update(function renameUpdater(annotation) {
+
+    let renameUpdater = (annotation: Annotation) => {
       let json = annotation.toJSON() as AnnotationJSON;
       let result = without(annotation.toJSON(), Object.keys(flattenedRenaming));
       for (let key in flattenedRenaming) {
         let value = get(json, key);
         set(result, flattenedRenaming[key], value);
       }
-      let newAnnotation = self.document.replaceAnnotation(annotation, result);
+      let newAnnotation = this.document.replaceAnnotation(annotation, result);
 
-      return {
+      let r: { update: [Annotation<any>, Annotation<any>][] } = {
         update: [[annotation, newAnnotation[0]]]
       };
-    });
+
+      return r;
+    };
+    return this.update(renameUpdater);
   }
 
   remove() {

@@ -52,13 +52,12 @@ class WebComponentRenderer {
   }
 
   compile(hir: Map<Element, HIRNode>, nodes: HIRNode[]): Element[] {
-    let self = this;
-    return nodes.map(function compileNode(node: HIRNode) {
+    let compileNode = (node: HIRNode) => {
       let children = node.children();
       if (children.length > 0) {
         let element: Element;
-        if (typeof (self as any)[node.type] === "function") {
-          element = self[node.type](node);
+        if (typeof (this as any)[node.type] === "function") {
+          element = this[node.type](node);
         } else {
           element = document.createElement("span");
           element.classList.add("unknown-annotation");
@@ -69,21 +68,22 @@ class WebComponentRenderer {
         }
 
         hir.set(element, node);
-        for (let child of self.compile(hir, children)) {
+        for (let child of this.compile(hir, children)) {
           element.appendChild(child);
         }
         return element;
       } else {
         let text;
-        if (typeof (self as any)[node.type] === "function") {
-          text = self[node.type](node);
+        if (typeof (this as any)[node.type] === "function") {
+          text = this[node.type](node);
         } else {
           text = "";
         }
         hir.set(text, node);
         return text;
       }
-    });
+    };
+    return nodes.map(compileNode);
   }
 }
 
