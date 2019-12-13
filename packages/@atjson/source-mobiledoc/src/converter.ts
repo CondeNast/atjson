@@ -1,7 +1,9 @@
 import OffsetSource from "@atjson/offset-annotations";
 import MobiledocSource from "./source";
 
-MobiledocSource.defineConverterTo(OffsetSource, doc => {
+MobiledocSource.defineConverterTo(OffsetSource, function mobileDocToOffset(
+  doc
+) {
   doc
     .where({ type: "-mobiledoc-a" })
     .set({ type: "-offset-link" })
