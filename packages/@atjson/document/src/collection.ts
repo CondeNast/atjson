@@ -162,10 +162,8 @@ function flattenPropertyPaths(
   options: { keys: boolean; values?: boolean },
   prefix?: string
 ): FlattenedRenaming {
-  return Object.keys(mapping).reduce(function flattenPathsReducer(
-    result: FlattenedRenaming,
-    key: string
-  ) {
+  let result: FlattenedRenaming = {};
+  for (let key in mapping) {
     let value = mapping[key];
     let fullyQualifiedKey = key;
     if (prefix) {
@@ -182,9 +180,9 @@ function flattenPropertyPaths(
         flattenPropertyPaths(value, options, fullyQualifiedKey)
       );
     }
-    return result;
-  },
-  {});
+  }
+
+  return result;
 }
 
 function without(object: any, attributes: string[]): any {
