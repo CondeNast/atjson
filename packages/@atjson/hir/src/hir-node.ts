@@ -7,30 +7,29 @@ export interface Dictionary<T> {
 
 function toJSON(attribute: NonNullable<any>): JSON {
   if (Array.isArray(attribute)) {
-    return attribute.map(attr => {
-      let result = toJSON(attr);
-      return result;
-    });
+    return attribute.map(toJSON);
   } else if (attribute instanceof Document) {
     return attribute.toJSON();
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {
-    return Object.keys(attribute).reduce(
-      (copy: NonNullable<any>, key: string) => {
-        let value = attribute[key];
-        if (value == null) {
-          copy[key] = value;
-        } else {
-          copy[key] = toJSON(value);
-        }
-        return copy;
-      },
-      {}
-    );
+    let copy: NonNullable<any> = {};
+    for (let key in attribute) {
+      let value = attribute[key];
+      if (value == null) {
+        copy[key] = value;
+      } else {
+        copy[key] = toJSON(value);
+      }
+    }
+    return copy;
   } else {
     return attribute;
   }
+}
+
+function isNotParseAnnotation(node: HIRNode) {
+  return !(node.annotation instanceof ParseAnnotation);
 }
 
 export default class HIRNode {
@@ -86,7 +85,7 @@ export default class HIRNode {
       id: this.id,
       type: this.type,
       attributes: toJSON(this.annotation.attributes),
-      children: this.children(options).map(child => {
+      children: this.children(options).map(function toJSONWithOptions(child) {
         return child.toJSON(options);
       })
     };
@@ -96,9 +95,7 @@ export default class HIRNode {
     if (this.child) {
       let children = [this.child].concat(this.child.siblings());
       if (!options || !options.includeParseTokens) {
-        children = children.filter(
-          node => !(node.annotation instanceof ParseAnnotation)
-        );
+        children = children.filter(isNotParseAnnotation);
       }
       return children;
     } else {
