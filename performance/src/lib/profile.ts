@@ -47,7 +47,7 @@ export type TimingStat = {
   quantiles: number[];
 };
 
-export type FunctionStat = {
+export type FunctionTiming = {
   functionName: string;
   url: string;
   callCount: number[];
@@ -57,5 +57,26 @@ export type FunctionStat = {
 
 export type ProfileStat = {
   cumulativeTime: TimingStat;
-  functionStats: FunctionStat[];
+  functions: FunctionTiming[];
+};
+
+export type TStat = {
+  confidenceInterval: number[];
+  tScore: number;
+  pValue: number;
+  degreesFreedom: number;
+  alpha: number;
+};
+
+export type FunctionTStat = {
+  functionName: string;
+  url: string;
+  cumulativeTimeTStat: TStat;
+};
+
+export type ProfileTStat = {
+  cumulativeTimeTStat: TStat;
+  functionTStats: FunctionTStat[];
+  dropped: FunctionTiming[];
+  added: FunctionTiming[];
 };

@@ -1,14 +1,18 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import {
-  FunctionStat,
+  FunctionTiming,
   Profile,
   ProfileStat,
   TimedFunction,
   TimedNode,
   TimedProfile,
-  TimingStat
+  TimingStat,
+  ProfileTStat,
+  FunctionTStat,
+  TStat
 } from "./profile";
+import { getTStat } from "./t-test";
 import * as stats from "simple-statistics";
 
 interface FunctionInfo {
@@ -124,7 +128,7 @@ function summarizeProfiles(timedProfiles: TimedProfile[]): ProfileStat {
       functionStat.cumulativeTime.data.push(timedFunction.cumulativeTime);
     });
     return map;
-  }, new Map<string, FunctionStat>());
+  }, new Map<string, FunctionTiming>());
 
   calculateStats(cumulativeTime);
   functionStats.forEach(functionStat => {
@@ -134,10 +138,25 @@ function summarizeProfiles(timedProfiles: TimedProfile[]): ProfileStat {
 
   return {
     cumulativeTime,
-    functionStats: [...functionStats.values()].sort(
+    functions: [...functionStats.values()].sort(
       (s1, s2) => s2.cumulativeTime.mean - s1.cumulativeTime.mean
     )
   };
+}
+
+function compareFunctionTStats(
+  functionTStat1: FunctionTStat,
+  functionTStat2: FunctionTStat
+) {
+  return (
+    Math.abs(functionTStat2.cumulativeTimeTStat.confidenceInterval[0]) -
+    Math.abs(functionTStat1.cumulativeTimeTStat.confidenceInterval[0])
+  );
+}
+
+function hasMeaningfulDifference({ confidenceInterval }: TStat) {
+  let [min, max] = confidenceInterval;
+  return (min < 0 && max < 0) || (0 < min && max < 0);
 }
 
 export function summarize(name: string) {
@@ -154,4 +173,56 @@ export function summarize(name: string) {
     });
   let profileStat = summarizeProfiles(timedProfiles);
   writeFileSync(join(directory, "timing.json"), JSON.stringify(profileStat));
+}
+
+export function getTStats(
+  profileStat1: ProfileStat,
+  profileStat2: ProfileStat
+): ProfileTStat {
+  let functionMap = new Map<string, [FunctionTiming?, FunctionTiming?]>();
+  [profileStat1.functions, profileStat2.functions].forEach(
+    (functionTimings, index) => {
+      functionTimings.forEach(functionTiming => {
+        let entry = functionMap.get(toKey(functionTiming));
+        if (!entry) {
+          entry = [];
+          entry[index] = functionTiming;
+        }
+      });
+    }
+  );
+
+  let functionTStats: FunctionTStat[] = [];
+  let dropped: FunctionTiming[] = [];
+  let added: FunctionTiming[] = [];
+  functionMap.forEach(([functionTiming1, functionTiming2]) => {
+    if (!functionTiming1) {
+      added.push(functionTiming2!);
+    } else if (!functionTiming2) {
+      dropped.push(functionTiming1!);
+    } else {
+      let tStat = getTStat(
+        functionTiming1.cumulativeTime,
+        functionTiming2.cumulativeTime
+      );
+      if (hasMeaningfulDifference(tStat)) {
+        functionTStats.push({
+          functionName: functionTiming1.functionName,
+          url: functionTiming1.url,
+          cumulativeTimeTStat: tStat
+        });
+      }
+    }
+  });
+  functionTStats.sort(compareFunctionTStats);
+
+  return {
+    cumulativeTimeTStat: getTStat(
+      profileStat1.cumulativeTime,
+      profileStat2.cumulativeTime
+    ),
+    functionTStats,
+    dropped,
+    added
+  };
 }
