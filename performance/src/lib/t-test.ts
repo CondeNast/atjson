@@ -1,12 +1,15 @@
 import ttest = require("ttest");
-import { TimingStat } from "./profile";
+import { TimingStat, TStat } from "./profile";
 
-export function compareStats(stat1: TimingStat, stat2: TimingStat) {
-  let ttestStats = ttest(stat1.data, stat2.data);
+const alpha = 0.05;
+
+export function getTStat(stat1: TimingStat, stat2: TimingStat): TStat {
+  let ttestStats = ttest(stat1.data, stat2.data, { alpha });
   return {
     confidenceInterval: ttestStats.confidence(),
     tScore: ttestStats.testValue(),
     pValue: ttestStats.pValue(),
-    degreesFreedom: ttestStats.freedom()
+    degreesFreedom: ttestStats.freedom(),
+    alpha
   };
 }

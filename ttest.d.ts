@@ -19,7 +19,7 @@ interface DataSummary {
   size: number;
 }
 
-interface Stat {
+interface TStat {
   testValue(): number;
   pValue(): number;
   confidence(): number[];
