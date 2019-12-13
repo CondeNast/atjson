@@ -1,6 +1,6 @@
 import Document, { Annotation, ParseAnnotation } from "@atjson/document";
 import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
-import { Script, Link, Blockquote } from "../annotations";
+import { Script, Link } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
