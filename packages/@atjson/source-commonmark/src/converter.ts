@@ -1,5 +1,4 @@
 import OffsetSource from "@atjson/offset-annotations";
-import { Image } from "./annotations";
 import CommonmarkSource from "./source";
 
 CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
