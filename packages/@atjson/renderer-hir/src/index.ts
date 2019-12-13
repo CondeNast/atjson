@@ -1,5 +1,5 @@
 import Document, { Annotation, AnnotationJSON } from "@atjson/document";
-import { HIR, HIRNode } from "@atjson/hir";
+import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
 interface Mapping {
   [key: string]: string;
@@ -63,7 +63,7 @@ export interface Context {
   document: Document;
 }
 
-function isTextAnnotation(a: Annotation<any>) {
+function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
   return (
     a.getAnnotationConstructor().vendorPrefix === "atjson" && a.type === "text"
   );
