@@ -5,7 +5,7 @@ import Change, {
   Deletion,
   Insertion
 } from "./change";
-import Document from "./index";
+import Document, { AttributesOf } from "./index";
 import JSON from "./json";
 
 function areAttributesEqual(
@@ -106,6 +106,10 @@ export default abstract class Annotation<Attributes = {}> {
     this.end = attrs.end;
 
     this.attributes = attrs.attributes || ({} as Attributes);
+  }
+
+  getConstructor<T extends Annotation<any>>(this: T) {
+    return this.constructor as AnnotationConstructor<T, AttributesOf<T>>;
   }
 
   isAlignedWith(annotation: Annotation<any>) {

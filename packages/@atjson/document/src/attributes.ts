@@ -8,7 +8,7 @@ export function unprefix(
   path: Array<string | number> = []
 ): NonNullable<any> {
   if (Array.isArray(attribute)) {
-    return attribute.map((attr, index) => {
+    return attribute.map(function unprefixAttr(attr, index) {
       let result = unprefix(
         vendorPrefix,
         subdocuments,
