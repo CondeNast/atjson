@@ -1,5 +1,5 @@
 import Document, { Annotation, AnnotationJSON } from "@atjson/document";
-import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
+import { HIR, HIRNode } from "@atjson/hir";
 
 interface Mapping {
   [key: string]: string;
@@ -17,8 +17,12 @@ const escape: Mapping = {
 
 type EscapeCharacter = keyof Mapping;
 
+function doEscape(chr: EscapeCharacter) {
+  return escape[chr];
+}
+
 export function escapeHTML(text: string): string {
-  return text.replace(/[&<>"'`=]/g, (chr: EscapeCharacter) => escape[chr]);
+  return text.replace(/[&<>"'`=]/g, doEscape);
 }
 
 function flatten<T>(array: Array<T | T[]>): T[] {
@@ -34,18 +38,20 @@ function flatten<T>(array: Array<T | T[]>): T[] {
   return flattenedArray;
 }
 
+function classifyWord(word: string) {
+  if (word.length > 0) {
+    return word[0].toUpperCase() + word.slice(1);
+  }
+  return "";
+}
+
 // This classify is _specifically_ for our annotation types—
 // casing is ignored, and dashes are the only thing allowed.
 export function classify(type: string) {
   return type
     .toLowerCase()
     .split("-")
-    .map(word => {
-      if (word.length > 0) {
-        return word[0].toUpperCase() + word.slice(1);
-      }
-      return "";
-    })
+    .map(classifyWord)
     .join("");
 }
 
@@ -57,6 +63,36 @@ export interface Context {
   document: Document;
 }
 
+function isTextAnnotation(a: Annotation<any>) {
+  return a.getConstructor().vendorPrefix === "atjson" && a.type === "text";
+}
+
+function getChildNodeAnnotations(childNode: HIRNode) {
+  if (isTextAnnotation(childNode.annotation)) {
+    return {
+      type: "text",
+      start: childNode.start,
+      end: childNode.end,
+      attributes: {
+        text: childNode.text
+      },
+      toJSON(): object {
+        return {
+          id: "Any<id>",
+          type: "-atjson-text",
+          start: childNode.start,
+          end: childNode.end,
+          attributes: {
+            "-atjson-text": childNode.text
+          }
+        };
+      }
+    };
+  } else {
+    return childNode.annotation;
+  }
+}
+
 function compile(
   renderer: Renderer,
   node: HIRNode,
@@ -64,31 +100,8 @@ function compile(
 ): any {
   let annotation = node.annotation;
   let childNodes = node.children();
-  let childAnnotations = childNodes.map(childNode => {
-    if (childNode.annotation instanceof TextAnnotation) {
-      return {
-        type: "text",
-        start: childNode.start,
-        end: childNode.end,
-        attributes: {
-          text: childNode.text
-        },
-        toJSON(): object {
-          return {
-            id: "Any<id>",
-            type: "-atjson-text",
-            start: childNode.start,
-            end: childNode.end,
-            attributes: {
-              "-atjson-text": childNode.text
-            }
-          };
-        }
-      };
-    } else {
-      return childNode.annotation;
-    }
-  });
+
+  let childAnnotations = childNodes.map(getChildNodeAnnotations);
   let generator: Iterator<void, any, any[]>;
 
   if (context.parent == null) {
@@ -107,7 +120,10 @@ function compile(
 
   return generator.next(
     flatten(
-      childNodes.map((childNode: HIRNode, idx: number) => {
+      childNodes.map(function compileChildNode(
+        childNode: HIRNode,
+        idx: number
+      ) {
         let childContext = {
           parent: annotation || null,
           previous: childAnnotations[idx - 1] || null,
