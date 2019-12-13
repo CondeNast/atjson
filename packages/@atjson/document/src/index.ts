@@ -677,12 +677,13 @@ export default class Document {
       return false;
     }
 
-    return canonicalLeftHandSideDoc.annotations.every(function lhsEquals(
-      lhsAnnotation,
-      index
-    ) {
-      return lhsAnnotation.equals(canonicalRightHandSideDoc.annotations[index]);
-    });
+    return canonicalLeftHandSideDoc.annotations.every(
+      function matchesRightHandDocAnnotationAtIndex(lhsAnnotation, index) {
+        return lhsAnnotation.equals(
+          canonicalRightHandSideDoc.annotations[index]
+        );
+      }
+    );
   }
 
   private createAnnotation(
