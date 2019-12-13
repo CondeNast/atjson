@@ -173,6 +173,12 @@ export function summarize(name: string) {
     });
   let profileStat = summarizeProfiles(timedProfiles);
   writeFileSync(join(directory, "timing.json"), JSON.stringify(profileStat));
+
+  let beforeProfileStat = JSON.parse(
+    readFileSync(join(directory, "timing-before.json")).toString()
+  ) as ProfileStat;
+  let profileTStat = getTStats(beforeProfileStat, profileStat);
+  writeFileSync(join(directory, "tStats.json"), JSON.stringify(profileTStat));
 }
 
 export function getTStats(
@@ -183,11 +189,14 @@ export function getTStats(
   [profileStat1.functions, profileStat2.functions].forEach(
     (functionTimings, index) => {
       functionTimings.forEach(functionTiming => {
-        let entry = functionMap.get(toKey(functionTiming));
+        let key = toKey(functionTiming);
+        let entry = functionMap.get(key);
         if (!entry) {
           entry = [];
-          entry[index] = functionTiming;
+          functionMap.set(key, entry);
         }
+
+        entry[index] = functionTiming;
       });
     }
   );
@@ -201,21 +210,27 @@ export function getTStats(
     } else if (!functionTiming2) {
       dropped.push(functionTiming1!);
     } else {
-      let tStat = getTStat(
-        functionTiming1.cumulativeTime,
-        functionTiming2.cumulativeTime
-      );
-      if (hasMeaningfulDifference(tStat)) {
-        functionTStats.push({
-          functionName: functionTiming1.functionName,
-          url: functionTiming1.url,
-          cumulativeTimeTStat: tStat
-        });
+      try {
+        let tStat = getTStat(
+          functionTiming1.cumulativeTime,
+          functionTiming2.cumulativeTime
+        );
+        if (hasMeaningfulDifference(tStat)) {
+          functionTStats.push({
+            functionName: functionTiming1.functionName,
+            url: functionTiming1.url,
+            cumulativeTimeTStat: tStat
+          });
+        }
+      } catch {
+        console.log(
+          `Could not run ttest due to low precision:\n${functionTiming1.cumulativeTime}\n${functionTiming2.cumulativeTime}`
+        );
       }
     }
   });
-  functionTStats.sort(compareFunctionTStats);
 
+  functionTStats.sort(compareFunctionTStats);
   return {
     cumulativeTimeTStat: getTStat(
       profileStat1.cumulativeTime,
