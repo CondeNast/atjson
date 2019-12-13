@@ -1,4 +1,9 @@
-import Document, { Annotation, BlockAnnotation } from "@atjson/document";
+import Document, {
+  Annotation,
+  BlockAnnotation,
+  ParseAnnotation,
+  UnknownAnnotation
+} from "@atjson/document";
 import {
   Bold,
   Code,
@@ -29,16 +34,22 @@ function getEnd(a: { end: number }) {
   return a.end;
 }
 
-function isParseAnnotation(a: Annotation<any>) {
-  let constructor = a.getAnnotationConstructor();
-  return constructor.vendorPrefix === "atjson" && a.type === "parse-token";
+function isParseAnnotation(
+  annotation: Annotation<any>
+): annotation is ParseAnnotation {
+  let constructor = annotation.getAnnotationConstructor();
+  return (
+    constructor.vendorPrefix === "atjson" && annotation.type === "parse-token"
+  );
 }
 
-function isParseOrUnknown(a: Annotation<any>) {
-  let constructor = a.getAnnotationConstructor();
+function isParseOrUnknown(
+  annotation: Annotation<any>
+): annotation is ParseAnnotation | UnknownAnnotation {
+  let constructor = annotation.getAnnotationConstructor();
   return (
     constructor.vendorPrefix === "atjson" &&
-    (a.type === "parse-token" || a.type === "unknown")
+    (annotation.type === "parse-token" || annotation.type === "unknown")
   );
 }
 
