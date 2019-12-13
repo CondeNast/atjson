@@ -57,11 +57,11 @@ export default function extractTextStyles(
   }
 
   // Close any remaining open styles
-  Object.keys(state).forEach(key => {
+  for (let key in state) {
     let annotation = state[key];
     annotation.end = styles.length - 1;
     annotations.push(annotation);
-  });
+  }
 
   return annotations;
 }

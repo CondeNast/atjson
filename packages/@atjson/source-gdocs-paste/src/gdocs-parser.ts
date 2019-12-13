@@ -45,19 +45,19 @@ export default class GDocsParser {
     const transforms = GDocsParser.transforms;
     const entityMap: GDocsEntityMap = this.gdocsSource.resolved.dsl_entitymap;
 
-    let annotations = styleSlices.map((styleSlice: GDocsStyleSlice) => {
+    let annotations: AnnotationJSON[] = [];
+    for (let styleSlice of styleSlices) {
       let type: string = styleSlice.stsl_type;
       let styles: GDocsStyleSlice[] = styleSlice.stsl_styles;
       let trailing: GDocsStyleSlice = styleSlice.stsl_trailing;
 
       if (transforms[type]) {
-        return transforms[type](styles, entityMap, trailing, this.getContent());
+        annotations.push(
+          ...transforms[type](styles, entityMap, trailing, this.getContent())
+        );
       }
-      return null;
-    });
+    }
 
-    return []
-      .concat(...annotations)
-      .filter((a: AnnotationJSON | null) => a != null);
+    return annotations;
   }
 }
