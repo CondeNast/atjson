@@ -178,14 +178,13 @@ export default class Parser {
         ) {
           let isTight = false;
 
-          outerIsTightLoop: for (let items of node.children) {
+          for (let items of node.children) {
             for (let child of items.children) {
               if (
                 child.name === "paragraph" &&
                 !!(child.open && child.open.hidden)
               ) {
                 isTight = true;
-                break outerIsTightLoop;
               }
             }
           }
