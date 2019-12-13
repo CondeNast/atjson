@@ -185,7 +185,9 @@ export default class Parser {
                 !!(child.open && child.open.hidden)
               ) {
                 isTight = true;
+                break;
               }
+              if (isTight) break;
             }
           }
 
