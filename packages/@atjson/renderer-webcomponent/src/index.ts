@@ -18,26 +18,21 @@ class WebComponentRenderer {
       if (nonBreakStrings[nonBreakStrings.length - 1] === "") {
         nonBreakStrings.pop();
       }
-      let children = nonBreakStrings
-        .map((str: string) => {
-          let span = document.createElement("span");
-          span.style.whiteSpace = "normal";
-          span.style.display = "none";
-          span.contentEditable = "false";
-          span.appendChild(document.createTextNode("\n"));
-          return [document.createTextNode(str), span];
-        })
-        .reduce(
-          (
-            a: Array<Text | HTMLSpanElement>,
-            b: Array<Text | HTMLSpanElement>
-          ): Array<Text | HTMLSpanElement> => a.concat(b)
-        );
+
+      let children = [];
+      for (let str of nonBreakStrings) {
+        let span = document.createElement("span");
+        span.style.whiteSpace = "normal";
+        span.style.display = "none";
+        span.contentEditable = "false";
+        span.appendChild(document.createTextNode("\n"));
+        children.push(document.createTextNode(str), span);
+      }
 
       let textParentNode = document.createElement("span");
-      children.forEach((child: Node) => {
+      for (let child of children) {
         textParentNode.appendChild(child);
-      });
+      }
 
       return textParentNode;
     }
@@ -50,19 +45,20 @@ class WebComponentRenderer {
 
     let placeholder = document.createElement("div");
     let children = this.compile(hir, annotationGraph.rootNode.children());
-    children.forEach((element: Element) => {
+    for (let element of children) {
       placeholder.appendChild(element);
-    });
+    }
     return placeholder;
   }
 
   compile(hir: Map<Element, HIRNode>, nodes: HIRNode[]): Element[] {
-    return nodes.map((node: HIRNode) => {
+    let self = this;
+    return nodes.map(function compileNode(node: HIRNode) {
       let children = node.children();
       if (children.length > 0) {
         let element: Element;
-        if (typeof (this as any)[node.type] === "function") {
-          element = this[node.type](node);
+        if (typeof (self as any)[node.type] === "function") {
+          element = self[node.type](node);
         } else {
           element = document.createElement("span");
           element.classList.add("unknown-annotation");
@@ -73,14 +69,14 @@ class WebComponentRenderer {
         }
 
         hir.set(element, node);
-        this.compile(hir, children).forEach((child: Element) => {
+        for (let child of self.compile(hir, children)) {
           element.appendChild(child);
-        });
+        }
         return element;
       } else {
         let text;
-        if (typeof (this as any)[node.type] === "function") {
-          text = this[node.type](node);
+        if (typeof (self as any)[node.type] === "function") {
+          text = self[node.type](node);
         } else {
           text = "";
         }
