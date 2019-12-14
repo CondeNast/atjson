@@ -18,6 +18,11 @@ function isDocumentFragment(
   return nodeName === "#document-fragment";
 }
 
+function isDocument(node: parse5.Document): node is parse5.DefaultTreeDocument {
+  let nodeName = "nodeName" in node ? node.nodeName : null;
+  return nodeName === "#document";
+}
+
 function isText(
   node: parse5.DefaultTreeNode
 ): node is parse5.DefaultTreeTextNode {
@@ -61,8 +66,12 @@ export default class Parser {
     this.annotations = [];
     this.offset = 0;
 
-    let tree = parse5.parseFragment(html, { sourceCodeLocationInfo: true });
-    if (isDocumentFragment(tree)) {
+    // By using `parse` all the time,
+    // we can handle `<!DOCTYPE html>` declarations
+    // and HTML fragments cleanly.
+    let tree = parse5.parse(html, { sourceCodeLocationInfo: true });
+
+    if (isDocumentFragment(tree) || isDocument(tree)) {
       this.walk(tree.childNodes);
     } else {
       throw new Error("Invalid return from parser. Failing.");
@@ -159,14 +168,18 @@ export default class Parser {
           attributes: { reason: `<${tagName}/>` },
           start,
           end
-        }),
-        {
+        })
+      );
+
+      // Handle `<!DOCTYPE html>` gracefully
+      if (tagName) {
+        this.annotations.push({
           type: `-html-${tagName}`,
           attributes: getAttributes(node),
           start,
           end
-        }
-      );
+        });
+      }
 
       yield;
     }
