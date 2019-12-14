@@ -332,4 +332,68 @@ describe("@atjson/source-html", () => {
       ]
     });
   });
+
+  test('<!DOCTYPE html><html lang="en"><body>Hello</body></html>', () => {
+    let doc = HTMLSource.fromRaw(
+      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+    );
+
+    expect([...doc.where({ type: "-html-body" })]).toMatchObject([
+      {
+        start: 31,
+        end: 49
+      }
+    ]);
+    expect(doc.content).toEqual(
+      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+    );
+
+    let canonical = doc.canonical();
+    expect(canonical.content).toEqual("Hello");
+    expect(canonical.annotations).toMatchObject([
+      {
+        type: "body",
+        start: 0,
+        end: 5
+      },
+      {
+        type: "html",
+        start: 0,
+        end: 5,
+        attributes: {
+          lang: "en"
+        }
+      }
+    ]);
+  });
+
+  test('<html lang="en"><body>Hello</body></html>', () => {
+    let doc = HTMLSource.fromRaw('<html lang="en"><body>Hello</body></html>');
+
+    expect([...doc.where({ type: "-html-body" })]).toMatchObject([
+      {
+        start: 16,
+        end: 34
+      }
+    ]);
+    expect(doc.content).toEqual('<html lang="en"><body>Hello</body></html>');
+
+    let canonical = doc.canonical();
+    expect(canonical.content).toEqual("Hello");
+    expect(canonical.annotations).toMatchObject([
+      {
+        type: "body",
+        start: 0,
+        end: 5
+      },
+      {
+        type: "html",
+        start: 0,
+        end: 5,
+        attributes: {
+          lang: "en"
+        }
+      }
+    ]);
+  });
 });
