@@ -4,7 +4,7 @@ import ttest = require("ttest");
 import { FunctionTiming, ProfileStat, TimingStat } from "./generate-timing";
 
 export type TStat = {
-  confidenceInterval: number[];
+  confidenceInterval: [number, number];
   tScore: number;
   pValue: number;
   degreesFreedom: number;
@@ -46,7 +46,7 @@ function getTStat(
   stat2: TimingStat,
   alpha: number = 0.05
 ): TStat {
-  let ttestStats = ttest(stat1.data, stat2.data, { alpha });
+  let ttestStats = ttest(stat2.data, stat1.data, { alpha });
   return {
     confidenceInterval: ttestStats.confidence(),
     tScore: ttestStats.testValue(),
@@ -103,11 +103,7 @@ function getTStats(
             cumulativeTimeTStat: tStat
           });
         }
-      } catch {
-        console.warn(
-          `Could not run ttest due to low precision:\n${functionTiming1.cumulativeTime}\n${functionTiming2.cumulativeTime}`
-        );
-      }
+      } catch {}
     }
   });
 
