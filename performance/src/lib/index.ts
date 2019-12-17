@@ -1,3 +1,3 @@
-export * from "./profile";
-export * from "./t-test";
-export * from "./timing-stats";
+export * from "./generate-profiles";
+export * from "./generate-tstats";
+export * from "./time-profiles";

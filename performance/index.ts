@@ -1,7 +1,6 @@
 /* eslint-env node */
 import * as spec from "commonmark-spec";
 import { profile } from "./src";
-import { summarize } from "./src/lib";
 import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import OffsetSource from "@atjson/offset-annotations";
@@ -9,8 +8,14 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 
 async function run() {
+  const baselineOptionIndex = process.argv.indexOf("--baseline");
+  const baseline =
+    (baselineOptionIndex > -1 && process.argv[baselineOptionIndex + 1]) ||
+    "current";
+
   await profile(
     "commonmark-spec",
+    baseline,
     test => {
       CommonMarkRenderer.render(
         CommonMarkSource.fromRaw(test.markdown).convertTo(OffsetSource)
@@ -21,6 +26,7 @@ async function run() {
 
   await profile(
     "commonmark-spec equality",
+    baseline,
     test => {
       let doc = CommonMarkSource.fromRaw(test.markdown);
       let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
@@ -31,6 +37,7 @@ async function run() {
 
   await profile(
     "degenerate-markdown",
+    baseline,
     markdown => {
       CommonMarkRenderer.render(
         CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource)
@@ -43,6 +50,7 @@ async function run() {
 
   await profile(
     "degenerate-markdown equality",
+    baseline,
     markdown => {
       let doc = CommonMarkSource.fromRaw(markdown);
       let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
@@ -52,11 +60,6 @@ async function run() {
       readFileSync(join(__dirname, "fixtures", filename)).toString()
     )
   );
-
-  await summarize("commonmark-spec");
-  await summarize("commonmark-spec equality");
-  await summarize("degenerate-markdown");
-  await summarize("degenerate-markdown equality");
 }
 
 run().then(
