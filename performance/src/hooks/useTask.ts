@@ -229,7 +229,7 @@ const reducer: Reducer<State, Actions> = (state, action) => {
             return {
               ...rest,
               status: (next.done ? "finishing" : "working") as TaskStatus,
-              promise: Promise.resolve(next.value)
+              promise: promise || Promise.resolve(next.value)
             };
           } else if (task.status === "finishing*") {
             completed.push({

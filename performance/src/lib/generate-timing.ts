@@ -1,24 +1,46 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
+import * as inspector from "inspector";
 import { join } from "path";
-import {
-  FunctionTiming,
-  Profile,
-  ProfileStat,
-  TimedFunction,
-  TimedNode,
-  TimedProfile,
-  TimingStat,
-  ProfileTStat,
-  FunctionTStat,
-  TStat
-} from "./profile";
-import { getTStat } from "./t-test";
 import * as stats from "simple-statistics";
 
-interface FunctionInfo {
+export const TIMING_FILE = "timing.json";
+
+export type TimedNode = inspector.Profiler.ProfileNode & {
+  sampleTime: number;
+};
+
+export type TimedFunction = {
   functionName: string;
   url: string;
-}
+  callCount: number;
+  sampleTime: number;
+  cumulativeTime: number;
+};
+
+export type TimedProfile = {
+  cumulativeTime: number;
+  functions: TimedFunction[];
+};
+
+export type TimingStat = {
+  data: number[];
+  mean: number;
+  sd?: number;
+  quantiles: number[];
+};
+
+export type FunctionTiming = {
+  functionName: string;
+  url: string;
+  callCount: number[];
+  sampleTime: TimingStat;
+  cumulativeTime: TimingStat;
+};
+
+export type ProfileStat = {
+  cumulativeTime: TimingStat;
+  functions: FunctionTiming[];
+};
 
 function shouldIncludeInSummary(node: TimedFunction) {
   return (
@@ -27,11 +49,14 @@ function shouldIncludeInSummary(node: TimedFunction) {
   );
 }
 
-function toKey(functionInfo: FunctionInfo) {
+function toKey(functionInfo: { url: string; functionName: string }) {
   return `${functionInfo.url}, ${functionInfo.functionName}`;
 }
 
-function createTimedFunction(functionInfo: FunctionInfo) {
+function createTimedFunction(functionInfo: {
+  url: string;
+  functionName: string;
+}) {
   return {
     functionName: functionInfo.functionName || "(anonymous)",
     url: functionInfo.url,
@@ -41,18 +66,20 @@ function createTimedFunction(functionInfo: FunctionInfo) {
   };
 }
 
-function timeProfile(profile: Profile): TimedProfile {
+function timeProfile(profile: inspector.Profiler.Profile): TimedProfile {
   let nodeMap = profile.nodes.reduce(
     (map, node) => map.set(node.id, { ...node, sampleTime: 0 }),
     new Map<number, TimedNode>()
   );
 
   let cumulativeTime = 0;
-  profile.samples.forEach((id, index) => {
-    let timeDelta = profile.timeDeltas[index];
-    nodeMap.get(id)!.sampleTime += timeDelta;
-    cumulativeTime += timeDelta;
-  });
+  if (profile.samples && profile.timeDeltas) {
+    profile.samples.forEach((id, index) => {
+      let timeDelta = profile.timeDeltas![index];
+      nodeMap.get(id)!.sampleTime += timeDelta;
+      cumulativeTime += timeDelta;
+    });
+  }
 
   let timedFunctions = new Map<string, TimedFunction>();
   nodeMap.forEach(node => {
@@ -101,7 +128,10 @@ function calculateStats(timing: TimingStat) {
   }
 }
 
-function createFunctionStat(functionInfo: FunctionInfo) {
+function createFunctionStat(functionInfo: {
+  url: string;
+  functionName: string;
+}) {
   return {
     functionName: functionInfo.functionName,
     url: functionInfo.url,
@@ -144,23 +174,7 @@ function summarizeProfiles(timedProfiles: TimedProfile[]): ProfileStat {
   };
 }
 
-function compareFunctionTStats(
-  functionTStat1: FunctionTStat,
-  functionTStat2: FunctionTStat
-) {
-  return (
-    Math.abs(functionTStat2.cumulativeTimeTStat.confidenceInterval[0]) -
-    Math.abs(functionTStat1.cumulativeTimeTStat.confidenceInterval[0])
-  );
-}
-
-function hasMeaningfulDifference({ confidenceInterval }: TStat) {
-  let [min, max] = confidenceInterval;
-  return (min < 0 && max < 0) || (0 < min && max < 0);
-}
-
-export function summarize(name: string) {
-  let directory = join(__dirname, "../..", "profiles", name);
+export function generateTiming(directory: string) {
   let files = readdirSync(directory);
 
   let timedProfiles = files
@@ -168,76 +182,11 @@ export function summarize(name: string) {
     .map(filename => {
       let profile = JSON.parse(
         readFileSync(join(directory, filename)).toString()
-      ) as Profile;
+      ) as inspector.Profiler.Profile;
       return timeProfile(profile);
     });
   let profileStat = summarizeProfiles(timedProfiles);
-  writeFileSync(join(directory, "timing.json"), JSON.stringify(profileStat));
+  writeFileSync(join(directory, TIMING_FILE), JSON.stringify(profileStat));
 
-  let beforeProfileStat = JSON.parse(
-    readFileSync(join(directory, "timing-before.json")).toString()
-  ) as ProfileStat;
-  let profileTStat = getTStats(beforeProfileStat, profileStat);
-  writeFileSync(join(directory, "tStats.json"), JSON.stringify(profileTStat));
-}
-
-export function getTStats(
-  profileStat1: ProfileStat,
-  profileStat2: ProfileStat
-): ProfileTStat {
-  let functionMap = new Map<string, [FunctionTiming?, FunctionTiming?]>();
-  [profileStat1.functions, profileStat2.functions].forEach(
-    (functionTimings, index) => {
-      functionTimings.forEach(functionTiming => {
-        let key = toKey(functionTiming);
-        let entry = functionMap.get(key);
-        if (!entry) {
-          entry = [];
-          functionMap.set(key, entry);
-        }
-
-        entry[index] = functionTiming;
-      });
-    }
-  );
-
-  let functionTStats: FunctionTStat[] = [];
-  let dropped: FunctionTiming[] = [];
-  let added: FunctionTiming[] = [];
-  functionMap.forEach(([functionTiming1, functionTiming2]) => {
-    if (!functionTiming1) {
-      added.push(functionTiming2!);
-    } else if (!functionTiming2) {
-      dropped.push(functionTiming1!);
-    } else {
-      try {
-        let tStat = getTStat(
-          functionTiming1.cumulativeTime,
-          functionTiming2.cumulativeTime
-        );
-        if (hasMeaningfulDifference(tStat)) {
-          functionTStats.push({
-            functionName: functionTiming1.functionName,
-            url: functionTiming1.url,
-            cumulativeTimeTStat: tStat
-          });
-        }
-      } catch {
-        console.log(
-          `Could not run ttest due to low precision:\n${functionTiming1.cumulativeTime}\n${functionTiming2.cumulativeTime}`
-        );
-      }
-    }
-  });
-
-  functionTStats.sort(compareFunctionTStats);
-  return {
-    cumulativeTimeTStat: getTStat(
-      profileStat1.cumulativeTime,
-      profileStat2.cumulativeTime
-    ),
-    functionTStats,
-    dropped,
-    added
-  };
+  return profileStat;
 }

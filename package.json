@@ -78,7 +78,8 @@
     "test": "./node_modules/jest/bin/jest.js",
     "typecheck": "tsc -b packages/**/* --force",
     "anonymize-fixtures": "npx ts-node ./performance/anonymize-fixtures.ts",
-    "perf": "npx ts-node ./performance/index.ts"
+    "perf": "npx ts-node ./performance/index.ts",
+    "perf-tstat": "npx ts-node ./performance/tstat.ts"
   },
   "workspaces": [
     "packages/@atjson/*"
