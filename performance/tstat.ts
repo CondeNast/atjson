@@ -13,11 +13,8 @@ async function run() {
     "current";
 
   await calculateTStat("commonmark-spec", baseline, current);
-
   await calculateTStat("commonmark-spec equality", baseline, current);
-
   await calculateTStat("degenerate-markdown", baseline, current);
-
   await calculateTStat("degenerate-markdown equality", baseline, current);
 }
 

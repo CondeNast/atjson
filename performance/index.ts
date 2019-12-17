@@ -10,8 +10,9 @@ import { join } from "path";
 async function run() {
   const baselineOptionIndex = process.argv.indexOf("--baseline");
   const baseline =
-    (baselineOptionIndex > -1 && process.argv[baselineOptionIndex + 1]) ||
-    "current";
+    baselineOptionIndex > -1
+      ? process.argv[baselineOptionIndex + 1] || "baseline"
+      : "current";
 
   await profile(
     "commonmark-spec",
