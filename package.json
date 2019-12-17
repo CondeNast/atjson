@@ -81,6 +81,7 @@
     "typecheck": "tsc -b packages/**/* --force",
     "anonymize-fixtures": "npx ts-node ./performance/anonymize-fixtures.ts",
     "perf": "npx ts-node ./performance/index.ts",
+    "perf:baseline": "npx ts-node ./performance/index.ts --baseline baseline",
     "perf-tstat": "npx ts-node ./performance/tstat.ts"
   },
   "workspaces": [
