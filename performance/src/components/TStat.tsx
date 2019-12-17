@@ -1,9 +1,39 @@
 import { Box, Color, Text } from "ink";
+import Table from "ink-table";
 import { join, relative } from "path";
 import * as React from "react";
 import { FC, useEffect, useState } from "react";
 import { useTask } from "../hooks";
-import { generateTStats, ProfileTStat } from "../lib/generate-tstats";
+import {
+  generateTStats,
+  ProfileTStat,
+  FunctionTStat
+} from "../lib/generate-tstats";
+
+const packagePath = /@atjson\/([^\/]+)\/dist\/commonjs\/(.*)$/;
+
+function formatUrl(url: string) {
+  let matches = url.match(packagePath);
+  if (!matches) return url.slice(url.indexOf("@atjson"));
+
+  return `${matches[1]} ${matches[2]}`;
+}
+
+function formatConfidenceInterval([start, end]: [number, number]) {
+  return `${Math.round(start)}, ${Math.round(end)}`;
+}
+
+function toTableData(functionTStat: FunctionTStat) {
+  return {
+    name: functionTStat.functionName,
+    location: formatUrl(functionTStat.url),
+    before: Math.round(functionTStat.before.cumulativeTime.mean),
+    after: Math.round(functionTStat.after.cumulativeTime.mean),
+    confidence: formatConfidenceInterval(
+      functionTStat.cumulativeTimeTStat.confidenceInterval
+    )
+  };
+}
 
 export const TStat: FC<{
   name: string;
@@ -24,8 +54,7 @@ export const TStat: FC<{
     { strategy: "queue", maxConcurrency: 1 }
   );
 
-  const tStats =
-    completed[0] && (completed[0].value as ProfileTStat | undefined);
+  let tStats;
 
   useEffect(() => {
     runTiming();
@@ -33,6 +62,11 @@ export const TStat: FC<{
 
   const isFinished = !isRunning;
   if (isFinished) {
+    let profileTStat =
+      completed[0] && (completed[0].value as ProfileTStat | undefined);
+    if (profileTStat) {
+      tStats = profileTStat.functionTStats.map(toTableData);
+    }
     setTimeout(() => {
       props.done();
     }, 10);
@@ -61,30 +95,12 @@ export const TStat: FC<{
       {tStats && (
         <>
           <Box flexDirection="column">
-            Changes:
-            <Box height={1} paddingLeft={2}>
-              <Color hex="#8B8B8B">
-                {relativePath}/{props.current}
-              </Color>
-              {tStats.functionTStats.forEach(functionTStat => (
-                <Box>
-                  <Color
-                    hex={
-                      functionTStat.cumulativeTimeTStat.confidenceInterval[0] <
-                      0
-                        ? "#00ff00"
-                        : "#ff0000"
-                    }
-                  >
-                    <Text>
-                      {functionTStat.functionName} - {functionTStat.url}
-                    </Text>
-                  </Color>
-                  Time: {functionTStat.after.cumulativeTime.mean}{" "}
-                  {functionTStat.cumulativeTimeTStat.confidenceInterval}
-                </Box>
-              ))}
-            </Box>
+            Changes (from
+            <Color hex="#8B8B8B">
+              {relativePath}/{props.current}
+            </Color>
+            ):
+            <Table data={tStats} />
           </Box>
         </>
       )}

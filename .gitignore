@@ -5,5 +5,6 @@ tmp
 *.log
 .*.swp
 .cache
+.DS_Store
 performance/proprietary/*
 performance/profiles/*
