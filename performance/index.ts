@@ -5,14 +5,16 @@ import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import OffsetSource from "@atjson/offset-annotations";
 import { readdirSync, readFileSync } from "fs";
+import * as minimist from "minimist";
 import { join } from "path";
 
 async function run() {
-  const baselineOptionIndex = process.argv.indexOf("--baseline");
+  const args = minimist(process.argv.slice(2), {
+    string: ["baseline", "times"]
+  });
+  const times = Number(args.times) || 10;
   const baseline =
-    baselineOptionIndex > -1
-      ? process.argv[baselineOptionIndex + 1] || "baseline"
-      : "current";
+    args.baseline || args.baseline === "" ? "baseline" : "current";
 
   await profile(
     "commonmark-spec",
@@ -22,7 +24,8 @@ async function run() {
         CommonMarkSource.fromRaw(test.markdown).convertTo(OffsetSource)
       );
     },
-    spec.tests
+    spec.tests,
+    times
   );
 
   await profile(
@@ -33,7 +36,8 @@ async function run() {
       let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
       doc.equals(CommonMarkSource.fromRaw(md));
     },
-    spec.tests
+    spec.tests,
+    times
   );
 
   await profile(
@@ -46,7 +50,8 @@ async function run() {
     },
     readdirSync(join(__dirname, "fixtures")).map(filename =>
       readFileSync(join(__dirname, "fixtures", filename)).toString()
-    )
+    ),
+    times
   );
 
   await profile(
@@ -59,7 +64,8 @@ async function run() {
     },
     readdirSync(join(__dirname, "fixtures")).map(filename =>
       readFileSync(join(__dirname, "fixtures", filename)).toString()
-    )
+    ),
+    times
   );
 }
 
