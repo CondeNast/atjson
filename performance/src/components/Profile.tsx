@@ -22,16 +22,21 @@ export const Profile: FC<{
   );
   const [runs] = useState(generateCases(props.cases, props.runs));
 
-  const [{ isRunning, completed }, runProfile] = useTask(generateProfile, {
-    strategy: "queue",
-    maxConcurrency: 1
-  });
+  const [{ isRunning, completed }, runProfile] = useTask(
+    function*(key) {
+      yield generateProfile(key, runs[key], workingDir, props.run);
+    },
+    {
+      strategy: "queue",
+      maxConcurrency: 1
+    }
+  );
 
   const profiles = completed.map(task => task.value);
 
   useEffect(() => {
     Object.keys(runs).forEach(key => {
-      runProfile(key, runs[key], workingDir, props.run);
+      runProfile(key);
     });
   }, [props.directory, props.name, props.cases, props.runs]);
 

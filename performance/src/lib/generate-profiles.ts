@@ -81,7 +81,7 @@ export function generateCases<T>(cases: T[], times: number) {
   return runs;
 }
 
-export function* generateProfile(
+export function generateProfile(
   id: string,
   cases: any,
   directory: string,
@@ -92,7 +92,7 @@ export function* generateProfile(
   }
 
   let session = new inspector.Session();
-  yield enable(session)
+  return enable(session)
     .then(() => run(session, cases, runner))
     .then(profile => writeProfile(directory, profile, id))
     .then(

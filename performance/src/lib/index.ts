@@ -1,3 +1,3 @@
 export * from "./generate-profiles";
 export * from "./generate-tstats";
-export * from "./time-profiles";
+export * from "./generate-timing";
