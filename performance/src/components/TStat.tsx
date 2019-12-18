@@ -4,11 +4,7 @@ import { join, relative } from "path";
 import * as React from "react";
 import { FC, useEffect, useState } from "react";
 import { useTask } from "../hooks";
-import {
-  generateTStats,
-  ProfileTStat,
-  FunctionTStat
-} from "../lib/generate-tstats";
+import { generateTStats, FunctionTStat } from "../lib/generate-tstats";
 
 const packagePath = /@atjson\/([^\/]+)\/dist\/commonjs\/(.*)$/;
 
@@ -47,26 +43,29 @@ export const TStat: FC<{
     relative(join(__dirname, "../../.."), testDir)
   );
 
-  const [{ isRunning, completed }, runTiming] = useTask(
+  const [{ isRunning, completed }, runStats] = useTask(
     function*() {
-      yield generateTStats(testDir, props.baseline, props.current);
+      yield generateTStats(testDir, props.baseline, props.current).then(
+        ({ filename, profileTStat }) => {
+          return {
+            filename,
+            functionTStats: profileTStat.functionTStats.map(toTableData)
+          };
+        }
+      );
     },
     { strategy: "queue", maxConcurrency: 1 }
   );
 
-  let tStats;
-
   useEffect(() => {
-    runTiming();
-  }, [props.directory, props.name]);
+    runStats();
+  }, [props.directory, props.name, props.baseline, props.current]);
 
   const isFinished = !isRunning;
+  const { functionTStats, filename } =
+    (completed[0] && completed[0].value) || {};
+
   if (isFinished) {
-    let profileTStat =
-      completed[0] && (completed[0].value as ProfileTStat | undefined);
-    if (profileTStat) {
-      tStats = profileTStat.functionTStats.map(toTableData);
-    }
     setTimeout(() => {
       props.done();
     }, 10);
@@ -92,17 +91,13 @@ export const TStat: FC<{
           </>
         )}
       </Box>
-      {tStats && (
-        <>
-          <Box flexDirection="column">
-            Changes (from
-            <Color hex="#8B8B8B">
-              {relativePath}/{props.current}
-            </Color>
-            ):
-            <Table data={tStats} />
-          </Box>
-        </>
+      {isFinished && (
+        <Box flexDirection="column">
+          <Color hex="#8B8B8B">
+            {relativePath}/{props.current}/{filename}
+          </Color>
+          <Table data={functionTStats} />
+        </Box>
       )}
     </Box>
   );

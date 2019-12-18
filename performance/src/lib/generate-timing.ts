@@ -175,18 +175,23 @@ function summarizeProfiles(timedProfiles: TimedProfile[]): ProfileStat {
 }
 
 export function generateTiming(directory: string) {
-  let files = readdirSync(directory);
+  return new Promise((resolve, reject) => {
+    try {
+      let files = readdirSync(directory);
+      let timedProfiles = files
+        .filter(filename => filename.endsWith(".cpuprofile"))
+        .map(filename => {
+          let profile = JSON.parse(
+            readFileSync(join(directory, filename)).toString()
+          ) as inspector.Profiler.Profile;
+          return timeProfile(profile);
+        });
+      let profileStat = summarizeProfiles(timedProfiles);
+      writeFileSync(join(directory, TIMING_FILE), JSON.stringify(profileStat));
 
-  let timedProfiles = files
-    .filter(filename => filename.endsWith(".cpuprofile"))
-    .map(filename => {
-      let profile = JSON.parse(
-        readFileSync(join(directory, filename)).toString()
-      ) as inspector.Profiler.Profile;
-      return timeProfile(profile);
-    });
-  let profileStat = summarizeProfiles(timedProfiles);
-  writeFileSync(join(directory, TIMING_FILE), JSON.stringify(profileStat));
-
-  return profileStat;
+      resolve(profileStat);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

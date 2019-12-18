@@ -124,17 +124,25 @@ export function generateTStats(
   baseline: string,
   current: string
 ) {
-  let beforeProfileStat = JSON.parse(
-    readFileSync(join(testDir, baseline, "timing.json")).toString()
-  ) as ProfileStat;
-  let profileStat = JSON.parse(
-    readFileSync(join(testDir, current, "timing.json")).toString()
-  ) as ProfileStat;
-  let profileTStat = getTStats(beforeProfileStat, profileStat);
-  writeFileSync(
-    join(testDir, current, `${baseline}-${current}-tStats.json`),
-    JSON.stringify(profileTStat)
+  return new Promise<{ filename: string; profileTStat: ProfileTStat }>(
+    (resolve, reject) => {
+      try {
+        let beforeProfileStat = JSON.parse(
+          readFileSync(join(testDir, baseline, "timing.json")).toString()
+        ) as ProfileStat;
+        let profileStat = JSON.parse(
+          readFileSync(join(testDir, current, "timing.json")).toString()
+        ) as ProfileStat;
+        let profileTStat = getTStats(beforeProfileStat, profileStat);
+        let filename = `${baseline}-${current}-tStats.json`;
+        writeFileSync(
+          join(testDir, current, filename),
+          JSON.stringify(profileTStat)
+        );
+        resolve({ filename, profileTStat });
+      } catch (error) {
+        reject(error);
+      }
+    }
   );
-
-  return profileTStat;
 }
