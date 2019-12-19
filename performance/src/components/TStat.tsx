@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from "react";
 import { useTask } from "../hooks";
 import { generateTStats, FunctionTStat } from "../lib/generate-tstats";
 
-const packagePath = /@atjson\/([^\/]+)\/dist\/commonjs\/(.*)$/;
+const packagePath = /([^\/]+)\/dist\/commonjs\/(.*)$/;
 
 function formatUrl(url: string) {
   let matches = url.match(packagePath);

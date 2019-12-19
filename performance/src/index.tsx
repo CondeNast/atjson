@@ -27,12 +27,24 @@ function prepareDir(name: string, baseline: string) {
   }
 }
 
+interface TestSuite<T> {
+  name: string;
+  runner: (test: T) => void;
+  cases: T[];
+}
+
+interface ProfileOptions {
+  baseline: string;
+  runs: number;
+}
+
+export function suite<T>(testSuite: TestSuite<T>) {
+  return testSuite;
+}
+
 export function profile<T>(
-  name: string,
-  baseline: string,
-  runner: (test: T) => void,
-  cases: T[],
-  runs = 10
+  { name, runner, cases }: TestSuite<T>,
+  { baseline, runs }: ProfileOptions
 ) {
   prepareDir(name, baseline);
 
