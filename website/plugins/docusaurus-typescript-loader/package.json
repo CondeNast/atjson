@@ -8,8 +8,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
-    "@babel/preset-typescript": "7.7.4"
+    "@babel/plugin-proposal-object-rest-spread": "7.7.7",
+    "@babel/preset-typescript": "7.7.7"
   },
   "engines": {
     "node": ">=8"
