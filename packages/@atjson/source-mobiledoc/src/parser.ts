@@ -18,15 +18,13 @@ export interface Mobiledoc {
 
 function prefix(attributes: any): any {
   if (Array.isArray(attributes)) {
-    return attributes.map((item: any) => prefix(item));
+    return attributes.map(prefix);
   } else if (typeof attributes === "object" && attributes != null) {
-    return Object.keys(attributes).reduce(
-      (prefixedAttributes: any, key: string) => {
-        prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
-        return prefixedAttributes;
-      },
-      {} as any
-    );
+    let prefixedAttributes: any = {};
+    for (let key in attributes) {
+      prefixedAttributes[`-mobiledoc-${key}`] = prefix(attributes[key]);
+    }
+    return prefixedAttributes;
   } else {
     return attributes;
   }
@@ -46,7 +44,7 @@ export default class Parser {
     let content = "";
     let start = 0;
 
-    mobiledoc.sections.forEach(section => {
+    for (let section of mobiledoc.sections) {
       let identifier = section[0];
       let partial = "";
       if (identifier === 1) {
@@ -60,7 +58,8 @@ export default class Parser {
       }
       start += partial.length;
       content += partial;
-    });
+    }
+
     this.content = content;
   }
 
@@ -94,7 +93,7 @@ export default class Parser {
 
     let sectionText = "";
     let offset = start;
-    markers.forEach(([identifier, tags, closed, textOrAtomIndex]) => {
+    for (let [identifier, tags, closed, textOrAtomIndex] of markers) {
       let partial = "";
       if (identifier === 0) {
         partial = this.processMarkup(
@@ -111,7 +110,7 @@ export default class Parser {
       }
       sectionText += partial;
       offset += partial.length;
-    });
+    }
 
     this.annotations.push({
       type: `-mobiledoc-${tagName.toLowerCase()}`,
@@ -128,11 +127,11 @@ export default class Parser {
     let listText = "";
     let offset = start;
 
-    listItems.forEach((markers: Marker[]) => {
+    for (let markers of listItems) {
       let item = "";
       let itemStart = offset;
 
-      markers.forEach(([identifier, tags, closed, textOrAtomIndex]) => {
+      for (let [identifier, tags, closed, textOrAtomIndex] of markers) {
         let partial = "";
         if (identifier === 0) {
           partial = this.processMarkup(
@@ -149,7 +148,7 @@ export default class Parser {
         }
         item += partial;
         offset += partial.length;
-      });
+      }
 
       this.annotations.push({
         type: "-mobiledoc-li",
@@ -158,7 +157,7 @@ export default class Parser {
         attributes: {}
       });
       listText += item;
-    });
+    }
 
     this.annotations.push({
       type: `-mobiledoc-${tagName.toLowerCase()}`,

@@ -2,18 +2,30 @@ import Document, { Annotation, JSON } from "@atjson/document";
 import { Root } from "./annotations";
 import HIRNode from "./hir-node";
 
+function compareAnnotations(a: Annotation, b: Annotation) {
+  if (a.start === b.start) {
+    if (a.type === b.type) {
+      return a.end - b.end;
+    } else {
+      return b.end - b.start - (a.end - a.start);
+    }
+  } else {
+    return a.start - b.start;
+  }
+}
+
 export default class HIR {
   rootNode: HIRNode;
 
   constructor(doc: Document) {
     let document: Document = doc.clone();
 
-    document.annotations
-      .filter(a => a.start === a.end)
-      .forEach(a => {
+    for (let a of document.annotations) {
+      if (a.start === a.end) {
         document.insertText(a.start, "\uFFFC");
         a.start = Math.max(0, a.start - 1);
-      });
+      }
+    }
 
     this.rootNode = new HIRNode(
       new Root({
@@ -23,21 +35,9 @@ export default class HIR {
       })
     );
 
-    document.annotations
-      .sort((a: Annotation, b: Annotation) => {
-        if (a.start === b.start) {
-          if (a.type === b.type) {
-            return a.end - b.end;
-          } else {
-            return b.end - b.start - (a.end - a.start);
-          }
-        } else {
-          return a.start - b.start;
-        }
-      })
-      .forEach((annotation: Annotation) =>
-        this.rootNode.insertAnnotation(annotation)
-      );
+    for (let annotation of document.annotations.sort(compareAnnotations)) {
+      this.rootNode.insertAnnotation(annotation);
+    }
 
     this.rootNode.insertText(document.content);
   }

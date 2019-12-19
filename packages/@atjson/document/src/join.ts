@@ -113,17 +113,16 @@ export default class Join<Left extends string, Right extends string> {
   }
 
   toJSON(): JSONArray {
-    return [...this].map(join => {
+    return [...this].map(function joinToJSON(join) {
       let json: JSONObject = {};
-      Object.keys(join).forEach(key => {
+      for (let key in join) {
         let annotation = (join as any)[key] as Annotation | Annotation[];
         if (Array.isArray(annotation)) {
           json[key] = annotation.map(a => a.toJSON());
         } else {
           json[key] = annotation.toJSON();
         }
-        return json;
-      });
+      }
       return json;
     });
   }
@@ -147,7 +146,7 @@ export default class Join<Left extends string, Right extends string> {
 
     let results = new Join<Left, Right | J>(this.leftJoin, []);
 
-    this._joins.forEach(join => {
+    for (let join of this._joins) {
       let joinAnnotations = rightCollection.annotations.filter(
         (rightAnnotation: Annotation) => {
           return filter(join, rightAnnotation);
@@ -161,7 +160,7 @@ export default class Join<Left extends string, Right extends string> {
       // the type system should detect this
       (join as any)[rightCollection.name] = joinAnnotations;
       results.push(join as JoinItem);
-    });
+    }
 
     return results;
   }

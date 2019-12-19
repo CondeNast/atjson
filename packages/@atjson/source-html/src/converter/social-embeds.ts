@@ -2,6 +2,10 @@ import Document, { Annotation, ParseAnnotation } from "@atjson/document";
 import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
 import { Script, Link } from "../annotations";
 
+function aCoversB(a: Annotation<any>, b: Annotation<any>) {
+  return a.start < b.start && a.end > b.end;
+}
+
 function isInstagramOrTwitterBlockquote(annotation: Annotation<any>) {
   if (annotation.type !== "blockquote") {
     return false;
@@ -60,21 +64,23 @@ export default function(doc: Document) {
   doc
     .where(isInstagramOrTwitterBlockquote)
     .as("blockquote")
-    .join(doc.where({ type: "-html-a" }).as("links"), (blockquote, link) => {
-      return blockquote.start < link.start && blockquote.end > link.end;
-    })
+    .join(doc.where({ type: "-html-a" }).as("links"), aCoversB)
     .outerJoin(
       doc.where({ type: "-html-script" }).as("scripts"),
-      ({ blockquote }, script: Script) => {
+      function scriptRightAfterBlockquote({ blockquote }, script: Script) {
         let src = script.attributes.src;
         return (
-          blockquote.end <= script.start &&
-          script.start <= blockquote.end + 1 &&
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
           (!src || src.includes("instagram.com") || src.includes("twitter.com"))
         );
       }
     )
-    .update(({ blockquote, links, scripts }) => {
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      links,
+      scripts
+    }) {
       let url, AnnotationClass;
       for (let link of links) {
         ({ url, AnnotationClass } = identifyURL(link.attributes.href));
@@ -86,9 +92,9 @@ export default function(doc: Document) {
         let start = blockquote.start;
         let end = scripts.length ? scripts[0].end : blockquote.end;
         doc
-          .where(
-            annotation => start <= annotation.start && annotation.end <= end
-          )
+          .where(function isAnnotationInEmbed(annotation) {
+            return start <= annotation.start && annotation.end <= end;
+          })
           .remove();
         doc.addAnnotations(
           new ParseAnnotation({
@@ -117,13 +123,17 @@ export default function(doc: Document) {
    *     </blockquote>
    *   </div>
    */
-  doc.where(isFacebookDiv).update(div => {
+  for (let div of doc.annotations) {
+    if (!isFacebookDiv(div)) continue;
+
     let { url, AnnotationClass } = identifyURL(div.attributes.dataset.href);
 
     if (url && AnnotationClass) {
       let { start, end } = div;
       doc
-        .where(annotation => start <= annotation.start && annotation.end <= end)
+        .where(function isAnnotationInFBDiv(annotation) {
+          return start <= annotation.start && annotation.end <= end;
+        })
         .remove();
       doc.addAnnotations(
         new ParseAnnotation({
@@ -142,24 +152,24 @@ export default function(doc: Document) {
         })
       );
     }
-  });
+  }
 
   // Handle Giphy embeds; they have
   //   <iframe></iframe><p><a>via Giphy</a></p>
   doc
-    .where(a => a.type === "iframe")
+    .where({ type: "-html-iframe" })
     .as("iframe")
     .join(
       doc.where({ type: "-html-p" }).as("paragraphs"),
-      (iframe, paragraph) => {
+      function isParagraphRightAfterIframe(iframe, paragraph) {
         return (
-          iframe.end <= paragraph.start && paragraph.start <= iframe.end + 1
+          paragraph.start === iframe.end || paragraph.start === iframe.end + 1
         );
       }
     )
     .join(
       doc.where({ type: "-html-a" }).as("links"),
-      ({ paragraphs }, link: Link) => {
+      function isGiphyLinkWithinParagraph({ paragraphs }, link: Link) {
         let paragraph = paragraphs[0];
         return (
           link.start > paragraph.start &&
@@ -168,7 +178,11 @@ export default function(doc: Document) {
         );
       }
     )
-    .update(({ iframe, paragraphs, links }) => {
+    .update(function joinIframeWithParagraphsAndLinks({
+      iframe,
+      paragraphs,
+      links
+    }) {
       let { start, end } = iframe;
       let { height, width, src } = iframe.attributes;
 
@@ -198,7 +212,7 @@ export default function(doc: Document) {
       }
     });
 
-  doc.where({ type: "-html-iframe" }).update(iframe => {
+  doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
     let { start, end } = iframe;
     let { height, width, src } = iframe.attributes;
 

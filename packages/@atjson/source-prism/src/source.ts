@@ -11,23 +11,23 @@ import { Article, Description, Media, Message, Title } from "./annotations";
 
 function prefix(vendorPrefix: string, attributes: any): any {
   if (Array.isArray(attributes)) {
-    return attributes.map((item: any) => prefix(vendorPrefix, item));
+    return attributes.map(function recurseWithVendor(item: any) {
+      return prefix(vendorPrefix, item);
+    });
   } else if (typeof attributes === "object" && attributes != null) {
-    return Object.keys(attributes).reduce(
-      (prefixedAttributes: any, namespacedKey: string) => {
-        let [namespace, key] = namespacedKey.split(":");
-        if (key == null) {
-          key = namespace;
-          namespace = vendorPrefix;
-        }
-        prefixedAttributes[`-${namespace}-${key}`] = prefix(
-          vendorPrefix,
-          attributes[key]
-        );
-        return prefixedAttributes;
-      },
-      {} as any
-    );
+    let prefixedAttributes: any = {};
+    for (let namespacedKey in attributes) {
+      let [namespace, key] = namespacedKey.split(":");
+      if (key == null) {
+        key = namespace;
+        namespace = vendorPrefix;
+      }
+      prefixedAttributes[`-${namespace}-${key}`] = prefix(
+        vendorPrefix,
+        attributes[key]
+      );
+    }
+    return prefixedAttributes;
   } else {
     return attributes;
   }
@@ -85,7 +85,7 @@ export default class PRISMSource extends Document {
 
     let partialAnnotations: Array<Partial<AnnotationJSON>> = [];
 
-    parser.onopentag = node => {
+    parser.onopentag = function onopentag(node) {
       let vendorPrefix = getVendorPrefix(node.name);
       let type = getType(node.name);
       if (node.isSelfClosing) {
@@ -122,7 +122,7 @@ export default class PRISMSource extends Document {
       }
     };
 
-    parser.onclosetag = tagName => {
+    parser.onclosetag = function onclosetag(tagName) {
       let annotation = partialAnnotations.pop();
       if (annotation == null) {
         throw new Error(
@@ -159,14 +159,15 @@ export default class PRISMSource extends Document {
       annotations
     });
 
-    prism
+    let results = prism
       .match(/(&((#[\d]+)|(#x[\da-f]+)|(amp)|(quot)|(apos)|(lt)|(gt));)/gi)
-      .reverse()
-      .forEach(({ start, end, matches }) => {
-        let entity = entities.decodeXML(matches[0]);
-        prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
-        prism.deleteText(start + entity.length, end + entity.length);
-      });
+      .reverse();
+
+    for (let { start, end, matches } of results) {
+      let entity = entities.decodeXML(matches[0]);
+      prism.insertText(start, entity, AdjacentBoundaryBehaviour.preserve);
+      prism.deleteText(start + entity.length, end + entity.length);
+    }
 
     return prism;
   }

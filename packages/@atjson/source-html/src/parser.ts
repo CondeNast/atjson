@@ -30,25 +30,24 @@ function isText(
 }
 
 function getAttributes(node: parse5.DefaultTreeElement): NonNullable<any> {
-  let attrs: NonNullable<any> = (node.attrs || []).reduce(
-    (attributes: NonNullable<any>, attr: parse5.Attribute) => {
-      if (attr.name.indexOf("data-") === 0) {
-        if (attributes["-html-dataset"] == null)
-          attributes["-html-dataset"] = {};
-        attributes["-html-dataset"][attr.name.slice(5)] = attr.value;
-      } else {
-        attributes[`-html-${attr.name}`] = attr.value;
-      }
-      return attributes;
-    },
-    {}
-  );
+  if (!node.attrs) return {};
 
-  let href = attrs["-html-href"];
-  if (node.tagName === "a" && typeof href === "string") {
-    attrs["-html-href"] = decodeURI(href);
+  let attributes: NonNullable<any> = {};
+  for (let attr of node.attrs) {
+    if (attr.name.indexOf("data-") === 0) {
+      if (attributes["-html-dataset"] == null) attributes["-html-dataset"] = {};
+      attributes["-html-dataset"][attr.name.slice(5)] = attr.value;
+    } else {
+      attributes[`-html-${attr.name}`] = attr.value;
+    }
   }
-  return attrs;
+
+  let href = attributes["-html-href"];
+  if (node.tagName === "a" && typeof href === "string") {
+    attributes["-html-href"] = decodeURI(href);
+  }
+
+  return attributes;
 }
 
 export default class Parser {
@@ -79,7 +78,8 @@ export default class Parser {
   }
 
   walk(nodes: parse5.DefaultTreeNode[]) {
-    return (nodes || []).forEach(node => {
+    if (!nodes) return;
+    for (let node of nodes) {
       if (isElement(node)) {
         let elementNode = node;
         let annotationGenerator = this.convertNodeToAnnotation(elementNode);
@@ -98,7 +98,7 @@ export default class Parser {
           this.offset += html.length - text.length;
         }
       }
-    });
+    }
   }
 
   convertTag(

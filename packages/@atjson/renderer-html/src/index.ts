@@ -66,7 +66,8 @@ export default class HTMLRenderer extends Renderer {
   htmlAttributes(attributes: {
     [index: string]: string | number | boolean | undefined;
   }) {
-    return Object.keys(attributes).reduce((results, key) => {
+    let results: string[] = [];
+    for (let key in attributes) {
       let value = attributes[key];
       if (typeof value === "number") {
         results.push(`${key}=${value}`);
@@ -75,8 +76,9 @@ export default class HTMLRenderer extends Renderer {
       } else if (value != null && value !== false) {
         results.push(`${key}="${entities.encode(value)}"`);
       }
-      return results;
-    }, [] as string[]);
+    }
+
+    return results;
   }
 
   *root() {

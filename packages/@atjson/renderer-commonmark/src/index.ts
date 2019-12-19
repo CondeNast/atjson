@@ -26,31 +26,60 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
+function getStart(a: { start: number }) {
+  return a.start;
+}
+
+function getEnd(a: { end: number }) {
+  return a.end;
+}
+
+function isParseAnnotation(
+  annotation: Annotation<any>
+): annotation is ParseAnnotation {
+  let constructor = annotation.getAnnotationConstructor();
+  return (
+    constructor.vendorPrefix === "atjson" && annotation.type === "parse-token"
+  );
+}
+
+function isParseOrUnknown(
+  annotation: Annotation<any>
+): annotation is ParseAnnotation | UnknownAnnotation {
+  let constructor = annotation.getAnnotationConstructor();
+  return (
+    constructor.vendorPrefix === "atjson" &&
+    (annotation.type === "parse-token" || annotation.type === "unknown")
+  );
+}
+
 function getPreviousChar(doc: Document, end: number) {
   let start = end;
 
-  while (start > 0) {
-    let parseAnnotations = doc.where(
-      a => a instanceof ParseAnnotation && a.end >= start && a.start < start
+  function isOverlappingParseAnnotation(a: Annotation<any>) {
+    return isParseAnnotation(a) && a.end >= start && a.start < start;
+  }
+
+  function isCoveredNonParseAnnotation(a: Annotation<any>) {
+    return (
+      !isParseOrUnknown(a) &&
+      ((a.start >= start && a.start < end) || (a.end >= start && a.end <= end))
     );
+  }
+
+  while (start > 0) {
+    let parseAnnotations = doc.where(isOverlappingParseAnnotation);
     if (parseAnnotations.length) {
-      start = Math.min(...parseAnnotations.annotations.map(a => a.start));
+      start = Math.min(...parseAnnotations.annotations.map(getStart));
     } else {
       break;
     }
   }
 
-  let wrappingAnnotations = doc
-    .where(
-      a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation)
-    )
-    .where(
-      a =>
-        (a.start >= start && a.start < end) || (a.end >= start && a.end <= end)
-    );
-
-  if (wrappingAnnotations.length) {
-    return "";
+  for (let a of doc.annotations) {
+    if (isCoveredNonParseAnnotation(a)) {
+      return "";
+    }
   }
 
   return doc.content[start - 1] || "";
@@ -59,28 +88,30 @@ function getPreviousChar(doc: Document, end: number) {
 function getNextChar(doc: Document, start: number) {
   let end = start;
 
-  while (end < doc.content.length) {
-    let parseAnnotations = doc.where(
-      a => a instanceof ParseAnnotation && a.start <= end && a.end > end
+  function isOverlappingParseAnnotation(a: Annotation<any>) {
+    return isParseAnnotation(a) && a.start <= end && a.end > end;
+  }
+
+  function isCoveredNonParseAnnotation(a: Annotation<any>) {
+    return (
+      !isParseOrUnknown(a) &&
+      ((a.start >= start && a.start <= end) || (a.end > start && a.end <= end))
     );
+  }
+
+  while (end < doc.content.length) {
+    let parseAnnotations = doc.where(isOverlappingParseAnnotation);
     if (parseAnnotations.length) {
-      end = Math.max(...parseAnnotations.annotations.map(a => a.end));
+      end = Math.max(...parseAnnotations.annotations.map(getEnd));
     } else {
       break;
     }
   }
 
-  let wrappingAnnotations = doc
-    .where(
-      a => !(a instanceof ParseAnnotation || a instanceof UnknownAnnotation)
-    )
-    .where(
-      a =>
-        (a.start >= start && a.start <= end) || (a.end > start && a.end <= end)
-    );
-
-  if (wrappingAnnotations.length) {
-    return "";
+  for (let a of doc.annotations) {
+    if (isCoveredNonParseAnnotation(a)) {
+      return "";
+    }
   }
 
   return doc.content[end] || "";
@@ -232,12 +263,26 @@ function getNumberOfRequiredBackticks(text: string) {
     }
   }
 
-  return counts.sort().reduce((result, count) => {
-    if (count === result) {
-      return result + 1;
+  let total = 1;
+  for (let count of counts) {
+    if (count === total) {
+      total += 1;
     }
-    return result;
-  }, 1);
+  }
+
+  return total;
+}
+
+function isHTML(a: { type: string }): a is HTML {
+  return a.type === "html";
+}
+
+function blockquotify(line: string) {
+  return `> ${line}`;
+}
+
+function codify(line: string) {
+  return `    ${line}`;
 }
 
 export default class CommonmarkRenderer extends Renderer {
@@ -262,7 +307,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (options == null) {
       let DocumentClass = document.constructor as typeof Document;
       this.options = {
-        escapeHtmlEntities: !!DocumentClass.schema.find(a => a.type === "html")
+        escapeHtmlEntities: !!DocumentClass.schema.find(isHTML)
       };
     } else {
       this.options = options;
@@ -338,7 +383,7 @@ export default class CommonmarkRenderer extends Renderer {
     let quote =
       lines
         .slice(startOfQuote, endOfQuote)
-        .map(line => `> ${line}`)
+        .map(blockquotify)
         .join("\n") + "\n";
 
     if (!this.state.tight) {
@@ -501,7 +546,7 @@ export default class CommonmarkRenderer extends Renderer {
       return (
         text
           .split("\n")
-          .map((line: string) => `    ${line}`)
+          .map(codify)
           .join("\n") + "\n"
       );
     } else {
@@ -565,7 +610,9 @@ export default class CommonmarkRenderer extends Renderer {
       first +
       "\n" +
       rest
-        .map(line => indent + line)
+        .map(function leftPad(line) {
+          return indent + line;
+        })
         .join("\n")
         .replace(/[ ]+$/, "");
 

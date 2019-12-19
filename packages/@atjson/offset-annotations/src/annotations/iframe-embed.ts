@@ -2,13 +2,13 @@ import { ObjectAnnotation } from "@atjson/document";
 import { CaptionSource } from "./caption-source";
 
 export function without<T>(array: T[], value: T): T[] {
-  let result: T[] = [];
-  return array.reduce((presentParts, part) => {
+  let presentParts: T[] = [];
+  for (let part of array) {
     if (part !== value) {
       presentParts.push(part);
     }
-    return presentParts;
-  }, result);
+  }
+  return presentParts;
 }
 
 export class IframeEmbed extends ObjectAnnotation<{

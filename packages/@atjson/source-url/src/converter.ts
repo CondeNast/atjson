@@ -2,10 +2,14 @@ import OffsetSource, { SocialURLs } from "@atjson/offset-annotations";
 import { URLAnnotation } from "./annotations";
 import URLSource from "./source";
 
+function isURL(annotation: URLAnnotation): annotation is URLAnnotation {
+  return annotation.type === "url";
+}
+
 URLSource.defineConverterTo(OffsetSource, doc => {
   doc
-    .where((annotation: URLAnnotation) => annotation.type === "url")
-    .update((annotation: URLAnnotation) => {
+    .where(isURL)
+    .update(function identifyAndReplaceURL(annotation: URLAnnotation) {
       let { url, AnnotationClass } = SocialURLs.identify(annotation.attributes);
       if (url && AnnotationClass) {
         doc.replaceAnnotation(

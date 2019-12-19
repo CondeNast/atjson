@@ -1,21 +1,29 @@
-import { getConverterFor } from "@atjson/document";
+import { Annotation, getConverterFor } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "@atjson/source-html";
 import PRISMSource from "./source";
 
-PRISMSource.defineConverterTo(OffsetSource, doc => {
+PRISMSource.defineConverterTo(OffsetSource, function PRISMToOffset(doc) {
   let convertHTML = getConverterFor(HTMLSource, OffsetSource);
   convertHTML(doc);
 
-  doc.where({ type: "-html-head" }).update(head => {
-    doc.where(a => a.start >= head.start && a.end <= head.end).remove();
-    doc.deleteText(head.start, head.end);
-  });
+  function deleteCoveringAnnotations(a: Annotation<any>) {
+    doc
+      .where(function coversAnnotation(b) {
+        return b.start >= a.start && b.end <= a.end;
+      })
+      .remove();
 
-  doc.where({ type: "-pam-media" }).update(media => {
-    doc.where(a => a.start >= media.start && a.end <= media.end).remove();
-    doc.deleteText(media.start, media.end);
-  });
+    return { retain: [a] };
+  }
+
+  let heads = doc.where({ type: "-html-head" });
+  heads.update(deleteCoveringAnnotations);
+  doc.deleteTextRanges(heads.annotations);
+
+  let medias = doc.where({ type: "-pam-media" });
+  medias.update(deleteCoveringAnnotations);
+  doc.deleteTextRanges(medias.annotations);
 
   return doc;
 });

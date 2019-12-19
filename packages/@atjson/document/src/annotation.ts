@@ -96,10 +96,7 @@ export default abstract class Annotation<Attributes = {}> {
     end: number;
     attributes?: Attributes;
   }) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      any,
-      Attributes
-    >;
+    let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
@@ -108,16 +105,17 @@ export default abstract class Annotation<Attributes = {}> {
     this.attributes = attrs.attributes || ({} as Attributes);
   }
 
+  getAnnotationConstructor<T extends Annotation<Attributes>>(this: T) {
+    return this.constructor as AnnotationConstructor<T, Attributes>;
+  }
+
   isAlignedWith(annotation: Annotation<any>) {
     return this.start === annotation.start && this.end === annotation.end;
   }
 
-  equals(annotationToCompare: Annotation<any>) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<any, any>;
-    let AnnotationToCompareClass = annotationToCompare.constructor as AnnotationConstructor<
-      any,
-      any
-    >;
+  equals(annotationToCompare: Annotation<any>): boolean {
+    let AnnotationClass = this.getAnnotationConstructor();
+    let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
 
     let lhsAnnotationAttributes = this.attributes;
     let rhsAnnotationAttributes = annotationToCompare.attributes;
@@ -238,11 +236,8 @@ export default abstract class Annotation<Attributes = {}> {
     }
   }
 
-  clone<This extends Annotation>(this: This) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      This,
-      Attributes
-    >;
+  clone() {
+    let AnnotationClass = this.getAnnotationConstructor();
 
     return new AnnotationClass({
       id: this.id,
@@ -252,11 +247,8 @@ export default abstract class Annotation<Attributes = {}> {
     });
   }
 
-  toJSON<This extends Annotation>(this: This) {
-    let AnnotationClass = this.constructor as AnnotationConstructor<
-      This,
-      Attributes
-    >;
+  toJSON() {
+    let AnnotationClass = this.getAnnotationConstructor();
     let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       id: this.id,

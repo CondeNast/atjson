@@ -49,15 +49,33 @@ function generateGraph(
   };
   nodes.push(node);
 
-  children.forEach((child: HIRNode) => {
+  for (let child of children) {
     edges.push([node, generateGraph(child, edges, nodes)]);
-  });
+  }
 
   return node;
 }
 
 export interface GraphvizOptions {
   shape: string;
+}
+
+function makeNodeString(node: Node) {
+  return `  ${node.id} [label="${node.label}\\n${node.text.replace(
+    /"/g,
+    '\\"'
+  )}" ${node.color}];`;
+}
+
+function makeNodeStringRecord(node: Node) {
+  return `  ${node.id} [label="{${node.label}|${node.text.replace(
+    /"/g,
+    '\\"'
+  )}}" ${node.color}];`;
+}
+
+function makeEdgeString([parent, child]: Node[]) {
+  return `  ${parent.id} -> ${child.id};`;
 }
 
 export default class GraphvizRenderer {
@@ -72,34 +90,14 @@ export default class GraphvizRenderer {
     let dot: string;
     if (options.shape === "record" || options.shape === "Mrecord") {
       dot =
-        nodes
-          .map(
-            node =>
-              `  ${node.id} [label="{${node.label}|${node.text.replace(
-                /"/g,
-                '\\"'
-              )}}" ${node.color}];`
-          )
-          .join("\n") +
+        nodes.map(makeNodeStringRecord).join("\n") +
         "\n" +
-        edges
-          .map(([parent, child]) => `  ${parent.id} -> ${child.id};`)
-          .join("\n");
+        edges.map(makeEdgeString).join("\n");
     } else {
       dot =
-        nodes
-          .map(
-            node =>
-              `  ${node.id} [label="${node.label}\\n${node.text.replace(
-                /"/g,
-                '\\"'
-              )}" ${node.color}];`
-          )
-          .join("\n") +
+        nodes.map(makeNodeString).join("\n") +
         "\n" +
-        edges
-          .map(([parent, child]) => `  ${parent.id} -> ${child.id};`)
-          .join("\n");
+        edges.map(makeEdgeString).join("\n");
     }
 
     return `digraph atjson{

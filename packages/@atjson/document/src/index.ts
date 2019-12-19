@@ -125,7 +125,10 @@ export function mergeRanges(ranges: Array<{ start: number; end: number }>) {
    * sort the ranges in ascending order by start position
    * this allows us to efficiently merge them, which will allow us to efficiently delete text
    */
-  let sortedRanges = ranges.sort(({ start: startL }, { start: startR }) => {
+  let sortedRanges = ranges.sort(function compareRangeStarts(
+    { start: startL },
+    { start: startR }
+  ) {
     return startL - startR;
   });
 
@@ -203,9 +206,10 @@ export default class Document {
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.content = options.content;
-    this.annotations = options.annotations.map(annotation =>
-      this.createAnnotation(annotation)
-    );
+
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+    this.annotations = options.annotations.map(createAnnotation);
   }
 
   /**
@@ -234,9 +238,9 @@ export default class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
-    this.annotations.push(
-      ...annotations.map(annotation => this.createAnnotation(annotation))
-    );
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+    this.annotations.push(...annotations.map(createAnnotation));
     this.triggerChange();
   }
 
@@ -302,10 +306,10 @@ export default class Document {
     ...newAnnotations: Array<AnnotationJSON | Annotation<any>>
   ): Array<Annotation<any>> {
     let index = this.annotations.indexOf(annotation);
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
     if (index > -1) {
-      let annotations = newAnnotations.map(newAnnotation =>
-        this.createAnnotation(newAnnotation)
-      );
+      let annotations = newAnnotations.map(createAnnotation);
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -405,7 +409,7 @@ export default class Document {
    */
   slice(start: number, end: number): Document {
     let DocumentClass = this.constructor as typeof Document;
-    let slicedAnnotations = this.where(a => {
+    let slicedAnnotations = this.where(function sliceContainsAnnotation(a) {
       if (start < a.start) {
         return end > a.start;
       } else {
@@ -415,7 +419,9 @@ export default class Document {
 
     let doc = new DocumentClass({
       content: this.content,
-      annotations: slicedAnnotations.map(annotation => annotation.clone())
+      annotations: slicedAnnotations.map(function cloneAnnotation(annotation) {
+        return annotation.clone();
+      })
     });
     doc.deleteText(end, doc.content.length);
     doc.deleteText(0, start);
@@ -432,11 +438,9 @@ export default class Document {
     behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
   ): Document {
     let slice = this.slice(start, end);
-    this.where(
-      annotation => annotation.start >= start && annotation.end <= end
-    ).update(annotation => {
-      this.removeAnnotation(annotation);
-    });
+    this.where(function annotationWasCut(annotation) {
+      return annotation.start >= start && annotation.end <= end;
+    }).remove();
     this.deleteText(start, end, behaviour);
 
     return slice;
@@ -481,7 +485,9 @@ export default class Document {
       content: this.content,
       annotations: this.where({})
         .sort()
-        .map(a => a.clone())
+        .map(function cloneAnnotation(a) {
+          return a.clone();
+        })
     });
 
     let result = converter(convertedDoc);
@@ -501,10 +507,9 @@ export default class Document {
       annotations: this.where({})
         .sort()
         .toJSON(),
-      schema: schema.map(
-        AnnotationClass =>
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-      )
+      schema: schema.map(function prefixAnnotationType(AnnotationClass) {
+        return `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+      })
     };
   }
 
@@ -512,7 +517,9 @@ export default class Document {
     let DocumentClass = this.constructor as typeof Document;
     return new DocumentClass({
       content: this.content,
-      annotations: this.annotations.map(annotation => annotation.clone())
+      annotations: this.annotations.map(function cloneAnnotation(annotation) {
+        return annotation.clone();
+      })
     });
   }
 
@@ -671,7 +678,7 @@ export default class Document {
     }
 
     return canonicalLeftHandSideDoc.annotations.every(
-      (lhsAnnotation, index) => {
+      function matchesRightHandDocAnnotationAtIndex(lhsAnnotation, index) {
         return lhsAnnotation.equals(
           canonicalRightHandSideDoc.annotations[index]
         );
@@ -686,7 +693,9 @@ export default class Document {
     let schema = [...DocumentClass.schema, ParseAnnotation];
 
     if (annotation instanceof UnknownAnnotation) {
-      let KnownAnnotation = schema.find(AnnotationClass => {
+      let KnownAnnotation = schema.find(function annotationMatchesClass(
+        AnnotationClass
+      ) {
         return (
           annotation.attributes.type ===
           `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
@@ -698,10 +707,7 @@ export default class Document {
       }
       return annotation;
     } else if (annotation instanceof Annotation) {
-      let AnnotationClass = annotation.constructor as AnnotationConstructor<
-        any,
-        any
-      >;
+      let AnnotationClass = annotation.getAnnotationConstructor();
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
         return new UnknownAnnotation({
@@ -716,9 +722,13 @@ export default class Document {
       }
       return annotation;
     } else {
-      let ConcreteAnnotation = schema.find(AnnotationClass => {
-        let fullyQualifiedType = `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
-        return annotation.type === fullyQualifiedType;
+      let ConcreteAnnotation = schema.find(function annotationMatchesClass(
+        AnnotationClass
+      ) {
+        return (
+          annotation.type ===
+          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+        );
       });
 
       if (ConcreteAnnotation) {
@@ -750,9 +760,12 @@ export default class Document {
    */
   private triggerChange() {
     if (this.pendingChangeEvent) return;
-    this.pendingChangeEvent = setTimeout(() => {
-      this.changeListeners.forEach(l => l());
+    let notifyListeners = () => {
+      for (let listener of this.changeListeners) {
+        listener();
+      }
       delete this.pendingChangeEvent;
-    }, 0);
+    };
+    this.pendingChangeEvent = setTimeout(notifyListeners, 0);
   }
 }

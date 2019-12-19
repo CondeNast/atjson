@@ -9,6 +9,7 @@
       "converters",
       "glossary"
     ],
+    "Contributing": ["code-style"],
     "API Documentation": ["document-api"],
     "Sources": [
       "html-source",
