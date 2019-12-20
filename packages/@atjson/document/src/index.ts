@@ -118,8 +118,13 @@ export function getConverterFor(
  * @param ranges list of { start, end } structs to sort and merge
  * @returns a list of non-overlapping { start, end } structs, sorted by start position
  */
-export function mergeRanges(ranges: Array<{ start: number; end: number }>) {
-  if (ranges.length === 0) return [];
+export function mergeRanges(_ranges: Array<{ start: number; end: number }>) {
+  if (_ranges.length === 0) return [];
+
+  /**
+   * shallowly clone the argument so we don't change the ordering
+   */
+  let ranges = [..._ranges];
 
   /**
    * sort the ranges in ascending order by start position
@@ -140,10 +145,14 @@ export function mergeRanges(ranges: Array<{ start: number; end: number }>) {
    * if it doesn't overlap the current accumulator, we know it must come *after* the accumulator since the ranges are sorted
    * so we add the accumulator to the merged ranges and make the next range the new accumulator
    */
-  let [currentMergingRange, ...unmergedRanges] = sortedRanges;
+  let [{ start, end }, ...unmergedRanges] = sortedRanges;
+  // copy the start and end positions into a new object we can modify freely
+  let currentMergingRange = { start, end };
   let mergedRanges = [];
 
-  for (let range of unmergedRanges) {
+  for (let { start, end } of unmergedRanges) {
+    // copy the start and end positions into a new object we can modify freely
+    let range = { start, end };
     // if the new range overlaps and overhangs the current range, extend the current range
     if (range.start <= currentMergingRange.end) {
       if (range.end > currentMergingRange.end) {
@@ -278,12 +287,19 @@ export default class Document {
     }
   }
 
-  removeAnnotations(annotations: Array<Annotation<any>>) {
-    if (annotations.length < 10) {
-      for (let annotation of annotations) {
+  removeAnnotations(_annotations: Array<Annotation<any>>) {
+    if (_annotations.length < 10) {
+      for (let annotation of _annotations) {
         this.removeAnnotation(annotation);
       }
+
+      return;
     }
+
+    /**
+     * shallowly clone the argument so we don't change the order or remove elements
+     */
+    let annotations = [..._annotations];
 
     let sortedAnnotationsToRemove = annotations.sort(compareAnnotations);
     let docAnnotations = this.annotations.sort(compareAnnotations);
@@ -645,7 +661,7 @@ export default class Document {
 
   canonical() {
     let canonicalDoc = this.clone();
-    let parseTokensToDelete: Array<Annotation> = [];
+    let parseTokensToDelete = [];
 
     for (let annotation of canonicalDoc.annotations) {
       let vendorPrefix = annotation.getAnnotationConstructor().vendorPrefix;
