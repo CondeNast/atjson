@@ -648,7 +648,8 @@ export default class Document {
     let parseTokensToDelete: Array<Annotation> = [];
 
     for (let annotation of canonicalDoc.annotations) {
-      if (annotation instanceof ParseAnnotation) {
+      let vendorPrefix = annotation.getAnnotationConstructor().vendorPrefix;
+      if (vendorPrefix === "atjson" && annotation.type === "parse-token") {
         parseTokensToDelete.push(annotation);
       }
     }
