@@ -762,6 +762,60 @@ After all the lists
         );
       });
 
+      test("delimiters with newline in the inner boundary", () => {
+        let document = new OffsetSource({
+          content: "bold\na",
+          annotations: [
+            {
+              type: "-offset-bold",
+              start: 0,
+              end: 5,
+              attributes: {}
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 4,
+              end: 5,
+              attributes: {}
+            },
+            {
+              type: "-offset-line-break",
+              start: 4,
+              end: 5,
+              attributes: {}
+            }
+          ]
+        });
+        expect(CommonmarkRenderer.render(document)).toBe("**bold**\\\na");
+      });
+
+      test.only("delimiters with backslash in the inner boundary", () => {
+        let document = new OffsetSource({
+          content: "bold\\\na",
+          annotations: [
+            {
+              type: "-offset-bold",
+              start: 0,
+              end: 6,
+              attributes: {}
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 5,
+              end: 6,
+              attributes: {}
+            },
+            {
+              type: "-offset-line-break",
+              start: 5,
+              end: 6,
+              attributes: {}
+            }
+          ]
+        });
+        expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\**\\\na");
+      });
+
       // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
       test("delimiters wrapping links are not parsed as punctuation at paragraph boundaries", () => {
         let md =

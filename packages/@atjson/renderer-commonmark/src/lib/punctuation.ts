@@ -67,3 +67,5 @@ export const ENDING_WHITESPACE = /(\s|&nbsp;){1}$/;
 export const MD_SPACES = /[ \f\n\r\t\v\u00a0]+/;
 export const LEADING_MD_SPACES = new RegExp(`^${MD_SPACES.source}`, "g");
 export const TRAILING_MD_SPACES = new RegExp(`${MD_SPACES.source}$`, "g");
+
+export const UNMATCHED_TRAILING_ESCAPE_SEQUENCES = /(\\\\)*\\$/;
