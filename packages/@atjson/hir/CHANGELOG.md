@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.11](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.21.10...@atjson/hir@0.21.11) (2019-12-20)
+
+**Note:** Version bump only for package @atjson/hir
+
 ## [0.21.10](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.21.9...@atjson/hir@0.21.10) (2019-12-19)
 
 **Note:** Version bump only for package @atjson/hir
