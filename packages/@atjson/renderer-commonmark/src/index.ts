@@ -79,7 +79,6 @@ function getPreviousChar(doc: Document, end: number) {
 
   for (let a of doc.annotations) {
     if (isCoveredNonParseAnnotation(a)) {
-      console.log("hit!", a);
       return "";
     }
   }
@@ -112,7 +111,6 @@ function getNextChar(doc: Document, start: number) {
 
   for (let a of doc.annotations) {
     if (isCoveredNonParseAnnotation(a)) {
-      console.log("hit!", a);
       return "";
     }
   }

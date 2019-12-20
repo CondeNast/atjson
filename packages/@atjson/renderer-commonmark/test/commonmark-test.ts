@@ -789,7 +789,7 @@ After all the lists
         expect(CommonmarkRenderer.render(document)).toBe("**bold**\\\na");
       });
 
-      test.only("delimiters with backslash in the inner boundary", () => {
+      test("delimiters with backslash in the inner boundary", () => {
         let document = new OffsetSource({
           content: "bold\\\na",
           annotations: [
