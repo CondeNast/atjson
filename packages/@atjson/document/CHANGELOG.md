@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.9](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.8...@atjson/document@0.22.9) (2019-12-20)
+
+### 🐛 Fixes
+
+- 🐛 use ES2018 for modules output because nullish coalescing and optional chaining is breaking
+
 ## [0.22.8](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.7...@atjson/document@0.22.8) (2019-12-20)
 
 **Note:** Version bump only for package @atjson/document

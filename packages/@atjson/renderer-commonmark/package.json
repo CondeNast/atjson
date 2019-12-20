@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-commonmark",
-  "version": "0.21.19",
+  "version": "0.21.20",
   "description": "Render atjson documents into commonmark",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

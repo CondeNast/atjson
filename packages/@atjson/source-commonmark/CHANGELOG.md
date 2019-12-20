@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.18](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.21.17...@atjson/source-commonmark@0.21.18) (2019-12-20)
+
+### 🐛 Fixes
+
+- 🐛 use ES2018 for modules output because nullish coalescing and optional chaining is breaking
+
 ## [0.21.17](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.21.16...@atjson/source-commonmark@0.21.17) (2019-12-20)
 
 **Note:** Version bump only for package @atjson/source-commonmark

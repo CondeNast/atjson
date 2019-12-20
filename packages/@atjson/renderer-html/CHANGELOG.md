@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.23.2...@atjson/renderer-html@0.23.3) (2019-12-20)
+
+### 🐛 Fixes
+
+- 🐛 use ES2018 for modules output because nullish coalescing and optional chaining is breaking
+
 ## [0.23.2](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.23.1...@atjson/renderer-html@0.23.2) (2019-12-20)
 
 **Note:** Version bump only for package @atjson/renderer-html

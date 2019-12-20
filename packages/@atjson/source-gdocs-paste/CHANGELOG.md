@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.14](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.13...@atjson/source-gdocs-paste@0.21.14) (2019-12-20)
+
+### 🐛 Fixes
+
+- 🐛 use ES2018 for modules output because nullish coalescing and optional chaining is breaking
+
 ## [0.21.13](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.12...@atjson/source-gdocs-paste@0.21.13) (2019-12-20)
 
 ### 🐛 Fixes

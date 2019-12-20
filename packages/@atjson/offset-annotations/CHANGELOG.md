@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.24.2...@atjson/offset-annotations@0.24.3) (2019-12-20)
+
+### 🐛 Fixes
+
+- 🐛 use ES2018 for modules output because nullish coalescing and optional chaining is breaking
+
 ## [0.24.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.24.1...@atjson/offset-annotations@0.24.2) (2019-12-20)
 
 **Note:** Version bump only for package @atjson/offset-annotations
