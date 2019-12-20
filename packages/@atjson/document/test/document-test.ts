@@ -45,6 +45,23 @@ describe("Document#deleteTextRanges", () => {
         { start: 30, end: 33 }
       ]);
     });
+
+    test("doesn't mutate its argument", () => {
+      // overlapping and out of order
+      let ranges = [
+        { start: 4, end: 6 },
+        { start: 0, end: 5 },
+        { start: 3, end: 4 }
+      ];
+
+      mergeRanges(ranges);
+
+      expect(ranges).toMatchObject([
+        { start: 4, end: 6 },
+        { start: 0, end: 5 },
+        { start: 3, end: 4 }
+      ]);
+    });
   });
 
   test("adjusts annotations properly", () => {
@@ -72,6 +89,30 @@ describe("Document#deleteTextRanges", () => {
         { start: 0, end: 5 }
       ]
     });
+  });
+
+  test("doesn't mutate its argument", () => {
+    let testDoc = new TestSource({
+      content: "<b>Hello</b>,\n World!",
+      annotations: [
+        new ParseAnnotation({ start: 8, end: 12 }),
+        new ParseAnnotation({ start: 0, end: 3 }),
+        new Paragraph({ start: 0, end: 13 }),
+        new Bold({ start: 0, end: 12 })
+      ]
+    });
+
+    let rangesToDelete = [
+      { start: 8, end: 12 },
+      { start: 0, end: 3 }
+    ];
+
+    testDoc.deleteTextRanges(rangesToDelete);
+
+    expect(rangesToDelete).toMatchObject([
+      { start: 8, end: 12 },
+      { start: 0, end: 3 }
+    ]);
   });
 });
 
@@ -108,6 +149,48 @@ describe("Document#removeAnnotations", () => {
         { type: "paragraph", start: 0, end: 13 }
       ]
     });
+  });
+
+  test("doesn't mutate its argument", () => {
+    let parseAnnotations = [
+      new ParseAnnotation({ start: 3, end: 4 }),
+      new ParseAnnotation({ start: 17, end: 18 }),
+      new ParseAnnotation({ start: 11, end: 12 }),
+      new ParseAnnotation({ start: 15, end: 16 }),
+      new ParseAnnotation({ start: 7, end: 8 }),
+      new ParseAnnotation({ start: 1, end: 2 }),
+      new ParseAnnotation({ start: 21, end: 22 }),
+      new ParseAnnotation({ start: 23, end: 24 }),
+      new ParseAnnotation({ start: 19, end: 20 }),
+      new ParseAnnotation({ start: 13, end: 14 }),
+      new ParseAnnotation({ start: 5, end: 6 }),
+      new ParseAnnotation({ start: 9, end: 10 })
+    ];
+    let testDoc = new TestSource({
+      content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
+      annotations: [
+        ...parseAnnotations,
+        new Paragraph({ start: 0, end: 13 }),
+        new Bold({ start: 0, end: 12 })
+      ]
+    });
+
+    testDoc.removeAnnotations(parseAnnotations);
+
+    expect(parseAnnotations).toMatchObject([
+      { start: 3, end: 4 },
+      { start: 17, end: 18 },
+      { start: 11, end: 12 },
+      { start: 15, end: 16 },
+      { start: 7, end: 8 },
+      { start: 1, end: 2 },
+      { start: 21, end: 22 },
+      { start: 23, end: 24 },
+      { start: 19, end: 20 },
+      { start: 13, end: 14 },
+      { start: 5, end: 6 },
+      { start: 9, end: 10 }
+    ]);
   });
 });
 
