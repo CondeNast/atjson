@@ -302,3 +302,48 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
     expect(listItems.toJSON()).toMatchObject(LIST_ITEMS);
   });
 });
+
+describe("@atjson/source-gdocs-paste", () => {
+  let atjson: OffsetSource;
+
+  const LINEBREAKS = [
+    [4, 5],
+    [6, 7],
+    [11, 12],
+    [13, 14],
+    [18, 19]
+  ].map(([start, end]) => {
+    return {
+      start,
+      end,
+      type: "-offset-line-break",
+      attributes: {}
+    };
+  });
+
+  beforeAll(() => {
+    // https://docs.google.com/document/d/e/2PACX-1vSty31WXqvhSHwPxJD1QpWdeW7RbZhqJUFW8DVLbxVj9BacHVQdlKoBt0NWCAKBgqXHFgbZJdBfoyUP/pub
+    let fixturePath = path.join(__dirname, "fixtures", "line-breaks.json");
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    let gdocs = GDocsSource.fromRaw(rawJSON);
+    atjson = gdocs.convertTo(OffsetSource);
+  });
+
+  it("has correct line breaks", () => {
+    let linebreaks = atjson.where({ type: "-offset-line-break" });
+    expect(linebreaks.toJSON()).toMatchObject(LINEBREAKS);
+  });
+
+  it("has correct parse tokens", () => {
+    let parseTokens = atjson.where({ type: "-atjson-parse-token" });
+    expect(parseTokens.toJSON()).toMatchObject(
+      LINEBREAKS.map(linebreak => ({
+        ...linebreak,
+        type: "-atjson-parse-token",
+        attributes: {
+          "-atjson-reason": "new line"
+        }
+      }))
+    );
+  });
+});

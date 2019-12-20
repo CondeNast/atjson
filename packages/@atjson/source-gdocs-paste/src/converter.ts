@@ -111,56 +111,66 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       };
     })
     .forEach(({ start, end }) => {
-      // Convert single new lines to LineBreaks
-      doc.match(/(^|[^\n])\n([^\n]|$)/g, start, end).forEach(match => {
-        let newlineStart = match.start + match.matches[1].length;
-        let newlineEnd = match.end - match.matches[2].length;
+      // Multiple newlines indicate paragraph boundaries within the block boundary
+      let paragraphBoundaries = doc.match(/\n{2,}/g, start, end);
+      let lastEnd = start;
+      let newlinesInParagraphBoundaries = [];
+      for (let paragraphBoundary of paragraphBoundaries) {
         doc.addAnnotations(
-          new LineBreak({
-            start: newlineStart,
-            end: newlineEnd
-          }),
           new ParseAnnotation({
-            start: newlineStart,
-            end: newlineEnd,
+            start: paragraphBoundary.start,
+            end: paragraphBoundary.end,
             attributes: {
-              reason: "new line"
+              reason: "multiple new lines to paragraph"
             }
           })
         );
-      });
 
-      // Multiple newlines indicate paragraph boundaries within the block boundary
-      let lastEnd = start;
-      doc
-        .match(/\n{2,}/g, start, end)
-        .forEach((match: { start: number; end: number }) => {
+        if (lastEnd < paragraphBoundary.start) {
           doc.addAnnotations(
-            new ParseAnnotation({
-              start: match.start,
-              end: match.end,
-              attributes: {
-                reason: "multiple new lines to paragraph"
-              }
+            new Paragraph({
+              start: lastEnd,
+              end: paragraphBoundary.start
             })
           );
+        }
+        lastEnd = paragraphBoundary.end;
 
-          if (lastEnd < match.start) {
-            doc.addAnnotations(
-              new Paragraph({
-                start: lastEnd,
-                end: match.start
-              })
-            );
-          }
-          lastEnd = match.end;
-        });
+        // keep track of which newlines we've seen
+        let current = paragraphBoundary.start;
+        while (current < paragraphBoundary.end) {
+          newlinesInParagraphBoundaries.push(current);
+          current++;
+        }
+      }
 
+      // Close a remaining paragraph boundary at the block boundary
       if (start < lastEnd && lastEnd < end) {
         doc.addAnnotations(
           new Paragraph({
             start: lastEnd,
             end
+          })
+        );
+      }
+
+      // Convert single new lines to LineBreaks
+      for (let newline of doc.match(/\n/g, start, end)) {
+        if (newlinesInParagraphBoundaries.indexOf(newline.start) > -1) {
+          continue;
+        }
+
+        doc.addAnnotations(
+          new LineBreak({
+            start: newline.start,
+            end: newline.end
+          }),
+          new ParseAnnotation({
+            start: newline.start,
+            end: newline.end,
+            attributes: {
+              reason: "new line"
+            }
           })
         );
       }
