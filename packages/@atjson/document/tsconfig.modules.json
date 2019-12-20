@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "./dist/modules",
     "module": "esnext",
-    "target": "esnext"
+    "target": "ES2018"
   }
 }
