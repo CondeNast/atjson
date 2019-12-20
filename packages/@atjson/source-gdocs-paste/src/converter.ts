@@ -3,6 +3,11 @@ import OffsetSource, { LineBreak, Paragraph } from "@atjson/offset-annotations";
 import { Heading } from "./annotations";
 import GDocsSource from "./source";
 
+// eslint-disable-next-line no-control-regex
+const VERTICAL_TABS = /\u000B/g;
+const MULTIPLE_NEWLINES = /\n{2,}/g;
+const ALL_NEWLINES = /\n/g;
+
 GDocsSource.defineConverterTo(OffsetSource, doc => {
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.
@@ -87,8 +92,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     });
 
   // Replace vertical tabs with newlines
-  // eslint-disable-next-line no-control-regex
-  doc.content = doc.content.replace(/\u000B/g, "\n");
+  doc.content = doc.content.replace(VERTICAL_TABS, "\n");
 
   // Convert newlines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
   // so divide the document into 'block boundaries' and then look for single/multiple new lines within each
@@ -112,7 +116,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     })
     .forEach(({ start, end }) => {
       // Multiple newlines indicate paragraph boundaries within the block boundary
-      let paragraphBoundaries = doc.match(/\n{2,}/g, start, end);
+      let paragraphBoundaries = doc.match(MULTIPLE_NEWLINES, start, end);
       let lastEnd = start;
       let newlinesInParagraphBoundaries = [];
       for (let paragraphBoundary of paragraphBoundaries) {
@@ -155,7 +159,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       }
 
       // Convert single new lines to LineBreaks
-      for (let newline of doc.match(/\n/g, start, end)) {
+      for (let newline of doc.match(ALL_NEWLINES, start, end)) {
         if (newlinesInParagraphBoundaries.indexOf(newline.start) > -1) {
           continue;
         }
