@@ -53,13 +53,13 @@ export const MD_PUNCTUATION = new RegExp(
 
 // Whitespace or (possibly escaped) Ascii punctuation or Unicode punctuation
 export const WHITESPACE_PUNCTUATION = new RegExp(
-  `((\\s|&nbsp;){1}|(\\\\?${MD_PUNCTUATION.source}))`
+  `((\\\\\\n|\\s|&nbsp;){1}|(\\\\?${MD_PUNCTUATION.source}))`
 );
 export const BEGINNING_WHITESPACE_PUNCTUATION = new RegExp(
   `^${WHITESPACE_PUNCTUATION.source}`
 );
 export const ENDING_WHITESPACE_PUNCTUATION = new RegExp(
-  `${WHITESPACE_PUNCTUATION.source}$`
+  `(^|[^\\\\])(\\\\\\\\)*${WHITESPACE_PUNCTUATION.source}$`
 );
 export const BEGINNING_WHITESPACE = /^(\s|&nbsp;){1}/;
 export const ENDING_WHITESPACE = /(\s|&nbsp;){1}$/;
@@ -68,4 +68,4 @@ export const MD_SPACES = /[ \f\n\r\t\v\u00a0]+/;
 export const LEADING_MD_SPACES = new RegExp(`^${MD_SPACES.source}`, "g");
 export const TRAILING_MD_SPACES = new RegExp(`${MD_SPACES.source}$`, "g");
 
-export const UNMATCHED_TRAILING_ESCAPE_SEQUENCES = /(\\\\)*\\$/;
+export const UNMATCHED_TRAILING_ESCAPE_SEQUENCES = /^(\\\\)*\\$/;

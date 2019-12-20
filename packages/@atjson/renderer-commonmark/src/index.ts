@@ -156,12 +156,12 @@ export function* splitDelimiterRuns(
   while (end > start) {
     match = text.slice(0, end).match(ENDING_WHITESPACE_PUNCTUATION);
     if (!match) break;
-    if (match[2]) {
-      end -= match[2].length;
-    } else if (match[3]) {
+    if (match[4]) {
+      end -= match[4].length;
+    } else if (match[5]) {
       // never include single backslash as last character as this would escape
       // the delimiter
-      if (match[3].match(UNMATCHED_TRAILING_ESCAPE_SEQUENCES)) {
+      if (match[5].match(UNMATCHED_TRAILING_ESCAPE_SEQUENCES)) {
         end -= 1;
         break;
       }
@@ -171,7 +171,7 @@ export function* splitDelimiterRuns(
         nextChar &&
         !nextChar.match(WHITESPACE_PUNCTUATION)
       ) {
-        end -= match[3].length;
+        end -= match[5].length;
       } else {
         break;
       }

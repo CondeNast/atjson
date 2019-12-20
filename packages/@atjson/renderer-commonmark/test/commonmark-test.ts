@@ -816,6 +816,21 @@ After all the lists
         expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\**\\\na");
       });
 
+      test("delimiters with multiple backslash and newline in the inner boundary", () => {
+        let document = new OffsetSource({
+          content: "bold\\\\\na",
+          annotations: [
+            {
+              type: "-offset-bold",
+              start: 0,
+              end: 7,
+              attributes: {}
+            }
+          ]
+        });
+        expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\\\\\**\na");
+      });
+
       // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
       test("delimiters wrapping links are not parsed as punctuation at paragraph boundaries", () => {
         let md =
