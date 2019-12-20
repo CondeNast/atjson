@@ -22,6 +22,7 @@ import {
   ENDING_WHITESPACE_PUNCTUATION,
   LEADING_MD_SPACES,
   TRAILING_MD_SPACES,
+  UNMATCHED_TRAILING_ESCAPE_SEQUENCES,
   WHITESPACE_PUNCTUATION
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
@@ -78,6 +79,7 @@ function getPreviousChar(doc: Document, end: number) {
 
   for (let a of doc.annotations) {
     if (isCoveredNonParseAnnotation(a)) {
+      console.log("hit!", a);
       return "";
     }
   }
@@ -110,6 +112,7 @@ function getNextChar(doc: Document, start: number) {
 
   for (let a of doc.annotations) {
     if (isCoveredNonParseAnnotation(a)) {
+      console.log("hit!", a);
       return "";
     }
   }
@@ -158,6 +161,12 @@ export function* splitDelimiterRuns(
     if (match[2]) {
       end -= match[2].length;
     } else if (match[3]) {
+      // never include single backslash as last character as this would escape
+      // the delimiter
+      if (match[3].match(UNMATCHED_TRAILING_ESCAPE_SEQUENCES)) {
+        end -= 1;
+        break;
+      }
       let nextChar = getNextChar(context.document, annotation.end);
       if (
         end === text.length &&
