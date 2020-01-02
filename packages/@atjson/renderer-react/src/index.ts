@@ -29,18 +29,21 @@ export default class ReactRenderer extends Renderer {
     }
   }
 
-  renderSubdocuments(annotation: Annotation) {
-    if (!annotation.constructor.subdocuments) {
+  renderSubdocuments(annotation: Annotation): void {
+    const annotationConstructor = annotation.getAnnotationConstructor();
+
+    if (!annotationConstructor.subdocuments) {
       return;
     }
 
-    for (let subdocKey in annotation.constructor.subdocuments) {
+    // go through each subdoc-supporting attribute, rendering it
+    for (let subdocKey in annotationConstructor.subdocuments) {
       if (!(subdocKey in annotation.attributes)) {
         continue;
       }
 
       // we want an empty root for nested docs, use React.Fragment as Root
-      const componentLookup = Object.assign(
+      const subdocComponents = Object.assign(
         {},
         {
           ...this.componentLookup,
@@ -49,7 +52,7 @@ export default class ReactRenderer extends Renderer {
       );
       annotation.attributes[subdocKey] = this.constructor.render(
         annotation.attributes[subdocKey],
-        componentLookup
+        subdocComponents
       );
     }
   }
