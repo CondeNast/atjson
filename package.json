@@ -33,7 +33,7 @@
     "ink": "^2.6.0",
     "ink-table": "^2.0.1",
     "jest": "24.9.0",
-    "lerna": "3.19.0",
+    "lerna": "3.20.2",
     "lint-staged": "9.5.0",
     "markdown-it": "10.0.0",
     "minimist": "^1.2.0",
