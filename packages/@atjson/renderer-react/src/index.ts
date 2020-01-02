@@ -29,12 +29,40 @@ export default class ReactRenderer extends Renderer {
     }
   }
 
+  renderSubdocuments(annotation: Annotation) {
+    if (!annotation.constructor.subdocuments) {
+      return;
+    }
+
+    for (let subdocKey in annotation.constructor.subdocuments) {
+      if (!(subdocKey in annotation.attributes)) {
+        continue;
+      }
+
+      // we want an empty root for nested docs, use React.Fragment as Root
+      const componentLookup = Object.assign(
+        {},
+        {
+          ...this.componentLookup,
+          Root: React.Fragment
+        }
+      );
+      annotation.attributes[subdocKey] = this.constructor.render(
+        annotation.attributes[subdocKey],
+        componentLookup
+      );
+    }
+  }
+
   *renderAnnotation(
     annotation: Annotation
   ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
+    this.renderSubdocuments(annotation);
+
     let AnnotationComponent =
       this.componentLookup[annotation.type] ||
       this.componentLookup[classify(annotation.type)];
+
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
