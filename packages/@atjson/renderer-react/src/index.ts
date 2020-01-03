@@ -3,6 +3,17 @@ import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
 import { ComponentType, ReactElement } from "react";
 
+// Make a React-aware AttributesOf for subdocuments rendered into Fragments
+export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
+  infer Attributes
+>
+  ? {
+      [P in keyof Attributes]: Attributes[P] extends Document
+        ? React.ReactFragment
+        : Attributes[P];
+    }
+  : never;
+
 export default class ReactRenderer extends Renderer {
   private componentLookup: {
     [key: string]: ComponentType<any>;

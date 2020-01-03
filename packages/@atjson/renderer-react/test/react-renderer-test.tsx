@@ -1,4 +1,3 @@
-import { AttributesOf } from "@atjson/document";
 import OffsetSource, {
   Bold,
   CaptionSource,
@@ -12,7 +11,7 @@ import OffsetSource, {
 import * as React from "react";
 import { FC } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer from "../src";
+import ReactRenderer, { AttributesOf } from "../src";
 
 function renderDocument(
   doc: OffsetSource,
