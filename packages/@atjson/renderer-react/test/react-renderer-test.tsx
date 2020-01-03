@@ -1,7 +1,8 @@
-import { AttributesOf } from "@atjson/document";
 import OffsetSource, {
   Bold,
+  CaptionSource,
   GiphyEmbed,
+  IframeEmbed,
   Italic,
   LineBreak,
   Link,
@@ -10,7 +11,7 @@ import OffsetSource, {
 import * as React from "react";
 import { FC } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer from "../src";
+import ReactRenderer, { AttributesOf } from "../src";
 
 function renderDocument(
   doc: OffsetSource,
@@ -67,6 +68,15 @@ const YouTubeEmbedComponent: FC<AttributesOf<YouTubeEmbed>> = props => {
       frameBorder={0}
       allowFullScreen={true}
     ></iframe>
+  );
+};
+
+const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => {
+  return (
+    <figure>
+      <iframe src={props.url} />
+      <figcaption>{props.caption}</figcaption>
+    </figure>
   );
 };
 
@@ -165,5 +175,52 @@ describe("ReactRenderer", () => {
     ).toBe(
       `<article><a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a></article>`
     );
+  });
+
+  describe("Subdocuments", () => {
+    it("renders single-level nested subdocuments", () => {
+      const subDoc = new CaptionSource({
+        content: "This is some caption text",
+        annotations: [
+          new Bold({
+            start: 0,
+            end: 4
+          }),
+          new Italic({
+            start: 8,
+            end: 12
+          })
+        ]
+      });
+
+      let doc = new OffsetSource({
+        content: "An embed with caption (￼) and some text following.",
+        annotations: [
+          new Bold({
+            start: 3,
+            end: 8
+          }),
+          new IframeEmbed({
+            start: 23,
+            end: 24,
+            attributes: {
+              url: "https://foo.bar",
+              caption: subDoc
+            }
+          })
+        ]
+      });
+
+      expect(
+        renderDocument(doc, {
+          Bold: BoldComponent,
+          Italic: ItalicComponent,
+          IframeEmbed: IframeComponent,
+          Root: RootComponent
+        })
+      ).toBe(
+        `<article>An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.</article>`
+      );
+    });
   });
 });

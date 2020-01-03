@@ -3,6 +3,17 @@ import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
 import { ComponentType, ReactElement } from "react";
 
+// Make a React-aware AttributesOf for subdocuments rendered into Fragments
+export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
+  infer Attributes
+>
+  ? {
+      [P in keyof Attributes]: Attributes[P] extends Document
+        ? React.ReactFragment
+        : Attributes[P];
+    }
+  : never;
+
 export default class ReactRenderer extends Renderer {
   private componentLookup: {
     [key: string]: ComponentType<any>;
@@ -29,12 +40,43 @@ export default class ReactRenderer extends Renderer {
     }
   }
 
+  renderSubdocuments(annotation: Annotation<any>): void {
+    const annotationConstructor = annotation.getAnnotationConstructor();
+
+    if (!annotationConstructor.subdocuments) {
+      return;
+    }
+
+    // go through each subdoc-supporting attribute, rendering it
+    for (let subdocKey in annotationConstructor.subdocuments) {
+      if (!(subdocKey in annotation.attributes)) {
+        continue;
+      }
+
+      // we want an empty root for nested docs, use React.Fragment as Root
+      const subdocComponents = Object.assign(
+        {},
+        {
+          ...this.componentLookup,
+          Root: React.Fragment
+        }
+      );
+      annotation.attributes[subdocKey] = ReactRenderer.render(
+        annotation.attributes[subdocKey],
+        subdocComponents
+      );
+    }
+  }
+
   *renderAnnotation(
     annotation: Annotation
   ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
+    this.renderSubdocuments(annotation);
+
     let AnnotationComponent =
       this.componentLookup[annotation.type] ||
       this.componentLookup[classify(annotation.type)];
+
     if (AnnotationComponent) {
       return React.createElement(
         AnnotationComponent,
