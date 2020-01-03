@@ -29,7 +29,7 @@ export default class ReactRenderer extends Renderer {
     }
   }
 
-  renderSubdocuments(annotation: Annotation): void {
+  renderSubdocuments(annotation: Annotation<any>): void {
     const annotationConstructor = annotation.getAnnotationConstructor();
 
     if (!annotationConstructor.subdocuments) {
