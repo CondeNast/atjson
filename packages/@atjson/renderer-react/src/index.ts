@@ -50,7 +50,7 @@ export default class ReactRenderer extends Renderer {
           Root: React.Fragment
         }
       );
-      annotation.attributes[subdocKey] = this.constructor.render(
+      annotation.attributes[subdocKey] = ReactRenderer.render(
         annotation.attributes[subdocKey],
         subdocComponents
       );

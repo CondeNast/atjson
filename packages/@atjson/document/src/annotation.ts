@@ -60,7 +60,7 @@ export interface AnnotationConstructor<T, Attributes> {
   }): T;
 }
 
-export default abstract class Annotation<Attributes = {}> {
+export default abstract class Annotation<Attributes = { [key: string]: any }> {
   static vendorPrefix: string;
   static type: string;
   static subdocuments: { [key: string]: typeof Document } = {};
