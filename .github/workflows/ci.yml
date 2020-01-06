@@ -13,7 +13,7 @@ jobs:
       run: |
         npm ci
     - name: 🔎 ESLint
-      uses: gimenete/eslint-action@1.0.1
+      uses: hallee/eslint-action@1.0.1
     - name: 🃏 Jest
       uses: rkusa/jest-action@1.0.2
     - name: ✅ Type Check
