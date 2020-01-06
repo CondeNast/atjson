@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install
       run: |
         npm ci
@@ -21,9 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: 🐢 Performance
       run: |
         npm ci
         npm run typecheck
-        pushd packages/\@atjson/renderer-commonmark/
-        time node ./performance/index.js
+        npm run perf
