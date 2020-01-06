@@ -6,27 +6,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
     - name: Install
       run: |
         npm ci
     - name: 🔎 ESLint
       run: |
         npm run lint
-    - name: 🃏 Jest
-      run: |
-        npm run test
+    - uses: paambaati/codeclimate-action@v2.2.4
+      name: 🃏 Jest
+      env:
+        CC_TEST_REPORTER_ID: cf897ba2cdf052230767ba43b61026729790d3db38a4e8693134464087be410e
+      with:
+        coverageCommand: npm run test
     - name: ✅ Type Check
       run: |
         npm run typecheck
   perf:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
     - name: 🐢 Performance
       run: |
         npm ci
