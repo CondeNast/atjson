@@ -15,7 +15,7 @@ jobs:
     - name: 🔎 ESLint
       uses: hallee/eslint-action@1.0.1
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: 🃏 Jest
       uses: stefanoeb/jest-action@1.0.2
     - name: ✅ Type Check
