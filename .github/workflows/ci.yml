@@ -15,7 +15,7 @@ jobs:
     - name: 🔎 ESLint
       uses: hallee/eslint-action@1.0.1
     - name: 🃏 Jest
-      uses: rkusa/jest-action@1.0.2
+      uses: stefanoeb/jest-action@1.0.2
     - name: ✅ Type Check
       run: |
         npm run typecheck
