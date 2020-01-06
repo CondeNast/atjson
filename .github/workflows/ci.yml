@@ -3,6 +3,7 @@ name: CI
 on: [push]
 
 jobs:
+  env:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -17,8 +18,8 @@ jobs:
       name: 🃏 Jest
       env:
         CC_TEST_REPORTER_ID: cf897ba2cdf052230767ba43b61026729790d3db38a4e8693134464087be410e
-      with:
-        coverageCommand: npm run test
+      run: |
+        npm test -- --no-cache --coverage --maxWorkers=4
     - name: ✅ Type Check
       run: |
         npm run typecheck
