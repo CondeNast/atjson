@@ -18,8 +18,8 @@ jobs:
       name: 🃏 Jest
       env:
         CC_TEST_REPORTER_ID: cf897ba2cdf052230767ba43b61026729790d3db38a4e8693134464087be410e
-      run: |
-        npm test -- --no-cache --coverage --maxWorkers=4
+      with:
+        coverageCommand: npm test -- --no-cache --coverage --maxWorkers=4
     - name: ✅ Type Check
       run: |
         npm run typecheck
