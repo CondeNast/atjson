@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ReactElement } from "react";
+import { ComponentType, ReactElement } from "react";
 
 // Make a React-aware AttributesOf for subdocuments rendered into Fragments
 export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
@@ -14,19 +14,33 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
     }
   : never;
 
-const ReactRendererContext = React.createContext();
+export type ComponentMap = {
+  [key: string]: ComponentType<any>;
+};
+
+const ReactRendererContext = React.createContext<ComponentMap>({});
 
 export const ReactRendererConsumer = ReactRendererContext.Consumer;
 
-export const ReactRendererProvider = ({ children, value }) => {
-  return React.createElement(ReactRendererConsumer, {}, parentComponentMap => {
-    const mergedValues = Object.assign({}, parentComponentMap, value);
-    return React.createElement(
-      ReactRendererContext.Provider,
-      { value: mergedValues },
-      children
-    );
-  });
+export const ReactRendererProvider = ({
+  children,
+  value
+}: {
+  children: React.ReactNode;
+  value: ComponentMap;
+}) => {
+  return React.createElement(
+    ReactRendererConsumer,
+    null,
+    (parentComponentMap: ComponentMap) => {
+      const mergedValues = { ...parentComponentMap, ...value };
+      return React.createElement(
+        ReactRendererContext.Provider,
+        { value: mergedValues },
+        children
+      );
+    }
+  );
 };
 
 export default class ReactRenderer extends Renderer {
@@ -58,22 +72,27 @@ export default class ReactRenderer extends Renderer {
   ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
     this.renderSubdocuments(annotation);
 
-    const children = yield;
+    const annotationChildren = yield;
     const key = `${annotation.id}-${annotation.start}`;
 
-    return React.createElement(ReactRendererConsumer, { key }, value => {
-      let AnnotationComponent =
-        value[annotation.type] || value[classify(annotation.type)];
+    return React.createElement(
+      ReactRendererConsumer,
+      { key },
+      (componentMap: ComponentMap) => {
+        let AnnotationComponent =
+          componentMap[annotation.type] ||
+          componentMap[classify(annotation.type)];
 
-      if (AnnotationComponent) {
-        return React.createElement(
-          AnnotationComponent,
-          annotation.attributes,
-          children
-        );
-      } else {
-        return children;
+        if (AnnotationComponent) {
+          return React.createElement(
+            AnnotationComponent,
+            annotation.attributes,
+            annotationChildren
+          );
+        } else {
+          return annotationChildren;
+        }
       }
-    });
+    );
   }
 }
