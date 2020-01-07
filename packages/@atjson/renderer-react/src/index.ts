@@ -59,8 +59,7 @@ export default class ReactRenderer extends Renderer {
     this.renderSubdocuments(annotation);
 
     const children = yield;
-    // is this enough to uniquely identify?
-    const key = `${annotation.type}-${annotation.start}-${annotation.end}`;
+    const key = `${annotation.id}-${annotation.start}`;
 
     return React.createElement(ReactRendererConsumer, { key }, value => {
       let AnnotationComponent =
