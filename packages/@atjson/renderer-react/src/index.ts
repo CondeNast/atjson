@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ComponentType, ReactElement } from "react";
+import { ReactElement } from "react";
 
 // Make a React-aware AttributesOf for subdocuments rendered into Fragments
 export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
@@ -14,30 +14,24 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
     }
   : never;
 
+const ReactRendererContext = React.createContext();
+
+export const ReactRendererConsumer = ReactRendererContext.Consumer;
+
+export const ReactRendererProvider = ({ children, value }) => {
+  return React.createElement(ReactRendererConsumer, {}, parentComponentMap => {
+    const mergedValues = Object.assign({}, parentComponentMap, value);
+    return React.createElement(
+      ReactRendererContext.Provider,
+      { value: mergedValues },
+      children
+    );
+  });
+};
+
 export default class ReactRenderer extends Renderer {
-  private componentLookup: {
-    [key: string]: ComponentType<any>;
-  };
-
-  constructor(
-    document: Document,
-    componentLookup: {
-      [key: string]: ComponentType<any>;
-    }
-  ) {
-    super(document);
-    this.componentLookup = componentLookup;
-  }
-
   *root() {
-    let AnnotationComponent =
-      this.componentLookup.root || this.componentLookup.Root;
-    if (AnnotationComponent) {
-      return React.createElement(AnnotationComponent, {}, ...(yield));
-    } else {
-      let components = yield;
-      return components;
-    }
+    return React.createElement(React.Fragment, {}, ...(yield));
   }
 
   renderSubdocuments(annotation: Annotation<any>): void {
@@ -53,17 +47,8 @@ export default class ReactRenderer extends Renderer {
         continue;
       }
 
-      // we want an empty root for nested docs, use React.Fragment as Root
-      const subdocComponents = Object.assign(
-        {},
-        {
-          ...this.componentLookup,
-          Root: React.Fragment
-        }
-      );
       annotation.attributes[subdocKey] = ReactRenderer.render(
-        annotation.attributes[subdocKey],
-        subdocComponents
+        annotation.attributes[subdocKey]
       );
     }
   }
@@ -73,20 +58,23 @@ export default class ReactRenderer extends Renderer {
   ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
     this.renderSubdocuments(annotation);
 
-    let AnnotationComponent =
-      this.componentLookup[annotation.type] ||
-      this.componentLookup[classify(annotation.type)];
+    const children = yield;
+    // is this enough to uniquely identify?
+    const key = `${annotation.type}-${annotation.start}-${annotation.end}`;
 
-    if (AnnotationComponent) {
-      return React.createElement(
-        AnnotationComponent,
-        annotation.attributes,
-        ...(yield)
-      );
-    } else {
-      // console.warn(`No component found for "${node.type}"- content will be yielded`);
-      let components = yield;
-      return components;
-    }
+    return React.createElement(ReactRendererConsumer, { key }, value => {
+      let AnnotationComponent =
+        value[annotation.type] || value[classify(annotation.type)];
+
+      if (AnnotationComponent) {
+        return React.createElement(
+          AnnotationComponent,
+          annotation.attributes,
+          children
+        );
+      } else {
+        return children;
+      }
+    });
   }
 }
