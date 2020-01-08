@@ -14,28 +14,23 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
     }
   : never;
 
-export type ComponentMap = {
-  [key: string]: ComponentType<any>;
-};
-
 // assigning this to a var so we can check equality with this (to throw when a
 // user of the library has not wrapped in a provider).
 const EMPTY_COMPONENT_MAP = {};
 
-const ReactRendererContext = React.createContext<ComponentMap>(
-  EMPTY_COMPONENT_MAP
-);
+const ReactRendererContext = React.createContext<{
+  [key: string]: ComponentType<any>;
+}>(EMPTY_COMPONENT_MAP);
 
 export const ReactRendererConsumer = ReactRendererContext.Consumer;
 
-export const ReactRendererProvider: FC<{ value: ComponentMap }> = ({
-  children,
-  value
-}) => {
+export const ReactRendererProvider: FC<{
+  value: { [key: string]: ComponentType<any> };
+}> = ({ children, value }) => {
   return React.createElement(
     ReactRendererConsumer,
     null,
-    (parentComponentMap: ComponentMap) => {
+    (parentComponentMap: { [key: string]: ComponentType<any> }) => {
       const mergedValues = { ...parentComponentMap, ...value };
       return React.createElement(
         ReactRendererContext.Provider,
@@ -80,7 +75,7 @@ export default class ReactRenderer extends Renderer {
 
     return React.createElement(ReactRendererConsumer, {
       key,
-      children: (componentMap: ComponentMap) => {
+      children: (componentMap: { [key: string]: ComponentType<any> }) => {
         if (componentMap === EMPTY_COMPONENT_MAP) {
           throw new Error(
             "Component map is empty. Did you wrap your render call in ReactRendererProvider?"
