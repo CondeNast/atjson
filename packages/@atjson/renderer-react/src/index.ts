@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ComponentType, ReactElement } from "react";
+import { ComponentType, FC, ReactElement } from "react";
 
 // Make a React-aware AttributesOf for subdocuments rendered into Fragments
 export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
@@ -18,16 +18,19 @@ export type ComponentMap = {
   [key: string]: ComponentType<any>;
 };
 
-const ReactRendererContext = React.createContext<ComponentMap>({});
+// assigning this to a var so we can check equality with this (to throw when a
+// user of the library has not wrapped in a provider).
+const EMPTY_COMPONENT_MAP = {};
+
+const ReactRendererContext = React.createContext<ComponentMap>(
+  EMPTY_COMPONENT_MAP
+);
 
 export const ReactRendererConsumer = ReactRendererContext.Consumer;
 
-export const ReactRendererProvider = ({
+export const ReactRendererProvider: FC<{ value: ComponentMap }> = ({
   children,
   value
-}: {
-  children: React.ReactNode;
-  value: ComponentMap;
 }) => {
   return React.createElement(
     ReactRendererConsumer,
@@ -78,7 +81,7 @@ export default class ReactRenderer extends Renderer {
     return React.createElement(ReactRendererConsumer, {
       key,
       children: (componentMap: ComponentMap) => {
-        if (Object.keys(componentMap).length === 0) {
+        if (componentMap === EMPTY_COMPONENT_MAP) {
           throw new Error(
             "Component map is empty. Did you wrap your render call in ReactRendererProvider?"
           );
