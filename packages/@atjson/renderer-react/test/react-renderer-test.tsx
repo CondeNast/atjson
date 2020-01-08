@@ -192,6 +192,17 @@ describe("ReactRenderer", () => {
     );
   });
 
+  it("errors when no provider present", () => {
+    let document = new OffsetSource({
+      content: "This is bold text",
+      annotations: [new Bold({ start: 8, end: 12 })]
+    });
+
+    expect(() =>
+      ReactDOMServer.renderToStaticMarkup(ReactRenderer.render(document))
+    ).toThrowError(/ReactRendererProvider/);
+  });
+
   describe("Subdocuments", () => {
     it("renders single-level nested subdocuments", () => {
       const subDoc = new CaptionSource({

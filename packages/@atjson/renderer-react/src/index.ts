@@ -75,10 +75,15 @@ export default class ReactRenderer extends Renderer {
     const annotationChildren = yield;
     const key = `${annotation.id}-${annotation.start}`;
 
-    return React.createElement(
-      ReactRendererConsumer,
-      { key },
-      (componentMap: ComponentMap) => {
+    return React.createElement(ReactRendererConsumer, {
+      key,
+      children: (componentMap: ComponentMap) => {
+        if (Object.keys(componentMap).length === 0) {
+          throw new Error(
+            "Component map is empty. Did you wrap your render call in ReactRendererProvider?"
+          );
+        }
+
         let AnnotationComponent =
           componentMap[annotation.type] ||
           componentMap[classify(annotation.type)];
@@ -93,6 +98,6 @@ export default class ReactRenderer extends Renderer {
           return annotationChildren;
         }
       }
-    );
+    });
   }
 }
