@@ -44,4 +44,4 @@ jobs:
         npm ci
         npm run typecheck
         npm run perf
-        npm run perf-tstats
+        npm run perf-tstat
