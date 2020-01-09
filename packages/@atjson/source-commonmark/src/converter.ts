@@ -45,9 +45,9 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .set({ type: "-offset-image" })
     .rename({
       attributes: {
-        "src": "url",
-        "title": "title",
-        "alt": "description"
+        src: "url",
+        title: "title",
+        alt: "description"
       }
     });
 
