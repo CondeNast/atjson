@@ -140,7 +140,7 @@ function compile(
  * are some use cases that would benefit from supporting UnknownAnnotations.
  */
 function normalizeChildNode(childNode: HIRNode) {
-  if (childNode.annotation instanceof TextAnnotation) {
+  if (isTextAnnotation(childNode.annotation)) {
     return textAnnotationFromNode(childNode);
   } else if (childNode.annotation instanceof UnknownAnnotation) {
     // FIXME This is not helpful debugging information, but I'm not sure the best way to surface more detail.
