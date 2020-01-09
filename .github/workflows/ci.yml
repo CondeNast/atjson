@@ -48,4 +48,4 @@ jobs:
     - uses: actions/upload-artifact@v1
       with:
         name: performance-profiles
-        path: ./performance/profiles
+        path: ./current/performance/profiles
