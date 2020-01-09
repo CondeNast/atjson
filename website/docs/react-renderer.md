@@ -36,17 +36,15 @@ import * as React from "react";
 import { FC } from "react";
 import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 
-export const Story: FC<{ children: Document }> = props => {
-  const components = {
-    Bold: BoldComponent
-  };
-
-  return (
-    <ReactRendererProvider value={components}>
-      {ReactRenderer.render(props.children)}
-    </ReactRendererProvider>
-  );
+const components = {
+  Bold: BoldComponent
 };
+
+export const Story: FC<{ children: Document }> = props => (
+  <ReactRendererProvider value={components}>
+    {ReactRenderer.render(props.children)}
+  </ReactRendererProvider>
+);
 ```
 
 In the example above, any time the React renderer encounters a `Bold` annotation, it will render it using the `BoldComponent` we've created!
