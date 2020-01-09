@@ -159,3 +159,7 @@ A thin wrapper around React context that provides, via the `value` prop, the map
 ```
 
 The React context consumer whose `value` is the component map.
+
+### `ReactRendererContext`
+
+The underlying React context used by the renderer.
