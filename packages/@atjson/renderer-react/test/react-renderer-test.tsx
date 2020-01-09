@@ -9,7 +9,7 @@ import OffsetSource, {
   YouTubeEmbed
 } from "@atjson/offset-annotations";
 import * as React from "react";
-import { FC } from "react";
+import { ComponentType, FC } from "react";
 import * as ReactDOMServer from "react-dom/server";
 import ReactRenderer, { AttributesOf, ReactRendererProvider } from "../src";
 
@@ -23,10 +23,6 @@ function renderDocument(
     </ReactRendererProvider>
   );
 }
-
-const RootComponent: FC<{}> = props => {
-  return <article>{props.children}</article>;
-};
 
 const BoldComponent: FC<{}> = props => {
   return <strong>{props.children}</strong>;
@@ -110,8 +106,7 @@ describe("ReactRenderer", () => {
     expect(
       renderDocument(document, {
         Bold: BoldComponent,
-        Italic: ItalicComponent,
-        Root: RootComponent
+        Italic: ItalicComponent
       })
     ).toBe(`This is <strong>bold<em> and </em></strong><em>italic</em> text`);
   });
@@ -148,7 +143,6 @@ describe("ReactRenderer", () => {
       renderDocument(doc, {
         Bold: BoldComponent,
         Italic: ItalicComponent,
-        Root: RootComponent,
         Link: LinkComponent,
         LineBreak: LineBreakComponent,
         YoutubeEmbed: YouTubeEmbedComponent
@@ -182,7 +176,6 @@ describe("ReactRenderer", () => {
 
     expect(
       renderDocument(doc, {
-        Root: RootComponent,
         LineBreak: LineBreakComponent,
         Link: LinkComponent,
         GiphyEmbed: GiphyEmbedComponent
@@ -241,8 +234,7 @@ describe("ReactRenderer", () => {
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponent,
-          Root: RootComponent
+          IframeEmbed: IframeComponent
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.`
@@ -286,8 +278,7 @@ describe("ReactRenderer", () => {
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponentWithProvider,
-          Root: RootComponent
+          IframeEmbed: IframeComponentWithProvider
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><b>This</b> is <em>some</em> caption text</figcaption></figure>) and some text following.`
