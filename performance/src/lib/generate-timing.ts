@@ -57,9 +57,14 @@ function createTimedFunction(functionInfo: {
   url: string;
   functionName: string;
 }) {
+  let relativeIndex = functionInfo.url.indexOf("/packages/");
+  let relativeUrl =
+    relativeIndex > -1
+      ? functionInfo.url.slice(relativeIndex)
+      : functionInfo.url;
   return {
     functionName: functionInfo.functionName || "(anonymous)",
-    url: functionInfo.url,
+    url: relativeUrl,
     callCount: 0,
     sampleTime: 0,
     cumulativeTime: 0
