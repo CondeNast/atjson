@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ComponentType, ReactElement } from "react";
+import { ComponentType, FC, ReactElement } from "react";
 
 // Make a React-aware AttributesOf for subdocuments rendered into Fragments
 export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
@@ -14,30 +14,36 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
     }
   : never;
 
+// assigning this to a var so we can check equality with this (to throw when a
+// user of the library has not wrapped in a provider).
+const EMPTY_COMPONENT_MAP = {};
+
+export const ReactRendererContext = React.createContext<{
+  [key: string]: ComponentType<any>;
+}>(EMPTY_COMPONENT_MAP);
+
+export const ReactRendererConsumer = ReactRendererContext.Consumer;
+
+export const ReactRendererProvider: FC<{
+  value: { [key: string]: ComponentType<any> };
+}> = ({ children, value }) => {
+  return React.createElement(
+    ReactRendererConsumer,
+    null,
+    (parentComponentMap: { [key: string]: ComponentType<any> }) => {
+      const mergedValues = { ...parentComponentMap, ...value };
+      return React.createElement(
+        ReactRendererContext.Provider,
+        { value: mergedValues },
+        children
+      );
+    }
+  );
+};
+
 export default class ReactRenderer extends Renderer {
-  private componentLookup: {
-    [key: string]: ComponentType<any>;
-  };
-
-  constructor(
-    document: Document,
-    componentLookup: {
-      [key: string]: ComponentType<any>;
-    }
-  ) {
-    super(document);
-    this.componentLookup = componentLookup;
-  }
-
   *root() {
-    let AnnotationComponent =
-      this.componentLookup.root || this.componentLookup.Root;
-    if (AnnotationComponent) {
-      return React.createElement(AnnotationComponent, {}, ...(yield));
-    } else {
-      let components = yield;
-      return components;
-    }
+    return React.createElement(React.Fragment, {}, ...(yield));
   }
 
   renderSubdocuments(annotation: Annotation<any>): void {
@@ -53,17 +59,8 @@ export default class ReactRenderer extends Renderer {
         continue;
       }
 
-      // we want an empty root for nested docs, use React.Fragment as Root
-      const subdocComponents = Object.assign(
-        {},
-        {
-          ...this.componentLookup,
-          Root: React.Fragment
-        }
-      );
       annotation.attributes[subdocKey] = ReactRenderer.render(
-        annotation.attributes[subdocKey],
-        subdocComponents
+        annotation.attributes[subdocKey]
       );
     }
   }
@@ -73,20 +70,32 @@ export default class ReactRenderer extends Renderer {
   ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
     this.renderSubdocuments(annotation);
 
-    let AnnotationComponent =
-      this.componentLookup[annotation.type] ||
-      this.componentLookup[classify(annotation.type)];
+    const annotationChildren = yield;
+    const key = `${annotation.id}-${annotation.start}`;
 
-    if (AnnotationComponent) {
-      return React.createElement(
-        AnnotationComponent,
-        annotation.attributes,
-        ...(yield)
-      );
-    } else {
-      // console.warn(`No component found for "${node.type}"- content will be yielded`);
-      let components = yield;
-      return components;
-    }
+    return React.createElement(ReactRendererConsumer, {
+      key,
+      children: (componentMap: { [key: string]: ComponentType<any> }) => {
+        if (componentMap === EMPTY_COMPONENT_MAP) {
+          throw new Error(
+            "Component map is empty. Did you wrap your render call in ReactRendererProvider?"
+          );
+        }
+
+        let AnnotationComponent =
+          componentMap[annotation.type] ||
+          componentMap[classify(annotation.type)];
+
+        if (AnnotationComponent) {
+          return React.createElement(
+            AnnotationComponent,
+            annotation.attributes,
+            annotationChildren
+          );
+        } else {
+          return annotationChildren;
+        }
+      }
+    });
   }
 }

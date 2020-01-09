@@ -9,22 +9,20 @@ import OffsetSource, {
   YouTubeEmbed
 } from "@atjson/offset-annotations";
 import * as React from "react";
-import { FC } from "react";
+import { ComponentType, FC } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer, { AttributesOf } from "../src";
+import ReactRenderer, { AttributesOf, ReactRendererProvider } from "../src";
 
 function renderDocument(
   doc: OffsetSource,
   components: { [key: string]: React.StatelessComponent<any> }
 ) {
   return ReactDOMServer.renderToStaticMarkup(
-    ReactRenderer.render(doc, components)
+    <ReactRendererProvider value={components}>
+      {ReactRenderer.render(doc)}
+    </ReactRendererProvider>
   );
 }
-
-const RootComponent: FC<{}> = props => {
-  return <article>{props.children}</article>;
-};
 
 const BoldComponent: FC<{}> = props => {
   return <strong>{props.children}</strong>;
@@ -80,6 +78,21 @@ const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => {
   );
 };
 
+const CaptionBold: FC<{}> = props => {
+  return <b>{props.children}</b>;
+};
+
+const IframeComponentWithProvider: FC<AttributesOf<IframeEmbed>> = props => {
+  return (
+    <figure>
+      <iframe src={props.url} />
+      <ReactRendererProvider value={{ Bold: CaptionBold }}>
+        <figcaption>{props.caption}</figcaption>
+      </ReactRendererProvider>
+    </figure>
+  );
+};
+
 describe("ReactRenderer", () => {
   it("renders simple components", () => {
     let document = new OffsetSource({
@@ -93,12 +106,9 @@ describe("ReactRenderer", () => {
     expect(
       renderDocument(document, {
         Bold: BoldComponent,
-        Italic: ItalicComponent,
-        Root: RootComponent
+        Italic: ItalicComponent
       })
-    ).toBe(
-      `<article>This is <strong>bold<em> and </em></strong><em>italic</em> text</article>`
-    );
+    ).toBe(`This is <strong>bold<em> and </em></strong><em>italic</em> text`);
   });
 
   it("renders nested components", () => {
@@ -133,13 +143,12 @@ describe("ReactRenderer", () => {
       renderDocument(doc, {
         Bold: BoldComponent,
         Italic: ItalicComponent,
-        Root: RootComponent,
         Link: LinkComponent,
         LineBreak: LineBreakComponent,
         YoutubeEmbed: YouTubeEmbedComponent
       })
     ).toBe(
-      `<article><a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a></article>`
+      `<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a>`
     );
   });
 
@@ -167,14 +176,24 @@ describe("ReactRenderer", () => {
 
     expect(
       renderDocument(doc, {
-        Root: RootComponent,
         LineBreak: LineBreakComponent,
         Link: LinkComponent,
         GiphyEmbed: GiphyEmbedComponent
       })
     ).toBe(
-      `<article><a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a></article>`
+      `<a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a>`
     );
+  });
+
+  it("errors when no provider present", () => {
+    let document = new OffsetSource({
+      content: "This is bold text",
+      annotations: [new Bold({ start: 8, end: 12 })]
+    });
+
+    expect(() =>
+      ReactDOMServer.renderToStaticMarkup(ReactRenderer.render(document))
+    ).toThrowError(/ReactRendererProvider/);
   });
 
   describe("Subdocuments", () => {
@@ -215,11 +234,54 @@ describe("ReactRenderer", () => {
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponent,
-          Root: RootComponent
+          IframeEmbed: IframeComponent
         })
       ).toBe(
-        `<article>An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.</article>`
+        `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.`
+      );
+    });
+
+    it("Accepts alternate components via a provider", () => {
+      const subDoc = new CaptionSource({
+        content: "This is some caption text",
+        annotations: [
+          new Bold({
+            start: 0,
+            end: 4
+          }),
+          new Italic({
+            start: 8,
+            end: 12
+          })
+        ]
+      });
+
+      let doc = new OffsetSource({
+        content: "An embed with caption (￼) and some text following.",
+        annotations: [
+          new Bold({
+            start: 3,
+            end: 8
+          }),
+          new IframeEmbed({
+            start: 23,
+            end: 24,
+            attributes: {
+              url: "https://foo.bar",
+              caption: subDoc
+            }
+          })
+        ]
+      });
+
+      expect(
+        renderDocument(doc, {
+          Bold: BoldComponent,
+          Italic: ItalicComponent,
+          IframeEmbed: IframeComponentWithProvider
+        })
+      ).toBe(
+        `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><b>This</b> is <em>some</em> caption text</figcaption></figure>) and some text following.`
       );
     });
   });
