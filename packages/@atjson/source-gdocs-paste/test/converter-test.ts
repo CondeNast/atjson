@@ -341,7 +341,7 @@ describe("@atjson/source-gdocs-paste", () => {
         ...linebreak,
         type: "-atjson-parse-token",
         attributes: {
-          "-atjson-reason": "new line"
+          reason: "new line"
         }
       }))
     );

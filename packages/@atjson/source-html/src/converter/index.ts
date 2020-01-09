@@ -108,9 +108,9 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
     .set({ type: "-offset-image" })
     .rename({
       attributes: {
-        url: "src",
+        src: "url",
         title: "title",
-        description: "alt"
+        alt: "description"
       }
     });
 
