@@ -45,3 +45,7 @@ jobs:
         npm run typecheck
         npm run perf
         npm run perf-tstat
+    - uses: actions/upload-artifact@v1
+      with:
+        name: performance-profiles
+        path: ./performance/profiles
