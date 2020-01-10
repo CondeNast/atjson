@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-react@0.21.14...@atjson/renderer-react@0.22.0) (2020-01-10)
+
+### ✨ New Features
+
+- 🚨✨ Renderer subdocuments in react-renderer ([#347](https://github.com/CondeNast-Copilot/atjson/issues/347))
+
+### 🚨 Breaking Changes
+
+- 🚨 React-renderer: Use React context for component map ([#353](https://github.com/CondeNast-Copilot/atjson/issues/353))
+
 ## [0.21.14](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.21.13...@atjson/renderer-react@0.21.14) (2019-12-20)
 
 ### 🐛 Fixes
