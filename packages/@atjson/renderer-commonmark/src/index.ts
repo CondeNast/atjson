@@ -291,6 +291,8 @@ function codify(line: string) {
   return `    ${line}`;
 }
 
+enum Tokens {}
+
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -347,22 +349,6 @@ export default class CommonmarkRenderer extends Renderer {
     if (text.length === 0) {
       return before + after;
     } else {
-      // When there is no surrounding whitespace,
-      // we will allow for an incorrect nesting of
-      // bold / italic to maintain the general intent
-      // over correctness.
-      let hasInnerMarkup =
-        context.children.length === 1 && before === "" && after === "";
-
-      if (
-        !context.previous &&
-        !context.next &&
-        context.parent instanceof Italic &&
-        !hasInnerMarkup
-      ) {
-        return `${before}__${text}__${after}`;
-      }
-      return `${before}**${text}**${after}`;
     }
   }
 
