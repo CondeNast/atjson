@@ -10,7 +10,7 @@ describe("Annotation", () => {
     });
     test("annotations should return false when the attributes are not strictly equal", () => {
       let lhsAnnotation = new Bold({ start: 0, end: 5 });
-      let rhsAnnotation = new Bold({ start: 0, end: 5, attributes: {a: 2} });
+      let rhsAnnotation = new Bold({ start: 0, end: 5, attributes: { a: 2 } });
 
       expect(lhsAnnotation.equals(rhsAnnotation)).toBe(false);
     });

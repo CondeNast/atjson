@@ -12,8 +12,10 @@ function areAttributesEqual(
   lhsAnnotationAttributes: any,
   rhsAnnotationAttributes: any
 ): boolean {
-  let hasUnEqualLengths = Object.keys(lhsAnnotationAttributes).length !== Object.keys(rhsAnnotationAttributes).length;
-  if(hasUnEqualLengths) {
+  let hasUnEqualLengths =
+    Object.keys(lhsAnnotationAttributes).length !==
+    Object.keys(rhsAnnotationAttributes).length;
+  if (hasUnEqualLengths) {
     return false;
   }
 
