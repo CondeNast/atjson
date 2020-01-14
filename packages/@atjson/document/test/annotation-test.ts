@@ -107,19 +107,6 @@ describe("Annotation", () => {
   });
 
   describe("clone", () => {
-    test("undefined attributes", () => {
-      let link = new Anchor({
-        start: 0,
-        end: 1,
-        attributes: {
-          href: "https://www.example.com",
-          target: undefined
-        }
-      });
-
-      expect(link.equals(link.clone())).toBe(true);
-    });
-
     test("null attributes", () => {
       let link = new Anchor({
         start: 0,
