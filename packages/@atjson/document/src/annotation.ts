@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import * as uuid from "uuid-random";
 import { clone, toJSON, unprefix } from "./attributes";
 import Change, {
   AdjacentBoundaryBehaviour,
