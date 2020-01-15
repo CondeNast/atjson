@@ -6,9 +6,15 @@ function isCerosExperienceFrame(a: Annotation<any>) {
 }
 
 function isCerosOriginDomainsScript(a: Annotation<any>) {
-  return (
-    a.type === "script" && a.attributes.src?.indexOf("view.ceros.com") !== -1
-  );
+  if (a.type !== "script") {
+    return false;
+  }
+
+  let src = a.attributes.src;
+  if (src && src.indexOf("//") === 0) {
+    src = `https:${src}`;
+  }
+  return src && new URL(src).hostname === "view.ceros.com";
 }
 
 function isCerosContainer(a: Annotation<any>) {

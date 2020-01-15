@@ -587,6 +587,37 @@ describe("@atjson/source-html", () => {
             ]
           });
         });
+
+        test("with a trailing blank script tag", () => {
+          expect(() => {
+            HTMLSource.fromRaw(
+              `<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript"></script>`
+            ).convertTo(OffsetSource);
+          }).not.toThrow();
+        });
+
+        test("followed by a non-ceros script tag", () => {
+          let doc = HTMLSource.fromRaw(
+            `<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="https://www.example.com/my-script.js"></script>`
+          ).convertTo(OffsetSource);
+
+          expect(doc.canonical()).toMatchObject({
+            content: "",
+            annotations: [
+              {
+                id: "test",
+                type: "ceros-embed",
+                start: 0,
+                end: 0,
+                attributes: {
+                  url: "//view.ceros.com/ceros-inspire/carousel-3",
+                  aspectRatio: 2
+                }
+              },
+              {}
+            ]
+          });
+        });
       });
     });
   });
