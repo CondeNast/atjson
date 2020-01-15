@@ -7,9 +7,7 @@ function isCerosExperienceFrame(a: Annotation<any>) {
 
 function isCerosOriginDomainsScript(a: Annotation<any>) {
   return (
-    a.type === "script" &&
-    a.attributes.dataset &&
-    a.attributes.dataset["ceros-origin-domains"] != null
+    a.type === "script" && a.attributes.src?.indexOf("view.ceros.com") !== -1
   );
 }
 
