@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.25.3...@atjson/source-html@0.25.4) (2020-01-15)
+
+### 🐛 Fixes
+
+- 🐛 don't look for data-ceros-origin-domains when parsing ceros embeds
+
 ## [0.25.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.25.2...@atjson/source-html@0.25.3) (2019-12-20)
 
 ### 🐛 Fixes
