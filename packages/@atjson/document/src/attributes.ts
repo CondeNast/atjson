@@ -100,3 +100,15 @@ export function clone(attribute: any): NonNullable<any> {
     return attribute;
   }
 }
+
+export function removeUndefinedValuesFromObject(obj: any): any {
+  const newObj = { ...obj };
+  Object.keys(newObj).forEach(key => {
+    if (newObj[key] && typeof newObj[key] === 'object') {
+      removeUndefinedValuesFromObject(newObj[key]);
+    } else if (newObj[key] === undefined) {
+      delete newObj[key];
+    };
+  });
+  return newObj;
+}
