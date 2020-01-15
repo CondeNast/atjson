@@ -14,10 +14,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@types/uuid": "^3.4.4",
-    "uuid": "^3.3.2"
-  },
   "devDependencies": {
     "@atjson/document": "file:../document"
   },
