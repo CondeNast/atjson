@@ -130,10 +130,12 @@ export default abstract class Annotation<Attributes = {}> {
     let AnnotationClass = this.getAnnotationConstructor();
     let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
 
-    let lhsAnnotationAttributes =
-      removeUndefinedValuesFromObject(this.attributes) || {};
-    let rhsAnnotationAttributes =
-      removeUndefinedValuesFromObject(annotationToCompare.attributes) || {};
+    let lhsAnnotationAttributes = removeUndefinedValuesFromObject(
+      this.attributes
+    );
+    let rhsAnnotationAttributes = removeUndefinedValuesFromObject(
+      annotationToCompare.attributes
+    );
 
     return (
       this.start === annotationToCompare.start &&
