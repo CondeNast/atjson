@@ -1,5 +1,4 @@
-import Document, { Annotation, AnnotationJSON } from "./index";
-import Join from "./join";
+import { Annotation, AnnotationJSON, Document, Join } from "./internals";
 
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
   let startDelta = a.start - b.start;
@@ -232,7 +231,7 @@ function set(object: any, key: string, value: any) {
   }
 }
 
-export default class AnnotationCollection extends Collection {
+export class AnnotationCollection extends Collection {
   set(patch: any) {
     let flattenedPatch = flattenPropertyPaths(patch, { keys: true });
     let patchAnnotationUpdater = (annotation: Annotation<any>) => {

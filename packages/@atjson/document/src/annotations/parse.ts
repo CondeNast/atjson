@@ -1,4 +1,4 @@
-import Annotation from "../annotation";
+import { Annotation } from "../internals";
 
 export class ParseAnnotation<
   Attributes extends {

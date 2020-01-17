@@ -1,4 +1,4 @@
-export default abstract class Change {
+export abstract class Change {
   abstract readonly type: string;
 }
 

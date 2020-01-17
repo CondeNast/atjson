@@ -1,5 +1,4 @@
-import Document, { AnnotationJSON } from "./index";
-import JSON, { JSONObject } from "./json";
+import { AnnotationJSON, Document, JSON, JSONObject } from "./internals";
 
 export type AnnotationAttributesObject = {
   [key: string]: any;
