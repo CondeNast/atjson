@@ -200,10 +200,19 @@ function isHTML(a: { type: string }): a is HTML {
 
 type TokenStream = Array<T.Token | string>;
 
-function flattenStreams(streams: Array<TokenStream>): TokenStream {
+function flattenStreams(
+  streams: Array<TokenStream | T.Token | string>
+): TokenStream {
   let acc: TokenStream = [];
+  for (let stream of streams) {
+    if (Array.isArray(stream)) {
+      acc = acc.concat(stream);
+    } else {
+      acc.push(stream);
+    }
+  }
 
-  return acc.concat(...streams);
+  return acc;
 }
 
 function mapStrings(
@@ -249,9 +258,9 @@ function lazilyTakePunctuationBackward(str: string) {
   console.log({ str, endPuncMatcher, match });
   if (match) {
     let [punctuation] = match;
-    return [str.slice(0, str.length - 1), punctuation];
+    return [punctuation, str.slice(0, str.length - 1)];
   } else {
-    return [str, ""];
+    return ["", str];
   }
 }
 
@@ -271,10 +280,24 @@ function greedilyTakeWhiteSpaceBackward(str: string) {
   let match = str.match(/(\s|&nbsp;)+$/);
   if (match) {
     let [spaces] = match;
-    return [str.slice(0, str.length - spaces.length), spaces];
+    return [spaces, str.slice(0, str.length - spaces.length)];
   } else {
-    return [str, ""];
+    return ["", str];
   }
+}
+
+function hasSignificantLeadingWhitespace(line: string) {
+  if (line.length < 4) {
+    return false;
+  }
+
+  // tabs count as 4 spaces, so any number of leading spaces (or no leading spaces) followed by a tab is always gonna be significant.
+  // otherwise, match any other four leading space characters
+  return /^\s*\t/.test(line) || /^\s{4}/.test(line);
+}
+
+function escapeWhitespace(str: string) {
+  str.replace(/\t/g, "&#9;");
 }
 
 /**
@@ -320,7 +343,28 @@ export default class CommonmarkRenderer extends Renderer {
     if (this.state.isPreformatted) {
       return [text];
     }
-    return [escapePunctuation(text, this.options)];
+
+    let escapedText = escapePunctuation(text, this.options).replace(
+      /\n\n/g,
+      "&#10;&#10;"
+    );
+
+    // there will be an extra line break at the start, which we will ignore
+    let [, ...lines] = flattenStreams(
+      escapedText.split("\n").map(function escapeLeadingSpaces(line) {
+        if (hasSignificantLeadingWhitespace(line)) {
+          // do we need to do anything with the whitespace here or can we just remove it?
+          let [, /* whitespace */ escapedLine] = greedilyTakeWhiteSpaceForward(
+            line
+          );
+          return [T.LINE_BREAK(), escapedLine];
+        } else {
+          return [T.LINE_BREAK(), line];
+        }
+      })
+    );
+
+    return lines;
   }
 
   *root() {
@@ -364,10 +408,10 @@ export default class CommonmarkRenderer extends Renderer {
           let previous = stream[i - 1];
           let suffix = "";
           if (typeof previous === "string") {
-            let [firstPrevious, punctuation] = lazilyTakePunctuationBackward(
+            let [punctuation, firstPrevious] = lazilyTakePunctuationBackward(
               previous
             );
-            let [newPrevious, whitespace] = greedilyTakeWhiteSpaceBackward(
+            let [whitespace, newPrevious] = greedilyTakeWhiteSpaceBackward(
               firstPrevious
             );
 
@@ -390,6 +434,20 @@ export default class CommonmarkRenderer extends Renderer {
 
           stream[i] = T.TOKENIZE(prefix + item.production);
           break;
+        }
+        case "ANCHOR_TEXT_END_HREF": {
+          let previous = stream[i - 1];
+          let suffix = "";
+          if (typeof previous === "string") {
+            let [whitespace, newPrevious] = greedilyTakeWhiteSpaceBackward(
+              previous
+            );
+
+            stream[i - 1] = newPrevious;
+            suffix = whitespace;
+          }
+
+          stream[i] = T.TOKENIZE(item.production + suffix);
         }
       }
     }
@@ -770,22 +828,10 @@ export default class CommonmarkRenderer extends Renderer {
   *Paragraph(): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
 
-    // If a paragraph has text, remove leading and trailing MD-meaningful
-    // space characters which could be interpreted as indented code blocks
-    // or line breaks
-    if (!text.match(/^\s+$/g)) {
-      text = text
-        .replace(LEADING_MD_SPACES, "")
-        .replace(TRAILING_MD_SPACES, "");
-    }
-
-    // Two newlines in raw text need to be encoded as HTML
-    text = text.replace(/\n\n/g, "&#10;&#10;");
-
     if (this.state.tight) {
-      return text + "\n";
+      return [...inner, T.LINE_BREAK()];
     }
-    return text + "\n\n";
+    return [...inner, T.BLOCK_SEPARATOR()];
   }
 
   *FixedIndent(): Iterator<void, TokenStream, TokenStream[]> {

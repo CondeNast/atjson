@@ -52,7 +52,7 @@ export function ANCHOR_TEXT_START() {
 
 export function ANCHOR_TEXT_END_HREF(href: string) {
   return {
-    kind: "ANCHOR_TEXT_HREF_SEPARATOR",
+    kind: "ANCHOR_TEXT_END_HREF",
     production: `](${href})`
   } as const;
 }
@@ -63,7 +63,7 @@ export function IMAGE_ALT_TEXT_START() {
 
 export function IMAGE_ALT_TEXT_END_URL(url: string) {
   return {
-    kind: "IMAGE_ALT_TEXT_URL_SEPARATOR",
+    kind: "IMAGE_ALT_TEXT_END_URL",
     production: `](${url})`
   } as const;
 }
