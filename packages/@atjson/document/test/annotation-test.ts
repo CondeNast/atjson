@@ -8,6 +8,12 @@ describe("Annotation", () => {
 
       expect(lhsAnnotation.equals(rhsAnnotation)).toBe(true);
     });
+    test("annotations should return false when the attributes are not strictly equal", () => {
+      let lhsAnnotation = new Bold({ start: 0, end: 5 });
+      let rhsAnnotation = new Bold({ start: 0, end: 5, attributes: { a: 2 } });
+
+      expect(lhsAnnotation.equals(rhsAnnotation)).toBe(false);
+    });
     test("annotations are compared recursively", () => {
       let leftHandSideTestDoc = new TestSource({
         content: "\uFFFC",

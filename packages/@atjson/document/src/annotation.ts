@@ -1,5 +1,11 @@
 import * as uuid from "uuid-random";
-import { clone, toJSON, unprefix } from "./attributes";
+import {
+  clone,
+  toJSON,
+  unprefix,
+  removeUndefinedValuesFromObject,
+  AnnotationAttributesObject
+} from "./attributes";
 import Change, {
   AdjacentBoundaryBehaviour,
   Deletion,
@@ -9,9 +15,16 @@ import Document from "./index";
 import JSON from "./json";
 
 function areAttributesEqual(
-  lhsAnnotationAttributes: any,
-  rhsAnnotationAttributes: any
+  lhsAnnotationAttributes: AnnotationAttributesObject,
+  rhsAnnotationAttributes: AnnotationAttributesObject
 ): boolean {
+  let hasUnEqualLengths =
+    Object.keys(lhsAnnotationAttributes).length !==
+    Object.keys(rhsAnnotationAttributes).length;
+  if (hasUnEqualLengths) {
+    return false;
+  }
+
   for (let key in lhsAnnotationAttributes) {
     let lhsAttributeValue = lhsAnnotationAttributes[key];
     let rhsAttributeValue = rhsAnnotationAttributes[key];
@@ -117,8 +130,12 @@ export default abstract class Annotation<Attributes = {}> {
     let AnnotationClass = this.getAnnotationConstructor();
     let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
 
-    let lhsAnnotationAttributes = this.attributes;
-    let rhsAnnotationAttributes = annotationToCompare.attributes;
+    let lhsAnnotationAttributes = removeUndefinedValuesFromObject(
+      this.attributes
+    );
+    let rhsAnnotationAttributes = removeUndefinedValuesFromObject(
+      annotationToCompare.attributes
+    );
 
     return (
       this.start === annotationToCompare.start &&
