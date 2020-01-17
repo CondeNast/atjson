@@ -106,9 +106,11 @@ export function clone(attribute: any): NonNullable<any> {
 }
 
 export function removeUndefinedValuesFromObject(obj: any): any {
-  return Object.entries(obj).reduce(
-    (acc, [key, value]) =>
-      value === undefined ? acc : { ...acc, [key]: value },
-    {}
-  );
+  let objectEntries = Object.entries(obj);
+  let acc = {};
+  for (let [key, value] of objectEntries) {
+    acc = value === undefined ? acc : { ...acc, [key]: value };
+  }
+
+  return acc;
 }
