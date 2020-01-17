@@ -1,4 +1,4 @@
-import { mergeRanges } from "../src";
+import { mergeRanges } from "../src/internals";
 import TestSource, { Bold, Paragraph } from "./test-source";
 import { ParseAnnotation } from "../src";
 

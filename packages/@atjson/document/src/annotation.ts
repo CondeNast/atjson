@@ -1,18 +1,63 @@
 import * as uuid from "uuid-random";
 import {
-  clone,
-  toJSON,
-  unprefix,
-  removeUndefinedValuesFromObject,
-  AnnotationAttributesObject
-} from "./attributes";
-import Change, {
   AdjacentBoundaryBehaviour,
+  AnnotationAttributesObject,
+  Change,
+  clone,
   Deletion,
-  Insertion
-} from "./change";
-import Document from "./index";
-import JSON from "./json";
+  Document,
+  Insertion,
+  JSON,
+  removeUndefinedValuesFromObject,
+  toJSON,
+  unprefix
+} from "./internals";
+
+export interface AnnotationJSON {
+  id?: string;
+  type: string;
+  start: number;
+  end: number;
+  attributes: JSON;
+}
+
+/**
+ * AttributesOf returns a type that is the inferred attributes
+ * of an annotation.
+ *
+ * If you're using Annotations with the ReactRenderer, you can
+ * use the same types across your Annotations and Components.
+ *
+ * For example, a heading annotation:
+ *
+ * ```ts
+ * import { BlockAnnotation } from '@atjson/document';
+ *
+ * export default Heading extends BlockAnnotation<{
+ *   level: 1 | 2 | 3 | 4 | 5 | 6;
+ * }> {
+ *   static vendorPrefix = 'test';
+ *   static type = 'heading';
+ * }
+ * ```
+ *
+ * You could then pull in the annotation and reuse it in React:
+ *
+ * ```ts
+ * import * as React from 'react';
+ * import { AttributesOf } from '@atjson/document';
+ * import HeadingAnnotation from './heading';
+ *
+ * export const Heading: React.StatelessComponent<AttributesOf<HeadingAnnotation>> = () => {
+ *   // React's propTypes are now { level: 1 | 2 | 3 | 4 | 5 | 6 }
+ * };
+ * ```
+ */
+export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
+  infer Attributes
+>
+  ? Attributes
+  : never;
 
 function areAttributesEqual(
   lhsAnnotationAttributes: AnnotationAttributesObject,
@@ -73,7 +118,7 @@ export interface AnnotationConstructor<T, Attributes> {
   }): T;
 }
 
-export default abstract class Annotation<Attributes = {}> {
+export abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
   static subdocuments: { [key: string]: typeof Document } = {};

@@ -1,6 +1,4 @@
-import Annotation from "../annotation";
-import { clone } from "../attributes";
-import JSON from "../json";
+import { Annotation, clone, JSON } from "../internals";
 
 export class UnknownAnnotation extends Annotation<{
   type: string;

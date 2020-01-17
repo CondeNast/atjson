@@ -1,6 +1,9 @@
-import Annotation from "./annotation";
-import { NamedCollection } from "./collection";
-import { JSONArray, JSONObject } from "./json";
+import {
+  Annotation,
+  NamedCollection,
+  JSONArray,
+  JSONObject
+} from "./internals";
 
 /**
  * Joins are a way to identify related annotations and be able to do
@@ -75,7 +78,7 @@ import { JSONArray, JSONObject } from "./json";
  * });
  * ```
  */
-export default class Join<Left extends string, Right extends string> {
+export class Join<Left extends string, Right extends string> {
   private leftJoin: NamedCollection<Left>;
   private _joins: Array<
     Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>

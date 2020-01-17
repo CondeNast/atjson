@@ -1,4 +1,4 @@
-import Annotation from "../annotation";
+import { Annotation } from "../internals";
 
 export abstract class ObjectAnnotation<Attributes = {}> extends Annotation<
   Attributes
