@@ -1,6 +1,10 @@
 import Document, { AnnotationJSON } from "./index";
 import JSON, { JSONObject } from "./json";
 
+export type AnnotationAttributesObject = {
+  [key: string]: any;
+};
+
 export function unprefix(
   vendorPrefix: string,
   subdocuments: { [key: string]: typeof Document },
@@ -102,13 +106,13 @@ export function clone(attribute: any): NonNullable<any> {
 }
 
 export function removeUndefinedValuesFromObject(obj: any): any {
-  const newObj = { ...obj };
-  Object.keys(newObj).forEach(key => {
+  let newObj = { ...obj };
+  for (let key in obj) {
     if (newObj[key] && typeof newObj[key] === "object") {
       removeUndefinedValuesFromObject(newObj[key]);
     } else if (newObj[key] === undefined) {
       delete newObj[key];
     }
-  });
+  }
   return newObj;
 }

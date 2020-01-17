@@ -3,7 +3,8 @@ import {
   clone,
   toJSON,
   unprefix,
-  removeUndefinedValuesFromObject
+  removeUndefinedValuesFromObject,
+  AnnotationAttributesObject
 } from "./attributes";
 import Change, {
   AdjacentBoundaryBehaviour,
@@ -12,10 +13,6 @@ import Change, {
 } from "./change";
 import Document from "./index";
 import JSON from "./json";
-
-type AnnotationAttributesObject = {
-  [key: string]: any;
-};
 
 function areAttributesEqual(
   lhsAnnotationAttributes: AnnotationAttributesObject,
