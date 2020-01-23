@@ -6,10 +6,10 @@ import OffsetSource, {
   Italic,
   LineBreak,
   Link,
-  YouTubeEmbed
+  VideoEmbed
 } from "@atjson/offset-annotations";
 import * as React from "react";
-import { ComponentType, FC } from "react";
+import { FC } from "react";
 import * as ReactDOMServer from "react-dom/server";
 import ReactRenderer, { AttributesOf, ReactRendererProvider } from "../src";
 
@@ -57,7 +57,7 @@ const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = props => {
   return <s>Sorry</s>;
 };
 
-const YouTubeEmbedComponent: FC<AttributesOf<YouTubeEmbed>> = props => {
+const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = props => {
   return (
     <iframe
       width="560"
@@ -112,17 +112,14 @@ describe("ReactRenderer", () => {
   });
 
   it("renders nested components", () => {
-    let video = new YouTubeEmbed({
+    let video = new VideoEmbed({
       start: 9,
       end: 10,
       attributes: {
-        url: "https://www.youtube.com/embed/U8x85EY03vY"
+        url:
+          "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0"
       }
     });
-    video.isUsingCookielessDomain = true;
-    video.areControlsShown = false;
-    video.isPlayerInfoShown = false;
-    video.areRelatedVideosShown = false;
 
     let doc = new OffsetSource({
       content: "Good boy\n ",
@@ -145,7 +142,7 @@ describe("ReactRenderer", () => {
         Italic: ItalicComponent,
         Link: LinkComponent,
         LineBreak: LineBreakComponent,
-        YoutubeEmbed: YouTubeEmbedComponent
+        VideoEmbed: VideoEmbedComponent
       })
     ).toBe(
       `<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a>`

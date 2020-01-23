@@ -28,7 +28,7 @@ import {
   Superscript,
   TwitterEmbed,
   Underline,
-  YouTubeEmbed
+  VideoEmbed
 } from "./annotations";
 
 export * from "./annotations";
@@ -65,6 +65,6 @@ export default class OffsetSource extends Document {
     Superscript,
     TwitterEmbed,
     Underline,
-    YouTubeEmbed
+    VideoEmbed
   ];
 }

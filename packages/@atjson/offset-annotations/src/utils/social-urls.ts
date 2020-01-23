@@ -4,8 +4,7 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  TwitterEmbed,
-  YouTubeEmbed
+  TwitterEmbed
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -41,61 +40,6 @@ function getSearchParam(
     return searchParams.get(name);
   }
   return searchParams[name];
-}
-
-function isYouTubeURL(url: IUrl) {
-  return isYouTubeEmbedURL(url) || isYouTubeWatchURL(url);
-}
-
-// Youtube embed code
-// - youtu.be/
-// - youtube-nocookie.com/embed/
-// - youtube.com/embed
-function isYouTubeEmbedURL(url: IUrl) {
-  return (
-    url.host === "youtu.be" ||
-    (["www.youtube-nocookie.com", "www.youtube.com"].includes(url.host) &&
-      url.pathname.startsWith("/embed/"))
-  );
-}
-
-// Youtube watch URLs
-// - www.youtube.com/watch?v=
-// - m.youtube.com/watch?v=
-// - youtube.com/watch?v=
-function isYouTubeWatchURL(url: IUrl) {
-  return (
-    ["www.youtube.com", "m.youtube.com", "youtube.com"].includes(url.host) &&
-    url.pathname.startsWith("/watch") &&
-    getSearchParam(url.searchParams, "v") !== null
-  );
-}
-
-function normalizeYouTubeURL(url: IUrl) {
-  let normalized =
-    url.host === "www.youtube-nocookie.com"
-      ? new URL("https://www.youtube-nocookie.com")
-      : new URL("https://www.youtube.com");
-
-  let timestamp = getSearchParam(url.searchParams, "t");
-  if (timestamp) {
-    normalized.searchParams.set("t", timestamp);
-  }
-
-  if (isYouTubeEmbedURL(url)) {
-    let parts = without<string>(url.pathname.split("/"), "");
-    let id = parts.pop();
-    normalized.pathname = `/embed/${id}`;
-
-    let controls = getSearchParam(url.searchParams, "controls");
-    if (controls) {
-      normalized.searchParams.set("controls", controls);
-    }
-  } else {
-    normalized.pathname = `/embed/${getSearchParam(url.searchParams, "v")}`;
-  }
-
-  return { url: normalized.href, AnnotationClass: YouTubeEmbed };
 }
 
 // Instagram
@@ -267,10 +211,6 @@ export function identify(url: IUrl): SocialURL {
 
   if (isTwitterURL(url)) {
     return normalizeTwitterURL(url);
-  }
-
-  if (isYouTubeURL(url)) {
-    return normalizeYouTubeURL(url);
   }
 
   if (isSpotifyUrl(url)) {
