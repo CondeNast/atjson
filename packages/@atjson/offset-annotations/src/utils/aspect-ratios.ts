@@ -61,7 +61,7 @@ const verticalAspectRatios = proportions.filter(
  * given a width and height. This is used to get the aspect
  * ratio for the VideoEmbed
  */
-function getClosestAspectRatio(width: number, height: number) {
+export function getClosestAspectRatio(width: number, height: number) {
   let proportion = width / height;
   let delta = Infinity;
 
