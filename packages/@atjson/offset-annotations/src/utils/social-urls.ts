@@ -29,6 +29,7 @@ interface IUrl {
 
 interface SocialURL {
   url?: string;
+  attributes?: any;
   AnnotationClass?: typeof IframeEmbed;
 }
 
@@ -94,7 +95,7 @@ function normalizeYouTubeURL(url: IUrl) {
     normalized.pathname = `/embed/${getSearchParam(url.searchParams, "v")}`;
   }
 
-  return normalized.href;
+  return { url: normalized.href, AnnotationClass: YouTubeEmbed };
 }
 
 // Instagram
@@ -115,7 +116,10 @@ function isInstagramURL(url: IUrl) {
 
 function normalizeInstagramURL(url: IUrl) {
   let [, id] = without<string>(url.pathname.split("/"), "");
-  return `https://www.instagram.com/p/${id}`;
+  return {
+    url: `https://www.instagram.com/p/${id}`,
+    AnnotationClass: InstagramEmbed
+  };
 }
 
 // Twitter
@@ -130,7 +134,10 @@ function isTwitterURL(url: IUrl) {
 
 function normalizeTwitterURL(url: IUrl) {
   let [username, , tweetId] = without<string>(url.pathname.split("/"), "");
-  return `https://twitter.com/${username}/status/${tweetId}`;
+  return {
+    url: `https://twitter.com/${username}/status/${tweetId}`,
+    AnnotationClass: TwitterEmbed
+  };
 }
 
 // Pinterest embeds
@@ -138,11 +145,14 @@ function normalizeTwitterURL(url: IUrl) {
 // - www.pinterest.com/:user/:board
 // - www.pinterest.com/pin/:id
 function isPinterestURL(url: IUrl) {
-  return ["www.pinterest.com"].includes(url.host);
+  return url.host === "www.pinterest.com";
 }
 
 function normalizePinterestURL(url: IUrl) {
-  return `https://www.pinterest.com${url.pathname}`;
+  return {
+    url: `https://www.pinterest.com${url.pathname}`,
+    AnnotationClass: PinterestEmbed
+  };
 }
 
 // Facebook URLs
@@ -177,18 +187,19 @@ function isFacebookURL(url: IUrl) {
   return isFacebookPostURL(url) || isFacebookEmbedURL(url);
 }
 
-function normalizeFacebookURL(url: IUrl): string {
+function normalizeFacebookURL(url: IUrl) {
   if (isFacebookEmbedURL(url)) {
-    return normalizeFacebookURL(
-      new URL(getSearchParam(url.searchParams, "href") as string)
-    );
+    url = new URL(getSearchParam(url.searchParams, "href") as string);
   }
 
   let parts = without<string>(url.pathname.split("/"), "");
   let id = parts.pop();
   let username = parts.shift();
 
-  return `https://www.facebook.com/${username}/posts/${id}`;
+  return {
+    url: `https://www.facebook.com/${username}/posts/${id}`,
+    AnnotationClass: FacebookEmbed
+  };
 }
 
 // Giphy URLs
@@ -211,32 +222,59 @@ function normalizeGiphyURL(url: IUrl) {
     id = prettySlug[prettySlug.length - 1];
   }
 
-  return `https://giphy.com/embed/${id}`;
+  return { url: `https://giphy.com/embed/${id}`, AnnotationClass: GiphyEmbed };
+}
+
+// Spotify URLs
+// - open.spotify.com/album/:id
+// - open.spotify.com/playlist/:id
+// - open.spotify.com/track/:id
+// - open.spotify.com/artist/:id
+function isSpotifyUrl(url: IUrl) {
+  return url.host === "open.spotify.com";
+}
+
+function normalizeSpotifyUrl(url: IUrl) {
+  let parts = without<string>(url.pathname.split("/"), "");
+  if (parts[0] === "embed") {
+    parts.shift();
+  }
+  let type = parts[0];
+  let id = parts[1];
+  return {
+    url: `https://open.spotify.com/embed/${type}/${id}`,
+    AnnotationClass: IframeEmbed,
+    attributes: { width: "300", height: type === "track" ? "80" : "380" }
+  };
 }
 
 export function identify(url: IUrl): SocialURL {
   if (isFacebookURL(url)) {
-    return { url: normalizeFacebookURL(url), AnnotationClass: FacebookEmbed };
+    return normalizeFacebookURL(url);
   }
 
   if (isGiphyURL(url)) {
-    return { url: normalizeGiphyURL(url), AnnotationClass: GiphyEmbed };
+    return normalizeGiphyURL(url);
   }
 
   if (isInstagramURL(url)) {
-    return { url: normalizeInstagramURL(url), AnnotationClass: InstagramEmbed };
+    return normalizeInstagramURL(url);
   }
 
   if (isPinterestURL(url)) {
-    return { url: normalizePinterestURL(url), AnnotationClass: PinterestEmbed };
+    return normalizePinterestURL(url);
   }
 
   if (isTwitterURL(url)) {
-    return { url: normalizeTwitterURL(url), AnnotationClass: TwitterEmbed };
+    return normalizeTwitterURL(url);
   }
 
   if (isYouTubeURL(url)) {
-    return { url: normalizeYouTubeURL(url), AnnotationClass: YouTubeEmbed };
+    return normalizeYouTubeURL(url);
+  }
+
+  if (isSpotifyUrl(url)) {
+    return normalizeSpotifyUrl(url);
   }
 
   return {};
