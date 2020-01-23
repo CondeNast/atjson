@@ -403,35 +403,6 @@ describe("@atjson/source-html", () => {
     });
 
     describe("social embeds", () => {
-      test.each([
-        ["https://www.youtube.com/embed/0-jus6AGHzQ"],
-        ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
-      ])("YouTube iframe %s", url => {
-        let doc = HTMLSource.fromRaw(
-          `<iframe width="560" height="315"
-            src="${url}"
-            frameborder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>`
-        ).convertTo(OffsetSource);
-
-        let hir = new HIR(doc).toJSON();
-        expect(hir).toMatchObject({
-          type: "root",
-          children: [
-            {
-              type: "youtube-embed",
-              attributes: {
-                url,
-                height: "315",
-                width: "560"
-              },
-              children: []
-            }
-          ]
-        });
-      });
-
       test("Facebook iframe embed", () => {
         let doc = HTMLSource.fromRaw(
           `<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743&width=500"
@@ -538,6 +509,130 @@ describe("@atjson/source-html", () => {
             }
           ]
         });
+      });
+    });
+
+    describe("video embeds", () => {
+      describe("YouTube", () => {
+        test.each([
+          ["https://www.youtube.com/embed/0-jus6AGHzQ"],
+          ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
+        ])("%s", url => {
+          let doc = HTMLSource.fromRaw(
+            `<iframe width="560" height="315"
+            src="${url}"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>`
+          ).convertTo(OffsetSource);
+
+          let hir = new HIR(doc).toJSON();
+          expect(hir).toMatchObject({
+            type: "root",
+            children: [
+              {
+                type: "video-embed",
+                attributes: {
+                  url,
+                  aspectRatio: 1.7777777777777777
+                },
+                children: []
+              }
+            ]
+          });
+        });
+      });
+
+      describe("Vimeo", () => {
+        test("default embed code (with caption)", () => {
+          let doc = HTMLSource.fromRaw(
+            `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<p><a href="https://vimeo.com/156254412">TSVETOK - Vogue Italia</a> from <a href="https://vimeo.com/karimandreotti">Karim Andreotti</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`
+          )
+            .convertTo(OffsetSource)
+            .canonical();
+
+          expect(doc.annotations.length).toBe(1);
+          expect(doc.annotations[0]).toMatchObject({
+            type: "video-embed",
+            attributes: {
+              url: "https://player.vimeo.com/video/156254412",
+              aspectRatio: 1.3333333333333333
+            }
+          });
+
+          let caption = doc.annotations[0].attributes.caption.canonical();
+          expect(caption.content).toBe(
+            "TSVETOK - Vogue Italia from Karim Andreotti on Vimeo."
+          );
+        });
+
+        test("embed code without caption", () => {
+          let doc = HTMLSource.fromRaw(
+            `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+          ).convertTo(OffsetSource);
+
+          let hir = new HIR(doc).toJSON();
+          expect(hir).toMatchObject({
+            type: "root",
+            children: [
+              {
+                type: "video-embed",
+                attributes: {
+                  url: "https://player.vimeo.com/video/156254412",
+                  aspectRatio: 1.3333333333333333
+                },
+                children: []
+              }
+            ]
+          });
+        });
+      });
+
+      test("Dailymotion", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe frameborder="0" width="480" height="270" src="https://www.dailymotion.com/embed/video/x6gmvnp" allowfullscreen allow="autoplay"></iframe>`
+        )
+          .convertTo(OffsetSource)
+          .canonical();
+
+        expect(doc.annotations).toMatchObject([
+          {
+            type: "video-embed",
+            attributes: {
+              url: "https://www.dailymotion.com/embed/video/x6gmvnp",
+              aspectRatio: 1.7777777777777777
+            }
+          }
+        ]);
+      });
+
+      test("Brightcove", () => {
+        let doc = HTMLSource.fromRaw(
+          `<div style="position: relative; display: block; max-width: 640px;">
+  <div style="padding-top: 56.25%;">
+    <iframe src="https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001"
+      allowfullscreen
+      webkitallowfullscreen
+      mozallowfullscreen
+      style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;">
+    </iframe>
+  </div>
+</div>`
+        )
+          .convertTo(OffsetSource)
+          .canonical();
+
+        expect(doc.annotations).toMatchObject([
+          {
+            type: "video-embed",
+            attributes: {
+              url:
+                "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
+              aspectRatio: 1.7777777777777777
+            }
+          }
+        ]);
       });
     });
 

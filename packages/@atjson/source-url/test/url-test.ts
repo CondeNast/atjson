@@ -5,7 +5,7 @@ import OffsetSource, {
   InstagramEmbed,
   PinterestEmbed,
   TwitterEmbed,
-  YouTubeEmbed
+  VideoEmbed
 } from "@atjson/offset-annotations";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import URLSource from "../src/index";
@@ -50,11 +50,8 @@ class EmbedRenderer extends CommonMarkRenderer {
     return `<blockquote lang="en" data-type="twitter" data-url="${tweet.attributes.url}"><p><a href="${tweet.attributes.url}">${tweet.attributes.url}</a></p></blockquote>`;
   }
 
-  *"youtube-embed"(video: YouTubeEmbed) {
-    let { width, height } = video.attributes;
-    let iframeWidth = width ? ` width=${width}` : "";
-    let iframeHeight = height ? ` height=${height}` : "";
-    return `<iframe${iframeWidth}${iframeHeight} src="${video.attributes.url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  *"video-embed"(video: VideoEmbed) {
+    return `<iframe src="${video.attributes.url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
   }
 }
 
@@ -132,6 +129,40 @@ describe("url-source", () => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         `<iframe src="${text}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
+      );
+    });
+  });
+
+  describe("vimeo", () => {
+    test.each([
+      "https://vimeo.com/156254412",
+      "https://www.vimeo.com/156254412",
+      "http://vimeo.com/156254412",
+      "http://player.vimeo.com/video/156254412"
+    ])("%s", text => {
+      let url = URLSource.fromRaw(text);
+      expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+        '<iframe src="https://player.vimeo.com/video/156254412" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
+      );
+    });
+  });
+
+  describe("dailymotion", () => {
+    test.each(["https://www.dailymotion.com/video/x6gmvnp"])("%s", text => {
+      let url = URLSource.fromRaw(text);
+      expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+        '<iframe src="https://www.dailymotion.com/embed/video/x6gmvnp" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
+      );
+    });
+  });
+
+  describe("brightcove", () => {
+    test.each([
+      "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001"
+    ])("%s", url => {
+      let doc = URLSource.fromRaw(url);
+      expect(EmbedRenderer.render(doc.convertTo(OffsetSource))).toBe(
+        `<iframe src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
       );
     });
   });

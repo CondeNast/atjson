@@ -6953,7 +6953,7 @@ Object {
     "-offset-superscript",
     "-offset-twitter-embed",
     "-offset-underline",
-    "-offset-youtube-embed",
+    "-offset-video-embed",
   ],
 }
 `;
@@ -8047,7 +8047,7 @@ Object {
     "-offset-superscript",
     "-offset-twitter-embed",
     "-offset-underline",
-    "-offset-youtube-embed",
+    "-offset-video-embed",
   ],
 }
 `;
@@ -8983,7 +8983,7 @@ Object {
     "-offset-superscript",
     "-offset-twitter-embed",
     "-offset-underline",
-    "-offset-youtube-embed",
+    "-offset-video-embed",
   ],
 }
 `;

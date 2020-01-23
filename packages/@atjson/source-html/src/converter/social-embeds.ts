@@ -1,6 +1,6 @@
 import Document, { Annotation, ParseAnnotation } from "@atjson/document";
 import { IframeEmbed, SocialURLs } from "@atjson/offset-annotations";
-import { Script, Link } from "../annotations";
+import { Script, Anchor } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
@@ -169,7 +169,7 @@ export default function(doc: Document) {
     )
     .join(
       doc.where({ type: "-html-a" }).as("links"),
-      function isGiphyLinkWithinParagraph({ paragraphs }, link: Link) {
+      function isGiphyLinkWithinParagraph({ paragraphs }, link: Anchor) {
         let paragraph = paragraphs[0];
         return (
           link.start > paragraph.start &&
@@ -212,22 +212,28 @@ export default function(doc: Document) {
       }
     });
 
-  doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
-    let { start, end } = iframe;
-    let { height, width, src } = iframe.attributes;
+  doc
+    .where({ type: "-html-iframe" })
+    .update(function convertSocialIframeEmbeds(iframe) {
+      let { start, end } = iframe;
+      let { height, width, src } = iframe.attributes;
 
-    let { url = src, AnnotationClass = IframeEmbed } = identifyURL(src);
-    let embed = new AnnotationClass({
-      start: start,
-      end: end,
-      attributes: {
-        url,
-        height,
-        width
+      let { url, AnnotationClass } = identifyURL(src);
+      if (url && AnnotationClass) {
+        doc.replaceAnnotation(
+          iframe,
+          new AnnotationClass({
+            start: start,
+            end: end,
+            attributes: {
+              url,
+              height,
+              width
+            }
+          })
+        );
       }
     });
-    doc.replaceAnnotation(iframe, embed);
-  });
 
   return doc;
 }

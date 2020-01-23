@@ -1,9 +1,10 @@
 import Document, { Annotation } from "@atjson/document";
-import OffsetSource, { Code } from "@atjson/offset-annotations";
+import OffsetSource, { Code, IframeEmbed } from "@atjson/offset-annotations";
 import { OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
 import convertThirdPartyEmbeds from "./third-party-embeds";
+import convertVideoEmbeds from "./video-embeds";
 
 function getText(doc: Document) {
   let text = "";
@@ -37,6 +38,22 @@ function isSmallCaps(a: Annotation<any>) {
 HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
   convertThirdPartyEmbeds(doc);
   convertSocialEmbeds(doc);
+  convertVideoEmbeds(doc);
+
+  doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
+    doc.replaceAnnotation(
+      iframe,
+      new IframeEmbed({
+        start: iframe.start,
+        end: iframe.end,
+        attributes: {
+          url: iframe.attributes.src,
+          height: iframe.attributes.height,
+          width: iframe.attributes.width
+        }
+      })
+    );
+  });
 
   doc
     .where({ type: "-html-a" })

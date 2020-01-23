@@ -27,4 +27,4 @@ export * from "./subscript";
 export * from "./superscript";
 export * from "./twitter-embed";
 export * from "./underline";
-export * from "./youtube-embed";
+export * from "./video-embed";
