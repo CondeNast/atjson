@@ -534,7 +534,8 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url,
-                  aspectRatio: 1.7777777777777777
+                  width: 560,
+                  height: 315
                 },
                 children: []
               }
@@ -557,7 +558,8 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
-              aspectRatio: 1.3333333333333333
+              width: 640,
+              height: 480
             }
           });
 
@@ -580,7 +582,8 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url: "https://player.vimeo.com/video/156254412",
-                  aspectRatio: 1.3333333333333333
+                  width: 640,
+                  height: 480
                 },
                 children: []
               }
@@ -601,7 +604,8 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://www.dailymotion.com/embed/video/x6gmvnp",
-              aspectRatio: 1.7777777777777777
+              width: 480,
+              height: 270
             }
           }
         ]);
@@ -629,7 +633,8 @@ describe("@atjson/source-html", () => {
             attributes: {
               url:
                 "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
-              aspectRatio: 1.7777777777777777
+              width: 640,
+              height: 360
             }
           }
         ]);

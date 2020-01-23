@@ -1,8 +1,4 @@
-import Document, {
-  Annotation,
-  AnnotationConstructor,
-  AnnotationCollection
-} from "@atjson/document";
+import Document, { Annotation, AnnotationConstructor } from "@atjson/document";
 import OffsetSource, {
   VideoEmbed,
   VideoURLs,
@@ -62,11 +58,10 @@ function isVimeoLink(annotation: Annotation<any>) {
   );
 }
 
-function getAspectRatio(annotation: Iframe) {
-  if (annotation.attributes.width && annotation.attributes.height) {
-    let width = parseInt(annotation.attributes.width, 10);
-    let height = parseInt(annotation.attributes.height, 10);
-    return width / height;
+function getSize(annotation: Iframe, name: "width" | "height") {
+  let dimension = annotation.attributes[name];
+  if (dimension) {
+    return parseInt(dimension, 10);
   }
   return undefined;
 }
@@ -109,7 +104,8 @@ export default function(doc: Document) {
           end: video.end,
           attributes: {
             url,
-            aspectRatio: getAspectRatio(video),
+            width: getSize(video, "width"),
+            height: getSize(video, "height"),
             caption
           }
         })
@@ -132,7 +128,8 @@ export default function(doc: Document) {
       }
     )
     .update(function convertBrightcoveVideo({ video, wrappers, divsToToss }) {
-      let aspectRatio: number | undefined;
+      let width: number | undefined;
+      let height: number | undefined;
       if (wrappers[0]) {
         let paddingTop = wrappers[0].attributes.style.match(
           /padding\-top: ([.\d]+)/
@@ -141,7 +138,8 @@ export default function(doc: Document) {
           paddingTop,
           "padding-top must exist on Brightcove embed wrapping divs"
         );
-        aspectRatio = 1 / (parseFloat(paddingTop) / 100);
+        width = 640;
+        height = 640 * (parseFloat(paddingTop) / 100);
       }
       doc.replaceAnnotation(
         video,
@@ -150,7 +148,8 @@ export default function(doc: Document) {
           end: video.end,
           attributes: {
             url: video.attributes.src,
-            aspectRatio
+            width,
+            height
           }
         })
       );
@@ -167,7 +166,8 @@ export default function(doc: Document) {
           end: iframe.end,
           attributes: {
             url,
-            aspectRatio: getAspectRatio(iframe)
+            width: getSize(iframe, "width"),
+            height: getSize(iframe, "height")
           }
         })
       );

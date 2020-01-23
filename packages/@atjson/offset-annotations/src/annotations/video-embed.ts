@@ -1,18 +1,17 @@
 import { ObjectAnnotation } from "@atjson/document";
 import { CaptionSource } from "./caption-source";
+import { getClosestAspectRatio } from "../utils";
 
 export class VideoEmbed extends ObjectAnnotation<{
+  /**
+   * The embed URL of the video
+   */
   url: string;
   /**
    * A normalized aspect ratio of the video, constrained to
    * a list of aspect ratios
    */
-  aspectRatio?:
-    | ReturnType<>
-    | "1:1" // Square
-    | "4:3" // iPad
-    | "16:9" // Widescreen
-    | "9:16"; // Vertical Video ✌️
+  aspectRatio?: ReturnType<typeof getClosestAspectRatio>;
   /**
    * The natural width of the video, as returned by an
    * oEmbed endpoint.
