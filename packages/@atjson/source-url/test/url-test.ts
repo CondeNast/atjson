@@ -1,6 +1,7 @@
 import OffsetSource, {
   FacebookEmbed,
   GiphyEmbed,
+  IframeEmbed,
   InstagramEmbed,
   PinterestEmbed,
   TwitterEmbed,
@@ -22,6 +23,19 @@ class EmbedRenderer extends CommonMarkRenderer {
 
   *"giphy-embed"(giphy: GiphyEmbed) {
     return `<iframe src="${giphy.attributes.url}"></iframe>`;
+  }
+
+  *"iframe-embed"(iframe: IframeEmbed) {
+    let { url, height, width } = iframe.attributes;
+    let sizeAttributes = "";
+    if (height) {
+      sizeAttributes += ` height="${height}"`;
+    }
+    if (width) {
+      sizeAttributes += ` width="${width}"`;
+    }
+
+    return `<iframe src="${url}"${sizeAttributes}></iframe>`;
   }
 
   *"instagram-embed"(instagram: InstagramEmbed) {
@@ -56,7 +70,8 @@ describe("url-source", () => {
     "https://youtube.com",
     "https://twitter.com",
     "https://facebook.com",
-    "https://pinterest.com"
+    "https://pinterest.com",
+    "https://spotify.com"
   ])(
     "URLs that do not match our embed expansion are displayed as text (%s)",
     text => {
@@ -194,6 +209,46 @@ describe("url-source", () => {
           '<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text="true"></div>'
         );
       });
+    });
+  });
+
+  describe("spotify", () => {
+    test.each([
+      [
+        "https://open.spotify.com/track/5e0vgBWfwToyphURwynSXa?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/album/6UjZgFbK6CQptu8aOobzPV?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/artist/6sFIWsNpZYqfjUpaCgueju?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/playlist/2s1HL7UaXEPWqJR4E1Gt1A?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>'
+      ],
+      [
+        "https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A?si=xxxxxxxxxxxxxxx",
+        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>'
+      ]
+    ])("%s", (url, rendered) => {
+      let doc = URLSource.fromRaw(url).convertTo(OffsetSource);
+      expect(EmbedRenderer.render(doc)).toBe(rendered);
     });
   });
 });
