@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.22.7...@atjson/source-url@0.23.0) (2020-01-24)
+
+### ✨ New Features
+
+- ✨ : Support extra attributes in url conversion
+
 ## [0.22.7](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.22.6...@atjson/source-url@0.22.7) (2019-12-20)
 
 ### 🐛 Fixes

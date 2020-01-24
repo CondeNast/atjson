@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.10](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.9...@atjson/document@0.22.10) (2020-01-24)
+
+### 🐛 Fixes
+
+- 🐞 Fixes bug in Annotation.equals which prevents it from returning false… ([#364](https://github.com/CondeNast/atjson/issues/364))
+
 ## [0.22.9](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.8...@atjson/document@0.22.9) (2019-12-20)
 
 ### 🐛 Fixes

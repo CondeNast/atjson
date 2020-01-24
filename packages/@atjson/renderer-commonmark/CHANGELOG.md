@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.21](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.20...@atjson/renderer-commonmark@0.21.21) (2020-01-24)
+
+**Note:** Version bump only for package @atjson/renderer-commonmark
+
 ## [0.21.20](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.19...@atjson/renderer-commonmark@0.21.20) (2019-12-20)
 
 ### 🐛 Fixes

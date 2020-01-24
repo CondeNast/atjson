@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.24.3...@atjson/offset-annotations@0.25.0) (2020-01-24)
+
+### ✨ New Features
+
+- ✨ : Include Spotify as a social url provider
+
 ## [0.24.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.24.2...@atjson/offset-annotations@0.24.3) (2019-12-20)
 
 ### 🐛 Fixes
