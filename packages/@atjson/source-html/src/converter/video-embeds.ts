@@ -1,5 +1,6 @@
 import Document, { Annotation, AnnotationConstructor } from "@atjson/document";
 import OffsetSource, {
+  getClosestAspectRatio,
   VideoEmbed,
   VideoURLs,
   CaptionSource
@@ -97,6 +98,9 @@ export default function(doc: Document) {
           .cut(paragraph[0].start, paragraph[0].end)
           .convertTo(OffsetSource);
       }
+
+      let width = getSize(video, "width");
+      let height = getSize(video, "height");
       doc.replaceAnnotation(
         video,
         new VideoEmbed({
@@ -104,8 +108,12 @@ export default function(doc: Document) {
           end: video.end,
           attributes: {
             url,
-            width: getSize(video, "width"),
-            height: getSize(video, "height"),
+            width,
+            height,
+            aspectRatio:
+              width && height
+                ? getClosestAspectRatio(width, height)
+                : undefined,
             caption
           }
         })
@@ -149,7 +157,9 @@ export default function(doc: Document) {
           attributes: {
             url: video.attributes.src,
             width,
-            height
+            height,
+            aspectRatio:
+              width && height ? getClosestAspectRatio(width, height) : undefined
           }
         })
       );
@@ -159,6 +169,9 @@ export default function(doc: Document) {
   doc.where(isIframe).update(function convertIdentifiedVideos(iframe) {
     let url = VideoURLs.identify(new URL(iframe.attributes.src));
     if (url) {
+      let width = getSize(iframe, "width");
+      let height = getSize(iframe, "height");
+
       doc.replaceAnnotation(
         iframe,
         new VideoEmbed({
@@ -166,8 +179,10 @@ export default function(doc: Document) {
           end: iframe.end,
           attributes: {
             url,
-            width: getSize(iframe, "width"),
-            height: getSize(iframe, "height")
+            width,
+            height,
+            aspectRatio:
+              width && height ? getClosestAspectRatio(width, height) : undefined
           }
         })
       );
