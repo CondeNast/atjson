@@ -571,6 +571,26 @@ describe("@atjson/source-html", () => {
           );
         });
 
+        test("embed code with trailing paragraph that isn't from Vimeo", () => {
+          let doc = HTMLSource.fromRaw(
+            `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<p>Hello, this is something from <a href="https://vogue.it">Vogue Italia</a>!</p>`
+          )
+            .convertTo(OffsetSource)
+            .canonical();
+
+          expect(doc.annotations.length).toBe(3);
+          expect(doc.annotations[0]).toMatchObject({
+            type: "video-embed",
+            attributes: {
+              url: "https://player.vimeo.com/video/156254412",
+              width: 640,
+              height: 480,
+              aspectRatio: "4:3"
+            }
+          });
+        });
+
         test("embed code without caption", () => {
           let doc = HTMLSource.fromRaw(
             `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`

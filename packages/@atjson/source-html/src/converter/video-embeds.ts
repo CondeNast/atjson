@@ -55,7 +55,7 @@ function isBrightcoveWrapper(annotation: Annotation<any>) {
 function isVimeoLink(annotation: Annotation<any>) {
   return (
     is(annotation, Anchor) &&
-    annotation.attributes.href?.indexOf("https://vimeo.com")
+    annotation.attributes.href?.indexOf("https://vimeo.com") !== -1
   );
 }
 
@@ -85,7 +85,7 @@ export default function(doc: Document) {
     ) {
       return covers(paragraph[0], link);
     })
-    .update(function convertVimeoVideos({ video, paragraph }) {
+    .update(function convertVimeoVideos({ video, paragraph, links }) {
       let url = VideoURLs.identify(new URL(video.attributes.src));
       assert(
         url,
@@ -93,7 +93,7 @@ export default function(doc: Document) {
       );
 
       let caption: CaptionSource | undefined;
-      if (paragraph.length) {
+      if (paragraph.length === 1 && links.length > 0) {
         caption = doc
           .cut(paragraph[0].start, paragraph[0].end)
           .convertTo(OffsetSource);
