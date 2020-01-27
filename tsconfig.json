@@ -22,7 +22,7 @@
     "jsx": "react",
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES6"
+    "target": "ES5"
   },
   "exclude": ["node_modules", "dist", "public", "test"]
 }
