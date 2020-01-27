@@ -70,4 +70,11 @@ describe("getClosestAspectRatio", () => {
       expect(getClosestAspectRatio(width, height)).toBe("4:3");
     });
   });
+
+  test("vertical video", () => {
+    // Instagram video
+    expect(getClosestAspectRatio(864, 1080)).toBe("4:5");
+
+    expect(getClosestAspectRatio(720, 1280)).toBe("9:16");
+  });
 });
