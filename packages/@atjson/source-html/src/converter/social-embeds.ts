@@ -40,7 +40,7 @@ function identifyURL(src: string) {
   try {
     url = new URL(src);
   } catch {
-    return {};
+    return null;
   }
 
   return SocialURLs.identify(url);
@@ -81,14 +81,15 @@ export default function(doc: Document) {
       links,
       scripts
     }) {
-      let url, AnnotationClass;
+      let canonicalURL;
       for (let link of links) {
-        ({ url, AnnotationClass } = identifyURL(link.attributes.href));
-        if (url && AnnotationClass) {
+        canonicalURL = identifyURL(link.attributes.href);
+        if (canonicalURL) {
           break;
         }
       }
-      if (url && AnnotationClass) {
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
         let start = blockquote.start;
         let end = scripts.length ? scripts[0].end : blockquote.end;
         doc
@@ -101,15 +102,13 @@ export default function(doc: Document) {
             start,
             end,
             attributes: {
-              reason: AnnotationClass.type + "-embed"
+              reason: Class.type + "-embed"
             }
           }),
-          new AnnotationClass({
+          new Class({
             start,
             end,
-            attributes: {
-              url
-            }
+            attributes
           })
         );
       }
@@ -126,9 +125,10 @@ export default function(doc: Document) {
   for (let div of doc.annotations) {
     if (!isFacebookDiv(div)) continue;
 
-    let { url, AnnotationClass } = identifyURL(div.attributes.dataset.href);
+    let canonicalURL = identifyURL(div.attributes.dataset.href);
 
-    if (url && AnnotationClass) {
+    if (canonicalURL) {
+      let { attributes, Class } = canonicalURL;
       let { start, end } = div;
       doc
         .where(function isAnnotationInFBDiv(annotation) {
@@ -143,12 +143,10 @@ export default function(doc: Document) {
             reason: "facebook-embed"
           }
         }),
-        new AnnotationClass({
+        new Class({
           start,
           end,
-          attributes: {
-            url
-          }
+          attributes
         })
       );
     }
@@ -186,17 +184,18 @@ export default function(doc: Document) {
       let { start, end } = iframe;
       let { height, width, src } = iframe.attributes;
 
-      let { url, AnnotationClass } = identifyURL(src);
-      if (url && AnnotationClass) {
+      let canonicalURL = identifyURL(src);
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
         doc.removeAnnotation(links[0]);
         doc.removeAnnotation(paragraphs[0]);
         doc.replaceAnnotation(
           iframe,
-          new AnnotationClass({
+          new Class({
             start: start,
             end: end,
             attributes: {
-              url,
+              url: attributes.url,
               height,
               width
             }
@@ -212,28 +211,27 @@ export default function(doc: Document) {
       }
     });
 
-  doc
-    .where({ type: "-html-iframe" })
-    .update(function convertSocialIframeEmbeds(iframe) {
-      let { start, end } = iframe;
-      let { height, width, src } = iframe.attributes;
+  doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
+    let { start, end } = iframe;
+    let { height, width, src } = iframe.attributes;
 
-      let { url, AnnotationClass } = identifyURL(src);
-      if (url && AnnotationClass) {
-        doc.replaceAnnotation(
-          iframe,
-          new AnnotationClass({
-            start: start,
-            end: end,
-            attributes: {
-              url,
-              height,
-              width
-            }
-          })
-        );
-      }
-    });
+    let result = identifyURL(src);
+    if (result) {
+      let { Class, attributes } = result;
+      doc.replaceAnnotation(
+        iframe,
+        new Class({
+          start: start,
+          end: end,
+          attributes: {
+            url: attributes.url,
+            height,
+            width
+          }
+        })
+      );
+    }
+  });
 
   return doc;
 }

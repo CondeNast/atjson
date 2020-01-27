@@ -26,12 +26,6 @@ interface IUrl {
   searchParams: { [key: string]: string } | URLSearchParams;
 }
 
-interface SocialURL {
-  url?: string;
-  attributes?: any;
-  AnnotationClass?: typeof IframeEmbed;
-}
-
 function getSearchParam(
   searchParams: { [key: string]: string } | URLSearchParams,
   name: string
@@ -61,8 +55,8 @@ function isInstagramURL(url: IUrl) {
 function normalizeInstagramURL(url: IUrl) {
   let [, id] = without<string>(url.pathname.split("/"), "");
   return {
-    url: `https://www.instagram.com/p/${id}`,
-    AnnotationClass: InstagramEmbed
+    attributes: { url: `https://www.instagram.com/p/${id}` },
+    Class: InstagramEmbed
   };
 }
 
@@ -79,8 +73,10 @@ function isTwitterURL(url: IUrl) {
 function normalizeTwitterURL(url: IUrl) {
   let [username, , tweetId] = without<string>(url.pathname.split("/"), "");
   return {
-    url: `https://twitter.com/${username}/status/${tweetId}`,
-    AnnotationClass: TwitterEmbed
+    attributes: {
+      url: `https://twitter.com/${username}/status/${tweetId}`
+    },
+    Class: TwitterEmbed
   };
 }
 
@@ -94,8 +90,10 @@ function isPinterestURL(url: IUrl) {
 
 function normalizePinterestURL(url: IUrl) {
   return {
-    url: `https://www.pinterest.com${url.pathname}`,
-    AnnotationClass: PinterestEmbed
+    attributes: {
+      url: `https://www.pinterest.com${url.pathname}`
+    },
+    Class: PinterestEmbed
   };
 }
 
@@ -141,8 +139,10 @@ function normalizeFacebookURL(url: IUrl) {
   let username = parts.shift();
 
   return {
-    url: `https://www.facebook.com/${username}/posts/${id}`,
-    AnnotationClass: FacebookEmbed
+    attributes: {
+      url: `https://www.facebook.com/${username}/posts/${id}`
+    },
+    Class: FacebookEmbed
   };
 }
 
@@ -166,7 +166,10 @@ function normalizeGiphyURL(url: IUrl) {
     id = prettySlug[prettySlug.length - 1];
   }
 
-  return { url: `https://giphy.com/embed/${id}`, AnnotationClass: GiphyEmbed };
+  return {
+    attributes: { url: `https://giphy.com/embed/${id}` },
+    Class: GiphyEmbed
+  };
 }
 
 // Spotify URLs
@@ -185,14 +188,23 @@ function normalizeSpotifyUrl(url: IUrl) {
   }
   let type = parts[0];
   let id = parts[1];
+
   return {
-    url: `https://open.spotify.com/embed/${type}/${id}`,
-    AnnotationClass: IframeEmbed,
-    attributes: { width: "300", height: type === "track" ? "80" : "380" }
+    Class: IframeEmbed,
+    attributes: {
+      url: `https://open.spotify.com/embed/${type}/${id}`,
+      width: "300",
+      height: type === "track" ? "80" : "380"
+    }
   };
 }
 
-export function identify(url: IUrl): SocialURL {
+export function identify(
+  url: IUrl
+): {
+  attributes: { url: string; width?: string; height?: string };
+  Class: typeof IframeEmbed;
+} | null {
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }
@@ -217,5 +229,5 @@ export function identify(url: IUrl): SocialURL {
     return normalizeSpotifyUrl(url);
   }
 
-  return {};
+  return null;
 }
