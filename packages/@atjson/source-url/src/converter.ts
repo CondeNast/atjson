@@ -14,20 +14,16 @@ URLSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where(isURL)
     .update(function identifyAndReplaceSocialURLs(annotation: URLAnnotation) {
-      let { url, AnnotationClass, attributes } = SocialURLs.identify(
-        annotation.attributes
-      );
-      if (url && AnnotationClass) {
+      let canonicalURL = SocialURLs.identify(annotation.attributes);
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
         doc.replaceAnnotation(
           annotation,
-          new AnnotationClass({
+          new Class({
             id: annotation.id,
             start: annotation.start,
             end: annotation.end,
-            attributes: {
-              url,
-              ...(attributes || {})
-            }
+            attributes
           })
         );
       }
