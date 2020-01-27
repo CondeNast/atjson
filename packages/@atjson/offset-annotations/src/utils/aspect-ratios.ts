@@ -47,6 +47,8 @@ const proportions = ASPECT_RATIOS.map(ratio => {
     ratio,
     proportion: parseFloat(width) / parseFloat(height)
   };
+}).sort((a, b) => {
+  return a.proportion < b.proportion ? -1 : a.proportion > b.proportion ? 1 : 0;
 });
 
 const horizontalAspectRatios = proportions.filter(
