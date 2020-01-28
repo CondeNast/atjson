@@ -228,7 +228,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
 
   let loopCheck = 0;
   for (let i = 0; i < stream.length; i++, loopCheck++) {
-    if (loopCheck > 1000) {
+    if (loopCheck > 10000) {
       throw new Error(
         JSON.stringify(
           {
