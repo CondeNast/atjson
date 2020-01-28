@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.26.0...@atjson/offset-annotations@0.26.1) (2020-01-28)
+
+
+### Bug Fixes
+
+* add tests and fix a bug where searchParams were being removed ([4c7e8c4](https://github.com/CondeNast/atjson/commit/4c7e8c421cba453b608fb807e04659d33dad882e))
+* getClosestAspectRatio was not returning a proper aspect ratio ([f898793](https://github.com/CondeNast/atjson/commit/f8987930cbf82b55fc080c0ff199447d321edeb6))
+
+
+
+
+
 # [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.25.0...@atjson/offset-annotations@0.26.0) (2020-01-28)
 
 
