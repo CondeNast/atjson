@@ -3,49 +3,59 @@ name: CI
 on: [push]
 
 jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          npm ci
+      - name: ✅ Commitlint
+        run: |
+          git log --format=%B -n 1 $GITHUB_SHA | ./node_modules/.bin/commitlint
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install
-      run: |
-        npm ci
-    - name: 🔎 ESLint
-      run: |
-        npm run lint
-    - uses: paambaati/codeclimate-action@v2.3.0
-      name: 🃏 Jest
-      env:
-        CC_TEST_REPORTER_ID: cf897ba2cdf052230767ba43b61026729790d3db38a4e8693134464087be410e
-      with:
-        coverageCommand: npm test -- --no-cache --coverage --maxWorkers=4
-    - name: ✅ Type Check
-      run: |
-        npm run typecheck
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          npm ci
+      - name: 🔎 ESLint
+        run: |
+          npm run lint
+      - uses: paambaati/codeclimate-action@v2.3.0
+        name: 🃏 Jest
+        env:
+          CC_TEST_REPORTER_ID: cf897ba2cdf052230767ba43b61026729790d3db38a4e8693134464087be410e
+        with:
+          coverageCommand: npm test -- --no-cache --coverage --maxWorkers=4
+      - name: ✅ Type Check
+        run: |
+          npm run typecheck
   perf:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        path: baseline
-        ref: latest
-    - uses: actions/checkout@v2
-      with:
-        path: current
-    - name: 🐢 Performance
-      run: |
-        pushd baseline
-        npm ci
-        npm run typecheck
-        npm run perf -- --baseline
-        popd
-        cd current
-        cp -r ../baseline/performance/profiles ./performance/profiles
-        npm ci
-        npm run typecheck
-        npm run perf
-        npm run perf-tstat
-    - uses: actions/upload-artifact@v1
-      with:
-        name: performance-profiles
-        path: ./current/performance/profiles
+      - uses: actions/checkout@v2
+        with:
+          path: baseline
+          ref: latest
+      - uses: actions/checkout@v2
+        with:
+          path: current
+      - name: 🐢 Performance
+        run: |
+          pushd baseline
+          npm ci
+          npm run typecheck
+          npm run perf -- --baseline
+          popd
+          cd current
+          cp -r ../baseline/performance/profiles ./performance/profiles
+          npm ci
+          npm run typecheck
+          npm run perf
+          npm run perf-tstat
+      - uses: actions/upload-artifact@v1
+        with:
+          name: performance-profiles
+          path: ./current/performance/profiles

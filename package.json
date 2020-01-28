@@ -2,7 +2,8 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
-    "@atjson/conventional-changelog-emoji": "0.19.0",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
     "@types/chance": "1.0.8",
     "@types/entities": "1.1.1",
     "@types/ink-table": "1.0.1",
