@@ -33,7 +33,14 @@ function toURL(url: IUrl) {
 
   result.pathname = url.pathname;
   result.hash = url.hash;
-  for (let param in url.searchParams) {
+
+  let keys: string[];
+  if (url.searchParams instanceof URLSearchParams) {
+    keys = [...url.searchParams.keys()];
+  } else {
+    keys = Object.keys(url.searchParams);
+  }
+  for (let param of keys) {
     let value = getSearchParam(url.searchParams, param);
     if (value) {
       result.searchParams.set(param, value);
