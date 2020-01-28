@@ -1,18 +1,19 @@
-import Document, { BlockAnnotation } from "@atjson/document";
+import Document, { BlockAnnotation /*Annotation*/ } from "@atjson/document";
 import {
-  // Code,
+  Code,
   HTML,
   Heading,
   Image,
   Italic,
-  // Link,
-  // List
+  Link,
+  //Bold
+  List,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import {
-  BEGINNING_WHITESPACE,
+  // BEGINNING_WHITESPACE,
   // BEGINNING_WHITESPACE_PUNCTUATION,
-  ENDING_WHITESPACE,
+  // ENDING_WHITESPACE,
   // ENDING_WHITESPACE_PUNCTUATION,
   // LEADING_MD_SPACES,
   // TRAILING_MD_SPACES,
@@ -20,9 +21,11 @@ import {
   // WHITESPACE_PUNCTUATION,
   // UNICODE_PUNCTUATION,
   MD_PUNCTUATION,
+  LEADING_MD_SPACES,
+  TRAILING_MD_SPACES,
+  MD_SPACES,
 } from "./lib/punctuation";
 import * as T from "./lib/tokens";
-import { Stream } from "stream";
 // import { stringify } from "querystring";
 export * from "./lib/punctuation";
 
@@ -164,75 +167,386 @@ function escapeEntities(text: string) {
 //     .replace(/\)/g, "\\)");
 // }
 
-// function getNumberOfRequiredBackticks(text: string) {
-//   let index = 0;
-//   let counts = [0];
-//   for (let i = 0, len = text.length; i < len; i++) {
-//     if (text[i] === "`") {
-//       counts[index] = counts[index] + 1;
-//     } else if (counts[index] !== 0) {
-//       counts.push(0);
-//       index++;
-//     }
-//   }
+function getNumberOfRequiredBackticks(text: string) {
+  let index = 0;
+  let counts = [0];
+  for (let i = 0, len = text.length; i < len; i++) {
+    if (text[i] === "`") {
+      counts[index] = counts[index] + 1;
+    } else if (counts[index] !== 0) {
+      counts.push(0);
+      index++;
+    }
+  }
 
-//   let total = 1;
-//   for (let count of counts) {
-//     if (count === total) {
-//       total += 1;
-//     }
-//   }
+  let total = 1;
+  for (let count of counts) {
+    if (count === total) {
+      total += 1;
+    }
+  }
 
-//   return total;
-// }
+  return total;
+}
+
+function array<T>(x: T): T[] {
+  return [x];
+}
 
 function isHTML(a: { type: string }): a is HTML {
   return a.type === "html";
 }
 
-// function blockquotify(line: string) {
-//   return `> ${line}`;
-// }
+export type TokenStream = Array<T.Token | string>;
 
-// function codify(line: string) {
-//   return `    ${line}`;
-// }
+function isLeftDelimiter(item: T.Token | string): boolean {
+  let tokens = [
+    "STRONG_STAR_START",
+    "STRONG_UNDERSCORE_START",
+    "EM_STAR_START",
+    "EM_UNDERSCORE_START",
+  ];
+  return typeof item !== "string" && tokens.includes(item.kind);
+}
 
-type TokenStream = Array<T.Token | string>;
+function isRightDelimiter(item: T.Token | string): boolean {
+  let tokens = [
+    "STRONG_STAR_END",
+    "STRONG_UNDERSCORE_END",
+    "EM_STAR_END",
+    "EM_UNDERSCORE_END",
+  ];
 
-function flattenStreams(
-  streams: Array<TokenStream | T.Token | string>
+  return typeof item !== "string" && tokens.includes(item.kind);
+}
+
+export function fixDelimiterRuns(stream: TokenStream): TokenStream {
+  // copies and cleans the stream in one step :)
+  stream = stream.filter(function notEmptyString(x) {
+    return x !== "";
+  });
+
+  let loopCheck = 0;
+  for (let i = 0; i < stream.length; i++, loopCheck++) {
+    if (loopCheck > 1000) {
+      throw new Error(
+        JSON.stringify(
+          {
+            msg: "infinite loop",
+            stream,
+            i,
+            currentItem: stream[i],
+          },
+          null,
+          2
+        )
+      );
+    }
+    let prevItem = stream[i - 1];
+    let nextItem = stream[i + 1];
+    let currItem = stream[i];
+
+    if (typeof currItem === "string") {
+      continue;
+    }
+
+    switch (currItem.kind) {
+      case "STRONG_STAR_START":
+      case "STRONG_UNDERSCORE_START":
+      case "EM_STAR_START":
+      case "EM_UNDERSCORE_START": {
+        /**
+         * we're gonna look forward in the stream for any invalid inner boundary characters and move them leftwards until they aren't invalid anymore
+         */
+        let itemsToMoveOut: TokenStream = [];
+        /**
+         * if the left side is whitespace or punctuation we don't
+         *  need to worry about punctuation on the right side
+         */
+        if (
+          prevItem &&
+          !hasTrailingWhitespace(prevItem) &&
+          !hasTrailingPunctuation(prevItem)
+        ) {
+          /**
+           * take off any inner-boundary punctuation and get ready to move it out
+           */
+          if (typeof nextItem === "string") {
+            let [
+              punctuation,
+              nextItemWithoutLeadingPunctuation,
+            ] = lazilyTakePunctuationForward(nextItem);
+
+            itemsToMoveOut.push(punctuation);
+            stream[i + 1] = nextItemWithoutLeadingPunctuation;
+          } // TODO: non-syntax punctuation token???
+        }
+
+        /**
+         * consume items from the stream ahead of us until we find a
+         *  non-whitespace token or string. If it was a string, it may have been
+         *  split into its leading whitespace and the trailing portion
+         */
+
+        let {
+          leadingSpaces,
+          splitLeadingString,
+        } = greedilyTakeLeadingWhiteSpace(stream, i + 1);
+
+        itemsToMoveOut.push(...leadingSpaces);
+
+        /**
+         * seek backwards until we find a valid place to put the invalid characters
+         */
+        let j = i;
+        while (j > 0) {
+          if (isLeftDelimiter(stream[j])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+
+        /**
+         * at this point `j` is the index at/before which we need to put the
+         *  invalid inner boundary characters.
+         *
+         * at position `j` we remove 0 characters and insert the `itemsToMoveOut`
+         */
+        stream.splice(j + 1, 0, ...itemsToMoveOut);
+
+        /**
+         * we've inserted items into the stream before the current position,
+         *  so we need to update the current index accordingly
+         */
+        i += itemsToMoveOut.length;
+
+        /**
+         * replace the remainder of the stream with whatever else we
+         *  got from taking the leading whitespace
+         */
+        stream.splice(i + 1, leadingSpaces.length);
+
+        if (splitLeadingString) {
+          stream.splice(i + 1, 0, splitLeadingString);
+        }
+        break;
+      }
+      case "STRONG_STAR_END":
+      case "STRONG_UNDERSCORE_END":
+      case "EM_STAR_END":
+      case "EM_UNDERSCORE_END": {
+        /**
+         * we're gonna look *backward* this time, but the approach is
+         *  otherwise similar to before
+         */
+        let itemsToMoveOut: TokenStream = [];
+
+        /**
+         * we only need to worry about punctuation if there's a non-whitespace,
+         *  non-punctuation character ahead
+         */
+        if (
+          nextItem &&
+          !hasLeadingWhitespace(nextItem) &&
+          !hasLeadingPunctuation(nextItem)
+        ) {
+          /**
+           * take off any inner-boundary punctuation and get ready to move it out
+           */
+          if (typeof prevItem === "string") {
+            let [
+              punctuation,
+              prevItemWithoutTrailingPunctuation,
+            ] = lazilyTakePunctuationBackward(prevItem);
+
+            itemsToMoveOut.unshift(punctuation);
+            stream[i - 1] = prevItemWithoutTrailingPunctuation;
+          } // TODO: is the previous item a token representing non-syntax punctuation?
+        }
+
+        /**
+         * this is gonna end with us replacing the stream to the left of us with
+         *  the `leadingStream` value below. This is fine, since we already know
+         *  any delimiter runs earlier in the stream are fixed and
+         *  this operation won't break them (I'm like 99% sure - Colin-Alexa)
+         */
+
+        let {
+          trailingSpaces,
+          splitTrailingString,
+        } = greedilyTakeTrailingWhiteSpace(stream, i - 1);
+
+        itemsToMoveOut = trailingSpaces.concat(itemsToMoveOut);
+
+        /**
+         * seek forwards in the stream until we find a valid place to put
+         *  the invalid characters
+         */
+        let j = i;
+        while (j < stream.length) {
+          if (isRightDelimiter(stream[j])) {
+            j++;
+          } else {
+            break;
+          }
+        }
+
+        /**
+         * at this point `j` is the index at/after which we need to put the
+         *  invalid inner boundary characters.
+         *
+         * at position `j` we remove 0 characters and insert the `itemsToMoveOut`
+         */
+        stream.splice(j, 0, ...itemsToMoveOut);
+
+        stream.splice(i - trailingSpaces.length, trailingSpaces.length);
+
+        if (splitTrailingString) {
+          stream.splice(i - 1, 0, splitTrailingString);
+        }
+
+        i -= trailingSpaces.length;
+        break;
+      }
+      case "ANCHOR_TEXT_START": {
+        let {
+          leadingSpaces,
+          splitLeadingString,
+        } = greedilyTakeLeadingWhiteSpace(stream, i);
+
+        /**
+         *  - put the spaces into the stream behind us
+         *  - adjust the current index for the added length
+         *  - remove the spaces we found from the stream ahead of us
+         *  - if we split a string while taking the leading spaces, add
+         *     back the remainder of the string
+         */
+        stream.splice(i - 1, 0, ...leadingSpaces);
+        i += leadingSpaces.length;
+        stream.splice(i + 1, leadingSpaces.length);
+        if (splitLeadingString) {
+          stream.splice(i + leadingSpaces.length, 0, splitLeadingString);
+        }
+        break;
+      }
+      case "ANCHOR_TEXT_END_HREF": {
+        let {
+          trailingSpaces,
+          splitTrailingString,
+        } = greedilyTakeTrailingWhiteSpace(stream, i);
+
+        /**
+         * - put the spaces into the stream ahead of us
+         * - remove the spaces from the stream behind us
+         * - if we split a string, add the remainder of the string back
+         *    into the stream behind us
+         */
+
+        stream.splice(i + 1, 0, ...trailingSpaces);
+        stream.splice(i - trailingSpaces.length, trailingSpaces.length);
+
+        if (splitTrailingString) {
+          stream.splice(i - 1, 0, splitTrailingString);
+        }
+        break;
+      }
+    }
+  }
+
+  return stream;
+}
+
+function toString(stream: TokenStream): string {
+  return stream
+    .map(function tokenOrStringToString(item) {
+      if (typeof item === "string") {
+        return item;
+      } else {
+        return item.production;
+      }
+    })
+    .join("");
+}
+
+export function flattenStreams(
+  itemsOrStreams: Array<TokenStream | T.Token | string>
 ): TokenStream {
   let acc: TokenStream = [];
-  for (let stream of streams) {
-    if (Array.isArray(stream)) {
-      acc = acc.concat(stream);
+  for (let itemOrStream of itemsOrStreams) {
+    if (Array.isArray(itemOrStream)) {
+      acc = acc.concat(itemOrStream);
     } else {
-      acc.push(stream);
+      acc.push(itemOrStream);
     }
+  }
+
+  return mergeStrings(acc);
+}
+
+export function mergeStrings(stream: TokenStream): TokenStream {
+  let acc: TokenStream = [];
+  let stringAcc;
+  for (let item of stream) {
+    if (typeof item === "string") {
+      stringAcc = (stringAcc || "") + item;
+    } else {
+      if (stringAcc) {
+        acc.push(stringAcc);
+      }
+
+      stringAcc = undefined;
+      acc.push(item);
+    }
+  }
+
+  if (stringAcc) {
+    acc.push(stringAcc);
   }
 
   return acc;
 }
 
-function mapStrings(
-  stream: TokenStream,
-  transform: (s: string, i: number, collection: TokenStream) => string
-): TokenStream {
-  return stream.map(function applyTransformToStrings(s, i, collection) {
-    if (typeof s === "string") {
-      return transform(s, i, collection);
-    }
+export function splitLines(stream: TokenStream): TokenStream[] {
+  let lines: TokenStream[] = [];
+  let line: TokenStream = [];
 
-    return s;
-  });
+  for (let item of stream) {
+    if (typeof item === "string" && item.includes("\n")) {
+      let parts = item.split("\n");
+      if (parts.length) {
+        // always true
+        let [firstLine, ...middleLines] = parts.slice(0, parts.length - 1);
+        line.push(firstLine);
+        lines.push(line, ...middleLines.map(array));
+        line = array(parts[parts.length - 1]);
+      }
+    } else {
+      line.push(item);
+    }
+  }
+
+  lines.push(line);
+
+  return lines;
 }
 
-function isMultiline(stream: TokenStream): boolean {
+export function streamIncludes(
+  stream: TokenStream,
+  needle: string | T.Token
+): boolean {
   for (let item of stream) {
-    if (typeof item === "string") {
-      if (item.indexOf("\n") >= 0) return true;
-    } else if (item.kind === "LINE_BREAK") {
+    let stringIncludesNeedle =
+      typeof item === "string" &&
+      typeof needle === "string" &&
+      item.includes(needle);
+    let tokenEqualsNeedle =
+      typeof item !== "string" &&
+      typeof needle !== "string" &&
+      item.kind === needle.kind &&
+      item.production === needle.production;
+
+    if (stringIncludesNeedle || tokenEqualsNeedle) {
       return true;
     }
   }
@@ -240,10 +554,10 @@ function isMultiline(stream: TokenStream): boolean {
   return false;
 }
 
-function lazilyTakePunctuationForward(str: string) {
+function lazilyTakePunctuationForward(str: string): [string, string] {
   let startPuncMatcher = new RegExp(`^(${MD_PUNCTUATION.source})`);
   let match = str.match(startPuncMatcher);
-  console.log({ str, startPuncMatcher, match });
+
   if (match) {
     let [punctuation] = match;
     return [punctuation, str.slice(1)];
@@ -252,10 +566,10 @@ function lazilyTakePunctuationForward(str: string) {
   }
 }
 
-function lazilyTakePunctuationBackward(str: string) {
+function lazilyTakePunctuationBackward(str: string): [string, string] {
   let endPuncMatcher = new RegExp(`(${MD_PUNCTUATION.source})$`);
   let match = str.match(endPuncMatcher);
-  console.log({ str, endPuncMatcher, match });
+
   if (match) {
     let [punctuation] = match;
     return [punctuation, str.slice(0, str.length - 1)];
@@ -264,40 +578,157 @@ function lazilyTakePunctuationBackward(str: string) {
   }
 }
 
-function greedilyTakeWhiteSpaceForward(str: string) {
-  let startSpaceMatcher = /^(\s|&nbsp;)+/;
-  let match = str.match(startSpaceMatcher);
-  console.log({ startSpaceMatcher, match });
-  if (match) {
-    let [spaces] = match;
-    return [spaces, str.slice(spaces.length)];
+function containsNonSpaces(str: string) {
+  let onlySpacesMatcher = new RegExp(`^${MD_SPACES}+$`, "g");
+  return !onlySpacesMatcher.test(str); // /^(\s|&nbsp;)*$/g.test(str);
+}
+
+function isWhitespace(item: T.Token | string) {
+  if (typeof item === "string") {
+    return !containsNonSpaces(item);
   } else {
-    return ["", str];
+    return item.kind === "SOFT_LINE_BREAK";
   }
 }
 
-function greedilyTakeWhiteSpaceBackward(str: string) {
-  let match = str.match(/(\s|&nbsp;)+$/);
-  if (match) {
-    let [spaces] = match;
-    return [spaces, str.slice(0, str.length - spaces.length)];
+function hasTrailingWhitespace(item: T.Token | string): boolean {
+  if (typeof item === "string") {
+    return TRAILING_MD_SPACES.test(item);
   } else {
-    return ["", str];
+    return isWhitespace(item);
   }
 }
 
-function hasSignificantLeadingWhitespace(line: string) {
-  if (line.length < 4) {
-    return false;
+function hasLeadingWhitespace(item: T.Token | string): boolean {
+  if (typeof item === "string") {
+    return LEADING_MD_SPACES.test(item);
+  } else {
+    return isWhitespace(item);
   }
-
-  // tabs count as 4 spaces, so any number of leading spaces (or no leading spaces) followed by a tab is always gonna be significant.
-  // otherwise, match any other four leading space characters
-  return /^\s*\t/.test(line) || /^\s{4}/.test(line);
 }
 
-function escapeWhitespace(str: string) {
-  str.replace(/\t/g, "&#9;");
+let TRAILING_MD_PUNCTUATION = new RegExp(`${MD_PUNCTUATION}+$`);
+function hasTrailingPunctuation(item: T.Token | string) {
+  if (typeof item === "string") {
+    return TRAILING_MD_PUNCTUATION.test(item);
+  } else {
+    // if it's a token it's either whitespace or punctuation
+    return !isWhitespace(item);
+  }
+}
+
+let LEADING_MD_PUNCTUATION = new RegExp(`^${MD_PUNCTUATION}+`);
+function hasLeadingPunctuation(item: T.Token | string) {
+  if (typeof item === "string") {
+    return LEADING_MD_PUNCTUATION.test(item);
+  } else {
+    return !isWhitespace(item);
+  }
+}
+
+export function greedilyTakeLeadingWhiteSpace(
+  stream: TokenStream,
+  startIndex: number
+): {
+  leadingSpaces: TokenStream;
+  trailingStream: TokenStream;
+  splitLeadingString: string | undefined;
+} {
+  let acc = [];
+  let leftover: string | undefined;
+  for (let i = startIndex; i >= 0 && i < stream.length; i++) {
+    let item = stream[i];
+    // take whitespace items from the beginning of the stream until we hit something
+    if (isWhitespace(item)) {
+      acc.push(item);
+    } else if (typeof item === "string") {
+      let match = item.match(new RegExp(LEADING_MD_SPACES, ""));
+      if (match) {
+        let [spaces] = match;
+        acc.push(spaces);
+        leftover = item.slice(spaces.length);
+      } else {
+        break;
+      }
+    } else {
+      break;
+    }
+  }
+
+  return {
+    leadingSpaces: acc,
+    trailingStream: stream.slice(startIndex + acc.length),
+    splitLeadingString: leftover,
+  };
+}
+
+export function greedilyTakeTrailingWhiteSpace(
+  stream: TokenStream,
+  startIndex: number
+): {
+  trailingSpaces: TokenStream;
+  leadingStream: TokenStream;
+  splitTrailingString: string | undefined;
+} {
+  let acc = [];
+  let leftover: string | undefined;
+  for (let i = startIndex; i >= 0 && i < stream.length; i--) {
+    let item = stream[i];
+
+    if (item === undefined) {
+      throw new Error(JSON.stringify({ startIndex, i, stream }, null, 2));
+    }
+    /**
+     * take whitespace items (tokens or pure-whitespace strings) from
+     *  the end of the stream until we hit something
+     */
+    if (isWhitespace(item)) {
+      acc.unshift(item);
+    } else if (typeof item === "string") {
+      /**
+       * we hit a string that contains some non-whitespace characters,
+       *  but still might have some trailing whitespace
+       */
+      let match = item.match(new RegExp(TRAILING_MD_SPACES, ""));
+      if (match) {
+        /**
+         * found some trailing whitespace
+         */
+        let [spaces] = match;
+        acc.unshift(spaces);
+        leftover = item.slice(0, item.length - spaces.length);
+      } else {
+        /**
+         * nope, no trailing whitespace
+         */
+        break;
+      }
+    } else {
+      /**
+       * non-whitespace token
+       */
+      break;
+    }
+  }
+
+  return {
+    trailingSpaces: acc,
+    leadingStream: stream.slice(0, startIndex - (acc.length - 1)),
+    splitTrailingString: leftover,
+  };
+}
+
+function annotationIsBoldOrItalic(annotation: { type: string }) {
+  return ["bold", "italic"].includes(annotation.type);
+}
+
+function annotationsAreAdjacent(
+  left: { start: number; end: number },
+  right: { start: number; end: number }
+) {
+  let rightmostStart = Math.max(left.start, right.start);
+  let leftmostEnd = Math.min(left.end, right.end);
+  return rightmostStart === leftmostEnd;
 }
 
 /**
@@ -349,118 +780,18 @@ export default class CommonmarkRenderer extends Renderer {
       "&#10;&#10;"
     );
 
-    // there will be an extra line break at the start, which we will ignore
-    let [, ...lines] = flattenStreams(
-      escapedText.split("\n").map(function escapeLeadingSpaces(line) {
-        if (hasSignificantLeadingWhitespace(line)) {
-          // do we need to do anything with the whitespace here or can we just remove it?
-          let [, /* whitespace */ escapedLine] = greedilyTakeWhiteSpaceForward(
-            line
-          );
-          return [T.LINE_BREAK(), escapedLine];
-        } else {
-          return [T.LINE_BREAK(), line];
-        }
-      })
-    );
-
-    return lines;
+    return [
+      escapedText
+        .split("\n")
+        .map((line) => line.replace(LEADING_MD_SPACES, " "))
+        .join("\n"),
+    ];
   }
 
   *root() {
-    let stream: TokenStream = flattenStreams(yield).filter(
-      (item) => item !== ""
-    );
+    let stream: TokenStream = flattenStreams(yield);
 
-    console.log(stream);
-
-    for (let i = 0; i < stream.length; i++) {
-      let item = stream[i];
-
-      if (typeof item === "string") {
-        continue;
-      }
-
-      switch (item.kind) {
-        case "STRONG_STAR_START":
-        case "STRONG_UNDERSCORE_START":
-        case "EM_STAR_START":
-        case "EM_UNDERSCORE_START": {
-          let next = stream[i + 1];
-          let prefix = "";
-          if (typeof next === "string") {
-            let [punctuation, firstNext] = lazilyTakePunctuationForward(next);
-            let [whitespace, newNext] = greedilyTakeWhiteSpaceForward(
-              firstNext
-            );
-
-            stream[i + 1] = newNext;
-            prefix = punctuation + whitespace;
-          }
-
-          stream[i] = T.TOKENIZE(prefix + item.production);
-          break;
-        }
-        case "STRONG_STAR_END":
-        case "STRONG_UNDERSCORE_END":
-        case "EM_STAR_END":
-        case "EM_UNDERSCORE_END": {
-          let previous = stream[i - 1];
-          let suffix = "";
-          if (typeof previous === "string") {
-            let [punctuation, firstPrevious] = lazilyTakePunctuationBackward(
-              previous
-            );
-            let [whitespace, newPrevious] = greedilyTakeWhiteSpaceBackward(
-              firstPrevious
-            );
-
-            stream[i - 1] = newPrevious;
-            suffix = whitespace + punctuation;
-          }
-
-          stream[i] = T.TOKENIZE(item.production + suffix);
-          break;
-        }
-        case "ANCHOR_TEXT_START": {
-          let next = stream[i + 1];
-          let prefix = "";
-          if (typeof next === "string") {
-            let [whitespace, newNext] = greedilyTakeWhiteSpaceForward(next);
-
-            stream[i + 1] = newNext;
-            prefix = whitespace;
-          }
-
-          stream[i] = T.TOKENIZE(prefix + item.production);
-          break;
-        }
-        case "ANCHOR_TEXT_END_HREF": {
-          let previous = stream[i - 1];
-          let suffix = "";
-          if (typeof previous === "string") {
-            let [whitespace, newPrevious] = greedilyTakeWhiteSpaceBackward(
-              previous
-            );
-
-            stream[i - 1] = newPrevious;
-            suffix = whitespace;
-          }
-
-          stream[i] = T.TOKENIZE(item.production + suffix);
-        }
-      }
-    }
-
-    return stream
-      .map((item) => {
-        if (typeof item === "string") {
-          return item;
-        } else {
-          return item.production;
-        }
-      })
-      .join("");
+    return toString(fixDelimiterRuns(stream));
   }
 
   /**
@@ -471,7 +802,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Bold(): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
-    console.log(inner);
+
     if (inner.length === 0) {
       return [];
     } else {
@@ -479,37 +810,54 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  // /**
-  //  * > A block quote has `>` in front of every line
-  //  * > it is on.
-  //  * >
-  //  * > It can also span multiple lines.
-  //  */
-  // *Blockquote(): Iterator<void, string, string[]> {
-  //   let text = yield;
-  //   let lines: string[] = text.join("").split("\n");
-  //   let endOfQuote = lines.length;
-  //   let startOfQuote = 0;
+  /**
+   * > A block quote has `>` in front of every line
+   * > it is on.
+   * >
+   * > It can also span multiple lines.
+   */
+  *Blockquote(): Iterator<void, TokenStream, TokenStream[]> {
+    // let text = yield;
+    // let lines: string[] = text.join("").split("\n");
 
-  //   while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/))
-  //     startOfQuote++;
-  //   while (
-  //     endOfQuote > startOfQuote + 1 &&
-  //     lines[endOfQuote - 1].match(/^\s*$/)
-  //   )
-  //     endOfQuote--;
+    let lines = splitLines(flattenStreams(yield));
 
-  //   let quote =
-  //     lines
-  //       .slice(startOfQuote, endOfQuote)
-  //       .map(blockquotify)
-  //       .join("\n") + "\n";
+    /////////////// This is all to strip leading and trailing blank lines
+    /////////////// which is not strictly necessary per-spec
+    /////////////// and is kinda annoying to do
+    // let endOfQuote = lines.length;
+    // let startOfQuote = 0;
 
-  //   if (!this.state.tight) {
-  //     quote += "\n";
-  //   }
-  //   return quote;
-  // }
+    // while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/))
+    //   startOfQuote++;
+    // while (
+    //   endOfQuote > startOfQuote + 1 &&
+    //   lines[endOfQuote - 1].match(/^\s*$/)
+    // )
+    //   endOfQuote--;
+
+    // let quote =
+    //   lines
+    //     .slice(startOfQuote, endOfQuote)
+    //     .map(blockquotify)
+    //     .join("\n") + "\n";
+
+    // if (!this.state.tight) {
+    //   quote += "\n";
+    // }
+    // return [quote];
+
+    let bq = [];
+    for (let line of lines) {
+      bq.push(T.BLOCKQUOTE_LINE_START(), ...line, "\n");
+    }
+
+    if (!this.state.tight) {
+      bq.push("\n");
+    }
+
+    return bq;
+  }
 
   /**
    * # Headings have 6 levels, with a single `#` being the most important
@@ -524,23 +872,11 @@ export default class CommonmarkRenderer extends Renderer {
     let inner = flattenStreams(yield);
 
     // Multiline headings are supported for level 1 and 2
-    if (isMultiline(inner)) {
+    if (streamIncludes(inner, "\n") || streamIncludes(inner, "&#10;")) {
       if (heading.attributes.level === 1) {
-        return [
-          T.LINE_BREAK(),
-          ...inner,
-          T.LINE_BREAK(),
-          T.SETEXT_HEADING_1(),
-          T.LINE_BREAK(),
-        ];
+        return ["\n", ...inner, "\n", T.SETEXT_HEADING_1(), "\n"];
       } else if (heading.attributes.level === 2) {
-        return [
-          T.LINE_BREAK(),
-          ...inner,
-          T.LINE_BREAK(),
-          T.SETEXT_HEADING_2(),
-          T.LINE_BREAK(),
-        ];
+        return ["\n", ...inner, "\n", T.SETEXT_HEADING_2(), "\n"];
       }
     }
 
@@ -556,7 +892,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     let headingMarker =
       headingLevels[heading.attributes.level] || T.ATX_HEADING_6();
-    return [headingMarker, ...inner, T.LINE_BREAK()];
+    return [headingMarker, ...inner, "\n"];
   }
 
   /**
@@ -565,7 +901,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Iterator<void, TokenStream, TokenStream[]> {
-    return [T.THEMATIC_BREAK(), T.LINE_BREAK()];
+    return [T.THEMATIC_BREAK(), "\n"];
   }
 
   /**
@@ -573,7 +909,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Iterator<void, TokenStream, TokenStream[]> {
-    let description = image.attributes.description || "";
+    let description = escapePunctuation(image.attributes.description || "");
     let url = image.attributes.url;
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
@@ -593,14 +929,35 @@ export default class CommonmarkRenderer extends Renderer {
     italic: Italic,
     context: Context
   ): Iterator<void, TokenStream, TokenStream[]> {
+    let underscoreFlag = !!this.state.underscoreFlag;
+    this.state.underscoreFlag = !underscoreFlag;
+
     let inner = flattenStreams(yield);
+
+    this.state.underscoreFlag = underscoreFlag;
+
     if (inner.length === 0) {
       return [];
     } else {
-      if (
-        context.parent instanceof Italic &&
+      let requiresUnderscore = (a: typeof context.next) => {
+        return (
+          a && annotationIsBoldOrItalic(a) && annotationsAreAdjacent(italic, a)
+        );
+      };
+
+      let siblingRequiresUnderscore = [context.previous, context.next].some(
+        requiresUnderscore
+      );
+
+      let parentRequiresUnderscore =
+        annotationIsBoldOrItalic(context.parent) &&
         context.parent.start === italic.start &&
-        context.parent.end === italic.end
+        context.parent.end === italic.end;
+
+      if (
+        underscoreFlag ||
+        siblingRequiresUnderscore ||
+        parentRequiresUnderscore
       ) {
         return [T.EM_UNDERSCORE_START(), ...inner, T.EM_UNDERSCORE_END()];
       } else {
@@ -626,7 +983,7 @@ export default class CommonmarkRenderer extends Renderer {
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
     if (context.parent.type === "code" || context.parent.type === "html") {
-      return [T.LINE_BREAK()];
+      return ["\n"];
     }
 
     return [T.SOFT_LINE_BREAK()];
@@ -646,58 +1003,81 @@ export default class CommonmarkRenderer extends Renderer {
     return [T.ANCHOR_TEXT_START(), ...inner, T.ANCHOR_TEXT_END_HREF(url)];
   }
 
-  // /**
-  //  * A `code` span can be inline or as a block:
-  //  *
-  //  * ```js
-  //  * function () {}
-  //  * ```
-  //  */
-  // *Code(code: Code, context: Context): Iterator<void, string, string[]> {
-  //   let state = Object.assign({}, this.state);
-  //   Object.assign(this.state, {
-  //     isPreformatted: true,
-  //     htmlSafe: true
-  //   });
+  /**
+   * A `code` span can be inline or as a block:
+   *
+   * ```js
+   * function () {}
+   * ```
+   */
+  *Code(
+    code: Code,
+    context: Context
+  ): Iterator<void, TokenStream, TokenStream[]> {
+    let state = Object.assign({}, this.state);
+    Object.assign(this.state, {
+      isPreformatted: true,
+      htmlSafe: true,
+    });
 
-  //   let rawText = yield;
-  //   let text = rawText.join("");
-  //   this.state = state;
+    let inner = flattenStreams(yield);
+    this.state = state;
 
-  //   if (code.attributes.style === "fence") {
-  //     text = "\n" + text;
-  //     let info = code.attributes.info || "";
-  //     let newlines = "\n";
-  //     if (this.state.isList && context.next) {
-  //       newlines += "\n";
-  //     }
+    if (code.attributes.style === "fence") {
+      let info = code.attributes.info || "";
+      let newlines = "\n";
+      if (this.state.isList && context.next) {
+        newlines += "\n";
+      }
 
-  //     if (text.indexOf("```") !== -1 || info.indexOf("```") !== -1) {
-  //       return `~~~${info}${text}~~~${newlines}`;
-  //     } else {
-  //       return `\`\`\`${info}${text}\`\`\`${newlines}`;
-  //     }
-  //   } else if (code.attributes.style === "block") {
-  //     return (
-  //       text
-  //         .split("\n")
-  //         .map(codify)
-  //         .join("\n") + "\n"
-  //     );
-  //   } else {
-  //     // MarkdownIt strips all leading and trailing whitespace from code blocks,
-  //     // which means that we get an empty string for a single whitespace (` `).
-  //     if (text.length === 0) {
-  //       return "` `";
+      if (streamIncludes(inner, "```") || info.includes("```")) {
+        return [
+          T.CODE_FENCE_TILDE_START(),
+          info,
+          "\n",
+          ...inner,
+          T.CODE_FENCE_TILDE_END(),
+          newlines,
+        ];
+      } else {
+        return [
+          T.CODE_FENCE_BACKTICK_START(),
+          info,
+          "\n",
+          ...inner,
+          "\n",
+          T.CODE_FENCE_BACKTICK_END(),
+          newlines,
+        ];
+      }
+    } else if (code.attributes.style === "block") {
+      let acc = [];
+      for (let line of splitLines(inner)) {
+        acc.push(T.CODE_INDENT(), ...line, "\n");
+      }
 
-  //       // We need to properly escape backticks inside of code blocks
-  //       // by using variable numbers of backticks.
-  //     } else {
-  //       let backticks = "`".repeat(getNumberOfRequiredBackticks(text));
-  //       return `${backticks}${text}${backticks}`;
-  //     }
-  //   }
-  // }
+      acc.push("\n");
+
+      return acc;
+    } else {
+      if (inner.length === 0) {
+        return [];
+
+        // We need to properly escape backticks inside of code blocks
+        // by using variable numbers of backticks.
+      } else if (inner.length === 1 && typeof inner[0] === "string") {
+        let [text] = inner;
+        let numberOfBackticks = getNumberOfRequiredBackticks(text);
+        return [
+          T.CODE_INLINE_BACKTICKS(numberOfBackticks),
+          text,
+          T.CODE_INLINE_BACKTICKS(numberOfBackticks),
+        ];
+      } else {
+        throw new Error("Code node contained non-text annotations");
+      }
+    }
+  }
 
   *Html(html: HTML): Iterator<void, TokenStream, TokenStream[]> {
     let initialState = Object.assign({}, this.state);
@@ -711,116 +1091,121 @@ export default class CommonmarkRenderer extends Renderer {
     this.state = initialState;
 
     if (html.attributes.style === "block") {
-      return [...inner, T.LINE_BREAK()]; // text + "\n";
+      return [...inner, "\n"]; // text + "\n";
     }
     return inner;
   }
 
-  // /**
-  //  * A list item is part of an ordered list or an unordered list.
-  //  */
-  // *ListItem(): Iterator<void, string, string[]> {
-  //   let digit: number = this.state.digit;
-  //   let delimiter = this.state.delimiter;
-  //   let marker: string = delimiter;
-  //   if (this.state.type === "numbered") {
-  //     marker = `${digit}${delimiter}`;
-  //     this.state.digit++;
-  //   }
+  /**
+   * A list item is part of an ordered list or an unordered list.
+   */
+  *ListItem(): Iterator<void, TokenStream, TokenStream[]> {
+    let digit: number = this.state.digit;
+    let delimiter = this.state.delimiter;
+    let marker: string = delimiter;
+    if (this.state.type === "numbered") {
+      marker = `${digit}${delimiter}`;
+      this.state.digit++;
+    }
 
-  //   let indent = " ".repeat(marker.length + 1);
-  //   let text = yield;
-  //   let item = text.join("");
-  //   let firstCharacter = 0;
-  //   while (item[firstCharacter] === " ") firstCharacter++;
+    let indent = " ".repeat(marker.length + 1);
+    let inner = flattenStreams(yield);
+    let item = toString(fixDelimiterRuns(inner));
 
-  //   let lines: string[] = item.split("\n");
-  //   lines.push((lines.pop() || "").replace(/[ ]+$/, ""));
-  //   lines.unshift((lines.shift() || "").replace(/^[ ]+/, ""));
-  //   let [first, ...rest] = lines;
+    let firstNonspaceCharacterPosition = 0;
+    while (item[firstNonspaceCharacterPosition] === " ")
+      firstNonspaceCharacterPosition++;
 
-  //   item =
-  //     " ".repeat(firstCharacter) +
-  //     first +
-  //     "\n" +
-  //     rest
-  //       .map(function leftPad(line) {
-  //         return indent + line;
-  //       })
-  //       .join("\n")
-  //       .replace(/[ ]+$/, "");
+    let lines: string[] = item.split("\n");
+    lines.push((lines.pop() || "").replace(/[ ]+$/, ""));
+    lines.unshift((lines.shift() || "").replace(/^[ ]+/, ""));
+    let [first, ...rest] = lines;
 
-  //   if (this.state.tight) {
-  //     item = item.replace(/([ \n])+$/, "\n");
-  //   }
+    item =
+      " ".repeat(firstNonspaceCharacterPosition) +
+      first +
+      "\n" +
+      rest
+        .map(function leftPad(line) {
+          return indent + line;
+        })
+        .join("\n")
+        .replace(/[ ]+$/, "");
 
-  //   // Code blocks using spaces can follow lists,
-  //   // however, they will be included in the list
-  //   // if we don't adjust spacing on the list item
-  //   // to force the code block outside of the list
-  //   // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
-  //   if (this.state.hasCodeBlockFollowing) {
-  //     return ` ${marker}    ${item}`;
-  //   }
-  //   return `${marker} ${item}`;
-  // }
+    if (this.state.tight) {
+      item = item.replace(/([ \n])+$/, "\n");
+    }
 
-  // /**
-  //  * 1. An ordered list contains
-  //  * 2. A number
-  //  * 3. Of things with numbers preceding them
-  //  */
-  // *List(list: List, context: Context): Iterator<void, string, string[]> {
-  //   let start = 1;
+    // Code blocks using spaces can follow lists,
+    // however, they will be included in the list
+    // if we don't adjust spacing on the list item
+    // to force the code block outside of the list
+    // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
+    if (this.state.hasCodeBlockFollowing) {
+      return [" ", marker, T.CODE_INDENT(), item];
+    }
+    return [marker, " ", item];
+  }
 
-  //   if (list.attributes.startsAt != null) {
-  //     start = list.attributes.startsAt;
-  //   }
+  /**
+   * 1. An ordered list contains
+   * 2. A number
+   * 3. Of things with numbers preceding them
+   */
+  *List(
+    list: List,
+    context: Context
+  ): Iterator<void, TokenStream, TokenStream[]> {
+    let start = 1;
 
-  //   let delimiter = "";
+    if (list.attributes.startsAt != null) {
+      start = list.attributes.startsAt;
+    }
 
-  //   if (list.attributes.type === "numbered") {
-  //     delimiter = ".";
+    let delimiter = "";
 
-  //     if (
-  //       context.previous instanceof List &&
-  //       context.previous.attributes.type === "numbered" &&
-  //       context.previous.attributes.delimiter === "."
-  //     ) {
-  //       delimiter = ")";
-  //     }
-  //   } else if (list.attributes.type === "bulleted") {
-  //     delimiter = "-";
+    if (list.attributes.type === "numbered") {
+      delimiter = ".";
 
-  //     if (
-  //       context.previous instanceof List &&
-  //       context.previous.attributes.type === "bulleted" &&
-  //       context.previous.attributes.delimiter === "-"
-  //     ) {
-  //       delimiter = "+";
-  //     }
-  //   }
-  //   list.attributes.delimiter = delimiter;
+      if (
+        context.previous instanceof List &&
+        context.previous.attributes.type === "numbered" &&
+        context.previous.attributes.delimiter === "."
+      ) {
+        delimiter = ")";
+      }
+    } else if (list.attributes.type === "bulleted") {
+      delimiter = "-";
 
-  //   let state = Object.assign({}, this.state);
+      if (
+        context.previous instanceof List &&
+        context.previous.attributes.type === "bulleted" &&
+        context.previous.attributes.delimiter === "-"
+      ) {
+        delimiter = "+";
+      }
+    }
+    list.attributes.delimiter = delimiter;
 
-  //   // Handle indendation for code blocks that immediately follow a list.
-  //   let hasCodeBlockFollowing =
-  //     context.next instanceof Code && context.next.attributes.style === "block";
-  //   Object.assign(this.state, {
-  //     isList: true,
-  //     type: list.attributes.type,
-  //     digit: start,
-  //     delimiter,
-  //     tight: list.attributes.tight,
-  //     hasCodeBlockFollowing
-  //   });
+    let state = Object.assign({}, this.state);
 
-  //   let text = yield;
+    // Handle indendation for code blocks that immediately follow a list.
+    let hasCodeBlockFollowing =
+      context.next instanceof Code && context.next.attributes.style === "block";
+    Object.assign(this.state, {
+      isList: true,
+      type: list.attributes.type,
+      digit: start,
+      delimiter,
+      tight: list.attributes.tight,
+      hasCodeBlockFollowing,
+    });
 
-  //   this.state = state;
-  //   return text.join("") + "\n";
-  // }
+    let inner = flattenStreams(yield);
+
+    this.state = state;
+    return [...inner, "\n"];
+  }
 
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
@@ -829,7 +1214,7 @@ export default class CommonmarkRenderer extends Renderer {
     let inner = flattenStreams(yield);
 
     if (this.state.tight) {
-      return [...inner, T.LINE_BREAK()];
+      return [...inner, "\n"];
     }
     return [...inner, T.BLOCK_SEPARATOR()];
   }

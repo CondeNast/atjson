@@ -65,7 +65,35 @@ export interface Context {
 }
 
 function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
-  return a.vendorPrefix === "atjson" && a.type === "text";
+  return (
+    a.getAnnotationConstructor().vendorPrefix === "atjson" && a.type === "text"
+  );
+}
+
+function getChildNodeAnnotations(childNode: HIRNode) {
+  if (isTextAnnotation(childNode.annotation)) {
+    return {
+      type: "text" as const,
+      start: childNode.start,
+      end: childNode.end,
+      attributes: {
+        text: childNode.text,
+      },
+      toJSON(): object {
+        return {
+          id: "Any<id>",
+          type: "-atjson-text",
+          start: childNode.start,
+          end: childNode.end,
+          attributes: {
+            "-atjson-text": childNode.text,
+          },
+        };
+      },
+    };
+  } else {
+    return childNode.annotation;
+  }
 }
 
 function compile(

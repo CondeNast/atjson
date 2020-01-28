@@ -1,5 +1,5 @@
 export function SOFT_LINE_BREAK() {
-  return { kind: "SOFT_LINE_BREAK", production: "  \n" } as const;
+  return { kind: "SOFT_LINE_BREAK", production: "\\\n" } as const;
 }
 
 export function LINE_BREAK() {
@@ -69,27 +69,27 @@ export function IMAGE_ALT_TEXT_END_URL(url: string) {
 }
 
 export function ATX_HEADING_1() {
-  return { kind: "ATX_HEADING_1", production: "#" } as const;
+  return { kind: "ATX_HEADING_1", production: "# " } as const;
 }
 
 export function ATX_HEADING_2() {
-  return { kind: "ATX_HEADING_2", production: "##" } as const;
+  return { kind: "ATX_HEADING_2", production: "## " } as const;
 }
 
 export function ATX_HEADING_3() {
-  return { kind: "ATX_HEADING_3", production: "###" } as const;
+  return { kind: "ATX_HEADING_3", production: "### " } as const;
 }
 
 export function ATX_HEADING_4() {
-  return { kind: "ATX_HEADING_4", production: "####" } as const;
+  return { kind: "ATX_HEADING_4", production: "#### " } as const;
 }
 
 export function ATX_HEADING_5() {
-  return { kind: "ATX_HEADING_5", production: "#####" } as const;
+  return { kind: "ATX_HEADING_5", production: "##### " } as const;
 }
 
 export function ATX_HEADING_6() {
-  return { kind: "ATX_HEADING_6", production: "######" } as const;
+  return { kind: "ATX_HEADING_6", production: "###### " } as const;
 }
 
 export function SETEXT_HEADING_1() {
@@ -123,8 +123,7 @@ export function CODE_FENCE_TILDE_END() {
 export function CODE_INLINE_BACKTICKS(repeat: number) {
   return {
     kind: "CODE_INLINE_BACKTICKS",
-    repeat,
-    production: "`"
+    production: "`".repeat(repeat)
   } as const;
 }
 
@@ -143,8 +142,7 @@ export function BULLETED_LIST_DELIM() {
 export function INDENT_SPACES(indent: number) {
   return {
     kind: "INDENT_SPACES",
-    indent,
-    production: " "
+    production: " ".repeat(indent)
   } as const;
 }
 
