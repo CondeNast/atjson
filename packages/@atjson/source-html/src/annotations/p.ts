@@ -8,6 +8,6 @@ export class Paragraph extends BlockAnnotation<GlobalAttributes> {
   static type = "p";
 
   get rank() {
-    return (super.rank * 3) / 2;
+    return 15;
   }
 }

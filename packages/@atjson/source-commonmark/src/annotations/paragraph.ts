@@ -5,6 +5,6 @@ export class Paragraph extends BlockAnnotation {
   static type = "paragraph";
 
   get rank() {
-    return (super.rank * 3) / 2;
+    return 15;
   }
 }
