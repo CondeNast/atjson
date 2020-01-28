@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.22.1...@atjson/renderer-react@0.23.0) (2020-01-28)
+
+
+### Features
+
+* start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
+
+
+
+
+
 ## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.22.0...@atjson/renderer-react@0.22.1) (2020-01-24)
 
 **Note:** Version bump only for package @atjson/renderer-react
