@@ -3,7 +3,6 @@
   "timezone": "America/New_York",
   "schedule": ["after 10pm and before 5am on every weekday", "every weekend"],
   "rebaseStalePrs": false,
-  "commitMessagePrefix": "🤖📦",
   "packageRules": [
     {
       "packagePatterns": ["@docusaurus/*"],
