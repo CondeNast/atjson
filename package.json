@@ -76,7 +76,7 @@
     "lint": "eslint packages/**/src/*.ts packages/**/test/*.ts",
     "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts --fix",
     "prepublishOnly": "rm -rf packages/@atjson/**/dist && npm run build",
-    "publish": "lerna publish",
+    "publish": "lerna publish --no-commit-hooks",
     "test": "./node_modules/jest/bin/jest.js",
     "typecheck": "tsc -b packages/**/* --force",
     "anonymize-fixtures": "npx ts-node ./performance/anonymize-fixtures.ts",
