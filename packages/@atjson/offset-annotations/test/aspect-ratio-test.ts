@@ -77,4 +77,8 @@ describe("getClosestAspectRatio", () => {
 
     expect(getClosestAspectRatio(720, 1280)).toBe("9:16");
   });
+
+  test("super wide video", () => {
+    expect(getClosestAspectRatio(50, 2)).toBe("3.6:1");
+  });
 });

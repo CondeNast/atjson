@@ -83,5 +83,5 @@ export function getClosestAspectRatio(width: number, height: number) {
     }
     delta = currentDelta;
   }
-  return aspectRatios[aspectRatios.length - 1];
+  return aspectRatios[aspectRatios.length - 1].ratio;
 }
