@@ -1,4 +1,8 @@
-import Document, { Annotation, AnnotationJSON } from "@atjson/document";
+import Document, {
+  Annotation,
+  AnnotationJSON,
+  UnknownAnnotation
+} from "@atjson/document";
 import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
 interface Mapping {
@@ -69,32 +73,6 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
   );
 }
 
-function getChildNodeAnnotations(childNode: HIRNode) {
-  if (isTextAnnotation(childNode.annotation)) {
-    return {
-      type: "text",
-      start: childNode.start,
-      end: childNode.end,
-      attributes: {
-        text: childNode.text
-      },
-      toJSON(): object {
-        return {
-          id: "Any<id>",
-          type: "-atjson-text",
-          start: childNode.start,
-          end: childNode.end,
-          attributes: {
-            "-atjson-text": childNode.text
-          }
-        };
-      }
-    };
-  } else {
-    return childNode.annotation;
-  }
-}
-
 function compile(
   renderer: Renderer,
   node: HIRNode,
@@ -102,8 +80,7 @@ function compile(
 ): any {
   let annotation = node.annotation;
   let childNodes = node.children();
-
-  let childAnnotations = childNodes.map(getChildNodeAnnotations);
+  let childAnnotations = childNodes.map(normalizeChildNode);
   let generator: Iterator<void, any, any[]>;
 
   if (context.parent == null) {
@@ -146,6 +123,62 @@ function compile(
   ).value;
 }
 
+/**
+ * This normalizes the child node (from the HIR) to ensure that we only attempt
+ * to render _known_ annotations, and converts text nodes (leaf nodes in the HIR)
+ * to have the same shape as 'normal' annotations.
+ *
+ * Usually, a document that contains `UnknownAnnotations` hasn't been fully
+ * converted, and if we didn't throw here, we would simply silently fail to
+ * render the document properly.
+ *
+ * It may be that in the future, we'll add a check that converters *must* convert
+ * all annotations (and there is a WIP change to make all converters renderers,
+ * which would have the same effect in conjunction with this change). In that case,
+ * it would be impossible to have a document that has UnknownAnnotations. At
+ * the time of writing, though, we haven't made a determination because there
+ * are some use cases that would benefit from supporting UnknownAnnotations.
+ */
+function normalizeChildNode(childNode: HIRNode) {
+  if (isTextAnnotation(childNode.annotation)) {
+    return textAnnotationFromNode(childNode);
+  } else if (childNode.annotation instanceof UnknownAnnotation) {
+    // FIXME This is not helpful debugging information, but I'm not sure the best way to surface more detail.
+    // eslint-disable-next-line no-console
+    console.debug(
+      "Encountered unknown annotation in render:",
+      childNode.annotation
+    );
+    throw new Error(
+      "Cannot render an unknown annotation. Ensure all annotations are converted or removed before attempting to render."
+    );
+  } else {
+    return childNode.annotation;
+  }
+}
+
+function textAnnotationFromNode(childNode: HIRNode) {
+  return {
+    type: "text",
+    start: childNode.start,
+    end: childNode.end,
+    attributes: {
+      text: childNode.text
+    },
+    toJSON(): object {
+      return {
+        id: "Any<id>",
+        type: "-atjson-text",
+        start: childNode.start,
+        end: childNode.end,
+        attributes: {
+          "-atjson-text": childNode.text
+        }
+      };
+    }
+  };
+}
+
 export default class Renderer {
   static render<T extends typeof Renderer>(
     this: T,
@@ -169,8 +202,15 @@ export default class Renderer {
       (this as any)[classify(annotation.type)];
     if (generator) {
       return yield* generator.call(this, annotation, context);
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`
+      );
+      // eslint-disable-next-line no-console
+      console.debug("Unsupported annotation:", annotation);
+      return yield;
     }
-    return yield;
   }
 
   *root(): Iterator<void, any, any[]> {

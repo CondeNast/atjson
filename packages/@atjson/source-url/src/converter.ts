@@ -45,6 +45,10 @@ URLSource.defineConverterTo(OffsetSource, doc => {
             }
           })
         );
+      } else {
+        // If we've found a URL Annotation that doesn't match a SocialURL
+        // pattern, remove it for our purposes here.
+        doc.removeAnnotation(annotation);
       }
     });
 
