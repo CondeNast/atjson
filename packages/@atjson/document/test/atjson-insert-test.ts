@@ -408,6 +408,48 @@ describe("Document.insertText", () => {
     ]);
   });
 
+  test("insert text at the boundary of two adjacent annotations, splicing between them", () => {
+    let atjson = new TestSource({
+      content: "ac",
+      annotations: [
+        {
+          id: "1",
+          type: "-test-bold",
+          start: 0,
+          end: 1,
+          attributes: {}
+        },
+        {
+          id: "2",
+          type: "-test-italic",
+          start: 1,
+          end: 2,
+          attributes: {}
+        }
+      ]
+    });
+
+    atjson.insertText(1, "b", AdjacentBoundaryBehaviour.splice);
+
+    expect(atjson.content).toBe("abc");
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+      {
+        id: "1",
+        type: "-test-bold",
+        start: 0,
+        end: 1,
+        attributes: {}
+      },
+      {
+        id: "2",
+        type: "-test-italic",
+        start: 2,
+        end: 3,
+        attributes: {}
+      }
+    ]);
+  });
+
   test("insert text at the boundary with a custom transform", () => {
     let atjson = new TestSource({
       content: "abcd",

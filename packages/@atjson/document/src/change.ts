@@ -5,7 +5,8 @@ export abstract class Change {
 export enum AdjacentBoundaryBehaviour {
   preserve,
   default,
-  modify
+  modify,
+  splice
 }
 
 export class Deletion extends Change {

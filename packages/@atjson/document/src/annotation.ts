@@ -275,26 +275,20 @@ export abstract class Annotation<Attributes = {}> {
       // with the preserveAdjacentBoundaries switch.
 
       // Default edge behaviour.
-    } else if (change.behaviour === AdjacentBoundaryBehaviour.default) {
-      if (change.start === this.start) {
+    } else if (change.start === this.start) {
+      if (
+        change.behaviour === AdjacentBoundaryBehaviour.default ||
+        change.behaviour === AdjacentBoundaryBehaviour.splice
+      ) {
         this.start += length;
         this.end += length;
-      } else if (change.start === this.end) {
+      } else if (change.behaviour === AdjacentBoundaryBehaviour.preserve) {
         this.end += length;
       }
-
-      // Non-standard behaviour. Do nothing to the adjacent boundary!
-    } else if (
-      change.behaviour === AdjacentBoundaryBehaviour.preserve &&
-      change.start === this.start
-    ) {
-      this.end += length;
-
-      // no-op; we would delete the annotation, but we should defer to the
-      // annotation as to whether or not it's deletable, since some zero-length
-      // annotations should be retained.
-      // eslint-disable-next-line no-empty
     } else if (change.start === this.end) {
+      if (change.behaviour === AdjacentBoundaryBehaviour.default) {
+        this.end += length;
+      }
     }
   }
 
