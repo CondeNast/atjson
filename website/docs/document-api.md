@@ -146,6 +146,23 @@ markdown.equals(html);
 
 ## `insertText`
 
+default is:
+
+modify should go away?
+
+default:
+leading is modified
+trailing is preserved
+
+preserve:
+leading is preserved
+trailing is modified
+
+splice:
+leading is preserved
+trailing is preserved
+
+
 ## `match`
 
 ```ts
