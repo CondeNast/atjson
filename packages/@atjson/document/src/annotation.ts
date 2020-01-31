@@ -1,11 +1,12 @@
 import * as uuid from "uuid-random";
 import {
-  AdjacentBoundaryBehaviour,
   AnnotationAttributesObject,
   Change,
+  ChangeType,
   clone,
   Deletion,
   Document,
+  EdgeBehaviour,
   Insertion,
   JSON,
   removeUndefinedValuesFromObject,
@@ -197,7 +198,7 @@ export abstract class Annotation<Attributes = {}> {
    *     are applied to the document including annotations.
    */
   handleChange(change: Change) {
-    if (change.type === "insertion") {
+    if (change.type === ChangeType.insertion) {
       this.handleInsertion(change as Insertion);
     } else {
       this.handleDeletion(change as Deletion);
@@ -276,17 +277,14 @@ export abstract class Annotation<Attributes = {}> {
 
       // Default edge behaviour.
     } else if (change.start === this.start) {
-      if (
-        change.behaviour === AdjacentBoundaryBehaviour.default ||
-        change.behaviour === AdjacentBoundaryBehaviour.splice
-      ) {
+      if (change.behaviourLeading === EdgeBehaviour.preserve) {
         this.start += length;
         this.end += length;
-      } else if (change.behaviour === AdjacentBoundaryBehaviour.preserve) {
+      } else {
         this.end += length;
       }
     } else if (change.start === this.end) {
-      if (change.behaviour === AdjacentBoundaryBehaviour.default) {
+      if (change.behaviourTrailing === EdgeBehaviour.modify) {
         this.end += length;
       }
     }

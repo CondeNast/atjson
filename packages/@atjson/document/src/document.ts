@@ -6,6 +6,7 @@ import {
   AnnotationJSON,
   compareAnnotations,
   Deletion,
+  EdgeBehaviour,
   Insertion,
   ParseAnnotation,
   UnknownAnnotation
@@ -274,7 +275,35 @@ export class Document {
     if (start < 0 || start > this.content.length)
       throw new Error("Invalid position.");
 
-    let insertion = new Insertion(start, text, behaviour);
+    let behaviourLeading;
+    let behaviourTrailing;
+    // "preserve" and "modify" are targeted for deprecation as valid options in
+    // favor of preserveLeading, preserveTrailing, or preserveBoth
+    switch (behaviour) {
+      case AdjacentBoundaryBehaviour.preserveBoth:
+        behaviourLeading = EdgeBehaviour.preserve;
+        behaviourTrailing = EdgeBehaviour.preserve;
+        break;
+      case AdjacentBoundaryBehaviour.preserve:
+      case AdjacentBoundaryBehaviour.preserveTrailing:
+        behaviourLeading = EdgeBehaviour.modify;
+        behaviourTrailing = EdgeBehaviour.preserve;
+        break;
+      default:
+      case AdjacentBoundaryBehaviour.modify:
+      case AdjacentBoundaryBehaviour.preserveLeading:
+        behaviourLeading = EdgeBehaviour.preserve;
+        behaviourTrailing = EdgeBehaviour.modify;
+        break;
+    }
+
+    let insertion = new Insertion(
+      start,
+      text,
+      behaviourLeading,
+      behaviourTrailing
+    );
+
     try {
       for (let i = this.annotations.length - 1; i >= 0; i--) {
         let annotation = this.annotations[i];
@@ -288,43 +317,14 @@ export class Document {
       console.error("Failed to insert text", e);
     }
 
-    /*
-        if (text.indexOf('\n') > -1) {
-      let prevEnd: number;
-      for (let j = this.annotations.length - 1; j >= 0; j--) {
-        a = this.annotations[j];
-
-        // This doesn't affect us.
-        if (a.type !== 'block') continue;
-        if (a.end < position) continue;
-        if (position < a.start) continue;
-
-        // First adjust the end of the current paragraph.
-        prevEnd = a.end;
-        a.end = position + 1;
-
-        // And now add a new paragraph.
-        this.addAnnotations({
-          type: 'paragraph',
-          display: 'block',
-          start: position + 1,
-          end: prevEnd
-        });
-      }
-    }
-    */
     this.triggerChange();
   }
 
-  deleteText(
-    start: number,
-    end: number,
-    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
-  ) {
+  deleteText(start: number, end: number) {
     // This should really not just truncate annotations, but rather tombstone
     // the modified annotations as an atjson sub-document inside the annotation
     // that's being used to delete stuff.
-    let deletion = new Deletion(start, end, behaviour);
+    let deletion = new Deletion(start, end);
     try {
       for (let i = this.annotations.length - 1; i >= 0; i--) {
         let annotation = this.annotations[i];
@@ -335,19 +335,6 @@ export class Document {
       // eslint-disable-next-line no-console
       console.error("Failed to delete text", e);
     }
-
-    /* to be moved to block annotation
-      let potentialMergeAnnotations = { type: annotations[] }
-      for (const type in potentialMergeAnnotations) {
-        let annotations = potentialMergeAnnotations[type];
-        annotations = annotations.sort((j, k) => j.start - k.start);
-        for (let l = annotations.length - 1; l > 0; l--) {
-          if (annotations[l - 1].end === annotations[l].start) { // && annotations[i-1].attributes.toJSON() === annotations[i].attributes.toJSON()) {
-            annotations[l - 1].end = annotations[l].end;
-            this.removeAnnotation(annotations[l]);
-          }
-        }
-        */
 
     this.triggerChange();
   }
@@ -380,16 +367,12 @@ export class Document {
   /**
    * Cuts out part of the document, modifying `this` and returning the removed portion
    */
-  cut(
-    start: number,
-    end: number,
-    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
-  ): Document {
+  cut(start: number, end: number): Document {
     let slice = this.slice(start, end);
     this.where(function annotationWasCut(annotation) {
       return annotation.start >= start && annotation.end <= end;
     }).remove();
-    this.deleteText(start, end, behaviour);
+    this.deleteText(start, end);
 
     return slice;
   }
