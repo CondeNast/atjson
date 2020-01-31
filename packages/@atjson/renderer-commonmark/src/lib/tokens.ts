@@ -154,6 +154,20 @@ export function TOKENIZE(production: string) {
   return { kind: "CUSTOM_TOKEN", production } as const;
 }
 
+export function ESCAPED_PUNCTUATION(punctuation: string) {
+  return {
+    kind: "ESCAPED_PUNCTUATION",
+    production: `\\${punctuation}`
+  } as const;
+}
+
+export function HTML_ENTITY(entityCode: string) {
+  return {
+    kind: "HTML_ENTITY",
+    production: `&${entityCode};`
+  } as const;
+}
+
 export type Token = ReturnType<
   | typeof SOFT_LINE_BREAK
   | typeof LINE_BREAK
@@ -191,6 +205,8 @@ export type Token = ReturnType<
   | typeof INDENT_SPACES
   | typeof BLOCKQUOTE_LINE_START
   | typeof TOKENIZE
+  | typeof ESCAPED_PUNCTUATION
+  | typeof HTML_ENTITY
 >;
 
 // enum Token {

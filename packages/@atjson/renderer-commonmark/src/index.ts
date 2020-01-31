@@ -26,139 +26,140 @@ import {
   MD_SPACES,
 } from "./lib/punctuation";
 import * as T from "./lib/tokens";
-// import { stringify } from "querystring";
 export * from "./lib/punctuation";
 
-// function getEnd(a: { end: number }) {
-//   return a.end;
-// }
+export function flatMapStringReplace(
+  string: string,
+  re: RegExp,
+  replacer: (a: RegExpMatchArray) => TokenStream
+): TokenStream {
+  let flags = re.flags.replace("g", "");
+  re = new RegExp(re, flags);
 
-// export function* splitDelimiterRuns(
-//   annotation: Annotation,
-//   context: Context,
-//   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
-// ): Generator<void, [string, string, string], string[]> {
-//   let rawText = yield;
-//   let text = rawText.map(unescapeEntities).join("");
-//   let start = 0;
-//   let end = text.length;
-//   let match;
+  let acc: TokenStream = [];
 
-//   let child = context.children.length === 1 ? context.children[0] : null;
-//   if (
-//     child &&
-//     child.start === annotation.start &&
-//     child.end === annotation.end &&
-//     (child instanceof Bold || child instanceof Italic)
-//   ) {
-//     return ["", text, ""] as [string, string, string];
-//   }
+  let match: RegExpMatchArray | null;
+  while (string.length && (match = string.match(re)) && match.index != null) {
+    let stringTilMatch = string.slice(0, match.index);
+    string = string.slice(match.index + match[0].length);
 
-//   while (start < end) {
-//     match = text.slice(start).match(BEGINNING_WHITESPACE_PUNCTUATION);
-//     if (!match) break;
-//     if (match[2]) {
-//       start += match[2].length;
-//     } else if (match[3]) {
-//       let prevChar = getPreviousChar(context.document, annotation.start);
-//       if (start === 0 && prevChar && !prevChar.match(WHITESPACE_PUNCTUATION)) {
-//         start += match[3].length;
-//       } else {
-//         break;
-//       }
-//     }
-//   }
-//   while (end > start) {
-//     match = text.slice(0, end).match(ENDING_WHITESPACE_PUNCTUATION);
-//     if (!match) break;
-//     if (match[4]) {
-//       end -= match[4].length;
-//     } else if (match[5]) {
-//       // never include single backslash as last character as this would escape
-//       // the delimiter
-//       if (match[5].match(UNMATCHED_TRAILING_ESCAPE_SEQUENCES)) {
-//         end -= 1;
-//         break;
-//       }
-//       let nextChar = getNextChar(context.document, annotation.end);
-//       if (
-//         end === text.length &&
-//         nextChar &&
-//         !nextChar.match(WHITESPACE_PUNCTUATION)
-//       ) {
-//         end -= match[5].length;
-//       } else {
-//         break;
-//       }
-//     }
-//   }
+    let subStream = replacer(match);
 
-//   if (options.escapeHtmlEntities) {
-//     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
-//       escapeHtmlEntities
-//     ) as [string, string, string];
-//   } else {
-//     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
-//       escapeEntities
-//     ) as [string, string, string];
-//   }
-// }
+    if (stringTilMatch.length) {
+      acc.push(stringTilMatch);
+    }
 
-// export function* split(): Generator<void, string[], string[]> {
-//   let rawText = yield;
-//   let text = rawText.join("");
-//   let start = 0;
-//   let end = text.length;
-//   let match;
+    if (subStream.length) {
+      acc.push(...subStream);
+    }
+  }
 
-//   while (start < end) {
-//     match = text.slice(start).match(BEGINNING_WHITESPACE);
-//     if (!match) break;
-//     start += match[1].length;
-//   }
-//   while (end > start) {
-//     match = text.slice(0, end).match(ENDING_WHITESPACE);
-//     if (!match) break;
-//     end -= match[1].length;
-//   }
+  if (string.length) {
+    acc.push(string);
+  }
 
-//   return [text.slice(0, start), text.slice(start, end), text.slice(end)];
-// }
+  return acc;
+}
+
+export function streamFlatMapStringReplace(
+  stream: TokenStream,
+  re: RegExp,
+  replacer: (a: RegExpMatchArray) => TokenStream
+) {
+  return flatMap(stream, (item) => {
+    if (typeof item === "string") {
+      return flatMapStringReplace(item, re, replacer);
+    } else {
+      return [item];
+    }
+  });
+}
 
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(
-  text: string,
+  raw: TokenStream,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
-) {
-  let escaped = text
-    .replace(/([#!*+=\\^_`{|}~])/g, "\\$1")
-    .replace(/(\[)([^\]]*$)/g, "\\$1$2") // Escape bare opening brackets [
-    .replace(/(^[^[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
-    .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
-    .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
-    .replace(/(^[\s]*)-/g, "$1\\-") // `  - list item`
-    .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\-"); // `- list item\n - list item`
+): TokenStream {
+  //   -- .replace(/([#!*+=\\^_`{|}~])/g, "\\$1")
+  let escaped = streamFlatMapStringReplace(
+    raw,
+    /([#!*+=\\^_`{|}~])/,
+    ([, $1]) => [T.ESCAPED_PUNCTUATION($1)]
+  );
+
+  //   -- .replace(/(\[)([^\]]*$)/g, "\\$1$2") // Escape bare opening brackets [
+  escaped = streamFlatMapStringReplace(
+    escaped,
+    /(\[)([^\]]*$)/,
+    ([, $1, $2]) => [T.ESCAPED_PUNCTUATION($1), $2]
+  );
+
+  //   -- .replace(/(^[^[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
+  escaped = streamFlatMapStringReplace(
+    escaped,
+    /(^[^[]*)(\].*$)/,
+    ([, $1, $2]) => [$1, T.ESCAPED_PUNCTUATION($2)]
+  );
+
+  //   .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
+  escaped = streamFlatMapStringReplace(escaped, /(\]\()/, () => [
+    "]",
+    T.ESCAPED_PUNCTUATION("("),
+  ]);
+
+  //   .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
+  escaped = streamFlatMapStringReplace(
+    escaped,
+    /^(\s*\d+)\.(\s+)/,
+    ([, $1, $2]) => [$1, T.ESCAPED_PUNCTUATION("."), $2]
+  );
+
+  //   .replace(/(^[\s]*)-/g, "$1\\-") // `  - list item`
+  escaped = streamFlatMapStringReplace(escaped, /(^[\s]*)-/g, ([, $1]) => [
+    $1,
+    T.ESCAPED_PUNCTUATION("-"),
+  ]);
+
+  //   .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\-"); // `- list item\n - list item`
+  escaped = streamFlatMapStringReplace(
+    escaped,
+    /(\r\n|\r|\n)([\s]*)-/,
+    ([, $1, $2]) => [$1, $2, T.ESCAPED_PUNCTUATION("-")]
+  );
+
+  escaped = escapeEntities(escaped);
 
   if (options.escapeHtmlEntities) {
     return escapeHtmlEntities(escaped);
-  } else {
-    return escapeEntities(escaped);
   }
+
+  return escaped;
 }
 
-function escapeHtmlEntities(text: string) {
-  return text
-    .replace(/&([^\s]+);/g, "\\&$1;")
-    .replace(/</g, "&lt;")
-    .replace(/\u00A0/gu, "&nbsp;")
-    .replace(/\u2003/gu, "&emsp;");
+function escapeHtmlEntities(raw: TokenStream) {
+  //   .replace(/</g, "&lt;")
+  return streamFlatMapStringReplace(raw, /</, () => [T.HTML_ENTITY("lt")]);
 }
 
-function escapeEntities(text: string) {
-  return text
-    .replace(/&([^\s]+);/g, "\\&$1;")
-    .replace(/\u00A0/gu, "&nbsp;")
-    .replace(/\u2003/gu, "&emsp;");
+function escapeEntities(raw: TokenStream) {
+  //   .replace(/&([^\s]+);/g, "\\&$1;")
+  let escaped = streamFlatMapStringReplace(raw, /&([^\s]+);/, ([, $1]) => [
+    T.ESCAPED_PUNCTUATION("&"),
+    $1,
+    ";",
+  ]);
+
+  //   .replace(/\u00A0/gu, "&nbsp;")
+  escaped = streamFlatMapStringReplace(escaped, /\u00A0/, () => [
+    T.HTML_ENTITY("nbsp"),
+  ]);
+
+  //   .replace(/\u2003/gu, "&emsp;");
+  escaped = streamFlatMapStringReplace(escaped, /\u2003/, () => [
+    T.HTML_ENTITY("emsp"),
+  ]);
+
+  return escaped;
 }
 
 // function escapeAttribute(text: string) {
@@ -226,22 +227,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
     return x !== "";
   });
 
-  let loopCheck = 0;
-  for (let i = 0; i < stream.length; i++, loopCheck++) {
-    if (loopCheck > 10000) {
-      throw new Error(
-        JSON.stringify(
-          {
-            msg: "infinite loop",
-            stream,
-            i,
-            currentItem: stream[i],
-          },
-          null,
-          2
-        )
-      );
-    }
+  for (let i = 0; i < stream.length; i++) {
     let prevItem = stream[i - 1];
     let nextItem = stream[i + 1];
     let currItem = stream[i];
@@ -259,14 +245,29 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
          * we're gonna look forward in the stream for any invalid inner boundary characters and move them leftwards until they aren't invalid anymore
          */
         let itemsToMoveOut: TokenStream = [];
+
+        /**
+         * seek backwards until we find a valid place to put the invalid characters
+         */
+        let j = i;
+        while (j >= 0) {
+          if (isLeftDelimiter(stream[j])) {
+            j--;
+          } else {
+            break;
+          }
+        }
+
+        let leftBoundaryItem = stream[j];
+
         /**
          * if the left side is whitespace or punctuation we don't
          *  need to worry about punctuation on the right side
          */
         if (
-          prevItem &&
-          !hasTrailingWhitespace(prevItem) &&
-          !hasTrailingPunctuation(prevItem)
+          leftBoundaryItem &&
+          !hasTrailingWhitespace(leftBoundaryItem) &&
+          !hasTrailingPunctuation(leftBoundaryItem)
         ) {
           /**
            * take off any inner-boundary punctuation and get ready to move it out
@@ -295,23 +296,14 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
 
         itemsToMoveOut.push(...leadingSpaces);
 
-        /**
-         * seek backwards until we find a valid place to put the invalid characters
-         */
-        let j = i;
-        while (j > 0) {
-          if (isLeftDelimiter(stream[j])) {
-            j--;
-          } else {
-            break;
-          }
-        }
+        itemsToMoveOut = itemsToMoveOut.filter((item) => item !== "");
 
         /**
          * at this point `j` is the index at/before which we need to put the
          *  invalid inner boundary characters.
+         * (if we ran off the edge of the string `j` is -1, which is fine)
          *
-         * at position `j` we remove 0 characters and insert the `itemsToMoveOut`
+         * at position `j + 1` we remove 0 characters and insert the `itemsToMoveOut`
          */
         stream.splice(j + 1, 0, ...itemsToMoveOut);
 
@@ -343,13 +335,28 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
         let itemsToMoveOut: TokenStream = [];
 
         /**
+         * seek forwards in the stream until we find a valid place to put
+         *  the invalid characters
+         */
+        let j = i;
+        while (j < stream.length) {
+          if (isRightDelimiter(stream[j])) {
+            j++;
+          } else {
+            break;
+          }
+        }
+
+        let rightBoundaryItem = stream[j];
+
+        /**
          * we only need to worry about punctuation if there's a non-whitespace,
          *  non-punctuation character ahead
          */
         if (
-          nextItem &&
-          !hasLeadingWhitespace(nextItem) &&
-          !hasLeadingPunctuation(nextItem)
+          rightBoundaryItem &&
+          !hasLeadingWhitespace(rightBoundaryItem) &&
+          !hasLeadingPunctuation(rightBoundaryItem)
         ) {
           /**
            * take off any inner-boundary punctuation and get ready to move it out
@@ -379,19 +386,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
 
         itemsToMoveOut = trailingSpaces.concat(itemsToMoveOut);
 
-        /**
-         * seek forwards in the stream until we find a valid place to put
-         *  the invalid characters
-         */
-        let j = i;
-        while (j < stream.length) {
-          if (isRightDelimiter(stream[j])) {
-            j++;
-          } else {
-            break;
-          }
-        }
-
+        itemsToMoveOut = itemsToMoveOut.filter((item) => item !== "");
         /**
          * at this point `j` is the index at/after which we need to put the
          *  invalid inner boundary characters.
@@ -413,7 +408,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
         let {
           leadingSpaces,
           splitLeadingString,
-        } = greedilyTakeLeadingWhiteSpace(stream, i);
+        } = greedilyTakeLeadingWhiteSpace(stream, i + 1);
 
         /**
          *  - put the spaces into the stream behind us
@@ -422,7 +417,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
          *  - if we split a string while taking the leading spaces, add
          *     back the remainder of the string
          */
-        stream.splice(i - 1, 0, ...leadingSpaces);
+        stream.splice(i, 0, ...leadingSpaces);
         i += leadingSpaces.length;
         stream.splice(i + 1, leadingSpaces.length);
         if (splitLeadingString) {
@@ -434,7 +429,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
         let {
           trailingSpaces,
           splitTrailingString,
-        } = greedilyTakeTrailingWhiteSpace(stream, i);
+        } = greedilyTakeTrailingWhiteSpace(stream, i - 1);
 
         /**
          * - put the spaces into the stream ahead of us
@@ -484,6 +479,28 @@ export function flattenStreams(
   return mergeStrings(acc);
 }
 
+function flatMap(
+  stream: TokenStream,
+  mapper: (item: T.Token | string, i: number, s: TokenStream) => TokenStream
+) {
+  let acc: TokenStream = [];
+  return acc.concat(...stream.map(mapper));
+}
+
+function intersperse<T>(arr: T[], spacer: T): T[] {
+  if (arr.length === 0) {
+    return [];
+  }
+
+  let [firstItem, ...rest] = arr;
+  let acc: T[] = [firstItem];
+  for (let item of rest) {
+    acc.push(spacer, item);
+  }
+
+  return acc;
+}
+
 export function mergeStrings(stream: TokenStream): TokenStream {
   let acc: TokenStream = [];
   let stringAcc;
@@ -518,7 +535,7 @@ export function splitLines(stream: TokenStream): TokenStream[] {
         // always true
         let [firstLine, ...middleLines] = parts.slice(0, parts.length - 1);
         line.push(firstLine);
-        lines.push(line, ...middleLines.map(array));
+        lines.push(line, ...middleLines.map((line) => [...line]));
         line = array(parts[parts.length - 1]);
       }
     } else {
@@ -579,8 +596,8 @@ function lazilyTakePunctuationBackward(str: string): [string, string] {
 }
 
 function containsNonSpaces(str: string) {
-  let onlySpacesMatcher = new RegExp(`^${MD_SPACES}+$`, "g");
-  return !onlySpacesMatcher.test(str); // /^(\s|&nbsp;)*$/g.test(str);
+  let onlySpacesMatcher = new RegExp(`^${MD_SPACES.source}$`, "g");
+  return !onlySpacesMatcher.test(str);
 }
 
 function isWhitespace(item: T.Token | string) {
@@ -591,38 +608,40 @@ function isWhitespace(item: T.Token | string) {
   }
 }
 
-function hasTrailingWhitespace(item: T.Token | string): boolean {
+export function hasTrailingWhitespace(item: T.Token | string): boolean {
+  let trailingSpacesRe = new RegExp(TRAILING_MD_SPACES);
   if (typeof item === "string") {
-    return TRAILING_MD_SPACES.test(item);
+    return trailingSpacesRe.test(item);
   } else {
     return isWhitespace(item);
   }
 }
 
-function hasLeadingWhitespace(item: T.Token | string): boolean {
+export function hasLeadingWhitespace(item: T.Token | string): boolean {
+  let leadingSpacesRe = new RegExp(LEADING_MD_SPACES);
   if (typeof item === "string") {
-    return LEADING_MD_SPACES.test(item);
+    return leadingSpacesRe.test(item);
   } else {
     return isWhitespace(item);
   }
 }
 
-let TRAILING_MD_PUNCTUATION = new RegExp(`${MD_PUNCTUATION}+$`);
-function hasTrailingPunctuation(item: T.Token | string) {
+export function hasTrailingPunctuation(item: T.Token | string) {
+  let trailingPunctuationRe = new RegExp(`(${MD_PUNCTUATION.source})+$`);
   if (typeof item === "string") {
-    return TRAILING_MD_PUNCTUATION.test(item);
+    return trailingPunctuationRe.test(item);
   } else {
     // if it's a token it's either whitespace or punctuation
-    return !isWhitespace(item);
+    return item.kind === "ESCAPED_PUNCTUATION";
   }
 }
 
-let LEADING_MD_PUNCTUATION = new RegExp(`^${MD_PUNCTUATION}+`);
-function hasLeadingPunctuation(item: T.Token | string) {
+export function hasLeadingPunctuation(item: T.Token | string) {
+  let leadingPunctuationRe = new RegExp(`^(${MD_PUNCTUATION.source})+`);
   if (typeof item === "string") {
-    return LEADING_MD_PUNCTUATION.test(item);
+    return leadingPunctuationRe.test(item);
   } else {
-    return !isWhitespace(item);
+    return item.kind === "ESCAPED_PUNCTUATION";
   }
 }
 
@@ -647,6 +666,7 @@ export function greedilyTakeLeadingWhiteSpace(
         let [spaces] = match;
         acc.push(spaces);
         leftover = item.slice(spaces.length);
+        break;
       } else {
         break;
       }
@@ -697,6 +717,11 @@ export function greedilyTakeTrailingWhiteSpace(
         let [spaces] = match;
         acc.unshift(spaces);
         leftover = item.slice(0, item.length - spaces.length);
+
+        /**
+         * this item failed `isWhitespace` so we shouldn't continue from here
+         */
+        break;
       } else {
         /**
          * nope, no trailing whitespace
@@ -722,14 +747,32 @@ function annotationIsBoldOrItalic(annotation: { type: string }) {
   return ["bold", "italic"].includes(annotation.type);
 }
 
-function annotationsAreAdjacent(
-  left: { start: number; end: number },
-  right: { start: number; end: number }
-) {
-  let rightmostStart = Math.max(left.start, right.start);
-  let leftmostEnd = Math.min(left.end, right.end);
-  return rightmostStart === leftmostEnd;
+function compactLeadingWhitespace(line: TokenStream): TokenStream {
+  let {
+    leadingSpaces,
+    trailingStream,
+    splitLeadingString,
+  } = greedilyTakeLeadingWhiteSpace(line, 0);
+
+  if (splitLeadingString) {
+    trailingStream.unshift(splitLeadingString);
+  }
+
+  if (leadingSpaces.length) {
+    return [" ", ...trailingStream];
+  } else {
+    return trailingStream;
+  }
 }
+
+// function annotationsAreAdjacent(
+//   left: { start: number; end: number },
+//   right: { start: number; end: number }
+// ) {
+//   let rightmostStart = Math.max(left.start, right.start);
+//   let leftmostEnd = Math.min(left.end, right.end);
+//   return rightmostStart === leftmostEnd;
+// }
 
 /**
 
@@ -775,17 +818,14 @@ export default class CommonmarkRenderer extends Renderer {
       return [text];
     }
 
-    let escapedText = escapePunctuation(text, this.options).replace(
-      /\n\n/g,
-      "&#10;&#10;"
-    );
+    let escapedText = escapePunctuation([text], this.options);
+    escapedText = streamFlatMapStringReplace(escapedText, /\n\n/, () => {
+      return [T.SOFT_LINE_BREAK(), T.SOFT_LINE_BREAK()];
+    });
 
-    return [
-      escapedText
-        .split("\n")
-        .map((line) => line.replace(LEADING_MD_SPACES, " "))
-        .join("\n"),
-    ];
+    let lines = splitLines(escapedText).map(compactLeadingWhitespace);
+
+    return flattenStreams(intersperse(lines, ["\n"]));
   }
 
   *root() {
@@ -849,7 +889,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     let bq = [];
     for (let line of lines) {
-      bq.push(T.BLOCKQUOTE_LINE_START(), ...line, "\n");
+      bq.push(T.BLOCKQUOTE_LINE_START(), ...line);
     }
 
     if (!this.state.tight) {
@@ -909,7 +949,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Iterator<void, TokenStream, TokenStream[]> {
-    let description = escapePunctuation(image.attributes.description || "");
+    let description = escapePunctuation([image.attributes.description || ""]);
     let url = image.attributes.url;
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
@@ -917,7 +957,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
     return [
       T.IMAGE_ALT_TEXT_START(),
-      description,
+      ...description,
       T.IMAGE_ALT_TEXT_END_URL(url),
     ];
   }
@@ -941,7 +981,7 @@ export default class CommonmarkRenderer extends Renderer {
     } else {
       let requiresUnderscore = (a: typeof context.next) => {
         return (
-          a && annotationIsBoldOrItalic(a) && annotationsAreAdjacent(italic, a)
+          a && annotationIsBoldOrItalic(a) // && annotationsAreAdjacent(italic, a)
         );
       };
 
@@ -1091,7 +1131,7 @@ export default class CommonmarkRenderer extends Renderer {
     this.state = initialState;
 
     if (html.attributes.style === "block") {
-      return [...inner, "\n"]; // text + "\n";
+      return [...inner, "\n"];
     }
     return inner;
   }

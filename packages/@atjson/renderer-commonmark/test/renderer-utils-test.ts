@@ -4,6 +4,10 @@ import {
   mergeStrings,
   splitLines,
   streamIncludes,
+  hasLeadingWhitespace,
+  hasTrailingWhitespace,
+  flatMapStringReplace,
+  streamFlatMapStringReplace,
   greedilyTakeLeadingWhiteSpace,
   greedilyTakeTrailingWhiteSpace
 } from "../src";
@@ -40,7 +44,7 @@ describe("commonmark renderer utility functions", () => {
       ]);
     });
 
-    test.only("fixing deeply nested stuff", () => {
+    test("fixing deeply nested stuff", () => {
       // foo******bar*********baz
       let stream = [
         "foo",
@@ -57,6 +61,50 @@ describe("commonmark renderer utility functions", () => {
 
       expect(fixDelimiterRuns(stream)).toEqual(stream);
     });
+  });
+
+  describe("flatMapStringReplace", () => {
+    test("escaping list delimiters", () => {
+      let string = "1. list item\n2. list item";
+
+      expect(
+        flatMapStringReplace(string, /([0-9]+)\.([^\n]+)/, ([, $1, $2]) => {
+          return [$1, T.ESCAPED_PUNCTUATION("."), $2];
+        })
+      ).toEqual([
+        "1",
+        T.ESCAPED_PUNCTUATION("."),
+        " list item",
+        "\n",
+        "2",
+        T.ESCAPED_PUNCTUATION("."),
+        " list item"
+      ]);
+    });
+  });
+
+  test("streamFlatMapStringReplace", () => {
+    let stream = [
+      "test test",
+      T.SOFT_LINE_BREAK(),
+      T.STRONG_STAR_START(),
+      "test",
+      T.STRONG_STAR_END()
+    ];
+
+    expect(
+      streamFlatMapStringReplace(stream, /t(.)st/, ([, $1]) => {
+        return [$1.repeat(5)];
+      })
+    ).toEqual([
+      "eeeee",
+      " ",
+      "eeeee",
+      T.SOFT_LINE_BREAK(),
+      T.STRONG_STAR_START(),
+      "eeeee",
+      T.STRONG_STAR_END()
+    ]);
   });
 
   test("flattenStreams", () => {
@@ -105,6 +153,20 @@ describe("commonmark renderer utility functions", () => {
     expect(streamIncludes(stream, "test\nthis")).toBe(false);
   });
 
+  test("hasLeadingWhitespace", () => {
+    expect(hasLeadingWhitespace(" a string")).toBe(true);
+    expect(hasLeadingWhitespace("another string ")).toBe(false);
+    expect(hasLeadingWhitespace(T.SOFT_LINE_BREAK())).toBe(true);
+    expect(hasLeadingWhitespace(T.STRONG_STAR_END())).toBe(false);
+  });
+
+  test("hasTrailingWhitespaces", () => {
+    expect(hasTrailingWhitespace("test string ")).toBe(true);
+    expect(hasTrailingWhitespace(" hello")).toBe(false);
+    expect(hasTrailingWhitespace(T.SOFT_LINE_BREAK())).toBe(true);
+    expect(hasTrailingWhitespace(T.EM_STAR_START())).toBe(false);
+  });
+
   describe("greedilyTakeLeadingWhitespace", () => {
     test("single string", () => {
       let stream = [T.STRONG_STAR_START(), " test"];
@@ -139,6 +201,16 @@ describe("commonmark renderer utility functions", () => {
   });
 
   describe("greedilyTakeTrailingWhitespace", () => {
+    test("stops taking whitespace if it reaches a string with trailing spaces", () => {
+      let stream = [T.EM_STAR_START(), " ", "-italic- ", T.EM_STAR_END()];
+
+      expect(greedilyTakeTrailingWhiteSpace(stream, 2)).toEqual({
+        trailingSpaces: [" "],
+        leadingStream: [T.EM_STAR_START(), " "],
+        splitTrailingString: "-italic-"
+      });
+    });
+
     test("a complex case", () => {
       let stream = ["some stuff\n", T.SOFT_LINE_BREAK(), "\t\n"];
 

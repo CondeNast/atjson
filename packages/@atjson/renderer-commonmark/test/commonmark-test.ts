@@ -916,7 +916,7 @@ After all the lists
       });
 
       // **bold:**[link](http://url.com)
-      test("wrapping adjacent characters in an annotation preserves boundary punctuation", () => {
+      test("right delimiter runs can be adjacent to left delimiter runs", () => {
         let md = "**bold:**[link](http://url.com)";
         let mdDoc = CommonmarkSource.fromRaw(md);
         let document = mdDoc.convertTo(OffsetSource);
@@ -983,7 +983,7 @@ After all the lists
       // This is a weird case in that it results in asymmetric parens, but is probably the
       // most correct thing to do
       // a—*(italic)*non-italic -> a—*(italic*)non-italic
-      test("boundary paranthesis is pushed out of annotations", () => {
+      test("boundary parenthesis is pushed out of annotations", () => {
         let document = new OffsetSource({
           content: "a\u2014(italic)non-italic",
           annotations: [
@@ -1250,7 +1250,7 @@ After all the lists
             {
               id: "1",
               type: "-offset-italic",
-              start: 2,
+              start: 1,
               end: 11,
               attributes: {},
             },
