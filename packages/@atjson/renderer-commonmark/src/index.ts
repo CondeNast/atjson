@@ -200,7 +200,14 @@ function isHTML(a: { type: string }): a is HTML {
 
 export type TokenStream = Array<T.Token | string>;
 
-function isLeftDelimiter(item: T.Token | string): boolean {
+function isLeftDelimiter(
+  item: T.Token | string
+): item is ReturnType<
+  | typeof T.STRONG_STAR_START
+  | typeof T.STRONG_UNDERSCORE_START
+  | typeof T.EM_STAR_START
+  | typeof T.EM_UNDERSCORE_START
+> {
   let tokens = [
     "STRONG_STAR_START",
     "STRONG_UNDERSCORE_START",
@@ -626,7 +633,9 @@ export function hasLeadingWhitespace(item: T.Token | string): boolean {
   }
 }
 
-export function hasTrailingPunctuation(item: T.Token | string) {
+export function hasTrailingPunctuation(
+  item: T.Token | string
+): item is string | ReturnType<typeof T.ESCAPED_PUNCTUATION> {
   let trailingPunctuationRe = new RegExp(`(${MD_PUNCTUATION.source})+$`);
   if (typeof item === "string") {
     return trailingPunctuationRe.test(item);
@@ -765,25 +774,6 @@ function compactLeadingWhitespace(line: TokenStream): TokenStream {
   }
 }
 
-// function annotationsAreAdjacent(
-//   left: { start: number; end: number },
-//   right: { start: number; end: number }
-// ) {
-//   let rightmostStart = Math.max(left.start, right.start);
-//   let leftmostEnd = Math.min(left.end, right.end);
-//   return rightmostStart === leftmostEnd;
-// }
-
-/**
-
-var vs = require('@atjson/offset-annotations/dist/commonjs').default;
-var doc = new vs({ annotations: [{ type: '-offset-bold', start: 0, end: 5 }], content: 'hello world' });
-var renderer = require('@atjson/renderer-commonmark/dist/commonjs').default;
-
-renderer.render(doc)
-
-*/
-
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -819,6 +809,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     let escapedText = escapePunctuation([text], this.options);
+    // TODO: name this function
     escapedText = streamFlatMapStringReplace(escapedText, /\n\n/, () => {
       return [T.SOFT_LINE_BREAK(), T.SOFT_LINE_BREAK()];
     });
@@ -857,41 +848,15 @@ export default class CommonmarkRenderer extends Renderer {
    * > It can also span multiple lines.
    */
   *Blockquote(): Iterator<void, TokenStream, TokenStream[]> {
-    // let text = yield;
-    // let lines: string[] = text.join("").split("\n");
-
     let lines = splitLines(flattenStreams(yield));
 
-    /////////////// This is all to strip leading and trailing blank lines
-    /////////////// which is not strictly necessary per-spec
-    /////////////// and is kinda annoying to do
-    // let endOfQuote = lines.length;
-    // let startOfQuote = 0;
-
-    // while (startOfQuote < endOfQuote - 1 && lines[startOfQuote].match(/^\s*$/))
-    //   startOfQuote++;
-    // while (
-    //   endOfQuote > startOfQuote + 1 &&
-    //   lines[endOfQuote - 1].match(/^\s*$/)
-    // )
-    //   endOfQuote--;
-
-    // let quote =
-    //   lines
-    //     .slice(startOfQuote, endOfQuote)
-    //     .map(blockquotify)
-    //     .join("\n") + "\n";
-
-    // if (!this.state.tight) {
-    //   quote += "\n";
-    // }
-    // return [quote];
-
+    // TODO: should we strip leading / trailing whitespace from this???
     let bq = [];
     for (let line of lines) {
       bq.push(T.BLOCKQUOTE_LINE_START(), ...line);
     }
 
+    // TODO: Remove `tight` everywhere... maybe not now though
     if (!this.state.tight) {
       bq.push("\n");
     }
@@ -921,7 +886,6 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     let headingLevels = [
-      undefined,
       T.ATX_HEADING_1(),
       T.ATX_HEADING_2(),
       T.ATX_HEADING_3(),
@@ -931,7 +895,7 @@ export default class CommonmarkRenderer extends Renderer {
     ];
 
     let headingMarker =
-      headingLevels[heading.attributes.level] || T.ATX_HEADING_6();
+      headingLevels[heading.attributes.level - 1] || T.ATX_HEADING_6();
     return [headingMarker, ...inner, "\n"];
   }
 
@@ -980,9 +944,10 @@ export default class CommonmarkRenderer extends Renderer {
       return [];
     } else {
       let requiresUnderscore = (a: typeof context.next) => {
-        return (
-          a && annotationIsBoldOrItalic(a) // && annotationsAreAdjacent(italic, a)
-        );
+        // TODO: do we still want this "make pretty" convenience to disambiguate
+        // between adjacent delimiters of the same type?
+        // nb. this should be _much_ easier since we have access to the stream.
+        return a && annotationIsBoldOrItalic(a);
       };
 
       let siblingRequiresUnderscore = [context.previous, context.next].some(
@@ -1034,6 +999,9 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Link(link: Link): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
+
+    // TODO: handle pointy brackets :(
+    // nb, the url needs to be escaped
     let url = link.attributes.url;
     if (link.attributes.title) {
       let title = link.attributes.title.replace(/"/g, '\\"');
@@ -1143,6 +1111,7 @@ export default class CommonmarkRenderer extends Renderer {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
+    // TODO: investigate whether we should tokenize the marker
     if (this.state.type === "numbered") {
       marker = `${digit}${delimiter}`;
       this.state.digit++;
@@ -1175,6 +1144,9 @@ export default class CommonmarkRenderer extends Renderer {
     if (this.state.tight) {
       item = item.replace(/([ \n])+$/, "\n");
     }
+
+    // nb. this could be done in the stream, but
+    // is p complicated and requires stack knowledge
 
     // Code blocks using spaces can follow lists,
     // however, they will be included in the list
