@@ -4,6 +4,7 @@ import OffsetSource, {
   IframeEmbed,
   InstagramEmbed,
   PinterestEmbed,
+  TikTokEmbed,
   TwitterEmbed,
   VideoEmbed
 } from "@atjson/offset-annotations";
@@ -36,6 +37,10 @@ class EmbedRenderer extends CommonMarkRenderer {
     }
 
     return `<iframe src="${url}"${sizeAttributes}></iframe>`;
+  }
+
+  *"tiktok-embed"(tiktok: TikTokEmbed) {
+    return `<blockquote class="tiktok-embed" cite="${tiktok.attributes.url}"></blockquote>`;
   }
 
   *"instagram-embed"(instagram: InstagramEmbed) {
@@ -240,6 +245,20 @@ describe("url-source", () => {
           '<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text="true"></div>'
         );
       });
+    });
+  });
+
+  describe("TikTok", () => {
+    test.each([
+      "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
+      "https://m.tiktok.com/@vogueitalia/video/6771026615137750277",
+      "http://www.tiktok.com/@vogueitalia/video/6771026615137750277",
+      "http://m.tiktok.com/@vogueitalia/video/6771026615137750277"
+    ])("%s", text => {
+      let url = URLSource.fromRaw(text);
+      expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+        '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277"></blockquote>'
+      );
     });
   });
 

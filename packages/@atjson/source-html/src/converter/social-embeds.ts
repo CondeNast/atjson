@@ -6,7 +6,7 @@ function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
 }
 
-function isInstagramOrTwitterBlockquote(annotation: Annotation<any>) {
+function isBlockquoteEmbed(annotation: Annotation<any>) {
   if (annotation.type !== "blockquote") {
     return false;
   }
@@ -19,7 +19,9 @@ function isInstagramOrTwitterBlockquote(annotation: Annotation<any>) {
 
   let classList = classes.split(" ");
   return (
-    classList.includes("instagram-media") || classList.includes("twitter-tweet")
+    classList.includes("instagram-media") ||
+    classList.includes("twitter-tweet") ||
+    classList.includes("tiktok-embed")
   );
 }
 
@@ -62,7 +64,7 @@ export default function(doc: Document) {
    *   </blockquote>
    */
   doc
-    .where(isInstagramOrTwitterBlockquote)
+    .where(isBlockquoteEmbed)
     .as("blockquote")
     .join(doc.where({ type: "-html-a" }).as("links"), aCoversB)
     .outerJoin(
@@ -72,7 +74,10 @@ export default function(doc: Document) {
         return (
           (script.start === blockquote.end ||
             script.start === blockquote.end + 1) &&
-          (!src || src.includes("instagram.com") || src.includes("twitter.com"))
+          (!src ||
+            src.includes("instagram.com") ||
+            src.includes("twitter.com") ||
+            src.includes("tiktok.com"))
         );
       }
     )
@@ -82,12 +87,18 @@ export default function(doc: Document) {
       scripts
     }) {
       let canonicalURL;
-      for (let link of links) {
-        canonicalURL = identifyURL(link.attributes.href);
-        if (canonicalURL) {
-          break;
+      if (blockquote.attributes.cite) {
+        canonicalURL = identifyURL(blockquote.attributes.cite);
+      }
+      if (canonicalURL == null) {
+        for (let link of links) {
+          canonicalURL = identifyURL(link.attributes.href);
+          if (canonicalURL) {
+            break;
+          }
         }
       }
+
       if (canonicalURL) {
         let { attributes, Class } = canonicalURL;
         let start = blockquote.start;

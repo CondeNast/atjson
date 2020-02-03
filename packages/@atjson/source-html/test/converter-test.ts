@@ -746,4 +746,42 @@ describe("@atjson/source-html", () => {
       });
     });
   });
+
+  describe("TikTok", () => {
+    test("from embed dialog", () => {
+      let doc = HTMLSource.fromRaw(
+        `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a> <p>When officialayoteo ask to hold your phone 🕴🏾🕴🏾</p> <a target="_blank" title="♬ Better Off Alone - Ayo & Teo" href="https://www.tiktok.com/music/Better-Off-Alone-264491379257659392">♬ Better Off Alone - Ayo & Teo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>`
+      ).convertTo(OffsetSource);
+
+      expect(doc.canonical()).toMatchObject({
+        content: "",
+        annotations: [
+          {
+            type: "tiktok-embed",
+            attributes: {
+              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880"
+            }
+          }
+        ]
+      });
+    });
+
+    test("from html rendered output", () => {
+      let doc = HTMLSource.fromRaw(
+        `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
+      ).convertTo(OffsetSource);
+
+      expect(doc.canonical()).toMatchObject({
+        content: "",
+        annotations: [
+          {
+            type: "tiktok-embed",
+            attributes: {
+              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880"
+            }
+          }
+        ]
+      });
+    });
+  });
 });

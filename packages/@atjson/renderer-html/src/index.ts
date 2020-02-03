@@ -4,7 +4,8 @@ import {
   Heading,
   Image,
   Link,
-  List
+  List,
+  TikTokEmbed
 } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
@@ -217,6 +218,14 @@ export default class HTMLRenderer extends Renderer {
 
   *Superscript() {
     return yield* this.$("sup");
+  }
+
+  // This hook is TiktokEmbed instead of TikTokEmbed because of our classify function
+  *TiktokEmbed(embed: TikTokEmbed) {
+    let parts = embed.attributes.url.split("/");
+    let username = parts[parts.length - 3];
+    let videoId = parts[parts.length - 1];
+    return `<blockquote class="tiktok-embed" cite="${embed.attributes.url}" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
   }
 
   *Underline() {

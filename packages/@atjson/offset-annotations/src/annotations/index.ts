@@ -25,6 +25,7 @@ export * from "./small-caps";
 export * from "./strikethrough";
 export * from "./subscript";
 export * from "./superscript";
+export * from "./tiktok-embed";
 export * from "./twitter-embed";
 export * from "./underline";
 export * from "./video-embed";
