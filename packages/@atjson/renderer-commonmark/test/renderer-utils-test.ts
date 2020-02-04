@@ -144,11 +144,11 @@ describe("commonmark renderer utility functions", () => {
   });
 
   test("streamIncludes", () => {
-    let stream = ["test\n", T.ATX_HEADING_2(), "this is a heading"];
+    let stream = ["test\n", T.ATX_HEADING(2), "this is a heading"];
 
     expect(streamIncludes(stream, "heading")).toBe(true);
 
-    expect(streamIncludes(stream, T.ATX_HEADING_2())).toBe(true);
+    expect(streamIncludes(stream, T.ATX_HEADING(2))).toBe(true);
 
     expect(streamIncludes(stream, "test\nthis")).toBe(false);
   });

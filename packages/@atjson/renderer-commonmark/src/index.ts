@@ -875,28 +875,17 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Heading(heading: Heading): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
+    let level = heading.attributes.level;
 
     // Multiline headings are supported for level 1 and 2
     if (streamIncludes(inner, "\n") || streamIncludes(inner, "&#10;")) {
-      if (heading.attributes.level === 1) {
-        return ["\n", ...inner, "\n", T.SETEXT_HEADING_1(), "\n"];
-      } else if (heading.attributes.level === 2) {
-        return ["\n", ...inner, "\n", T.SETEXT_HEADING_2(), "\n"];
+      if (level === 1 || level === 2) {
+        return ["\n", ...inner, "\n", T.SETEXT_HEADING(level), "\n"];
       }
+      // Throw error? Remove newline??
     }
 
-    let headingLevels = [
-      T.ATX_HEADING_1(),
-      T.ATX_HEADING_2(),
-      T.ATX_HEADING_3(),
-      T.ATX_HEADING_4(),
-      T.ATX_HEADING_5(),
-      T.ATX_HEADING_6(),
-    ];
-
-    let headingMarker =
-      headingLevels[heading.attributes.level - 1] || T.ATX_HEADING_6();
-    return [headingMarker, ...inner, "\n"];
+    return [T.ATX_HEADING(level), ...inner, "\n"];
   }
 
   /**
@@ -914,15 +903,10 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Image(image: Image): Iterator<void, TokenStream, TokenStream[]> {
     let description = escapePunctuation([image.attributes.description || ""]);
-    let url = image.attributes.url;
-    if (image.attributes.title) {
-      let title = image.attributes.title.replace(/"/g, '\\"');
-      url += ` "${title}"`;
-    }
     return [
       T.IMAGE_ALT_TEXT_START(),
       ...description,
-      T.IMAGE_ALT_TEXT_END_URL(url),
+      T.IMAGE_ALT_TEXT_END_URL(image.attributes.url, image.attributes.title),
     ];
   }
 
@@ -1000,15 +984,11 @@ export default class CommonmarkRenderer extends Renderer {
   *Link(link: Link): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
 
-    // TODO: handle pointy brackets :(
-    // nb, the url needs to be escaped
-    let url = link.attributes.url;
-    if (link.attributes.title) {
-      let title = link.attributes.title.replace(/"/g, '\\"');
-      url += ` "${title}"`;
-    }
-
-    return [T.ANCHOR_TEXT_START(), ...inner, T.ANCHOR_TEXT_END_HREF(url)];
+    return [
+      T.ANCHOR_TEXT_START(),
+      ...inner,
+      T.ANCHOR_TEXT_END_HREF(link.attributes.url, link.attributes.title),
+    ];
   }
 
   /**
