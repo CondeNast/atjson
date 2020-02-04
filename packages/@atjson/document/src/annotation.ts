@@ -266,15 +266,11 @@ export abstract class Annotation<Attributes = {}> {
     } else if (change.start > this.start && change.start < this.end) {
       this.end += length;
 
-      // In this case, however, the normal behaviour when inserting text at a
-      // point adjacent to an annotation is to drag along the end of the
-      // annotation, or push forward the beginning, i.e., the transform happens
-      // _inside_ an annotation to the left, or _outside_ an annotation to the right.
-      //
-      // Sometimes, the desire is to change the direction; this is provided below
-      // with the preserveAdjacentBoundaries switch.
-
-      // Default edge behaviour.
+      // When considering inserting text at a point adjacent to an annotation,
+      // the edge behaviour dictates how adjacent annotations respond. With
+      // "preserve", the existing annotation and its text are preserved. With
+      // "modify", the existing annotation is modified to include the
+      // newly-inserted text. See "insertText" docs for details.
     } else if (change.start === this.start) {
       if (change.behaviourLeading === EdgeBehaviour.preserve) {
         this.start += length;
