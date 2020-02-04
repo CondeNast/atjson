@@ -3,6 +3,7 @@ title: Document
 ---
 
 import { Note } from '../src/components/Note.tsx';
+import { Comment, Italic, QuickBrownFox, QuickBrownFoxSource, TextColor } from '../src/components/QuickBrownFox.tsx';
 
 Document is the default export of `@atjson/document`. It's used by all atjson packages, and contains the bulk of the APIs you'll use when working with documents.
 
@@ -161,18 +162,18 @@ doc.insertText(3, "bar");
 ### With annotations
 
 The `insertText` method will adjust existing annotations when text is inserted
-into a document. For example, if you had this document with a bold annotation:
+into a document. For example, if you had this document with an italic annotation:
 
 ```ts
 let doc = new Document({ content: "Foo bar" });
-doc.addAnnotations(new Bold({
+doc.addAnnotations(new Italic({
   start: 0
   end: 7
 }));
 ```
 
 If you were to call `insertText` to insert a string in the middle of the
-existing bold annotation, the annotation will be automatically extended to
+existing italic annotation, the annotation will be automatically extended to
 include the newly-inserted text and the existing surrounding text.
 
 ```ts
@@ -186,7 +187,7 @@ Would result in this document:
   content: "Foo baz bar"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 0,
       end: 11,
     }
@@ -232,20 +233,31 @@ Example:
 
 ```ts
 let doc = new Document({ content: "Foo bar" });
-doc.addAnnotations(new Bold({
+doc.addAnnotations(new Italic({
   start: 4
   end: 7
 }));
 ```
 
-At this point, the document conceptually looks like this: (* represents the
-annotation)
-```
-Foo bar
-    ***
-```
+At this point, the document conceptually looks like this:
 
-Let's then insert some text at the leading boundary of the bold annotation:
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo bar ',
+    annotations: [
+      new Comment({
+        start: 4,
+        end: 7,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 4,
+        end: 7
+      })
+    ]
+  })
+} />
+
+Let's then insert some text at the leading boundary of the italic annotation:
 ```ts
 doc.insertText(4, 'baz ');
 ```
@@ -258,7 +270,7 @@ in:
   content: "Foo baz bar"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 8,
       end: 11,
     }
@@ -266,13 +278,24 @@ in:
 }
 ```
 
-The existing bold annotation's start and end are adjusted to account for the new
+The existing italic annotation's start and end are adjusted to account for the new
 text and the new text is not part of the existing annotation. Or conceptually:
 
-```
-Foo baz bar
-        ***
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo baz bar ',
+    annotations: [
+      new Comment({
+        start: 8,
+        end: 11,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 8,
+        end: 11
+      })
+    ]
+  })
+} />
 
 ---
 
@@ -293,7 +316,7 @@ The document would appear like so:
   content: "Foo bar baz"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 4,
       end: 11,
     }
@@ -304,10 +327,21 @@ The document would appear like so:
 The start point of the annotation remains the same, but the end point is 
 adjusted to account for the newly-inserted text. Conceptually:
 
-```
-Foo bar baz
-    *******
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo bar baz ',
+    annotations: [
+      new Comment({
+        start: 4,
+        end: 11,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 4,
+        end: 11
+      })
+    ]
+  })
+} />
 
 **Note:** `modify` is targeted for deprecation as a valid value for the behaviour.
 `preserveLeading` is the preferred way to express this behaviour.
@@ -329,17 +363,28 @@ doc.insertText(4, 'baz ', AdjacentBoundaryBehaviour.preserveTrailing);
   content: "Foo baz bar"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 4,
       end: 11,
     }
   ]
 }
 ```
-```
-Foo baz bar
-    *******
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo baz bar ',
+    annotations: [
+      new Comment({
+        start: 4,
+        end: 11,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 4,
+        end: 11
+      })
+    ]
+  })
+} />
 
 Inserting at trailing edge:
 
@@ -351,17 +396,28 @@ doc.insertText(7, ' baz', AdjacentBoundaryBehaviour.preserveTrailing);
   content: "Foo bar baz"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 4,
       end: 7,
     }
   ]
 }
 ```
-```
-Foo bar baz
-    ***
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo bar baz ',
+    annotations: [
+      new Comment({
+        start: 4,
+        end: 7,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 4,
+        end: 7
+      })
+    ]
+  })
+} />
 
 **Note:** `preserve` is the previous name for this and is targeted for deprecation
 
@@ -374,31 +430,52 @@ insert text to split between two annotations.
 Example:
 
 ```ts
-let doc = new Document({ content: "Foo bar" });
+let doc = new Document({ content: "Foo bar baz bat" });
 doc.addAnnotations(
-  new Bold({
-    start: 0
-    end: 4
-  }),
   new Italic({
-    start: 4,
-    end: 7
+    start: 0
+    end: 8
+  }),
+  new TextColor({
+    start: 8,
+    end: 11,
+    attributes: { color: '#9b2b2b' }
   })
 );
 ```
 
-or conceptually (* is bold annotation, - is italic):
+or conceptually:
 
-```
-Foo bar
-****---
-```
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo bar baz bat',
+    annotations: [
+      new Comment({
+        start: 0,
+        end: 8,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 0,
+        end: 8
+      }),
+      new Comment({
+        start: 8,
+        end: 11,
+        attributes: { name: 'color' }
+      }), new TextColor({
+        start: 8,
+        end: 11,
+        attributes: { color: '#9b2b2b' }
+      }),
+    ]
+  })
+} />
 
-If you intend to insert text at position 4 while preserving both of the
+If you intend to insert text at position 8 while preserving both of the
 existing annotations, call with the `preserveBoth` behaviour.
 
 ```ts
-doc.insertText(4, 'baz ', AdjacentBoundaryBehaviour.preserveBoth);
+doc.insertText(8, 'qux ', AdjacentBoundaryBehaviour.preserveBoth);
 ```
 
 The resulting document looking like:
@@ -408,24 +485,46 @@ The resulting document looking like:
   content: "Foo baz bar"
   annotations: [
     {
-      type: "-example-bold",
+      type: "-example-italic",
       start: 0,
-      end: 4,
+      end: 8,
     },
     {
-      type: "-example-italic",
-      start: 8,
-      end: 11,
+      type: "-example-textcolor",
+      start: 12,
+      end: 15,
+      attributes: { color: '#9b2b2b' }
     }
   ]
 }
 ```
 
 Conceptually:
-```
-Foo baz bar
-****    ---
-```
+
+<QuickBrownFox value={
+  new QuickBrownFoxSource({
+    content: 'Foo bar qux baz bat',
+    annotations: [
+      new Comment({
+        start: 0,
+        end: 8,
+        attributes: { name: 'italic' }
+      }), new Italic({
+        start: 0,
+        end: 8
+      }),
+      new Comment({
+        start: 12,
+        end: 15,
+        attributes: { name: 'color' }
+      }), new TextColor({
+        start: 12,
+        end: 15,
+        attributes: { color: '#9b2b2b' }
+      }),
+    ]
+  })
+} />
 
 ## `match`
 
