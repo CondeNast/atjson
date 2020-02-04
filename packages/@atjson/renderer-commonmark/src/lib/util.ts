@@ -23,3 +23,25 @@ export function linkTitle(title?: string) {
   }
   return "";
 }
+
+export function getNumberOfRequiredBackticks(text: string) {
+  let index = 0;
+  let counts = [0];
+  for (let i = 0, len = text.length; i < len; i++) {
+    if (text[i] === "`") {
+      counts[index] = counts[index] + 1;
+    } else if (counts[index] !== 0) {
+      counts.push(0);
+      index++;
+    }
+  }
+
+  let total = 1;
+  for (let count of counts) {
+    if (count === total) {
+      total += 1;
+    }
+  }
+
+  return total;
+}

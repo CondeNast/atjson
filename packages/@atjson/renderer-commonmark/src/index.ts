@@ -6,7 +6,6 @@ import {
   Image,
   Italic,
   Link,
-  //Bold
   List,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
@@ -84,47 +83,47 @@ function escapePunctuation(
   let escaped = streamFlatMapStringReplace(
     raw,
     /([#!*+=\\^_`{|}~])/,
-    ([, $1]) => [T.ESCAPED_PUNCTUATION($1)]
+    ([, $1]) => [T.EscapedPunctuation($1)]
   );
 
   //   -- .replace(/(\[)([^\]]*$)/g, "\\$1$2") // Escape bare opening brackets [
   escaped = streamFlatMapStringReplace(
     escaped,
     /(\[)([^\]]*$)/,
-    ([, $1, $2]) => [T.ESCAPED_PUNCTUATION($1), $2]
+    ([, $1, $2]) => [T.EscapedPunctuation($1), $2]
   );
 
   //   -- .replace(/(^[^[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
   escaped = streamFlatMapStringReplace(
     escaped,
     /(^[^[]*)(\].*$)/,
-    ([, $1, $2]) => [$1, T.ESCAPED_PUNCTUATION($2)]
+    ([, $1, $2]) => [$1, T.EscapedPunctuation($2)]
   );
 
   //   .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
   escaped = streamFlatMapStringReplace(escaped, /(\]\()/, () => [
     "]",
-    T.ESCAPED_PUNCTUATION("("),
+    T.EscapedPunctuation("("),
   ]);
 
   //   .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
   escaped = streamFlatMapStringReplace(
     escaped,
     /^(\s*\d+)\.(\s+)/,
-    ([, $1, $2]) => [$1, T.ESCAPED_PUNCTUATION("."), $2]
+    ([, $1, $2]) => [$1, T.EscapedPunctuation("."), $2]
   );
 
   //   .replace(/(^[\s]*)-/g, "$1\\-") // `  - list item`
   escaped = streamFlatMapStringReplace(escaped, /(^[\s]*)-/g, ([, $1]) => [
     $1,
-    T.ESCAPED_PUNCTUATION("-"),
+    T.EscapedPunctuation("-"),
   ]);
 
   //   .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\-"); // `- list item\n - list item`
   escaped = streamFlatMapStringReplace(
     escaped,
     /(\r\n|\r|\n)([\s]*)-/,
-    ([, $1, $2]) => [$1, $2, T.ESCAPED_PUNCTUATION("-")]
+    ([, $1, $2]) => [$1, $2, T.EscapedPunctuation("-")]
   );
 
   escaped = escapeEntities(escaped);
@@ -138,26 +137,24 @@ function escapePunctuation(
 
 function escapeHtmlEntities(raw: TokenStream) {
   //   .replace(/</g, "&lt;")
-  return streamFlatMapStringReplace(raw, /</, () => [T.HTML_ENTITY("lt")]);
+  return streamFlatMapStringReplace(raw, /</, () => [T.HTMLEntity("lt")]);
 }
 
 function escapeEntities(raw: TokenStream) {
   //   .replace(/&([^\s]+);/g, "\\&$1;")
   let escaped = streamFlatMapStringReplace(raw, /&([^\s]+);/, ([, $1]) => [
-    T.ESCAPED_PUNCTUATION("&"),
+    T.EscapedPunctuation("&"),
     $1,
     ";",
   ]);
 
   //   .replace(/\u00A0/gu, "&nbsp;")
   escaped = streamFlatMapStringReplace(escaped, /\u00A0/, () => [
-    T.HTML_ENTITY("nbsp"),
+    T.NoBreakSpace,
   ]);
 
   //   .replace(/\u2003/gu, "&emsp;");
-  escaped = streamFlatMapStringReplace(escaped, /\u2003/, () => [
-    T.HTML_ENTITY("emsp"),
-  ]);
+  escaped = streamFlatMapStringReplace(escaped, /\u2003/, () => [T.EmSpace]);
 
   return escaped;
 }
@@ -167,28 +164,6 @@ function escapeEntities(raw: TokenStream) {
 //     .replace(/\(/g, "\\(")
 //     .replace(/\)/g, "\\)");
 // }
-
-function getNumberOfRequiredBackticks(text: string) {
-  let index = 0;
-  let counts = [0];
-  for (let i = 0, len = text.length; i < len; i++) {
-    if (text[i] === "`") {
-      counts[index] = counts[index] + 1;
-    } else if (counts[index] !== 0) {
-      counts.push(0);
-      index++;
-    }
-  }
-
-  let total = 1;
-  for (let count of counts) {
-    if (count === total) {
-      total += 1;
-    }
-  }
-
-  return total;
-}
 
 function array<T>(x: T): T[] {
   return [x];
@@ -202,12 +177,11 @@ export type TokenStream = Array<T.Token | string>;
 
 function isLeftDelimiter(
   item: T.Token | string
-): item is ReturnType<
-  | typeof T.STRONG_STAR_START
-  | typeof T.STRONG_UNDERSCORE_START
-  | typeof T.EM_STAR_START
-  | typeof T.EM_UNDERSCORE_START
-> {
+): item is
+  | typeof T.StrongStarStart
+  | typeof T.StrongUnderscoreStart
+  | typeof T.EmphasisStarStart
+  | typeof T.EmphasisUnderscoreStart {
   let tokens = [
     "STRONG_STAR_START",
     "STRONG_UNDERSCORE_START",
@@ -217,7 +191,13 @@ function isLeftDelimiter(
   return typeof item !== "string" && tokens.includes(item.kind);
 }
 
-function isRightDelimiter(item: T.Token | string): boolean {
+function isRightDelimiter(
+  item: T.Token | string
+): item is
+  | typeof T.StrongStarEnd
+  | typeof T.StrongUnderscoreEnd
+  | typeof T.EmphasisStarEnd
+  | typeof T.EmphasisUnderscoreEnd {
   let tokens = [
     "STRONG_STAR_END",
     "STRONG_UNDERSCORE_END",
@@ -611,7 +591,7 @@ function isWhitespace(item: T.Token | string) {
   if (typeof item === "string") {
     return !containsNonSpaces(item);
   } else {
-    return item.kind === "SOFT_LINE_BREAK";
+    return item === T.HardLineBreak || item === T.BlockSeparator;
   }
 }
 
@@ -635,7 +615,7 @@ export function hasLeadingWhitespace(item: T.Token | string): boolean {
 
 export function hasTrailingPunctuation(
   item: T.Token | string
-): item is string | ReturnType<typeof T.ESCAPED_PUNCTUATION> {
+): item is string | ReturnType<typeof T.EscapedPunctuation> {
   let trailingPunctuationRe = new RegExp(`(${MD_PUNCTUATION.source})+$`);
   if (typeof item === "string") {
     return trailingPunctuationRe.test(item);
@@ -645,7 +625,9 @@ export function hasTrailingPunctuation(
   }
 }
 
-export function hasLeadingPunctuation(item: T.Token | string) {
+export function hasLeadingPunctuation(
+  item: T.Token | string
+): item is string | ReturnType<typeof T.EscapedPunctuation> {
   let leadingPunctuationRe = new RegExp(`^(${MD_PUNCTUATION.source})+`);
   if (typeof item === "string") {
     return leadingPunctuationRe.test(item);
@@ -774,6 +756,36 @@ function compactLeadingWhitespace(line: TokenStream): TokenStream {
   }
 }
 
+function removeEmptyInline(stream: TokenStream) {
+  let compactedStream: TokenStream = [];
+  let index = 0;
+  let length = stream.length;
+  while (index < length) {
+    let current = stream[index];
+    let next = stream[index + 1];
+    let j = 1;
+    while (next === T.NoBreakSpace || next === T.EmSpace) {
+      j++;
+      next = stream[index + j];
+    }
+
+    if (
+      (current === T.StrongStarStart && next === T.StrongStarEnd) ||
+      (current === T.StrongUnderscoreStart && next === T.StrongUnderscoreEnd) ||
+      (current === T.EmphasisStarStart && next === T.EmphasisStarEnd) ||
+      (current === T.EmphasisUnderscoreStart &&
+        next === T.EmphasisUnderscoreEnd) ||
+      (current === T.BlockquoteLineStart && next === T.BlockquoteLineEnd)
+    ) {
+      index += j + 1;
+    } else {
+      compactedStream.push(current);
+      index++;
+    }
+  }
+  return compactedStream;
+}
+
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -809,11 +821,6 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     let escapedText = escapePunctuation([text], this.options);
-    // TODO: name this function
-    escapedText = streamFlatMapStringReplace(escapedText, /\n\n/, () => {
-      return [T.SOFT_LINE_BREAK(), T.SOFT_LINE_BREAK()];
-    });
-
     let lines = splitLines(escapedText).map(compactLeadingWhitespace);
 
     return flattenStreams(intersperse(lines, ["\n"]));
@@ -822,7 +829,7 @@ export default class CommonmarkRenderer extends Renderer {
   *root() {
     let stream: TokenStream = flattenStreams(yield);
 
-    return toString(fixDelimiterRuns(stream));
+    return toString(removeEmptyInline(fixDelimiterRuns(stream)));
   }
 
   /**
@@ -833,12 +840,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Bold(): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
-
-    if (inner.length === 0) {
-      return [];
-    } else {
-      return [T.STRONG_STAR_START(), ...inner, T.STRONG_STAR_END()];
-    }
+    return [T.StrongStarStart, ...inner, T.StrongStarEnd];
   }
 
   /**
@@ -853,7 +855,7 @@ export default class CommonmarkRenderer extends Renderer {
     // TODO: should we strip leading / trailing whitespace from this???
     let bq = [];
     for (let line of lines) {
-      bq.push(T.BLOCKQUOTE_LINE_START(), ...line);
+      bq.push(T.BlockquoteLineStart, ...line, T.BlockquoteLineEnd);
     }
 
     // TODO: Remove `tight` everywhere... maybe not now though
@@ -880,12 +882,12 @@ export default class CommonmarkRenderer extends Renderer {
     // Multiline headings are supported for level 1 and 2
     if (streamIncludes(inner, "\n") || streamIncludes(inner, "&#10;")) {
       if (level === 1 || level === 2) {
-        return ["\n", ...inner, "\n", T.SETEXT_HEADING(level), "\n"];
+        return ["\n", ...inner, "\n", T.SetextHeading(level), "\n"];
       }
       // Throw error? Remove newline??
     }
 
-    return [T.ATX_HEADING(level), ...inner, "\n"];
+    return [T.ATXHeading(level), ...inner, "\n"];
   }
 
   /**
@@ -894,19 +896,20 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Iterator<void, TokenStream, TokenStream[]> {
-    return [T.THEMATIC_BREAK(), "\n"];
+    return [T.ThematicBreak, "\n"];
   }
 
   /**
    * Images are embedded like links, but with a `!` in front.
-   * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
+   * ![CommonMark](https://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Iterator<void, TokenStream, TokenStream[]> {
-    let description = escapePunctuation([image.attributes.description || ""]);
     return [
-      T.IMAGE_ALT_TEXT_START(),
-      ...description,
-      T.IMAGE_ALT_TEXT_END_URL(image.attributes.url, image.attributes.title),
+      T.Image(
+        toString(escapePunctuation([image.attributes.description || ""])),
+        image.attributes.url,
+        image.attributes.title
+      ),
     ];
   }
 
@@ -924,34 +927,30 @@ export default class CommonmarkRenderer extends Renderer {
 
     this.state.underscoreFlag = underscoreFlag;
 
-    if (inner.length === 0) {
-      return [];
+    let requiresUnderscore = (a: typeof context.next) => {
+      // TODO: do we still want this "make pretty" convenience to disambiguate
+      // between adjacent delimiters of the same type?
+      // nb. this should be _much_ easier since we have access to the stream.
+      return a && annotationIsBoldOrItalic(a);
+    };
+
+    let siblingRequiresUnderscore = [context.previous, context.next].some(
+      requiresUnderscore
+    );
+
+    let parentRequiresUnderscore =
+      annotationIsBoldOrItalic(context.parent) &&
+      context.parent.start === italic.start &&
+      context.parent.end === italic.end;
+
+    if (
+      underscoreFlag ||
+      siblingRequiresUnderscore ||
+      parentRequiresUnderscore
+    ) {
+      return [T.EmphasisUnderscoreStart, ...inner, T.EmphasisUnderscoreEnd];
     } else {
-      let requiresUnderscore = (a: typeof context.next) => {
-        // TODO: do we still want this "make pretty" convenience to disambiguate
-        // between adjacent delimiters of the same type?
-        // nb. this should be _much_ easier since we have access to the stream.
-        return a && annotationIsBoldOrItalic(a);
-      };
-
-      let siblingRequiresUnderscore = [context.previous, context.next].some(
-        requiresUnderscore
-      );
-
-      let parentRequiresUnderscore =
-        annotationIsBoldOrItalic(context.parent) &&
-        context.parent.start === italic.start &&
-        context.parent.end === italic.end;
-
-      if (
-        underscoreFlag ||
-        siblingRequiresUnderscore ||
-        parentRequiresUnderscore
-      ) {
-        return [T.EM_UNDERSCORE_START(), ...inner, T.EM_UNDERSCORE_END()];
-      } else {
-        return [T.EM_STAR_START(), ...inner, T.EM_STAR_END()];
-      }
+      return [T.EmphasisStarStart, ...inner, T.EmphasisStarEnd];
     }
   }
 
@@ -975,7 +974,7 @@ export default class CommonmarkRenderer extends Renderer {
       return ["\n"];
     }
 
-    return [T.SOFT_LINE_BREAK()];
+    return [T.HardLineBreak];
   }
 
   /**
@@ -985,9 +984,9 @@ export default class CommonmarkRenderer extends Renderer {
     let inner = flattenStreams(yield);
 
     return [
-      T.ANCHOR_TEXT_START(),
+      T.InlineLinkStart,
       ...inner,
-      T.ANCHOR_TEXT_END_HREF(link.attributes.url, link.attributes.title),
+      T.InlineLinkEnd(link.attributes.url, link.attributes.title),
     ];
   }
 
@@ -1018,30 +1017,22 @@ export default class CommonmarkRenderer extends Renderer {
         newlines += "\n";
       }
 
-      if (streamIncludes(inner, "```") || info.includes("```")) {
-        return [
-          T.CODE_FENCE_TILDE_START(),
-          info,
-          "\n",
-          ...inner,
-          T.CODE_FENCE_TILDE_END(),
-          newlines,
-        ];
-      } else {
-        return [
-          T.CODE_FENCE_BACKTICK_START(),
-          info,
-          "\n",
-          ...inner,
-          "\n",
-          T.CODE_FENCE_BACKTICK_END(),
-          newlines,
-        ];
-      }
+      let fenceType =
+        streamIncludes(inner, "```") || info.includes("```")
+          ? ("tildes" as const)
+          : ("backticks" as const);
+      return [
+        T.CodeFenceStart(fenceType),
+        info,
+        "\n",
+        ...inner,
+        T.CodeFenceEnd(fenceType),
+        newlines,
+      ];
     } else if (code.attributes.style === "block") {
       let acc = [];
       for (let line of splitLines(inner)) {
-        acc.push(T.CODE_INDENT(), ...line, "\n");
+        acc.push(T.CodeBlock, ...line, "\n");
       }
 
       acc.push("\n");
@@ -1050,17 +1041,8 @@ export default class CommonmarkRenderer extends Renderer {
     } else {
       if (inner.length === 0) {
         return [];
-
-        // We need to properly escape backticks inside of code blocks
-        // by using variable numbers of backticks.
       } else if (inner.length === 1 && typeof inner[0] === "string") {
-        let [text] = inner;
-        let numberOfBackticks = getNumberOfRequiredBackticks(text);
-        return [
-          T.CODE_INLINE_BACKTICKS(numberOfBackticks),
-          text,
-          T.CODE_INLINE_BACKTICKS(numberOfBackticks),
-        ];
+        return [T.Code(toString(inner))];
       } else {
         throw new Error("Code node contained non-text annotations");
       }
@@ -1134,7 +1116,7 @@ export default class CommonmarkRenderer extends Renderer {
     // to force the code block outside of the list
     // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
     if (this.state.hasCodeBlockFollowing) {
-      return [" ", marker, T.CODE_INDENT(), item];
+      return [" ", marker, T.CodeBlock, item];
     }
     return [marker, " ", item];
   }
@@ -1204,11 +1186,19 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Paragraph(): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
+    let escapedNewlines = streamFlatMapStringReplace(
+      inner,
+      /\n\n/,
+      function escapeLineBreaks() {
+        return [T.HTMLEntity("#10"), T.HTMLEntity("#10")];
+      }
+    );
 
     if (this.state.tight) {
-      return [...inner, "\n"];
+      return [...escapedNewlines, "\n"];
     }
-    return [...inner, T.BLOCK_SEPARATOR()];
+
+    return [...escapedNewlines, T.BlockSeparator];
   }
 
   *FixedIndent(): Iterator<void, TokenStream, TokenStream[]> {

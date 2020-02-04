@@ -365,7 +365,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "> This is a quote\n\nAnd this is not.\n\n"
+        "> This is a quote\n\n\nAnd this is not.\n\n"
       );
     });
 

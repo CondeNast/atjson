@@ -17,27 +17,38 @@ import * as T from "../src/lib/tokens";
 describe("commonmark renderer utility functions", () => {
   describe("fixDelimiterRuns", () => {
     test("fixing left delimiter runs basically works", () => {
-      let stream = [
-        "some leading text",
-        T.STRONG_STAR_START(),
-        ". some bold text"
-      ];
+      let stream = ["some leading text", T.StrongStarStart, ". some bold text"];
 
       expect(fixDelimiterRuns(stream)).toEqual([
         "some leading text",
         ".",
         " ",
-        T.STRONG_STAR_START(),
+        T.StrongStarStart,
         "some bold text"
       ]);
     });
 
+    test("*(**foo**)*↵", () => {
+      let stream = [
+        T.EmphasisStarStart,
+        "(",
+        T.StrongStarStart,
+        "foo",
+        T.StrongStarEnd,
+        ")",
+        T.EmphasisStarEnd,
+        T.BlockSeparator
+      ];
+
+      expect(fixDelimiterRuns(stream)).toEqual(stream);
+    });
+
     test("fixing right delimiter runs basically works", () => {
-      let stream = ["bold text -", T.STRONG_STAR_END(), "some other stuff"];
+      let stream = ["bold text -", T.StrongStarEnd, "some other stuff"];
 
       expect(fixDelimiterRuns(stream)).toEqual([
         "bold text",
-        T.STRONG_STAR_END(),
+        T.StrongStarEnd,
         " ",
         "-",
         "some other stuff"
@@ -48,15 +59,15 @@ describe("commonmark renderer utility functions", () => {
       // foo******bar*********baz
       let stream = [
         "foo",
-        T.STRONG_STAR_START(),
-        T.STRONG_STAR_START(),
-        T.STRONG_STAR_START(),
+        T.StrongStarStart,
+        T.StrongStarStart,
+        T.StrongStarStart,
         "bar",
-        T.STRONG_STAR_END(),
-        T.STRONG_STAR_END(),
-        T.STRONG_STAR_END(),
+        T.StrongStarEnd,
+        T.StrongStarEnd,
+        T.StrongStarEnd,
         "\\*\\*\\*baz",
-        T.BLOCK_SEPARATOR()
+        T.BlockSeparator
       ];
 
       expect(fixDelimiterRuns(stream)).toEqual(stream);
@@ -69,15 +80,15 @@ describe("commonmark renderer utility functions", () => {
 
       expect(
         flatMapStringReplace(string, /([0-9]+)\.([^\n]+)/, ([, $1, $2]) => {
-          return [$1, T.ESCAPED_PUNCTUATION("."), $2];
+          return [$1, T.EscapedPunctuation("."), $2];
         })
       ).toEqual([
         "1",
-        T.ESCAPED_PUNCTUATION("."),
+        T.EscapedPunctuation("."),
         " list item",
         "\n",
         "2",
-        T.ESCAPED_PUNCTUATION("."),
+        T.EscapedPunctuation("."),
         " list item"
       ]);
     });
@@ -86,10 +97,10 @@ describe("commonmark renderer utility functions", () => {
   test("streamFlatMapStringReplace", () => {
     let stream = [
       "test test",
-      T.SOFT_LINE_BREAK(),
-      T.STRONG_STAR_START(),
+      T.HardLineBreak,
+      T.StrongStarStart,
       "test",
-      T.STRONG_STAR_END()
+      T.StrongStarEnd
     ];
 
     expect(
@@ -100,55 +111,55 @@ describe("commonmark renderer utility functions", () => {
       "eeeee",
       " ",
       "eeeee",
-      T.SOFT_LINE_BREAK(),
-      T.STRONG_STAR_START(),
+      T.HardLineBreak,
+      T.StrongStarStart,
       "eeeee",
-      T.STRONG_STAR_END()
+      T.StrongStarEnd
     ]);
   });
 
   test("flattenStreams", () => {
     let streams = [
       [],
-      [T.SOFT_LINE_BREAK()],
-      [T.STRONG_STAR_START(), "hello world", T.STRONG_STAR_END()]
+      [T.HardLineBreak],
+      [T.StrongStarStart, "hello world", T.StrongStarEnd]
     ];
 
     expect(flattenStreams(streams)).toEqual([
-      T.SOFT_LINE_BREAK(),
-      T.STRONG_STAR_START(),
+      T.HardLineBreak,
+      T.StrongStarStart,
       "hello world",
-      T.STRONG_STAR_END()
+      T.StrongStarEnd
     ]);
   });
 
   test("mergeStrings", () => {
-    let stream = ["\n", "\n", T.THEMATIC_BREAK(), "testing", "1\n2"];
+    let stream = ["\n", "\n", T.ThematicBreak, "testing", "1\n2"];
 
     expect(mergeStrings(stream)).toEqual([
       "\n\n",
-      T.THEMATIC_BREAK(),
+      T.ThematicBreak,
       "testing1\n2"
     ]);
   });
 
   test("splitLines", () => {
-    let stream = ["test\nstream", T.THEMATIC_BREAK(), "\nhello\nworld"];
+    let stream = ["test\nstream", T.ThematicBreak, "\nhello\nworld"];
 
     expect(splitLines(stream)).toEqual([
       ["test"],
-      ["stream", T.THEMATIC_BREAK(), ""],
+      ["stream", T.ThematicBreak, ""],
       ["hello"],
       ["world"]
     ]);
   });
 
   test("streamIncludes", () => {
-    let stream = ["test\n", T.ATX_HEADING(2), "this is a heading"];
+    let stream = ["test\n", T.ATXHeading(2), "this is a heading"];
 
     expect(streamIncludes(stream, "heading")).toBe(true);
 
-    expect(streamIncludes(stream, T.ATX_HEADING(2))).toBe(true);
+    expect(streamIncludes(stream, T.ATXHeading(2))).toBe(true);
 
     expect(streamIncludes(stream, "test\nthis")).toBe(false);
   });
@@ -156,20 +167,20 @@ describe("commonmark renderer utility functions", () => {
   test("hasLeadingWhitespace", () => {
     expect(hasLeadingWhitespace(" a string")).toBe(true);
     expect(hasLeadingWhitespace("another string ")).toBe(false);
-    expect(hasLeadingWhitespace(T.SOFT_LINE_BREAK())).toBe(true);
-    expect(hasLeadingWhitespace(T.STRONG_STAR_END())).toBe(false);
+    expect(hasLeadingWhitespace(T.HardLineBreak)).toBe(true);
+    expect(hasLeadingWhitespace(T.StrongStarEnd)).toBe(false);
   });
 
   test("hasTrailingWhitespaces", () => {
     expect(hasTrailingWhitespace("test string ")).toBe(true);
     expect(hasTrailingWhitespace(" hello")).toBe(false);
-    expect(hasTrailingWhitespace(T.SOFT_LINE_BREAK())).toBe(true);
-    expect(hasTrailingWhitespace(T.EM_STAR_START())).toBe(false);
+    expect(hasTrailingWhitespace(T.HardLineBreak)).toBe(true);
+    expect(hasTrailingWhitespace(T.EmphasisStarStart)).toBe(false);
   });
 
   describe("greedilyTakeLeadingWhitespace", () => {
     test("single string", () => {
-      let stream = [T.STRONG_STAR_START(), " test"];
+      let stream = [T.StrongStarStart, " test"];
 
       expect(greedilyTakeLeadingWhiteSpace(stream, 1)).toEqual({
         leadingSpaces: [" "],
@@ -181,20 +192,16 @@ describe("commonmark renderer utility functions", () => {
     test("complex case", () => {
       let stream1 = [
         " ",
-        T.SOFT_LINE_BREAK(),
+        T.HardLineBreak,
         "\t\ttest\n",
-        T.STRONG_STAR_START(),
+        T.StrongStarStart,
         "some stuff",
-        T.STRONG_STAR_END()
+        T.StrongStarEnd
       ];
 
       expect(greedilyTakeLeadingWhiteSpace(stream1, 0)).toEqual({
-        leadingSpaces: [" ", T.SOFT_LINE_BREAK(), "\t\t"],
-        trailingStream: [
-          T.STRONG_STAR_START(),
-          "some stuff",
-          T.STRONG_STAR_END()
-        ],
+        leadingSpaces: [" ", T.HardLineBreak, "\t\t"],
+        trailingStream: [T.StrongStarStart, "some stuff", T.StrongStarEnd],
         splitLeadingString: "test\n"
       });
     });
@@ -202,27 +209,27 @@ describe("commonmark renderer utility functions", () => {
 
   describe("greedilyTakeTrailingWhitespace", () => {
     test("stops taking whitespace if it reaches a string with trailing spaces", () => {
-      let stream = [T.EM_STAR_START(), " ", "-italic- ", T.EM_STAR_END()];
+      let stream = [T.EmphasisStarStart, " ", "-italic- ", T.EmphasisStarEnd];
 
       expect(greedilyTakeTrailingWhiteSpace(stream, 2)).toEqual({
         trailingSpaces: [" "],
-        leadingStream: [T.EM_STAR_START(), " "],
+        leadingStream: [T.EmphasisStarStart, " "],
         splitTrailingString: "-italic-"
       });
     });
 
     test("a complex case", () => {
-      let stream = ["some stuff\n", T.SOFT_LINE_BREAK(), "\t\n"];
+      let stream = ["some stuff\n", T.HardLineBreak, "\t\n"];
 
       expect(greedilyTakeTrailingWhiteSpace(stream, 2)).toEqual({
-        trailingSpaces: ["\n", T.SOFT_LINE_BREAK(), "\t\n"],
+        trailingSpaces: ["\n", T.HardLineBreak, "\t\n"],
         leadingStream: [],
         splitTrailingString: "some stuff"
       });
     });
 
     test("a simple case", () => {
-      let stream = ["bold text ", T.STRONG_STAR_END(), "some other text"];
+      let stream = ["bold text ", T.StrongStarEnd, "some other text"];
 
       expect(greedilyTakeTrailingWhiteSpace(stream, 0)).toEqual({
         trailingSpaces: [" "],
