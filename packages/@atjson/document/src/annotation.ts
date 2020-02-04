@@ -2,7 +2,6 @@ import * as uuid from "uuid-random";
 import {
   AnnotationAttributesObject,
   Change,
-  ChangeType,
   clone,
   Deletion,
   Document,
@@ -198,7 +197,7 @@ export abstract class Annotation<Attributes = {}> {
    *     are applied to the document including annotations.
    */
   handleChange(change: Change) {
-    if (change.type === ChangeType.insertion) {
+    if (change.type === "insertion") {
       this.handleInsertion(change as Insertion);
     } else {
       this.handleDeletion(change as Deletion);

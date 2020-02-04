@@ -1,10 +1,5 @@
 export abstract class Change {
-  abstract readonly type: ChangeType;
-}
-
-export enum ChangeType {
-  deletion,
-  insertion
+  abstract readonly type: string;
 }
 
 export enum EdgeBehaviour {
@@ -25,7 +20,7 @@ export enum AdjacentBoundaryBehaviour {
 }
 
 export class Deletion extends Change {
-  readonly type = ChangeType.deletion;
+  readonly type = "deletion";
   constructor(
     readonly start: number,
     readonly end: number,
@@ -37,7 +32,7 @@ export class Deletion extends Change {
 }
 
 export class Insertion extends Change {
-  readonly type = ChangeType.insertion;
+  readonly type = "insertion";
   constructor(
     readonly start: number,
     readonly text: string,
