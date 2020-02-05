@@ -445,7 +445,7 @@ function toString(stream: TokenStream): string {
       if (typeof item === "string") {
         return item;
       } else {
-        return item.production;
+        return item.value;
       }
     })
     .join("");
@@ -548,7 +548,7 @@ export function streamIncludes(
       typeof item !== "string" &&
       typeof needle !== "string" &&
       item.kind === needle.kind &&
-      item.production === needle.production;
+      item.value === needle.value;
 
     if (stringIncludesNeedle || tokenEqualsNeedle) {
       return true;
@@ -882,12 +882,17 @@ export default class CommonmarkRenderer extends Renderer {
     // Multiline headings are supported for level 1 and 2
     if (streamIncludes(inner, "\n") || streamIncludes(inner, "&#10;")) {
       if (level === 1 || level === 2) {
-        return ["\n", ...inner, "\n", T.SetextHeading(level), "\n"];
+        return [
+          T.SoftLineBreak,
+          ...inner,
+          T.SetextHeading(level),
+          T.BlockSeparator
+        ];
       }
       // Throw error? Remove newline??
     }
 
-    return [T.ATXHeading(level), ...inner, "\n"];
+    return [T.ATXHeading(level), ...inner, T.BlockSeparator];
   }
 
   /**
@@ -896,7 +901,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Iterator<void, TokenStream, TokenStream[]> {
-    return [T.ThematicBreak, "\n"];
+    return [T.ThematicBreak, T.BlockSeparator];
   }
 
   /**
@@ -971,7 +976,7 @@ export default class CommonmarkRenderer extends Renderer {
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
     if (context.parent.type === "code" || context.parent.type === "html") {
-      return ["\n"];
+      return [T.SoftLineBreak];
     }
 
     return [T.HardLineBreak];
@@ -1012,9 +1017,10 @@ export default class CommonmarkRenderer extends Renderer {
 
     if (code.attributes.style === "fence") {
       let info = code.attributes.info || "";
-      let newlines = "\n";
+      let newlines: typeof T.SoftLineBreak | typeof T.BlockSeparator =
+        T.SoftLineBreak;
       if (this.state.isList && context.next) {
-        newlines += "\n";
+        newlines = T.BlockSeparator;
       }
 
       let fenceType =
@@ -1022,9 +1028,7 @@ export default class CommonmarkRenderer extends Renderer {
           ? ("tildes" as const)
           : ("backticks" as const);
       return [
-        T.CodeFenceStart(fenceType),
-        info,
-        "\n",
+        T.CodeFenceStart(fenceType, info),
         ...inner,
         T.CodeFenceEnd(fenceType),
         newlines,
