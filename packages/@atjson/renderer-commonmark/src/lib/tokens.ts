@@ -9,6 +9,11 @@ export const HardLineBreak = {
   production: "\\\n"
 } as const;
 
+export const SoftLineBreak = {
+  kind: "SOFT_LINE_BREAK",
+  production: "\n"
+} as const;
+
 export const BlockSeparator = {
   kind: "BLOCK_SEPARATOR",
   production: "\n\n"
@@ -192,6 +197,7 @@ export function HTMLEntity(entityCode: string) {
 
 export type Token =
   | typeof HardLineBreak
+  | typeof SoftLineBreak
   | typeof BlockSeparator
   | typeof ThematicBreak
   | typeof StrongStarStart
