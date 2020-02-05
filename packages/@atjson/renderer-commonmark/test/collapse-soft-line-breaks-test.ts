@@ -43,4 +43,21 @@ describe("collapseSoftLineBreaks", () => {
       "Fire burn and caldron bubble."
     ]);
   });
+
+  test("multiple block containers are collapsed", () => {
+    let stream = [
+      "Double, double toil and trouble;",
+      Tokens.SoftLineBreak,
+      Tokens.BlockSeparator,
+      Tokens.BlockSeparator,
+      Tokens.SoftLineBreak,
+      "Fire burn and caldron bubble."
+    ];
+
+    expect(collapseSoftLineBreaks(stream)).toEqual([
+      "Double, double toil and trouble;",
+      Tokens.BlockSeparator,
+      "Fire burn and caldron bubble."
+    ]);
+  });
 });

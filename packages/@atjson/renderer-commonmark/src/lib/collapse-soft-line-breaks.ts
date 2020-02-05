@@ -8,5 +8,32 @@ type TokenStream = Array<Tokens.Token | string>;
  * non-intentional markdown into the document.
  */
 export function collapseSoftLineBreaks(stream: TokenStream) {
-  return stream;
+  let collapsedStream: TokenStream = [];
+  let index = 0;
+  let length = stream.length;
+
+  while (index < length) {
+    let current = stream[index];
+
+    if (current === Tokens.BlockSeparator || current === Tokens.SoftLineBreak) {
+      let j = 1;
+      let next = stream[index + j];
+      let whitespaceToken: Tokens.Token = Tokens.SoftLineBreak;
+
+      // Seek forward until the next token isn't a block separator or soft line break
+      while (next === Tokens.BlockSeparator || next === Tokens.SoftLineBreak) {
+        if (next === Tokens.BlockSeparator) {
+          whitespaceToken = Tokens.BlockSeparator;
+        }
+        j++;
+        next = stream[index + j];
+      }
+      collapsedStream.push(whitespaceToken);
+      index += j;
+    } else {
+      collapsedStream.push(current);
+      index++;
+    }
+  }
+  return collapsedStream;
 }
