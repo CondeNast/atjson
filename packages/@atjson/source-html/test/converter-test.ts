@@ -402,6 +402,28 @@ describe("@atjson/source-html", () => {
       });
     });
 
+    test("protocol-relative iframe embeds", () => {
+      let doc = HTMLSource.fromRaw(
+        `<iframe src="//example.com"
+            scrolling="no" frameborder="0"
+            allowTransparency="true" allow="encrypted-media"></iframe>`
+      )
+        .convertTo(OffsetSource)
+        .canonical();
+
+      expect(doc).toMatchObject({
+        content: "",
+        annotations: [
+          {
+            type: "iframe-embed",
+            attributes: {
+              url: "//example.com"
+            }
+          }
+        ]
+      });
+    });
+
     describe("social embeds", () => {
       test("Facebook iframe embed", () => {
         let doc = HTMLSource.fromRaw(
