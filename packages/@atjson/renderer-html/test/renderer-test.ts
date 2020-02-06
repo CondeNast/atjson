@@ -17,6 +17,7 @@ import OffsetSource, {
   Strikethrough,
   Subscript,
   Superscript,
+  TikTokEmbed,
   Underline
 } from "@atjson/offset-annotations";
 import Renderer from "../src";
@@ -401,5 +402,24 @@ describe("renderer-html", () => {
         `"<div style=\\"position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none\\" id=\\"experience-test\\" data-aspectRatio=\\"2\\" data-mobile-aspectRatio=\\"3\\"><iframe allowfullscreen src=\\"//view.ceros.com/ceros-inspire/carousel-3\\" style=\\"position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%\\" frameborder=\\"0\\" class=\\"ceros-experience\\" scrolling=\\"no\\"></iframe></div><script type=\\"text/javascript\\" src=\\"//view.ceros.com/scroll-proxy.min.js\\" data-ceros-origin-domains=\\"view.ceros.com\\"></script>"`
       );
     });
+  });
+
+  test("tiktok", () => {
+    let doc = new OffsetSource({
+      content: "\uFFFC",
+      annotations: [
+        new TikTokEmbed({
+          start: 0,
+          end: 1,
+          attributes: {
+            url: "https://www.tiktok.com/@vogueitalia/video/6771026615137750277"
+          }
+        })
+      ]
+    });
+
+    expect(Renderer.render(doc)).toEqual(
+      `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
+    );
   });
 });

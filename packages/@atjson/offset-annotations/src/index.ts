@@ -26,6 +26,7 @@ import {
   Strikethrough,
   Subscript,
   Superscript,
+  TikTokEmbed,
   TwitterEmbed,
   Underline,
   VideoEmbed
@@ -63,6 +64,7 @@ export default class OffsetSource extends Document {
     Strikethrough,
     Subscript,
     Superscript,
+    TikTokEmbed,
     TwitterEmbed,
     Underline,
     VideoEmbed

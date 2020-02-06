@@ -4,7 +4,8 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  TwitterEmbed
+  TwitterEmbed,
+  TikTokEmbed
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -199,6 +200,24 @@ function normalizeSpotifyUrl(url: IUrl) {
   };
 }
 
+function isTikTokUrl(url: IUrl) {
+  return (
+    url.host === "www.tiktok.com" ||
+    url.host === "tiktok.com" ||
+    url.host === "m.tiktok.com"
+  );
+}
+
+function normalizeTikTokUrl(url: IUrl) {
+  let [handle, type, id] = without<string>(url.pathname.split("/"), "");
+  return {
+    Class: TikTokEmbed,
+    attributes: {
+      url: `https://www.tiktok.com/${handle}/${type}/${id}`
+    }
+  };
+}
+
 export function identify(
   url: IUrl
 ): {
@@ -227,6 +246,10 @@ export function identify(
 
   if (isSpotifyUrl(url)) {
     return normalizeSpotifyUrl(url);
+  }
+
+  if (isTikTokUrl(url)) {
+    return normalizeTikTokUrl(url);
   }
 
   return null;
