@@ -1,5 +1,4 @@
 import OffsetSource from "@atjson/offset-annotations";
-import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
 
 describe("commonmark", () => {
@@ -905,25 +904,6 @@ After all the lists
         expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\\\\\**\na");
       });
 
-      // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
-      test("delimiters wrapping links are not parsed as punctuation at paragraph boundaries", () => {
-        let md =
-          "*[menu.as](https://menu.as/)*\n\n**Missoni Partners with Donghia**\n\n";
-        let mdDoc = CommonmarkSource.fromRaw(md);
-        let document = mdDoc.convertTo(OffsetSource);
-
-        expect(CommonmarkRenderer.render(document)).toBe(md);
-      });
-
-      // **bold:**[link](http://url.com)
-      test("right delimiter runs can be adjacent to left delimiter runs", () => {
-        let md = "**bold:**[link](http://url.com)";
-        let mdDoc = CommonmarkSource.fromRaw(md);
-        let document = mdDoc.convertTo(OffsetSource);
-
-        expect(CommonmarkRenderer.render(document).trim()).toBe(md);
-      });
-
       // *a.*^b^ -> *a*.b if superscript annotations are unsupported
       test("wrapping adjacent characters in an unknown annotation does not preserve boundary punctuation", () => {
         let document = new OffsetSource({
@@ -1449,16 +1429,8 @@ After all the lists
       ],
     });
 
-    let markdown = CommonmarkRenderer.render(document);
-
     expect(CommonmarkRenderer.render(document)).toBe(
       "Hello\n\nThis is my text\n\n"
-    );
-    // Make sure we're not generating code in the round-trip
-    expect(markdown).toEqual(
-      CommonmarkRenderer.render(
-        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)
-      )
     );
   });
 
@@ -1487,12 +1459,6 @@ After all the lists
 
     expect(markdown).toBe(
       "&emsp;&emsp;&emsp;&emsp;Hello\n\nThis is my text\n\n"
-    );
-    // Make sure we're not generating code in the round-trip
-    expect(markdown).toEqual(
-      CommonmarkRenderer.render(
-        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)
-      )
     );
   });
 

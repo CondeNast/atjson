@@ -1,4 +1,5 @@
 import * as Tokens from "./tokens";
+import { is } from "./token-stream";
 
 type TokenStream = Array<Tokens.Token | string>;
 
@@ -15,13 +16,19 @@ export function collapseSoftLineBreaks(stream: TokenStream) {
   while (index < length) {
     let current = stream[index];
 
-    if (current === Tokens.BlockSeparator || current === Tokens.SoftLineBreak) {
+    if (
+      is(current, Tokens.BlockSeparator) ||
+      is(current, Tokens.SoftLineBreak)
+    ) {
       let j = 1;
       let next = stream[index + j];
       let whitespaceToken: Tokens.Token = Tokens.SoftLineBreak;
 
       // Seek forward until the next token isn't a block separator or soft line break
-      while (next === Tokens.BlockSeparator || next === Tokens.SoftLineBreak) {
+      while (
+        is(next, Tokens.BlockSeparator) ||
+        is(next, Tokens.SoftLineBreak)
+      ) {
         if (next === Tokens.BlockSeparator) {
           whitespaceToken = Tokens.BlockSeparator;
         }

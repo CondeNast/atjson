@@ -26,6 +26,8 @@ import {
 } from "./lib/punctuation";
 import * as T from "./lib/tokens";
 export * from "./lib/punctuation";
+import { removeEmptyInlineTokens } from "./lib/remove-empty-inline-tokens";
+import { addDelimitersToLists } from "./lib/add-delimiters-to-lists";
 
 export function flatMapStringReplace(
   string: string,
@@ -756,36 +758,6 @@ function compactLeadingWhitespace(line: TokenStream): TokenStream {
   }
 }
 
-function removeEmptyInline(stream: TokenStream) {
-  let compactedStream: TokenStream = [];
-  let index = 0;
-  let length = stream.length;
-  while (index < length) {
-    let current = stream[index];
-    let next = stream[index + 1];
-    let j = 1;
-    while (next === T.NoBreakSpace || next === T.EmSpace) {
-      j++;
-      next = stream[index + j];
-    }
-
-    if (
-      (current === T.StrongStarStart && next === T.StrongStarEnd) ||
-      (current === T.StrongUnderscoreStart && next === T.StrongUnderscoreEnd) ||
-      (current === T.EmphasisStarStart && next === T.EmphasisStarEnd) ||
-      (current === T.EmphasisUnderscoreStart &&
-        next === T.EmphasisUnderscoreEnd) ||
-      (current === T.BlockquoteLineStart && next === T.BlockquoteLineEnd)
-    ) {
-      index += j + 1;
-    } else {
-      compactedStream.push(current);
-      index++;
-    }
-  }
-  return compactedStream;
-}
-
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -829,7 +801,9 @@ export default class CommonmarkRenderer extends Renderer {
   *root() {
     let stream: TokenStream = flattenStreams(yield);
 
-    return toString(removeEmptyInline(fixDelimiterRuns(stream)));
+    return toString(
+      removeEmptyInlineTokens(addDelimitersToLists(fixDelimiterRuns(stream)))
+    );
   }
 
   /**
@@ -886,7 +860,7 @@ export default class CommonmarkRenderer extends Renderer {
           T.SoftLineBreak,
           ...inner,
           T.SetextHeading(level),
-          T.BlockSeparator
+          T.BlockSeparator,
         ];
       }
       // Throw error? Remove newline??
@@ -901,7 +875,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Iterator<void, TokenStream, TokenStream[]> {
-    return [T.ThematicBreak, T.BlockSeparator];
+    return [T.ThematicBreak("*"), T.BlockSeparator];
   }
 
   /**
@@ -976,7 +950,7 @@ export default class CommonmarkRenderer extends Renderer {
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
     if (context.parent.type === "code" || context.parent.type === "html") {
-      return [T.SoftLineBreak];
+      return ["\n"];
     }
 
     return [T.HardLineBreak];
@@ -1045,10 +1019,8 @@ export default class CommonmarkRenderer extends Renderer {
     } else {
       if (inner.length === 0) {
         return [];
-      } else if (inner.length === 1 && typeof inner[0] === "string") {
-        return [T.Code(toString(inner))];
       } else {
-        throw new Error("Code node contained non-text annotations");
+        return [T.Code(toString(inner))];
       }
     }
   }
@@ -1074,6 +1046,9 @@ export default class CommonmarkRenderer extends Renderer {
    * A list item is part of an ordered list or an unordered list.
    */
   *ListItem(): Iterator<void, TokenStream, TokenStream[]> {
+    let inner = flattenStreams(yield);
+    return [T.ListItemStart, ...inner, T.ListItemEnd];
+
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -1084,7 +1059,6 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     let indent = " ".repeat(marker.length + 1);
-    let inner = flattenStreams(yield);
     let item = toString(fixDelimiterRuns(inner));
 
     let firstNonspaceCharacterPosition = 0;
@@ -1130,59 +1104,17 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *List(
-    list: List,
-    context: Context
-  ): Iterator<void, TokenStream, TokenStream[]> {
-    let start = 1;
-
-    if (list.attributes.startsAt != null) {
-      start = list.attributes.startsAt;
-    }
-
-    let delimiter = "";
-
-    if (list.attributes.type === "numbered") {
-      delimiter = ".";
-
-      if (
-        context.previous instanceof List &&
-        context.previous.attributes.type === "numbered" &&
-        context.previous.attributes.delimiter === "."
-      ) {
-        delimiter = ")";
-      }
-    } else if (list.attributes.type === "bulleted") {
-      delimiter = "-";
-
-      if (
-        context.previous instanceof List &&
-        context.previous.attributes.type === "bulleted" &&
-        context.previous.attributes.delimiter === "-"
-      ) {
-        delimiter = "+";
-      }
-    }
-    list.attributes.delimiter = delimiter;
-
-    let state = Object.assign({}, this.state);
-
-    // Handle indendation for code blocks that immediately follow a list.
-    let hasCodeBlockFollowing =
-      context.next instanceof Code && context.next.attributes.style === "block";
-    Object.assign(this.state, {
-      isList: true,
-      type: list.attributes.type,
-      digit: start,
-      delimiter,
-      tight: list.attributes.tight,
-      hasCodeBlockFollowing,
-    });
-
+  *List(list: List): Iterator<void, TokenStream, TokenStream[]> {
     let inner = flattenStreams(yield);
-
-    this.state = state;
-    return [...inner, "\n"];
+    if (list.attributes.type === "numbered") {
+      return [
+        T.NumberedListStart(list.attributes.startsAt || 1),
+        ...inner,
+        T.NumberedListEnd,
+      ];
+    } else {
+      return [T.BulletedListStart, ...inner, T.NumberedListEnd];
+    }
   }
 
   /**

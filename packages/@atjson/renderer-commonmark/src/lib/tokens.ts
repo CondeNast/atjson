@@ -19,10 +19,12 @@ export const BlockSeparator = {
   value: "\n\n"
 } as const;
 
-export const ThematicBreak = {
-  kind: "THEMATIC_BREAK",
-  value: "***\n"
-} as const;
+export function ThematicBreak(token: "*" | "-") {
+  return {
+    kind: "THEMATIC_BREAK",
+    value: token === "*" ? "***\n" : "---\n"
+  } as const;
+}
 
 export const StrongStarStart = {
   kind: "STRONG_STAR_START",
@@ -181,6 +183,41 @@ export const BlockquoteLineEnd = {
   value: "\n"
 } as const;
 
+export function NumberedListStart(startsAt: number) {
+  return {
+    kind: "NUMBERED_LIST_START",
+    value: "",
+    startsAt
+  };
+}
+
+export const NumberedListEnd = {
+  kind: "NUMBERED_LIST_END",
+  value: "\n"
+} as const;
+
+export const BulletedListStart = {
+  kind: "BULLETED_LIST_START",
+  value: ""
+} as const;
+
+export const BulletedListEnd = {
+  kind: "BULLETED_LIST_END",
+  value: "\n"
+} as const;
+
+export function ListItemStart(delimiter: string) {
+  return {
+    kind: "LIST_ITEM_START",
+    value: delimiter
+  } as const;
+}
+
+export const ListItemEnd = {
+  kind: "LIST_ITEM_END",
+  value: "\n"
+} as const;
+
 export function EscapedPunctuation(punctuation: string) {
   return {
     kind: "ESCAPED_PUNCTUATION",
@@ -199,7 +236,6 @@ export type Token =
   | typeof HardLineBreak
   | typeof SoftLineBreak
   | typeof BlockSeparator
-  | typeof ThematicBreak
   | typeof StrongStarStart
   | typeof StrongStarEnd
   | typeof StrongUnderscoreStart
@@ -214,8 +250,13 @@ export type Token =
   | typeof EmSpace
   | typeof BlockquoteLineStart
   | typeof BlockquoteLineEnd
+  | typeof ListItemEnd
+  | typeof NumberedListEnd
   | ReturnType<
       | typeof InlineLinkEnd
+      | typeof ThematicBreak
+      | typeof NumberedListStart
+      | typeof ListItemStart
       | typeof Image
       | typeof ATXHeading
       | typeof SetextHeading
