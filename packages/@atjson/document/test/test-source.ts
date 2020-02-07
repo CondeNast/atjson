@@ -1,6 +1,6 @@
 import Document, {
-  AdjacentBoundaryBehaviour,
   Change,
+  EdgeBehaviour,
   InlineAnnotation,
   Insertion,
   ObjectAnnotation
@@ -81,7 +81,8 @@ export class Manual extends ObjectAnnotation {
     expect(this.end).toBe(2);
     expect(insertion.start).toBe(2);
     expect(insertion.text).toBe("zzz");
-    expect(insertion.behaviour).toBe(AdjacentBoundaryBehaviour.default);
+    expect(insertion.behaviourLeading).toBe(EdgeBehaviour.preserve);
+    expect(insertion.behaviourTrailing).toBe(EdgeBehaviour.modify);
 
     // artificial adjustment
     this.start = 1;

@@ -2,10 +2,21 @@ export abstract class Change {
   abstract readonly type: string;
 }
 
-export enum AdjacentBoundaryBehaviour {
+export enum EdgeBehaviour {
   preserve,
-  default,
   modify
+}
+
+// the "public" API for behaviour
+export enum AdjacentBoundaryBehaviour {
+  // default is an alias for modify / preserveLeading
+  // modify and preserve are targeted for deprecation
+  default,
+  modify,
+  preserveLeading,
+  preserve,
+  preserveTrailing,
+  preserveBoth
 }
 
 export class Deletion extends Change {
@@ -13,7 +24,8 @@ export class Deletion extends Change {
   constructor(
     readonly start: number,
     readonly end: number,
-    readonly behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+    readonly behaviourLeading: EdgeBehaviour = EdgeBehaviour.preserve,
+    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify
   ) {
     super();
   }
@@ -24,7 +36,8 @@ export class Insertion extends Change {
   constructor(
     readonly start: number,
     readonly text: string,
-    readonly behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+    readonly behaviourLeading: EdgeBehaviour = EdgeBehaviour.preserve,
+    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify
   ) {
     super();
   }

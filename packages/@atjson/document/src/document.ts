@@ -6,6 +6,7 @@ import {
   AnnotationJSON,
   compareAnnotations,
   Deletion,
+  EdgeBehaviour,
   Insertion,
   ParseAnnotation,
   UnknownAnnotation
@@ -274,7 +275,35 @@ export class Document {
     if (start < 0 || start > this.content.length)
       throw new Error("Invalid position.");
 
-    let insertion = new Insertion(start, text, behaviour);
+    let behaviourLeading;
+    let behaviourTrailing;
+    // "preserve" and "modify" are targeted for deprecation as valid options in
+    // favor of preserveLeading, preserveTrailing, or preserveBoth
+    switch (behaviour) {
+      case AdjacentBoundaryBehaviour.preserveBoth:
+        behaviourLeading = EdgeBehaviour.preserve;
+        behaviourTrailing = EdgeBehaviour.preserve;
+        break;
+      case AdjacentBoundaryBehaviour.preserve:
+      case AdjacentBoundaryBehaviour.preserveTrailing:
+        behaviourLeading = EdgeBehaviour.modify;
+        behaviourTrailing = EdgeBehaviour.preserve;
+        break;
+      default:
+      case AdjacentBoundaryBehaviour.modify:
+      case AdjacentBoundaryBehaviour.preserveLeading:
+        behaviourLeading = EdgeBehaviour.preserve;
+        behaviourTrailing = EdgeBehaviour.modify;
+        break;
+    }
+
+    let insertion = new Insertion(
+      start,
+      text,
+      behaviourLeading,
+      behaviourTrailing
+    );
+
     try {
       for (let i = this.annotations.length - 1; i >= 0; i--) {
         let annotation = this.annotations[i];
@@ -316,15 +345,11 @@ export class Document {
     this.triggerChange();
   }
 
-  deleteText(
-    start: number,
-    end: number,
-    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
-  ) {
+  deleteText(start: number, end: number) {
     // This should really not just truncate annotations, but rather tombstone
     // the modified annotations as an atjson sub-document inside the annotation
     // that's being used to delete stuff.
-    let deletion = new Deletion(start, end, behaviour);
+    let deletion = new Deletion(start, end);
     try {
       for (let i = this.annotations.length - 1; i >= 0; i--) {
         let annotation = this.annotations[i];
@@ -380,16 +405,12 @@ export class Document {
   /**
    * Cuts out part of the document, modifying `this` and returning the removed portion
    */
-  cut(
-    start: number,
-    end: number,
-    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
-  ): Document {
+  cut(start: number, end: number): Document {
     let slice = this.slice(start, end);
     this.where(function annotationWasCut(annotation) {
       return annotation.start >= start && annotation.end <= end;
     }).remove();
-    this.deleteText(start, end, behaviour);
+    this.deleteText(start, end);
 
     return slice;
   }

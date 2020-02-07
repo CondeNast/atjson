@@ -149,7 +149,7 @@ describe("Document.insertText", () => {
     ]);
   });
 
-  test("insert text at the left boundary of an annotation", () => {
+  test("insert text at the leading boundary of an annotation", () => {
     let atjson = new TestSource({
       content: "abcd",
       annotations: [
@@ -299,7 +299,7 @@ describe("Document.insertText", () => {
     ]);
   });
 
-  test("insert text at the left boundary of an annotation preserving boundaries", () => {
+  test("insert text at the leading boundary of an annotation preserving boundaries", () => {
     let atjson = new TestSource({
       content: "abcd",
       annotations: [
@@ -312,7 +312,7 @@ describe("Document.insertText", () => {
         }
       ]
     });
-    atjson.insertText(0, "zzz", AdjacentBoundaryBehaviour.preserve);
+    atjson.insertText(0, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
     expect(atjson.content).toBe("zzzabcd");
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([
       {
@@ -325,7 +325,7 @@ describe("Document.insertText", () => {
     ]);
   });
 
-  test("insert text at the right boundary of an annotation preserving boundaries", () => {
+  test("insert text at the trailing boundary of an annotation preserving boundaries", () => {
     let atjson = new TestSource({
       content: "abcd",
       annotations: [
@@ -346,7 +346,7 @@ describe("Document.insertText", () => {
       ]
     });
 
-    atjson.insertText(2, "zzz", AdjacentBoundaryBehaviour.preserve);
+    atjson.insertText(2, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
     expect(atjson.content).toBe("abzzzcd");
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([
       {
@@ -387,7 +387,7 @@ describe("Document.insertText", () => {
       ]
     });
 
-    atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserve);
+    atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveTrailing);
 
     expect(atjson.content).toBe("abc");
     expect(atjson.annotations.map(a => a.toJSON())).toEqual([
@@ -402,6 +402,48 @@ describe("Document.insertText", () => {
         id: "2",
         type: "-test-italic",
         start: 1,
+        end: 3,
+        attributes: {}
+      }
+    ]);
+  });
+
+  test("insert text at the boundary of two adjacent annotations, perserving both of them", () => {
+    let atjson = new TestSource({
+      content: "ac",
+      annotations: [
+        {
+          id: "1",
+          type: "-test-bold",
+          start: 0,
+          end: 1,
+          attributes: {}
+        },
+        {
+          id: "2",
+          type: "-test-italic",
+          start: 1,
+          end: 2,
+          attributes: {}
+        }
+      ]
+    });
+
+    atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveBoth);
+
+    expect(atjson.content).toBe("abc");
+    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+      {
+        id: "1",
+        type: "-test-bold",
+        start: 0,
+        end: 1,
+        attributes: {}
+      },
+      {
+        id: "2",
+        type: "-test-italic",
+        start: 2,
         end: 3,
         attributes: {}
       }
