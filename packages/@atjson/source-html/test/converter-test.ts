@@ -538,7 +538,8 @@ describe("@atjson/source-html", () => {
       describe("YouTube", () => {
         test.each([
           ["https://www.youtube.com/embed/0-jus6AGHzQ"],
-          ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
+          ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"],
+          ["//www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
         ])("%s", url => {
           let doc = HTMLSource.fromRaw(
             `<iframe width="560" height="315"
@@ -549,6 +550,9 @@ describe("@atjson/source-html", () => {
           ).convertTo(OffsetSource);
 
           let hir = new HIR(doc).toJSON();
+          if (url.startsWith("//")) {
+            url = `https:${url}`;
+          }
           expect(hir).toMatchObject({
             type: "root",
             children: [
@@ -591,6 +595,25 @@ describe("@atjson/source-html", () => {
           expect(caption.content).toBe(
             "TSVETOK - Vogue Italia from Karim Andreotti on Vimeo."
           );
+        });
+
+        test("protocol-relative URLs https", () => {
+          let doc = HTMLSource.fromRaw(
+            `<iframe src="//player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+          )
+            .convertTo(OffsetSource)
+            .canonical();
+
+          expect(doc.annotations.length).toBe(1);
+          expect(doc.annotations[0]).toMatchObject({
+            type: "video-embed",
+            attributes: {
+              url: "https://player.vimeo.com/video/156254412",
+              width: 640,
+              height: 480,
+              aspectRatio: "4:3"
+            }
+          });
         });
 
         test("embed code with trailing paragraph that isn't from Vimeo", () => {
