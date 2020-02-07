@@ -317,6 +317,28 @@ export class Document {
       console.error("Failed to insert text", e);
     }
 
+    /*
+        if (text.indexOf('\n') > -1) {
+      let prevEnd: number;
+      for (let j = this.annotations.length - 1; j >= 0; j--) {
+        a = this.annotations[j];
+        // This doesn't affect us.
+        if (a.type !== 'block') continue;
+        if (a.end < position) continue;
+        if (position < a.start) continue;
+        // First adjust the end of the current paragraph.
+        prevEnd = a.end;
+        a.end = position + 1;
+        // And now add a new paragraph.
+        this.addAnnotations({
+          type: 'paragraph',
+          display: 'block',
+          start: position + 1,
+          end: prevEnd
+        });
+      }
+    }
+    */
     this.triggerChange();
   }
 
@@ -335,6 +357,19 @@ export class Document {
       // eslint-disable-next-line no-console
       console.error("Failed to delete text", e);
     }
+
+    /* to be moved to block annotation
+      let potentialMergeAnnotations = { type: annotations[] }
+      for (const type in potentialMergeAnnotations) {
+        let annotations = potentialMergeAnnotations[type];
+        annotations = annotations.sort((j, k) => j.start - k.start);
+        for (let l = annotations.length - 1; l > 0; l--) {
+          if (annotations[l - 1].end === annotations[l].start) { // && annotations[i-1].attributes.toJSON() === annotations[i].attributes.toJSON()) {
+            annotations[l - 1].end = annotations[l].end;
+            this.removeAnnotation(annotations[l]);
+          }
+        }
+        */
 
     this.triggerChange();
   }
