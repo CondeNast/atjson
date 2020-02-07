@@ -322,13 +322,16 @@ export class Document {
       let prevEnd: number;
       for (let j = this.annotations.length - 1; j >= 0; j--) {
         a = this.annotations[j];
+
         // This doesn't affect us.
         if (a.type !== 'block') continue;
         if (a.end < position) continue;
         if (position < a.start) continue;
+
         // First adjust the end of the current paragraph.
         prevEnd = a.end;
         a.end = position + 1;
+
         // And now add a new paragraph.
         this.addAnnotations({
           type: 'paragraph',
