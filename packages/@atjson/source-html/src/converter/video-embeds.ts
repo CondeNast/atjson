@@ -86,7 +86,11 @@ export default function(doc: Document) {
       return covers(paragraph[0], link);
     })
     .update(function convertVimeoVideos({ video, paragraph, links }) {
-      let url = VideoURLs.identify(new URL(video.attributes.src));
+      let src = video.attributes.src;
+      if (src?.indexOf("//") === 0) {
+        src = `https:${src}`;
+      }
+      let url = VideoURLs.identify(new URL(src));
       assert(
         url,
         `The Vimeo embed ${video.attributes.src} was definitely defined in our queries, but was not identified.`
@@ -167,7 +171,11 @@ export default function(doc: Document) {
     });
 
   doc.where(isIframe).update(function convertIdentifiedVideos(iframe) {
-    let url = VideoURLs.identify(new URL(iframe.attributes.src));
+    let src = iframe.attributes.src;
+    if (src?.indexOf("//") === 0) {
+      src = `https:${src}`;
+    }
+    let url = VideoURLs.identify(new URL(src));
     if (url) {
       let width = getSize(iframe, "width");
       let height = getSize(iframe, "height");
