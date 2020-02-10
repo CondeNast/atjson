@@ -441,7 +441,7 @@ export function fixDelimiterRuns(stream: TokenStream): TokenStream {
   return stream;
 }
 
-function toString(stream: TokenStream): string {
+export function toString(stream: TokenStream): string {
   return stream
     .map(function tokenOrStringToString(item) {
       if (typeof item === "string") {
@@ -453,41 +453,9 @@ function toString(stream: TokenStream): string {
     .join("");
 }
 
-export function flattenStreams(
-  itemsOrStreams: Array<TokenStream | T.Token | string>
-): TokenStream {
-  let acc: TokenStream = [];
-  for (let itemOrStream of itemsOrStreams) {
-    if (Array.isArray(itemOrStream)) {
-      acc = acc.concat(itemOrStream);
-    } else {
-      acc.push(itemOrStream);
-    }
-  }
-
-  return mergeStrings(acc);
-}
-
-function flatMap(
-  stream: TokenStream,
-  mapper: (item: T.Token | string, i: number, s: TokenStream) => TokenStream
-) {
-  let acc: TokenStream = [];
+function flatMap<T>(stream: T[], mapper: (item: T, i: number, s: T[]) => T[]) {
+  let acc: T[] = [];
   return acc.concat(...stream.map(mapper));
-}
-
-function intersperse<T>(arr: T[], spacer: T): T[] {
-  if (arr.length === 0) {
-    return [];
-  }
-
-  let [firstItem, ...rest] = arr;
-  let acc: T[] = [firstItem];
-  for (let item of rest) {
-    acc.push(spacer, item);
-  }
-
-  return acc;
 }
 
 export function mergeStrings(stream: TokenStream): TokenStream {
@@ -513,7 +481,7 @@ export function mergeStrings(stream: TokenStream): TokenStream {
   return acc;
 }
 
-export function splitLines(stream: TokenStream): TokenStream[] {
+export function splitLines(stream: TokenStream) {
   let lines: TokenStream[] = [];
   let line: TokenStream = [];
 
@@ -524,7 +492,13 @@ export function splitLines(stream: TokenStream): TokenStream[] {
         // always true
         let [firstLine, ...middleLines] = parts.slice(0, parts.length - 1);
         line.push(firstLine);
-        lines.push(line, ...middleLines.map((line) => [...line]));
+        lines.push(
+          line,
+          ...middleLines.map((line) => {
+            if (line === "hello") debugger;
+            return [...line];
+          })
+        );
         line = array(parts[parts.length - 1]);
       }
     } else {
@@ -758,6 +732,20 @@ function compactLeadingWhitespace(line: TokenStream): TokenStream {
   }
 }
 
+function join<T>(items: T[][], joiner: T): T[] {
+  if (items.length === 0) {
+    return items[0];
+  }
+
+  let [firstItem, ...rest] = items;
+  let acc: T[] = [...firstItem];
+  for (let item of rest) {
+    acc.push(joiner, ...item);
+  }
+
+  return acc;
+}
+
 export default class CommonmarkRenderer extends Renderer {
   /**
    * Controls whether HTML entities should be escaped. This
@@ -792,17 +780,12 @@ export default class CommonmarkRenderer extends Renderer {
       return [text];
     }
 
-    let escapedText = escapePunctuation([text], this.options);
-    let lines = splitLines(escapedText).map(compactLeadingWhitespace);
-
-    return flattenStreams(intersperse(lines, ["\n"]));
+    return escapePunctuation([text], this.options);
   }
 
   *root() {
-    let stream: TokenStream = flattenStreams(yield);
-
     return toString(
-      removeEmptyInlineTokens(addDelimitersToLists(fixDelimiterRuns(stream)))
+      removeEmptyInlineTokens(addDelimitersToLists(fixDelimiterRuns(yield)))
     );
   }
 
@@ -812,9 +795,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
-    return [T.StrongStarStart, ...inner, T.StrongStarEnd];
+  *Bold(): Iterator<void, TokenStream, TokenStream> {
+    return [T.StrongStarStart, ...(yield), T.StrongStarEnd];
   }
 
   /**
@@ -823,8 +805,8 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *Blockquote(): Iterator<void, TokenStream, TokenStream[]> {
-    let lines = splitLines(flattenStreams(yield));
+  *Blockquote(): Iterator<void, TokenStream, TokenStream> {
+    let lines = splitLines(yield);
 
     // TODO: should we strip leading / trailing whitespace from this???
     let bq = [];
@@ -849,8 +831,8 @@ export default class CommonmarkRenderer extends Renderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *Heading(heading: Heading): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
+  *Heading(heading: Heading): Iterator<void, TokenStream, TokenStream> {
+    let inner = yield;
     let level = heading.attributes.level;
 
     // Multiline headings are supported for level 1 and 2
@@ -860,13 +842,13 @@ export default class CommonmarkRenderer extends Renderer {
           T.SoftLineBreak,
           ...inner,
           T.SetextHeading(level),
-          T.BlockSeparator,
+          T.SoftLineBreak,
         ];
       }
       // Throw error? Remove newline??
     }
 
-    return [T.ATXHeading(level), ...inner, T.BlockSeparator];
+    return [T.ATXHeading(level), ...inner, T.SoftLineBreak];
   }
 
   /**
@@ -874,15 +856,15 @@ export default class CommonmarkRenderer extends Renderer {
    * ***
    * Into multiple sections.
    */
-  *HorizontalRule(): Iterator<void, TokenStream, TokenStream[]> {
-    return [T.ThematicBreak("*"), T.BlockSeparator];
+  *HorizontalRule(): Iterator<void, TokenStream, TokenStream> {
+    return [T.ThematicBreak("*")];
   }
 
   /**
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](https://commonmark.org/images/markdown-mark.png)
    */
-  *Image(image: Image): Iterator<void, TokenStream, TokenStream[]> {
+  *Image(image: Image): Iterator<void, TokenStream, TokenStream> {
     return [
       T.Image(
         toString(escapePunctuation([image.attributes.description || ""])),
@@ -898,11 +880,11 @@ export default class CommonmarkRenderer extends Renderer {
   *Italic(
     italic: Italic,
     context: Context
-  ): Iterator<void, TokenStream, TokenStream[]> {
+  ): Iterator<void, TokenStream, TokenStream> {
     let underscoreFlag = !!this.state.underscoreFlag;
     this.state.underscoreFlag = !underscoreFlag;
 
-    let inner = flattenStreams(yield);
+    let inner = yield;
 
     this.state.underscoreFlag = underscoreFlag;
 
@@ -940,7 +922,7 @@ export default class CommonmarkRenderer extends Renderer {
   *LineBreak(
     _: any,
     context: Context
-  ): Iterator<void, TokenStream, TokenStream[]> {
+  ): Iterator<void, TokenStream, TokenStream> {
     // Line breaks cannot end markdown block elements or paragraphs
     // https://spec.commonmark.org/0.29/#example-641
     if (context.parent instanceof BlockAnnotation && context.next == null) {
@@ -959,12 +941,10 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *Link(link: Link): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
-
+  *Link(link: Link): Iterator<void, TokenStream, TokenStream> {
     return [
       T.InlineLinkStart,
-      ...inner,
+      ...(yield),
       T.InlineLinkEnd(link.attributes.url, link.attributes.title),
     ];
   }
@@ -979,14 +959,14 @@ export default class CommonmarkRenderer extends Renderer {
   *Code(
     code: Code,
     context: Context
-  ): Iterator<void, TokenStream, TokenStream[]> {
+  ): Iterator<void, TokenStream, TokenStream> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
       htmlSafe: true,
     });
 
-    let inner = flattenStreams(yield);
+    let inner = yield;
     this.state = state;
 
     if (code.attributes.style === "fence") {
@@ -1025,14 +1005,14 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *Html(html: HTML): Iterator<void, TokenStream, TokenStream[]> {
+  *Html(html: HTML): Iterator<void, TokenStream, TokenStream> {
     let initialState = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
       htmlSafe: true,
     });
 
-    let inner = flattenStreams(yield);
+    let inner = yield;
 
     this.state = initialState;
 
@@ -1045,58 +1025,48 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *ListItem(): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
-    return [T.ListItemStart, ...inner, T.ListItemEnd];
+  *ListItem(): Iterator<void, TokenStream, TokenStream> {
+    return [T.ListItemStart(""), ...(yield), T.ListItemEnd];
 
-    let digit: number = this.state.digit;
-    let delimiter = this.state.delimiter;
-    let marker: string = delimiter;
-    // TODO: investigate whether we should tokenize the marker
-    if (this.state.type === "numbered") {
-      marker = `${digit}${delimiter}`;
-      this.state.digit++;
-    }
+    // let indent = " ".repeat(marker.length + 1);
+    // let item = toString(fixDelimiterRuns(inner));
 
-    let indent = " ".repeat(marker.length + 1);
-    let item = toString(fixDelimiterRuns(inner));
+    // let firstNonspaceCharacterPosition = 0;
+    // while (item[firstNonspaceCharacterPosition] === " ")
+    //   firstNonspaceCharacterPosition++;
 
-    let firstNonspaceCharacterPosition = 0;
-    while (item[firstNonspaceCharacterPosition] === " ")
-      firstNonspaceCharacterPosition++;
+    // let lines: string[] = item.split("\n");
+    // lines.push((lines.pop() || "").replace(/[ ]+$/, ""));
+    // lines.unshift((lines.shift() || "").replace(/^[ ]+/, ""));
+    // let [first, ...rest] = lines;
 
-    let lines: string[] = item.split("\n");
-    lines.push((lines.pop() || "").replace(/[ ]+$/, ""));
-    lines.unshift((lines.shift() || "").replace(/^[ ]+/, ""));
-    let [first, ...rest] = lines;
+    // item =
+    //   " ".repeat(firstNonspaceCharacterPosition) +
+    //   first +
+    //   "\n" +
+    //   rest
+    //     .map(function leftPad(line) {
+    //       return indent + line;
+    //     })
+    //     .join("\n")
+    //     .replace(/[ ]+$/, "");
 
-    item =
-      " ".repeat(firstNonspaceCharacterPosition) +
-      first +
-      "\n" +
-      rest
-        .map(function leftPad(line) {
-          return indent + line;
-        })
-        .join("\n")
-        .replace(/[ ]+$/, "");
+    // if (this.state.tight) {
+    //   item = item.replace(/([ \n])+$/, "\n");
+    // }
 
-    if (this.state.tight) {
-      item = item.replace(/([ \n])+$/, "\n");
-    }
+    // // nb. this could be done in the stream, but
+    // // is p complicated and requires stack knowledge
 
-    // nb. this could be done in the stream, but
-    // is p complicated and requires stack knowledge
-
-    // Code blocks using spaces can follow lists,
-    // however, they will be included in the list
-    // if we don't adjust spacing on the list item
-    // to force the code block outside of the list
-    // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
-    if (this.state.hasCodeBlockFollowing) {
-      return [" ", marker, T.CodeBlock, item];
-    }
-    return [marker, " ", item];
+    // // Code blocks using spaces can follow lists,
+    // // however, they will be included in the list
+    // // if we don't adjust spacing on the list item
+    // // to force the code block outside of the list
+    // // See http://spec.commonmark.org/dingus/?text=%20-%20%20%20hello%0A%0A%20%20%20%20I%27m%20a%20code%20block%20_outside_%20the%20list%0A
+    // if (this.state.hasCodeBlockFollowing) {
+    //   return [" ", marker, T.CodeBlock, item];
+    // }
+    // return [marker, " ", item];
   }
 
   /**
@@ -1104,24 +1074,23 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *List(list: List): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
+  *List(list: List): Iterator<void, TokenStream, TokenStream> {
     if (list.attributes.type === "numbered") {
       return [
         T.NumberedListStart(list.attributes.startsAt || 1),
-        ...inner,
+        ...(yield),
         T.NumberedListEnd,
       ];
     } else {
-      return [T.BulletedListStart, ...inner, T.NumberedListEnd];
+      return [T.BulletedListStart, ...(yield), T.NumberedListEnd];
     }
   }
 
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(): Iterator<void, TokenStream, TokenStream[]> {
-    let inner = flattenStreams(yield);
+  *Paragraph(): Iterator<void, TokenStream, TokenStream> {
+    let inner = yield;
     let escapedNewlines = streamFlatMapStringReplace(
       inner,
       /\n\n/,
@@ -1137,7 +1106,7 @@ export default class CommonmarkRenderer extends Renderer {
     return [...escapedNewlines, T.BlockSeparator];
   }
 
-  *FixedIndent(): Iterator<void, TokenStream, TokenStream[]> {
-    return flattenStreams(yield);
+  *FixedIndent(): Iterator<void, TokenStream, TokenStream> {
+    return yield;
   }
 }

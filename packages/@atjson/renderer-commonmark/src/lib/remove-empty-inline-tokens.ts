@@ -9,9 +9,11 @@ export function removeEmptyInlineTokens(stream: TokenStream) {
   while (index < length) {
     let current = stream[index];
     let next = stream[index + 1];
+    let spaces: TokenStream = [];
     let j = 1;
     while (next === T.NoBreakSpace || next === T.EmSpace) {
       j++;
+      spaces.push(next);
       next = stream[index + j];
     }
 
@@ -24,6 +26,7 @@ export function removeEmptyInlineTokens(stream: TokenStream) {
       (current === T.BlockquoteLineStart && next === T.BlockquoteLineEnd)
     ) {
       index += j + 1;
+      compactedStream.push(...spaces);
     } else {
       compactedStream.push(current);
       index++;

@@ -1,6 +1,5 @@
 import {
   fixDelimiterRuns,
-  flattenStreams,
   mergeStrings,
   splitLines,
   streamIncludes,
@@ -118,37 +117,23 @@ describe("commonmark renderer utility functions", () => {
     ]);
   });
 
-  test("flattenStreams", () => {
-    let streams = [
-      [],
-      [T.HardLineBreak],
-      [T.StrongStarStart, "hello world", T.StrongStarEnd]
-    ];
-
-    expect(flattenStreams(streams)).toEqual([
-      T.HardLineBreak,
-      T.StrongStarStart,
-      "hello world",
-      T.StrongStarEnd
-    ]);
-  });
-
   test("mergeStrings", () => {
-    let stream = ["\n", "\n", T.ThematicBreak, "testing", "1\n2"];
+    let stream = ["\n", "\n", T.ThematicBreak("*"), "testing", "1\n2"];
 
     expect(mergeStrings(stream)).toEqual([
       "\n\n",
-      T.ThematicBreak,
+      T.ThematicBreak("*"),
       "testing1\n2"
     ]);
   });
 
   test("splitLines", () => {
-    let stream = ["test\nstream", T.ThematicBreak, "\nhello\nworld"];
+    debugger;
+    let stream = ["test\nstream", T.ThematicBreak("*"), "\nhello\nworld"];
 
     expect(splitLines(stream)).toEqual([
       ["test"],
-      ["stream", T.ThematicBreak, ""],
+      ["stream", T.ThematicBreak("*"), ""],
       ["hello"],
       ["world"]
     ]);
