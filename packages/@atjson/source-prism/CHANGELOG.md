@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-prism@0.23.1...@atjson/source-prism@0.24.0) (2020-02-10)
+
+
+### Features
+
+* add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
+
+
+
+
+
 ## [0.23.1](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.23.0...@atjson/source-prism@0.23.1) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-prism

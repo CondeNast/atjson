@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.22.10...@atjson/document@0.22.11) (2020-02-10)
+
+**Note:** Version bump only for package @atjson/document
+
+
+
+
+
 ## [0.22.10](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.9...@atjson/document@0.22.10) (2020-01-24)
 
 ### 🐛 Fixes

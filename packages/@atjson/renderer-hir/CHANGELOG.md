@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.14](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.21.13...@atjson/renderer-hir@0.21.14) (2020-02-10)
+
+
+### Bug Fixes
+
+* just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
+
+
+
+
+
 ## [0.21.13](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.21.12...@atjson/renderer-hir@0.21.13) (2020-01-24)
 
 **Note:** Version bump only for package @atjson/renderer-hir

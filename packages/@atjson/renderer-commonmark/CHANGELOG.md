@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.24](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-commonmark@0.21.23...@atjson/renderer-commonmark@0.21.24) (2020-02-10)
+
+
+### Bug Fixes
+
+* just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
+
+
+
+
+
 ## [0.21.23](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.22...@atjson/renderer-commonmark@0.21.23) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
