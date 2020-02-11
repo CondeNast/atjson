@@ -1,0 +1,12 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/commonjs",
+    "rootDir": "./src",
+    "paths": {
+      "@atjson/source-ckeditor": ["dist/modules"]
+    }
+  },
+  "include": ["src/**/*"],
+  "references": [{ "path": "../document" }, { "path": "../offset-annotations" }]
+}

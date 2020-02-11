@@ -1,0 +1,19 @@
+{
+  "name": "@atjson/source-ckeditor",
+  "version": "0.0.0",
+  "description": "Create atjson documents from a CKEditor5 document.",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@atjson/document": "file:../document",
+    "@ckeditor/ckeditor5-build-classic": "*"
+  },
+  "peerDependencies": {
+    "@atjson/document": "^0.23.0"
+  }
+}
