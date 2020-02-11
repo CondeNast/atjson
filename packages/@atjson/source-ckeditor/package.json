@@ -1,0 +1,18 @@
+{
+  "name": "@atjson/source-ckeditor",
+  "version": "0.22.0",
+  "description": "Create atjson documents from CommonMark.",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@atjson/document": "file:../document"
+  },
+  "peerDependencies": {
+    "@atjson/document": ">= 0.17.0 < 1"
+  }
+}
