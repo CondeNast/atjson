@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.0...@atjson/source-html@0.27.1) (2020-02-11)
+
+
+### Bug Fixes
+
+* protocol-relative iframes were throwing errors when being converted ([#409](https://github.com/CondeNast/atjson/issues/409)) ([a574059](https://github.com/CondeNast/atjson/commit/a574059463e888daa4ba759c2f2c947600296521))
+
+
+
+
+
 # [0.27.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.26.1...@atjson/source-html@0.27.0) (2020-02-10)
 
 
