@@ -1,5 +1,5 @@
 import Document, { Annotation } from "@atjson/document";
-import { CerosEmbed } from "@atjson/offset-annotations";
+import { CerosEmbed } from "@atjson/schema-offset";
 
 function isCerosExperienceFrame(a: Annotation<any>) {
   return a.type === "iframe" && a.attributes.class === "ceros-experience";

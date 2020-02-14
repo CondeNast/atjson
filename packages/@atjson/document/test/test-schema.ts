@@ -24,10 +24,9 @@ export class Italic extends InlineAnnotation {
   static type = "italic";
 }
 
-export class CaptionSource extends Document {
-  static contentType = "application/vnd.atjson+caption";
-  static schema = [Bold, Italic];
-}
+export const CaptionSchema = {
+  annotations: { Bold, Italic }
+} as const;
 
 export class Instagram extends ObjectAnnotation {
   static vendorPrefix = "test";
@@ -64,11 +63,11 @@ export class Preformatted extends ObjectAnnotation<{
 }
 
 export class Image extends ObjectAnnotation<{
-  caption: CaptionSource;
+  caption: Document<typeof CaptionSchema>;
 }> {
   static vendorPrefix = "test";
   static type = "image";
-  static subdocuments = { caption: CaptionSource };
+  static subdocuments = { caption: CaptionSchema };
 }
 
 export class Manual extends ObjectAnnotation {
@@ -90,9 +89,8 @@ export class Manual extends ObjectAnnotation {
   }
 }
 
-export default class TestSource extends Document {
-  static contentType = "application/vnd.atjson+test";
-  static schema = [
+export default {
+  annotations: {
     Anchor,
     Bold,
     Code,
@@ -103,5 +101,5 @@ export default class TestSource extends Document {
     Manual,
     Paragraph,
     Preformatted
-  ];
-}
+  }
+} as const;

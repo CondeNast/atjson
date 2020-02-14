@@ -1,6 +1,6 @@
 export * from "./blockquote";
 export * from "./bold";
-export * from "./caption-source";
+export * from "./caption-schema";
 export * from "./ceros-embed";
 export * from "./code";
 export * from "./facebook-embed";

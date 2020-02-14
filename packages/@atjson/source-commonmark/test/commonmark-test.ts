@@ -1,21 +1,21 @@
 import { HIR } from "@atjson/hir";
-import CommonMarkSource from "../src";
+import CommonMarkSchema, { fromRaw } from "../src";
 import { render } from "./utils";
 
 describe("whitespace", () => {
   test("&nbsp; is translated to a non-breaking space", () => {
-    let doc = CommonMarkSource.fromRaw("&nbsp;");
+    let doc = fromRaw("&nbsp;");
     expect(render(doc)).toBe("\u00A0\n\n");
   });
 
   test("  \\n is converted to a hardbreak", () => {
-    let doc = CommonMarkSource.fromRaw("1  \n2");
+    let doc = fromRaw("1  \n2");
     expect(render(doc)).toBe("1\n2\n\n");
   });
 
   describe("non-breaking spaces", () => {
     test("html entities are converted to unicode characters", () => {
-      let doc = CommonMarkSource.fromRaw("1\n\n&#8239;\n\n&nbsp;&emsp;\n\n2");
+      let doc = fromRaw("1\n\n&#8239;\n\n&nbsp;&emsp;\n\n2");
       let hir = new HIR(doc);
       expect(hir.toJSON()).toMatchObject({
         type: "root",
@@ -46,7 +46,7 @@ describe("whitespace", () => {
     });
 
     test("empty paragraphs are created using narrow no-break unicode characters", () => {
-      let doc = CommonMarkSource.fromRaw("1\n\n\u202F\n\n\u00A0\n\n2");
+      let doc = fromRaw("1\n\n\u202F\n\n\u00A0\n\n2");
       let hir = new HIR(doc);
       expect(hir.toJSON()).toMatchObject({
         type: "root",
@@ -80,19 +80,19 @@ describe("whitespace", () => {
 
 describe("code blocks", () => {
   test("` `` ` is converted to an inline code block", () => {
-    let doc = CommonMarkSource.fromRaw("` `` `");
+    let doc = fromRaw("` `` `");
     expect(render(doc)).toBe(" `` \n\n");
   });
 });
 
 describe("list", () => {
   test("nested lists", () => {
-    let doc = CommonMarkSource.fromRaw("- 1\n   - 2\n      - 3");
+    let doc = fromRaw("- 1\n   - 2\n      - 3");
     expect(render(doc)).toBe("1\n2\n3\n");
   });
 
   test("tight", () => {
-    let tight = CommonMarkSource.fromRaw("- 1\n   - 2\n      - 3");
+    let tight = fromRaw("- 1\n   - 2\n      - 3");
     let list = tight.where({ type: "-commonmark-bullet_list" });
     expect(list.map(a => a.toJSON())).toMatchObject([
       {
@@ -115,7 +115,7 @@ describe("list", () => {
       }
     ]);
 
-    let loose = CommonMarkSource.fromRaw("1. 1\n\n   2. 2\n   3. 3");
+    let loose = fromRaw("1. 1\n\n   2. 2\n   3. 3");
     list = loose.where({ type: "-commonmark-ordered_list" });
     expect(list.map(a => a.toJSON())).toMatchObject([
       {
@@ -137,7 +137,7 @@ describe("list", () => {
 
 describe("images", () => {
   test("alt text is stripped", () => {
-    let doc = CommonMarkSource.fromRaw(
+    let doc = fromRaw(
       "![Markdown **is stripped** from *this*](test.jpg)"
     ).canonical();
     expect(doc.annotations).toMatchObject([
@@ -155,9 +155,7 @@ describe("images", () => {
   });
 
   test("title", () => {
-    let doc = CommonMarkSource.fromRaw(
-      '![](test.jpg "Title of test.jpg")'
-    ).canonical();
+    let doc = fromRaw('![](test.jpg "Title of test.jpg")').canonical();
     expect(doc.annotations).toMatchObject([
       {
         type: "image",

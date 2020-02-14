@@ -12,6 +12,7 @@ import {
   toJSON,
   unprefix
 } from "./internals";
+import { SchemaDefinition } from "./schema";
 
 export interface AnnotationJSON {
   id?: string;
@@ -121,7 +122,7 @@ export interface AnnotationConstructor<T, Attributes> {
 export abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
-  static subdocuments: { [key: string]: typeof Document } = {};
+  static subdocuments: { [key: string]: SchemaDefinition } = {};
 
   static hydrate(attrs: {
     id?: string;
@@ -142,6 +143,7 @@ export abstract class Annotation<Attributes = {}> {
   }
 
   readonly type: string;
+  readonly vendorPrefix: string;
   abstract rank: number;
   id: string;
   start: number;
@@ -156,6 +158,7 @@ export abstract class Annotation<Attributes = {}> {
   }) {
     let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
+    this.vendorPrefix = AnnotationClass.vendorPrefix;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
@@ -172,9 +175,6 @@ export abstract class Annotation<Attributes = {}> {
   }
 
   equals(annotationToCompare: Annotation<any>): boolean {
-    let AnnotationClass = this.getAnnotationConstructor();
-    let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
-
     let lhsAnnotationAttributes = removeUndefinedValuesFromObject(
       this.attributes
     );
@@ -186,7 +186,7 @@ export abstract class Annotation<Attributes = {}> {
       this.start === annotationToCompare.start &&
       this.end === annotationToCompare.end &&
       this.type === annotationToCompare.type &&
-      AnnotationClass.vendorPrefix === AnnotationToCompareClass.vendorPrefix &&
+      this.vendorPrefix === annotationToCompare.vendorPrefix &&
       areAttributesEqual(lhsAnnotationAttributes, rhsAnnotationAttributes)
     );
   }
@@ -297,14 +297,12 @@ export abstract class Annotation<Attributes = {}> {
   }
 
   toJSON() {
-    let AnnotationClass = this.getAnnotationConstructor();
-    let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       id: this.id,
-      type: `-${vendorPrefix}-${this.type}`,
+      type: `-${this.vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes)
+      attributes: toJSON(this.vendorPrefix, this.attributes)
     };
   }
 }

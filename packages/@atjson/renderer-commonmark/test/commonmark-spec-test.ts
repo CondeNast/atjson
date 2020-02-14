@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { HIR } from "@atjson/hir";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
 import * as MarkdownIt from "markdown-it";

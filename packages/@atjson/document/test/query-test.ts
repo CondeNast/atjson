@@ -1,8 +1,9 @@
-import TestSource, { Anchor, Code, Locale, Preformatted } from "./test-source";
+import Document from "../src";
+import TestSchema, { Anchor, Code, Locale, Preformatted } from "./test-schema";
 
 describe("Document#all", () => {
   it("returns all annotations", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Conde Nast",
       annotations: [
         {
@@ -23,7 +24,8 @@ describe("Document#all", () => {
           start: 6,
           end: 10
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(doc.all().length).toEqual(2);
@@ -33,7 +35,7 @@ describe("Document#all", () => {
 
 describe("Document#where", () => {
   it("length on collections", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Hello",
       annotations: [
         {
@@ -43,7 +45,8 @@ describe("Document#where", () => {
           end: 5,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(doc.where({ type: "-test-bold" }).length).toEqual(1);
@@ -51,7 +54,7 @@ describe("Document#where", () => {
   });
 
   it("map over collections", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Hello",
       annotations: [
         {
@@ -61,7 +64,8 @@ describe("Document#where", () => {
           end: 5,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(doc.where({ type: "-test-bold" }).map(a => a.type)).toEqual([
@@ -70,7 +74,7 @@ describe("Document#where", () => {
   });
 
   it("set", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Hello",
       annotations: [
         {
@@ -80,7 +84,8 @@ describe("Document#where", () => {
           end: 5,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc
@@ -101,7 +106,7 @@ describe("Document#where", () => {
   });
 
   it("unset", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "\uFFFC",
       annotations: [
         {
@@ -114,7 +119,8 @@ describe("Document#where", () => {
           start: 0,
           end: 1
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc
@@ -140,7 +146,7 @@ describe("Document#where", () => {
   });
 
   it("rename", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Conde Nast",
       annotations: [
         {
@@ -161,7 +167,8 @@ describe("Document#where", () => {
           start: 6,
           end: 10
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc
@@ -217,7 +224,7 @@ describe("Document#where", () => {
   });
 
   it("update with function", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "Conde Nast",
       annotations: [
         {
@@ -229,7 +236,8 @@ describe("Document#where", () => {
           start: 0,
           end: 5
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc.where({ type: "-test-a" }).update((anchor: Anchor) => {
@@ -260,7 +268,7 @@ describe("Document#where", () => {
   });
 
   it("remove", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "function () {}",
       annotations: [
         {
@@ -270,7 +278,8 @@ describe("Document#where", () => {
           end: 14,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc.where({ type: "-test-code" }).remove();
@@ -279,7 +288,7 @@ describe("Document#where", () => {
   });
 
   it("annotation expansion", () => {
-    let doc = new TestSource({
+    let doc = new Document({
       content: "string.trim();\nstring.strip",
       annotations: [
         {
@@ -302,7 +311,8 @@ describe("Document#where", () => {
             "-test-language": "rb"
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     doc
@@ -372,7 +382,7 @@ describe("Document#where", () => {
 
   describe("AnnotationCollection.join", () => {
     test("simple join", () => {
-      let doc = new TestSource({
+      let doc = new Document({
         content: "string.trim();\nstring.strip\nextra",
         annotations: [
           {
@@ -406,11 +416,12 @@ describe("Document#where", () => {
             end: 35,
             attributes: {}
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
-      let codeBlocks = doc.where({ type: "-test-code" }).as("code");
-      let preformattedText = doc.where({ type: "-test-pre" }).as("pre");
+      let codeBlocks = doc.where("Code").as("code");
+      let preformattedText = doc.where("Preformatted").as("pre");
       let preAndCode = codeBlocks.join(
         preformattedText,
         (l, r) => l.start === r.start && l.end === r.end
@@ -440,13 +451,11 @@ describe("Document#where", () => {
         }
       ]);
 
-      preAndCode.update(
-        ({ code, pre }: { code: Code; pre: Preformatted[] }) => {
-          doc.removeAnnotation(pre[0]);
-          code.attributes.textStyle = "pre";
-          doc.deleteText(2, 4);
-        }
-      );
+      preAndCode.update(({ code, pre }) => {
+        doc.removeAnnotation(pre[0]);
+        code.attributes.textStyle = "pre";
+        doc.deleteText(2, 4);
+      });
 
       expect(doc.annotations.map(a => a.toJSON())).toEqual([
         {
@@ -478,7 +487,7 @@ describe("Document#where", () => {
     });
 
     test("simple outerJoin", () => {
-      let doc = new TestSource({
+      let doc = new Document({
         content: "string.trim();\nstring.strip\nextra",
         annotations: [
           {
@@ -512,11 +521,12 @@ describe("Document#where", () => {
             end: 35,
             attributes: {}
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
-      let codeBlocks = doc.where({ type: "-test-code" }).as("code");
-      let preformattedText = doc.where({ type: "-test-pre" }).as("pre");
+      let codeBlocks = doc.where(Code).as("code");
+      let preformattedText = doc.where(Preformatted).as("pre");
       let preAndCode = codeBlocks.outerJoin(
         preformattedText,
         (l, r) => l.start === r.start && l.end === r.end
@@ -604,7 +614,7 @@ describe("Document#where", () => {
     });
 
     test("complex (three-way) join", () => {
-      let doc = new TestSource({
+      let doc = new Document({
         content: "string.trim();\nstring.strip\nextra",
         annotations: [
           {
@@ -654,12 +664,13 @@ describe("Document#where", () => {
             end: 14,
             attributes: { "-test-style": "color: red" }
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
-      let codeBlocks = doc.where({ type: "-test-code" }).as("code");
-      let preformattedText = doc.where({ type: "-test-pre" }).as("preElements");
-      let locales = doc.where({ type: "-test-locale" }).as("locale");
+      let codeBlocks = doc.where("Code").as("code");
+      let preformattedText = doc.where("Preformatted").as("preElements");
+      let locales = doc.where("Locale").as("locale");
 
       let threeWayJoin = codeBlocks
         .join(

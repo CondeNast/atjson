@@ -1,22 +1,20 @@
 import Document, { Annotation } from "../src";
-import TestSource, { Bold, Paragraph } from "./test-source";
-import { TextSource } from "./text-source-test";
+import TestSchema, { Bold, Paragraph } from "./test-schema";
+import TextSchema, { fromRaw } from "./text-schema-test";
+import { Converter } from "../src/converter";
 
-describe("Document#convert", () => {
-  test("sources without conversions throw errors", () => {
-    let textDoc = TextSource.fromRaw("Hello, World!");
-    expect(() => textDoc.convertTo(TestSource)).toThrowError();
-  });
-
+describe("Converter", () => {
   test("sources with conversions are called", () => {
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "Hello, World!",
       annotations: [
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 5 })
-      ]
+      ],
+      schema: TestSchema
     });
-    TestSource.defineConverterTo(TextSource, doc => {
+
+    let converter = new Converter(TestSchema, TextSchema, doc => {
       let { schema: expectedSchema, ...expectedJson } = doc.toJSON();
       let { schema: actualSchema, ...actualJson } = testDoc.toJSON();
       expect(expectedJson).toMatchObject(actualJson);
@@ -27,7 +25,7 @@ describe("Document#convert", () => {
       return doc;
     });
 
-    let textDoc = testDoc.convertTo(TextSource);
+    let textDoc = converter.convert(testDoc);
     expect(textDoc.all().toJSON()).toEqual([
       {
         id: "Any<id>",
@@ -39,20 +37,8 @@ describe("Document#convert", () => {
     ]);
   });
 
-  test("converting to the same type will throw an error if one is not defined", () => {
-    let testDoc = new TestSource({
-      content: "Hello, World!",
-      annotations: [
-        new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 5 })
-      ]
-    });
-
-    expect(() => testDoc.convertTo(TestSource)).toThrowError();
-  });
-
   test("conversion doesn't modify the original document", () => {
-    TestSource.defineConverterTo(TextSource, doc => {
+    let converter = new Converter(TestSchema, TextSchema, doc => {
       doc.annotations.forEach((a: Annotation) => {
         a.start = 0;
         a.end = 0;
@@ -61,15 +47,16 @@ describe("Document#convert", () => {
       return doc;
     });
 
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "Hello, World!",
       annotations: [
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 5 })
-      ]
+      ],
+      schema: TestSchema
     });
 
-    testDoc.convertTo(TextSource);
+    converter.convert(testDoc);
 
     expect(testDoc).toMatchObject({
       content: "Hello, World!",
@@ -81,20 +68,19 @@ describe("Document#convert", () => {
   });
 
   test("slice of conversion document is in the original source", () => {
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "Hello, World!",
-      annotations: []
+      annotations: [],
+      schema: TestSchema
     });
 
-    TestSource.defineConverterTo(TextSource, doc => {
+    let converter = new Converter(TestSchema, TextSchema, doc => {
       let slice = doc.slice(0, 1);
-      let SliceClass = slice.constructor as typeof Document;
-
-      expect(SliceClass).toEqual(TestSource);
+      expect(slice.schema).toEqual(TestSchema);
 
       return doc;
     });
 
-    testDoc.convertTo(TextSource);
+    converter.convert(testDoc);
   });
 });

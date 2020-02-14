@@ -6,7 +6,7 @@ import {
   Link,
   List,
   TikTokEmbed
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
 

@@ -19,7 +19,7 @@ The HTML renderer has a `$` method that's designed to make it easy to extend and
 To extend the current HTML renderer to support YouTube embeds (the kind that show up when you use the share menu), we'd use the following code:
 
 ```ts
-import { YouTubeEmbed } from "@atjson/offset-annotations";
+import { YouTubeEmbed } from "@atjson/schema-offset";
 import HTMLRenderer from "@atjson/renderer-html";
 
 export default class MyHTMLRenderer extends HTMLRenderer {

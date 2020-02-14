@@ -1,5 +1,5 @@
 import Document, { Annotation, ParseAnnotation } from "@atjson/document";
-import { SocialURLs } from "@atjson/offset-annotations";
+import { SocialURLs } from "@atjson/schema-offset";
 import { Script, Anchor } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {

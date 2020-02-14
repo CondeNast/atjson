@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import * as fs from "fs";
 import * as path from "path";
 import GDocsSource from "../src";

@@ -1,4 +1,5 @@
-import OffsetSource, {
+import Document from "@atjson/document";
+import OffsetSchema, {
   Blockquote,
   Bold,
   CerosEmbed,
@@ -19,23 +20,26 @@ import OffsetSource, {
   Superscript,
   TikTokEmbed,
   Underline
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import Renderer from "../src";
 
 describe("renderer-html", () => {
   test("blockquote", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Blockquote({ start: 0, end: 5 })]
+      annotations: [new Blockquote({ start: 0, end: 5 })],
+      schema: OffsetSchema,
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<blockquote>Hello</blockquote>");
   });
 
   test("bold", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Bold({ start: 0, end: 5 })]
+      annotations: [new Bold({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<strong>Hello</strong>");
@@ -43,9 +47,10 @@ describe("renderer-html", () => {
 
   test("code", () => {
     let code = new Code({ start: 0, end: 5 });
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [code]
+      annotations: [code],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<code>Hello</code>");
@@ -56,9 +61,10 @@ describe("renderer-html", () => {
 
   describe("heading", () => {
     test.each([1, 2, 3, 4, 5, 6] as const)("level %s", level => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "Hello",
-        annotations: [new Heading({ start: 0, end: 5, attributes: { level } })]
+        annotations: [new Heading({ start: 0, end: 5, attributes: { level } })],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toEqual(`<h${level}>Hello</h${level}>`);
@@ -66,9 +72,10 @@ describe("renderer-html", () => {
   });
 
   test("horizontal rule", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "\uFFFC",
-      annotations: [new HorizontalRule({ start: 0, end: 1 })]
+      annotations: [new HorizontalRule({ start: 0, end: 1 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(`<hr />`);
@@ -86,9 +93,10 @@ describe("renderer-html", () => {
       }
     });
 
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "\uFFFC",
-      annotations: [image]
+      annotations: [image],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -102,18 +110,20 @@ describe("renderer-html", () => {
   });
 
   test("italic", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Italic({ start: 0, end: 5 })]
+      annotations: [new Italic({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<em>Hello</em>");
   });
 
   test("line break", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "\uFFFC",
-      annotations: [new LineBreak({ start: 0, end: 1 })]
+      annotations: [new LineBreak({ start: 0, end: 1 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(`<br />`);
@@ -121,7 +131,7 @@ describe("renderer-html", () => {
 
   describe("links", () => {
     test("url / title, rel, target", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "Hello",
         annotations: [
           new Link({
@@ -134,7 +144,8 @@ describe("renderer-html", () => {
               target: "_blank"
             }
           })
-        ]
+        ],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -143,7 +154,7 @@ describe("renderer-html", () => {
     });
 
     test("URL encoding", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "日本人",
         annotations: [
           new Link({
@@ -153,7 +164,8 @@ describe("renderer-html", () => {
               url: "https://en.wiktionary.org/wiki/日本人"
             }
           })
-        ]
+        ],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -162,7 +174,7 @@ describe("renderer-html", () => {
     });
 
     test("entity escapes", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "Test",
         annotations: [
           new Link({
@@ -173,7 +185,8 @@ describe("renderer-html", () => {
               title: `"test" <tag>`
             }
           })
-        ]
+        ],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -184,7 +197,7 @@ describe("renderer-html", () => {
 
   describe("ordered list", () => {
     test("default start position", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "one\ntwo",
         annotations: [
           new List({
@@ -196,7 +209,8 @@ describe("renderer-html", () => {
           }),
           new ListItem({ start: 0, end: 3 }),
           new ListItem({ start: 4, end: 7 })
-        ]
+        ],
+        schema: OffsetSchema
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol><li>one</li>\n<li>two</li></ol>`
@@ -204,7 +218,7 @@ describe("renderer-html", () => {
     });
 
     test("start position", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "one\ntwo",
         annotations: [
           new List({
@@ -217,7 +231,8 @@ describe("renderer-html", () => {
           }),
           new ListItem({ start: 0, end: 3 }),
           new ListItem({ start: 4, end: 7 })
-        ]
+        ],
+        schema: OffsetSchema
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol starts=3><li>one</li>\n<li>two</li></ol>`
@@ -225,7 +240,7 @@ describe("renderer-html", () => {
     });
 
     test("compact", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "one\ntwo",
         annotations: [
           new List({
@@ -238,7 +253,8 @@ describe("renderer-html", () => {
           }),
           new ListItem({ start: 0, end: 3 }),
           new ListItem({ start: 4, end: 7 })
-        ]
+        ],
+        schema: OffsetSchema
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol compact><li>one</li>\n<li>two</li></ol>`
@@ -248,7 +264,7 @@ describe("renderer-html", () => {
 
   describe("unordered list", () => {
     test("default delimiter", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "one\ntwo",
         annotations: [
           new List({
@@ -260,7 +276,8 @@ describe("renderer-html", () => {
           }),
           new ListItem({ start: 0, end: 3 }),
           new ListItem({ start: 4, end: 7 })
-        ]
+        ],
+        schema: OffsetSchema
       });
       expect(Renderer.render(doc)).toEqual(
         `<ul><li>one</li>\n<li>two</li></ul>`
@@ -268,7 +285,7 @@ describe("renderer-html", () => {
     });
 
     test("different delimiter", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "one\ntwo",
         annotations: [
           new List({
@@ -281,7 +298,8 @@ describe("renderer-html", () => {
           }),
           new ListItem({ start: 0, end: 3 }),
           new ListItem({ start: 4, end: 7 })
-        ]
+        ],
+        schema: OffsetSchema
       });
       expect(Renderer.render(doc)).toEqual(
         `<ul type="square"><li>one</li>\n<li>two</li></ul>`
@@ -290,21 +308,23 @@ describe("renderer-html", () => {
   });
 
   test("paragraph", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Paragraph({ start: 0, end: 5 })]
+      annotations: [new Paragraph({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
   });
 
   test("section", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Text in a paragraph in a section.",
       annotations: [
         new Section({ start: 0, end: 33 }),
         new Paragraph({ start: 0, end: 33 })
-      ]
+      ],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -313,9 +333,10 @@ describe("renderer-html", () => {
   });
 
   test("smallcaps", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Text with smallcaps.",
-      annotations: [new SmallCaps({ start: 10, end: 19 })]
+      annotations: [new SmallCaps({ start: 10, end: 19 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -324,36 +345,40 @@ describe("renderer-html", () => {
   });
 
   test("strikethrough", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Strikethrough({ start: 0, end: 5 })]
+      annotations: [new Strikethrough({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<s>Hello</s>");
   });
 
   test("subscript", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Subscript({ start: 0, end: 5 })]
+      annotations: [new Subscript({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<sub>Hello</sub>");
   });
 
   test("superscript", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Superscript({ start: 0, end: 5 })]
+      annotations: [new Superscript({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<sup>Hello</sup>");
   });
 
   test("underline", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "Hello",
-      annotations: [new Underline({ start: 0, end: 5 })]
+      annotations: [new Underline({ start: 0, end: 5 })],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual("<u>Hello</u>");
@@ -361,7 +386,7 @@ describe("renderer-html", () => {
 
   describe("ceros", () => {
     test("without mobile aspect ratio", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "\uFFFC",
         annotations: [
           new CerosEmbed({
@@ -373,7 +398,8 @@ describe("renderer-html", () => {
               aspectRatio: 2
             }
           })
-        ]
+        ],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
@@ -382,7 +408,7 @@ describe("renderer-html", () => {
     });
 
     test("with mobile aspect ratio", () => {
-      let doc = new OffsetSource({
+      let doc = new Document({
         content: "\uFFFC",
         annotations: [
           new CerosEmbed({
@@ -395,7 +421,8 @@ describe("renderer-html", () => {
               mobileAspectRatio: 3
             }
           })
-        ]
+        ],
+        schema: OffsetSchema
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
@@ -405,7 +432,7 @@ describe("renderer-html", () => {
   });
 
   test("tiktok", () => {
-    let doc = new OffsetSource({
+    let doc = new Document({
       content: "\uFFFC",
       annotations: [
         new TikTokEmbed({
@@ -415,7 +442,8 @@ describe("renderer-html", () => {
             url: "https://www.tiktok.com/@vogueitalia/video/6771026615137750277"
           }
         })
-      ]
+      ],
+      schema: OffsetSchema
     });
 
     expect(Renderer.render(doc)).toEqual(

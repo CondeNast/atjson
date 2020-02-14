@@ -7,7 +7,7 @@
  */
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "@atjson/renderer-commonmark";
-import OffsetSource, { Link } from "@atjson/offset-annotations";
+import OffsetSource, { Link } from "@atjson/schema-offset";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import * as Chance from "chance";

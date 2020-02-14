@@ -1,5 +1,5 @@
 import { Annotation, BlockAnnotation, ParseAnnotation } from "@atjson/document";
-import OffsetSource, { LineBreak, Paragraph } from "@atjson/offset-annotations";
+import OffsetSource, { LineBreak, Paragraph } from "@atjson/schema-offset";
 import { Heading } from "./annotations";
 import GDocsSource from "./source";
 

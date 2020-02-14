@@ -1,5 +1,5 @@
 import { Annotation, getConverterFor } from "@atjson/document";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import HTMLSource from "@atjson/source-html";
 import PRISMSource from "./source";
 

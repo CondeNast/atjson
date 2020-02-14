@@ -1,5 +1,5 @@
 import Document, { Annotation } from "@atjson/document";
-import OffsetSource, { Code, IframeEmbed } from "@atjson/offset-annotations";
+import OffsetSource, { Code, IframeEmbed } from "@atjson/schema-offset";
 import { OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";

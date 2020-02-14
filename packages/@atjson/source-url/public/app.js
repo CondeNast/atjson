@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import URLSource from "../src";
 
 document.addEventListener("paste", evt => {

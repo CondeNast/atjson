@@ -1,4 +1,5 @@
-import TestSource, { Anchor, Bold } from "./test-source";
+import Document from "../src";
+import TestSchema, { Anchor, Bold } from "./test-schema";
 
 describe("Annotation", () => {
   describe("equals", () => {
@@ -15,7 +16,7 @@ describe("Annotation", () => {
       expect(lhsAnnotation.equals(rhsAnnotation)).toBe(false);
     });
     test("annotations are compared recursively", () => {
-      let leftHandSideTestDoc = new TestSource({
+      let leftHandSideTestDoc = new Document({
         content: "\uFFFC",
         annotations: [
           {
@@ -38,10 +39,11 @@ describe("Annotation", () => {
               }
             }
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
-      let rightHandSideTestDoc = new TestSource({
+      let rightHandSideTestDoc = new Document({
         content: "\uFFFC",
         annotations: [
           {
@@ -64,10 +66,11 @@ describe("Annotation", () => {
               }
             }
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
-      let unequalRightHandSideTestDoc = new TestSource({
+      let unequalRightHandSideTestDoc = new Document({
         content: "\uFFFC",
         annotations: [
           {
@@ -90,7 +93,8 @@ describe("Annotation", () => {
               }
             }
           }
-        ]
+        ],
+        schema: TestSchema
       });
 
       expect(

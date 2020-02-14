@@ -1,5 +1,5 @@
 {
-  "name": "@atjson/offset-annotations",
+  "name": "@atjson/schema-offset",
   "version": "0.27.0",
   "description": "Annotations used for stories",
   "main": "dist/commonjs/index.js",

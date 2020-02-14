@@ -54,7 +54,7 @@ In the example above, any time the React renderer encounters a `Bold` annotation
 In the example above, the `BoldComponent` simply wraps the annotation text in an HTML tag, but more complex annotations may have additional attributes that you can use when rendering. The renderer provides any values within an annotation's `attributes` as `props` to the rendering component. Here's an example of a component that renders an `IframeEmbed` annotation, which has many attributes that can affect how it renders.
 
 ```ts
-import { IframeEmbed } from "@atjson/offset-annotations";
+import { IframeEmbed } from "@atjson/schema-offset";
 
 const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => (
   <figure>

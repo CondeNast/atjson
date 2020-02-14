@@ -4,7 +4,7 @@ import { profile, suite } from "./src";
 import { md } from "./fixtures";
 import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import * as minimist from "minimist";
 
 const TestSuites = [

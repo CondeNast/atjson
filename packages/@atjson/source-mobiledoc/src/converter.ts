@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import MobiledocSource from "./source";
 
 MobiledocSource.defineConverterTo(OffsetSource, function mobileDocToOffset(

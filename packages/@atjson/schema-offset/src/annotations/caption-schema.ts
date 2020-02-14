@@ -1,5 +1,3 @@
-import Document from "@atjson/document";
-
 import { Bold } from "./bold";
 import { Italic } from "./italic";
 import { LineBreak } from "./line-break";
@@ -13,9 +11,8 @@ import { Subscript } from "./subscript";
 import { Superscript } from "./superscript";
 import { Underline } from "./underline";
 
-export class CaptionSource extends Document {
-  static contentType = "application/vnd.atjson+offset-caption";
-  static schema = [
+export const CaptionSchema = {
+  annotations: {
     Bold,
     Italic,
     LineBreak,
@@ -28,5 +25,5 @@ export class CaptionSource extends Document {
     Strikethrough,
     Superscript,
     Underline
-  ];
-}
+  }
+} as const;

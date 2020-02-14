@@ -1,4 +1,4 @@
-import OffsetSource, { YouTubeEmbed } from "@atjson/offset-annotations";
+import OffsetSource, { YouTubeEmbed } from "@atjson/schema-offset";
 import HTMLRenderer from "@atjson/renderer-html";
 import HTMLSource from "@atjson/source-html";
 import CodeBlock from "@theme/CodeBlock";

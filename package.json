@@ -55,7 +55,6 @@
   "dependencies": {
     "@atjson/document": "file:packages/@atjson/document",
     "@atjson/hir": "file:packages/@atjson/hir",
-    "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",
     "@atjson/renderer-commonmark": "file:packages/@atjson/renderer-commonmark",
     "@atjson/renderer-graphviz": "file:packages/@atjson/renderer-graphviz",
     "@atjson/renderer-hir": "file:packages/@atjson/renderer-hir",
@@ -63,6 +62,7 @@
     "@atjson/renderer-plain-text": "file:packages/@atjson/renderer-plain-text",
     "@atjson/renderer-react": "file:packages/@atjson/renderer-react",
     "@atjson/renderer-webcomponent": "file:packages/@atjson/renderer-webcomponent",
+    "@atjson/schema-offset": "file:packages/@atjson/schema-offset",
     "@atjson/source-commonmark": "file:packages/@atjson/source-commonmark",
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
     "@atjson/source-html": "file:packages/@atjson/source-html",

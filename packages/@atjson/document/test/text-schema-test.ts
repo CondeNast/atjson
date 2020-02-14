@@ -5,57 +5,58 @@ export class Paragraph extends BlockAnnotation {
   static type = "paragraph";
 }
 
-export class TextSource extends Document {
-  static contentType = "application/vnd.atjson+text";
-  static schema = [Paragraph];
+const TextSchema = {
+  annotations: { Paragraph }
+} as const;
 
-  static fromRaw(text: string) {
-    let annotations = [];
-    let start = 0;
-    let id = 1;
-    while (text.indexOf("\n", start) !== -1) {
-      let end = text.indexOf("\n", start);
-      annotations.push(
-        {
-          id: (id++).toString(),
-          type: "-text-paragraph",
-          start,
-          end: end + 1,
-          attributes: {}
-        },
-        {
-          id: (id++).toString(),
-          type: "-atjson-parse-token",
-          start: end,
-          end: end + 1,
-          attributes: {}
-        }
-      );
-      start = end + 1;
-    }
-    if (start < text.length) {
-      annotations.push({
+export default TextSchema;
+
+export function fromRaw(text: string) {
+  let annotations = [];
+  let start = 0;
+  let id = 1;
+  while (text.indexOf("\n", start) !== -1) {
+    let end = text.indexOf("\n", start);
+    annotations.push(
+      {
         id: (id++).toString(),
         type: "-text-paragraph",
         start,
-        end: text.length,
+        end: end + 1,
         attributes: {}
-      });
-    }
-
-    return new this({
-      content: text,
-      annotations
+      },
+      {
+        id: (id++).toString(),
+        type: "-atjson-parse-token",
+        start: end,
+        end: end + 1,
+        attributes: {}
+      }
+    );
+    start = end + 1;
+  }
+  if (start < text.length) {
+    annotations.push({
+      id: (id++).toString(),
+      type: "-text-paragraph",
+      start,
+      end: text.length,
+      attributes: {}
     });
   }
+
+  return new Document({
+    content: text,
+    annotations,
+    schema: TextSchema
+  });
 }
 
 describe("TextSource", () => {
   test("a simple document", () => {
-    let source = TextSource.fromRaw("Hello\nWorld");
+    let source = fromRaw("Hello\nWorld");
     expect(source.toJSON()).toEqual({
       content: "Hello\nWorld",
-      contentType: "application/vnd.atjson+text",
       annotations: [
         {
           id: "1",
@@ -84,7 +85,7 @@ describe("TextSource", () => {
   });
 
   test("annotations are reified as Annotation instances", () => {
-    let source = TextSource.fromRaw("Hello\nWorld");
+    let source = fromRaw("Hello\nWorld");
     let [firstParagraph, parseToken, lastParagraph] = source.annotations;
 
     expect(firstParagraph).toBeInstanceOf(Paragraph);

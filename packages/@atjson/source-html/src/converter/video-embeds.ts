@@ -4,7 +4,7 @@ import OffsetSource, {
   VideoEmbed,
   VideoURLs,
   CaptionSource
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import { Iframe, Anchor, Div } from "../annotations";
 
 function covers(a: Annotation<any>, b: Annotation<any>) {
@@ -21,9 +21,8 @@ function is<T extends AnnotationConstructor<any, any>>(
   annotation: Annotation<any>,
   Class: T
 ): annotation is InstanceType<T> {
-  let AnnotationClass = annotation.getAnnotationConstructor();
   return (
-    AnnotationClass.vendorPrefix === Class.vendorPrefix &&
+    annotation.vendorPrefix === Class.vendorPrefix &&
     annotation.type === Class.type
   );
 }

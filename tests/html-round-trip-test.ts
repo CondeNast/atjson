@@ -2,7 +2,7 @@ import HTMLRenderer from "@atjson/renderer-html";
 import HTMLSource from "@atjson/source-html";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 
 const FIXTURES = readdirSync(join(__dirname, "fixtures", "html")).map(
   filename => {

@@ -1,5 +1,5 @@
 import { HIR } from "@atjson/hir";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {

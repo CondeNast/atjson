@@ -7,7 +7,7 @@ import OffsetSource, {
   LineBreak,
   Link,
   VideoEmbed
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import * as React from "react";
 import { FC } from "react";
 import * as ReactDOMServer from "react-dom/server";

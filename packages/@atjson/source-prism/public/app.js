@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource from "@atjson/schema-offset";
 import Renderer from "@atjson/renderer-commonmark";
 import * as fs from "fs";
 import PRISMSource from "../src";

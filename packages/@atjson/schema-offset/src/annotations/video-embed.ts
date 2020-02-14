@@ -1,5 +1,5 @@
-import { ObjectAnnotation } from "@atjson/document";
-import { CaptionSource } from "./caption-source";
+import Document, { ObjectAnnotation } from "@atjson/document";
+import { CaptionSchema } from "./caption-schema";
 import { getClosestAspectRatio } from "../utils";
 
 export class VideoEmbed extends ObjectAnnotation<{
@@ -24,9 +24,9 @@ export class VideoEmbed extends ObjectAnnotation<{
    * @deprecated
    */
   height?: number;
-  caption?: CaptionSource;
+  caption?: Document<typeof CaptionSchema>;
 }> {
   static type = "video-embed";
   static vendorPrefix = "offset";
-  static subdocuments = { caption: CaptionSource };
+  static subdocuments = { caption: CaptionSchema };
 }

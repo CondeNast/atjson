@@ -1,25 +1,27 @@
-import { InlineAnnotation, getConverterFor } from "@atjson/document";
-import OffsetSource from "@atjson/offset-annotations";
+import { Converter, InlineAnnotation } from "@atjson/document";
+import OffsetSchema from "@atjson/schema-offset":
 import * as MarkdownIt from "markdown-it";
-import CommonmarkSource from "../src";
+import CommonmarkSchema, { convertToOffset, fromRaw } from "../src";
 import { render } from "./utils";
+import {  } from "@atjson/document/test/text-schema-test";
 
 class StrikeThrough extends InlineAnnotation {
   static vendorPrefix = "commonmark";
   static type = "s";
 }
 
-class MarkdownItSource extends CommonmarkSource {
-  static contentType = "application.vnd.atjson+markdownit";
-  static schema = [...CommonmarkSource.schema, StrikeThrough];
-  static get markdownParser() {
-    return MarkdownIt();
+const MarkdownItSchema = {
+  annotations: {
+    ...CommonmarkSchema.annotations,
+    StrikeThrough
   }
+} as const;
+
+function fromMarkdownIt(markdown: string, options = { parser: MarkdownIt(), handlers: {}, schema: MarkdownItSchema }) {
+  return fromRaw(markdown, options);
 }
 
-MarkdownItSource.defineConverterTo(OffsetSource, doc => {
-  let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
-  convertCommonmark(doc);
+let converter = convertToOffset.extend(MarkdownItSchema, OffsetSchema, doc => {
   doc.where({ type: "-commonmark-s" }).set({ type: "-offset-strikethrough" });
 
   return doc;
@@ -27,7 +29,7 @@ MarkdownItSource.defineConverterTo(OffsetSource, doc => {
 
 describe("strikethrough", () => {
   test("~~hello~~ is converted to strikethrough annotations", () => {
-    let doc = MarkdownItSource.fromRaw("~~hello~~");
+    let doc = fromMarkdownIt("~~hello~~");
     expect(render(doc)).toBe("hello\n\n");
     let strikeThrough = doc.where(a => a instanceof StrikeThrough);
     expect(strikeThrough.toJSON()).toEqual([
@@ -42,9 +44,7 @@ describe("strikethrough", () => {
   });
 
   test("conversion to Offset uses existing conversions", () => {
-    let doc = MarkdownItSource.fromRaw("~~hello~~ *world*").convertTo(
-      OffsetSource
-    );
+    let doc = converter.convert(fromMarkdownIt("~~hello~~ *world*"));
     expect(
       doc
         .where(a => a.type !== "parse-token")

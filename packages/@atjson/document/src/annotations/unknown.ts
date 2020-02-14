@@ -7,6 +7,24 @@ export class UnknownAnnotation extends Annotation<{
   static vendorPrefix = "atjson";
   static type = "unknown";
 
+  static hydrate(attrs: {
+    id?: string;
+    type: string;
+    start: number;
+    end: number;
+    attributes: JSON;
+  }) {
+    return new UnknownAnnotation({
+      id: attrs.id,
+      start: attrs.start,
+      end: attrs.end,
+      attributes: {
+        type: attrs.type,
+        attributes: attrs.attributes
+      }
+    });
+  }
+
   get rank() {
     return Number.MAX_SAFE_INTEGER;
   }

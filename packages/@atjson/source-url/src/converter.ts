@@ -1,16 +1,17 @@
-import OffsetSource, {
+import { Converter } from "@atjson/document";
+import OffsetSchema, {
   SocialURLs,
   VideoURLs,
   VideoEmbed
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import { URLAnnotation } from "./annotations";
-import URLSource from "./source";
+import { URLSchema } from "./schema";
 
 function isURL(annotation: URLAnnotation): annotation is URLAnnotation {
   return annotation.type === "url";
 }
 
-URLSource.defineConverterTo(OffsetSource, doc => {
+export const converter = new Converter(URLSchema, OffsetSchema, doc => {
   doc
     .where(isURL)
     .update(function identifyAndReplaceSocialURLs(annotation: URLAnnotation) {
@@ -52,5 +53,5 @@ URLSource.defineConverterTo(OffsetSource, doc => {
       }
     });
 
-  return new OffsetSource(doc.toJSON());
+  return doc;
 });

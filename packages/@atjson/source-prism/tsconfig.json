@@ -7,7 +7,7 @@
   "include": ["src/**/*"],
   "references": [
     { "path": "../document" },
-    { "path": "../offset-annotations" },
+    { "../schema-offset" },
     { "path": "../source-html" }
   ]
 }

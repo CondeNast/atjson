@@ -7,7 +7,7 @@ import OffsetSource, {
   TikTokEmbed,
   TwitterEmbed,
   VideoEmbed
-} from "@atjson/offset-annotations";
+} from "@atjson/schema-offset";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import URLSource from "../src/index";
 

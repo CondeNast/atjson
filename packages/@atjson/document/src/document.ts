@@ -1,48 +1,36 @@
 import {
   AdjacentBoundaryBehaviour,
   Annotation,
-  AnnotationCollection,
-  AnnotationConstructor,
   AnnotationJSON,
-  compareAnnotations,
+  Collection,
   Deletion,
   EdgeBehaviour,
   Insertion,
+  SchemaDefinition,
   ParseAnnotation,
-  UnknownAnnotation
+  UnknownAnnotation,
+  ValidAnnotations,
+  AnnotationNamed,
+  SchemaClasses,
+  isValidType,
+  sort,
+  findAnnotationFor
 } from "./internals";
 
-/**
- * Get the function that converts between two documents. Use this to grab a converter
- * for testing, or for nesting conversions.
- *
- * the converter returned from this will in general mutate its argument;
- * you should probably use convertTo unless you're in the middle of defining a converter
- */
-export function getConverterFor(
-  from: typeof Document | string,
-  to: typeof Document | string
-): never | ((doc: Document) => Document) {
-  let exports = (typeof window !== "undefined" ? window : global) as any;
-  let fromType = typeof from === "string" ? from : from.contentType;
-  let toType = typeof to === "string" ? to : to.contentType;
-
-  let converters = exports.__atjson_converters__;
-  let converter = converters
-    ? converters[fromType]
-      ? converters[fromType][toType]
-      : null
-    : null;
-
-  if (converter == null) {
-    let fromName = typeof from === "string" ? from : from.name;
-    let toName = typeof to === "string" ? to : to.name;
-    throw new Error(
-      `🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`
-    );
+function createAnnotation<Schema extends SchemaDefinition>(
+  annotation: Annotation<any> | AnnotationJSON,
+  schema: Schema
+): ValidAnnotations<Schema> {
+  let KnownAnnotation = findAnnotationFor(annotation, schema);
+  if (annotation instanceof Annotation) {
+    if (KnownAnnotation === annotation.constructor) {
+      return annotation as ValidAnnotations<Schema>;
+    } else {
+      return KnownAnnotation.hydrate(annotation.toJSON());
+    }
+  } else {
+    return KnownAnnotation.hydrate(annotation);
   }
-
-  return converter;
 }
 
 /**
@@ -102,40 +90,10 @@ export function mergeRanges(_ranges: Array<{ start: number; end: number }>) {
   return mergedRanges;
 }
 
-export class Document {
-  static contentType: string;
-  static schema: Array<AnnotationConstructor<any, any>> = [];
-
-  static defineConverterTo(
-    to: typeof Document,
-    converter: (doc: Document) => Document
-  ) {
-    // We may have multiple / conflicting versions of
-    // @atjson/document. To allow this, we need to
-    // register converters on the global to ensure
-    // that they can be shared across versions of the library.
-    let exports = (typeof window !== "undefined" ? window : global) as any;
-
-    let converters = exports.__atjson_converters__;
-    if (converters == null) {
-      converters = exports.__atjson_converters__ = {};
-    }
-
-    if (converters[this.contentType] == null) {
-      converters[this.contentType] = {};
-    }
-
-    if (!(to.prototype instanceof Document)) {
-      throw new Error(
-        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`
-      );
-    }
-    converters[this.contentType][to.contentType] = converter;
-  }
-
+export class Document<Schema extends SchemaDefinition> {
   content: string;
-  readonly contentType: string;
-  annotations: Array<Annotation<any>>;
+  annotations: ValidAnnotations<Schema>[];
+  schema: Schema;
   changeListeners: Array<() => void>;
 
   private pendingChangeEvent: any;
@@ -143,15 +101,16 @@ export class Document {
   constructor(options: {
     content: string;
     annotations: Array<AnnotationJSON | Annotation<any>>;
+    schema: Schema;
   }) {
-    let DocumentClass = this.constructor as typeof Document;
-    this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.content = options.content;
-
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
-      this.createAnnotation(annotation);
-    this.annotations = options.annotations.map(createAnnotation);
+    this.schema = options.schema;
+    this.annotations = options.annotations.map(function reifyAnnotations(
+      annotation
+    ) {
+      return createAnnotation(annotation, options.schema);
+    });
   }
 
   /**
@@ -180,9 +139,9 @@ export class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
-      this.createAnnotation(annotation);
-    this.annotations.push(...annotations.map(createAnnotation));
+    let reifyAnnotations = (annotation: AnnotationJSON | Annotation<any>) =>
+      createAnnotation(annotation, this.schema);
+    this.annotations.push(...annotations.map(reifyAnnotations));
     this.triggerChange();
   }
 
@@ -202,14 +161,48 @@ export class Document {
    *
    * tk: join documentation
    */
+  where<Name extends string>(
+    className: Name
+  ): Collection<Schema, InstanceType<AnnotationNamed<Schema, Name>>>;
+  where<
+    Type extends
+      | SchemaClasses<Schema>
+      | typeof ParseAnnotation
+      | typeof UnknownAnnotation
+  >(type: Type): Collection<Schema, InstanceType<Type>>;
   where(
-    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
+    callback:
+      | Partial<AnnotationJSON>
+      | ((value: ValidAnnotations<Schema>) => unknown)
+  ): Collection<Schema, ValidAnnotations<Schema>>;
+  where<
+    Type extends
+      | SchemaClasses<Schema>
+      | typeof ParseAnnotation
+      | typeof UnknownAnnotation,
+    Name extends string
+  >(
+    filter:
+      | ((value: ValidAnnotations<Schema>) => boolean)
+      | Partial<AnnotationJSON>
+      | Name
+      | Type
   ) {
-    return this.all().where(filter);
+    if (typeof filter === "string") {
+      return new Collection(this, this.annotations).where(filter);
+    } else if (isValidType(this.schema, filter)) {
+      return new Collection(this, this.annotations).where(filter);
+    } else if (filter instanceof Function) {
+      return new Collection(this, this.annotations).where(filter);
+    } else if (typeof filter === "object") {
+      return new Collection(this, this.annotations).where(filter);
+    } else {
+      return new Collection(this, this.annotations).where(filter);
+    }
   }
 
   all() {
-    return new AnnotationCollection(this, this.annotations);
+    return new Collection(this, this.annotations);
   }
 
   removeAnnotation(annotation: Annotation<any>): Annotation<any> | void {
@@ -234,8 +227,8 @@ export class Document {
      */
     let annotations = [..._annotations];
 
-    let sortedAnnotationsToRemove = annotations.sort(compareAnnotations);
-    let docAnnotations = this.annotations.sort(compareAnnotations);
+    let sortedAnnotationsToRemove = annotations.sort(sort);
+    let docAnnotations = this.annotations.sort(sort);
 
     let keptAnnotations = [];
     for (let annotation of docAnnotations) {
@@ -251,14 +244,14 @@ export class Document {
   }
 
   replaceAnnotation(
-    annotation: Annotation<any>,
+    annotation: ValidAnnotations<Schema>,
     ...newAnnotations: Array<AnnotationJSON | Annotation<any>>
-  ): Array<Annotation<any>> {
+  ) {
     let index = this.annotations.indexOf(annotation);
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
-      this.createAnnotation(annotation);
+    let reifyAnnotations = (annotation: AnnotationJSON | Annotation<any>) =>
+      createAnnotation(annotation, this.schema);
     if (index > -1) {
-      let annotations = newAnnotations.map(createAnnotation);
+      let annotations = newAnnotations.map(reifyAnnotations);
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
@@ -380,8 +373,7 @@ export class Document {
   /**
    * Slices return part of a document from the parent document.
    */
-  slice(start: number, end: number): Document {
-    let DocumentClass = this.constructor as typeof Document;
+  slice(start: number, end: number) {
     let slicedAnnotations = this.where(function sliceContainsAnnotation(a) {
       if (start < a.start) {
         return end > a.start;
@@ -390,11 +382,12 @@ export class Document {
       }
     });
 
-    let doc = new DocumentClass({
+    let doc = new Document({
       content: this.content,
       annotations: slicedAnnotations.map(function cloneAnnotation(annotation) {
         return annotation.clone();
-      })
+      }),
+      schema: this.schema
     });
     doc.deleteText(end, doc.content.length);
     doc.deleteText(0, start);
@@ -405,7 +398,7 @@ export class Document {
   /**
    * Cuts out part of the document, modifying `this` and returning the removed portion
    */
-  cut(start: number, end: number): Document {
+  cut(start: number, end: number) {
     let slice = this.slice(start, end);
     this.where(function annotationWasCut(annotation) {
       return annotation.start >= start && annotation.end <= end;
@@ -415,80 +408,27 @@ export class Document {
     return slice;
   }
 
-  convertTo<To extends typeof Document>(to: To): InstanceType<To> | never {
-    let DocumentClass = this.constructor as typeof Document;
-    let converter = getConverterFor(DocumentClass, to);
-
-    class ConversionDocument extends DocumentClass {
-      static schema = DocumentClass.schema.concat(to.schema);
-
-      /**
-       * overrides Document.slice to return the result in the original source
-       */
-      slice(start: number, end: number): Document {
-        let sliceDoc = super.slice(start, end);
-
-        return new DocumentClass({
-          content: sliceDoc.content,
-          annotations: sliceDoc.annotations
-        });
-      }
-
-      convertTo<Other extends typeof Document>(other: Other): never {
-        throw new Error(
-          `🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${
-            DocumentClass.name
-          }.defineConverterTo(${
-            to.name
-          }, doc => {\n  let convert${other.name.replace(
-            "Source",
-            ""
-          )} = getConverterFor(${other.name}, ${
-            to.name
-          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`
-        );
-      }
-    }
-
-    let convertedDoc = new ConversionDocument({
-      content: this.content,
-      annotations: this.where({})
-        .sort()
-        .map(function cloneAnnotation(a) {
-          return a.clone();
-        })
-    });
-
-    let result = converter(convertedDoc);
-    return new to({
-      content: result.content,
-      annotations: result.where({}).sort().annotations
-    }) as InstanceType<To>;
-  }
-
   toJSON() {
-    let DocumentClass = this.constructor as typeof Document;
-    let schema = DocumentClass.schema;
-
     return {
       content: this.content,
-      contentType: this.contentType,
       annotations: this.where({})
         .sort()
         .toJSON(),
-      schema: schema.map(function prefixAnnotationType(AnnotationClass) {
-        return `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
-      })
+      schema: Object.values(this.schema.annotations).map(
+        function prefixAnnotationType(AnnotationClass) {
+          return `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
+        }
+      )
     };
   }
 
-  clone(): Document {
-    let DocumentClass = this.constructor as typeof Document;
-    return new DocumentClass({
+  clone() {
+    return new Document({
       content: this.content,
       annotations: this.annotations.map(function cloneAnnotation(annotation) {
         return annotation.clone();
-      })
+      }),
+      schema: this.schema
     });
   }
 
@@ -617,7 +557,7 @@ export class Document {
     let parseTokensToDelete = [];
 
     for (let annotation of canonicalDoc.annotations) {
-      let vendorPrefix = annotation.getAnnotationConstructor().vendorPrefix;
+      let vendorPrefix = annotation.vendorPrefix;
       if (vendorPrefix === "atjson" && annotation.type === "parse-token") {
         parseTokensToDelete.push(annotation);
       }
@@ -626,12 +566,12 @@ export class Document {
     canonicalDoc.removeAnnotations(parseTokensToDelete);
     canonicalDoc.deleteTextRanges(parseTokensToDelete);
 
-    canonicalDoc.annotations.sort(compareAnnotations);
+    canonicalDoc.annotations.sort(sort);
 
     return canonicalDoc;
   }
 
-  equals(docToCompare: Document): boolean {
+  equals(docToCompare: Document<Schema>): boolean {
     let canonicalLeftHandSideDoc = this.canonical();
     let canonicalRightHandSideDoc = docToCompare.canonical();
 
@@ -654,67 +594,6 @@ export class Document {
         );
       }
     );
-  }
-
-  private createAnnotation(
-    annotation: Annotation<any> | AnnotationJSON
-  ): Annotation<any> {
-    let DocumentClass = this.constructor as typeof Document;
-    let schema = [...DocumentClass.schema, ParseAnnotation];
-
-    if (annotation instanceof UnknownAnnotation) {
-      let KnownAnnotation = schema.find(function annotationMatchesClass(
-        AnnotationClass
-      ) {
-        return (
-          annotation.attributes.type ===
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-        );
-      });
-
-      if (KnownAnnotation) {
-        return KnownAnnotation.hydrate(annotation.toJSON());
-      }
-      return annotation;
-    } else if (annotation instanceof Annotation) {
-      let AnnotationClass = annotation.getAnnotationConstructor();
-      if (schema.indexOf(AnnotationClass) === -1) {
-        let json = annotation.toJSON();
-        return new UnknownAnnotation({
-          id: json.id,
-          start: json.start,
-          end: json.end,
-          attributes: {
-            type: json.type,
-            attributes: json.attributes
-          }
-        });
-      }
-      return annotation;
-    } else {
-      let ConcreteAnnotation = schema.find(function annotationMatchesClass(
-        AnnotationClass
-      ) {
-        return (
-          annotation.type ===
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-        );
-      });
-
-      if (ConcreteAnnotation) {
-        return ConcreteAnnotation.hydrate(annotation);
-      } else {
-        return new UnknownAnnotation({
-          id: annotation.id,
-          start: annotation.start,
-          end: annotation.end,
-          attributes: {
-            type: annotation.type,
-            attributes: annotation.attributes
-          }
-        });
-      }
-    }
   }
 
   /**

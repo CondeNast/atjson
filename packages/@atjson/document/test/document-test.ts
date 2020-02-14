@@ -1,6 +1,6 @@
 import { mergeRanges } from "../src/internals";
-import TestSource, { Bold, Paragraph } from "./test-source";
-import { ParseAnnotation } from "../src";
+import TestSchema, { Bold, Paragraph } from "./test-schema";
+import Document, { ParseAnnotation } from "../src";
 
 describe("Document#deleteTextRanges", () => {
   describe("mergeRanges", () => {
@@ -65,14 +65,15 @@ describe("Document#deleteTextRanges", () => {
   });
 
   test("adjusts annotations properly", () => {
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "<b>Hello</b>,\n World!",
       annotations: [
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     testDoc.deleteTextRanges([
@@ -92,14 +93,15 @@ describe("Document#deleteTextRanges", () => {
   });
 
   test("doesn't mutate its argument", () => {
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "<b>Hello</b>,\n World!",
       annotations: [
         new ParseAnnotation({ start: 8, end: 12 }),
         new ParseAnnotation({ start: 0, end: 3 }),
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     let rangesToDelete = [
@@ -132,13 +134,14 @@ describe("Document#removeAnnotations", () => {
       new ParseAnnotation({ start: 5, end: 6 }),
       new ParseAnnotation({ start: 9, end: 10 })
     ];
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
       annotations: [
         ...parseAnnotations,
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     testDoc.removeAnnotations(parseAnnotations);
@@ -166,13 +169,14 @@ describe("Document#removeAnnotations", () => {
       new ParseAnnotation({ start: 5, end: 6 }),
       new ParseAnnotation({ start: 9, end: 10 })
     ];
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
       annotations: [
         ...parseAnnotations,
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     testDoc.removeAnnotations(parseAnnotations);
@@ -196,18 +200,18 @@ describe("Document#removeAnnotations", () => {
 
 describe("Document#canonical", () => {
   test("parse tokens are properly removed", () => {
-    let testDoc = new TestSource({
+    let testDoc = new Document({
       content: "<b>Hello</b>,\n World!",
       annotations: [
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(testDoc.canonical()).toMatchObject({
-      contentType: "application/vnd.atjson+test",
       content: "Hello,\n World!",
       annotations: [
         {
@@ -229,17 +233,18 @@ describe("Document#canonical", () => {
 
 describe("Document#equals", () => {
   test("documents are correctly compared for equality", () => {
-    let leftHandSideTestDoc = new TestSource({
+    let leftHandSideTestDoc = new Document({
       content: "<b>Hello</b>,\n World!",
       annotations: [
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
-    let rightHandSideTestDoc = new TestSource({
+    let rightHandSideTestDoc = new Document({
       content: "<b>Hello</b>,\n <blink>World!</blink>",
       annotations: [
         new ParseAnnotation({ start: 15, end: 22 }),
@@ -248,10 +253,11 @@ describe("Document#equals", () => {
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
         new Bold({ start: 0, end: 12 })
-      ]
+      ],
+      schema: TestSchema
     });
 
-    let unequalRightHandSideTestDoc = new TestSource({
+    let unequalRightHandSideTestDoc = new Document({
       content: "<b>Hello</b>,\n <blink>World!</blink>",
       annotations: [
         new ParseAnnotation({ start: 15, end: 22 }),
@@ -259,7 +265,8 @@ describe("Document#equals", () => {
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 })
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(leftHandSideTestDoc.equals(rightHandSideTestDoc)).toBe(true);
@@ -267,7 +274,7 @@ describe("Document#equals", () => {
   });
 
   test("annotation attributes are correctly compared for equality", () => {
-    let leftHandSideTestDoc = new TestSource({
+    let leftHandSideTestDoc = new Document({
       content: "\uFFFC",
       annotations: [
         {
@@ -290,10 +297,11 @@ describe("Document#equals", () => {
             }
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
-    let rightHandSideTestDoc = new TestSource({
+    let rightHandSideTestDoc = new Document({
       content: "\uFFFC",
       annotations: [
         {
@@ -316,10 +324,11 @@ describe("Document#equals", () => {
             }
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
-    let unequalRightHandSideTestDoc = new TestSource({
+    let unequalRightHandSideTestDoc = new Document({
       content: "\uFFFC",
       annotations: [
         {
@@ -342,7 +351,8 @@ describe("Document#equals", () => {
             }
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     expect(leftHandSideTestDoc.equals(rightHandSideTestDoc)).toBe(true);
@@ -350,22 +360,24 @@ describe("Document#equals", () => {
   });
 
   test("HTML documents and MD documents are correctly compared for equality", () => {
-    let MDTestDoc = new TestSource({
+    let MDTestDoc = new Document({
       content: "Hello, **world**",
       annotations: [
         new ParseAnnotation({ start: 14, end: 16 }),
         new ParseAnnotation({ start: 7, end: 9 }),
         new Bold({ start: 7, end: 16 })
-      ]
+      ],
+      schema: TestSchema
     });
 
-    let HTMLTestDoc = new TestSource({
+    let HTMLTestDoc = new Document({
       content: "Hello, <b>world</b>",
       annotations: [
         new ParseAnnotation({ start: 7, end: 10 }),
         new ParseAnnotation({ start: 15, end: 19 }),
         new Bold({ start: 7, end: 19 })
-      ]
+      ],
+      schema: TestSchema
     });
     expect(MDTestDoc.equals(HTMLTestDoc)).toBe(true);
   });

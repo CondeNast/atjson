@@ -1,4 +1,10 @@
-import { AnnotationJSON, Document, JSON, JSONObject } from "./internals";
+import {
+  AnnotationJSON,
+  Document,
+  JSON,
+  JSONObject,
+  SchemaDefinition
+} from "./internals";
 
 export type AnnotationAttributesObject = {
   [key: string]: any;
@@ -6,7 +12,7 @@ export type AnnotationAttributesObject = {
 
 export function unprefix(
   vendorPrefix: string,
-  subdocuments: { [key: string]: typeof Document },
+  subdocuments: { [key: string]: SchemaDefinition },
   attribute: JSON,
   path: Array<string | number> = []
 ): NonNullable<any> {
@@ -25,7 +31,10 @@ export function unprefix(
       content: string;
       annotations: AnnotationJSON[];
     };
-    return new subdocuments[path.join(".")](serializedDocument);
+    return new Document({
+      ...serializedDocument,
+      schema: subdocuments[path.join(".")]
+    });
   } else if (attribute == null) {
     return null;
   } else if (typeof attribute === "object") {

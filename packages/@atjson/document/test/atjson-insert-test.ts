@@ -1,18 +1,19 @@
-import { AdjacentBoundaryBehaviour, UnknownAnnotation } from "../src";
-import TestSource, { Bold, Italic } from "./test-source";
+import Document, { AdjacentBoundaryBehaviour, UnknownAnnotation } from "../src";
+import TestSchema, { Bold, Italic } from "./test-schema";
 
 describe("Document.insertText", () => {
   test("insert text adds text to the content attribute", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "Hello",
-      annotations: []
+      annotations: [],
+      schema: TestSchema
     });
     atjson.insertText(5, " world.");
     expect(atjson.content).toBe("Hello world.");
   });
 
   test("insert text before an annotation moves it forward", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         new Bold({
@@ -30,7 +31,8 @@ describe("Document.insertText", () => {
             "-test-uri": "https://example.com"
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(0, "zzz");
@@ -60,7 +62,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text after an annotation doesn't affect it", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         new Italic({
@@ -78,7 +80,8 @@ describe("Document.insertText", () => {
             "-test-color": "blue"
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
     atjson.insertText(3, "zzz");
     expect(atjson.content).toBe("abczzzd");
@@ -107,7 +110,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text inside an annotation adjusts the endpoint", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         new Bold({
@@ -123,7 +126,8 @@ describe("Document.insertText", () => {
           end: 3,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
     atjson.insertText(2, "xyz");
     expect(atjson.content).toBe("abxyzcd");
@@ -150,7 +154,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the leading boundary of an annotation", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         {
@@ -167,7 +171,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
     atjson.insertText(0, "zzz");
     expect(atjson.content).toBe("zzzabcd");
@@ -190,7 +195,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the right boundary of an annotation", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         {
@@ -207,7 +212,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
     atjson.insertText(2, "zzz");
     expect(atjson.content).toBe("abzzzcd");
@@ -230,7 +236,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the boundary of two adjacent annotations ...", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "ac",
       annotations: [
         {
@@ -261,7 +267,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(1, "b");
@@ -300,7 +307,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the leading boundary of an annotation preserving boundaries", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         {
@@ -310,7 +317,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
     atjson.insertText(0, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
     expect(atjson.content).toBe("zzzabcd");
@@ -326,7 +334,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the trailing boundary of an annotation preserving boundaries", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         {
@@ -343,7 +351,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(2, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
@@ -367,7 +376,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the boundary of two adjacent annotations preserving boundaries", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "ac",
       annotations: [
         {
@@ -384,7 +393,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveTrailing);
@@ -409,7 +419,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the boundary of two adjacent annotations, perserving both of them", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "ac",
       annotations: [
         {
@@ -426,7 +436,8 @@ describe("Document.insertText", () => {
           end: 2,
           attributes: {}
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveBoth);
@@ -451,7 +462,7 @@ describe("Document.insertText", () => {
   });
 
   test("insert text at the boundary with a custom transform", () => {
-    let atjson = new TestSource({
+    let atjson = new Document({
       content: "abcd",
       annotations: [
         {
@@ -470,7 +481,8 @@ describe("Document.insertText", () => {
             "-test-emoji": "❤️"
           }
         }
-      ]
+      ],
+      schema: TestSchema
     });
 
     atjson.insertText(2, "zzz");

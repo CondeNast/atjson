@@ -1,5 +1,5 @@
 import { AttributesOf } from "@atjson/document";
-import OffsetSource, { GiphyEmbed } from "@atjson/offset-annotations";
+import OffsetSource, { GiphyEmbed } from "@atjson/schema-offset";
 import Renderer from "@atjson/renderer-react";
 import URLSource from "@atjson/source-url";
 import * as React from "react";
