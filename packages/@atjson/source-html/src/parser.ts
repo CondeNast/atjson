@@ -60,7 +60,7 @@ export default class Parser {
   private offset: number;
 
   constructor(html: string) {
-    this.html = html;
+    this.html = html.trim();
     this.content = "";
     this.annotations = [];
     this.offset = 0;
@@ -68,7 +68,7 @@ export default class Parser {
     // By using `parse` all the time,
     // we can handle `<!DOCTYPE html>` declarations
     // and HTML fragments cleanly.
-    let tree = parse5.parse(html, { sourceCodeLocationInfo: true });
+    let tree = parse5.parse(this.html, { sourceCodeLocationInfo: true });
 
     if (isDocumentFragment(tree) || isDocument(tree)) {
       this.walk(tree.childNodes);
