@@ -3,6 +3,21 @@ import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
   describe("parser", () => {
+    test("leading whitespace parsed correctly", () => {
+      let doc = HTMLSource.fromRaw(
+        " leading <strong>whitespace</strong>"
+      ).canonical();
+      expect(doc).toMatchObject({
+        content: "leading whitespace",
+        annotations: [
+          {
+            type: "strong",
+            start: 8,
+            end: 18
+          }
+        ]
+      });
+    });
     test("annotation wraps start and end tags", () => {
       let doc = HTMLSource.fromRaw("<p>Paragraph with <b>bold</b></p>");
 
@@ -196,8 +211,7 @@ describe("@atjson/source-html", () => {
             src: "https://example.com/test.png"
           },
           children: []
-        },
-        " "
+        }
       ]
     });
   });
