@@ -9,7 +9,7 @@ export default class PlainTextRenderer extends Renderer {
     super(document, args);
   }
 
-  *root(): Iterator<void, string, string[]> {
+  *root() {
     let text = yield;
     return text.join("");
   }

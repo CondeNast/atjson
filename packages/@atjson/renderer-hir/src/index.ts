@@ -213,12 +213,12 @@ export default class Renderer {
     }
   }
 
-  *root(): Iterator<void, any, any[]> {
+  *root() {
     return yield;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  text(text: string, _: Context): string {
+  text(text: string, _: Context) {
     return text;
   }
 }
