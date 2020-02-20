@@ -1,7 +1,7 @@
 import Document, { Annotation } from "@atjson/document";
 import Renderer, { classify } from "@atjson/renderer-hir";
 import * as React from "react";
-import { ComponentType, FC } from "react";
+import { ComponentType, FC, ReactElement } from "react";
 
 // Make a React-aware AttributesOf for subdocuments rendered into Fragments
 export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
@@ -65,7 +65,9 @@ export default class ReactRenderer extends Renderer {
     }
   }
 
-  *renderAnnotation(annotation: Annotation) {
+  *renderAnnotation(
+    annotation: Annotation
+  ): Generator<void, ReactElement | ReactElement[], ReactElement[]> {
     this.renderSubdocuments(annotation);
 
     const annotationChildren = yield;
