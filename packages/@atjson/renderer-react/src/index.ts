@@ -67,7 +67,7 @@ export default class ReactRenderer extends Renderer {
 
   *renderAnnotation(
     annotation: Annotation
-  ): Iterator<void, ReactElement | ReactElement[], ReactElement[]> {
+  ): Generator<void, ReactElement | ReactElement[], ReactElement[]> {
     this.renderSubdocuments(annotation);
 
     const annotationChildren = yield;

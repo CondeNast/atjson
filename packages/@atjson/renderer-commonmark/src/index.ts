@@ -339,7 +339,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(bold: Bold, context: Context): Iterator<void, string, string[]> {
+  *Bold(bold: Bold, context: Context): Generator<void, string, string[]> {
     let [before, text, after] = yield* splitDelimiterRuns(
       bold,
       context,
@@ -373,7 +373,7 @@ export default class CommonmarkRenderer extends Renderer {
    * >
    * > It can also span multiple lines.
    */
-  *Blockquote(): Iterator<void, string, string[]> {
+  *Blockquote(): Generator<void, string, string[]> {
     let text = yield;
     let lines: string[] = text.join("").split("\n");
     let endOfQuote = lines.length;
@@ -408,7 +408,7 @@ export default class CommonmarkRenderer extends Renderer {
    * style, using a series of `=` or `-` markers. This only works for
    * headings of level 1 or 2, so any other level will be broken.
    */
-  *Heading(heading: Heading): Iterator<void, string, string[]> {
+  *Heading(heading: Heading): Generator<void, string, string[]> {
     let rawText = yield;
     let text = rawText.join("");
     let level = new Array(heading.attributes.level + 1).join("#");
@@ -429,7 +429,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ***
    * Into multiple sections.
    */
-  *HorizontalRule(): Iterator<void, string, string[]> {
+  *HorizontalRule(): Generator<void, string, string[]> {
     return "***\n";
   }
 
@@ -437,7 +437,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Images are embedded like links, but with a `!` in front.
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
-  *Image(image: Image): Iterator<void, string, string[]> {
+  *Image(image: Image): Generator<void, string, string[]> {
     let description = escapePunctuation(image.attributes.description || "");
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
@@ -449,7 +449,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *Italic(italic: Italic, context: Context): Iterator<void, string, string[]> {
+  *Italic(italic: Italic, context: Context): Generator<void, string, string[]> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -489,7 +489,7 @@ export default class CommonmarkRenderer extends Renderer {
    * A line break in Commonmark can be two white spaces at the end of the line  <--
    * or it can be a backslash at the end of the line\
    */
-  *LineBreak(_: any, context: Context): Iterator<void, string, string[]> {
+  *LineBreak(_: any, context: Context): Generator<void, string, string[]> {
     // Line breaks cannot end markdown block elements or paragraphs
     // https://spec.commonmark.org/0.29/#example-641
     if (context.parent instanceof BlockAnnotation && context.next == null) {
@@ -508,7 +508,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *Link(link: Link): Iterator<void, string, string[]> {
+  *Link(link: Link): Generator<void, string, string[]> {
     let [before, text, after] = yield* split();
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
@@ -525,7 +525,7 @@ export default class CommonmarkRenderer extends Renderer {
    * function () {}
    * ```
    */
-  *Code(code: Code, context: Context): Iterator<void, string, string[]> {
+  *Code(code: Code, context: Context): Generator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -571,7 +571,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *Html(html: HTML): Iterator<void, string, string[]> {
+  *Html(html: HTML): Generator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -592,7 +592,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A list item is part of an ordered list or an unordered list.
    */
-  *ListItem(): Iterator<void, string, string[]> {
+  *ListItem(): Generator<void, string, string[]> {
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -643,7 +643,7 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *List(list: List, context: Context): Iterator<void, string, string[]> {
+  *List(list: List, context: Context): Generator<void, string, string[]> {
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -698,7 +698,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(): Iterator<void, string, string[]> {
+  *Paragraph(): Generator<void, string, string[]> {
     let rawText = yield;
     let text = rawText.join("");
 
@@ -720,7 +720,7 @@ export default class CommonmarkRenderer extends Renderer {
     return text + "\n\n";
   }
 
-  *FixedIndent(): Iterator<void, string, string[]> {
+  *FixedIndent(): Generator<void, string, string[]> {
     let rawText = yield;
     return rawText.join("");
   }
