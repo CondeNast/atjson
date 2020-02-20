@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.21.14...@atjson/hir@0.22.0) (2020-02-20)
+
+
+### Features
+
+* add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
+
+
+
+
+
 ## [0.21.14](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.21.13...@atjson/hir@0.21.14) (2020-02-10)
 
 **Note:** Version bump only for package @atjson/hir

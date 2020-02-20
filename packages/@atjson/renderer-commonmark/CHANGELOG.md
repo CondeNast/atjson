@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.25...@atjson/renderer-commonmark@0.22.0) (2020-02-20)
+
+
+### Features
+
+* add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
+
+
+
+
+
 ## [0.21.25](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.21.24...@atjson/renderer-commonmark@0.21.25) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
