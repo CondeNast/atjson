@@ -1,6 +1,23 @@
+import { is } from "@atjson/document";
 import TestSource, { Anchor, Bold } from "./test-source";
 
 describe("Annotation", () => {
+  describe("is", () => {
+    test("the same annotation", () => {
+      let bold = new Bold({ start: 0, end: 0 });
+      expect(is(bold, Bold)).toBeTruthy();
+    });
+
+    test("null annotations", () => {
+      expect(is(null, Bold)).toBeFalsy();
+    });
+
+    test("is not the same annotation", () => {
+      let bold = new Bold({ start: 0, end: 0 });
+      expect(is(bold, Anchor)).toBeFalsy();
+    });
+  });
+
   describe("equals", () => {
     test("annotations are properly compared for equality", () => {
       let lhsAnnotation = new Bold({ start: 0, end: 5 });
