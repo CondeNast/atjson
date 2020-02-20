@@ -13,6 +13,8 @@ export class Editor {
   constructor(config?: Config);
   destroy(): Promise<void>;
   execute(commandName: string, ...commandParams: any[]);
+  getData(options?: { rootname?: string; trim?: string }): string;
+  setData(data: string): void;
 }
 
 export class PluginCollection {
@@ -113,6 +115,36 @@ export interface SchemaCompiledItemDefinition {
   readonly allowAttributes: string | string[];
 }
 
+export class Node {
+  readonly document: Document | null;
+  readonly endOffset: number | null;
+  readonly index: number | null;
+  readonly nextSibling: Node | null;
+  readonly offsetSize: number;
+  readonly parent: Element | DocumentFragment | null;
+  readonly previousSibling: Node | null;
+  readonly root: Node | DocumentFragment;
+  readonly startOffset: number | null;
+
+  getAncestors(options?: {
+    includeSelf: boolean;
+    parentFirst: boolean;
+  }): Node[];
+  getAttribute(key: string): unknown;
+  getAttributeKeys(): Iterable<string>;
+  getAttributes(): Iterable<[string, unknown]>;
+  getCommonAncestor(
+    node: Node,
+    options?: { includeSelf: boolean }
+  ): Element | DocumentFragment | null;
+  getPath(): number[];
+  hasAttribute(key: string): boolean;
+  is(type: string): boolean;
+  isAfter(node: Node): boolean;
+  isBefore(node: Node): boolean;
+  toJSON(): object;
+}
+
 export class TextNode extends Node {
   readonly data: string;
 }
@@ -160,36 +192,6 @@ export class Range {
   is(type: string): boolean;
   isEqual(otherRange: Range): boolean;
   isIntersecting(otherRange: Range): boolean;
-  toJSON(): object;
-}
-
-export class Node {
-  readonly document: Document | null;
-  readonly endOffset: number | null;
-  readonly index: number | null;
-  readonly nextSibling: Node | null;
-  readonly offsetSize: number;
-  readonly parent: Element | DocumentFragment | null;
-  readonly previousSibling: Node | null;
-  readonly root: Node | DocumentFragment;
-  readonly startOffset: number | null;
-
-  getAncestors(options?: {
-    includeSelf: boolean;
-    parentFirst: boolean;
-  }): Node[];
-  getAttribute(key: string): unknown;
-  getAttributeKeys(): Iterable<string>;
-  getAttributes(): Iterable<unknown>;
-  getCommonAncestor(
-    node: Node,
-    options?: { includeSelf: boolean }
-  ): Element | DocumentFragment | null;
-  getPath(): number[];
-  hasAttribute(key: string): boolean;
-  is(type: string): boolean;
-  isAfter(node: Node): boolean;
-  isBefore(node: Node): boolean;
   toJSON(): object;
 }
 

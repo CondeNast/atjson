@@ -12,6 +12,7 @@
     "Contributing": ["code-style"],
     "API Documentation": ["document-api"],
     "Sources": [
+      "ckeditor-source",
       "html-source",
       "markdown-source",
       "prism-source",
