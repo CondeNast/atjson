@@ -18,7 +18,8 @@ import {
   JSON,
   ObjectAnnotation,
   ParseAnnotation,
-  UnknownAnnotation
+  UnknownAnnotation,
+  is
 } from "./internals";
 
 export {
@@ -40,7 +41,8 @@ export {
   JSON,
   ObjectAnnotation,
   ParseAnnotation,
-  UnknownAnnotation
+  UnknownAnnotation,
+  is
 };
 
 export default Document;

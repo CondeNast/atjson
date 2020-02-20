@@ -6,3 +6,4 @@ export * from "./collection";
 export * from "./document";
 export * from "./join";
 export * from "./json";
+export * from "./utils";

@@ -1,4 +1,9 @@
-import { Annotation, BlockAnnotation, ParseAnnotation } from "@atjson/document";
+import {
+  Annotation,
+  BlockAnnotation,
+  ParseAnnotation,
+  is
+} from "@atjson/document";
 import OffsetSource, { LineBreak, Paragraph } from "@atjson/offset-annotations";
 import { Heading } from "./annotations";
 import GDocsSource from "./source";
@@ -185,7 +190,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   doc
     .where(
       (annotation: Annotation) =>
-        annotation instanceof LineBreak || annotation instanceof Paragraph
+        is(annotation, LineBreak) || is(annotation, Paragraph)
     )
     .as("lineBreak")
     .join(
@@ -210,10 +215,10 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
   // LineBreaks may have been created at a block boundary co-terminating
   // with a paragraph, so delete those which match a paragraph end
   doc
-    .where(annotation => annotation instanceof LineBreak)
+    .where(annotation => is(annotation, LineBreak))
     .as("lineBreak")
     .join(
-      doc.where(annotation => annotation instanceof Paragraph).as("paragraphs"),
+      doc.where(annotation => is(annotation, Paragraph)).as("paragraphs"),
       (l: Annotation, r: Annotation) => l.end === r.end
     )
     .update(({ lineBreak }) => {

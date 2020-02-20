@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { is } from "@atjson/document";
 import { VerticalAdjust } from "../src/annotations";
 import { GDocsPasteBuffer } from "../src/gdocs-parser";
 import GDocsSource from "../src/index";
@@ -196,7 +197,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts vertical adjust", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a instanceof VerticalAdjust);
+      let annotations = gdocs.where(a => is(a, VerticalAdjust));
       expect(annotations.length).toEqual(2);
 
       let [superscript] = annotations.where(
