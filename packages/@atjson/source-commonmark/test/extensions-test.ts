@@ -1,4 +1,4 @@
-import { InlineAnnotation, getConverterFor } from "@atjson/document";
+import { InlineAnnotation, getConverterFor, is } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import * as MarkdownIt from "markdown-it";
 import CommonmarkSource from "../src";
@@ -29,7 +29,7 @@ describe("strikethrough", () => {
   test("~~hello~~ is converted to strikethrough annotations", () => {
     let doc = MarkdownItSource.fromRaw("~~hello~~");
     expect(render(doc)).toBe("hello\n\n");
-    let strikeThrough = doc.where(a => a instanceof StrikeThrough);
+    let strikeThrough = doc.where(a => is(a, StrikeThrough));
     expect(strikeThrough.toJSON()).toEqual([
       {
         id: "Any<id>",

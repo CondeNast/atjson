@@ -2,7 +2,8 @@ import Document, {
   Annotation,
   BlockAnnotation,
   ParseAnnotation,
-  UnknownAnnotation
+  UnknownAnnotation,
+  is
 } from "@atjson/document";
 import {
   Bold,
@@ -134,7 +135,7 @@ export function* splitDelimiterRuns(
     child &&
     child.start === annotation.start &&
     child.end === annotation.end &&
-    (child instanceof Bold || child instanceof Italic)
+    (is(child, Bold) || is(child, Italic))
   ) {
     return ["", text, ""] as [string, string, string];
   }

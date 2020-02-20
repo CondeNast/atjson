@@ -1,4 +1,9 @@
-import Document, { Annotation, JSON, ParseAnnotation } from "@atjson/document";
+import Document, {
+  Annotation,
+  JSON,
+  ParseAnnotation,
+  is
+} from "@atjson/document";
 import { Root, Text } from "./annotations";
 
 export interface Dictionary<T> {
@@ -29,7 +34,7 @@ function toJSON(attribute: NonNullable<any>): JSON {
 }
 
 function isNotParseAnnotation(node: HIRNode) {
-  return !(node.annotation instanceof ParseAnnotation);
+  return !is(node.annotation, ParseAnnotation);
 }
 
 export default class HIRNode {
@@ -77,7 +82,7 @@ export default class HIRNode {
   }
 
   toJSON(options?: { includeParseTokens: boolean }): JSON {
-    if (this.annotation instanceof Text) {
+    if (is(this.annotation, Text)) {
       return this.text;
     }
 
@@ -116,7 +121,7 @@ export default class HIRNode {
   }
 
   insertText(text: string): void {
-    if (!(this.annotation instanceof Root)) {
+    if (!is(this.annotation, Root)) {
       throw new Error(
         "temporary exception; this should only exist in the root node subclass"
       );
@@ -292,25 +297,24 @@ export default class HIRNode {
       return this;
     }
 
-    let partial =
-      this.annotation instanceof Text
-        ? new HIRNode({
-            id: this.id,
-            type: this.type,
-            annotation: this.annotation,
-            rank: this.rank,
-            start: newStart,
-            end: newEnd,
-            text: this.text.slice(newStart - this.start, newEnd - this.start)
-          })
-        : new HIRNode({
-            id: this.id,
-            type: this.type,
-            rank: this.rank,
-            annotation: this.annotation,
-            start: newStart,
-            end: newEnd
-          });
+    let partial = is(this.annotation, Text)
+      ? new HIRNode({
+          id: this.id,
+          type: this.type,
+          annotation: this.annotation,
+          rank: this.rank,
+          start: newStart,
+          end: newEnd,
+          text: this.text.slice(newStart - this.start, newEnd - this.start)
+        })
+      : new HIRNode({
+          id: this.id,
+          type: this.type,
+          rank: this.rank,
+          annotation: this.annotation,
+          start: newStart,
+          end: newEnd
+        });
 
     if (partial.start === partial.end) return;
 
@@ -319,7 +323,7 @@ export default class HIRNode {
     }
 
     // nb move to HIRTextNode
-    if (this.annotation instanceof Text && partial.text === "\uFFFC") {
+    if (is(this.annotation, Text) && partial.text === "\uFFFC") {
       return;
     }
 

@@ -1,7 +1,8 @@
 import Document, {
   Annotation,
   AnnotationJSON,
-  UnknownAnnotation
+  UnknownAnnotation,
+  is
 } from "@atjson/document";
 import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
@@ -142,7 +143,7 @@ function compile(
 function normalizeChildNode(childNode: HIRNode) {
   if (isTextAnnotation(childNode.annotation)) {
     return textAnnotationFromNode(childNode);
-  } else if (childNode.annotation instanceof UnknownAnnotation) {
+  } else if (is(childNode.annotation, UnknownAnnotation)) {
     // FIXME This is not helpful debugging information, but I'm not sure the best way to surface more detail.
     // eslint-disable-next-line no-console
     console.debug(
