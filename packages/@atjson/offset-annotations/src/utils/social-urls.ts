@@ -178,24 +178,57 @@ function normalizeGiphyURL(url: IUrl) {
 // - open.spotify.com/playlist/:id
 // - open.spotify.com/track/:id
 // - open.spotify.com/artist/:id
+// - open.spotify.com/episode/:id
+// - open.spotify.com/show/:id
 function isSpotifyUrl(url: IUrl) {
   return url.host === "open.spotify.com";
 }
 
+const spotifyEmbedTypes: {
+  [index: string]: string;
+} = {
+  episode: "embed-podcast",
+  show: "embed-podcast",
+  default: "embed"
+};
+
+const spotifyEmbedSizes: {
+  [index: string]: { height: string; width: string };
+} = {
+  default: {
+    height: "380",
+    width: "300"
+  },
+  track: {
+    height: "80",
+    width: "300"
+  },
+  episode: {
+    height: "232",
+    width: "100%"
+  },
+  show: {
+    height: "232",
+    width: "100%"
+  }
+};
+
 function normalizeSpotifyUrl(url: IUrl) {
   let parts = without<string>(url.pathname.split("/"), "");
-  if (parts[0] === "embed") {
+  if (parts[0] === "embed" || parts[0] === "embed-podcast") {
     parts.shift();
   }
   let type = parts[0];
+  let embedType = spotifyEmbedTypes[type] || spotifyEmbedTypes.default;
   let id = parts[1];
+  let { height, width } = spotifyEmbedSizes[type] || spotifyEmbedSizes.default;
 
   return {
     Class: IframeEmbed,
     attributes: {
-      url: `https://open.spotify.com/embed/${type}/${id}`,
-      width: "300",
-      height: type === "track" ? "80" : "380"
+      url: `https://open.spotify.com/${embedType}/${type}/${id}`,
+      width,
+      height
     }
   };
 }

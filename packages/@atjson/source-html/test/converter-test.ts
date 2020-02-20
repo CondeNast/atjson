@@ -532,6 +532,62 @@ describe("@atjson/source-html", () => {
           ]
         });
       });
+
+      test("Spotify podcast show embed", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa"
+            width="100%"
+            height="232"
+            frameborder="0"
+            allowtransparency="true"
+            allow="encrypted-media"></iframe>`
+        ).convertTo(OffsetSource);
+
+        let hir = new HIR(doc).toJSON();
+        expect(hir).toMatchObject({
+          type: "root",
+          children: [
+            {
+              type: "iframe-embed",
+              attributes: {
+                url:
+                  "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
+                height: "232",
+                width: "100%"
+              },
+              children: []
+            }
+          ]
+        });
+      });
+
+      test("Spotify track embed", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://open.spotify.com/embed/track/1QY4TdhuNIOX2SHLdElzd5"
+            width="300"
+            height="380"
+            frameborder="0"
+            allowtransparency="true"
+            allow="encrypted-media"></iframe>`
+        ).convertTo(OffsetSource);
+
+        let hir = new HIR(doc).toJSON();
+        expect(hir).toMatchObject({
+          type: "root",
+          children: [
+            {
+              type: "iframe-embed",
+              attributes: {
+                url:
+                  "https://open.spotify.com/embed/track/1QY4TdhuNIOX2SHLdElzd5",
+                height: "380",
+                width: "300"
+              },
+              children: []
+            }
+          ]
+        });
+      });
     });
 
     describe("video embeds", () => {
