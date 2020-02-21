@@ -1,6 +1,6 @@
 import { AttributesOf } from "@atjson/document";
 import OffsetSource, { GiphyEmbed } from "@atjson/offset-annotations";
-import Renderer from "@atjson/renderer-react";
+import Renderer, { ReactRendererProvider } from "@atjson/renderer-react";
 import URLSource from "@atjson/source-url";
 import * as React from "react";
 import { FC, useState } from "react";
@@ -52,9 +52,9 @@ export const URLPaste: FC = () => {
         value={url}
         onChange={evt => setURL(evt.target.value)}
       />
-      {Renderer.render(URLSource.fromRaw(url).convertTo(OffsetSource), {
-        GiphyEmbed: Giphy
-      })}
+      <ReactRendererProvider value={{ GiphyEmbed: Giphy }}>
+        {Renderer.render(URLSource.fromRaw(url).convertTo(OffsetSource))}
+      </ReactRendererProvider>
     </Wrapper>
   );
 };

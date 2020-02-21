@@ -21,15 +21,20 @@ This source is designed to be used to handle paste events that contain bits from
 Get the Google Docs paste item from the paste event under the name `application/x-vnd.google-docs-document-slice-clip+wrapped`:
 
 ```ts
-let gdocsPaste = evt.clipboardData.getData('application/x-vnd.google-docs-document-slice-clip+wrapped');
+let gdocsPaste = evt.clipboardData.getData(
+  "application/x-vnd.google-docs-document-slice-clip+wrapped"
+);
 ```
 
 After getting the data, check if it a paste from Google Docs and use the Google Docs paste source to turn the paste into an AtJSON document:
 
 ```ts
-if (gdocsPaste !== '') {
+if (gdocsPaste !== "") {
   let data = JSON.parse(JSON.parse(gdocsPaste).data);
   let pastedDoc = GoogleDocsPasteSource.fromRaw(data);
 }
 ```
 
+import { GDocsPasteDemo } from "../src/components/GDocsPasteDemo.tsx";
+
+<GDocsPasteDemo />

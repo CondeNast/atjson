@@ -1,5 +1,5 @@
 import Document, { AttributesOf, InlineAnnotation } from "@atjson/document";
-import Renderer from "@atjson/renderer-react";
+import Renderer, { ReactRendererProvider } from "@atjson/renderer-react";
 import * as React from "react";
 import { FC, useRef, useState } from "react";
 import styled from "styled-components";
@@ -314,10 +314,14 @@ export const QuickBrownFox: FC<{
         })}
       </SVG>
       <Wrapper ref={wrapper}>
-        {Renderer.render(props.value, {
-          Italic: ItalicComponent,
-          TextColor: TextColorComponent
-        })}
+        <ReactRendererProvider
+          value={{
+            Italic: ItalicComponent,
+            TextColor: TextColorComponent
+          }}
+        >
+          {Renderer.render(props.value)}
+        </ReactRendererProvider>
       </Wrapper>
     </Container>
   );
