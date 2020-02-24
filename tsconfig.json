@@ -7,6 +7,8 @@
     "declaration": true,
     "declarationMap": true,
     "downlevelIteration": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "module": "commonjs",

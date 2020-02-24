@@ -1,5 +1,5 @@
 import Document from "@atjson/document";
-import * as MarkdownIt from "markdown-it";
+import MarkdownIt from "markdown-it";
 import {
   Blockquote,
   BulletList,

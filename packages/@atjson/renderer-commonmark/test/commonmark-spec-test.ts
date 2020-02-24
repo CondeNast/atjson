@@ -5,7 +5,7 @@ import { HIR } from "@atjson/hir";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
-import * as MarkdownIt from "markdown-it";
+import MarkdownIt from "markdown-it";
 import CommonMarkRenderer from "../src/index";
 
 const skippedTests = [
