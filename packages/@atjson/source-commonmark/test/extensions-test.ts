@@ -1,6 +1,6 @@
 import { InlineAnnotation, getConverterFor, is } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
-import * as MarkdownIt from "markdown-it";
+import MarkdownIt from "markdown-it";
 import CommonmarkSource from "../src";
 import { render } from "./utils";
 

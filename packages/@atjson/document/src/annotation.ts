@@ -1,4 +1,4 @@
-import * as uuid from "uuid-random";
+import uuid from "uuid-random";
 import {
   AnnotationAttributesObject,
   Change,
@@ -142,7 +142,7 @@ export abstract class Annotation<Attributes = {}> {
   }
 
   readonly type: string;
-  abstract rank: number;
+  abstract get rank(): number;
   id: string;
   start: number;
   end: number;

@@ -2,6 +2,11 @@
   "private": true,
   "name": "atjson",
   "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@types/chance": "1.0.8",
@@ -19,6 +24,7 @@
     "@types/react-dom": "16.9.5",
     "@typescript-eslint/eslint-plugin": "2.21.0",
     "@typescript-eslint/parser": "2.21.0",
+    "babel-jest": "^25.1.0",
     "chance": "1.1.4",
     "commonmark": "0.29.1",
     "commonmark-spec": "0.29.0",
@@ -42,7 +48,6 @@
     "react-dom": "16.13.0",
     "shelljs": "0.8.3",
     "simple-statistics": "7.0.8",
-    "ts-jest": "25.2.1",
     "ts-loader": "6.2.1",
     "ttest": "2.1.1",
     "typescript": "3.8.2",
@@ -95,16 +100,10 @@
       "jsx",
       "json"
     ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
-    },
     "moduleNameMapper": {
       "^(@atjson/.*)$": "<rootDir>/packages/$1/src/index.ts"
     },
     "testURL": "http://localhost",
-    "preset": "ts-jest",
     "testMatch": [
       "**/*-test.(ts|tsx|js|jsx)"
     ]
