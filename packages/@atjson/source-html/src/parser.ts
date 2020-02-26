@@ -1,6 +1,8 @@
 import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
 import * as parse5 from "parse5";
 
+const LEADING_WHITESPACE = /^\s+/;
+
 function isElement(
   node: parse5.DefaultTreeNode
 ): node is parse5.DefaultTreeElement {
@@ -60,8 +62,10 @@ export default class Parser {
   private offset: number;
 
   constructor(html: string) {
-    this.html = html.trim();
-    this.content = "";
+    this.html = html;
+    let leadingWhitespace = html.match(LEADING_WHITESPACE);
+
+    this.content = leadingWhitespace ? leadingWhitespace[0] : "";
     this.annotations = [];
     this.offset = 0;
 

@@ -3,21 +3,38 @@ import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
   describe("parser", () => {
-    test("leading whitespace parsed correctly", () => {
+    test("leading space parsed correctly", () => {
       let doc = HTMLSource.fromRaw(
         " leading <strong>whitespace</strong>"
       ).canonical();
       expect(doc).toMatchObject({
-        content: "leading whitespace",
+        content: " leading whitespace",
         annotations: [
           {
             type: "strong",
-            start: 8,
-            end: 18
+            start: 9,
+            end: 19
           }
         ]
       });
     });
+
+    test("leading tab parsed correctly", () => {
+      let doc = HTMLSource.fromRaw(
+        "\tleading <strong>whitespace</strong>"
+      ).canonical();
+      expect(doc).toMatchObject({
+        content: "\tleading whitespace",
+        annotations: [
+          {
+            type: "strong",
+            start: 9,
+            end: 19
+          }
+        ]
+      });
+    });
+
     test("annotation wraps start and end tags", () => {
       let doc = HTMLSource.fromRaw("<p>Paragraph with <b>bold</b></p>");
 
@@ -211,7 +228,8 @@ describe("@atjson/source-html", () => {
             src: "https://example.com/test.png"
           },
           children: []
-        }
+        },
+        " "
       ]
     });
   });
@@ -374,6 +392,40 @@ describe("@atjson/source-html", () => {
         type: "html",
         start: 0,
         end: 5,
+        attributes: {
+          lang: "en"
+        }
+      }
+    ]);
+  });
+
+  test('  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>', () => {
+    let doc = HTMLSource.fromRaw(
+      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+    );
+
+    expect([...doc.where({ type: "-html-body" })]).toMatchObject([
+      {
+        start: 34,
+        end: 52
+      }
+    ]);
+    expect(doc.content).toEqual(
+      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+    );
+
+    let canonical = doc.canonical();
+    expect(canonical.content).toEqual("  \tHello");
+    expect(canonical.annotations).toMatchObject([
+      {
+        type: "body",
+        start: 3,
+        end: 8
+      },
+      {
+        type: "html",
+        start: 3,
+        end: 8,
         attributes: {
           lang: "en"
         }
