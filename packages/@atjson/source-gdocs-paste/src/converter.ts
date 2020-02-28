@@ -10,8 +10,7 @@ import GDocsSource from "./source";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
-const MULTIPLE_NEWLINES = /\n{2,}/g;
-const ALL_NEWLINES = /\n/g;
+const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
 
 GDocsSource.defineConverterTo(OffsetSource, doc => {
   // Remove all underlines that align with links, since
@@ -96,11 +95,25 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       item.end--;
     });
 
-  // Replace vertical tabs with newlines
-  doc.content = doc.content.replace(VERTICAL_TABS, "\n");
+  // Convert vertical tabs to line breaks
+  for (let verticalTab of doc.match(VERTICAL_TABS)) {
+    doc.addAnnotations(
+      new LineBreak({
+        start: verticalTab.start,
+        end: verticalTab.end
+      }),
+      new ParseAnnotation({
+        start: verticalTab.start,
+        end: verticalTab.end,
+        attributes: {
+          reason: "vertical tab"
+        }
+      })
+    );
+  }
 
-  // Convert newlines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
-  // so divide the document into 'block boundaries' and then look for single/multiple new lines within each
+  // Convert newlines to Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation, so
+  // divide the document into 'block boundaries' and then look for single/multiple new lines within each
   // block boundary
   let blockBoundaries = doc
     .where((annotation: Annotation) => annotation instanceof BlockAnnotation)
@@ -121,16 +134,19 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     })
     .forEach(({ start, end }) => {
       // Multiple newlines indicate paragraph boundaries within the block boundary
-      let paragraphBoundaries = doc.match(MULTIPLE_NEWLINES, start, end);
+      let paragraphBoundaries = doc.match(
+        NEWLINE_PARAGRAPH_SEPARATOR,
+        start,
+        end
+      );
       let lastEnd = start;
-      let newlinesInParagraphBoundaries = [];
       for (let paragraphBoundary of paragraphBoundaries) {
         doc.addAnnotations(
           new ParseAnnotation({
             start: paragraphBoundary.start,
             end: paragraphBoundary.end,
             attributes: {
-              reason: "multiple new lines to paragraph"
+              reason: "new line paragraph separator"
             }
           })
         );
@@ -144,13 +160,6 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
           );
         }
         lastEnd = paragraphBoundary.end;
-
-        // keep track of which newlines we've seen
-        let current = paragraphBoundary.start;
-        while (current < paragraphBoundary.end) {
-          newlinesInParagraphBoundaries.push(current);
-          current++;
-        }
       }
 
       // Close a remaining paragraph boundary at the block boundary
@@ -162,30 +171,9 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
           })
         );
       }
-
-      // Convert single new lines to LineBreaks
-      for (let newline of doc.match(ALL_NEWLINES, start, end)) {
-        if (newlinesInParagraphBoundaries.indexOf(newline.start) > -1) {
-          continue;
-        }
-
-        doc.addAnnotations(
-          new LineBreak({
-            start: newline.start,
-            end: newline.end
-          }),
-          new ParseAnnotation({
-            start: newline.start,
-            end: newline.end,
-            attributes: {
-              reason: "new line"
-            }
-          })
-        );
-      }
     });
 
-  // LineBreaks/paragraphs may have been created for listItem separators,
+  // LineBreaks/Paragraphs may have been created for listItem separators,
   // so delete those which exist in a list (or immediately after) but not in any list item
   doc
     .where(
@@ -200,7 +188,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .outerJoin(
       doc.where({ type: "-offset-list-item" }).as("listItems"),
       (
-        l: { lineBreak: LineBreak; lists: Array<Annotation<any>> },
+        l: { lineBreak: LineBreak | Paragraph; lists: Array<Annotation<any>> },
         r: Annotation<any>
       ) => {
         return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
