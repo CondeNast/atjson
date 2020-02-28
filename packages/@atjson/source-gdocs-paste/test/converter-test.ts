@@ -97,10 +97,12 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
 
   const LINEBREAKS = [
     [21, 22],
-    [70, 71],
     [249, 250],
+    [284, 285],
+    [285, 286],
     [370, 371],
-    [520, 521]
+    [446, 447],
+    [447, 448]
   ].map(([start, end]) => {
     return {
       start,
@@ -112,13 +114,11 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
   });
 
   const PARAGRAPHS = [
-    [0, 117],
+    [0, 70],
+    [71, 117],
     [119, 163],
-    [166, 214],
-    [214, 284],
-    [286, 324],
-    [406, 446],
-    [448, 486]
+    [166, 213],
+    [487, 520]
   ].map(([start, end]) => {
     return {
       start,
@@ -165,12 +165,25 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
     atjson = gdocs.convertTo(OffsetSource);
   });
 
-  it("removes all vertical tabs", () => {
+  it("converts vertical tabs to line breaks", () => {
     // eslint-disable-next-line no-control-regex
-    expect(atjson.match(/\u000b/g)).toEqual([]);
+    let verticalTabs = atjson.match(/\u000b/g);
+
+    expect(
+      verticalTabs.map(({ start, end }) => ({ start, end }))
+    ).toMatchObject(LINEBREAKS.map(({ start, end }) => ({ start, end })));
+    expect(atjson.where({ type: "-offset-line-break" }).toJSON()).toMatchObject(
+      LINEBREAKS
+    );
   });
 
-  it("created three paragraphs before the list", () => {
+  it("created paragraphs", () => {
+    let paragraphs = atjson.where({ type: "-offset-paragraph" });
+
+    expect(paragraphs.toJSON()).toMatchObject(PARAGRAPHS);
+  });
+
+  it("created four paragraphs before the list", () => {
     let listsAndParagraphs = atjson
       .where({ type: "-offset-list" })
       .as("list")
@@ -181,11 +194,11 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
 
     expect(listsAndParagraphs.toJSON()[0]).toMatchObject({
       list: LISTS[0],
-      paragraphs: PARAGRAPHS.slice(0, 3)
+      paragraphs: PARAGRAPHS.slice(0, 4)
     });
   });
 
-  it("created first paragraph with two nested linebreaks", () => {
+  it("created first paragraph with one nested linebreak", () => {
     let firstParagraph = atjson
       .where({ type: "-offset-paragraph" })
       .as("paragraph")
@@ -197,18 +210,14 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
 
     expect(firstParagraph).toEqual({
       paragraph: PARAGRAPHS[0],
-      linebreaks: LINEBREAKS.slice(0, 2)
+      linebreaks: LINEBREAKS.slice(0, 1)
     });
   });
 
   it("created linebreaks inside list-items", () => {
-    let linebreaks = atjson
+    let linebreaksInLists = atjson
       .where({ type: "-offset-line-break" })
-      .as("linebreak");
-
-    expect(linebreaks.toJSON()).toMatchObject(LINEBREAKS);
-
-    let linebreaksInLists = linebreaks
+      .as("linebreak")
       .join(
         atjson.where({ type: "-offset-list" }).as("lists"),
         (l, r) => l.start >= r.start && l.end <= r.end
@@ -224,7 +233,13 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
         .where(join => join.lists.length > 0 && join["list-items"].length === 0)
         .toJSON()
     ).toHaveLength(0);
+
     expect(linebreaksInLists.toJSON()).toMatchObject([
+      {
+        linebreak: LINEBREAKS[1],
+        lists: [LISTS[0]],
+        "list-items": [LIST_ITEMS[0]]
+      },
       {
         linebreak: LINEBREAKS[2],
         lists: [LISTS[0]],
@@ -233,56 +248,37 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
       {
         linebreak: LINEBREAKS[3],
         lists: [LISTS[0]],
+        "list-items": [LIST_ITEMS[0]]
+      },
+      {
+        linebreak: LINEBREAKS[4],
+        lists: [LISTS[0]],
         "list-items": [LIST_ITEMS[1]]
+      },
+      {
+        linebreak: LINEBREAKS[5],
+        lists: [LISTS[0]],
+        "list-items": [LIST_ITEMS[2]]
+      },
+      {
+        linebreak: LINEBREAKS[6],
+        lists: [LISTS[0]],
+        "list-items": [LIST_ITEMS[2]]
       }
     ]);
   });
 
-  it("created paragraphs inside list-items", () => {
+  it("created no paragraphs inside list-items", () => {
     let paragraphs = atjson
       .where({ type: "-offset-paragraph" })
       .as("paragraph");
 
-    expect(paragraphs.toJSON()).toMatchObject(PARAGRAPHS);
+    let paragraphsInLists = paragraphs.join(
+      atjson.where({ type: "-offset-list" }).as("lists"),
+      (l, r) => l.start >= r.start && l.end <= r.end
+    );
 
-    let paragraphsInLists = paragraphs
-      .join(
-        atjson.where({ type: "-offset-list" }).as("lists"),
-        (l, r) => l.start >= r.start && l.end <= r.end
-      )
-      .outerJoin(
-        atjson.where({ type: "-offset-list-item" }).as("list-items"),
-        (l, r) => l.paragraph.start >= r.start && l.paragraph.end <= r.end
-      );
-
-    // No paragraphs in a list outside of a list-item
-    expect(
-      paragraphsInLists
-        .where(join => join.lists.length > 0 && join["list-items"].length === 0)
-        .toJSON()
-    ).toHaveLength(0);
-    expect(paragraphsInLists.toJSON()).toMatchObject([
-      {
-        paragraph: PARAGRAPHS[3],
-        lists: [LISTS[0]],
-        "list-items": [LIST_ITEMS[0]]
-      },
-      {
-        paragraph: PARAGRAPHS[4],
-        lists: [LISTS[0]],
-        "list-items": [LIST_ITEMS[0]]
-      },
-      {
-        paragraph: PARAGRAPHS[5],
-        lists: [LISTS[0]],
-        "list-items": [LIST_ITEMS[2]]
-      },
-      {
-        paragraph: PARAGRAPHS[6],
-        lists: [LISTS[0]],
-        "list-items": [LIST_ITEMS[2]]
-      }
-    ]);
+    expect(paragraphsInLists.length).toBe(0);
   });
 
   it("inserts object replaement character for single-item lists", () => {
@@ -306,42 +302,60 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
 describe("@atjson/source-gdocs-paste", () => {
   let atjson: OffsetSource;
 
-  const LINEBREAKS = [
-    [4, 5],
-    [6, 7],
-    [11, 12],
-    [13, 14],
-    [18, 19]
-  ].map(([start, end]) => {
-    return {
-      start,
-      end,
-      type: "-offset-line-break",
-      attributes: {}
-    };
-  });
+  // https://docs.google.com/document/d/e/2PACX-1vSty31WXqvhSHwPxJD1QpWdeW7RbZhqJUFW8DVLbxVj9BacHVQdlKoBt0NWCAKBgqXHFgbZJdBfoyUP/pub
+  const fixturePath = path.join(__dirname, "fixtures", "line-breaks.json");
 
   beforeAll(() => {
-    // https://docs.google.com/document/d/e/2PACX-1vSty31WXqvhSHwPxJD1QpWdeW7RbZhqJUFW8DVLbxVj9BacHVQdlKoBt0NWCAKBgqXHFgbZJdBfoyUP/pub
-    let fixturePath = path.join(__dirname, "fixtures", "line-breaks.json");
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
     let gdocs = GDocsSource.fromRaw(rawJSON);
     atjson = gdocs.convertTo(OffsetSource);
   });
 
-  it("has correct line breaks", () => {
-    let linebreaks = atjson.where({ type: "-offset-line-break" });
-    expect(linebreaks.toJSON()).toMatchObject(LINEBREAKS);
+  it("has correct paragraphs", () => {
+    expect(atjson.content).toBe("Test\na\nTest\n \nTest\n");
+
+    let paragraphs = atjson.where({
+      type: "-offset-paragraph"
+    });
+    expect(paragraphs.toJSON()).toMatchObject(
+      [
+        [0, 4],
+        [5, 6],
+        [7, 11],
+        [14, 18]
+      ].map(([start, end]) => ({
+        start,
+        end,
+        type: "-offset-paragraph"
+      }))
+    );
+  });
+
+  it("has no line breaks", () => {
+    let linebreaks = atjson.where({
+      type: "-offset-line-break"
+    });
+    expect(linebreaks.length).toBe(0);
   });
 
   it("has correct parse tokens", () => {
-    let parseTokens = atjson.where({ type: "-atjson-parse-token" });
+    expect(atjson.content).toBe("Test\na\nTest\n \nTest\n");
+
+    let parseTokens = atjson.where({
+      type: "-atjson-parse-token"
+    });
     expect(parseTokens.toJSON()).toMatchObject(
-      LINEBREAKS.map(linebreak => ({
-        ...linebreak,
+      [
+        [4, 5],
+        [6, 7],
+        [11, 14],
+        [18, 19]
+      ].map(([start, end]) => ({
+        start,
+        end,
         type: "-atjson-parse-token",
         attributes: {
-          "-atjson-reason": "new line"
+          "-atjson-reason": "new line paragraph separator"
         }
       }))
     );
