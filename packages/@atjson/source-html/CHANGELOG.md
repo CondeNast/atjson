@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.4...@atjson/source-html@0.27.5) (2020-03-02)
+
+
+### Bug Fixes
+
+* leading whitespace trim ([d67f236](https://github.com/CondeNast/atjson/commit/d67f236c6282f6df76ef1f8c6044e9a52c74a1f8))
+
+
+
+
+
 ## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.3...@atjson/source-html@0.27.4) (2020-02-26)
 
 

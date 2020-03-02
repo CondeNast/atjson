@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-url",
-  "version": "0.25.3",
+  "version": "0.25.4",
   "description": "Expands URLs into annotations",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
