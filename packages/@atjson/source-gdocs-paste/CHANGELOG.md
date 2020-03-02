@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.2-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.1...@atjson/source-gdocs-paste@0.22.2-dev.0) (2020-03-02)
+
+
+### Bug Fixes
+
+* use single newline for gdocs paragraphs ([c5fcbb8](https://github.com/CondeNast/atjson/commit/c5fcbb831ed456960076afd1e0ec223f93e1f59b))
+
+
+
+
+
 ## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.0...@atjson/source-gdocs-paste@0.22.1) (2020-02-26)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
