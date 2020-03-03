@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.3-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.2...@atjson/source-gdocs-paste@0.22.3-dev.1) (2020-03-03)
+
+### Bug Fixes
+
+- use single newline for gdocs paragraphs ([3767f37](https://github.com/CondeNast/atjson/commit/3767f373472f82078d81a7334b8cb750138d5a7e))
+
 ## [0.22.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.2...@atjson/source-gdocs-paste@0.22.3-dev.0) (2020-03-03)
 
 ### Bug Fixes
