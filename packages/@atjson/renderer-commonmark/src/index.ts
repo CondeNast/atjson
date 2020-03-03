@@ -619,9 +619,9 @@ export default class CommonmarkRenderer extends Renderer {
       "\n" +
       rest
         .map(function leftPad(line) {
-          return indent + line;
+          return indent + line + "\n";
         })
-        .join("\n")
+        .join("")
         .replace(/[ ]+$/, "");
 
     if (this.state.tight) {

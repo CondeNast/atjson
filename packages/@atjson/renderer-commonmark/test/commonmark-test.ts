@@ -75,6 +75,43 @@ describe("commonmark", () => {
     );
   });
 
+  test("a naive list", () => {
+    let document = new OffsetSource({
+      content: "ABC",
+      annotations: [
+        {
+          type: "-offset-list",
+          start: 0,
+          end: 3,
+          attributes: { "-offset-type": "numbered" }
+        },
+        { type: "-offset-list-item", start: 0, end: 1, attributes: {} },
+        { type: "-offset-list-item", start: 1, end: 2, attributes: {} },
+        { type: "-offset-list-item", start: 2, end: 3, attributes: {} }
+      ]
+    });
+
+    expect(CommonmarkRenderer.render(document)).toBe("1. A\n2. B\n3. C\n\n");
+  });
+
+  test("a naive list with new lines", () => {
+    let document = new OffsetSource({
+      content: "A\nBC",
+      annotations: [
+        {
+          type: "-offset-list",
+          start: 0,
+          end: 4,
+          attributes: { "-offset-type": "numbered" }
+        },
+        { type: "-offset-list-item", start: 0, end: 3, attributes: {} },
+        { type: "-offset-list-item", start: 3, end: 4, attributes: {} }
+      ]
+    });
+
+    expect(CommonmarkRenderer.render(document)).toBe("1. A\n   B\n2. C\n\n");
+  });
+
   test("a list", () => {
     let document = new OffsetSource({
       content: [
@@ -187,6 +224,37 @@ After all the lists
 
 `
     );
+  });
+
+  test("a list with internal linebreaks", () => {
+    let document = new OffsetSource({
+      content: "A\u000BB\nC",
+      annotations: [
+        {
+          type: "-offset-list",
+          start: 0,
+          end: 5,
+          attributes: { "-offset-type": "numbered" }
+        },
+        { type: "-offset-list-item", start: 0, end: 3, attributes: {} },
+        { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
+        {
+          type: "-atjson-parse-token",
+          start: 1,
+          end: 2,
+          attributes: { "-atjson-reason": "vertical tab" }
+        },
+        {
+          type: "-atjson-parse-token",
+          start: 3,
+          end: 4,
+          attributes: { "-atjson-reason": "new line paragraph separator" }
+        },
+        { type: "-offset-list-item", start: 4, end: 5, attributes: {} }
+      ]
+    });
+
+    expect(CommonmarkRenderer.render(document)).toBe("1. A\\\n   B\n2. C\n\n");
   });
 
   test("preserve space between sentence-terminating italic + number.", () => {
