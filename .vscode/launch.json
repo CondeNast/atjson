@@ -10,18 +10,31 @@
       "name": "Debug Tests",
       "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
       "cwd": "${workspaceRoot}",
-      "args": [
-          "--i"
-      ]
+      "args": ["--i"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/packages/@atjson/document/src/index.ts",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Test Current File",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": [
+        "${relativeFile}",
+        "--config",
+        "${workspaceFolder}/package.json"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+      }
     }
   ]
 }
