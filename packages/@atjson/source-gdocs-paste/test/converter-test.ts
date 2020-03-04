@@ -355,9 +355,65 @@ describe("@atjson/source-gdocs-paste", () => {
         end,
         type: "-atjson-parse-token",
         attributes: {
-          "-atjson-reason": "new line paragraph separator"
+          "-atjson-reason": "paragraph boundary"
         }
       }))
     );
+  });
+});
+
+describe("@atjson/source-gdocs-paste paragraphs in list", () => {
+  let doc: OffsetSource;
+
+  beforeAll(() => {
+    // https://docs.google.com/document/d/e/2PACX-1vRX6dmzmlW4NtjFj-KlXp3TGQTVyMBVBCVBwO4q9Bwwv8clmULhLmKjGxbz6Lf_qnLEQX9gewoAVJaz/pub
+    let fixturePath = path.join(
+      __dirname,
+      "fixtures",
+      "list-with-interrupting-paragraph.json"
+    );
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    let gdocs = GDocsSource.fromRaw(rawJSON);
+    doc = gdocs.convertTo(OffsetSource);
+  });
+
+  it("splits lists interrupted by a paragraph not in a list item", () => {
+    expect(doc.content).toBe("A\nB\nC\nD\uFFFC");
+    expect(doc.where({ type: "-offset-paragraph" }).toJSON()).toMatchObject([
+      { start: 4, end: 5 }
+    ]);
+    expect(doc.where({ type: "-offset-list" }).toJSON()).toMatchObject([
+      { start: 0, end: 4, attributes: { "-offset-type": "numbered" } },
+      { start: 6, end: 8, attributes: { "-offset-type": "numbered" } }
+    ]);
+    expect(doc.where({ type: "-offset-list-item" }).toJSON()).toMatchObject([
+      { start: 0, end: 1 },
+      { start: 2, end: 3 },
+      { start: 6, end: 7 }
+    ]);
+    expect(doc.where({ type: "-atjson-parse-token" }).toJSON()).toMatchObject([
+      {
+        start: 1,
+        end: 2,
+        attributes: { "-atjson-reason": "list item separator" }
+      },
+      {
+        start: 3,
+        end: 4,
+        attributes: { "-atjson-reason": "list item separator" }
+      },
+      {
+        start: 5,
+        end: 6,
+        attributes: { "-atjson-reason": "paragraph boundary" }
+      },
+      {
+        start: 7,
+        end: 8,
+        attributes: {
+          "-atjson-reason": "object replacement character for single-item list"
+        }
+      }
+    ]);
   });
 });
