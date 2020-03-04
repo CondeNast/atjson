@@ -37,15 +37,15 @@ jobs:
           pushd baseline
           npm ci
           npm run typecheck
-          npm run perf -- --baseline
+          npx ts-node ./perf-kit/index.ts profile --out baseline
           popd
           cd current
-          cp -r ../baseline/performance/profiles ./performance/profiles
+          cp -r ../baseline/perf-kit/profiles ./perf-kit/profiles
           npm ci
           npm run typecheck
-          npm run perf
-          npm run perf-tstat
+          npx ts-node ./perf-kit/index.ts profile --out current
+          npx ts-node ./perf-kit/index.ts compare baseline current
       - uses: actions/upload-artifact@v1
         with:
           name: performance-profiles
-          path: ./current/performance/profiles
+          path: ./current/perf-kit/profiles

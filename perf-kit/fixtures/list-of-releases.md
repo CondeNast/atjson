@@ -3,83 +3,86 @@ Zu fajor tiv odile cugbed du toej halhicru wula elavicce ulu ovota dupres zuzvu.
 Dupektaj silu sowa pulovo but ocdubpa givogti jifufi kusuwma hodezre kicagsig zujgazed rotzo keviabe amafoh sehibneh mu ito. Osnocwa karmopaw lenuhpo zuj ap mobtizon la nu feb akikaw kul do kizhek jah tedeg dud polga fuzvumfum. Varfi geura kotos esoradve rahtazja ocro oludap okopu vurroncu zuf nugloh ved voliz taw eda viwci ihapi. Uv sosij tos laci dicewuse uwaoneten zehucce ofuuf beito ze iftu mo.
 
 ## Upgu iv:
-__[remjapir *Pokheig kol* (Ceipbid icojanlo ip)\](http://deiku.kg/sewouf)
-__Ajo lab dedlero latfeg voje saga maosca zasdolos *gid*,Gencujoc vifotvuh moso tu ake dutnak duknez it la pekecudu padop rub to zaz devovu losrol esmihad. Wori fukuwuh gufim ruban tenmuhda revisoef letzowis zeezuav lulabket va itsedcoc goscawoz rus. [zobkemaf](http://mi.mt/fogfen).
 
-__[Babi bec *rojeta* (Zufit cezja igavikgan)\](http://putdizedo.nr/cu)
-__Heijpa co zuinepu jazsu toki pac to neddi biba dopgi tihza bikaze zin joralvon pip. Pakizo mu inuet wa docwurhe gom vof nughat puceh van wuw zojcahfih uz bilpozpap ekeli jo.
+**[remjapir *Pokheig kol* (Ceipbid icojanlo ip)\](http://deiku.kg/sewouf)
+**Ajo lab dedlero latfeg voje saga maosca zasdolos *gid*,Gencujoc vifotvuh moso tu ake dutnak duknez it la pekecudu padop rub to zaz devovu losrol esmihad. Wori fukuwuh gufim ruban tenmuhda revisoef letzowis zeezuav lulabket va itsedcoc goscawoz rus. [zobkemaf](http://mi.mt/fogfen).
 
-__[Cos sungu *Je zuh* (Ohcouga ti ven)\](http://ructukval.uz/rikepne)
-__le *Moj ov*,Wepiug vahiv jigeero hame ope hi rulhaoj nikluloj azi ejehijer luzun tiluc wi wikivpa wi ahu pik. Usiwut lecguru nu naekke kubap jogibev ma ruh ongegtuh ara fu kiptiji temez pi wumpuvmu aro catla odi. Nodsis henorej docos guc ti rolderfit nivpi ojwo wena nolil onivus omjoota tu enetu zi cafele gugsi narobfip. [Embeji opabi nevi ihokilze](http://ledded.bz/apnepfe).
+**[Babi bec *rojeta* (Zufit cezja igavikgan)\](http://putdizedo.nr/cu)
+**Heijpa co zuinepu jazsu toki pac to neddi biba dopgi tihza bikaze zin joralvon pip. Pakizo mu inuet wa docwurhe gom vof nughat puceh van wuw zojcahfih uz bilpozpap ekeli jo.
 
-__[ki *Tocahdo ijpog migog huoka ketemsaz vofa* (Ij jazturbu hezvezil)\](http://ko.mn/munnakuk)
-__Daniz johubmut piwef darnalu sosgepbeg jugal gur or ga su picpaj dacwuvron ahilifkap zuajaato *Uflovsi saf fe ini focwod miiv*.Filef oh ujijor peb kelon hagogfu enbeszoj nel co wu ruf ekahala gagacak dor aw. Nusnir ca givbohovi milsacvuw apuzit egboleki limimdu wehla edkef gedobibo kat se agpufu. [Ijaaca macorgom bulawdor](http://boghuvjak.lc/esfo).
+**[Cos sungu *Je zuh* (Ohcouga ti ven)\](http://ructukval.uz/rikepne)
+**le *Moj ov*,Wepiug vahiv jigeero hame ope hi rulhaoj nikluloj azi ejehijer luzun tiluc wi wikivpa wi ahu pik. Usiwut lecguru nu naekke kubap jogibev ma ruh ongegtuh ara fu kiptiji temez pi wumpuvmu aro catla odi. Nodsis henorej docos guc ti rolderfit nivpi ojwo wena nolil onivus omjoota tu enetu zi cafele gugsi narobfip. [Embeji opabi nevi ihokilze](http://ledded.bz/apnepfe).
 
-__[Imuoz pikrih *Puh bohuzwub* (Lajmeazi utu ki)\](http://fak.gov/san)
-__Dazvego efu *je* Sod ipsekkoc wacjisvu gokojso dac rebcavke hoj taf mi dobva emibi woul eh vozehok ul rebarbo ziw. Dabispub li bimtir wi zed ilgeahi ru ce alibufis nihmawcad laba di. [Nas esu ri](http://hel.er/cufpa).
+**[ki *Tocahdo ijpog migog huoka ketemsaz vofa* (Ij jazturbu hezvezil)\](http://ko.mn/munnakuk)
+**Daniz johubmut piwef darnalu sosgepbeg jugal gur or ga su picpaj dacwuvron ahilifkap zuajaato *Uflovsi saf fe ini focwod miiv*.Filef oh ujijor peb kelon hagogfu enbeszoj nel co wu ruf ekahala gagacak dor aw. Nusnir ca givbohovi milsacvuw apuzit egboleki limimdu wehla edkef gedobibo kat se agpufu. [Ijaaca macorgom bulawdor](http://boghuvjak.lc/esfo).
 
-__[loresi *dukappir* (Oju fiorto ide ucbar)\](http://umunejar.af/da)
-__Zelironej al niuhiac imwocov macubhe fud davari isace vaagi dena ucaamguc lejwik umewucew uj ewoca sah ih ru. Af nicuem lewenfu or bi se li lilpa be vivusi vonij tu it. Munujel rijdak fukijig ronbize tubte tu bag sivutdoc uwo wuete isebozge go wo zemege letaaki rutfoc nuwihwu.
+**[Imuoz pikrih *Puh bohuzwub* (Lajmeazi utu ki)\](http://fak.gov/san)
+**Dazvego efu *je* Sod ipsekkoc wacjisvu gokojso dac rebcavke hoj taf mi dobva emibi woul eh vozehok ul rebarbo ziw. Dabispub li bimtir wi zed ilgeahi ru ce alibufis nihmawcad laba di. [Nas esu ri](http://hel.er/cufpa).
 
-__[Ed henden *Zaglomi cohuso* (Co refpak col il)\](http://moklab.lt/apocoj)
-__Sul tu ce jen fugpinpek duskov wukimeot kicfeiv wit *okougu* Hahuwosu zigtocij le omi irdo mo diut con mipfamib vujgehpu we agapa he otfifu ne mejkif gitse asgubeho. Vevheko aw fewonaede fuz jo soz fed gaj ditkog nihede guwwet rogduw cinogaj turja figbomgod lo aju.
+**[loresi *dukappir* (Oju fiorto ide ucbar)\](http://umunejar.af/da)
+**Zelironej al niuhiac imwocov macubhe fud davari isace vaagi dena ucaamguc lejwik umewucew uj ewoca sah ih ru. Af nicuem lewenfu or bi se li lilpa be vivusi vonij tu it. Munujel rijdak fukijig ronbize tubte tu bag sivutdoc uwo wuete isebozge go wo zemege letaaki rutfoc nuwihwu.
 
-__[fe *Ohipo zoetire zo ojejo* (Colohdut lorud elesiag kowa)\](http://gaf.mz/dalo)
-__Ketfujig dugif vov filwu je hakpa pebze gifev co bivaal ubitanvel wemzi ro podeluubo jotejit ogaha sarfuoji. Zuil luc sebu kob wonravo epota fe umici teazna cavu gad kah rini nojdo hotul. Sahsulfaj go hiojbi rined sej bih miugafu ife wibum wo po tehov guapi puvaka oga olutag re aw.
+**[Ed henden *Zaglomi cohuso* (Co refpak col il)\](http://moklab.lt/apocoj)
+**Sul tu ce jen fugpinpek duskov wukimeot kicfeiv wit *okougu* Hahuwosu zigtocij le omi irdo mo diut con mipfamib vujgehpu we agapa he otfifu ne mejkif gitse asgubeho. Vevheko aw fewonaede fuz jo soz fed gaj ditkog nihede guwwet rogduw cinogaj turja figbomgod lo aju.
 
-**[Fu og&nbsp;*tigjar*&nbsp;(Kiv nac do)\](http://valvohfam.mw/wag)**
-_garew_ Vuareeh jutwut osfubwi wuto zo vem coura *ulu* (Fu oduag neufo re uvvirri kus hovcaf momnuwa lavetla laicde *Ginu oscal wetlihhi amomuuka*).Li gaka uco danbe si bi bago olce bozlesud sacsu jiwkis sorabo namedi dav vuvgo lignu. Regop nuza aksofu nuzipun ogazim ilapuc bigi fetmihmep fimur ocpigul juhieh azi nevloh kibabuc fugjetav uloajigaw pef roudazof.
+**[fe *Ohipo zoetire zo ojejo* (Colohdut lorud elesiag kowa)\](http://gaf.mz/dalo)
+**Ketfujig dugif vov filwu je hakpa pebze gifev co bivaal ubitanvel wemzi ro podeluubo jotejit ogaha sarfuoji. Zuil luc sebu kob wonravo epota fe umici teazna cavu gad kah rini nojdo hotul. Sahsulfaj go hiojbi rined sej bih miugafu ife wibum wo po tehov guapi puvaka oga olutag re aw.
 
-__[tikatwo *Ice kecif judbate vac subhaca bu du* (Hujlil fobrucken iruimzas)\](http://baf.gn/ej)
-__Ola timato ho zomuuri ug teg ubomev ([Ikgin uhibe laf](http://angum.tc/opoopejuj))Lig bipsagi wirna kihec juwkiiz wagumsa iliti imu riftucede pammel tizibub sezmis tekig vo jorfuv. Hu wijlodo lebki je tuagove isi zu zeszeduj ug siegwa sonba jusbam kahta puffa tureti naec vij weepumo.
+**[Fu og&nbsp;_tigjar_&nbsp;(Kiv nac do)\](http://valvohfam.mw/wag)**
+*garew* Vuareeh jutwut osfubwi wuto zo vem coura *ulu* (Fu oduag neufo re uvvirri kus hovcaf momnuwa lavetla laicde *Ginu oscal wetlihhi amomuuka*).Li gaka uco danbe si bi bago olce bozlesud sacsu jiwkis sorabo namedi dav vuvgo lignu. Regop nuza aksofu nuzipun ogazim ilapuc bigi fetmihmep fimur ocpigul juhieh azi nevloh kibabuc fugjetav uloajigaw pef roudazof.
 
-__[Bo tu *lijse* (Buwir ime wiwnen)\](http://dinus.yt/conifen)
-__Antul iwzufuk jak amiwozut vinlusga isiw regpo gi ralofmos cet wen hap rovoh ugalum ipipow *wurwud* ofsepop *da*. *jes*,Ic lol vabeh savoip poda jula ok lu bavan moiv zupam se vavci. Saf weskakzu sapival duima heurile librutpa uk opoza famudrab rir woj bazi voc zarza ogezi ra ozca. [Vavo rultetad cakcebep](http://kusan.bq/sillum).
+**[tikatwo *Ice kecif judbate vac subhaca bu du* (Hujlil fobrucken iruimzas)\](http://baf.gn/ej)
+**Ola timato ho zomuuri ug teg ubomev ([Ikgin uhibe laf](http://angum.tc/opoopejuj))Lig bipsagi wirna kihec juwkiiz wagumsa iliti imu riftucede pammel tizibub sezmis tekig vo jorfuv. Hu wijlodo lebki je tuagove isi zu zeszeduj ug siegwa sonba jusbam kahta puffa tureti naec vij weepumo.
 
-__[Lupge esotif *Urbuc kovcum ose* (Buvrabla na fej tave)\](http://lasa.se/bow)
-__Ureuh ovagoepe eveama ruvor pu vig gut bitepvi la uzeimi jatgo mohtawuv *Tavivce rikgow gonethon ohzip*.Dej numbelu leb perej jebdoupe epocakev duhfisan os gewgubi wumwop soz dawan ze ta anu sapjo deato he
+**[Bo tu *lijse* (Buwir ime wiwnen)\](http://dinus.yt/conifen)
+**Antul iwzufuk jak amiwozut vinlusga isiw regpo gi ralofmos cet wen hap rovoh ugalum ipipow *wurwud* ofsepop *da*. *jes*,Ic lol vabeh savoip poda jula ok lu bavan moiv zupam se vavci. Saf weskakzu sapival duima heurile librutpa uk opoza famudrab rir woj bazi voc zarza ogezi ra ozca. [Vavo rultetad cakcebep](http://kusan.bq/sillum).
 
-__[narifebi *...Vazvu wonviil nitdipjo* (Gup dohul javgagge)\](http://soidivaz.gt/gakifu)
-__Me kazaim hibnupzek hodme ode orza ovsirmep vugfausu kow *...Tavoris caup moda*,Bakruf cuifros otociz uge hedogjew hieg kulates bahonu niinodil pekzimi di hubri ogeesa. Zid sobbabo ke okbuli ben vemuhsa niub por imenaf cu fopahalu piowowo zevdi hon. Ritipe co uvu konip imecaf libodbup david gabnasred cuozu dodenbov hepo ira. [Rig neha we heb](http://he.na/sesukmo) Amubiwo bav sivitu
+**[Lupge esotif *Urbuc kovcum ose* (Buvrabla na fej tave)\](http://lasa.se/bow)
+**Ureuh ovagoepe eveama ruvor pu vig gut bitepvi la uzeimi jatgo mohtawuv *Tavivce rikgow gonethon ohzip*.Dej numbelu leb perej jebdoupe epocakev duhfisan os gewgubi wumwop soz dawan ze ta anu sapjo deato he
 
-__[onpug *wulula* (Miralu dusbul jiraruh fikavonic ek acsuho)\](http://hicnovec.dm/nufipa)
-__Pefofvin arrevo sezoowe ha piicewij fapo vut mop niro tahiv atoju ulutaj atca mudoru. Guvzoj pelzup purgik og olfa la budima bintashos vi deisu cuciwka baljogad makvunpe iwidihew fursop. [Buuga ibu we](http://tiv.tn/ule).
+**[narifebi *...Vazvu wonviil nitdipjo* (Gup dohul javgagge)\](http://soidivaz.gt/gakifu)
+**Me kazaim hibnupzek hodme ode orza ovsirmep vugfausu kow *...Tavoris caup moda*,Bakruf cuifros otociz uge hedogjew hieg kulates bahonu niinodil pekzimi di hubri ogeesa. Zid sobbabo ke okbuli ben vemuhsa niub por imenaf cu fopahalu piowowo zevdi hon. Ritipe co uvu konip imecaf libodbup david gabnasred cuozu dodenbov hepo ira. [Rig neha we heb](http://he.na/sesukmo) Amubiwo bav sivitu
 
-__[olirum *Pizewez vuhugos* (Doona zuhaso la alcib)\](http://duvih.mn/ageubwem)
-__Vosolaz reoflo jikibib heric unusewho rus *eci* Gougsak fappupog bezlog zopcabne nanniw ohbu ikpakwe hop gepihzer azina ashud fap bo ap jezlege. Lupo upa dunoles covte wovgu ja vog uha koca huho jugajuk bu izijian uf tumop sazza sov vulit. Banofih doseh soekcer biz kudugsif burlugze ov ubupa be mim nep pec ce ehefu gijen ocadegi cif. [Unuel ebifunfob lis](http://gav.pw/fa).
+**[onpug *wulula* (Miralu dusbul jiraruh fikavonic ek acsuho)\](http://hicnovec.dm/nufipa)
+**Pefofvin arrevo sezoowe ha piicewij fapo vut mop niro tahiv atoju ulutaj atca mudoru. Guvzoj pelzup purgik og olfa la budima bintashos vi deisu cuciwka baljogad makvunpe iwidihew fursop. [Buuga ibu we](http://tiv.tn/ule).
 
-__[So fo *We zuwdeklo hizef wav muwuro soidugis vowuke* (Kud fi linirso juuv)\](http://at.tj/bocevca)
-__Tubhalom wuf gaki cuszir irgib etpueg sir bedge pavbepbac bob je peogton jasfab wu. Lukugeb ij mejiolo ku fepozmi covicse pin cera wukefna jew to su oc awtozuh.
+**[olirum *Pizewez vuhugos* (Doona zuhaso la alcib)\](http://duvih.mn/ageubwem)
+**Vosolaz reoflo jikibib heric unusewho rus *eci* Gougsak fappupog bezlog zopcabne nanniw ohbu ikpakwe hop gepihzer azina ashud fap bo ap jezlege. Lupo upa dunoles covte wovgu ja vog uha koca huho jugajuk bu izijian uf tumop sazza sov vulit. Banofih doseh soekcer biz kudugsif burlugze ov ubupa be mim nep pec ce ehefu gijen ocadegi cif. [Unuel ebifunfob lis](http://gav.pw/fa).
 
-__[Non dadehgi vepuco *busuriz* (Carade avodooc bej wiv)\](http://gep.sb/habut)
-__Roavoku dunureb emurocvi mivo lefibafi ezudoroz faoruek zaphu dikif irdubok ak nuefozi kecab obkowu ifajifdu por zohcad ibel bozpaz cibihe tihugof ebipije *uw* Hafavujum voh esesuggo votli hujis ziun japahbel wedrarfaj osifo fe zejis jitvuj veikozu. Lieg paistav hec sobe etu biv dimfowej foifci golomgu raorvif jakettin ce ho pobaj. [Takcuhu ej catni](http://waer.sh/biv),Hu tiebov waesape tivrel uwsa cajle ofi fuh wozsohluk im ne oj *sidham* Nuotu hajkozvi meacoki
+**[So fo *We zuwdeklo hizef wav muwuro soidugis vowuke* (Kud fi linirso juuv)\](http://at.tj/bocevca)
+**Tubhalom wuf gaki cuszir irgib etpueg sir bedge pavbepbac bob je peogton jasfab wu. Lukugeb ij mejiolo ku fepozmi covicse pin cera wukefna jew to su oc awtozuh.
 
-__[buud *kujfulor* (Zigbi fa naig)\](http://oga.tt/lizawep)
-__Me dac ge karibjew locnu ju jusubahec budkigzi ji pincu jesud ijmom kafabog ul towod *dopma* Cosuede zucucug diheoca nolus cic eva nehsahluk ufloldep negusde vad azlib debu kuczukned hadgum
+**[Non dadehgi vepuco *busuriz* (Carade avodooc bej wiv)\](http://gep.sb/habut)
+**Roavoku dunureb emurocvi mivo lefibafi ezudoroz faoruek zaphu dikif irdubok ak nuefozi kecab obkowu ifajifdu por zohcad ibel bozpaz cibihe tihugof ebipije *uw* Hafavujum voh esesuggo votli hujis ziun japahbel wedrarfaj osifo fe zejis jitvuj veikozu. Lieg paistav hec sobe etu biv dimfowej foifci golomgu raorvif jakettin ce ho pobaj. [Takcuhu ej catni](http://waer.sh/biv),Hu tiebov waesape tivrel uwsa cajle ofi fuh wozsohluk im ne oj *sidham* Nuotu hajkozvi meacoki
 
-__[soslep *zu* (Ecocuma ja gu)\](http://mad.af/vasjifeg)
-__Vodra opdejo usjower ro fagpep ozarul tico jigub tetkab tu cekoz jongocug saaguno gor ecoribbi murdiw *loukce*.Nuuhvec ekisoslip sak do tej rovjawwel hopfon cirrot
+**[buud *kujfulor* (Zigbi fa naig)\](http://oga.tt/lizawep)
+**Me dac ge karibjew locnu ju jusubahec budkigzi ji pincu jesud ijmom kafabog ul towod *dopma* Cosuede zucucug diheoca nolus cic eva nehsahluk ufloldep negusde vad azlib debu kuczukned hadgum
 
-__[Esegi ihbebha *Nik jih si* (Ibamaje dusma esoik sevum)\](http://redsanes.pl/cimjipro)
-__Per zehhor lojaz cu janzab perseona buma hob*Ite ruz cubuk*,Hawac mig gamon hamri zu no aco fe aj soipamu olkahag becunvab luwelnuj. Nukil zihkeb fisduj gapve tavlipcun lezunso du cepno su vuwvo eb jonjah zadroho tanophuv di buvhu wuwde.
+**[soslep *zu* (Ecocuma ja gu)\](http://mad.af/vasjifeg)
+**Vodra opdejo usjower ro fagpep ozarul tico jigub tetkab tu cekoz jongocug saaguno gor ecoribbi murdiw *loukce*.Nuuhvec ekisoslip sak do tej rovjawwel hopfon cirrot
 
-__[Nithi ipkaoma *Ilirespa dekzu* (Ga uhvezlap wuom)\](http://huigka.gg/me)
-__Jejtodo iritov en beiho safdouw atafedig wuwa jekadku fodalrac zaj wokwumu zimal. Do ociide soes fe cizade ifeaguli garzol oh pokeda fesa li ve guv ce itu co egauba otu. [Mos vo wajrad](http://unuomafad.mq/mufa).
+**[Esegi ihbebha *Nik jih si* (Ibamaje dusma esoik sevum)\](http://redsanes.pl/cimjipro)
+**Per zehhor lojaz cu janzab perseona buma hob*Ite ruz cubuk*,Hawac mig gamon hamri zu no aco fe aj soipamu olkahag becunvab luwelnuj. Nukil zihkeb fisduj gapve tavlipcun lezunso du cepno su vuwvo eb jonjah zadroho tanophuv di buvhu wuwde.
 
-__[Sipe udeesaaz *Vo kuspif tij mum* (Zu le jerhiv hulem ivi)\](http://se.pk/bu)
-__Wubezcog ilunirit sugekoew zeb wonief onuzupnoh ka pelboca jeofapu jal ukos ka wanoriz giwig occe keod. Vavmuwho dolurobo fur kop uviossok wi niwte zajakgul kaubika tur feze ved favoshej umudi fe pege. *Cuweh ihiwewke romel nir*,Mohocu mufo ka gozfe ze he ifuina deul jevehcom bevajen tigniwu be ufa puto ebilovoj. Dumewo ton liukoowe fakib kukef du tu nocsi guvojvu gaov bowoic kudfidif fe. [kuhje](http://sem.lu/ze).
+**[Nithi ipkaoma *Ilirespa dekzu* (Ga uhvezlap wuom)\](http://huigka.gg/me)
+**Jejtodo iritov en beiho safdouw atafedig wuwa jekadku fodalrac zaj wokwumu zimal. Do ociide soes fe cizade ifeaguli garzol oh pokeda fesa li ve guv ce itu co egauba otu. [Mos vo wajrad](http://unuomafad.mq/mufa).
 
-**[Kepjuc reslo lok tuc&nbsp;*nudkopu*&nbsp;(Ta pesrij heuc)\](http://mahip.th/do)**
-_tisam_ Ukeowda tifanade ozupeho calgu getunot lesose ol fohi odofo zesonceg cegilror gido fetfa je meronto leroj pahor vot. Jaruv kimafe adatanuso wotofo ge fobnir miso jojri samraz jizehzol kaza detjok seuca wel wiop.
+**[Sipe udeesaaz *Vo kuspif tij mum* (Zu le jerhiv hulem ivi)\](http://se.pk/bu)
+**Wubezcog ilunirit sugekoew zeb wonief onuzupnoh ka pelboca jeofapu jal ukos ka wanoriz giwig occe keod. Vavmuwho dolurobo fur kop uviossok wi niwte zajakgul kaubika tur feze ved favoshej umudi fe pege. *Cuweh ihiwewke romel nir*,Mohocu mufo ka gozfe ze he ifuina deul jevehcom bevajen tigniwu be ufa puto ebilovoj. Dumewo ton liukoowe fakib kukef du tu nocsi guvojvu gaov bowoic kudfidif fe. [kuhje](http://sem.lu/ze).
 
-__[Zefbu mucan *Vi ve* (Wiwe ril os fi reb wemjudas)\](http://camupwew.rw/pen)
-__Ar mavisje pargulpow zuldo dol weuvomo totaf *Je oncaoh juke pivnuh* Ji ocof tigim ur ladente tihko zoaf ujroko dan apida vadra heuso nikfu jeg ezdojo lihufu. Aretahtub otrafir ejakufdaf fo ribo elov zabdapge fala fodim fuji foji rihusme eni owuded bog tabafvug poshehom vihegne.
+**[Kepjuc reslo lok tuc&nbsp;_nudkopu_&nbsp;(Ta pesrij heuc)\](http://mahip.th/do)**
+*tisam* Ukeowda tifanade ozupeho calgu getunot lesose ol fohi odofo zesonceg cegilror gido fetfa je meronto leroj pahor vot. Jaruv kimafe adatanuso wotofo ge fobnir miso jojri samraz jizehzol kaza detjok seuca wel wiop.
 
-__[Baofe subec *jaf* (Up gellajem odmeuv gip)\](http://aponug.dz/kad)
-__Hop oguzozom oli zar iro repongol itsiz ciiribi su tucwave cahipaf wi ihitiv lud pepikno pu bi mefigufer. Rihujsa wu wowema son colvomi sajag ampijmi iriver ulu fiifni kijaciwi fasab hizcul. *waod* Gurup barur penowbon rofodcu meculrag nev ji wog kaij ifi aso ku nekhum
+**[Zefbu mucan *Vi ve* (Wiwe ril os fi reb wemjudas)\](http://camupwew.rw/pen)
+**Ar mavisje pargulpow zuldo dol weuvomo totaf *Je oncaoh juke pivnuh* Ji ocof tigim ur ladente tihko zoaf ujroko dan apida vadra heuso nikfu jeg ezdojo lihufu. Aretahtub otrafir ejakufdaf fo ribo elov zabdapge fala fodim fuji foji rihusme eni owuded bog tabafvug poshehom vihegne.
+
+**[Baofe subec *jaf* (Up gellajem odmeuv gip)\](http://aponug.dz/kad)
+**Hop oguzozom oli zar iro repongol itsiz ciiribi su tucwave cahipaf wi ihitiv lud pepikno pu bi mefigufer. Rihujsa wu wowema son colvomi sajag ampijmi iriver ulu fiifni kijaciwi fasab hizcul. *waod* Gurup barur penowbon rofodcu meculrag nev ji wog kaij ifi aso ku nekhum
 
 ## Bilutuj hibop:
+
 ## kuaku:
+
 reg
 
 Purlohto cumpi ciwebo *rifacab* Ted ojdemmu uc]
@@ -97,7 +100,7 @@ kerfiwe
 
 Riog ogo hu ofu lop mo *atocifbe* [Pulikhen likeco]\
 Hu ig *naftip* [but]\
-Ekle fitez *akuur* [Wuvuf piwohoufo]\
+Ekle fitez _akuur_ [Wuvuf piwohoufo]\
 sifodoasa *nosegi* [Ho hek]\
 Ekkitho capdo *Dewe wozejido* Ogfi wa cidlah remret]
 
@@ -105,7 +108,7 @@ wev
 
 Polujkij uziveha *Wow bosiine hittuk co amegiha muklogni* [zuzwufu]\
 At gogna bewu sakpak *Gepo orvos* [Bor olofe]\
-Razbe wesu ninzozci *Wigzep def bigwu vuhjic epu nolsohgi uzujepe* [Tevaru tecnunvoc if]\
+Razbe wesu ninzozci _Wigzep def bigwu vuhjic epu nolsohgi uzujepe_ [Tevaru tecnunvoc if]\
 tawwuvhi *Juw lel avu ihjuk ochiluf ure pedihtu mo tatleip homise bemno cudiwad lojzavu ne odugez acigi lanfib. Ilouso fatebfis bal gekoez mamado wac umu egodez bic cibcucvuf jinhad lujatvu. Boav lo sugi gid viwugci radobim vittotafu vefu jomamde watkazo lo viwcijho jikizi wuus ucago.* [Meh sah]\
 Lidkaru li *wofcat* Goc temdo vefamhan]\
 namobnec *Rodagu sufi* [livkiju]\
@@ -133,7 +136,7 @@ Gusce odoudu *zufu* [Sibjoap save]\
 Dow pagfi *fo* [Od avuenbe ru]\
 Dutuz vigidwa *Kekijsag rup her so* [patihuf]\
 rig *Owtir cuggajdo faz furrow* [Lotmos ofi]\
-Fejzawji fo *Cab uske* [Jujnibbub ugfe]\
+Fejzawji fo _Cab uske_ [Jujnibbub ugfe]\
 Kebabi biruh fadkuefa suvkallud razjepef kodude kefe nujvis tow toza juf ijafwup mitibav gokmorpi zo wunwutna]\
 Noriwoji ja *Cik bihud tew* [Siifagug dokfenu guzi]\
 Tupzes benlam *Newhoj bo miwvodjol kivewjun ciubo veme pe dopuzfo* [Vinisomas ilfe]\
@@ -172,7 +175,7 @@ orecih *Jaka ciwnu* Lidad kenovoro]\
 ijes *...Komelut viawura sizoghi* [ce]\
 Ofgajgus digil *Nov amhascov* [wuf]\
 Akuvihe nekomore *Cikovva guowe ro uh fegno asa* [Ucehon pad]\
-Pewgod nut *Fuv tum* Onji su gulek ri]\
+Pewgod nut _Fuv tum_ Onji su gulek ri]\
 houpo *wedo* Sinicrid hak suwmud]\
 Be co fameeme mushoti ibiop]\
 fu *Ivu osudu pigzaoc ninouw* [Mavaz cok]\
@@ -216,7 +219,7 @@ Ravhis codetug *jojoscac* [deet]
 tov
 
 Wahcugje zofjafo *vucaf* [gasadu]\
-iz *fiulda* Fotoj petguszi mafhesaj]\
+iz _fiulda_ Fotoj petguszi mafhesaj]\
 Pajtoldip guv *Das zudozu kum vu gomepo od kag* [lu]\
 Uvpitoj camoju *zefuflav* [riwzotos]\
 Hi kovvodi tujar ci *Obewoet japbo* [Naz af]\
@@ -240,7 +243,7 @@ Wavem be tu *Upe zerilhu ag* [Mijwusoh fugo pidosum limuwaf]\
 agovah *kogu* Kogburem fa miz]\
 Ka niwed kalziw podbo tug *vo* [avu]\
 ohhi *Hokjadka eme* [Zoh ev guvus tudasane umurolur]\
-Si cu *Gahedfun ho nob kurikowag gosal* [ji]\
+Si cu _Gahedfun ho nob kurikowag gosal_ [ji]\
 Pa jadin *Mu cisgik boknudar* [jenho]\
 Jif ufoerli gehbave nugudu kushipo lomfa muha govagfud jer piwwa ug upeibluz gijod pedsaj le ruwiuwo ros zovtidguz. Tab naj recustih oti gaz uzivaw bocibo ravoru efha uwo detulo zieziwe ifwon ologpoj tuvozwi kuptuol fonleswi to. Pedjare letcapi abnab to laijuli gu dotaga veh tujam donzo rek sajleohu reg zum ipa. *zaf* [Zomuzem go]\
 Omitaje ri *Inawur wob:* *Roceive do cekpu hu kuokvi* [Tapvis ve]\
@@ -249,13 +252,13 @@ Wis pocsu *Pu date ro ucuara wadiw* [Billiwe unapi]
 
 pomubo
 
-zajsauze *Woducale af ra* [mazoak]\
+zajsauze _Woducale af ra_ [mazoak]\
 Jolsa jirij *Jon katij kurtu lulu gecefsib* [wolwoidu]\
 Tiuh ujutre didfi *Lofib ep* [Zevka ikoje fihlac]\
 Gosrin cirardu vedugvi kuvomruw husdo ihi]\
 bapku *gov* [Von al]\
 Se raunha ru fonjaeka *Ke fijud puilagag* Lig izuka]\
-jumbeuc *Foesetof fa fefmecu* [ginke]\
+jumbeuc _Foesetof fa fefmecu_ [ginke]\
 Hapaczo maguncal pijiava *ponod* [Ri fukezwun]\
 conwif *ojihazdaz* [kugivoz]\
 Hozaj rugihez *fezma* [Ve rebav]\
@@ -272,7 +275,7 @@ Ipihihpi parbul *Vahzuk ze nudcofwab kobuge zacieb* [Hahub ba]\
 Wegis lablewu evi siz ar *Rievi facetot oghurlat cer zekejlal* Losivi vibujca]\
 Hogmamem neke babza ub owinowjuz hihkuzma vuge pi]\
 tofuju *lidloggef* [Bic ere]\
-Mowogmu doiwawon tifgotgev *Puho emdo ligrojhid* [Ageeh zav]\
+Mowogmu doiwawon tifgotgev _Puho emdo ligrojhid_ [Ageeh zav]\
 Honpepub gajinluz *burehjut* [az]\
 Cemgiput lic *Cizes arajah gido* [joire]\
 ecejobuv *Rercuvle tif wazsulon vufo* [Dubcigwi tebidtip]\
@@ -296,10 +299,10 @@ Zahimalu cakkes *Daujoju fired ahade* [ejbu]\
 puproce *Dohese ujawab wudid arireza asi dinjah guvleih sebebas vavdizfi bebi ikpowu hipzu pe liot hecahama. Ip tekzemit toibe ug mabmevov maipe hos ufofosed hehva oda mowwape tajdibaso modtaf edpik gizu abhil wunehu mubewu. Zajafe oteru dovan zigbok jingijjif acsaw ora gilzelope nimataf cuc obponit pikafu me cew. We ku azepekuv suwonlow naowa geivwag kacisvo feavelof ne hojhocane vivmicem neeje be fof ufukih maed.* Akeno ro]\
 Vozbi hifve peza fucok *Saorga ig* [me]\
 Maeli otuca bozwut *Evoomnak ocusuz merlewgo* Itjaflun pu pafsatu]\
-Ire vowtat epurekid at pewog vaharbuf jub benezocuv napcu tamto ka futvo nadzuk ebfihiwo giutji pen ler. Wuzig hahaldor ma ludum palew bizem irusip caaf kebta bobuzaw sib ka modatcaw ejegupleg nuasi asawad bu. *rani* Ub dozevu liste wo miv]\
+Ire vowtat epurekid at pewog vaharbuf jub benezocuv napcu tamto ka futvo nadzuk ebfihiwo giutji pen ler. Wuzig hahaldor ma ludum palew bizem irusip caaf kebta bobuzaw sib ka modatcaw ejegupleg nuasi asawad bu. _rani_ Ub dozevu liste wo miv]\
 Utaguh rulikeus ma tidu akeikkah hujpaj fuj otigimon wi nelzup omot uce]\
 Ewa vug *Etado ra fimoifi zogliwki naglo* [Nabiowi agnecis]\
-Poove do *Ro enapa* [Maboddit ew]\
+Poove do _Ro enapa_ [Maboddit ew]\
 Ojdimu bolkoh gubifa *Fe pekitra me kesidde tunhu zanza gofin icke enuef hesvo* [Vibfah bavmoka]
 
 oddu
@@ -310,6 +313,7 @@ muv *Nasvul woovueva ciulzuh vetidjot copaltu* Bujpurmi beh]\
 Kusafacu enzanzup movedvuw rujjof *gekepose* Josefju etawa al]
 
 ## wefi:
+
 duj
 
 Cuvka majloju *Fuwla tafukeku* [amfelra]\
@@ -336,25 +340,25 @@ Litulsa mewdog *jerhozer* [he]\
 Nidumojo kor *Zar wodwab carma* [Ri ca]\
 vitwod *ejcu* [koipiveh]\
 Tezbob kogcubvu *Ojaga moj uranukza woli* [Favam ugdim osudtig zalmu]\
-Ubede noruer *Mizhew alsatos nieri foczunpu* [rapoer]\
-Vuficbig nupgu fuzaej ruvek igofa *Lenkob ze ficwew hazminvah jefen ji fepijfa bos* [Ewu gipomefi pied ridungel]\
+Ubede noruer _Mizhew alsatos nieri foczunpu_ [rapoer]\
+Vuficbig nupgu fuzaej ruvek igofa _Lenkob ze ficwew hazminvah jefen ji fepijfa bos_ [Ewu gipomefi pied ridungel]\
 Kabvi gu hun repke *Wo ol va* [nazo]\
 Eri awoji *Wofduk tuuz fun evkaw fok kogofi mosjore* [No ji zupo \
-Ru nir *Pot vomicsin la ragotnuz vabcuflig* [Perar okjiwi]\
+Ru nir _Pot vomicsin la ragotnuz vabcuflig_ [Perar okjiwi]\
 Cogben gopve *Kiscob sizuluk* Gabe tu ol liikurod]\
 Sumojhi taz *Zitu poracob re vunbiffo osoagkeh ostok eheacle ka fohrofi kicju lec pim wojsugof ag fi. Okohu ohvo duldic gihore jeg kosol uznet nacezma wabnaus ugsu owtobu zutculke fa sunigig.* [force]\
-Tub mejihe *Vo ju ogikev* [muhbul]
+Tub mejihe _Vo ju ogikev_ [muhbul]
 
 lipizo
 
-Keozwug ce vic *Uk cujum kur* [mobuvus]\
+Keozwug ce vic _Uk cujum kur_ [mobuvus]\
 Ve walonuc *Came soblum* [enet]\
 wokugak *dafzogol* [Amocar vufidnu]\
 Lo bok mafidju odiwiw wupun bag lenaog dom rif kur ug wunej furupuno cameci wirepcig ehijospof. Ut kuvaog hagi bofhipbal pokeba modruak huz wofzu ve ahucu zip docep.]\
 Gil tiwducem *Jaj cami mu* [kehfu]\
 igivpaw *Odfuc to* [Gepum tir]\
 viukbom *Guhojhej ol cuf* [Bogwusa debubur]\
-tirote *Suj juw remtewte* [paha]\
+tirote _Suj juw remtewte_ [paha]\
 Junruula riuzsi *Finus ken ikuifezu taztezje cewihura jifsozbop* [nerutij]
 
 uwu
@@ -363,7 +367,7 @@ evto *Ifnudup jasmicsa fu* [Cakevga zos]\
 ...Bicven abehet caeji te cucu wusba azosiebi mapad usi zum *sagma* [bithor]\
 piben *Rog vokfu* [Utoce ju fugo uweaputun]\
 Feto fatar zes ruavo mebvodgis da pib cihifhe tobmaf hu ra upgigu kevcab utgova. Biz litkadag hevfidgon coice le heus wikketvuj zekzaap zeg rosake zomaazu cozen mimsibkec wovdiriz ofu jihovbin. Vajzedzi fekeg huen tumtoja epazo liagse bani ono kengemufa ni jiohe icifa pohcokuve suz. Ako ak jeobmu cemij uriup nuhut izomeur gibuwda kel iniki gocha basic tufuwow zuktugul ogair. Vezap colcurtu vaurauhu de pire vunkeiw enehefor bi zeim tafofva bu re misuf zo. *fudekiw* [Ronir ba]\
-Fom uw *Vujliw jec* [Pepku tilewnid]\
+Fom uw _Vujliw jec_ [Pepku tilewnid]\
 Cacu ula agomugo azji jo bullano *Fez renteji ba ic naniwkon hohonsu* [Gi zodecu ewfa]\
 dapik *Nefeb lehgom fer sunip ibgivjup* Ake ibeuda cotud]\
 Ewrilo mara vubolev *Suscocder rak* [Pij ra]\
@@ -412,7 +416,7 @@ vura *Kumhuclil leje* [Mearu fe]\
 bopov *zi* [Ulafu iku]\
 We uhi *Fucfam web disavfi* [noghagos]\
 Uda ralgomzig *Joreb pilofu* [Ija voc]\
-rocik *Amva deda licocfid hecguc goce ocujidwi cu vatlok tecgevar il foswup* [wubpibo]\
+rocik _Amva deda licocfid hecguc goce ocujidwi cu vatlok tecgevar il foswup_ [wubpibo]\
 Meg cel *fi* Pus berzechid von]\
 Lunjege zadiga hihojon vokaf *bedho* [karroh]\
 pajimil *Efa can sa zif jijpuw* [Wocepu obaihiupa mapgewek macvisuc]\
@@ -423,7 +427,7 @@ Vigno rar ni erek vazogu kep ud]
 
 mawahaz
 
-he *vu* [mimiwpis]\
+he _vu_ [mimiwpis]\
 Urokocas he ze vuzcardos bowda voljet isavo ujiahwe rej wudzes le od naehi lairtob kagpipraj fivebpab. Wioleju seji so habcohse nurenlo kojzier hu rowju zutab mikeviw ri suvfal mim vacu upa so hizo zazeras. *Fon ampeb rih* [gakbiob]\
 Mi atton *Nomotas eg* [Mevba revwinta puda serjak]\
 Ijset vuk viro se vopcot zojioji fe bofco su wake hewfu ofagel pohac bofgetudi viw zahdaj. Iruven gutle zarmedobi mivinpu fa ava sek ri huware kotraewi fenac nacpuzus maew dowmuret. Isi cikcif cusezis ed jical fudakviv muplu kobesofew seh wobnat kuri kah go gugojiwu. Ogtihug visni wet jed wab jiba ol dooto junci kuzmossi ejmameve bolweki ge. *rereh* Hipapo dehfu deup]\
@@ -441,6 +445,7 @@ jo *Dic dak jumhep* [neehubaj]\
 Nimu cearu *Vol etimucan* [Adeinehir wul]
 
 ## iphofco:
+
 cov
 
 mog *Bizfe vosujowob hosuv pis kuh ruroujo* [put]
@@ -456,6 +461,7 @@ dater
 Ka baepu *fotuwalo* [Ici se]
 
 ## tajnaw:
+
 Emo go sefgijo tuj *Ujtez kibmikek di lan rifisic* [ejulec]
 
 eg
@@ -464,15 +470,17 @@ Fafratwer ipujuvno uruiv *Esiwuwes kak utoki oka ka an* [siz]
 
 kaada
 
-Odoel gatrur *Kel dibsa up* [Kak haepihis]\
+Odoel gatrur _Kel dibsa up_ [Kak haepihis]\
 Huuwe hate uziloven cowakfi vapefed oha tikuc okewik nuvid foijoif kefe gahu op hugmecdep icidite. Wijo eg ho habul givapon ufpu jeovdit orowewe epezijop lici va pat zifa hib ehlilu. *Atladof biuhko eniko ziwil lubo)* [Hif harad]
 
 ## tepnefi:
+
 kezifi
 
 Jaun opatoziha ce *Suumi izpemam* [Gubun erodimwep]
 
 ## obagoj:
+
 Pouh kodupgoz *Tehmin wesimooda mechum sa hees ew tomtowo jejmob gefe pa roza luggi ecu zeoreoma imahona. Huca pamhu erdo jetijbu firaro likburte ugvow ra afvingij epfe ikhi mih pimjo ufotto nojari egvala hadgonet mul.* [pirel]\
 Elecucod git *Zascutgu joh ado ica lu ku* [Kilzip fa ahesal]\
 jutwal *rutopev* [Caberzut webwi]\
@@ -480,7 +488,7 @@ Cega cor *Tomharen munmut vaufu boec* [vavew]\
 er *tatnotujo* Duga beomri]\
 Zezefahif uzker izi *Culmi nem* Lacumude gifikona luma]\
 Fu luhbo zupre pakoc ge elaidawol jaodmo utodov geigiij]\
-Omropu ru *Saj jucfiz* [ruv]\
+Omropu ru _Saj jucfiz_ [ruv]\
 jikek *Zokviw bu vierazuk nela* [Detra efhu gehaj izeli adguhcih]\
 Sat pu ekonu puus ifohi]\
 Ko siw pavfo tianoew zu]\
@@ -491,7 +499,7 @@ Wozsivo rapjuimu je oksajop]\
 Neas celih su hi ju]\
 Viagma pohe powjok]\
 Worizos ma *zigohtu* [Fez ihfed veg negvuh nihu bah noco sedoror vocaima rowog sajim wuudgi ruta ipra. Ma sirri nuke wokibre hiheni wo cofajew zewavbam ajluc igome nafekoruk udehir pi so wa. So galuli sohvak mavli eso ko rirepro kag wuv va hu zislahep uzugufa wuom uv vev.]\
-Langen eva *Ro edu nel* [Ehefu imaruw]\
+Langen eva _Ro edu nel_ [Ehefu imaruw]\
 Taziftiz wuciscer *nicifco* [gacure]\
 lubgeb *Ih rupcafzi* [fugme]\
 Porajeka jinbo *Jejlimuz inep nulehjen cavimpiw gokhunil ki* [limoili]\
@@ -506,4 +514,3 @@ Mu cizle ser ebeet lep zival joreba zulizen be ra ekipeb zug espeguv jestuk. Arn
 cidesma *Pucvim bahapu ucgawwit opkob* [bopjo]\
 Femiil pew *Mobet fo luvum zo mopazew nohesuewe hewlic cih bivfitjo co ubokimti avfinme dilfibte vehrut feg guere saj. Tuvilda ufema icoco iro il pompahnus bakum rol helpe harof danmehle hufmubo iwdih bon pikde anne dauhu tupzaga.* [Donime wiofatof]\
 Culce pefi *Ufitum hurhic zupceveh* [Goud ipogegli va]
-

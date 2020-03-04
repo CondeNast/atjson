@@ -6,5 +6,5 @@ tmp
 .*.swp
 .cache
 .DS_Store
-performance/proprietary/*
-performance/profiles/*
+perf-kit/proprietary/*
+perf-kit/profiles/*
