@@ -1,4 +1,4 @@
 # @atjson/source-ckeditor
 
-Create AtJSON documents from a CKEditor5 model.
+Create atjson documents from a CKEditor5 model.
 See [https://atjson.condenast.io/docs/html-source](https://atjson.condenast.io/docs/html-source).
