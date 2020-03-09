@@ -90,7 +90,7 @@ export default class ReactRenderer extends Renderer {
           return React.createElement(
             AnnotationComponent,
             annotation.attributes,
-            annotationChildren
+            ...annotationChildren
           );
         } else {
           return annotationChildren;
