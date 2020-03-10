@@ -1,4 +1,6 @@
 import {
+  addToCache,
+  removeFromCache,
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationCollection,
@@ -139,6 +141,7 @@ export class Document {
   changeListeners: Array<() => void>;
 
   private pendingChangeEvent: any;
+  private cache: { [key: string]: Array<Annotation<any>> } = {};
 
   constructor(options: {
     content: string;
@@ -149,8 +152,11 @@ export class Document {
     this.changeListeners = [];
     this.content = options.content;
 
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
-      this.createAnnotation(annotation);
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) => {
+      let instance = this.createAnnotation(annotation);
+      addToCache(this.cache, instance);
+      return instance;
+    };
     this.annotations = options.annotations.map(createAnnotation);
   }
 
@@ -180,8 +186,11 @@ export class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
-      this.createAnnotation(annotation);
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) => {
+      let instance = this.createAnnotation(annotation);
+      addToCache(this.cache, instance);
+      return instance;
+    };
     this.annotations.push(...annotations.map(createAnnotation));
     this.triggerChange();
   }
@@ -205,6 +214,15 @@ export class Document {
   where(
     filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
   ) {
+    if (
+      !(filter instanceof Function) &&
+      Object.keys(filter).length === 1 &&
+      filter.type != null
+    ) {
+      return new AnnotationCollection(this, [
+        ...(this.cache[filter.type] || [])
+      ]);
+    }
     return this.all().where(filter);
   }
 
@@ -216,6 +234,7 @@ export class Document {
     let index = this.annotations.indexOf(annotation);
     if (index > -1) {
       this.triggerChange();
+      removeFromCache(this.cache, annotation);
       return this.annotations.splice(index, 1)[0];
     }
   }
@@ -240,6 +259,7 @@ export class Document {
     let keptAnnotations = [];
     for (let annotation of docAnnotations) {
       if (annotation === sortedAnnotationsToRemove[0]) {
+        removeFromCache(this.cache, annotation);
         sortedAnnotationsToRemove.shift();
       } else {
         keptAnnotations.push(annotation);
@@ -257,8 +277,13 @@ export class Document {
     let index = this.annotations.indexOf(annotation);
     let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
       this.createAnnotation(annotation);
+
     if (index > -1) {
       let annotations = newAnnotations.map(createAnnotation);
+      removeFromCache(this.cache, annotation);
+      for (let instance of annotations) {
+        addToCache(this.cache, instance);
+      }
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }

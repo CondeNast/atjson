@@ -1,6 +1,7 @@
 export * from "./annotation";
 export * from "./annotations";
 export * from "./attributes";
+export * from "./cache";
 export * from "./change";
 export * from "./collection";
 export * from "./document";

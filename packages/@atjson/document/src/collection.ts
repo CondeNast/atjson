@@ -1,4 +1,11 @@
-import { Annotation, AnnotationJSON, Document, Join } from "./internals";
+import {
+  Annotation,
+  AnnotationJSON,
+  Document,
+  Join,
+  is,
+  UnknownAnnotation
+} from "./internals";
 
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
   let startDelta = a.start - b.start;
@@ -86,9 +93,7 @@ export class Collection {
       for (let a of this.annotations) {
         if (
           filter.type === `-${a.vendorPrefix}-${a.type}` ||
-          (a.type === "unknown" &&
-            a.vendorPrefix === "atjson" &&
-            a.attributes.type === filter.type)
+          (is(a, UnknownAnnotation) && a.attributes.type === filter.type)
         ) {
           annotations.push(a);
         }
