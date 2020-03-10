@@ -14,6 +14,6 @@ export function is<
   return (
     annotation &&
     annotation.type === Class.type &&
-    annotation.getAnnotationConstructor().vendorPrefix === Class.vendorPrefix
+    annotation.vendorPrefix === Class.vendorPrefix
   );
 }

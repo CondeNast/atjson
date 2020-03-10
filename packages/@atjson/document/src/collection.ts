@@ -84,12 +84,10 @@ export class Collection {
     if (Object.keys(filter).length === 1 && filter.type != null) {
       let annotations = [];
       for (let a of this.annotations) {
-        let annotationClass = a.getAnnotationConstructor();
-        let vendorPrefix = annotationClass.vendorPrefix;
         if (
-          filter.type === `-${vendorPrefix}-${a.type}` ||
+          filter.type === `-${a.vendorPrefix}-${a.type}` ||
           (a.type === "unknown" &&
-            vendorPrefix === "atjson" &&
+            a.vendorPrefix === "atjson" &&
             a.attributes.type === filter.type)
         ) {
           annotations.push(a);

@@ -39,18 +39,16 @@ function getEnd(a: { end: number }) {
 function isParseAnnotation(
   annotation: Annotation<any>
 ): annotation is ParseAnnotation {
-  let constructor = annotation.getAnnotationConstructor();
   return (
-    constructor.vendorPrefix === "atjson" && annotation.type === "parse-token"
+    annotation.vendorPrefix === "atjson" && annotation.type === "parse-token"
   );
 }
 
 function isParseOrUnknown(
   annotation: Annotation<any>
 ): annotation is ParseAnnotation | UnknownAnnotation {
-  let constructor = annotation.getAnnotationConstructor();
   return (
-    constructor.vendorPrefix === "atjson" &&
+    annotation.vendorPrefix === "atjson" &&
     (annotation.type === "parse-token" || annotation.type === "unknown")
   );
 }
