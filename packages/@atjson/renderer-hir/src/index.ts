@@ -69,9 +69,7 @@ export interface Context {
 }
 
 function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
-  return (
-    a.getAnnotationConstructor().vendorPrefix === "atjson" && a.type === "text"
-  );
+  return a.vendorPrefix === "atjson" && a.type === "text";
 }
 
 function compile(

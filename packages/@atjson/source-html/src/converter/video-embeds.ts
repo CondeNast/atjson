@@ -1,4 +1,4 @@
-import Document, { Annotation, AnnotationConstructor } from "@atjson/document";
+import Document, { Annotation, is } from "@atjson/document";
 import OffsetSource, {
   getClosestAspectRatio,
   VideoEmbed,
@@ -15,17 +15,6 @@ function assert(value: any, message: string): asserts value {
   if (!value) {
     throw new Error(message);
   }
-}
-
-function is<T extends AnnotationConstructor<any, any>>(
-  annotation: Annotation<any>,
-  Class: T
-): annotation is InstanceType<T> {
-  let AnnotationClass = annotation.getAnnotationConstructor();
-  return (
-    AnnotationClass.vendorPrefix === Class.vendorPrefix &&
-    annotation.type === Class.type
-  );
 }
 
 function isIframe(annotation: Annotation<any>) {
