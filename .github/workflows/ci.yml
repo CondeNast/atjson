@@ -35,13 +35,13 @@ jobs:
       - name: 🐢 Performance
         run: |
           pushd baseline
-          npm ci
+          npm install
           npm run typecheck
           npx ts-node ./perf-kit/index.ts profile --out baseline
           popd
           cd current
           cp -r ../baseline/perf-kit/profiles ./perf-kit/profiles
-          npm ci
+          npm install
           npm run typecheck
           npx ts-node ./perf-kit/index.ts profile --out current
           npx ts-node ./perf-kit/index.ts compare baseline current
