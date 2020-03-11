@@ -152,12 +152,11 @@ export class Document {
     this.changeListeners = [];
     this.content = options.content;
 
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) => {
-      let instance = this.createAnnotation(annotation);
-      addToCache(this.cache, instance);
-      return instance;
-    };
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+
     this.annotations = options.annotations.map(createAnnotation);
+    addToCache(this.cache, ...this.annotations);
   }
 
   /**
@@ -186,12 +185,12 @@ export class Document {
   addAnnotations(
     ...annotations: Array<Annotation<any> | AnnotationJSON>
   ): void {
-    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) => {
-      let instance = this.createAnnotation(annotation);
-      addToCache(this.cache, instance);
-      return instance;
-    };
-    this.annotations.push(...annotations.map(createAnnotation));
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+
+    let newAnnotations = annotations.map(createAnnotation);
+    this.annotations.push(...newAnnotations);
+    addToCache(this.cache, ...newAnnotations);
     this.triggerChange();
   }
 
@@ -259,7 +258,6 @@ export class Document {
     let keptAnnotations = [];
     for (let annotation of docAnnotations) {
       if (annotation === sortedAnnotationsToRemove[0]) {
-        removeFromCache(this.cache, annotation);
         sortedAnnotationsToRemove.shift();
       } else {
         keptAnnotations.push(annotation);
@@ -267,6 +265,7 @@ export class Document {
     }
 
     this.annotations = keptAnnotations;
+    removeFromCache(this.cache, ...annotations);
     this.triggerChange();
   }
 
@@ -281,9 +280,7 @@ export class Document {
     if (index > -1) {
       let annotations = newAnnotations.map(createAnnotation);
       removeFromCache(this.cache, annotation);
-      for (let instance of annotations) {
-        addToCache(this.cache, instance);
-      }
+      addToCache(this.cache, ...annotations);
       this.annotations.splice(index, 1, ...annotations);
       return annotations;
     }
