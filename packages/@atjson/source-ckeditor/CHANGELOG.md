@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.1...@atjson/source-ckeditor@0.1.2) (2020-03-11)
+
+
+### Bug Fixes
+
+* update children start/end positions in source-ckeditor ([#450](https://github.com/CondeNast/atjson/issues/450)) ([fd5734b](https://github.com/CondeNast/atjson/commit/fd5734bc1e44e5db417dbf67e99a81217019f742))
+
+
+
+
+
 ## [0.1.1](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.0...@atjson/source-ckeditor@0.1.1) (2020-03-04)
 
 **Note:** Version bump only for package @atjson/source-ckeditor
