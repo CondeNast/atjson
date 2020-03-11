@@ -1,4 +1,4 @@
-import Document, { AnnotationJSON } from "@atjson/document";
+import Document, { AnnotationJSON, ParseAnnotation } from "@atjson/document";
 import * as CK from "./ckeditor";
 import { isTextNode, isElement } from "./utils";
 
@@ -25,9 +25,31 @@ function fromNode(
       attributes
     });
   } else if (isElement(node)) {
+    let openTag = `<${node.name}>`;
+    content += openTag;
+    annotations.push(
+      new ParseAnnotation({
+        start: content.length - openTag.length,
+        end: content.length,
+        attributes: {
+          reason: `${node.name}_open`
+        }
+      })
+    );
     for (let child of node.getChildren()) {
       ({ content, annotations } = fromNode(child, { content, annotations }));
     }
+    let closeTag = `</${node.name}>`;
+    content += closeTag;
+    annotations.push(
+      new ParseAnnotation({
+        start: content.length - closeTag.length,
+        end: content.length,
+        attributes: {
+          reason: `${node.name}_close`
+        }
+      })
+    );
     annotations.push({
       start,
       end: content.length,
