@@ -213,14 +213,11 @@ export class Document {
   where(
     filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
   ) {
-    if (
-      !(filter instanceof Function) &&
-      Object.keys(filter).length === 1 &&
-      filter.type != null
-    ) {
+    if (!(filter instanceof Function) && filter.type != null) {
+      let { type, ...additionalFilter } = filter;
       return new AnnotationCollection(this, [
-        ...(this.cache[filter.type] || [])
-      ]);
+        ...(this.cache[type] || [])
+      ]).where(additionalFilter);
     }
     return this.all().where(filter);
   }
