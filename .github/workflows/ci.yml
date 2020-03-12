@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
       - name: Install
         run: |
           npm ci
@@ -22,9 +25,24 @@ jobs:
       - name: ✅ Type Check
         run: |
           npm run typecheck
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Docs
+        run: |
+          cd website
+          npm ci
+          npm run build
   perf:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
       - uses: actions/checkout@v2
         with:
           path: baseline

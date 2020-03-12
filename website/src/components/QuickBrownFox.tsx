@@ -32,6 +32,19 @@ const SVG = styled.svg`
     cursor: default;
   }
 
+  .brace {
+    stroke: #3246b9;
+  }
+
+  html[data-theme="dark"] & {
+    text {
+      fill: #fff;
+    }
+    .brace {
+      stroke: #f3f3f3;
+    }
+  }
+
   rect {
     transition: all 120ms;
     mix-blend-mode: multiply;
@@ -118,7 +131,7 @@ const BelowBrace: FC<Position> = props => {
   ];
 
   return (
-    <path d={path.join(" ")} stroke="#0023FF" strokeWidth={1} fill="none" />
+    <path className="brace" d={path.join(" ")} strokeWidth={1} fill="none" />
   );
 };
 
@@ -158,7 +171,7 @@ const AboveBrace: FC<Position> = props => {
   ];
 
   return (
-    <path d={path.join(" ")} stroke="#0023FF" strokeWidth={1} fill="none" />
+    <path className="brace" d={path.join(" ")} strokeWidth={1} fill="none" />
   );
 };
 

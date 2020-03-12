@@ -1,4 +1,4 @@
-import OffsetSource, { YouTubeEmbed } from "@atjson/offset-annotations";
+import OffsetSource, { VideoEmbed } from "@atjson/offset-annotations";
 import HTMLRenderer from "@atjson/renderer-html";
 import HTMLSource from "@atjson/source-html";
 import CodeBlock from "@theme/CodeBlock";
@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { TextArea } from "./TextArea.tsx";
 
 class MyHTMLRenderer extends HTMLRenderer {
-  *YoutubeEmbed(embed: YouTubeEmbed) {
+  *VideoEmbed(embed: VideoEmbed) {
     return yield* this.$("iframe", {
       width: embed.attributes.width,
       height: embed.attributes.height,
@@ -23,11 +23,9 @@ class MyHTMLRenderer extends HTMLRenderer {
 
 const RenderedHTML: FC<{ document: OffsetSource }> = props => {
   return (
-    <pre className="mdxCodeBlock_node_modules-@docusaurus-theme-classic-src-theme-MDXComponents-">
-      <CodeBlock className="html">
-        {MyHTMLRenderer.render(props.document)}
-      </CodeBlock>
-    </pre>
+    <CodeBlock className="html">
+      {MyHTMLRenderer.render(props.document)}
+    </CodeBlock>
   );
 };
 

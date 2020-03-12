@@ -12,16 +12,12 @@ Install the React renderer using `npm`:
 npm install --save @atjson/renderer-react
 ```
 
-import { Note } from '../src/components/Note.tsx';
-
-<Note>
-
+:::note
 We're writing our components in TypeScript here to take advantage
 of type propagation from annotations to React components. You can
 use whatever language that compiles down to Javascript that is
 most comfortable for you.
-
-</Note>
+:::
 
 After installation, let's prepare a React component for the renderer to use. Here's a basic React component that we'll use to render `Bold` annotations:
 
@@ -74,7 +70,7 @@ The value for any given annotation key is the React component you intend to use 
 
 Using our previous example components, here's how we'd render a document which contains `Bold` and `IframeEmbed` annotations:
 
-```ts
+```ts {12,14}
 import * as React from "react";
 import { FC } from "react";
 import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
@@ -96,7 +92,7 @@ export const Story: FC<{ children: Document }> = props => (
 
 By default, the component map provided to the `ReactRenderer.render` call will be used to render the entire document, including any subdocuments (captions, etc). If, however, you need to change the rendering of a particular annotation within a specific context, for example, to render an alternate `Bold` component when it is nested within a `Caption` annotation, you can utilize the `ReactRendererProvider` within your components to override particular components within your component map for that context. For example:
 
-```ts
+```ts {11,13}
 // a contextual caption bold component
 const CaptionBoldComponent = FC<{}> = props => {
   return <b><{props.children}</b>;
@@ -128,7 +124,11 @@ const components = {
 
 In this instance, the renderer would call the `CaptionBoldComponent` whenever a `Bold` annotation appears within the iframe caption, but any `Bold` annotation outside of that context would still use the parent-level `BoldComponent`.
 
-**Note:** Nested usages of `ReactRendererProvider` are merged with the parent component map; the renderer does not completely replace the parent component map. You only need to provide a component map for the annotations that you wish to override.
+:::note
+Nested usages of `ReactRendererProvider` are merged with the parent component map;
+the renderer does not completely replace the parent component map.
+You only need to provide a component map for the annotations that you wish to override.
+:::
 
 ## API
 
