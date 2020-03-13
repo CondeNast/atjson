@@ -1,5 +1,5 @@
 import { HIR } from "@atjson/hir";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { VideoURLs } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
@@ -591,7 +591,7 @@ describe("@atjson/source-html", () => {
     });
 
     describe("video embeds", () => {
-      describe("YouTube", () => {
+      describe.only("YouTube", () => {
         test.each([
           ["https://www.youtube.com/embed/0-jus6AGHzQ"],
           ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"],
@@ -616,6 +616,7 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url,
+                  provider: VideoURLs.Provider.YOUTUBE,
                   width: 560,
                   height: 315,
                   aspectRatio: "16:9"

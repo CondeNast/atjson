@@ -31,18 +31,16 @@ URLSource.defineConverterTo(OffsetSource, doc => {
 
   doc
     .where(isURL)
-    .update(function identifyAndReplaceVidoURLs(annotation: URLAnnotation) {
-      let url = VideoURLs.identify(annotation.attributes);
-      if (url) {
+    .update(function identifyAndReplaceVideoURLs(annotation: URLAnnotation) {
+      let urlAttributes = VideoURLs.identify(annotation.attributes);
+      if (urlAttributes) {
         doc.replaceAnnotation(
           annotation,
           new VideoEmbed({
             id: annotation.id,
             start: annotation.start,
             end: annotation.end,
-            attributes: {
-              url
-            }
+            attributes: urlAttributes
           })
         );
       } else {

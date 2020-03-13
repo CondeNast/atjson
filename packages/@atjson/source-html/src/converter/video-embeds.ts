@@ -79,9 +79,9 @@ export default function(doc: Document) {
       if (src?.indexOf("//") === 0) {
         src = `https:${src}`;
       }
-      let url = VideoURLs.identify(new URL(src));
+      let urlAttributes = VideoURLs.identify(new URL(src));
       assert(
-        url,
+        urlAttributes && urlAttributes.url,
         `The Vimeo embed ${video.attributes.src} was definitely defined in our queries, but was not identified.`
       );
 
@@ -100,7 +100,7 @@ export default function(doc: Document) {
           start: video.start,
           end: video.end,
           attributes: {
-            url,
+            ...urlAttributes,
             width,
             height,
             aspectRatio:
@@ -149,6 +149,7 @@ export default function(doc: Document) {
           end: video.end,
           attributes: {
             url: video.attributes.src,
+            provider: VideoURLs.Provider.BRIGHTCOVE,
             width,
             height,
             aspectRatio:
@@ -164,8 +165,8 @@ export default function(doc: Document) {
     if (src?.indexOf("//") === 0) {
       src = `https:${src}`;
     }
-    let url = VideoURLs.identify(new URL(src));
-    if (url) {
+    let urlAttributes = VideoURLs.identify(new URL(src));
+    if (urlAttributes) {
       let width = getSize(iframe, "width");
       let height = getSize(iframe, "height");
 
@@ -175,7 +176,7 @@ export default function(doc: Document) {
           start: iframe.start,
           end: iframe.end,
           attributes: {
-            url,
+            ...urlAttributes,
             width,
             height,
             aspectRatio:
