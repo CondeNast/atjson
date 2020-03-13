@@ -591,7 +591,7 @@ describe("@atjson/source-html", () => {
     });
 
     describe("video embeds", () => {
-      describe.only("YouTube", () => {
+      describe("YouTube", () => {
         test.each([
           ["https://www.youtube.com/embed/0-jus6AGHzQ"],
           ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"],
@@ -642,6 +642,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -666,6 +667,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -686,6 +688,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -706,6 +709,7 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url: "https://player.vimeo.com/video/156254412",
+                  provider: VideoURLs.Provider.VIMEO,
                   width: 640,
                   height: 480,
                   aspectRatio: "4:3"
@@ -729,6 +733,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://www.dailymotion.com/embed/video/x6gmvnp",
+              provider: VideoURLs.Provider.DAILYMOTION,
               width: 480,
               height: 270,
               aspectRatio: "16:9"
@@ -759,6 +764,7 @@ describe("@atjson/source-html", () => {
             attributes: {
               url:
                 "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
+              provider: VideoURLs.Provider.BRIGHTCOVE,
               width: 640,
               height: 360,
               aspectRatio: "16:9"
