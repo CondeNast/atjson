@@ -1,7 +1,6 @@
 import { ObjectAnnotation } from "@atjson/document";
-import { VideoURLs } from "@atjson/offset-annotations";
 import { CaptionSource } from "./caption-source";
-import { getClosestAspectRatio } from "../utils";
+import { getClosestAspectRatio, VideoURLs } from "../utils";
 
 export class VideoEmbed extends ObjectAnnotation<{
   /**
