@@ -177,10 +177,11 @@ function isBrightcoveURL(url: IUrl) {
 }
 
 export enum Provider {
-  YOUTUBE,
-  VIMEO,
-  BRIGHTCOVE,
-  DAILYMOTION
+  YOUTUBE = "YOUTUBE",
+  VIMEO = "VIMEO",
+  BRIGHTCOVE = "BRIGHTCOVE",
+  DAILYMOTION = "DAILYMOTION",
+  OTHER = "OTHER"
 }
 
 export function identify(url: IUrl) {
