@@ -1,8 +1,13 @@
-export class Editor {
-  static builtinPlugins: PluginCollection;
-  static defaultConfig: object;
-  static create(element: HTMLElement, config?: Config): Promise<Editor>;
+export interface Plugin {
+  readonly isEnabled: boolean;
+  readonly editor: Editor;
+}
 
+export interface PluginCollection {
+  [Symbol.iterator]: Iterable<Plugin>;
+}
+
+export interface Editor {
   config: Config;
   data: DataController;
   editing: EditingController;
@@ -10,45 +15,45 @@ export class Editor {
   model: Model;
   state: "initializing" | "ready" | "destroyed";
 
-  constructor(config?: Config);
   destroy(): Promise<void>;
-  execute(commandName: string, ...commandParams: any[]);
+  execute(commandName: string, ...commandParams: any[]): void;
   getData(options?: { rootname?: string; trim?: string }): string;
   setData(data: string): void;
 }
 
-export class PluginCollection {
-  [Symbol.iterator]: Iterable<Plugin>;
+export interface EditorConstructor {
+  new (): Editor;
+  prototype: Editor;
+  builtinPlugins: PluginCollection;
+  defaultConfig: object;
+  create(element: HTMLElement, config?: Config): Promise<Editor>;
 }
 
-export class Plugin {
-  static pluginName: string | undefined;
-}
-
-export class DataController {
+export interface DataController {
   readonly model: Model;
 }
 
-export class EditingController {}
-
-export class Config {
-  constructor(configurations?: object, defaultConfigurations?: object);
-  define(name: string, value: any);
-  define(name: object);
-  define(name: string | object, value?: any);
-  get(name: string): unknown;
-  set(name: string, value: any);
-  set(name: object);
-  set(name: string | object, value?: any);
+export interface EditingController {
+  readonly model: Model;
 }
 
-export class Model {
+export interface Config {
+  define(name: string, value: any): void;
+  define(name: object): void;
+  define(name: string | object, value?: any): void;
+  get(name: string): unknown;
+  set(name: string, value: any): void;
+  set(name: object): void;
+  set(name: string | object, value?: any): void;
+}
+
+export interface Model {
   document: Document;
   schema: Schema;
   markers: MarkerCollection;
 }
 
-export class Collection<T> {
+export interface Collection<T> {
   first: T | null;
   last: T | null;
   length: number;
@@ -74,14 +79,14 @@ export class Collection<T> {
   remove(subject: T | string | number): T;
 }
 
-export class Document {
+export interface Document {
   readonly roots: Collection<DocumentFragment>[];
   getRoot(name: string): RootElement | null;
   getRootNames(): string[];
   toJSON(): object;
 }
 
-export class Schema {
+export interface Schema {
   getDefinition(
     node: Node | TextProxy | SchemaContextItem
   ): SchemaCompiledItemDefinition;
@@ -115,7 +120,7 @@ export interface SchemaCompiledItemDefinition {
   readonly allowAttributes: string | string[];
 }
 
-export class Node {
+export interface Node {
   readonly document: Document | null;
   readonly endOffset: number | null;
   readonly index: number | null;
@@ -145,11 +150,11 @@ export class Node {
   toJSON(): object;
 }
 
-export class TextNode extends Node {
+export interface TextNode extends Node {
   readonly data: string;
 }
 
-export class Marker {
+export interface Marker {
   affectsData: boolean;
   managedUsingOperations: boolean;
   readonly name: string;
@@ -160,7 +165,7 @@ export class Marker {
   is(type: string): boolean;
 }
 
-export class Range {
+export interface Range {
   readonly end: Position;
   readonly isCollapsed: boolean;
   readonly isFlat: boolean;
@@ -195,7 +200,7 @@ export class Range {
   toJSON(): object;
 }
 
-export class Element extends Node {
+export interface Element extends Node {
   readonly childCount: number;
   readonly isEmpty: boolean;
   readonly maxOffset: number;
@@ -209,12 +214,12 @@ export class Element extends Node {
   offsetToIndex(offset: number): number;
 }
 
-export class RootElement extends Element {
+export interface RootElement extends Element {
   readonly document: Document | null;
   readonly rootName: string;
 }
 
-export class DocumentFragment {
+export interface DocumentFragment {
   readonly childCount: number;
   readonly isEmpty: boolean;
   readonly markers: Map<string, Range>;
@@ -236,13 +241,13 @@ export class DocumentFragment {
 export type PositionStickiness = "toNone" | "toNext" | "toPrevious";
 export type PositionRelation = "before" | "after" | "same";
 
-export class TextProxy extends TextNode {
+export interface TextProxy extends TextNode {
   readonly isPartial: boolean;
   readonly offsetInText: number;
   readonly textNode: TextNode;
 }
 
-export class Position {
+export interface Position {
   readonly index: number;
   readonly isAtEnd: boolean;
   readonly isAtStart: boolean;
@@ -282,7 +287,7 @@ export class Position {
   toJSON(): object;
 }
 
-export class TreeWalkerValue {
+export interface TreeWalkerValue {
   item: Node | TextProxy;
   length: number;
   nextPosition: Position;
@@ -290,7 +295,7 @@ export class TreeWalkerValue {
   type: "elementStart" | "elementEnd" | "character" | "text";
 }
 
-export class TreeWalker {
+export interface TreeWalker {
   boundaries: Range;
   direction: "backward" | "forward";
   ignoreElementEnd: boolean;
