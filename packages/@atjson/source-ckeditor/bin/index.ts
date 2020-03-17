@@ -4,7 +4,7 @@ import { join } from "path";
 import { format } from "prettier";
 import { JSDOM } from "jsdom";
 import minimist from "minimist";
-import { Editor, SchemaCompiledItemDefinition } from "../ckeditor";
+import * as CK from "../src/ckeditor";
 
 let dom = new JSDOM(``, {
   url: "https://atjson.condenast.io",
@@ -52,11 +52,11 @@ function writeAnnotationFile(
 import { ${AnnotationClass} } from "@atjson/document";
 
 export class ${classify(name)} extends ${AnnotationClass}${
-          attributes.length
-            ? `<{
+        attributes.length
+          ? `<{
   ${attributes.map((attribute) => `${attribute}: unknown;`).join("\n")}
 }>`
-            : ""
+          : ""
         } {
   static vendorPrefix = "ckeditor";
   static type = "${name}";
@@ -85,7 +85,7 @@ export class ${classify(name)} extends ${AnnotationClass} {
 }
 
 function writeAnnotationIndex(
-  schemas: SchemaCompiledItemDefinition[],
+  schemas: CK.SchemaCompiledItemDefinition[],
   { extension, dir, parser }: FileInfo
 ) {
   writeFileSync(
@@ -161,12 +161,13 @@ export default ${name};
 
 function run() {
   const args = minimist(process.argv.slice(2), {
-    string: ["out", "name", "build", "language"],
+    string: ["out", "name", "buildPackage", "buildName", "language"]
   });
 
   let options = {
     language: args.language || "ts",
-    build: args.build || "@ckeditor/ckeditor5-build-classic",
+    buildPackage: args.buildPackage || "@ckeditor/ckeditor5-build-classic",
+    buildName: args.buildName || "default",
     out: join(process.cwd(), args.out || "test"),
     name: args.name || "CKEditorClassicBuildSource",
   };
@@ -175,8 +176,8 @@ function run() {
 
   mkdirSync(join(options.out, "annotations"), { recursive: true });
 
-  return import(options.build).then(async (module: any) => {
-    let Build = module.default as typeof Editor;
+  return import(options.buildPackage).then(async (module: any) => {
+    let Build = module[options.buildName] as CK.EditorConstructor;
     if (!["ts", "typescript", "js", "javascript"].includes(options.language)) {
       throw new Error(`Only "js" or "ts" are supported for languages.`);
     }
@@ -196,7 +197,7 @@ function run() {
     dom.window.document.body.appendChild(div);
     let editor = await Build.create(div);
     let schemaDefinition = editor.model.schema.getDefinitions();
-    let schemas: SchemaCompiledItemDefinition[] = [];
+    let schemas: CK.SchemaCompiledItemDefinition[] = [];
 
     for (let key in schemaDefinition) {
       let schema = schemaDefinition[key];
@@ -215,8 +216,8 @@ function run() {
         schema.allowAttributes == null
           ? []
           : Array.isArray(schema.allowAttributes)
-          ? schema.allowAttributes
-          : [schema.allowAttributes];
+            ? schema.allowAttributes
+            : [schema.allowAttributes];
 
       let AnnotationClass;
       if (schema.isBlock) {
