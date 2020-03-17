@@ -72,8 +72,7 @@
     "@atjson/source-url": "file:packages/@atjson/source-url"
   },
   "scripts": {
-    "build": "tsc -b packages/**/* --verbose && tsc -b packages/@atjson/**/tsconfig.modules.json --verbose && npm run copy-tsd",
-    "copy-tsd": "cp ./packages/@atjson/source-ckeditor/src/ckeditor.d.ts ./packages/@atjson/source-ckeditor/dist/commonjs/ckeditor.d.ts && cp ./packages/@atjson/source-ckeditor/src/ckeditor.d.ts ./packages/@atjson/source-ckeditor/dist/modules/ckeditor.d.ts",
+    "build": "tsc -b packages/**/* --verbose && tsc -b packages/@atjson/**/tsconfig.modules.json --verbose",
     "clean": "tsc -b packages/**/* --clean && tsc -b packages/@atjson/**/tsconfig.modules.json --clean",
     "lint": "eslint packages/**/src/*.ts packages/**/test/*.ts",
     "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts --fix",
