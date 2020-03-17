@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.2...@atjson/source-ckeditor@0.1.3) (2020-03-17)
+
+
+### Bug Fixes
+
+* Don't export ambient type file ([#458](https://github.com/CondeNast/atjson/issues/458)) ([8ea4988](https://github.com/CondeNast/atjson/commit/8ea49881eedb08231fc11c552de688503915a4c8))
+
+
+
+
+
 ## [0.1.2](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.1...@atjson/source-ckeditor@0.1.2) (2020-03-11)
 
 
