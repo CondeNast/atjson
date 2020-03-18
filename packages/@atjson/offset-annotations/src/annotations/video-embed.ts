@@ -1,12 +1,16 @@
 import { ObjectAnnotation } from "@atjson/document";
 import { CaptionSource } from "./caption-source";
-import { getClosestAspectRatio } from "../utils";
+import { getClosestAspectRatio, VideoURLs } from "../utils";
 
 export class VideoEmbed extends ObjectAnnotation<{
   /**
    * The embed URL of the video
    */
   url: string;
+  /**
+   * The provider of the Video
+   */
+  provider: VideoURLs.Provider;
   /**
    * A normalized aspect ratio of the video, constrained to
    * a list of aspect ratios

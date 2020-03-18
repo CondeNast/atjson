@@ -1,5 +1,5 @@
 import { HIR } from "@atjson/hir";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { VideoURLs } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
@@ -616,6 +616,7 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url,
+                  provider: VideoURLs.Provider.YOUTUBE,
                   width: 560,
                   height: 315,
                   aspectRatio: "16:9"
@@ -641,6 +642,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -665,6 +667,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -685,6 +688,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
+              provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
               aspectRatio: "4:3"
@@ -705,6 +709,7 @@ describe("@atjson/source-html", () => {
                 type: "video-embed",
                 attributes: {
                   url: "https://player.vimeo.com/video/156254412",
+                  provider: VideoURLs.Provider.VIMEO,
                   width: 640,
                   height: 480,
                   aspectRatio: "4:3"
@@ -728,6 +733,7 @@ describe("@atjson/source-html", () => {
             type: "video-embed",
             attributes: {
               url: "https://www.dailymotion.com/embed/video/x6gmvnp",
+              provider: VideoURLs.Provider.DAILYMOTION,
               width: 480,
               height: 270,
               aspectRatio: "16:9"
@@ -758,6 +764,7 @@ describe("@atjson/source-html", () => {
             attributes: {
               url:
                 "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
+              provider: VideoURLs.Provider.BRIGHTCOVE,
               width: 640,
               height: 360,
               aspectRatio: "16:9"
