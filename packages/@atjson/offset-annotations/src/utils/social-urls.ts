@@ -42,7 +42,7 @@ function getSearchParam(
 // - www.instagr.am/p/:id
 // - instagram.com/p/:id
 // - instagr.am/p/:id
-function isInstagramURL(url: IUrl) {
+function isInstagramPhotoURL(url: IUrl) {
   return (
     [
       "www.instagram.com",
@@ -53,10 +53,34 @@ function isInstagramURL(url: IUrl) {
   );
 }
 
-function normalizeInstagramURL(url: IUrl) {
+function normalizeInstagramPhotoURL(url: IUrl) {
   let [, id] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: { url: `https://www.instagram.com/p/${id}` },
+    Class: InstagramEmbed
+  };
+}
+
+// Instagram
+// - www.instagram.com/tv/:id
+// - www.instagr.am/tv/:id
+// - instagram.com/tv/:id
+// - instagr.am/tv/:id
+function isInstagramTVURL(url: IUrl) {
+  return (
+    [
+      "www.instagram.com",
+      "www.instagr.am",
+      "instagram.com",
+      "instagr.am"
+    ].includes(url.host) && url.pathname.startsWith("/tv/")
+  );
+}
+
+function normalizeInstagramTVURL(url: IUrl) {
+  let [, id] = without<string>(url.pathname.split("/"), "");
+  return {
+    attributes: { url: `https://www.instagram.com/tv/${id}` },
     Class: InstagramEmbed
   };
 }
@@ -265,8 +289,12 @@ export function identify(
     return normalizeGiphyURL(url);
   }
 
-  if (isInstagramURL(url)) {
-    return normalizeInstagramURL(url);
+  if (isInstagramPhotoURL(url)) {
+    return normalizeInstagramPhotoURL(url);
+  }
+
+  if (isInstagramTVURL(url)) {
+    return normalizeInstagramTVURL(url);
   }
 
   if (isPinterestURL(url)) {

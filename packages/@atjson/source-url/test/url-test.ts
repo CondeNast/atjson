@@ -94,6 +94,18 @@ describe("url-source", () => {
         '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Bnzz-g6gpwg" data-instgrm-version="12"></blockquote>'
       );
     });
+
+    test.each([
+      "https://www.instagram.com/tv/B95M4kNhbzz",
+      "https://instagram.com/tv/B95M4kNhbzz/?utm_source=ig_web_copy_link",
+      "https://instagr.am/tv/B95M4kNhbzz",
+      "https://instagr.am/tv/B95M4kNhbzz/?utm_source=ig_web_copy_link"
+    ])("%s", text => {
+      let url = URLSource.fromRaw(text);
+      expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+        '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/tv/B95M4kNhbzz" data-instgrm-version="12"></blockquote>'
+      );
+    });
   });
 
   describe("twitter", () => {
