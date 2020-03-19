@@ -3,83 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.21.28](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.27...@atjson/renderer-plain-text@0.21.28) (2020-03-11)
+## [0.21.29](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.28...@atjson/renderer-plain-text@0.21.29) (2020-03-19)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
 
+## [0.21.28](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.27...@atjson/renderer-plain-text@0.21.28) (2020-03-11)
 
-
-
+**Note:** Version bump only for package @atjson/renderer-plain-text
 
 ## [0.21.27](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.26...@atjson/renderer-plain-text@0.21.27) (2020-03-02)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
 
-
-
-
-
 ## [0.21.26](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.25...@atjson/renderer-plain-text@0.21.26) (2020-02-26)
-
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
-
-
-
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 ## [0.21.25](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.24...@atjson/renderer-plain-text@0.21.25) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
 
-
-
-
-
 ## [0.21.24](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.23...@atjson/renderer-plain-text@0.21.24) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
-
-
-
-
 
 ## [0.21.23](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.22...@atjson/renderer-plain-text@0.21.23) (2020-02-11)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
 
-
-
-
-
 ## [0.21.22](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-plain-text@0.21.21...@atjson/renderer-plain-text@0.21.22) (2020-02-10)
-
 
 ### Bug Fixes
 
-* just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
-
-
-
-
+- just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
 
 ## [0.21.21](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.20...@atjson/renderer-plain-text@0.21.21) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
 
-
-
-
-
 ## [0.21.20](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.19...@atjson/renderer-plain-text@0.21.20) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
-
-
-
-
 
 ## [0.21.19](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.18...@atjson/renderer-plain-text@0.21.19) (2020-01-24)
 

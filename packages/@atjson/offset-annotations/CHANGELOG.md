@@ -3,82 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.5...@atjson/offset-annotations@0.28.0) (2020-03-19)
+
+### Features
+
+- **video annotations:** add provider attribute to video embeds ([#457](https://github.com/CondeNast/atjson/issues/457)) ([fa2e2be](https://github.com/CondeNast/atjson/commit/fa2e2be847208f9f9ac237f6b0908594b3a6d0af))
+- add support for IGTV ([#461](https://github.com/CondeNast/atjson/issues/461)) ([a7b67f9](https://github.com/CondeNast/atjson/commit/a7b67f98924ab14942d7c5a0a78b538dd02bb22e))
+
 ## [0.27.5](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.4...@atjson/offset-annotations@0.27.5) (2020-03-11)
 
 **Note:** Version bump only for package @atjson/offset-annotations
-
-
-
-
 
 ## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.3...@atjson/offset-annotations@0.27.4) (2020-03-02)
 
 **Note:** Version bump only for package @atjson/offset-annotations
 
-
-
-
-
 ## [0.27.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.2...@atjson/offset-annotations@0.27.3) (2020-02-26)
-
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
-
-
-
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 ## [0.27.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.1...@atjson/offset-annotations@0.27.2) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/offset-annotations
 
-
-
-
-
 ## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.27.0...@atjson/offset-annotations@0.27.1) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/offset-annotations
 
-
-
-
-
 # [0.27.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/offset-annotations@0.26.1...@atjson/offset-annotations@0.27.0) (2020-02-10)
-
 
 ### Features
 
-* add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
-
-
-
-
+- add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
 
 ## [0.26.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.26.0...@atjson/offset-annotations@0.26.1) (2020-01-28)
 
-
 ### Bug Fixes
 
-* add tests and fix a bug where searchParams were being removed ([4c7e8c4](https://github.com/CondeNast/atjson/commit/4c7e8c421cba453b608fb807e04659d33dad882e))
-* getClosestAspectRatio was not returning a proper aspect ratio ([f898793](https://github.com/CondeNast/atjson/commit/f8987930cbf82b55fc080c0ff199447d321edeb6))
-
-
-
-
+- add tests and fix a bug where searchParams were being removed ([4c7e8c4](https://github.com/CondeNast/atjson/commit/4c7e8c421cba453b608fb807e04659d33dad882e))
+- getClosestAspectRatio was not returning a proper aspect ratio ([f898793](https://github.com/CondeNast/atjson/commit/f8987930cbf82b55fc080c0ff199447d321edeb6))
 
 # [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.25.0...@atjson/offset-annotations@0.26.0) (2020-01-28)
 
-
 ### Features
 
-* start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
-
-
-
-
+- start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
 
 ## [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.24.3...@atjson/offset-annotations@0.25.0) (2020-01-24)
 

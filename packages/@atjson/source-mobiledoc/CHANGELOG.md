@@ -3,72 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.21.23](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.22...@atjson/source-mobiledoc@0.21.23) (2020-03-11)
+## [0.21.24](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.23...@atjson/source-mobiledoc@0.21.24) (2020-03-19)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
+## [0.21.23](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.22...@atjson/source-mobiledoc@0.21.23) (2020-03-11)
 
-
-
+**Note:** Version bump only for package @atjson/source-mobiledoc
 
 ## [0.21.22](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.21...@atjson/source-mobiledoc@0.21.22) (2020-03-02)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
-
-
-
-
 ## [0.21.21](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.20...@atjson/source-mobiledoc@0.21.21) (2020-02-26)
-
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
-
-
-
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 ## [0.21.20](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.19...@atjson/source-mobiledoc@0.21.20) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
-
-
-
-
 ## [0.21.19](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.18...@atjson/source-mobiledoc@0.21.19) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
-
-
-
-
 
 ## [0.21.18](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-mobiledoc@0.21.17...@atjson/source-mobiledoc@0.21.18) (2020-02-10)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
-
-
-
-
 ## [0.21.17](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.16...@atjson/source-mobiledoc@0.21.17) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
-
-
-
-
 ## [0.21.16](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.15...@atjson/source-mobiledoc@0.21.16) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
-
-
-
-
 
 ## [0.21.15](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.14...@atjson/source-mobiledoc@0.21.15) (2020-01-24)
 

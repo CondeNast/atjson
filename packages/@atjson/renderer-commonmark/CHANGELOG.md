@@ -3,24 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.5](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.4...@atjson/renderer-commonmark@0.22.5) (2020-03-19)
+
+**Note:** Version bump only for package @atjson/renderer-commonmark
+
 ## [0.22.4](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.3...@atjson/renderer-commonmark@0.22.4) (2020-03-11)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
 
-
-
-
-
 ## [0.22.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.2...@atjson/renderer-commonmark@0.22.3) (2020-03-04)
-
 
 ### Bug Fixes
 
-* handle newlines in list items ([1ef30c8](https://github.com/CondeNast/atjson/commit/1ef30c88d6708c808a1b5ed14537d1d675dcb31b))
-
-
-
-
+- handle newlines in list items ([1ef30c8](https://github.com/CondeNast/atjson/commit/1ef30c88d6708c808a1b5ed14537d1d675dcb31b))
 
 ## [0.22.3-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.2...@atjson/renderer-commonmark@0.22.3-dev.1) (2020-03-03)
 
