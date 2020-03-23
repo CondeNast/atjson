@@ -7,7 +7,7 @@ import minimist from "minimist";
 import * as CK from "../src/ckeditor";
 
 let dom = new JSDOM(``, {
-  url: "https://atjson.condenast.io",
+  url: "https://atjson.condenast.io"
 });
 
 (global as any).window = dom.window;
@@ -17,9 +17,10 @@ let dom = new JSDOM(``, {
   "navigator",
   "localStorage",
   "DOMParser",
+  "HTMLElement",
   "HTMLTextAreaElement",
-  "Node",
-].forEach((key) => {
+  "Node"
+].forEach(key => {
   (global as any)[key] = (dom.window as any)[key];
 });
 
@@ -34,7 +35,7 @@ function classify(name: string) {
 }
 
 function dasherize(name: string) {
-  return name.replace(/([A-Z])/g, (chr) => `-${chr.toLowerCase()}`);
+  return name.replace(/([A-Z])/g, chr => `-${chr.toLowerCase()}`);
 }
 
 function writeAnnotationFile(
@@ -52,11 +53,11 @@ function writeAnnotationFile(
 import { ${AnnotationClass} } from "@atjson/document";
 
 export class ${classify(name)} extends ${AnnotationClass}${
-        attributes.length
-          ? `<{
-  ${attributes.map((attribute) => `${attribute}: unknown;`).join("\n")}
+          attributes.length
+            ? `<{
+  ${attributes.map(attribute => `${attribute}: unknown;`).join("\n")}
 }>`
-          : ""
+            : ""
         } {
   static vendorPrefix = "ckeditor";
   static type = "${name}";
@@ -92,7 +93,7 @@ function writeAnnotationIndex(
     join(dir, "annotations", `index.${extension}`),
     format(
       `${schemas
-        .map((schema) => `export * from "./${dasherize(schema.name)}";`)
+        .map(schema => `export * from "./${dasherize(schema.name)}";`)
         .join("\n")}`,
       { parser: parser }
     )
@@ -169,7 +170,7 @@ function run() {
     buildPackage: args.buildPackage || "@ckeditor/ckeditor5-build-classic",
     buildName: args.buildName || "default",
     out: join(process.cwd(), args.out || "test"),
-    name: args.name || "CKEditorClassicBuildSource",
+    name: args.name || "CKEditorClassicBuildSource"
   };
 
   console.info("Generating CKEditorSource with args:\n", options);
@@ -190,7 +191,7 @@ function run() {
     const fileInfo = {
       extension: language === "typescript" ? "ts" : "js",
       parser: language === "javascript" ? "babel" : "typescript",
-      dir: options.out,
+      dir: options.out
     } as FileInfo;
 
     let div = dom.window.document.createElement("div");
@@ -216,8 +217,8 @@ function run() {
         schema.allowAttributes == null
           ? []
           : Array.isArray(schema.allowAttributes)
-            ? schema.allowAttributes
-            : [schema.allowAttributes];
+          ? schema.allowAttributes
+          : [schema.allowAttributes];
 
       let AnnotationClass;
       if (schema.isBlock) {
@@ -241,7 +242,7 @@ function run() {
 
 run()
   .then(() => process.exit(1))
-  .catch((e) => {
+  .catch(e => {
     console.error(e);
     process.exit(0);
   });
