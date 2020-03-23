@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.4-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.22.3...@atjson/hir@0.22.4-dev.0) (2020-03-23)
+
+**Note:** Version bump only for package @atjson/hir
+
+
+
+
+
 ## [0.22.3](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.22.2...@atjson/hir@0.22.3) (2020-03-11)
 
 **Note:** Version bump only for package @atjson/hir
