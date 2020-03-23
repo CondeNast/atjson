@@ -9,7 +9,7 @@ describe("Document#deleteTextRanges", () => {
         mergeRanges([
           { start: 0, end: 5 },
           { start: 5, end: 12 },
-          { start: 4, end: 8 }
+          { start: 4, end: 8 },
         ])
       ).toEqual([{ start: 0, end: 12 }]);
     });
@@ -18,11 +18,11 @@ describe("Document#deleteTextRanges", () => {
       expect(
         mergeRanges([
           { start: 8, end: 10 },
-          { start: 0, end: 4 }
+          { start: 0, end: 4 },
         ])
       ).toEqual([
         { start: 0, end: 4 },
-        { start: 8, end: 10 }
+        { start: 8, end: 10 },
       ]);
     });
 
@@ -36,13 +36,13 @@ describe("Document#deleteTextRanges", () => {
           { start: 13, end: 13 },
           { start: 8, end: 10 },
           { start: 13, end: 14 },
-          { start: 30, end: 33 }
+          { start: 30, end: 33 },
         ])
       ).toEqual([
         { start: 4, end: 10 },
         { start: 13, end: 14 },
         { start: 16, end: 17 },
-        { start: 30, end: 33 }
+        { start: 30, end: 33 },
       ]);
     });
 
@@ -51,7 +51,7 @@ describe("Document#deleteTextRanges", () => {
       let ranges = [
         { start: 4, end: 6 },
         { start: 0, end: 5 },
-        { start: 3, end: 4 }
+        { start: 3, end: 4 },
       ];
 
       mergeRanges(ranges);
@@ -59,7 +59,7 @@ describe("Document#deleteTextRanges", () => {
       expect(ranges).toMatchObject([
         { start: 4, end: 6 },
         { start: 0, end: 5 },
-        { start: 3, end: 4 }
+        { start: 3, end: 4 },
       ]);
     });
   });
@@ -71,13 +71,13 @@ describe("Document#deleteTextRanges", () => {
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     testDoc.deleteTextRanges([
       { start: 0, end: 3 },
-      { start: 8, end: 12 }
+      { start: 8, end: 12 },
     ]);
 
     expect(testDoc).toMatchObject({
@@ -86,8 +86,8 @@ describe("Document#deleteTextRanges", () => {
         { start: 0, end: 0 },
         { start: 5, end: 5 },
         { start: 0, end: 6 },
-        { start: 0, end: 5 }
-      ]
+        { start: 0, end: 5 },
+      ],
     });
   });
 
@@ -98,20 +98,20 @@ describe("Document#deleteTextRanges", () => {
         new ParseAnnotation({ start: 8, end: 12 }),
         new ParseAnnotation({ start: 0, end: 3 }),
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     let rangesToDelete = [
       { start: 8, end: 12 },
-      { start: 0, end: 3 }
+      { start: 0, end: 3 },
     ];
 
     testDoc.deleteTextRanges(rangesToDelete);
 
     expect(rangesToDelete).toMatchObject([
       { start: 8, end: 12 },
-      { start: 0, end: 3 }
+      { start: 0, end: 3 },
     ]);
   });
 });
@@ -130,15 +130,15 @@ describe("Document#removeAnnotations", () => {
       new ParseAnnotation({ start: 19, end: 20 }),
       new ParseAnnotation({ start: 13, end: 14 }),
       new ParseAnnotation({ start: 5, end: 6 }),
-      new ParseAnnotation({ start: 9, end: 10 })
+      new ParseAnnotation({ start: 9, end: 10 }),
     ];
     let testDoc = new TestSource({
       content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
       annotations: [
         ...parseAnnotations,
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     testDoc.removeAnnotations(parseAnnotations);
@@ -146,8 +146,8 @@ describe("Document#removeAnnotations", () => {
     expect(testDoc).toMatchObject({
       annotations: [
         { type: "bold", start: 0, end: 12 },
-        { type: "paragraph", start: 0, end: 13 }
-      ]
+        { type: "paragraph", start: 0, end: 13 },
+      ],
     });
   });
 
@@ -164,15 +164,15 @@ describe("Document#removeAnnotations", () => {
       new ParseAnnotation({ start: 19, end: 20 }),
       new ParseAnnotation({ start: 13, end: 14 }),
       new ParseAnnotation({ start: 5, end: 6 }),
-      new ParseAnnotation({ start: 9, end: 10 })
+      new ParseAnnotation({ start: 9, end: 10 }),
     ];
     let testDoc = new TestSource({
       content: "a b c d e f g h i j k l m n o p q r s t u v w x y z",
       annotations: [
         ...parseAnnotations,
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     testDoc.removeAnnotations(parseAnnotations);
@@ -189,7 +189,7 @@ describe("Document#removeAnnotations", () => {
       { start: 19, end: 20 },
       { start: 13, end: 14 },
       { start: 5, end: 6 },
-      { start: 9, end: 10 }
+      { start: 9, end: 10 },
     ]);
   });
 });
@@ -202,8 +202,8 @@ describe("Document#canonical", () => {
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     expect(testDoc.canonical()).toMatchObject({
@@ -214,15 +214,15 @@ describe("Document#canonical", () => {
           type: "bold",
           start: 0,
           end: 5,
-          attributes: {}
+          attributes: {},
         },
         {
           type: "paragraph",
           start: 0,
           end: 6,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
   });
 });
@@ -235,8 +235,8 @@ describe("Document#equals", () => {
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     let rightHandSideTestDoc = new TestSource({
@@ -247,8 +247,8 @@ describe("Document#equals", () => {
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 12 })
-      ]
+        new Bold({ start: 0, end: 12 }),
+      ],
     });
 
     let unequalRightHandSideTestDoc = new TestSource({
@@ -258,8 +258,8 @@ describe("Document#equals", () => {
         new ParseAnnotation({ start: 28, end: 36 }),
         new ParseAnnotation({ start: 0, end: 3 }),
         new ParseAnnotation({ start: 8, end: 12 }),
-        new Paragraph({ start: 0, end: 13 })
-      ]
+        new Paragraph({ start: 0, end: 13 }),
+      ],
     });
 
     expect(leftHandSideTestDoc.equals(rightHandSideTestDoc)).toBe(true);
@@ -284,13 +284,13 @@ describe("Document#equals", () => {
                   type: "-test-italic",
                   start: 3,
                   end: 10,
-                  attributes: {}
-                }
-              ]
-            }
-          }
-        }
-      ]
+                  attributes: {},
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     let rightHandSideTestDoc = new TestSource({
@@ -310,13 +310,13 @@ describe("Document#equals", () => {
                   type: "-test-italic",
                   start: 3,
                   end: 10,
-                  attributes: {}
-                }
-              ]
-            }
-          }
-        }
-      ]
+                  attributes: {},
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     let unequalRightHandSideTestDoc = new TestSource({
@@ -336,13 +336,13 @@ describe("Document#equals", () => {
                   type: "-test-italic",
                   start: 4,
                   end: 10,
-                  attributes: {}
-                }
-              ]
-            }
-          }
-        }
-      ]
+                  attributes: {},
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     expect(leftHandSideTestDoc.equals(rightHandSideTestDoc)).toBe(true);
@@ -355,8 +355,8 @@ describe("Document#equals", () => {
       annotations: [
         new ParseAnnotation({ start: 14, end: 16 }),
         new ParseAnnotation({ start: 7, end: 9 }),
-        new Bold({ start: 7, end: 16 })
-      ]
+        new Bold({ start: 7, end: 16 }),
+      ],
     });
 
     let HTMLTestDoc = new TestSource({
@@ -364,8 +364,8 @@ describe("Document#equals", () => {
       annotations: [
         new ParseAnnotation({ start: 7, end: 10 }),
         new ParseAnnotation({ start: 15, end: 19 }),
-        new Bold({ start: 7, end: 19 })
-      ]
+        new Bold({ start: 7, end: 19 }),
+      ],
     });
     expect(MDTestDoc.equals(HTMLTestDoc)).toBe(true);
   });

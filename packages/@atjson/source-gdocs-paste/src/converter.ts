@@ -2,13 +2,13 @@ import {
   Annotation,
   BlockAnnotation,
   ParseAnnotation,
-  is
+  is,
 } from "@atjson/document";
 import OffsetSource, {
   LineBreak,
   Paragraph,
   ListItem,
-  List
+  List,
 } from "@atjson/offset-annotations";
 import { Heading } from "./annotations";
 import GDocsSource from "./source";
@@ -32,7 +32,7 @@ function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
   return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
 }
 
-GDocsSource.defineConverterTo(OffsetSource, doc => {
+GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.
   // If necessary, underlined text can be added afterwards;
@@ -108,14 +108,14 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
       list.end
     )) {
       let adjacentListItem = listItems.find(
-        listItem => listItem.end === newline.start
+        (listItem) => listItem.end === newline.start
       );
       if (adjacentListItem) {
         doc.addAnnotations(
           new ParseAnnotation({
             start: newline.start,
             end: newline.end,
-            attributes: { reason: "list item separator" }
+            attributes: { reason: "list item separator" },
           })
         );
       }
@@ -127,14 +127,14 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     doc.addAnnotations(
       new LineBreak({
         start: verticalTab.start,
-        end: verticalTab.end
+        end: verticalTab.end,
       }),
       new ParseAnnotation({
         start: verticalTab.start,
         end: verticalTab.end,
         attributes: {
-          reason: "vertical tab"
-        }
+          reason: "vertical tab",
+        },
       })
     );
   }
@@ -156,7 +156,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .map((_, index, array) => {
       return {
         start: array[index - 1] || 0,
-        end: array[index]
+        end: array[index],
       };
     })
     .forEach(({ start, end }) => {
@@ -172,14 +172,14 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
           doc.addAnnotations(
             new Paragraph({
               start: lastEnd,
-              end: paragraphBoundary.start
+              end: paragraphBoundary.start,
             }),
             new ParseAnnotation({
               start: paragraphBoundary.start,
               end: paragraphBoundary.end,
               attributes: {
-                reason: "paragraph boundary"
-              }
+                reason: "paragraph boundary",
+              },
             })
           );
         }
@@ -191,7 +191,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
         doc.addAnnotations(
           new Paragraph({
             start: lastEnd,
-            end
+            end,
           })
         );
       }
@@ -228,7 +228,7 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
             currentList = new List({
               ...currentList,
               start: block.start,
-              end: listEnd
+              end: listEnd,
             });
             doc.addAnnotations(currentList);
           }
@@ -269,8 +269,8 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
           start: insertionPoint,
           end: insertionPoint + 1,
           attributes: {
-            reason: "object replacement character for single-item list"
-          }
+            reason: "object replacement character for single-item list",
+          },
         })
       );
       item.end--;

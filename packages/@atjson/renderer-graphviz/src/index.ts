@@ -45,7 +45,7 @@ function generateGraph(
     id: `${hirNode.type.replace("-", "_")}${nodes.length + 1}`,
     label: hirNode.type,
     color: getColor(hirNode.rank),
-    text
+    text,
   };
   nodes.push(node);
 

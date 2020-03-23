@@ -181,35 +181,35 @@ export enum Provider {
   VIMEO = "VIMEO",
   BRIGHTCOVE = "BRIGHTCOVE",
   DAILYMOTION = "DAILYMOTION",
-  OTHER = "OTHER"
+  OTHER = "OTHER",
 }
 
 export function identify(url: IUrl) {
   if (isYouTubeURL(url)) {
     return {
       provider: Provider.YOUTUBE,
-      url: normalizeYouTubeURL(url)
+      url: normalizeYouTubeURL(url),
     };
   }
 
   if (isVimeoURL(url)) {
     return {
       provider: Provider.VIMEO,
-      url: normalizeVimeoURL(url)
+      url: normalizeVimeoURL(url),
     };
   }
 
   if (isDailymotionURL(url)) {
     return {
       provider: Provider.DAILYMOTION,
-      url: normalizeDailymotionURL(url)
+      url: normalizeDailymotionURL(url),
     };
   }
 
   if (isBrightcoveURL(url)) {
     return {
       provider: Provider.BRIGHTCOVE,
-      url: toURL(url)
+      url: toURL(url),
     };
   }
 

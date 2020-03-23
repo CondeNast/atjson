@@ -2,7 +2,7 @@ import Document, {
   Annotation,
   JSON,
   ParseAnnotation,
-  is
+  is,
 } from "@atjson/document";
 import { Root, Text } from "./annotations";
 
@@ -92,7 +92,7 @@ export default class HIRNode {
       attributes: toJSON(this.annotation.attributes),
       children: this.children(options).map(function toJSONWithOptions(child) {
         return child.toJSON(options);
-      })
+      }),
     };
   }
 
@@ -136,7 +136,7 @@ export default class HIRNode {
     let annotation = new Text({
       start: this.start,
       end: this.end,
-      attributes: { text }
+      attributes: { text },
     });
     let node = new HIRNode({
       type: annotation.type,
@@ -145,7 +145,7 @@ export default class HIRNode {
       end: this.end,
       rank: annotation.rank,
       text,
-      annotation
+      annotation,
     });
 
     this.insertNode(node);
@@ -305,7 +305,7 @@ export default class HIRNode {
           rank: this.rank,
           start: newStart,
           end: newEnd,
-          text: this.text.slice(newStart - this.start, newEnd - this.start)
+          text: this.text.slice(newStart - this.start, newEnd - this.start),
         })
       : new HIRNode({
           id: this.id,
@@ -313,7 +313,7 @@ export default class HIRNode {
           rank: this.rank,
           annotation: this.annotation,
           start: newStart,
-          end: newEnd
+          end: newEnd,
         });
 
     if (partial.start === partial.end) return;

@@ -3,7 +3,7 @@ import OffsetSource, {
   getClosestAspectRatio,
   VideoEmbed,
   VideoURLs,
-  CaptionSource
+  CaptionSource,
 } from "@atjson/offset-annotations";
 import { Iframe, Anchor, Div } from "../annotations";
 
@@ -56,7 +56,7 @@ function getSize(annotation: Iframe, name: "width" | "height") {
   return undefined;
 }
 
-export default function(doc: Document) {
+export default function (doc: Document) {
   doc
     .where(isVimeoEmbed)
     .as("video")
@@ -107,8 +107,8 @@ export default function(doc: Document) {
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
-            caption
-          }
+            caption,
+          },
         })
       );
     });
@@ -153,8 +153,10 @@ export default function(doc: Document) {
             width,
             height,
             aspectRatio:
-              width && height ? getClosestAspectRatio(width, height) : undefined
-          }
+              width && height
+                ? getClosestAspectRatio(width, height)
+                : undefined,
+          },
         })
       );
       doc.removeAnnotations(divsToToss);
@@ -180,8 +182,10 @@ export default function(doc: Document) {
             width,
             height,
             aspectRatio:
-              width && height ? getClosestAspectRatio(width, height) : undefined
-          }
+              width && height
+                ? getClosestAspectRatio(width, height)
+                : undefined,
+          },
         })
       );
     }

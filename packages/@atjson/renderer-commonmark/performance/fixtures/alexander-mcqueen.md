@@ -1,310 +1,175 @@
 (T) means item available only to the trade.
 
- JUMP TO:
+JUMP TO:
 
- [Crossing Borders](#crossing-borders)
- [The Sum of Its Parts](#sum-of-its-parts)
- [In a New Light](#new-light)
- [London Calling](#london-calling)
- [Crowning Achievement](#crowning-achievement)
- [The Count and His Castle](#count-castle)
- [Modern Translation](#modern-translation)
+[Crossing Borders](#crossing-borders)
+[The Sum of Its Parts](#sum-of-its-parts)
+[In a New Light](#new-light)
+[London Calling](#london-calling)
+[Crowning Achievement](#crowning-achievement)
+[The Count and His Castle](#count-castle)
+[Modern Translation](#modern-translation)
 
+[]()CROSSING BORDERS
 
- []()CROSSING BORDERS
+**PAGES 60–67**
 
-__PAGES 60–67__
+**Architecture** by Backen, Gillam & Kroeger Architects; _[bgarch.com](http://www.bgarch.com)._ **Interior design** by April Powers Interior Design; _[apowersinteriors.com](http://www.apowersinteriors.com)._ **Landscape design** by Andrea Cochran Landscape Architecture; _[acochran.com](http://www.acochran.com)._
 
+**Living room:** **Guardian floor lamps** by Chakib Richani; _[chakibrichanicollection.com](http://www.chakibrichanicollection.com)._ **Belgian Basket Weave sisal rug,** in honey, by Restoration Hardware; _[restorationhardware.com](http://www.restorationhardware.com)._
 
+**Living room terrace:** **Leagrave armchairs** and **ottomans** by Restoration Hardware; _[restorationhardware.com](http://www.restorationhardware.com)._
 
-__Architecture__ by Backen, Gillam & Kroeger Architects; *[bgarch.com](http://www.bgarch.com).* __Interior design__ by April Powers Interior Design; *[apowersinteriors.com](http://www.apowersinteriors.com).* __Landscape design__ by Andrea Cochran Landscape Architecture; *[acochran.com](http://www.acochran.com).*
+**Kitchen: B3 cabinetry** by Bulthaup; _[bulthaup.com](http://www.bulthaup.com)._ **200 series double ovens** and **Vario 400 series gas cooktop** by Gaggenau; _[gaggenau.com](http://www.gaggenau.com)._ **Custom-made light fixture** and **slipcovered barstools** by April Powers Interior Design; _[apowersinteriors.com](http://www.apowersinteriors.com)._
 
+**Dining room: Diamond table** by Michael Taylor Designs; _[michaeltaylordesigns.com](http://www.michaeltaylordesigns.com)._
 
+**Poolside dining area: Cabin director’s chairs,** in natural/teak, by Janus et Cie; _[janusetcie.com](http://www.janusetcie.com)._ **Custom-made concrete tables** by Buddy Rhodes Concrete Products; _[buddyrhodes.com](http://www.buddyrhodes.com)._
 
-__Living room:__ __Guardian floor lamps__ by Chakib Richani; *[chakibrichanicollection.com](http://www.chakibrichanicollection.com).* __Belgian Basket Weave sisal rug,__ in honey, by Restoration Hardware; *[restorationhardware.com](http://www.restorationhardware.com).*
+**Master bedroom: Throw** and **cushions of Grizzly faux fur** by Sahco (T); _[donghia.com](http://www.donghia.com)._ **Bed, coverlet,** and **pillows** **of silk taffeta,** in plain, by Rose Cumming (T); _[dessinfournir.com](http://www.dessinfournir.com)._
 
+**Edward’s bath: Tara shower fittings** by Dornbracht; _[dornbracht.com](http://www.dornbracht.com)._
 
+**Anne’s bath: Po limestone tub** by Boffi; _[boffi.com](http://www.boffi.com)._ **Tara Logic tub fittings** by Dornbracht; _[dornbracht.com](http://www.dornbracht.com)._
 
-__Living room terrace:__ __Leagrave armchairs__ and __ottomans__ by Restoration Hardware; *[restorationhardware.com](http://www.restorationhardware.com).*
+**Pool area:** **On chaise longues, Sailcloth acrylic,** in salt, by Sunbrella; _[sunbrella.com](http://www.sunbrella.com)._
 
+[Back to Top](#top-of-page) []()THE SUM OF ITS PARTS
 
+**PAGES 68–73**
 
-__Kitchen: B3 cabinetry__ by Bulthaup; *[bulthaup.com](http://www.bulthaup.com).* __200 series double ovens__ and __Vario 400 series gas cooktop__ by Gaggenau; *[gaggenau.com](http://www.gaggenau.com).* __Custom-made light fixture__ and __slipcovered barstools__ by April Powers Interior Design; *[apowersinteriors.com](http://www.apowersinteriors.com).*
+**Architecture** by Steven Harris Architects; _[stevenharrisarchitects.com](http://www.stevenharrisarchitects.com)._ **Interior** and **landscape design** by Rees Roberts + Partners; _[reesroberts.com](http://www.reesroberts.com)._
 
+**Living room: On chairs, Cushy Life rayon-cotton,** in water blue, by Kravet (T); _[kravet.com](http://www.kravet.com)._
 
+**Kitchen: Professional Series range** and **hood,** with duct cover,\_\_\_\_ by Viking; _[vikingrange.com](http://www.vikingrange.com)._
 
-__Dining room: Diamond table__ by Michael Taylor Designs; *[michaeltaylordesigns.com](http://www.michaeltaylordesigns.com).*
+**Dining area: On chairs, Papilio cotton blend,** in F5310-20, by Osborne & Little (T); _[osborneandlittle.com](http://www.osborneandlittle.com)._
 
+**Master bedroom: UFN-33N Akari floor lamp** by Isamu Noguchi; _[noguchi.org](http://www.noguchi.org)._ **Double Row Cord cotton-percale bed linens** and **Aspen cashmere throw,** in fossil, by Calvin Klein Home; _[calvinklein.com](http://www.calvinklein.com)._
 
+**Master bath: 671R shower fittings** and **590G sink fittings** by Vola; _[vola.com](http://www.vola.com)._
 
-__Poolside dining area: Cabin director’s chairs,__ in natural/teak, by Janus et Cie; *[janusetcie.com](http://www.janusetcie.com).* __Custom-made concrete tables__ by Buddy Rhodes Concrete Products; *[buddyrhodes.com](http://www.buddyrhodes.com).*
+**Terrace: Hemisphere outdoor seating** by Dedon; _[dedon.de](http://www.dedon.de)._
 
+[Back to Top](#top-of-page) []()IN A NEW LIGHT
 
+**PAGES 74–85**
 
-__Master bedroom: Throw__ and __cushions of Grizzly faux fur__ by Sahco (T); *[donghia.com](http://www.donghia.com).* __Bed, coverlet,__ and __pillows__ __of silk taffeta,__ in plain, by Rose Cumming (T); *[dessinfournir.com](http://www.dessinfournir.com).*
+**Interior architecture** and **design** by McAlpine Booth & Ferrier Interiors; _[mcalpineboothferrier.com](http://www.mcalpineboothferrier.com)._ **Architecture** by DA|AD; _[daad-group.com](http://www.daad-group.com)._ **Landscape design** by Page|Duke Landscape Architects; _[pageduke.com](http://www.pageduke.com)._
 
+**Entrance Hall: Omega glass ceiling light** by Melogranoblu from Space Lighting; _[spacelighting.com](http://www.spacelighting.com)._ **Edward Wormley wing chair** and **ottoman** from Todd Merrill Antiques; _[merrillantiques.com](http://www.merrillantiques.com)._ **Curtains of Wintertree II viscose blend,** in vanilla, by Larsen (T); _[cowtan.com](http://www.cowtan.com)._ **Aquarelle carpet,** in wicker basket, by Patterson, Flynn & Martin (T); \*[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com).\*\*\*
 
+**Central corridor:** **Large Black Vistosi Disc light fixture** from Venfield Inc.; _[venfieldnyc.com](http://www.venfieldnyc.com)._ **Tall iron lamp** from Lucca Antiques; _[luccaantiques.com](http://www.luccaantiques.com)._ **Metal garden bench** by Lucca & Co.; _[luccany.com](http://www.luccany.com);_ in **Cavallini cowhide,** in vanilla, by Edelman Leather (T); _[edelmanleather.com](http://www.edelmanleather.com)._\_\_\_\_
 
-__Edward’s bath: Tara shower fittings__ by Dornbracht; *[dornbracht.com](http://www.dornbracht.com).*
+**Living room: Curtains of Window Sheer fabric,** in smoke, by Great Plains (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Una Lamino light sculpture** by U-Ram Choe; _[uram.net](http://www.uram.net)_. **Dubuffet cocktail table** by Chista (T); _[chista.net](http://www.chista.net)._ **Vintage Tommi Parzinger mahogany armchair** from Duane Modern; _[duanemodern.com](http://www.duanemodern.com)._ **Modern Elbow slipper chairs** by William Haines Designs (T); _[williamhaines.com](http://www.williamhaines.com);_ in **Shearling viscose blend,** in wool white, by Larsen (T); _[cowtan.com](http://www.cowtan.com)._ **Ann settees** by Christophe Delcourt from Ralph Pucci International (T); _[ralphpucci.net](http://www.ralphpucci.net)._ **Lake Low credenza** by BDDW; _[bddw.com](http://www.bddw.com)._ **MG Jewel cocktail table** by Magni from Profiles (T); _[profilesny.com](http://www.profilesny.com)._
 
+**Living room alcove:** **Calvin sectional sofa** by Bright Chair Co.; _[brightchair.com](http://www.brightchair.com)._ **Vintage chandeliers** from John Salibello Antiques; _[johnsalibello.com](http://www.johnsalibello.com)._ **Liseron floor lamp** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._
 
+**Family room: Hugo lounge chair** by Terry Hunziker for Sutherland (T); _[sutherlandfurniture.com](http://www.sutherlandfurniture.com)._ **Long Island 05 sectional sofa** by Flexform; _[flexform.it](http://www.flexform.it)._ **Saladino glass table lamp** by Saladino Furniture Inc. (T); _[saladinostyle.com](http://www.saladinostyle.com)._ **Curtains of Maestro Walls linen,** in putty, by Donghia (T); _[donghia.com](http://www.donghia.com)._ **Eternity chandelier** by Paul Ferrante Inc. (T); _[paulferrante.com](http://www.paulferrante.com)._ **HOK floor lamp** by Christophe Delcourt from Ralph Pucci International (T); _[ralphpucci.net](http://www.ralphpucci.net)._
 
-__Anne’s bath: Po limestone tub__ by Boffi; *[boffi.com](http://www.boffi.com).* __Tara Logic tub fittings__ by Dornbracht; *[dornbracht.com](http://www.dornbracht.com).*
+**Kitchen: Refrigerator** and **freezer** by Sub-Zero; _[subzero-wolf.com](http://www.subzero-wolf.com)._ **697 chairs** by A. Rudin; _[arudin.com](http://www.arudin.com)._
 
+**Dining area: Moare pendant light** from Ameico Inc.; _[ameico.com](http://www.ameico.com)._ **Gramercy table** by Gregorius|Pineo (T); _[gregoriuspineo.com](http://www.gregoriuspineo.com)._
 
+**Dining gallery: Puddle side table** by Gary Hutton Design (T); _[garyhuttondesign.com](http://www.garyhuttondesign.com)._ **Valentin floor lamps** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._ **Moondrops Glacier rug** from Tufenkian Artisan Carpets (T); _[tufenkian.com](http://www.tufenkian.com)._
 
-__Pool area:__ __On chaise longues, Sailcloth acrylic,__ in salt, by Sunbrella; *[sunbrella.com](http://www.sunbrella.com).*
+**Sitting area: Grande Papilio chair** by B&B Italia; _[bebitalia.it](http://www.bebitalia.it)._ **Paramount chaise longue** by Michael Berman Ltd. (T); _[michaelbermanlimited.com](http://www.michaelbermanlimited.com)._ **Moana-tea carpet,** in blue, by Patterson, Flynn & Martin (T); _[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com)._
 
- [Back to Top](#top-of-page) []()THE SUM OF ITS PARTS
+**Bedroom: Sorraia bed** by Holly Hunt (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **X stool** by Formations (T); _[formationsusa.com](http://www.formationsusa.com)._ **Chambers chaise longue** by Duane Modern; _[duanemodern.com](http://www.duanemodern.com);_ in **Harmony viscose blend,** in sesame, by Lee Jofa (T); _[leejofa.com](http://www.leejofa.com)._ **Hand-knotted Otto rug** by Tai Ping (T); _[taipingcarpets.com](http://www.taipingcarpets.com)._
 
-__PAGES 68–73__
+**Master bedroom: On walls, Shan silk,** in medium celadon, by Larsen (T); _[cowtan.com](http://www.cowtan.com)._ **Jaeger ceiling fixture** by Ironies (T); _[ironies.com](http://www.ironies.com)._ **Alcova bed** by B&B Italia; _[bebitalia.it](http://www.bebitalia.it)._ **Monastère bookcase** and **Courier table** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._ **Curtains of Havana fabric,** in seaglass, by Larsen (T); _[cowtan.com](http://www.cowtan.com)._ **Tangiers Tile carpet** by Kelly Wearstler for Patterson, Flynn & Martin (T); _[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com)._
 
+**Dressing room: Parchment Drum Shade light fixtures** by Charles Edwards; _[charlesedwards.com](http://www.charlesedwards.com)._
 
+**Master bath: Curtains of Nirvana rayon-silk,** in seaspray, by Jim Thompson (T); _[jimthompsonfabrics.com](http://www.jimthompsonfabrics.com)._ **Paris sconces** by Holly Hunt (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Lorae chair** by Bright Chair Co.; _[brightchair.com](http://www.brightchair.com);_ in **Volute viscose blend,** in buttermilk, by Pollack Assoc. (T); _[pollackassociates.com](http://www.pollackassociates.com)._ **Starck tub** by Duravit; _[duravit.com](http://www.duravit.com)._ **French Bleu limestone flooring** by Paris Ceramics; _[parisceramics.com](http://www.parisceramics.com)._
 
-__Architecture__ by Steven Harris Architects; *[stevenharrisarchitects.com](http://www.stevenharrisarchitects.com).* __Interior__ and __landscape design__ by Rees Roberts + Partners; *[reesroberts.com](http://www.reesroberts.com).*
+**Pool area: Sherwood corner bed** from Sutherland (T); _[sutherlandfurniture.com](http://www.sutherlandfurniture.com);_ in **Very Terry acrylic,** in oyster, by Perennials (T); _[perennialsfabrics.com](http://www.perennialsfabrics.com)._ **Poolside chairs** from Sutherland (T); in **Raw Passion fabric,** in sea salt, by Perennials (T). **Peninsula chaise longues** from Sutherland (T).
 
+**Poolside lounge: Rectangle pendant lantern** by Ames Ingham; _[amesingham.com](http://www.amesingham.com)._ **Wendell chair** from Dennis Miller Assoc. (T); _[dennismiller.com](http://www.dennismiller.com)._ **On sofa** and **chairs, Very Terry acrylic,** in oyster, by Perennials (T); _[perennialsfabrics.com](http://www.perennialsfabrics.com)._ **Plank table** and **Slab benches** by Robert Bristow from Ralph Pucci International (T); _[ralphpucci.net](http://www.ralphpucci.net)._
 
+[Back to Top](#top-of-page) []()LONDON CALLING
 
-__Living room: On chairs, Cushy Life rayon-cotton,__ in water blue, by Kravet (T); *[kravet.com](http://www.kravet.com).*
+**PAGES 96–105**
 
+**Interior design** by Francis Sultana Ltd.; _[francissultana.com](http://www.francissultana.com)._ **Architecture** by Thomas Croft Architects; _[thomascroft.com](http://www.thomascroft.com)._
 
+**Drawing room: Piano** by Steinway & Sons; _[steinway.com](http://www.steinway.com)._ **On bench, Cavallini cowhide,** in black, by Edelman Leather (T); _[edelmanleather.com](http://www.edelmanleather.com)._ **Bridgehampton sofas** by Francis Sultana Ltd.; _[francissultana.com](http://www.francissultana.com)._ **Edge carpet,** in teal, by Fort Street Studio (T); _[fortstreetstudio.com](http://www.fortstreetstudio.com)._
 
-__Kitchen: Professional Series range__ and __hood,__ with duct cover,____ by Viking; *[vikingrange.com](http://www.vikingrange.com).*
+**Kitchen: Cabinetry** by Minotti Cucine; _[minotticucine.it](http://www.minotticucine.it)._ **Cooktop** by Wolf; _[subzero-wolf.com](http://www.subzero-wolf.com)._ **Stephen barstools** by Francis Sultana Ltd.; _[francissultana.com](http://www.francissultana.com)._
 
+**Dining room: Unicorn curved sofas** by Vladimir Kagan (T); _[vladimirkagan.com](http://www.vladimirkagan.com)._ **Light fixture** by Fredrikson Stallard; _[fredriksonstallard.com](http://www.fredriksonstallard.com)._
 
+**Guest room: Float carpet,** in teal, by Fort Street Studio (T); _[fortstreetstudio.com](http://www.fortstreetstudio.com)._
 
-__Dining area: On chairs, Papilio cotton blend,__ in F5310-20, by Osborne & Little (T); *[osborneandlittle.com](http://www.osborneandlittle.com).*
+**Children’s room: Leo carpet,** in umber, by Fort Street Studio (T); _[fortstreetstudio.com](http://www.fortstreetstudio.com)._
 
+**Master bedroom: Custom-made bed** and **Hamptons chaise longues** by Francis Sultana Ltd.; _[francissultana.com](http://www.francissultana.com)._ **Ribbon carpet,** in light, by Fort Street Studio (T); _[fortstreetstudio.com](http://www.fortstreetstudio.com)._
 
+**Master bedroom closet: Ribbon carpet,** in light, by Fort Street Studio (T); _[fortstreetstudio.com](http://www.fortstreetstudio.com)._\_\_\_\_
 
-__Master bedroom: UFN-33N Akari floor lamp__ by Isamu Noguchi; *[noguchi.org](http://www.noguchi.org).* __Double Row Cord cotton-percale bed linens__ and __Aspen cashmere throw,__ in fossil, by Calvin Klein Home; *[calvinklein.com](http://www.calvinklein.com).*
+**Second-floor bath: Lonsdale tub** by the Water Monopoly; _[thewatermonopoly.com](http://www.thewatermonopoly.com)._ **Vanity of Corian,** in designer white, by DuPont; _[dupont.com](http://www.dupont.com)._ **Ondus sink fittings** and **tub fittings,** in moon white, by Grohe; _[grohe.com](http://www.grohe.com)._
 
+**Master bath: Ondus sink fittings,** in chrome, by Grohe; _[grohe.com](http://www.grohe.com)._
 
+**Terrace: Sofa** by Francis Sultana Ltd.; _[francissultana.com](http://www.francissultana.com)._ **On cushions, Guadeloupe acrylic,** in grey, by Scalamandré (T); _[scalamandre.com](http://www.scalamandre.com)._
 
-__Master bath: 671R shower fittings__ and __590G sink fittings__ by Vola; *[vola.com](http://www.vola.com).*
+[Back to Top](#top-of-page) []()CROWNING ACHIEVEMENT
 
+**PAGES 106–15**
 
+**Architecture** by Lake|Flato Architects; _[lakeflato.com](http://www.lakeflato.com)._ **Interior design** by Terry Hunziker Inc.; _[terryhunziker.com](http://www.terryhunziker.com)._ **Landscape design** by the Garden Design Studio; _[gardendesignstudio.us](http://www.gardendesignstudio.us)._
 
-__Terrace: Hemisphere outdoor seating__ by Dedon; *[dedon.de](http://www.dedon.de).*
+**Living/dining area: Merlot floor lamps** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._ **Custom-made sofa, armchairs,** and **cocktail table** by Terry Hunziker; _[terryhunziker.com](http://www.terryhunziker.com)._ **On sofa** and **armchairs, All Aboard! acrylic blend,** in Paddington, by John Hutton Textiles; _[johnhutton.com](http://www.johnhutton.com)._ **Oh Mei Ma ceiling light** by Ingo Maurer; _[ingo-maurer.com](http://www.ingo-maurer.com)._ **Harry’s chairs** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr);_ in **Umbria Neutrale leather,** in 02, by Holly Hunt (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Custom-made dining table** by Terry Hunziker.
 
- [Back to Top](#top-of-page) []()IN A NEW LIGHT
+**Sitting room: Toja cocktail table** by Christian Liaigre; _[christian-liaigre.fr](http://www.christian-liaigre.fr)._ **Custom-made sofas** by Terry Hunziker; _[terryhunziker.com](http://www.terryhunziker.com)._ **Television** by Samsung; _[samsung.com](http://www.samsung.com)._
 
-__PAGES 74–85__
+**Kitchen: Custom-made table** by Terry Hunziker; _[terryhunziker.com](http://www.terryhunziker.com)._ **Bison chairs** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr);_ in **Umbria Neutrale leather,** in 02, by Holly Hunt (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Shitake countertops,** in graige, by Caesarstone; _[caesarstoneus.com](http://www.caesarstoneus.com)._ **Range** by Wolf; _[subzero-wolf.com](http://www.subzero-wolf.com)._
 
+**Bedroom: City occasional chair** by Holly Hunt (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Pharmacy lamp** by Casella Lighting; _[casellalighting.com](http://www.casellalighting.com)._ **Triomphe bed linens,** in ecru, by Yves Delorme; _[yvesdelorme.com](http://www.yvesdelorme.com)._
 
+**Master bedroom: Custom-made bed** by Terry Hunziker; _[terryhunziker.com](http://www.terryhunziker.com)._ **Ubud bench** and **Valentin sconces** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._ **Hugo Contemporary Fireside chair** and **Mr. Jake floor lamp** by Terry Hunziker for Sutherland (T); _[sutherlandfurniture.com](http://www.sutherlandfurniture.com)._
 
-__Interior architecture__ and __design__ by McAlpine Booth & Ferrier Interiors; *[mcalpineboothferrier.com](http://www.mcalpineboothferrier.com).* __Architecture__ by DA|AD; *[daad-group.com](http://www.daad-group.com).* __Landscape design__ by Page|Duke Landscape Architects; *[pageduke.com](http://www.pageduke.com).*
+**Master bath: Linen tub surround** by Caesarstone; _[caesarstoneus.com](http://www.caesarstoneus.com)._
 
+**Terrace: Olympus armchairs** and **Poolside armless sofas** by John Hutton for Sutherland (T); _[sutherlandfurniture.com](http://www.sutherlandfurniture.com)._ **Cushions of Canvas Weave fabric,** in pearl and sunshine, and **pillows of Canvas Weave fabric,** in periwinkle, all by Perennials (T); _[perennialsfabrics.com](http://www.perennialsfabrics.com)._ **Peninsula crossbar cocktail table, side table, rectangular dining table,** and **side chairs** all by Terry Hunziker for Sutherland (T).\*\*
 
+[Back to Top](#top-of-page) []()THE COUNT AND HIS CASTLE
 
-__Entrance Hall: Omega glass ceiling light__ by Melogranoblu from Space Lighting; *[spacelighting.com](http://www.spacelighting.com).* __Edward Wormley wing chair__ and __ottoman__ from Todd Merrill Antiques; *[merrillantiques.com](http://www.merrillantiques.com).* __Curtains of Wintertree II viscose blend,__ in vanilla, by Larsen (T); *[cowtan.com](http://www.cowtan.com).* __Aquarelle carpet,__ in wicker basket, by Patterson, Flynn & Martin (T); *[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com).***
+**PAGES 116–25**
 
+**Interior design, architecture,** and **landscape design** by Count Benedikt Bolza; _[reschio.com](http://www.reschio.com)._
 
+**Kitchen: Systema sink fittings** by KWC; _[kwcamerica.com](http://www.kwcamerica.com)._
 
-__Central corridor:__ __Large Black Vistosi Disc light fixture__ from Venfield Inc.; *[venfieldnyc.com](http://www.venfieldnyc.com).* __Tall iron lamp__ from Lucca Antiques; *[luccaantiques.com](http://www.luccaantiques.com).* __Metal garden bench__ by Lucca & Co.; *[luccany.com](http://www.luccany.com);* in __Cavallini cowhide,__ in vanilla, by Edelman Leather (T); *[edelmanleather.com](http://www.edelmanleather.com).*____
+**Guest baths: Mackintosh shower fittings** by Lefroy Brooks; _[lefroybrooks.com](http://www.lefroybrooks.com)._
 
+[Back to Top](#top-of-page) []()MODERN TRANSLATION
 
+**PAGES 126–33**
 
-__Living room: Curtains of Window Sheer fabric,__ in smoke, by Great Plains (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Una Lamino light sculpture__ by U-Ram Choe; *[uram.net](http://www.uram.net)*. __Dubuffet cocktail table__ by Chista (T); *[chista.net](http://www.chista.net).* __Vintage Tommi Parzinger mahogany armchair__ from Duane Modern; *[duanemodern.com](http://www.duanemodern.com).* __Modern Elbow slipper chairs__ by William Haines Designs (T); *[williamhaines.com](http://www.williamhaines.com);* in __Shearling viscose blend,__ in wool white, by Larsen (T); *[cowtan.com](http://www.cowtan.com).* __Ann settees__ by Christophe Delcourt from Ralph Pucci International (T); *[ralphpucci.net](http://www.ralphpucci.net).* __Lake Low credenza__ by BDDW; *[bddw.com](http://www.bddw.com).* __MG Jewel cocktail table__ by Magni from Profiles (T); *[profilesny.com](http://www.profilesny.com).*
+**Interior design** by Carrier and Co. Interiors; _[carrierandcompany.com](http://www.carrierandcompany.com)._ **Architecture** by Specht Harpman Architects; _[spechtharpman.com](http://www.spechtharpman.com)._ **Landscape design** by Gunn Landscape Architecture; _[gunnlandscapes.com](http://www.gunnlandscapes.com)._ **Hair** and **makeup** by Maysoon Faraj; _[maysoonfaraj.com](http://www.maysoonfaraj.com)._
 
+**Living area: Mercer chairs,** in dark walnut finish, by Desiron; _[desiron.com](http://www.desiron.com)._ **Warren Platner cocktail table** for Knoll from Design Within Reach; _[dwr.com](http://www.dwr.com)._ **Daybed** by Robert Bristow from Ralph Pucci International (T); _[ralphpucci.net](http://www.ralphpucci.net);_ in **Hanakago viscose blend,** in naturel, by Castel (T); _[donghia.com](http://www.donghia.com)._ **Custom-made ottoman** by Carrier and Co. Interiors; _[carrierandcompany.com](http://www.carrierandcompany.com);_ in **Ropework polyester blend,** in hazel, by Kravet (T); _[kravet.com](http://www.kravet.com)._ **Circuit wool rug** by Beauvais Carpets (T); _[beauvaiscarpets.com](http://www.beauvaiscarpets.com)._
 
+**Media room: Madame X cocktail table** by Bright Chair Co.; _[brightchair.com](http://www.brightchair.com)._ **Metropolitan chair** by B&B Italia; _[bebitalia.it](http://www.bebitalia.it)._ **Hamilton Modulo sectional sofa** by Minotti from DDC; _[ddcnyc.com](http://www.ddcnyc.com)._ **Prairie cowhide carpet,** in arctic, by Calvin Klein Home; _[calvinklein.com](http://www.calvinklein.com)._
 
-__Living room alcove:__ __Calvin sectional sofa__ by Bright Chair Co.; *[brightchair.com](http://www.brightchair.com).* __Vintage chandeliers__ from John Salibello Antiques; *[johnsalibello.com](http://www.johnsalibello.com).* __Liseron floor lamp__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).*
+**Office: Harry ottoman** by B&B Italia; _[bebitalia.it](http://www.bebitalia.it)._
 
+**Kitchen: Cinder countertops** by Caesarstone; _[caesarstoneus.com](http://www.caesarstoneus.com)._ **Coast stools** by Dune; _[dune-ny.com](http://www.dune-ny.com)._
 
+**Dining area: Frank Armless side chairs** by Mattaliano (T); _[hollyhunt.com](http://www.hollyhunt.com)._ **Regency table** by Rose Tarlow Melrose House (T); _[rosetarlow.com](http://www.rosetarlow.com)._ **Belleville light fixture** by Bourgeois Bohème; _[bobo-antiques.com](http://www.bobo-antiques.com)._
 
-__Family room: Hugo lounge chair__ by Terry Hunziker for Sutherland (T); *[sutherlandfurniture.com](http://www.sutherlandfurniture.com).* __Long Island 05 sectional sofa__ by Flexform; *[flexform.it](http://www.flexform.it).* __Saladino glass table lamp__ by Saladino Furniture Inc. (T); *[saladinostyle.com](http://www.saladinostyle.com).* __Curtains of Maestro Walls linen,__ in putty, by Donghia (T); *[donghia.com](http://www.donghia.com).* __Eternity chandelier__ by Paul Ferrante Inc. (T); *[paulferrante.com](http://www.paulferrante.com).* __HOK floor lamp__ by Christophe Delcourt from Ralph Pucci International (T); *[ralphpucci.net](http://www.ralphpucci.net).*
+**Guest room: Hive Ink** and **Tagine Ink throw pillows** by Galbraith & Paul from Room & Board; _[roomandboard.com](http://www.roomandboard.com)._
 
+**Master bedroom: Mandarin slipper chairs** by Christian Liaigre (T); _[christian-liaigre.fr](http://www.christian-liaigre.fr)._
 
+**Downstairs bath: Alpha Over-mirror sconces** by Casella Lighting; _[casellalighting.com](http://www.casellalighting.com)._ **Axor Starck sink fittings** by Hansgrohe; _[hansgrohe-usa.com](http://www.hansgrohe-usa.com)._ **Globe 1.0 porcelain tiles,** in gray, from Stone Source; _[stonesource.com](http://www.stonesource.com)._
 
-__Kitchen: Refrigerator__ and __freezer__ by Sub-Zero; *[subzero-wolf.com](http://www.subzero-wolf.com).* __697 chairs__ by A. Rudin; *[arudin.com](http://www.arudin.com).*
+**Guest bath: Luce sink** by Lacava from AF Supply; _[afsupply.com](http://www.afsupply.com)._ **Contemporary Round rainhead** and **Stillness shower fittings** by Kohler; _[kohler.com](http://www.kohler.com)._ **On floors, Savoy Penny Round tile,** in cottonwood, by Ann Sacks; _[annsacks.com](http://www.annsacks.com)._ **On walls, Metro glass tile,** available in Cancun, by Ann Sacks.
 
+**Master bath: Loop bench** by Christophe Pillet from DDC; _[ddcnyc.com](http://www.ddcnyc.com)._ **Vintage glass vase** from Lillian August; _[lillianaugust.com](http://www.lillianaugust.com)._ **Stellar White marble tiles** from Stone Source; _[stonesource.com](http://www.stonesource.com)._ **Tara shower fittings** by Dornbracht; _[dornbracht.com](http://www.dornbracht.com)._
 
+**Pool area: Chill lounge chairs** by Mario Ruiz from Gandia Blasco; _[gandiablasco.com](http://www.gandiablasco.com)._
 
-__Dining area: Moare pendant light__ from Ameico Inc.; *[ameico.com](http://www.ameico.com).* __Gramercy table__ by Gregorius|Pineo (T); *[gregoriuspineo.com](http://www.gregoriuspineo.com).*
-
-
-
-__Dining gallery: Puddle side table__ by Gary Hutton Design (T); *[garyhuttondesign.com](http://www.garyhuttondesign.com).* __Valentin floor lamps__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).* __Moondrops Glacier rug__ from Tufenkian Artisan Carpets (T); *[tufenkian.com](http://www.tufenkian.com).*
-
-
-
-__Sitting area: Grande Papilio chair__ by B&B Italia; *[bebitalia.it](http://www.bebitalia.it).* __Paramount chaise longue__ by Michael Berman Ltd. (T); *[michaelbermanlimited.com](http://www.michaelbermanlimited.com).* __Moana-tea carpet,__ in blue, by Patterson, Flynn & Martin (T); *[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com).*
-
-
-
-__Bedroom: Sorraia bed__ by Holly Hunt (T); *[hollyhunt.com](http://www.hollyhunt.com).* __X stool__ by Formations (T); *[formationsusa.com](http://www.formationsusa.com).* __Chambers chaise longue__ by Duane Modern; *[duanemodern.com](http://www.duanemodern.com);* in __Harmony viscose blend,__ in sesame, by Lee Jofa (T); *[leejofa.com](http://www.leejofa.com).* __Hand-knotted Otto rug__ by Tai Ping (T); *[taipingcarpets.com](http://www.taipingcarpets.com).*
-
-
-
-__Master bedroom: On walls, Shan silk,__ in medium celadon, by Larsen (T); *[cowtan.com](http://www.cowtan.com).* __Jaeger ceiling fixture__ by Ironies (T); *[ironies.com](http://www.ironies.com).* __Alcova bed__ by B&B Italia; *[bebitalia.it](http://www.bebitalia.it).* __Monastère bookcase__ and __Courier table__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).* __Curtains of Havana fabric,__ in seaglass, by Larsen (T); *[cowtan.com](http://www.cowtan.com).* __Tangiers Tile carpet__ by Kelly Wearstler for Patterson, Flynn & Martin (T); *[pattersonflynnmartin.com](http://www.pattersonflynnmartin.com).*
-
-
-
-__Dressing room: Parchment Drum Shade light fixtures__ by Charles Edwards; *[charlesedwards.com](http://www.charlesedwards.com).*
-
-
-
-__Master bath: Curtains of Nirvana rayon-silk,__ in seaspray, by Jim Thompson (T); *[jimthompsonfabrics.com](http://www.jimthompsonfabrics.com).* __Paris sconces__ by Holly Hunt (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Lorae chair__ by Bright Chair Co.; *[brightchair.com](http://www.brightchair.com);* in __Volute viscose blend,__ in buttermilk, by Pollack Assoc. (T); *[pollackassociates.com](http://www.pollackassociates.com).* __Starck tub__ by Duravit; *[duravit.com](http://www.duravit.com).* __French Bleu limestone flooring__ by Paris Ceramics; *[parisceramics.com](http://www.parisceramics.com).*
-
-
-
-__Pool area: Sherwood corner bed__ from Sutherland (T); *[sutherlandfurniture.com](http://www.sutherlandfurniture.com);* in __Very Terry acrylic,__ in oyster, by Perennials (T); *[perennialsfabrics.com](http://www.perennialsfabrics.com).* __Poolside chairs__ from Sutherland (T); in __Raw Passion fabric,__ in sea salt, by Perennials (T). __Peninsula chaise longues__ from Sutherland (T).
-
-
-
-__Poolside lounge: Rectangle pendant lantern__ by Ames Ingham; *[amesingham.com](http://www.amesingham.com).* __Wendell chair__ from Dennis Miller Assoc. (T); *[dennismiller.com](http://www.dennismiller.com).* __On sofa__ and __chairs, Very Terry acrylic,__ in oyster, by Perennials (T); *[perennialsfabrics.com](http://www.perennialsfabrics.com).* __Plank table__ and __Slab benches__ by Robert Bristow from Ralph Pucci International (T); *[ralphpucci.net](http://www.ralphpucci.net).*
-
- [Back to Top](#top-of-page) []()LONDON CALLING
-
-__PAGES 96–105__
-
-
-
-__Interior design__ by Francis Sultana Ltd.; *[francissultana.com](http://www.francissultana.com).* __Architecture__ by Thomas Croft Architects; *[thomascroft.com](http://www.thomascroft.com).*
-
-
-
-__Drawing room: Piano__ by Steinway & Sons; *[steinway.com](http://www.steinway.com).* __On bench, Cavallini cowhide,__ in black, by Edelman Leather (T); *[edelmanleather.com](http://www.edelmanleather.com).* __Bridgehampton sofas__ by Francis Sultana Ltd.; *[francissultana.com](http://www.francissultana.com).* __Edge carpet,__ in teal, by Fort Street Studio (T); *[fortstreetstudio.com](http://www.fortstreetstudio.com).*
-
-
-
-__Kitchen: Cabinetry__ by Minotti Cucine; *[minotticucine.it](http://www.minotticucine.it).* __Cooktop__ by Wolf; *[subzero-wolf.com](http://www.subzero-wolf.com).* __Stephen barstools__ by Francis Sultana Ltd.; *[francissultana.com](http://www.francissultana.com).*
-
-
-
-__Dining room: Unicorn curved sofas__ by Vladimir Kagan (T); *[vladimirkagan.com](http://www.vladimirkagan.com).* __Light fixture__ by Fredrikson Stallard; *[fredriksonstallard.com](http://www.fredriksonstallard.com).*
-
-
-
-__Guest room: Float carpet,__ in teal, by Fort Street Studio (T); *[fortstreetstudio.com](http://www.fortstreetstudio.com).*
-
-
-
-__Children’s room: Leo carpet,__ in umber, by Fort Street Studio (T); *[fortstreetstudio.com](http://www.fortstreetstudio.com).*
-
-
-
-__Master bedroom: Custom-made bed__ and __Hamptons chaise longues__ by Francis Sultana Ltd.; *[francissultana.com](http://www.francissultana.com).* __Ribbon carpet,__ in light, by Fort Street Studio (T); *[fortstreetstudio.com](http://www.fortstreetstudio.com).*
-
-
-
-__Master bedroom closet: Ribbon carpet,__ in light, by Fort Street Studio (T); *[fortstreetstudio.com](http://www.fortstreetstudio.com).*____
-
-
-
-__Second-floor bath: Lonsdale tub__ by the Water Monopoly; *[thewatermonopoly.com](http://www.thewatermonopoly.com).* __Vanity of Corian,__ in designer white, by DuPont; *[dupont.com](http://www.dupont.com).* __Ondus sink fittings__ and __tub fittings,__ in moon white, by Grohe; *[grohe.com](http://www.grohe.com).*
-
-
-
-__Master bath: Ondus sink fittings,__ in chrome, by Grohe; *[grohe.com](http://www.grohe.com).*
-
-
-
-__Terrace: Sofa__ by Francis Sultana Ltd.; *[francissultana.com](http://www.francissultana.com).* __On cushions, Guadeloupe acrylic,__ in grey, by Scalamandré (T); *[scalamandre.com](http://www.scalamandre.com).*
-
- [Back to Top](#top-of-page) []()CROWNING ACHIEVEMENT
-
-__PAGES 106–15__
-
-
-
-__Architecture__ by Lake|Flato Architects; *[lakeflato.com](http://www.lakeflato.com).* __Interior design__ by Terry Hunziker Inc.; *[terryhunziker.com](http://www.terryhunziker.com).* __Landscape design__ by the Garden Design Studio; *[gardendesignstudio.us](http://www.gardendesignstudio.us).*
-
-
-
-__Living/dining area: Merlot floor lamps__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).* __Custom-made sofa, armchairs,__ and __cocktail table__ by Terry Hunziker; *[terryhunziker.com](http://www.terryhunziker.com).* __On sofa__ and __armchairs, All Aboard! acrylic blend,__ in Paddington, by John Hutton Textiles; *[johnhutton.com](http://www.johnhutton.com).* __Oh Mei Ma ceiling light__ by Ingo Maurer; *[ingo-maurer.com](http://www.ingo-maurer.com).* __Harry’s chairs__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr);* in __Umbria Neutrale leather,__ in 02, by Holly Hunt (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Custom-made dining table__ by Terry Hunziker.
-
-
-
-__Sitting room: Toja cocktail table__ by Christian Liaigre; *[christian-liaigre.fr](http://www.christian-liaigre.fr).* __Custom-made sofas__ by Terry Hunziker; *[terryhunziker.com](http://www.terryhunziker.com).* __Television__ by Samsung; *[samsung.com](http://www.samsung.com).*
-
-
-
-__Kitchen: Custom-made table__ by Terry Hunziker; *[terryhunziker.com](http://www.terryhunziker.com).* __Bison chairs__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr);* in __Umbria Neutrale leather,__ in 02, by Holly Hunt (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Shitake countertops,__ in graige, by Caesarstone; *[caesarstoneus.com](http://www.caesarstoneus.com).* __Range__ by Wolf; *[subzero-wolf.com](http://www.subzero-wolf.com).*
-
-
-
-__Bedroom: City occasional chair__ by Holly Hunt (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Pharmacy lamp__ by Casella Lighting; *[casellalighting.com](http://www.casellalighting.com).* __Triomphe bed linens,__ in ecru, by Yves Delorme; *[yvesdelorme.com](http://www.yvesdelorme.com).*
-
-
-
-__Master bedroom: Custom-made bed__ by Terry Hunziker; *[terryhunziker.com](http://www.terryhunziker.com).* __Ubud bench__ and __Valentin sconces__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).* __Hugo Contemporary Fireside chair__ and __Mr. Jake floor lamp__ by Terry Hunziker for Sutherland (T); *[sutherlandfurniture.com](http://www.sutherlandfurniture.com).*
-
-
-
-__Master bath: Linen tub surround__ by Caesarstone; *[caesarstoneus.com](http://www.caesarstoneus.com).*
-
-
-
-__Terrace: Olympus armchairs__ and __Poolside armless sofas__ by John Hutton for Sutherland (T); *[sutherlandfurniture.com](http://www.sutherlandfurniture.com).* __Cushions of Canvas Weave fabric,__ in pearl and sunshine, and __pillows of Canvas Weave fabric,__ in periwinkle, all by Perennials (T); *[perennialsfabrics.com](http://www.perennialsfabrics.com).* __Peninsula crossbar cocktail table, side table, rectangular dining table,__ and __side chairs__ all by Terry Hunziker for Sutherland (T).**
-
- [Back to Top](#top-of-page) []()THE COUNT AND HIS CASTLE
-
-__PAGES 116–25__
-
-
-
-__Interior design, architecture,__ and __landscape design__ by Count Benedikt Bolza; *[reschio.com](http://www.reschio.com).*
-
-
-
-__Kitchen: Systema sink fittings__ by KWC; *[kwcamerica.com](http://www.kwcamerica.com).*
-
-
-
-__Guest baths: Mackintosh shower fittings__ by Lefroy Brooks; *[lefroybrooks.com](http://www.lefroybrooks.com).*
-
- [Back to Top](#top-of-page) []()MODERN TRANSLATION
-
-__PAGES 126–33__
-
-
-
-__Interior design__ by Carrier and Co. Interiors; *[carrierandcompany.com](http://www.carrierandcompany.com).* __Architecture__ by Specht Harpman Architects; *[spechtharpman.com](http://www.spechtharpman.com).* __Landscape design__ by Gunn Landscape Architecture; *[gunnlandscapes.com](http://www.gunnlandscapes.com).* __Hair__ and __makeup__ by Maysoon Faraj; *[maysoonfaraj.com](http://www.maysoonfaraj.com).*
-
-
-
-__Living area: Mercer chairs,__ in dark walnut finish, by Desiron; *[desiron.com](http://www.desiron.com).* __Warren Platner cocktail table__ for Knoll from Design Within Reach; *[dwr.com](http://www.dwr.com).* __Daybed__ by Robert Bristow from Ralph Pucci International (T); *[ralphpucci.net](http://www.ralphpucci.net);* in __Hanakago viscose blend,__ in naturel, by Castel (T); *[donghia.com](http://www.donghia.com).* __Custom-made ottoman__ by Carrier and Co. Interiors; *[carrierandcompany.com](http://www.carrierandcompany.com);* in __Ropework polyester blend,__ in hazel, by Kravet (T); *[kravet.com](http://www.kravet.com).* __Circuit wool rug__ by Beauvais Carpets (T); *[beauvaiscarpets.com](http://www.beauvaiscarpets.com).*
-
-
-
-__Media room: Madame X cocktail table__ by Bright Chair Co.; *[brightchair.com](http://www.brightchair.com).* __Metropolitan chair__ by B&B Italia; *[bebitalia.it](http://www.bebitalia.it).* __Hamilton Modulo sectional sofa__ by Minotti from DDC; *[ddcnyc.com](http://www.ddcnyc.com).* __Prairie cowhide carpet,__ in arctic, by Calvin Klein Home; *[calvinklein.com](http://www.calvinklein.com).*
-
-
-
-__Office: Harry ottoman__ by B&B Italia; *[bebitalia.it](http://www.bebitalia.it).*
-
-
-
-__Kitchen: Cinder countertops__ by Caesarstone; *[caesarstoneus.com](http://www.caesarstoneus.com).* __Coast stools__ by Dune; *[dune-ny.com](http://www.dune-ny.com).*
-
-
-
-__Dining area: Frank Armless side chairs__ by Mattaliano (T); *[hollyhunt.com](http://www.hollyhunt.com).* __Regency table__ by Rose Tarlow Melrose House (T); *[rosetarlow.com](http://www.rosetarlow.com).* __Belleville light fixture__ by Bourgeois Bohème; *[bobo-antiques.com](http://www.bobo-antiques.com).*
-
-
-
-__Guest room: Hive Ink__ and __Tagine Ink throw pillows__ by Galbraith & Paul from Room & Board; *[roomandboard.com](http://www.roomandboard.com).*
-
-
-
-__Master bedroom: Mandarin slipper chairs__ by Christian Liaigre (T); *[christian-liaigre.fr](http://www.christian-liaigre.fr).*
-
-
-
-__Downstairs bath: Alpha Over-mirror sconces__ by Casella Lighting; *[casellalighting.com](http://www.casellalighting.com).* __Axor Starck sink fittings__ by Hansgrohe; *[hansgrohe-usa.com](http://www.hansgrohe-usa.com).* __Globe 1.0 porcelain tiles,__ in gray, from Stone Source; *[stonesource.com](http://www.stonesource.com).*
-
-
-
-__Guest bath: Luce sink__ by Lacava from AF Supply; *[afsupply.com](http://www.afsupply.com).* __Contemporary Round rainhead__ and __Stillness shower fittings__ by Kohler; *[kohler.com](http://www.kohler.com).* __On floors, Savoy Penny Round tile,__ in cottonwood, by Ann Sacks; *[annsacks.com](http://www.annsacks.com).* __On walls, Metro glass tile,__ available in Cancun, by Ann Sacks.
-
-
-
-__Master bath: Loop bench__ by Christophe Pillet from DDC; *[ddcnyc.com](http://www.ddcnyc.com).* __Vintage glass vase__ from Lillian August; *[lillianaugust.com](http://www.lillianaugust.com).* __Stellar White marble tiles__ from Stone Source; *[stonesource.com](http://www.stonesource.com).* __Tara shower fittings__ by Dornbracht; *[dornbracht.com](http://www.dornbracht.com).*
-
-
-
-__Pool area: Chill lounge chairs__ by Mario Ruiz from Gandia Blasco; *[gandiablasco.com](http://www.gandiablasco.com).*
-
- [Back to Top](#top-of-page)
+[Back to Top](#top-of-page)

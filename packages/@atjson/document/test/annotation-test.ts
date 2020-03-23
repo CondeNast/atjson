@@ -49,13 +49,13 @@ describe("Annotation", () => {
                     type: "-test-italic",
                     start: 3,
                     end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
+                    attributes: {},
+                  },
+                ],
+              },
+            },
+          },
+        ],
       });
 
       let rightHandSideTestDoc = new TestSource({
@@ -75,13 +75,13 @@ describe("Annotation", () => {
                     type: "-test-italic",
                     start: 3,
                     end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
+                    attributes: {},
+                  },
+                ],
+              },
+            },
+          },
+        ],
       });
 
       let unequalRightHandSideTestDoc = new TestSource({
@@ -101,13 +101,13 @@ describe("Annotation", () => {
                     type: "-test-italic",
                     start: 4,
                     end: 10,
-                    attributes: {}
-                  }
-                ]
-              }
-            }
-          }
-        ]
+                    attributes: {},
+                  },
+                ],
+              },
+            },
+          },
+        ],
       });
 
       expect(
@@ -130,8 +130,8 @@ describe("Annotation", () => {
         end: 1,
         attributes: {
           href: "https://www.example.com",
-          target: undefined
-        }
+          target: undefined,
+        },
       });
 
       expect(link.equals(link.clone())).toBe(true);
@@ -143,8 +143,8 @@ describe("Annotation", () => {
         end: 1,
         attributes: {
           href: "https://www.example.com",
-          target: null
-        }
+          target: null,
+        },
       });
 
       expect(link.equals(link.clone())).toBe(true);

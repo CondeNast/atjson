@@ -28,10 +28,7 @@ function isSmallCaps(a: Annotation<any>) {
   return (
     a.type === "span" &&
     classes &&
-    classes
-      .trim()
-      .split(" ")
-      .includes("smallcaps")
+    classes.trim().split(" ").includes("smallcaps")
   );
 }
 
@@ -49,8 +46,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
         attributes: {
           url: iframe.attributes.src,
           height: iframe.attributes.height,
-          width: iframe.attributes.width
-        }
+          width: iframe.attributes.width,
+        },
       })
     );
   });
@@ -62,8 +59,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
       attributes: {
         "-html-href": "-offset-url",
         "-html-rel": "-offset-rel",
-        "-html-target": "-offset-target"
-      }
+        "-html-target": "-offset-target",
+      },
     });
 
   doc.where({ type: "-html-blockquote" }).set({ type: "-offset-blockquote" });
@@ -104,8 +101,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
         end: list.end,
         attributes: {
           "-offset-type": "numbered",
-          "-offset-startsAt": parseInt(list.attributes.start || "1", 10)
-        }
+          "-offset-startsAt": parseInt(list.attributes.start || "1", 10),
+        },
       });
     });
   doc.where({ type: "-html-li" }).set({ type: "-offset-list-item" });
@@ -127,8 +124,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
       attributes: {
         "-html-src": "-offset-url",
         "-html-title": "-offset-title",
-        "-html-alt": "-offset-description"
-      }
+        "-html-alt": "-offset-description",
+      },
     });
 
   let $pre = doc.where({ type: "-html-pre" }).as("pre");
@@ -153,8 +150,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
           start: code.start,
           end: code.end,
           attributes: {
-            style: "block"
-          }
+            style: "block",
+          },
         })
       );
       doc.removeAnnotation(pre);

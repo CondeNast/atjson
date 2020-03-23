@@ -21,14 +21,14 @@ export class TextSource extends Document {
           type: "-text-paragraph",
           start,
           end: end + 1,
-          attributes: {}
+          attributes: {},
         },
         {
           id: (id++).toString(),
           type: "-atjson-parse-token",
           start: end,
           end: end + 1,
-          attributes: {}
+          attributes: {},
         }
       );
       start = end + 1;
@@ -39,13 +39,13 @@ export class TextSource extends Document {
         type: "-text-paragraph",
         start,
         end: text.length,
-        attributes: {}
+        attributes: {},
       });
     }
 
     return new this({
       content: text,
-      annotations
+      annotations,
     });
   }
 }
@@ -62,24 +62,24 @@ describe("TextSource", () => {
           type: "-text-paragraph",
           start: 0,
           end: 6,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-atjson-parse-token",
           start: 5,
           end: 6,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "3",
           type: "-text-paragraph",
           start: 6,
           end: 11,
-          attributes: {}
-        }
+          attributes: {},
+        },
       ],
-      schema: ["-text-paragraph"]
+      schema: ["-text-paragraph"],
     });
   });
 

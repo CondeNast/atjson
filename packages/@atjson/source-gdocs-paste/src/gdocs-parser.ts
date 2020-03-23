@@ -27,7 +27,7 @@ export default class GDocsParser {
     paragraph: extractParagraphStyles,
     horizontal_rule: extractHorizontalRule,
     list: extractListStyles,
-    link: extractLinkStyles
+    link: extractLinkStyles,
   };
 
   gdocsSource: GDocsPasteBuffer;

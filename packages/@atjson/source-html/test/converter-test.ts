@@ -15,15 +15,15 @@ describe("@atjson/source-html", () => {
           {
             type: "bold",
             attributes: {},
-            children: ["text"]
+            children: ["text"],
           },
           " is ",
           {
             type: "bold",
             attributes: {},
-            children: ["bold"]
-          }
-        ]
+            children: ["bold"],
+          },
+        ],
       });
     });
 
@@ -38,15 +38,15 @@ describe("@atjson/source-html", () => {
           {
             type: "italic",
             attributes: {},
-            children: ["text"]
+            children: ["text"],
           },
           " is ",
           {
             type: "italic",
             attributes: {},
-            children: ["italic"]
-          }
-        ]
+            children: ["italic"],
+          },
+        ],
       });
     });
 
@@ -63,16 +63,16 @@ describe("@atjson/source-html", () => {
           {
             type: "strikethrough",
             attributes: {},
-            children: ["deleted"]
+            children: ["deleted"],
           },
           " and ",
           {
             type: "strikethrough",
             attributes: {},
-            children: ["struck"]
+            children: ["struck"],
           },
-          " text"
-        ]
+          " text",
+        ],
       });
     });
 
@@ -88,34 +88,34 @@ describe("@atjson/source-html", () => {
           {
             type: "heading",
             attributes: { level: 1 },
-            children: ["Title"]
+            children: ["Title"],
           },
           {
             type: "heading",
             attributes: { level: 2 },
-            children: ["Byline"]
+            children: ["Byline"],
           },
           {
             type: "heading",
             attributes: { level: 3 },
-            children: ["Section"]
+            children: ["Section"],
           },
           {
             type: "heading",
             attributes: { level: 4 },
-            children: ["Normal heading"]
+            children: ["Normal heading"],
           },
           {
             type: "heading",
             attributes: { level: 5 },
-            children: ["Small heading"]
+            children: ["Small heading"],
           },
           {
             type: "heading",
             attributes: { level: 6 },
-            children: ["Tiny heading"]
-          }
-        ]
+            children: ["Tiny heading"],
+          },
+        ],
       });
     });
 
@@ -134,12 +134,12 @@ describe("@atjson/source-html", () => {
               {
                 type: "line-break",
                 attributes: {},
-                children: []
+                children: [],
               },
-              "line break"
-            ]
-          }
-        ]
+              "line break",
+            ],
+          },
+        ],
       });
     });
 
@@ -158,11 +158,11 @@ describe("@atjson/source-html", () => {
             attributes: {
               url: "https://condenast.com",
               rel: "nofollow",
-              target: "_blank"
+              target: "_blank",
             },
-            children: ["is a link"]
-          }
-        ]
+            children: ["is a link"],
+          },
+        ],
       });
     });
 
@@ -177,10 +177,10 @@ describe("@atjson/source-html", () => {
           {
             type: "horizontal-rule",
             attributes: {},
-            children: []
+            children: [],
           },
-          " rules!"
-        ]
+          " rules!",
+        ],
       });
     });
 
@@ -199,11 +199,11 @@ describe("@atjson/source-html", () => {
               url: "https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg",
               description:
                 "Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86",
-              title: "Miles Davis & Andy Warhol"
+              title: "Miles Davis & Andy Warhol",
             },
-            children: []
-          }
-        ]
+            children: [],
+          },
+        ],
       });
     });
 
@@ -217,9 +217,9 @@ describe("@atjson/source-html", () => {
           {
             type: "blockquote",
             attributes: {},
-            children: ["This is a quote"]
-          }
-        ]
+            children: ["This is a quote"],
+          },
+        ],
       });
     });
 
@@ -233,9 +233,9 @@ describe("@atjson/source-html", () => {
           {
             type: "code",
             attributes: { style: "inline" },
-            children: [`console.log('wowowowow');`]
-          }
-        ]
+            children: [`console.log('wowowowow');`],
+          },
+        ],
       });
     });
 
@@ -253,10 +253,10 @@ describe("@atjson/source-html", () => {
             {
               type: "code",
               attributes: { style: "block" },
-              children: [`console.log('wowowowow');`]
+              children: [`console.log('wowowowow');`],
             },
-            "\n"
-          ]
+            "\n",
+          ],
         });
       });
 
@@ -264,7 +264,7 @@ describe("@atjson/source-html", () => {
         let doc = HTMLSource.fromRaw(
           `<pre><code>console.log('wow');</code><code>console.log('wowowow');</code></pre>`
         ).convertTo(OffsetSource);
-        doc.where(a => a.type === "unknown").remove();
+        doc.where((a) => a.type === "unknown").remove();
 
         let hir = new HIR(doc).toJSON();
         expect(hir).toMatchObject({
@@ -274,14 +274,14 @@ describe("@atjson/source-html", () => {
             {
               type: "code",
               attributes: { style: "inline" },
-              children: [`console.log('wow');`]
+              children: [`console.log('wow');`],
             },
             {
               type: "code",
               attributes: { style: "inline" },
-              children: [`console.log('wowowow');`]
-            }
-          ]
+              children: [`console.log('wowowow');`],
+            },
+          ],
         });
       });
 
@@ -289,7 +289,7 @@ describe("@atjson/source-html", () => {
         let doc = HTMLSource.fromRaw(
           `<pre>hi<code>console.log('wowowow');</code></pre>`
         ).convertTo(OffsetSource);
-        doc.where(a => a.type === "unknown").remove();
+        doc.where((a) => a.type === "unknown").remove();
 
         let hir = new HIR(doc).toJSON();
         expect(hir).toMatchObject({
@@ -300,9 +300,9 @@ describe("@atjson/source-html", () => {
             {
               type: "code",
               attributes: { style: "inline" },
-              children: [`console.log('wowowow');`]
-            }
-          ]
+              children: [`console.log('wowowow');`],
+            },
+          ],
         });
       });
     });
@@ -320,40 +320,40 @@ describe("@atjson/source-html", () => {
             type: "list",
             attributes: {
               type: "numbered",
-              startsAt: 2
+              startsAt: 2,
             },
             children: [
               {
                 type: "list-item",
                 attributes: {},
-                children: ["Second"]
+                children: ["Second"],
               },
               {
                 type: "list-item",
                 attributes: {},
-                children: ["Third"]
-              }
-            ]
+                children: ["Third"],
+              },
+            ],
           },
           {
             type: "list",
             attributes: {
-              type: "bulleted"
+              type: "bulleted",
             },
             children: [
               {
                 type: "list-item",
                 attributes: {},
-                children: ["First"]
+                children: ["First"],
               },
               {
                 type: "list-item",
                 attributes: {},
-                children: ["Second"]
-              }
-            ]
-          }
-        ]
+                children: ["Second"],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -371,11 +371,11 @@ describe("@atjson/source-html", () => {
             children: [
               {
                 type: "paragraph",
-                children: ["Paragraph in a section."]
-              }
-            ]
-          }
-        ]
+                children: ["Paragraph in a section."],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -393,12 +393,12 @@ describe("@atjson/source-html", () => {
             children: [
               {
                 type: "small-caps",
-                children: ["SmallCaps"]
+                children: ["SmallCaps"],
               },
-              " in a paragraph."
-            ]
-          }
-        ]
+              " in a paragraph.",
+            ],
+          },
+        ],
       });
     });
 
@@ -417,10 +417,10 @@ describe("@atjson/source-html", () => {
           {
             type: "iframe-embed",
             attributes: {
-              url: "//example.com"
-            }
-          }
-        ]
+              url: "//example.com",
+            },
+          },
+        ],
       });
     });
 
@@ -444,11 +444,11 @@ describe("@atjson/source-html", () => {
                 url:
                   "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
                 height: "633",
-                width: "500"
+                width: "500",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -465,11 +465,11 @@ describe("@atjson/source-html", () => {
               type: "facebook-embed",
               attributes: {
                 url:
-                  "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743"
+                  "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -485,11 +485,11 @@ describe("@atjson/source-html", () => {
             {
               type: "instagram-embed",
               attributes: {
-                url: "https://www.instagram.com/p/B37oY9WgHP7"
+                url: "https://www.instagram.com/p/B37oY9WgHP7",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -505,11 +505,11 @@ describe("@atjson/source-html", () => {
             {
               type: "instagram-embed",
               attributes: {
-                url: "https://www.instagram.com/tv/B95M4kNhbzz"
+                url: "https://www.instagram.com/tv/B95M4kNhbzz",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -525,11 +525,11 @@ describe("@atjson/source-html", () => {
             {
               type: "twitter-embed",
               attributes: {
-                url: "https://twitter.com/nycgov/status/1191528054608334848"
+                url: "https://twitter.com/nycgov/status/1191528054608334848",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -546,10 +546,10 @@ describe("@atjson/source-html", () => {
               start: 0,
               end: 0,
               attributes: {
-                url: "https://giphy.com/embed/13CoXDiaCcCoyk"
-              }
-            }
-          ]
+                url: "https://giphy.com/embed/13CoXDiaCcCoyk",
+              },
+            },
+          ],
         });
       });
 
@@ -573,11 +573,11 @@ describe("@atjson/source-html", () => {
                 url:
                   "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
                 height: "232",
-                width: "100%"
+                width: "100%",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
 
@@ -601,11 +601,11 @@ describe("@atjson/source-html", () => {
                 url:
                   "https://open.spotify.com/embed/track/1QY4TdhuNIOX2SHLdElzd5",
                 height: "380",
-                width: "300"
+                width: "300",
               },
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
     });
@@ -615,8 +615,8 @@ describe("@atjson/source-html", () => {
         test.each([
           ["https://www.youtube.com/embed/0-jus6AGHzQ"],
           ["https://www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"],
-          ["//www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"]
-        ])("%s", url => {
+          ["//www.youtube-nocookie.com/embed/0-jus6AGHzQ?controls=0"],
+        ])("%s", (url) => {
           let doc = HTMLSource.fromRaw(
             `<iframe width="560" height="315"
             src="${url}"
@@ -639,11 +639,11 @@ describe("@atjson/source-html", () => {
                   provider: VideoURLs.Provider.YOUTUBE,
                   width: 560,
                   height: 315,
-                  aspectRatio: "16:9"
+                  aspectRatio: "16:9",
                 },
-                children: []
-              }
-            ]
+                children: [],
+              },
+            ],
           });
         });
       });
@@ -665,8 +665,8 @@ describe("@atjson/source-html", () => {
               provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
-              aspectRatio: "4:3"
-            }
+              aspectRatio: "4:3",
+            },
           });
 
           let caption = doc.annotations[0].attributes.caption.canonical();
@@ -690,8 +690,8 @@ describe("@atjson/source-html", () => {
               provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
-              aspectRatio: "4:3"
-            }
+              aspectRatio: "4:3",
+            },
           });
         });
 
@@ -711,8 +711,8 @@ describe("@atjson/source-html", () => {
               provider: VideoURLs.Provider.VIMEO,
               width: 640,
               height: 480,
-              aspectRatio: "4:3"
-            }
+              aspectRatio: "4:3",
+            },
           });
         });
 
@@ -732,11 +732,11 @@ describe("@atjson/source-html", () => {
                   provider: VideoURLs.Provider.VIMEO,
                   width: 640,
                   height: 480,
-                  aspectRatio: "4:3"
+                  aspectRatio: "4:3",
                 },
-                children: []
-              }
-            ]
+                children: [],
+              },
+            ],
           });
         });
       });
@@ -756,9 +756,9 @@ describe("@atjson/source-html", () => {
               provider: VideoURLs.Provider.DAILYMOTION,
               width: 480,
               height: 270,
-              aspectRatio: "16:9"
-            }
-          }
+              aspectRatio: "16:9",
+            },
+          },
         ]);
       });
 
@@ -787,9 +787,9 @@ describe("@atjson/source-html", () => {
               provider: VideoURLs.Provider.BRIGHTCOVE,
               width: 640,
               height: 360,
-              aspectRatio: "16:9"
-            }
-          }
+              aspectRatio: "16:9",
+            },
+          },
         ]);
       });
     });
@@ -812,10 +812,10 @@ describe("@atjson/source-html", () => {
                 attributes: {
                   url: "//view.ceros.com/ceros-inspire/carousel-3",
                   aspectRatio: 2.01,
-                  mobileAspectRatio: 3.2
-                }
-              }
-            ]
+                  mobileAspectRatio: 3.2,
+                },
+              },
+            ],
           });
         });
 
@@ -834,10 +834,10 @@ describe("@atjson/source-html", () => {
                 end: 0,
                 attributes: {
                   url: "//view.ceros.com/ceros-inspire/carousel-3",
-                  aspectRatio: 2
-                }
-              }
-            ]
+                  aspectRatio: 2,
+                },
+              },
+            ],
           });
         });
 
@@ -864,11 +864,11 @@ describe("@atjson/source-html", () => {
                 end: 0,
                 attributes: {
                   url: "//view.ceros.com/ceros-inspire/carousel-3",
-                  aspectRatio: 2
-                }
+                  aspectRatio: 2,
+                },
               },
-              {}
-            ]
+              {},
+            ],
           });
         });
       });
@@ -887,10 +887,10 @@ describe("@atjson/source-html", () => {
           {
             type: "tiktok-embed",
             attributes: {
-              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880"
-            }
-          }
-        ]
+              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+            },
+          },
+        ],
       });
     });
 
@@ -905,10 +905,10 @@ describe("@atjson/source-html", () => {
           {
             type: "tiktok-embed",
             attributes: {
-              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880"
-            }
-          }
-        ]
+              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+            },
+          },
+        ],
       });
     });
   });

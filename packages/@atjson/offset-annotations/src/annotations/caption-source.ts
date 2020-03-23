@@ -27,6 +27,6 @@ export class CaptionSource extends Document {
     Subscript,
     Strikethrough,
     Superscript,
-    Underline
+    Underline,
   ];
 }

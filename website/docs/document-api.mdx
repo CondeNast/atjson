@@ -7,7 +7,7 @@ import {
   Italic,
   QuickBrownFox,
   QuickBrownFoxSource,
-  TextColor
+  TextColor,
 } from "../src/components/QuickBrownFox.tsx";
 
 Document is the default export of `@atjson/document`. It's used by all atjson packages, and contains the bulk of the APIs you'll use when working with documents.
@@ -35,7 +35,7 @@ let doc = new Document({ content: "Hello, world", annotations: [] });
 doc.addAnnotations(
   new Bold({
     start: 7,
-    end: 12
+    end: 12,
   })
 );
 ```
@@ -79,7 +79,7 @@ For an HTML document, the annotated document includes the HTML tags in the sourc
 
 The document above is represented as the following JSON:
 
-export const CanonicalBefore = props => {
+export const CanonicalBefore = (props) => {
   let json = HTMLSource.fromRaw(props.html).toJSON();
   return (
     <pre>
@@ -94,10 +94,8 @@ export const CanonicalBefore = props => {
 
 The canonical form of this document uses the parse tokens as indicators of non-essential text to remove.
 
-export const CanonicalAfter = props => {
-  let json = HTMLSource.fromRaw(props.html)
-    .canonical()
-    .toJSON();
+export const CanonicalAfter = (props) => {
+  let json = HTMLSource.fromRaw(props.html).canonical().toJSON();
   delete json.schema;
   delete json.contentType;
   return (
@@ -189,8 +187,8 @@ Would result in this document:
     {
       type: "-example-italic",
       start: 0,
-      end: 11
-    }
+      end: 11,
+    },
   ];
 }
 ```
@@ -249,13 +247,13 @@ At this point, the document conceptually looks like this:
         new Comment({
           start: 4,
           end: 7,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 4,
-          end: 7
-        })
-      ]
+          end: 7,
+        }),
+      ],
     })
   }
 />
@@ -277,8 +275,8 @@ in:
     {
       type: "-example-italic",
       start: 8,
-      end: 11
-    }
+      end: 11,
+    },
   ];
 }
 ```
@@ -294,13 +292,13 @@ text and the new text is not part of the existing annotation. Or conceptually:
         new Comment({
           start: 8,
           end: 11,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 8,
-          end: 11
-        })
-      ]
+          end: 11,
+        }),
+      ],
     })
   }
 />
@@ -326,8 +324,8 @@ The document would appear like so:
     {
       type: "-example-italic",
       start: 4,
-      end: 11
-    }
+      end: 11,
+    },
   ];
 }
 ```
@@ -343,13 +341,13 @@ adjusted to account for the newly-inserted text. Conceptually:
         new Comment({
           start: 4,
           end: 11,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 4,
-          end: 11
-        })
-      ]
+          end: 11,
+        }),
+      ],
     })
   }
 />
@@ -376,8 +374,8 @@ doc.insertText(4, "baz ", AdjacentBoundaryBehaviour.preserveTrailing);
     {
       type: "-example-italic",
       start: 4,
-      end: 11
-    }
+      end: 11,
+    },
   ];
 }
 ```
@@ -390,13 +388,13 @@ doc.insertText(4, "baz ", AdjacentBoundaryBehaviour.preserveTrailing);
         new Comment({
           start: 4,
           end: 11,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 4,
-          end: 11
-        })
-      ]
+          end: 11,
+        }),
+      ],
     })
   }
 />
@@ -413,8 +411,8 @@ doc.insertText(7, " baz", AdjacentBoundaryBehaviour.preserveTrailing);
     {
       type: "-example-italic",
       start: 4,
-      end: 7
-    }
+      end: 7,
+    },
   ];
 }
 ```
@@ -427,13 +425,13 @@ doc.insertText(7, " baz", AdjacentBoundaryBehaviour.preserveTrailing);
         new Comment({
           start: 4,
           end: 7,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 4,
-          end: 7
-        })
-      ]
+          end: 7,
+        }),
+      ],
     })
   }
 />
@@ -473,23 +471,23 @@ or conceptually:
         new Comment({
           start: 0,
           end: 8,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 0,
-          end: 8
+          end: 8,
         }),
         new Comment({
           start: 8,
           end: 11,
-          attributes: { name: "color" }
+          attributes: { name: "color" },
         }),
         new TextColor({
           start: 8,
           end: 11,
-          attributes: { color: "#9b2b2b" }
-        })
-      ]
+          attributes: { color: "#9b2b2b" },
+        }),
+      ],
     })
   }
 />
@@ -510,14 +508,14 @@ The resulting document looking like:
     {
       type: "-example-italic",
       start: 0,
-      end: 8
+      end: 8,
     },
     {
       type: "-example-textcolor",
       start: 12,
       end: 15,
-      attributes: { color: "#9b2b2b" }
-    }
+      attributes: { color: "#9b2b2b" },
+    },
   ];
 }
 ```
@@ -532,23 +530,23 @@ Conceptually:
         new Comment({
           start: 0,
           end: 8,
-          attributes: { name: "italic" }
+          attributes: { name: "italic" },
         }),
         new Italic({
           start: 0,
-          end: 8
+          end: 8,
         }),
         new Comment({
           start: 12,
           end: 15,
-          attributes: { name: "color" }
+          attributes: { name: "color" },
         }),
         new TextColor({
           start: 12,
           end: 15,
-          attributes: { color: "#9b2b2b" }
-        })
-      ]
+          attributes: { color: "#9b2b2b" },
+        }),
+      ],
     })
   }
 />
@@ -588,7 +586,7 @@ doc.slice(0, 8);
 import HTMLSource from "@atjson/source-html";
 import CodeBlock from "@theme/CodeBlock";
 
-export const Slice = props => {
+export const Slice = (props) => {
   let json = HTMLSource.fromRaw(props.html)
     .slice(props.start, props.end)
     .toJSON();
@@ -623,14 +621,12 @@ Returns the JSON form of the document, which includes the `contentType`, `conten
 
 import CommonmarkSource from "@atjson/source-commonmark";
 
-export const ToJSON = props => {
+export const ToJSON = (props) => {
   return (
     <pre>
       <CodeBlock className="json">
         {JSON.stringify(
-          CommonmarkSource.fromRaw(props.markdown)
-            .canonical()
-            .toJSON(),
+          CommonmarkSource.fromRaw(props.markdown).canonical().toJSON(),
           null,
           2
         )}

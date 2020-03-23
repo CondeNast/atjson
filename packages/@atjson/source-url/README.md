@@ -25,38 +25,38 @@ The block of code (hidden) below gives a rough outline of how to organize and pu
 <details>
 
 ```js
-import URLSource from '@atjson/source-url';
-import Renderer from '@atjson/renderer-hir';
+import URLSource from "@atjson/source-url";
+import Renderer from "@atjson/renderer-hir";
 
 class CKEditorRenderer extends Renderer {
-  *'facebook-embed'(embed) {
+  *"facebook-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'giphy-embed'(embed) {
+  *"giphy-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'iframe-embed'(embed) {
+  *"iframe-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'instagram-embed'(embed) {
+  *"instagram-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'pinterest-embed'(embed) {
+  *"pinterest-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'twitter-embed'(embed) {
+  *"twitter-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'youtube-embed'(embed) {
+  *"youtube-embed"(embed) {
     return `<oembed>${embed.attributes.url}</oembed>`;
   }
-  *'root'() {
+  *root() {
     let chunks = yield;
-    return chunks.join('');
+    return chunks.join("");
   }
 }
 
-editor.on('paste', function (evt) {
+editor.on("paste", function (evt) {
   let richPaste = new URLSource(evt.data.dataValue);
   let renderer = new CKEditorRenderer();
   evt.data.dataValue = renderer.render(richPaste.toCommonSchema());

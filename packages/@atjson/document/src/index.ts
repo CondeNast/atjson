@@ -19,7 +19,7 @@ import {
   ObjectAnnotation,
   ParseAnnotation,
   UnknownAnnotation,
-  is
+  is,
 } from "./internals";
 
 export {
@@ -42,7 +42,7 @@ export {
   ObjectAnnotation,
   ParseAnnotation,
   UnknownAnnotation,
-  is
+  is,
 };
 
 export default Document;

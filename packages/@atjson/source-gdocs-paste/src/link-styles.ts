@@ -30,8 +30,8 @@ export default function extractLinkStyles(
         end: -1,
         attributes: {
           "-gdocs-ulnk_url": link.lnks_link.ulnk_url,
-          "-gdocs-lnk_type": link.lnks_link.lnk_type
-        }
+          "-gdocs-lnk_type": link.lnks_link.lnk_type,
+        },
       };
     }
   }

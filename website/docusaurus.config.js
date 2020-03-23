@@ -13,23 +13,23 @@ module.exports = {
         {
           to: "docs/getting-started",
           label: "Docs",
-          position: "right"
+          position: "right",
         },
         {
           href: "https://github.com/CondeNast/atjson",
           label: "GitHub",
-          position: "right"
-        }
-      ]
+          position: "right",
+        },
+      ],
     },
     footer: {
       logo: {
         alt: "Condé Nast",
         src: "/img/conde-nast.svg",
-        href: "https://technology.condenast.com"
+        href: "https://technology.condenast.com",
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`
-    }
+      copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`,
+    },
   },
   plugins: [join(__dirname, "plugins", "docusaurus-typescript-loader")],
   presets: [
@@ -37,13 +37,13 @@ module.exports = {
       "@docusaurus/preset-classic",
       {
         theme: {
-          customCss: require.resolve("./src/css/custom.css")
+          customCss: require.resolve("./src/css/custom.css"),
         },
         docs: {
           sidebarPath: require.resolve("./sidebars.json"),
-          editUrl: "https://github.com/CondeNast/atjson/edit/latest/website/"
-        }
-      }
-    ]
-  ]
+          editUrl: "https://github.com/CondeNast/atjson/edit/latest/website/",
+        },
+      },
+    ],
+  ],
 };

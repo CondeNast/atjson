@@ -70,7 +70,7 @@ export default class Parser {
       type: `-mobiledoc-${card[0]}-card`,
       start,
       end: start + 1,
-      attributes: prefix(card[1])
+      attributes: prefix(card[1]),
     });
     return "\uFFFC";
   }
@@ -82,8 +82,8 @@ export default class Parser {
       start,
       end: start + 1,
       attributes: {
-        "-mobiledoc-src": src
-      }
+        "-mobiledoc-src": src,
+      },
     });
     return "\uFFFC";
   }
@@ -116,7 +116,7 @@ export default class Parser {
       type: `-mobiledoc-${tagName.toLowerCase()}`,
       start,
       end: start + sectionText.length,
-      attributes: {}
+      attributes: {},
     });
 
     return sectionText;
@@ -154,7 +154,7 @@ export default class Parser {
         type: "-mobiledoc-li",
         start: itemStart,
         end: offset,
-        attributes: {}
+        attributes: {},
       });
       listText += item;
     }
@@ -163,7 +163,7 @@ export default class Parser {
       type: `-mobiledoc-${tagName.toLowerCase()}`,
       start,
       end: start + listText.length,
-      attributes: {}
+      attributes: {},
     });
 
     return listText;
@@ -196,7 +196,7 @@ export default class Parser {
       this.inProgressAnnotations.push({
         type: `-mobiledoc-${markup[0].toLowerCase()}`,
         start,
-        attributes
+        attributes,
       });
     }
 
@@ -222,7 +222,7 @@ export default class Parser {
       type: `-mobiledoc-${name}-atom`,
       start,
       end,
-      attributes: prefix(attributes)
+      attributes: prefix(attributes),
     });
     return text;
   }

@@ -5,7 +5,7 @@ import {
   Image,
   Link,
   List,
-  TikTokEmbed
+  TikTokEmbed,
 } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
@@ -24,7 +24,7 @@ const VOID_ELEMENTS = [
   "param",
   "source",
   "track",
-  "wbr"
+  "wbr",
 ];
 
 export default class HTMLRenderer extends Renderer {
@@ -107,11 +107,11 @@ export default class HTMLRenderer extends Renderer {
         "bottom: 0",
         "right: 0",
         "margin: 0",
-        "border: 0 none"
+        "border: 0 none",
       ].join(";"),
       id: `experience-${embed.id}`,
       "data-aspectRatio": embed.attributes.aspectRatio?.toString(),
-      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString()
+      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString(),
     }).join(" ")}><iframe ${this.htmlAttributes({
       allowfullscreen: true,
       src: embed.attributes.url,
@@ -127,11 +127,11 @@ export default class HTMLRenderer extends Renderer {
         "height: 1px",
         "width: 1px",
         "min-height: 100%",
-        "min-width: 100%"
+        "min-width: 100%",
       ].join(";"),
       frameborder: "0",
       class: "ceros-experience",
-      scrolling: "no"
+      scrolling: "no",
     }).join(
       " "
     )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
@@ -161,7 +161,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("img", {
       src: image.attributes.url,
       title: image.attributes.title,
-      alt: image.attributes.description
+      alt: image.attributes.description,
     });
   }
 
@@ -178,7 +178,7 @@ export default class HTMLRenderer extends Renderer {
       href: encodeURI(link.attributes.url),
       title: link.attributes.title,
       rel: link.attributes.rel,
-      target: link.attributes.target
+      target: link.attributes.target,
     });
   }
 
@@ -188,7 +188,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$(tagName, {
       starts: list.attributes.startsAt,
       compact: list.attributes.tight,
-      type: list.attributes.delimiter
+      type: list.attributes.delimiter,
     });
   }
 

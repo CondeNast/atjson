@@ -9,7 +9,7 @@ import {
   EdgeBehaviour,
   Insertion,
   ParseAnnotation,
-  UnknownAnnotation
+  UnknownAnnotation,
 } from "./internals";
 
 /**
@@ -394,7 +394,7 @@ export class Document {
       content: this.content,
       annotations: slicedAnnotations.map(function cloneAnnotation(annotation) {
         return annotation.clone();
-      })
+      }),
     });
     doc.deleteText(end, doc.content.length);
     doc.deleteText(0, start);
@@ -430,7 +430,7 @@ export class Document {
 
         return new DocumentClass({
           content: sliceDoc.content,
-          annotations: sliceDoc.annotations
+          annotations: sliceDoc.annotations,
         });
       }
 
@@ -456,13 +456,13 @@ export class Document {
         .sort()
         .map(function cloneAnnotation(a) {
           return a.clone();
-        })
+        }),
     });
 
     let result = converter(convertedDoc);
     return new to({
       content: result.content,
-      annotations: result.where({}).sort().annotations
+      annotations: result.where({}).sort().annotations,
     }) as InstanceType<To>;
   }
 
@@ -473,12 +473,10 @@ export class Document {
     return {
       content: this.content,
       contentType: this.contentType,
-      annotations: this.where({})
-        .sort()
-        .toJSON(),
+      annotations: this.where({}).sort().toJSON(),
       schema: schema.map(function prefixAnnotationType(AnnotationClass) {
         return `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`;
-      })
+      }),
     };
   }
 
@@ -488,7 +486,7 @@ export class Document {
       content: this.content,
       annotations: this.annotations.map(function cloneAnnotation(annotation) {
         return annotation.clone();
-      })
+      }),
     });
   }
 
@@ -508,7 +506,7 @@ export class Document {
         matches.push({
           start: offset + match.index,
           end: offset + match.index + match[0].length,
-          matches: match.slice()
+          matches: match.slice(),
         });
       }
     } while (regex.global && match);
@@ -688,8 +686,8 @@ export class Document {
           end: json.end,
           attributes: {
             type: json.type,
-            attributes: json.attributes
-          }
+            attributes: json.attributes,
+          },
         });
       }
       return annotation;
@@ -712,8 +710,8 @@ export class Document {
           end: annotation.end,
           attributes: {
             type: annotation.type,
-            attributes: annotation.attributes
-          }
+            attributes: annotation.attributes,
+          },
         });
       }
     }

@@ -38,14 +38,14 @@ const ASPECT_RATIOS = [
   // Widescreen cinema standard
   "2.4:1",
   // Ultra-WideScreen
-  "3.6:1"
+  "3.6:1",
 ] as const;
 
-const proportions = ASPECT_RATIOS.map(ratio => {
+const proportions = ASPECT_RATIOS.map((ratio) => {
   let [width, height] = ratio.split(":");
   return {
     ratio,
-    proportion: parseFloat(width) / parseFloat(height)
+    proportion: parseFloat(width) / parseFloat(height),
   };
 }).sort((a, b) => {
   return a.proportion < b.proportion ? -1 : a.proportion > b.proportion ? 1 : 0;

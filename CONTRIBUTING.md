@@ -1,6 +1,6 @@
 :tipping_hand_woman: AtJSON has a [Code of Conduct](https://github.com/CondeNast/atjson/blob/latest/CODE_OF_CONDUCT.md) that we expect all of our contributors to abide by, please check it out before contributing!
 
-***
+---
 
 AtJSON is comprised of a bunch of packages, monorepo style. We use [:dragon:Lerna](https://lernajs.io) to manage these dependencies.
 
@@ -17,7 +17,7 @@ Ensure that the proper Node.js version is installed (using [Node Version Manager
 nvm install
 ```
 
-(If you already have the version of Node.js specified in _.nvmrc_  installed, `nvm use` can be issued instead.)
+(If you already have the version of Node.js specified in _.nvmrc_ installed, `nvm use` can be issued instead.)
 
 Now install the dependencies :sparkles:
 

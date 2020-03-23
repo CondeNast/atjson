@@ -14,10 +14,10 @@ import * as Chance from "chance";
 
 const chance = new Chance();
 
-const fixtures = readdirSync(join(__dirname, "proprietary")).map(filename => {
+const fixtures = readdirSync(join(__dirname, "proprietary")).map((filename) => {
   return {
     filename,
-    content: readFileSync(join(__dirname, "proprietary", filename)).toString()
+    content: readFileSync(join(__dirname, "proprietary", filename)).toString(),
   };
 });
 
@@ -62,8 +62,8 @@ for (let fixture of fixtures) {
         end: link.end,
         attributes: {
           url: chance.url(),
-          ...attributes
-        }
+          ...attributes,
+        },
       })
     );
   });

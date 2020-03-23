@@ -65,8 +65,8 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           attributes: {
             aspectRatio,
             mobileAspectRatio,
-            url: iframes[0].attributes.src
-          }
+            url: iframes[0].attributes.src,
+          },
         })
       );
     });

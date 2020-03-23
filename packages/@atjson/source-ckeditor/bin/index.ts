@@ -7,7 +7,7 @@ import minimist from "minimist";
 import { Editor, SchemaCompiledItemDefinition } from "../ckeditor";
 
 let dom = new JSDOM(``, {
-  url: "https://atjson.condenast.io"
+  url: "https://atjson.condenast.io",
 });
 
 (global as any).window = dom.window;
@@ -18,8 +18,8 @@ let dom = new JSDOM(``, {
   "localStorage",
   "DOMParser",
   "HTMLTextAreaElement",
-  "Node"
-].forEach(key => {
+  "Node",
+].forEach((key) => {
   (global as any)[key] = (dom.window as any)[key];
 });
 
@@ -34,7 +34,7 @@ function classify(name: string) {
 }
 
 function dasherize(name: string) {
-  return name.replace(/([A-Z])/g, chr => `-${chr.toLowerCase()}`);
+  return name.replace(/([A-Z])/g, (chr) => `-${chr.toLowerCase()}`);
 }
 
 function writeAnnotationFile(
@@ -54,7 +54,7 @@ import { ${AnnotationClass} } from "@atjson/document";
 export class ${classify(name)} extends ${AnnotationClass}${
           attributes.length
             ? `<{
-  ${attributes.map(attribute => `${attribute}: unknown;`).join("\n")}
+  ${attributes.map((attribute) => `${attribute}: unknown;`).join("\n")}
 }>`
             : ""
         } {
@@ -92,7 +92,7 @@ function writeAnnotationIndex(
     join(dir, "annotations", `index.${extension}`),
     format(
       `${schemas
-        .map(schema => `export * from "./${dasherize(schema.name)}";`)
+        .map((schema) => `export * from "./${dasherize(schema.name)}";`)
         .join("\n")}`,
       { parser: parser }
     )
@@ -161,14 +161,14 @@ export default ${name};
 
 function run() {
   const args = minimist(process.argv.slice(2), {
-    string: ["out", "name", "build", "language"]
+    string: ["out", "name", "build", "language"],
   });
 
   let options = {
     language: args.language || "ts",
     build: args.build || "@ckeditor/ckeditor5-build-classic",
     out: join(process.cwd(), args.out || "test"),
-    name: args.name || "CKEditorClassicBuildSource"
+    name: args.name || "CKEditorClassicBuildSource",
   };
 
   console.info("Generating CKEditorSource with args:\n", options);
@@ -189,7 +189,7 @@ function run() {
     const fileInfo = {
       extension: language === "typescript" ? "ts" : "js",
       parser: language === "javascript" ? "babel" : "typescript",
-      dir: options.out
+      dir: options.out,
     } as FileInfo;
 
     let div = dom.window.document.createElement("div");
@@ -240,7 +240,7 @@ function run() {
 
 run()
   .then(() => process.exit(1))
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(0);
   });

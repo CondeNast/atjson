@@ -17,13 +17,12 @@ export const StyledTextArea = styled.textarea<{ autoResize?: boolean }>`
   transition-property: border-color, color, box-shadow;
   transition-duration: 120ms;
   transition-timing-function: ease-in-out;
-  ${props =>
-      props.autoResize
-        ? css`
-            resize: none;
-          `
-        : ""}
-    :hover {
+  ${(props) =>
+    props.autoResize
+      ? css`
+          resize: none;
+        `
+      : ""}: hover {
     border-color: #0036ff;
   }
 
@@ -35,9 +34,11 @@ export const StyledTextArea = styled.textarea<{ autoResize?: boolean }>`
   }
 `;
 
-export const TextArea: FC<ComponentProps<"textarea"> & {
-  autoResize?: boolean;
-}> = props => {
+export const TextArea: FC<
+  ComponentProps<"textarea"> & {
+    autoResize?: boolean;
+  }
+> = (props) => {
   let { ref, ...attrs } = props;
   let [padding, setPadding] = useState(0);
   let textarea = useRef<HTMLTextAreaElement>(null);

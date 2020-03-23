@@ -5,7 +5,7 @@ import PRISMSource from "../src";
 
 const example = fs.readFileSync(__dirname + "/gq-fresh-paint.xml");
 
-document.addEventListener("paste", evt => {
+document.addEventListener("paste", (evt) => {
   let xml = evt.clipboardData.getData("text/plain");
   if (xml !== "") {
     let doc = PRISMSource.fromRaw(xml).convertTo(OffsetSource);

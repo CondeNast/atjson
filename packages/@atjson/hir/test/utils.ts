@@ -13,7 +13,7 @@ function node(type: string) {
     return {
       type,
       attributes: {},
-      children
+      children,
     };
   };
 }
@@ -25,7 +25,7 @@ let image = (attributes = {}) => {
   return {
     type: "image",
     attributes,
-    children: []
+    children: [],
   };
 };
 let italic = node("italic");
@@ -44,5 +44,5 @@ export {
   node,
   ol,
   paragraph,
-  ul
+  ul,
 };

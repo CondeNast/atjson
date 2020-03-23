@@ -31,5 +31,12 @@ export default MyHTMLRenderer extends HTMLRenderer {
 Now when we put in a video, like `https://www.youtube.com/watch?v=RrkL9e2w7gQ`, we'll get the following:
 
 ```html
-<iframe width="560" height="315" src="https://www.youtube.com/embed/RrkL9e2w7gQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/RrkL9e2w7gQ"
+  frameborder="0"
+  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 ```

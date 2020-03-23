@@ -228,9 +228,7 @@
             "cs_cids": {
               "cv": {
                 "op": "set",
-                "opValue": [
-                  "kix.98a42uwn1ksp"
-                ]
+                "opValue": ["kix.98a42uwn1ksp"]
               }
             }
           },
@@ -2508,9 +2506,7 @@
             "sc_sugg": {
               "cv": {
                 "op": "set",
-                "opValue": [
-                  "superscript TM"
-                ]
+                "opValue": ["superscript TM"]
               }
             },
             "sc_sm": {
@@ -2585,14 +2581,10 @@
       }
     ],
     "dsl_suggestedinsertions": {
-      "sgsl_sugg": [
-        []
-      ]
+      "sgsl_sugg": [[]]
     },
     "dsl_suggesteddeletions": {
-      "sgsl_sugg": [
-        []
-      ]
+      "sgsl_sugg": [[]]
     },
     "dsl_entitypositionmap": {},
     "dsl_entitymap": {},

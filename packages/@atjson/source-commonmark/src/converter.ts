@@ -46,8 +46,8 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
       attributes: {
         "-commonmark-src": "-offset-url",
         "-commonmark-title": "-offset-title",
-        "-commonmark-alt": "-offset-description"
-      }
+        "-commonmark-alt": "-offset-description",
+      },
     });
 
   doc
@@ -56,8 +56,8 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .rename({
       attributes: {
         "-commonmark-href": "-offset-url",
-        "-commonmark-title": "-offset-title"
-      }
+        "-commonmark-title": "-offset-title",
+      },
     });
   doc
     .where({ type: "-commonmark-list_item" })
@@ -68,8 +68,8 @@ CommonmarkSource.defineConverterTo(OffsetSource, function commonmarkToOffset(
     .rename({
       attributes: {
         "-commonmark-start": "-offset-startsAt",
-        "-commonmark-tight": "-offset-tight"
-      }
+        "-commonmark-tight": "-offset-tight",
+      },
     });
   doc
     .where({ type: "-commonmark-paragraph" })

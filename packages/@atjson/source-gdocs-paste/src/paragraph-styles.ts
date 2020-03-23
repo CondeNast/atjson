@@ -49,8 +49,8 @@ export default function extractParagraphStyles(
         start: lastParagraphStart,
         end: i,
         attributes: {
-          "-gdocs-level": style.ps_hd
-        }
+          "-gdocs-level": style.ps_hd,
+        },
       });
     }
 

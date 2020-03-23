@@ -23,7 +23,7 @@ import {
   Subscript,
   Superscript,
   Underline,
-  UnorderedList
+  UnorderedList,
 } from "./annotations";
 import Parser, { Mobiledoc } from "./parser";
 
@@ -53,14 +53,14 @@ export default class MobiledocSource extends Document {
     Subscript,
     Superscript,
     Underline,
-    UnorderedList
+    UnorderedList,
   ];
   static fromRaw(mobiledoc: Mobiledoc) {
     let result = new Parser(mobiledoc);
 
     return new this({
       content: result.content,
-      annotations: result.annotations
+      annotations: result.annotations,
     });
   }
 }

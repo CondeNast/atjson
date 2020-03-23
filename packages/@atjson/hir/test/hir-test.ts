@@ -6,7 +6,7 @@ describe("@atjson/hir", () => {
   test("accepts atjson-shaped object", () => {
     let validDoc = new TestSource({
       content: "test\ndocument\n\nnew paragraph",
-      annotations: []
+      annotations: [],
     });
 
     let expected = document("test\ndocument\n\nnew paragraph");
@@ -20,8 +20,8 @@ describe("@atjson/hir", () => {
         content: "A string with a bold and an italic annotation",
         annotations: [
           { id: "1", type: "-test-bold", start: 16, end: 20, attributes: {} },
-          { id: "2", type: "-test-italic", start: 28, end: 34, attributes: {} }
-        ]
+          { id: "2", type: "-test-italic", start: 28, end: 34, attributes: {} },
+        ],
       });
 
       let hir = new HIR(noNesting).toJSON();
@@ -49,44 +49,44 @@ describe("@atjson/hir", () => {
             type: "-test-ordered-list",
             start: 16,
             end: 91,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-test-list-item",
             start: 16,
             end: 43,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "5",
             type: "-test-list-item",
             start: 43,
             end: 91,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "6",
             type: "-test-ordered-list",
             start: 73,
             end: 91,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "7",
             type: "-test-list-item",
             start: 73,
             end: 82,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "8",
             type: "-test-list-item",
             start: 82,
             end: 91,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       let expected = document(
@@ -111,8 +111,8 @@ describe("@atjson/hir", () => {
         content: "Some text that is both bold and italic plus something after.",
         annotations: [
           { id: "1", type: "-test-bold", start: 23, end: 31, attributes: {} },
-          { id: "2", type: "-test-italic", start: 28, end: 38, attributes: {} }
-        ]
+          { id: "2", type: "-test-italic", start: 28, end: 38, attributes: {} },
+        ],
       });
 
       let expected = document(
@@ -135,17 +135,17 @@ describe("@atjson/hir", () => {
             type: "-test-paragraph",
             start: 0,
             end: 28,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-test-paragraph",
             start: 28,
             end: 62,
-            attributes: {}
+            attributes: {},
           },
-          { id: "3", type: "-test-bold", start: 22, end: 32, attributes: {} }
-        ]
+          { id: "3", type: "-test-bold", start: 22, end: 32, attributes: {} },
+        ],
       });
 
       let expected = document(
@@ -165,10 +165,10 @@ describe("@atjson/hir", () => {
             type: "-test-paragraph",
             start: 0,
             end: 0,
-            attributes: {}
+            attributes: {},
           },
-          { id: "2", type: "-test-bold", start: 0, end: 0, attributes: {} }
-        ]
+          { id: "2", type: "-test-bold", start: 0, end: 0, attributes: {} },
+        ],
       });
 
       let expected = document(paragraph(bold()));
@@ -188,8 +188,14 @@ describe("@atjson/hir", () => {
         content: "",
         annotations: [
           { id: "1", type: "-test-bold", start: 0, end: 0, attributes: {} },
-          { id: "2", type: "-test-paragraph", start: 0, end: 0, attributes: {} }
-        ]
+          {
+            id: "2",
+            type: "-test-paragraph",
+            start: 0,
+            end: 0,
+            attributes: {},
+          },
+        ],
       });
 
       let expected = document(paragraph(bold()));
@@ -206,65 +212,65 @@ describe("@atjson/hir", () => {
             type: "-test-paragraph",
             start: 0,
             end: 8,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-atjson-parse-token",
             start: 8,
             end: 10,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-paragraph",
             start: 10,
             end: 18,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-atjson-parse-token",
             start: 18,
             end: 20,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "5",
             type: "-test-paragraph",
             start: 20,
             end: 22,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "6",
             type: "-atjson-parse-token",
             start: 20,
             end: 22,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "7",
             type: "-test-paragraph",
             start: 22,
             end: 30,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "8",
             type: "-atjson-parse-token",
             start: 30,
             end: 32,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "9",
             type: "-test-paragraph",
             start: 32,
             end: 41,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       let expected = document(
@@ -287,66 +293,66 @@ describe("@atjson/hir", () => {
             type: "-test-paragraph",
             start: 0,
             end: 8,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-atjson-parse-token",
             start: 8,
             end: 10,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-paragraph",
             start: 10,
             end: 18,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-atjson-parse-token",
             start: 18,
             end: 20,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "5",
             type: "-test-paragraph",
             start: 20,
             end: 22,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "6",
             type: "-atjson-parse-token",
             start: 20,
             end: 22,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "7",
             type: "-test-paragraph",
             start: 22,
             end: 30,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "8",
             type: "-atjson-parse-token",
             start: 30,
             end: 32,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "9",
             type: "-test-paragraph",
             start: 32,
             end: 41,
-            attributes: {}
+            attributes: {},
           },
-          { id: "10", type: "-test-bold", start: 21, end: 21, attributes: {} }
-        ]
+          { id: "10", type: "-test-bold", start: 21, end: 21, attributes: {} },
+        ],
       });
 
       let expected = document(
@@ -380,13 +386,13 @@ describe("@atjson/hir", () => {
                   type: "-test-italic",
                   start: 3,
                   end: 10,
-                  attributes: {}
-                }
-              ]
-            }
-          }
-        }
-      ]
+                  attributes: {},
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     let hir = new HIR(subdocument).toJSON();
@@ -401,10 +407,10 @@ describe("@atjson/hir", () => {
               type: "-test-italic",
               start: 3,
               end: 10,
-              attributes: {}
-            }
-          ]
-        }
+              attributes: {},
+            },
+          ],
+        },
       })
     );
 

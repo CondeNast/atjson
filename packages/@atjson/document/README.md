@@ -13,16 +13,16 @@ Typically when dealing with text, we think of markup languages, like HTML, XML, 
 As an example markdown document like the following:
 
 ```md
-*Roses* are red,  
-*Violets* are blue.
+_Roses_ are red,  
+_Violets_ are blue.
 ```
 
 Can be parsed into an AtJSON document by passing it into a source in AtJSON. A source is kind of like a parser, but is called a source because they use a parser, and normally we don't do any parsing in a source. Here we use AtJSON's built-in Commonmark source, which is a document format that supports all markdown features specified in the CommonMark spec.
 
 ```typescript
-import CommonmarkSource from '@atjson/source-commonmark';
- 
-CommonmarkSource.fromRaw('*Roses* are red,  \n*Violets* are blue.');
+import CommonmarkSource from "@atjson/source-commonmark";
+
+CommonmarkSource.fromRaw("*Roses* are red,  \n*Violets* are blue.");
 ```
 
 The result is a logical representation of the markdown document:
@@ -30,54 +30,63 @@ The result is a logical representation of the markdown document:
 ```json
 {
   "content": "*Roses* are red,  \n*Violets* are blue.",
-  "annotations": [{
-    "type": "-commonmark-em",
-    "start": 0,
-    "end": 7,
-    "attributes": {}
-  }, {
-    "type": "-atjson-parse-token",
-    "start": 0,
-    "end": 1,
-    "attributes": {
-      "-atjson-reason": "em_open"
+  "annotations": [
+    {
+      "type": "-commonmark-em",
+      "start": 0,
+      "end": 7,
+      "attributes": {}
+    },
+    {
+      "type": "-atjson-parse-token",
+      "start": 0,
+      "end": 1,
+      "attributes": {
+        "-atjson-reason": "em_open"
+      }
+    },
+    {
+      "type": "-atjson-parse-token",
+      "start": 6,
+      "end": 7,
+      "attributes": {
+        "-atjson-reason": "em_close"
+      }
+    },
+    {
+      "type": "-commonmark-hard_break",
+      "start": 16,
+      "end": 19,
+      "attributes": {}
+    },
+    {
+      "type": "-commonmark-em",
+      "start": 20,
+      "end": 29,
+      "attributes": {}
+    },
+    {
+      "type": "-atjson-parse-token",
+      "start": 20,
+      "end": 21,
+      "attributes": {
+        "-atjson-reason": "em_open"
+      }
+    },
+    {
+      "type": "-atjson-parse-token",
+      "start": 28,
+      "end": 29,
+      "attributes": {
+        "-atjson-reason": "em_close"
+      }
     }
-  }, {
-    "type": "-atjson-parse-token",
-    "start": 6,
-    "end": 7,
-    "attributes": {
-      "-atjson-reason": "em_close"
-    }
-  }, {
-    "type": "-commonmark-hard_break",
-    "start": 16,
-    "end": 19,
-    "attributes": {}
-  }, {
-    "type": "-commonmark-em",
-    "start": 20,
-    "end": 29,
-    "attributes": {}
-  }, {
-    "type": "-atjson-parse-token",
-    "start": 20,
-    "end": 21,
-    "attributes": {
-      "-atjson-reason": "em_open"
-    }
-  }, {
-    "type": "-atjson-parse-token",
-    "start": 28,
-    "end": 29,
-    "attributes": {
-      "-atjson-reason": "em_close"
-    }
-  }]
+  ]
 }
 ```
 
 **💁‍♀️ Notes**
+
 > AtJSON stores annotations with vendor prefixes. These are meant to prevent collisions between different types of documents.
 >
 > Positions indicate the position \*between\* characters, not the character boundary. This means `{ start: 0, end: 1 }` is over the first character of the content.
@@ -95,33 +104,33 @@ Documents have associated annotation classes that will turn the JSON into a full
 As an intro into documents, let's create a small document definition that describes addresses:
 
 ```typescript
-import Document, { InlineAnnotation } from '@atjson/document';
- 
+import Document, { InlineAnnotation } from "@atjson/document";
+
 class Name extends InlineAnnotation {
-  static vendorPrefix = 'address';
-  static type = 'name';
+  static vendorPrefix = "address";
+  static type = "name";
 }
- 
+
 class AddressLine extends InlineAnnotation {
-  static vendorPrefix = 'address';
-  static type = 'line';
+  static vendorPrefix = "address";
+  static type = "line";
 }
- 
+
 class PostalCode extends InlineAnnotation {
-  static vendorPrefix = 'address';
-  static type = 'postal-code';
+  static vendorPrefix = "address";
+  static type = "postal-code";
 }
- 
+
 class City extends InlineAnnotation {
-  static vendorPrefix = 'address';
-  static type = 'city';
+  static vendorPrefix = "address";
+  static type = "city";
 }
- 
+
 class Region extends InlineAnnotation {
-  static vendorPrefix = 'address';
-  static type = 'region';
+  static vendorPrefix = "address";
+  static type = "region";
 }
- 
+
 class Address extends Document {
   static schema = [Name, AddressLine, PostalCode, City, Region];
 }
@@ -140,9 +149,9 @@ We can start marking this up with some annotations:
 ```typescript
 let address = new Address({
   content: "Condé Nast\n1 WTC\nNew York, NY 10006",
-  annotations: []
+  annotations: [],
 });
- 
+
 address.addAnnotations(
   new Name({ start: 0, end: 10 }),
   new AddressLine({ start: 11, end: 16 }),
@@ -154,51 +163,51 @@ address.addAnnotations(
 
 It seems very arbitrary to store data this way. Why would we do this?
 
-Well, we think this provides the most natural input mechanism for people, while providing robust machine reading capabilities. Documents provide tools that manage annotations so when text is added or removed it "just works" as expected. So, if we wanted to change the text here, and we inserted " Entertainment"  after "Condé Nast", the annotations would remain intact, and in fact, would cover the correct text!
+Well, we think this provides the most natural input mechanism for people, while providing robust machine reading capabilities. Documents provide tools that manage annotations so when text is added or removed it "just works" as expected. So, if we wanted to change the text here, and we inserted " Entertainment" after "Condé Nast", the annotations would remain intact, and in fact, would cover the correct text!
 
 The flexibility here also means that we can render this address out into something more suitable for Google, such as JSONLD. We can use AtJSON's rendering here to take this document and turn it into something that can show a rich location card in search results. Note that in order to do this, we define a rendering rule for every annotation we've defined thus far for our Address schema:
 
 ```typescript
-import Renderer from '@atjson/renderer-hir';
- 
+import Renderer from "@atjson/renderer-hir";
+
 class JSONLDRenderer extends Renderer {
   private jsonld: any;
- 
+
   constructor() {
     this.jsonld = {
       "@context": "https://schema.org",
       "@type": "Place",
-      "address": {
-        "@type": "PostalAddress"
-      }
+      address: {
+        "@type": "PostalAddress",
+      },
     };
   }
- 
+
   *Name() {
     let name = yield;
-    this.jsonld.name = name.join('');
+    this.jsonld.name = name.join("");
   }
- 
+
   *AddressLine() {
     let streetAddress = yield;
-    this.jsonld.address.streetAddress = streetAddress.join('');
+    this.jsonld.address.streetAddress = streetAddress.join("");
   }
- 
+
   *City() {
     let addressLocality = yield;
-    this.jsonld.address.addressLocality = addressLocality.join('');
+    this.jsonld.address.addressLocality = addressLocality.join("");
   }
- 
+
   *Region() {
     let addressRegion = yield;
-    this.jsonld.address.addressRegion = addressRegion.join('');
+    this.jsonld.address.addressRegion = addressRegion.join("");
   }
- 
+
   *PostalCode() {
     let postalCode = yield;
-    this.jsonld.address.postalCode = postalCode.join('');
+    this.jsonld.address.postalCode = postalCode.join("");
   }
- 
+
   *root() {
     yield;
     return this.jsonld;
@@ -225,32 +234,35 @@ Sending the document that we created through this would result in a JSON-LD obje
 This was a bit of a whirlwind, but we think it provides a good example of ways that you can start thinking about how to use annotations!
 
 **💁‍♀️ Notes**
+
 > We call a defined document schema a "source". They're not exactly parsers, since they represent the content in AtJSON in that format. I like to think of them like a source that a journalist has, where they collect information from that source and use it in their reporting.
 
 ## 🔍 How to find data in a document
+
 Annotations in AtJSON can be treated like a little database. It's a little like how jQuery suddenly opened up the possibilities of what could be done on websites because you could do simple and elegant manipulation.
 
 There's 2 levels of querying for documents. The first is partial matches:
 
 ```typescript
-doc.where({ type: '-offset-link' });
+doc.where({ type: "-offset-link" });
 ```
 
 This query will find all links in a document
 
 **💁‍♀️ Notes**
+
 > The partial match query language requires vendor prefixes
 
 The equivalent version of this using the function syntax would be:
 
 ```typescript
-import { Link } from '@atjson/offset-annotations';
- 
-doc.where(annotation => annotation instanceof Link);
+import { Link } from "@atjson/offset-annotations";
+
+doc.where((annotation) => annotation instanceof Link);
 ```
 
-
 **💁‍♀️ Notes**
+
 > The function syntax returns hydrated annotations. You may encounter Unknown annotations here, which are annotations that are unsupported by the document schema. Be careful! 👹
 
 ### 👹A note about Unknown Annotations
@@ -269,18 +281,18 @@ This data is stored as unknown annotations, which are an annotation that stores 
   }
 }
 ```
- 
+
 Turns into:
 
-```typescript 
+```typescript
 new UnknownAnnotation({
   start: 0,
   end: 10,
   attributes: {
-    type: '-html-marquee',
+    type: "-html-marquee",
     attributes: {
-      '-html-style': 'rainbow'
-    }
-  }
-})
+      "-html-style": "rainbow",
+    },
+  },
+});
 ```

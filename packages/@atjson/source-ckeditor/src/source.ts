@@ -22,7 +22,7 @@ function fromNode(
       start,
       end: content.length,
       type: "-ckeditor-$text",
-      attributes
+      attributes,
     });
   } else if (isElement(node)) {
     let openTag = `<${node.name}>`;
@@ -32,8 +32,8 @@ function fromNode(
         start: content.length - openTag.length,
         end: content.length,
         attributes: {
-          reason: `${node.name}_open`
-        }
+          reason: `${node.name}_open`,
+        },
       })
     );
     for (let child of node.getChildren()) {
@@ -46,15 +46,15 @@ function fromNode(
         start: content.length - closeTag.length,
         end: content.length,
         attributes: {
-          reason: `${node.name}_close`
-        }
+          reason: `${node.name}_close`,
+        },
       })
     );
     annotations.push({
       start,
       end: content.length,
       type: `-ckeditor-${node.name}`,
-      attributes
+      attributes,
     });
   }
 
@@ -69,7 +69,7 @@ export default abstract class CKEditorSource extends Document {
 
     return fromNode(root, {
       content,
-      annotations
+      annotations,
     });
   }
 }
