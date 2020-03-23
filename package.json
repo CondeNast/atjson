@@ -80,6 +80,7 @@
     "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts --fix",
     "prepublishOnly": "rm -rf packages/@atjson/**/dist && npm run build",
     "publish": "lerna publish",
+    "prerelease": "lerna publish --dist-tag dev --preid dev --conventional-prerelease",
     "test": "./node_modules/jest/bin/jest.js",
     "typecheck": "tsc -b packages/**/* --force",
     "anonymize-fixtures": "npx ts-node ./performance/anonymize-fixtures.ts",
