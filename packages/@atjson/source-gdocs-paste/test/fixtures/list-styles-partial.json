@@ -1067,14 +1067,10 @@
       }
     ],
     "dsl_suggestedinsertions": {
-      "sgsl_sugg": [
-        []
-      ]
+      "sgsl_sugg": [[]]
     },
     "dsl_suggesteddeletions": {
-      "sgsl_sugg": [
-        []
-      ]
+      "sgsl_sugg": [[]]
     },
     "dsl_entitypositionmap": {},
     "dsl_entitymap": {

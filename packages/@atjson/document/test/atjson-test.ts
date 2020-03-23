@@ -7,7 +7,7 @@ describe("new Document", () => {
     expect(
       new TestSource({
         content: "Hello World.",
-        annotations: []
+        annotations: [],
       })
     ).toBeDefined();
   });
@@ -20,9 +20,9 @@ describe("new Document", () => {
           new Bold({
             start: 0,
             end: 2,
-            attributes: {}
-          })
-        ]
+            attributes: {},
+          }),
+        ],
       })
     ).toBeDefined();
   });
@@ -33,12 +33,12 @@ describe("new Document", () => {
       annotations: [
         new Bold({
           start: 0,
-          end: 2
-        })
-      ]
+          end: 2,
+        }),
+      ],
     });
 
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
+    expect(doc.where((a) => a instanceof Bold).length).toBe(1);
   });
 
   test("instantiating with UnknownAnnotations", () => {
@@ -50,13 +50,13 @@ describe("new Document", () => {
           end: 2,
           attributes: {
             type: "-test-bold",
-            attributes: {}
-          }
-        })
-      ]
+            attributes: {},
+          },
+        }),
+      ],
     });
 
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
+    expect(doc.where((a) => a instanceof Bold).length).toBe(1);
   });
 
   test("instantiating with JSON", () => {
@@ -67,12 +67,12 @@ describe("new Document", () => {
           type: "-test-bold",
           start: 0,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
-    expect(doc.where(a => a instanceof Bold).length).toBe(1);
+    expect(doc.where((a) => a instanceof Bold).length).toBe(1);
   });
 
   test("clone", () => {
@@ -82,9 +82,9 @@ describe("new Document", () => {
         new Bold({
           start: 0,
           end: 2,
-          attributes: {}
-        })
-      ]
+          attributes: {},
+        }),
+      ],
     });
     let clone = document.clone();
     let [bold] = document.annotations;
@@ -116,13 +116,13 @@ describe("new Document", () => {
                   type: "-test-italic",
                   start: 3,
                   end: 10,
-                  attributes: {}
-                }
-              ]
-            }
-          }
-        }
-      ]
+                  attributes: {},
+                },
+              ],
+            },
+          },
+        },
+      ],
     });
 
     let image = document.annotations[0] as Image;
@@ -157,7 +157,7 @@ describe("new Document", () => {
         armies' protection, offering in exchange annual tributes of \
         precious metals, tanned hides, anti tortoise shell.\
         \u220E",
-      annotations: []
+      annotations: [],
     });
 
     const MATCHES_AND = [
@@ -170,12 +170,12 @@ describe("new Document", () => {
       [728, 731],
       [820, 823],
       [917, 920],
-      [1062, 1065]
+      [1062, 1065],
     ].map(([start, end]) => {
       return {
         start,
         end,
-        matches: ["and"]
+        matches: ["and"],
       };
     });
 
@@ -193,7 +193,7 @@ describe("new Document", () => {
           return {
             start,
             end,
-            matches: ["and", "a", "nd"]
+            matches: ["and", "a", "nd"],
           };
         })
       );
@@ -203,7 +203,7 @@ describe("new Document", () => {
       expect(document.match(/[\u000B\u220E]/g)).toEqual([
         { start: 594, end: 595, matches: ["\u000B"] },
         { start: 595, end: 596, matches: ["\u000B"] },
-        { start: 1270, end: 1271, matches: ["\u220E"] }
+        { start: 1270, end: 1271, matches: ["\u220E"] },
       ]);
     });
 
@@ -224,21 +224,21 @@ describe("new Document", () => {
           type: "-test-bold",
           start: 0,
           end: 5,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-italic",
           start: 0,
           end: 13,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "3",
           type: "-test-underline",
           start: 0,
           end: 13,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "4",
@@ -246,10 +246,10 @@ describe("new Document", () => {
           start: 14,
           end: 15,
           attributes: {
-            "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
-          }
-        }
-      ]
+            "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
+          },
+        },
+      ],
     });
 
     test("slice matching boundary", () => {
@@ -268,7 +268,7 @@ describe("new Document", () => {
           "-test-locale",
           "-test-manual",
           "-test-paragraph",
-          "-test-pre"
+          "-test-pre",
         ],
         annotations: [
           {
@@ -276,23 +276,23 @@ describe("new Document", () => {
             type: "-test-bold",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-test-italic",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 5,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
     });
 
@@ -305,8 +305,8 @@ describe("new Document", () => {
           new Bold({ start: 11, end: 23 }),
           new ParseAnnotation({ start: 11, end: 14 }),
           new ParseAnnotation({ start: 19, end: 23 }),
-          new ParseAnnotation({ start: 24, end: 29 })
-        ]
+          new ParseAnnotation({ start: 24, end: 29 }),
+        ],
       });
       let doc = document.slice(4, 24);
 
@@ -316,24 +316,24 @@ describe("new Document", () => {
           {
             type: "-test-italic",
             start: 0,
-            end: 20
+            end: 20,
           },
           {
             type: "-atjson-parse-token",
             start: 7,
-            end: 10
+            end: 10,
           },
           {
             type: "-test-bold",
             start: 7,
-            end: 19
+            end: 19,
           },
           {
             type: "-atjson-parse-token",
             start: 15,
-            end: 19
-          }
-        ]
+            end: 19,
+          },
+        ],
       });
     });
 
@@ -349,16 +349,16 @@ describe("new Document", () => {
             type: "-test-italic",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 5,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       expect(document.toJSON()).toMatchObject({
@@ -370,21 +370,21 @@ describe("new Document", () => {
             type: "-test-bold",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-test-italic",
             start: 0,
             end: 13,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 13,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
@@ -392,10 +392,10 @@ describe("new Document", () => {
             start: 14,
             end: 15,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
-            }
-          }
-        ]
+              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
+            },
+          },
+        ],
       });
     });
   });
@@ -410,21 +410,21 @@ describe("new Document", () => {
             type: "-test-bold",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-test-italic",
             start: 0,
             end: 13,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 13,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
@@ -432,10 +432,10 @@ describe("new Document", () => {
             start: 14,
             end: 15,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
-            }
-          }
-        ]
+              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
+            },
+          },
+        ],
       });
 
       let cut = document.cut(0, 5);
@@ -449,23 +449,23 @@ describe("new Document", () => {
             type: "-test-bold",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "2",
             type: "-test-italic",
             start: 0,
             end: 5,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 5,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       expect(document.toJSON()).toMatchObject({
@@ -476,14 +476,14 @@ describe("new Document", () => {
             type: "-test-italic",
             start: 0,
             end: 8,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-underline",
             start: 0,
             end: 8,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
@@ -491,10 +491,10 @@ describe("new Document", () => {
             start: 9,
             end: 10,
             attributes: {
-              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
-            }
-          }
-        ]
+              "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
+            },
+          },
+        ],
       });
     });
 
@@ -507,8 +507,8 @@ describe("new Document", () => {
           new Bold({ start: 11, end: 23 }),
           new ParseAnnotation({ start: 11, end: 14 }),
           new ParseAnnotation({ start: 19, end: 23 }),
-          new ParseAnnotation({ start: 24, end: 29 })
-        ]
+          new ParseAnnotation({ start: 24, end: 29 }),
+        ],
       });
       let cut = document.cut(11, 23);
 
@@ -520,27 +520,27 @@ describe("new Document", () => {
             type: "-atjson-parse-token",
             start: 0,
             end: 3,
-            attributes: {}
+            attributes: {},
           },
           {
             type: "-test-bold",
             start: 0,
             end: 12,
-            attributes: {}
+            attributes: {},
           },
           {
             type: "-test-italic",
             start: 0,
             end: 12,
-            attributes: {}
+            attributes: {},
           },
           {
             type: "-atjson-parse-token",
             start: 8,
             end: 12,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       expect(document.toJSON()).toMatchObject({
@@ -550,21 +550,21 @@ describe("new Document", () => {
             attributes: {},
             end: 4,
             start: 0,
-            type: "-atjson-parse-token"
+            type: "-atjson-parse-token",
           },
           {
             attributes: {},
             end: 17,
             start: 0,
-            type: "-test-italic"
+            type: "-test-italic",
           },
           {
             attributes: {},
             end: 17,
             start: 12,
-            type: "-atjson-parse-token"
-          }
-        ]
+            type: "-atjson-parse-token",
+          },
+        ],
       });
     });
   });

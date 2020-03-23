@@ -3,7 +3,7 @@ import * as fs from "fs";
 
 const example = fs.readFileSync(__dirname + "/invisible-cities.json");
 
-document.addEventListener("paste", evt => {
+document.addEventListener("paste", (evt) => {
   let gdocsPaste = evt.clipboardData.getData(
     "application/x-vnd.google-docs-document-slice-clip+wrapped"
   );

@@ -42,7 +42,7 @@ export const UNICODE_PUNCTUATION = new RegExp(
     UNICODE_FINAL_PUNCTUATION.source,
     UNICODE_INITIAL_PUNCTUATION.source,
     UNICODE_OTHER_PUNCTUATION.source,
-    UNICODE_OPEN_PUNCTUATION.source
+    UNICODE_OPEN_PUNCTUATION.source,
   ].join("")}]`,
   "u"
 );

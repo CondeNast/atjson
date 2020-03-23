@@ -1,37 +1,37 @@
 # AtJSON [![Build Status](https://travis-ci.org/CondeNast/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast/atjson) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
 ## Maintainers
-* Tim Evans (@tim-evans tim_evans@condenast.com)
-* Blaine Cook (@blaine blaine_cook@condenast.com)
 
-----------------------------------
+- Tim Evans (@tim-evans tim_evans@condenast.com)
+- Blaine Cook (@blaine blaine_cook@condenast.com)
+
+---
 
 AtJSON is a collection of repositories that together make up a fully-realized content format.
 
-| Quick Links |
-|-------------|
+| Quick Links                                                            |
+| ---------------------------------------------------------------------- |
 | [How does a document get rendered?](#how-does-a-document-get-rendered) |
-| [How do I use existing documents?](#how-do-i-use-existing-documents) |
-| [How do I create a new document?](#how-do-i-create-a-new-document) |
+| [How do I use existing documents?](#how-do-i-use-existing-documents)   |
+| [How do I create a new document?](#how-do-i-create-a-new-document)     |
 
 The breakdown of modules in this repository are:
 
-| Modules | Description|
-|---------|------------|
-| [@atjson/document](packages/@atjson/document) | AtJSON document and annotation code |
-| [@atjson/hir](packages/@atjson/hir) | HIR (Hierarchical Intermediate Representation) |
-| [@atjson/renderer-hir](packages/@atjson/renderer-hir) | Abstract base class for text-based output |
-| [@atjson/renderer-graphviz](packages/@atjson/renderer-graphviz) | Used to visualise the HIR of a document |
-| [@atjson/renderer-plain-text](packages/@atjson/renderer-plain-text) | Plain text output |
-| [@atjson/renderer-react](packages/@atjson/renderer-react) | React output |
-| [@atjson/renderer-commonmark](packages/@atjson/renderer-commonmark) | CommonMark output |
-| [@atjson/source-commonmark](packages/@atjson/source-commonmark) | Conversion of CommonMark sources to AtJSON |
-| [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste) | A source used to transform Google Docs Paste buffers into AtJSON |
-| [@atjson/source-html](packages/@atjson/source-html) | Conversion of HTML sources to AtJSON |
-| [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc) | A source used to transform Mobiledoc into AtJSON |
-| [@atjson/source-prism](packages/@atjson/source-prism) | Conversion of [PRISM](http://www.prismstandard.org/specifications/)-compliant XML documents into AtJSON |
-| [@atjson/source-url](packages/@atjson/source-url) | Turn URLs into rich embeds |
-
+| Modules                                                             | Description                                                                                             |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [@atjson/document](packages/@atjson/document)                       | AtJSON document and annotation code                                                                     |
+| [@atjson/hir](packages/@atjson/hir)                                 | HIR (Hierarchical Intermediate Representation)                                                          |
+| [@atjson/renderer-hir](packages/@atjson/renderer-hir)               | Abstract base class for text-based output                                                               |
+| [@atjson/renderer-graphviz](packages/@atjson/renderer-graphviz)     | Used to visualise the HIR of a document                                                                 |
+| [@atjson/renderer-plain-text](packages/@atjson/renderer-plain-text) | Plain text output                                                                                       |
+| [@atjson/renderer-react](packages/@atjson/renderer-react)           | React output                                                                                            |
+| [@atjson/renderer-commonmark](packages/@atjson/renderer-commonmark) | CommonMark output                                                                                       |
+| [@atjson/source-commonmark](packages/@atjson/source-commonmark)     | Conversion of CommonMark sources to AtJSON                                                              |
+| [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste)   | A source used to transform Google Docs Paste buffers into AtJSON                                        |
+| [@atjson/source-html](packages/@atjson/source-html)                 | Conversion of HTML sources to AtJSON                                                                    |
+| [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc)       | A source used to transform Mobiledoc into AtJSON                                                        |
+| [@atjson/source-prism](packages/@atjson/source-prism)               | Conversion of [PRISM](http://www.prismstandard.org/specifications/)-compliant XML documents into AtJSON |
+| [@atjson/source-url](packages/@atjson/source-url)                   | Turn URLs into rich embeds                                                                              |
 
 #### Why another content format?
 
@@ -70,7 +70,7 @@ This document looks like:
 
 > The _best_ writing anywhere, everywhere.
 
-Positions represent the space *in-between* characters in the document. That means an annotation that starts at 0 starts before any character in the document. How the indexing works is as the following:
+Positions represent the space _in-between_ characters in the document. That means an annotation that starts at 0 starts before any character in the document. How the indexing works is as the following:
 
 ```
  H e l l o
@@ -135,7 +135,6 @@ Objects can also be embedded in documents that can be expanded when the document
 }
 ```
 
-
 ### How does a document get rendered?
 
 We have a source document with annotations:
@@ -162,56 +161,63 @@ A number of little notes distributed that morning by a footman in red livery had
 “Oh! what a savage attack!” rejoined the prince, as he came forward in his embroidered tourt uniform, stockings, and diamond-buckled shoes, and with an expression of seren—
 ```
 
-
 ```js
-[{
-  type: "title",
-  start: 0,
-  end: 13,
-  attributes: {
-    level: 1
-  }
-}, {
-  type: "small-caps",
-  start: 38,
-  end: 42
-}, {
-  type: "footnote",
-  start: 37,
-  end: 478,
-  attributes: {
-    note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D."
-  }
-}, {
-  type: "italic",
-  start: 863,
-  end: 869
-}, {
-  type: "italic",
-  start: 911,
-  end: 917
-}, {
-  type: "blockquote",
-  start: 1096,
-  end: 1324
-}, {
-  type: "small-caps",
-  start: 1308,
-  end: 1323
-}]
+[
+  {
+    type: "title",
+    start: 0,
+    end: 13,
+    attributes: {
+      level: 1,
+    },
+  },
+  {
+    type: "small-caps",
+    start: 38,
+    end: 42,
+  },
+  {
+    type: "footnote",
+    start: 37,
+    end: 478,
+    attributes: {
+      note:
+        "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
+    },
+  },
+  {
+    type: "italic",
+    start: 863,
+    end: 869,
+  },
+  {
+    type: "italic",
+    start: 911,
+    end: 917,
+  },
+  {
+    type: "blockquote",
+    start: 1096,
+    end: 1324,
+  },
+  {
+    type: "small-caps",
+    start: 1308,
+    end: 1323,
+  },
+];
 ```
 
 This visually would look like:
 
 ![War and Peace](https://raw.githubusercontent.com/CondeNast/atjson/latest/public/war-and-peace-annotated.png)
 
-
 Creating an output is pretty straightforward, and requires no knowledge about the content format. You need to know about the annotations and what attributes they may contain. Generating output based on the hierarchical representation is straightforward and minimal.
 
 Generating an HTML document from a document is all of this code:
 
 ```js
-import Renderer, { escapeHTML } from '@atjson/renderer-hir';
+import Renderer, { escapeHTML } from "@atjson/renderer-hir";
 
 export default class HTMLOutput extends Renderer {
   renderText(text: string): string {
@@ -221,7 +227,7 @@ export default class HTMLOutput extends Renderer {
   *$(elementName: string, attributes: { [key: string]: string }) {
     let element = document.createElement(elementName);
     for (let key of attributes) {
-      if (key === 'class') {
+      if (key === "class") {
         element.classList.add(attributes[key]);
       } else {
         element.setAttribute(key, attributes[key]);
@@ -232,27 +238,27 @@ export default class HTMLOutput extends Renderer {
   }
 
   *Title() {
-    return yield *this.$('h1');
+    return yield* this.$("h1");
   }
 
   *Bold() {
-    return yield *this.$('strong');
+    return yield* this.$("strong");
   }
 
   *Blockquote() {
-    return yield *this.$('blockquote');
+    return yield* this.$("blockquote");
   }
 
   *Paragraph() {
-    return yield *this.$('p');
+    return yield* this.$("p");
   }
 
   *Italic() {
-    return yield *this.$('em');
+    return yield* this.$("em");
   }
 
   *SmallCaps() {
-    return yield *this.$('span', { class: 'small-caps' });
+    return yield* this.$("span", { class: "small-caps" });
   }
 }
 ```
@@ -262,6 +268,7 @@ The `renderText` method is called for every chunk of text in the document, to pr
 We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
 
 ## How do I use existing documents?
+
 AtJSON documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized AtJSON document.
 
 A markdown document, much like the one being written here, can be represented in AtJSON by annotating the document with the markup.
@@ -269,10 +276,12 @@ A markdown document, much like the one being written here, can be represented in
 This can be done using our built-in parser:
 
 ```js
-import OffsetSource from '@atjson/offset-annotations';
-import CommonMarkSource from '@atjson/source-commonmark';
+import OffsetSource from "@atjson/offset-annotations";
+import CommonMarkSource from "@atjson/source-commonmark";
 
-let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(OffsetSource);
+let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(
+  OffsetSource
+);
 ```
 
 This will result in the following document:
@@ -318,14 +327,16 @@ When rendering the document, text covered by parse tokens will be removed:
 Documents can have annotations and text dynamically added and deleted from them. The APIs for this are designed to be easy-to-use (if they're not, please let us know :sweat_smile:)
 
 ```js
-import OffsetSource, { Bold } from '@atjson/offset-annotations';
+import OffsetSource, { Bold } from "@atjson/offset-annotations";
 
 let document = new OffsetSource();
-document.insertText(0, 'Hello!');
-document.addAnnotations(new Bold({
-  start: 0,
-  end: 6
-}));
+document.insertText(0, "Hello!");
+document.addAnnotations(
+  new Bold({
+    start: 0,
+    end: 6,
+  })
+);
 
 // This should extend the annotation
 document.insertText(5, " folks");
@@ -334,7 +345,6 @@ document.insertText(5, " folks");
 // resulting in an empty document
 document.removeText(document.annotations[0]);
 ```
-
 
 ## Contributing
 

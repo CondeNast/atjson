@@ -22,7 +22,7 @@ most comfortable for you.
 After installation, let's prepare a React component for the renderer to use. Here's a basic React component that we'll use to render `Bold` annotations:
 
 ```ts
-const BoldComponent: FC<{}> = props => <strong>{props.children}</strong>;
+const BoldComponent: FC<{}> = (props) => <strong>{props.children}</strong>;
 ```
 
 Now let's use that component when rendering an atjson document into React components. The React renderer must be wrapped in the provided `ReactRendererProvider` context component, which is used to provide a map of the components available to the renderer.
@@ -33,10 +33,10 @@ import { FC } from "react";
 import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 
 const components = {
-  Bold: BoldComponent
+  Bold: BoldComponent,
 };
 
-export const Story: FC<{ children: Document }> = props => (
+export const Story: FC<{ children: Document }> = (props) => (
   <ReactRendererProvider value={components}>
     {ReactRenderer.render(props.children)}
   </ReactRendererProvider>
@@ -52,7 +52,7 @@ In the example above, the `BoldComponent` simply wraps the annotation text in an
 ```ts
 import { IframeEmbed } from "@atjson/offset-annotations";
 
-const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => (
+const IframeComponent: FC<AttributesOf<IframeEmbed>> = (props) => (
   <figure>
     <iframe width={props.width} height={props.height} src={props.url} />
     <figcaption>{props.caption}</figcaption>
@@ -78,10 +78,10 @@ import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 // the component map, using the BoldComponent and IframeComponent from above
 const components = {
   Bold: BoldComponent,
-  IframeEmbed: IframeComponent
+  IframeEmbed: IframeComponent,
 };
 
-export const Story: FC<{ children: Document }> = props => (
+export const Story: FC<{ children: Document }> = (props) => (
   <ReactRendererProvider value={components}>
     {ReactRenderer.render(props.children)}
   </ReactRendererProvider>

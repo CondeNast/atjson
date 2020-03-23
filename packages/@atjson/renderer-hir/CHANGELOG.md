@@ -7,50 +7,27 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @atjson/renderer-hir
 
-
-
-
-
 ## [0.22.2](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.22.1...@atjson/renderer-hir@0.22.2) (2020-03-02)
 
 **Note:** Version bump only for package @atjson/renderer-hir
 
-
-
-
-
 ## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.22.0...@atjson/renderer-hir@0.22.1) (2020-02-26)
-
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
-
-
-
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 # [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.21.14...@atjson/renderer-hir@0.22.0) (2020-02-20)
 
-
 ### Features
 
-* add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
-
-
-
-
+- add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
 
 ## [0.21.14](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/renderer-hir@0.21.13...@atjson/renderer-hir@0.21.14) (2020-02-10)
 
-
 ### Bug Fixes
 
-* just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
-
-
-
-
+- just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
 
 ## [0.21.13](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.21.12...@atjson/renderer-hir@0.21.13) (2020-01-24)
 

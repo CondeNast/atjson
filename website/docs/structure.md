@@ -16,7 +16,7 @@ TK
 
 ### About Offsets
 
-Positions represent the space *in between* characters in the document.
+Positions represent the space _in between_ characters in the document.
 That means an annotation that starts at `0` starts before any character in the document.
 
 import { CharacterOffsetViewer } from '../src/components/CharacterOffsetViewer.tsx';

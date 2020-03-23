@@ -1,13 +1,11 @@
 import OffsetSource from "@atjson/offset-annotations";
 import URLSource from "../src";
 
-document.addEventListener("paste", evt => {
+document.addEventListener("paste", (evt) => {
   let pasteBuffer = evt.clipboardData.getData("text/plain");
   if (pasteBuffer !== "") {
     document.body.innerText = JSON.stringify(
-      URLSource.fromRaw(pasteBuffer)
-        .convertTo(OffsetSource)
-        .toJSON(),
+      URLSource.fromRaw(pasteBuffer).convertTo(OffsetSource).toJSON(),
       null,
       2
     );

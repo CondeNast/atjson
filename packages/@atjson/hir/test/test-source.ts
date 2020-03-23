@@ -1,7 +1,7 @@
 import Document, {
   BlockAnnotation,
   InlineAnnotation,
-  ObjectAnnotation
+  ObjectAnnotation,
 } from "@atjson/document";
 
 export class Bold extends InlineAnnotation {

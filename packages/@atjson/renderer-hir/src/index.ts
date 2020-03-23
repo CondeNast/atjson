@@ -2,7 +2,7 @@ import Document, {
   Annotation,
   AnnotationJSON,
   UnknownAnnotation,
-  is
+  is,
 } from "@atjson/document";
 import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
@@ -17,7 +17,7 @@ const escape: Mapping = {
   '"': "&quot;",
   "'": "&#x27;",
   "`": "&#x60;",
-  "=": "&#x3D;"
+  "=": "&#x3D;",
 };
 
 type EscapeCharacter = keyof Mapping;
@@ -53,11 +53,7 @@ function classifyWord(word: string) {
 // This classify is _specifically_ for our annotation types—
 // casing is ignored, and dashes are the only thing allowed.
 export function classify(type: string) {
-  return type
-    .toLowerCase()
-    .split("-")
-    .map(classifyWord)
-    .join("");
+  return type.toLowerCase().split("-").map(classifyWord).join("");
 }
 
 export interface Context {
@@ -87,7 +83,7 @@ function compile(
   } else {
     generator = renderer.renderAnnotation(annotation, {
       ...context,
-      children: childAnnotations
+      children: childAnnotations,
     } as Context);
   }
 
@@ -106,13 +102,13 @@ function compile(
           parent: annotation || null,
           previous: childAnnotations[idx - 1] || null,
           next: childAnnotations[idx + 1] || null,
-          document: context.document
+          document: context.document,
         };
 
         if (childNode.type === "text") {
           return renderer.text(childNode.text, {
             ...childContext,
-            children: []
+            children: [],
           });
         }
 
@@ -162,7 +158,7 @@ function textAnnotationFromNode(childNode: HIRNode) {
     start: childNode.start,
     end: childNode.end,
     attributes: {
-      text: childNode.text
+      text: childNode.text,
     },
     toJSON(): object {
       return {
@@ -171,10 +167,10 @@ function textAnnotationFromNode(childNode: HIRNode) {
         start: childNode.start,
         end: childNode.end,
         attributes: {
-          "-atjson-text": childNode.text
-        }
+          "-atjson-text": childNode.text,
+        },
       };
-    }
+    },
   };
 }
 

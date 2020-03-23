@@ -194,10 +194,7 @@ function without(object: any, attributes: string[]): any {
       copy[key] = without(
         object[key],
         activeAttributes.map(function removeFirstKey(attribute) {
-          return attribute
-            .split(".")
-            .slice(1)
-            .join(".");
+          return attribute.split(".").slice(1).join(".");
         })
       );
     }
@@ -240,7 +237,7 @@ export class AnnotationCollection extends Collection {
       let newAnnotation = this.document.replaceAnnotation(annotation, result);
 
       let r: { update: [Annotation<any>, Annotation<any>][] } = {
-        update: [[annotation, newAnnotation[0]]]
+        update: [[annotation, newAnnotation[0]]],
       };
 
       return r;
@@ -255,7 +252,7 @@ export class AnnotationCollection extends Collection {
       let newAnnotation = this.document.replaceAnnotation(annotation, result);
 
       let r: { update: [Annotation<any>, Annotation<any>][] } = {
-        update: [[annotation, newAnnotation[0]]]
+        update: [[annotation, newAnnotation[0]]],
       };
 
       return r;
@@ -267,7 +264,7 @@ export class AnnotationCollection extends Collection {
   rename(renaming: Renaming) {
     let flattenedRenaming = flattenPropertyPaths(renaming, {
       keys: true,
-      values: true
+      values: true,
     });
 
     let renameUpdater = (annotation: Annotation) => {
@@ -280,7 +277,7 @@ export class AnnotationCollection extends Collection {
       let newAnnotation = this.document.replaceAnnotation(annotation, result);
 
       let r: { update: [Annotation<any>, Annotation<any>][] } = {
-        update: [[annotation, newAnnotation[0]]]
+        update: [[annotation, newAnnotation[0]]],
       };
 
       return r;
@@ -333,7 +330,7 @@ export class NamedCollection<Left extends string> extends Collection {
 
       let join = {
         [this.name]: leftAnnotation,
-        [rightCollection.name]: joinAnnotations
+        [rightCollection.name]: joinAnnotations,
       };
       results.push(join as JoinItem);
     }

@@ -1,7 +1,7 @@
 const path = require("path");
 const readFileSync = require("fs").readFileSync;
 
-module.exports = function(context) {
+module.exports = function (context) {
   const contentPath = path.join(path.resolve(context.siteDir), "src");
   const package = JSON.parse(
     readFileSync(path.join(path.resolve(context.siteDir), "package.json"))
@@ -31,13 +31,13 @@ module.exports = function(context) {
                     [
                       "@babel/env",
                       {
-                        targets: browserslist
-                      }
+                        targets: browserslist,
+                      },
                     ],
-                    "@babel/react"
-                  ]
-                })
-              ].filter(loader => loader != null)
+                    "@babel/react",
+                  ],
+                }),
+              ].filter((loader) => loader != null),
             },
             {
               test: /\.tsx?$/,
@@ -51,21 +51,21 @@ module.exports = function(context) {
                       "@babel/preset-typescript",
                       {
                         isTSX: true,
-                        allExtensions: true
-                      }
+                        allExtensions: true,
+                      },
                     ],
-                    "@babel/preset-react"
+                    "@babel/preset-react",
                   ],
                   plugins: [
                     "@babel/plugin-proposal-class-properties",
-                    "@babel/plugin-proposal-object-rest-spread"
-                  ]
-                })
-              ].filter(loader => loader != null)
-            }
-          ]
-        }
+                    "@babel/plugin-proposal-object-rest-spread",
+                  ],
+                }),
+              ].filter((loader) => loader != null),
+            },
+          ],
+        },
       };
-    }
+    },
   };
 };

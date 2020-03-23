@@ -10,7 +10,7 @@ import {
   JSON,
   removeUndefinedValuesFromObject,
   toJSON,
-  unprefix
+  unprefix,
 } from "./internals";
 
 export interface AnnotationJSON {
@@ -137,7 +137,7 @@ export abstract class Annotation<Attributes = {}> {
         this.vendorPrefix,
         this.subdocuments,
         attrs.attributes
-      )
+      ),
     });
   }
 
@@ -291,7 +291,7 @@ export abstract class Annotation<Attributes = {}> {
       id: this.id,
       start: this.start,
       end: this.end,
-      attributes: clone(this.attributes)
+      attributes: clone(this.attributes),
     });
   }
 
@@ -301,7 +301,7 @@ export abstract class Annotation<Attributes = {}> {
       type: `-${this.vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(this.vendorPrefix, this.attributes)
+      attributes: toJSON(this.vendorPrefix, this.attributes),
     };
   }
 }

@@ -1,7 +1,7 @@
 import Document, {
   Annotation,
   BlockAnnotation,
-  InlineAnnotation
+  InlineAnnotation,
 } from "@atjson/document";
 import { HIR, TextAnnotation } from "@atjson/hir";
 import HIRRenderer, { Context, escapeHTML } from "../src/index";
@@ -32,8 +32,8 @@ function text(t: string, start: number): Annotation {
     start,
     end: start + t.length,
     attributes: {
-      text: t
-    }
+      text: t,
+    },
   });
 }
 
@@ -47,16 +47,16 @@ describe("@atjson/renderer-hir", () => {
           type: "-test-bold",
           start: 8,
           end: 17,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-italic",
           start: 12,
           end: 23,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     let root = new HIR(atjson).rootNode;
@@ -69,29 +69,29 @@ describe("@atjson/renderer-hir", () => {
         parent: root.annotation,
         previous: text("This is ", 0),
         next: italic.annotation,
-        children: [text("bold", 8), boldAndItalic.annotation]
+        children: [text("bold", 8), boldAndItalic.annotation],
       },
       {
         annotation: boldAndItalic.annotation,
         parent: bold.annotation,
         previous: text("bold", 8),
         next: null,
-        children: [text(" and ", 12)]
+        children: [text(" and ", 12)],
       },
       {
         annotation: italic.annotation,
         parent: root.annotation,
         previous: bold.annotation,
         next: text(" text", 23),
-        children: [text("italic", 17)]
-      }
+        children: [text("italic", 17)],
+      },
     ];
 
     let textBuilder: string[] = [
       " and ",
       "bold and ",
       "italic",
-      "This is bold and italic text"
+      "This is bold and italic text",
     ];
 
     class ConcreteRenderer extends HIRRenderer {
@@ -126,8 +126,8 @@ describe("@atjson/renderer-hir", () => {
           expect(context.next).toBe(expected.next);
         }
 
-        expect(context.children.map(a => a.toJSON())).toMatchObject(
-          expected.children.map(a => a.toJSON())
+        expect(context.children.map((a) => a.toJSON())).toMatchObject(
+          expected.children.map((a) => a.toJSON())
         );
 
         let rawText: string[] = yield;
@@ -148,7 +148,7 @@ describe("@atjson/renderer-hir", () => {
   it("escapes HTML entities in text", () => {
     let atjson = new TestSource({
       content: `This <html-element with="param" and-another='param'> should render as plain text`,
-      annotations: []
+      annotations: [],
     });
 
     class ConcreteRenderer extends HIRRenderer {
@@ -176,8 +176,8 @@ describe("@atjson/renderer-hir", () => {
       annotations: [
         new BlockQuote({ start: 0, end: 17 }),
         new Bold({ start: 0, end: 17 }),
-        new Italic({ start: 5, end: 9 })
-      ]
+        new Italic({ start: 5, end: 9 }),
+      ],
     });
 
     class SlackRenderer extends HIRRenderer {
@@ -211,8 +211,8 @@ describe("@atjson/renderer-hir", () => {
       annotations: [
         new BlockQuote({ start: 0, end: 17 }),
         new Bold({ start: 0, end: 17 }),
-        new Italic({ start: 5, end: 9 })
-      ]
+        new Italic({ start: 5, end: 9 }),
+      ],
     });
 
     class SlackRenderer extends HIRRenderer {

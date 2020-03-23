@@ -5,12 +5,12 @@ import { join } from "path";
 import OffsetSource from "@atjson/offset-annotations";
 
 const FIXTURES = readdirSync(join(__dirname, "fixtures", "html")).map(
-  filename => {
+  (filename) => {
     return {
       filename,
       contents: readFileSync(
         join(__dirname, "fixtures", "html", filename)
-      ).toString()
+      ).toString(),
     };
   }
 );

@@ -11,7 +11,7 @@ We use the names of functions in our performance analysis tools. All anonymous f
 **BAD**:
 
 ```ts
-doc.where({ type: "-vendor-type" }).update(annotation => {
+doc.where({ type: "-vendor-type" }).update((annotation) => {
   doc.removeAnnotation(annotation);
 });
 ```
@@ -30,7 +30,7 @@ doc
 
 ```ts
 // the assignment statement gives this arrow function the name `removeAnnotation`
-let removeAnnotation = annotation => {
+let removeAnnotation = (annotation) => {
   doc.removeAnnotation(annotation);
 };
 
@@ -117,7 +117,7 @@ for (let key in attributes) {
 **BAD**:
 
 ```ts
-annotations.forEach(annotation => {
+annotations.forEach((annotation) => {
   newDoc.insertAnnotation(annotation);
 });
 ```

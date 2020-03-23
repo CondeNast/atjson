@@ -18,10 +18,10 @@ describe("PlainTextRenderer", () => {
           end: 5,
           attributes: {
             lang: "en_us",
-            translation: "Call me Ishmael"
-          }
-        }
-      ]
+            translation: "Call me Ishmael",
+          },
+        },
+      ],
     });
     let text = PlainTextRenderer.render(document);
     expect(text).toBe("☎️👨🏻⛵️🐳👌🏼");

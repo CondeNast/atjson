@@ -1,429 +1,411 @@
-Trans-related books continue to gain critical attention this year as Lambda Literary announced the nominees for their [Lambda Literary Awards](https://www.lambdaliterary.org/awards/) today, known informally as the Lammys. Akwaeke Emezi’s *Freshwater* and Jordy Rosenberg’s *Confessions of the Fox* highlight a transgender fiction category that in the past has tended to feature books that have gotten less mainstream attention than their gay and lesbian counterparts.
+Trans-related books continue to gain critical attention this year as Lambda Literary announced the nominees for their [Lambda Literary Awards](https://www.lambdaliterary.org/awards/) today, known informally as the Lammys. Akwaeke Emezi’s _Freshwater_ and Jordy Rosenberg’s _Confessions of the Fox_ highlight a transgender fiction category that in the past has tended to feature books that have gotten less mainstream attention than their gay and lesbian counterparts.
 
+Not so this year, as Emezi and Rosenberg have both been shortlisted for the [Center for Fiction’s First Novel Prize](http://centerforfiction.org/awards/the-first-novel-prize/2018-first-novel-prize/), and Emezi was named one of the [National Book Foundation’s “5 under 35”](https://www.nationalbook.org/awards-prizes/5-under-35-2018/) for 2018\. In Transgender Memoir/Biography, [them. columnist Thomas Page McBee](https://www.them.us/contributor/thomas-page-mcbee) was nominated for his boxing memoir _Amateur,_ a book that was shortlisted for the [2018 Baillie Gifford Prize for Non-Fiction](https://thebailliegiffordprize.co.uk/2018-shortlist).
 
-
-Not so this year, as Emezi and Rosenberg have both been shortlisted for the [Center for Fiction’s First Novel Prize](http://centerforfiction.org/awards/the-first-novel-prize/2018-first-novel-prize/), and Emezi was named one of the [National Book Foundation’s “5 under 35”](https://www.nationalbook.org/awards-prizes/5-under-35-2018/) for 2018\. In Transgender Memoir/Biography, [them. columnist Thomas Page McBee](https://www.them.us/contributor/thomas-page-mcbee) was nominated for his boxing memoir *Amateur,* a book that was shortlisted for the [2018 Baillie Gifford Prize for Non-Fiction](https://thebailliegiffordprize.co.uk/2018-shortlist).
-
-
-
-Even the gay fiction category includes Joseph Cassara’s *The House of Impossible Beauties*, a novel based on the New York ball scene that features a number of prominent transgender characters. That category also features Uzodinma Iweala’s *Speak No Evil*, a novel about a high school student’s painful efforts to come out in a conservative Nigerian family, as well as the acclaimed French author Édouard Louis’ *History of Violence*, a novel about the aftermath of sexual assault.
-
-
+Even the gay fiction category includes Joseph Cassara’s _The House of Impossible Beauties_, a novel based on the New York ball scene that features a number of prominent transgender characters. That category also features Uzodinma Iweala’s _Speak No Evil_, a novel about a high school student’s painful efforts to come out in a conservative Nigerian family, as well as the acclaimed French author Édouard Louis’ _History of Violence_, a novel about the aftermath of sexual assault.
 
 When asked about the trend towards trans-related books sparking mainstream interest, Lambda Literary Executive Director Sue Landers wrote over email: "Given the sheer number of terrific LGBTQ books, it's not at all uncommon for Lammy finalists to garner mainstream attention and accolades. But yes, we have seen over the past few years, as trans visibility has increased and the general public's understanding of trans lives has deepened, mainstream media has made some strides towards becoming more trans inclusive. This is due in no small part to all the work small, unheralded, and independent trans centered presses have done for a long time, work that changed how we can and should view the queer literary canon. Of course, much work remains to be done to bring even more of these books into the world and to shine a light on them."
 
+In nonfiction, the Gay Memoir/Biography category features a number of acclaimed titles, including Alexander Chee, whose essay collection _[How to Write an Autobiographical Novel](https://www.them.us/story/sad-queer-books-alexander-chee)_ has been on numerous Best Book lists this year. That category also features two memoirs by gay black men, Black Lives Matter activist [DeRay Mckesson’s _On the Other Side of Freedom_](https://www.them.us/story/deray-mckesson-on-the-other-side-of-freedom), and critic and activist [Darnell Moore’s _No Ashes in the Fire_](https://www.them.us/story/what-adults-never-told-me-as-a-queer-black-child)_._
 
+This year's nominations in the lesbian and bisexual categories feature books almost exclusively from small and academic presses. Notable works include Sarah Schulman's _Maggie Terry_ in lesbian fiction, as well as _Berenice Abbot: A Life in Photography_, Julia Van Haaften's biography of the acclaimed photographer. The LGBTQ Young Adult category features a number of acclaimed and popular books, most notably Kheryn Callender's gay teen romance, _This Is Kind of an Epic Love Story_, as well as the Claire Legrand thriller _Sawkill Girls_.
 
-In nonfiction, the Gay Memoir/Biography category features a number of acclaimed titles, including Alexander Chee, whose essay collection *[How to Write an Autobiographical Novel](https://www.them.us/story/sad-queer-books-alexander-chee)* has been on numerous Best Book lists this year. That category also features two memoirs by gay black men, Black Lives Matter activist [DeRay Mckesson’s *On the Other Side of Freedom*](https://www.them.us/story/deray-mckesson-on-the-other-side-of-freedom), and critic and activist [Darnell Moore’s *No Ashes in the Fire*](https://www.them.us/story/what-adults-never-told-me-as-a-queer-black-child)*.*
-
-
-
-This year's nominations in the lesbian and bisexual categories feature books almost exclusively from small and academic presses. Notable works include Sarah Schulman's *Maggie Terry* in lesbian fiction, as well as *Berenice Abbot: A Life in Photography*, Julia Van Haaften's biography of the acclaimed photographer. The LGBTQ Young Adult category features a number of acclaimed and popular books, most notably Kheryn Callender's gay teen romance, *This Is Kind of an Epic Love Story*, as well as the Claire Legrand thriller *Sawkill Girls*.
-
-
-
-Other familiar names on this year’s nomination list include Eileen Myles in the lesbian poetry category for *Evolution*, Roxane Gay in the LGBTQ anthology category for *Not That Bad: Dispatches from Rape Culture*, and the gay historian Martin Duberman, nominated in both gay fiction for *Luminous Traitor*, and in LGBTQ Nonfiction for *Has the Gay Movement Failed?*
-
-
+Other familiar names on this year’s nomination list include Eileen Myles in the lesbian poetry category for _Evolution_, Roxane Gay in the LGBTQ anthology category for _Not That Bad: Dispatches from Rape Culture_, and the gay historian Martin Duberman, nominated in both gay fiction for _Luminous Traitor_, and in LGBTQ Nonfiction for _Has the Gay Movement Failed?_
 
 Lambda Literary is the leading LGBTQ literary organization in the United States, and has been giving out its Lambda Literary Awards since 1989\. [This year’s ceremony](https://www.lambdaliterary.org/awards/buy-tickets/) will be held on June 3 at NYU’s Skirball Center for the Performing Arts.
 
-
-
 Following is the full list of Lambda Literary Award nominees in 2019:
-
- 
 
 **Lesbian Fiction**
 
-● *La Bastarda*, Trifonia Melibea Obono, Translated by Lawrence Schimel, The Feminist Press at CUNY
+● _La Bastarda_, Trifonia Melibea Obono, Translated by Lawrence Schimel, The Feminist Press at CUNY
 
-● *The Evolution of Love,* Lucy Jane Bledsoe, Rare Bird Books
+● _The Evolution of Love,_ Lucy Jane Bledsoe, Rare Bird Books
 
-● *The Fifth Woman*, Nona Caspers, Sarabande Books
+● _The Fifth Woman_, Nona Caspers, Sarabande Books
 
-● *Maggie Terry*, Sarah Schulman, The Feminist Press at CUNY
+● _Maggie Terry_, Sarah Schulman, The Feminist Press at CUNY
 
-● *Pretend We Live Here*, Genevieve Hudson, Future Tense Books
+● _Pretend We Live Here_, Genevieve Hudson, Future Tense Books
 
-● *Sodom Road Exit*, Amber Dawn, Arsenal Pulp Press
+● _Sodom Road Exit_, Amber Dawn, Arsenal Pulp Press
 
-● *The Tiger Flu*, Larissa Lai, Arsenal Pulp Press
+● _The Tiger Flu_, Larissa Lai, Arsenal Pulp Press
 
-● *Two Moons: Stories*, Krystal A. Smith, BLF Press
+● _Two Moons: Stories_, Krystal A. Smith, BLF Press
 
 **Gay Fiction**
 
-● *Drapetomania, or the Narrative of Cyrus Tyler and Abednego Tyler, Lovers*, John R. Gordon, Team Angelica Publishing
+● _Drapetomania, or the Narrative of Cyrus Tyler and Abednego Tyler, Lovers_, John R. Gordon, Team Angelica Publishing
 
-● *History of Violence: A Novel*, Édouard Louis, Translated by Lorin Stein, Farrar, Straus and Giroux
+● _History of Violence: A Novel_, Édouard Louis, Translated by Lorin Stein, Farrar, Straus and Giroux
 
-● *The House of Impossible Beauties: A Novel*, Joseph Cassara, HarperCollins / Ecco
+● _The House of Impossible Beauties: A Novel_, Joseph Cassara, HarperCollins / Ecco
 
-● *Jonny Appleseed*, Joshua Whitehead, Arsenal Pulp Press
+● _Jonny Appleseed_, Joshua Whitehead, Arsenal Pulp Press
 
-● *Luminous Traitor: The Just and Daring Life of Roger Casement, a Biographical Novel*, Martin Duberman, University of California Press
+● _Luminous Traitor: The Just and Daring Life of Roger Casement, a Biographical Novel_, Martin Duberman, University of California Press
 
-● *Some Hell: A Novel*, Patrick Nathan, Graywolf Press
+● _Some Hell: A Novel_, Patrick Nathan, Graywolf Press
 
-● *Speak No Evil, A Novel*, Uzodinma Iweala, HarperCollins / Harper
+● _Speak No Evil, A Novel_, Uzodinma Iweala, HarperCollins / Harper
 
-● *State of the Nation*, David Jackson Ambrose, The TMG Firm
+● _State of the Nation_, David Jackson Ambrose, The TMG Firm
 
 **Bisexual Fiction**
 
-● *Behind These Doors: Radical Proposals Book 1*, Jude Lucens, Greenwose Books
+● _Behind These Doors: Radical Proposals Book 1_, Jude Lucens, Greenwose Books
 
-● *The Best Bad Things: A Novel*, Katrina Carrasco, MCD / FSG
+● _The Best Bad Things: A Novel_, Katrina Carrasco, MCD / FSG
 
-● *Bhopal Dance: A Novel*, Jennifer Natalya Fink, University of Alabama Press / FC2
+● _Bhopal Dance: A Novel_, Jennifer Natalya Fink, University of Alabama Press / FC2
 
-● *Disoriental*, Négar Djavadi, Translated by Tina Kover, Europa Editions
+● _Disoriental_, Négar Djavadi, Translated by Tina Kover, Europa Editions
 
-● *Jilted*, Lilah Suzanne, Interlude Press
+● _Jilted_, Lilah Suzanne, Interlude Press
 
-● *The Origin of Doubt: Fifty Short Fictions*, Nathan Alling Long, Press 53
+● _The Origin of Doubt: Fifty Short Fictions_, Nathan Alling Long, Press 53
 
-● *Palmetto Rose*, J.E. Sumerau, Brill / Sense
+● _Palmetto Rose_, J.E. Sumerau, Brill / Sense
 
-● *The Wild Birds*, Emily Strelow, Rare Bird Books / A Barnacle Book
+● _The Wild Birds_, Emily Strelow, Rare Bird Books / A Barnacle Book
 
 **Transgender Fiction**
 
-● *Confessions of the Fox: A Novel*, Jordy Rosenberg, One World / Random House
+● _Confessions of the Fox: A Novel_, Jordy Rosenberg, One World / Random House
 
-● *Freshwater*, Akwaeke Emezi, Grove Atlantic / Grove Press
+● _Freshwater_, Akwaeke Emezi, Grove Atlantic / Grove Press
 
-● *Invasions*, Calvin Gimpelevich, Instar Books
+● _Invasions_, Calvin Gimpelevich, Instar Books
 
-● *Little Fish*, Casey Plett, Arsenal Pulp Press
+● _Little Fish_, Casey Plett, Arsenal Pulp Press
 
-● *Sketchtasy*, Mattilda Bernstein Sycamore, Arsenal Pulp Press
+● _Sketchtasy_, Mattilda Bernstein Sycamore, Arsenal Pulp Press
 
 **Bisexual Nonfiction**
 
-● *Many Love: A Memoir of Polyamory and Finding Love(s)*, Sophie Lucido Johnson, Simon & Schuster, Inc. / Touchstone
+● _Many Love: A Memoir of Polyamory and Finding Love(s)_, Sophie Lucido Johnson, Simon & Schuster, Inc. / Touchstone
 
-● *No Archive Will Restore You*, Julietta Singh, Punctum Books / 3Ecologies Imprint
+● _No Archive Will Restore You_, Julietta Singh, Punctum Books / 3Ecologies Imprint
 
-● *Out of Step: A Memoir*, Anthony Moll, The Ohio State University Press
+● _Out of Step: A Memoir_, Anthony Moll, The Ohio State University Press
 
 **Transgender Nonfiction**
 
-● *Amateur: A True Story About What Makes a Man*, Thomas Page McBee, Scribner
+● _Amateur: A True Story About What Makes a Man_, Thomas Page McBee, Scribner
 
-● *Histories of the Transgender Child*, Julian Gill-Peterson, University of Minnesota Press
+● _Histories of the Transgender Child_, Julian Gill-Peterson, University of Minnesota Press
 
-● *I'm Afraid of Men*, Vivek Shraya, Penguin Canada
+● _I'm Afraid of Men_, Vivek Shraya, Penguin Canada
 
-● *Mobile Subjects: Transnational Imaginaries of Gender Reassignment*, Aren Z. Aizura, Duke University Press
+● _Mobile Subjects: Transnational Imaginaries of Gender Reassignment_, Aren Z. Aizura, Duke University Press
 
-● *The Soul of the Stranger: Reading God and Torah from a Transgender Perspective*, Joy Ladin, Brandeis University Press
+● _The Soul of the Stranger: Reading God and Torah from a Transgender Perspective_, Joy Ladin, Brandeis University Press
 
 **LGBTQ Nonfiction**
 
-● *The Boys of Fairy Town: Sodomites, Female Impersonators, Third-Sexers, Pansies, Queers, and Sex Morons in Chicago's First Century,* Jim Elledge, Chicago Review Press
+● _The Boys of Fairy Town: Sodomites, Female Impersonators, Third-Sexers, Pansies, Queers, and Sex Morons in Chicago's First Century,_ Jim Elledge, Chicago Review Press
 
-● *Butch Heroes*, Ria Brodell, The MIT Press
+● _Butch Heroes_, Ria Brodell, The MIT Press
 
-● *Has the Gay Movement Failed?,* Martin Duberman, University of California Press
+● _Has the Gay Movement Failed?,_ Martin Duberman, University of California Press
 
-● *Ladies Lazarus,* Piper J. Daniels, Tarpaulin Sky Press
+● _Ladies Lazarus,_ Piper J. Daniels, Tarpaulin Sky Press
 
-● *Looking for Lorraine: The Radiant and Radical Life of Lorraine Hansberry,* Imani Perry, Beacon Press
+● _Looking for Lorraine: The Radiant and Radical Life of Lorraine Hansberry,_ Imani Perry, Beacon Press
 
-● *No Place Like Home: Lessons in Activism from LGBT Kansas,* C.J. Janovy, University Press of Kansas
+● _No Place Like Home: Lessons in Activism from LGBT Kansas,_ C.J. Janovy, University Press of Kansas
 
-● *Resistance: The LGBT Fight Against Fascism in WWII,* Avery Cassell, Stacked Deck Press
+● _Resistance: The LGBT Fight Against Fascism in WWII,_ Avery Cassell, Stacked Deck Press
 
-● *Unapologetic: A Black, Queer, and Feminist Mandate for Radical Movements,* Charlene A. Carruthers, Beacon Press
+● _Unapologetic: A Black, Queer, and Feminist Mandate for Radical Movements,_ Charlene A. Carruthers, Beacon Press
 
 **Lesbian Poetry**
 
-● *Body Work*, Emilia Nielsen, Signature Editions
+● _Body Work_, Emilia Nielsen, Signature Editions
 
-● *Each Tree Could Hold a Noose or a House*, Nina Puro, New Issues Poetry & Prose
+● _Each Tree Could Hold a Noose or a House_, Nina Puro, New Issues Poetry & Prose
 
-● *Evolution*, Eileen Myles, Grove Atlantic / Grove Press
+● _Evolution_, Eileen Myles, Grove Atlantic / Grove Press
 
-● *Gaze Back*, Marylyn Tan, Ethos Books
+● _Gaze Back_, Marylyn Tan, Ethos Books
 
-● *Obits.*, Tess Liem, Coach House Books
+● _Obits._, Tess Liem, Coach House Books
 
-● *Past Lives, Future Bodies*, Kristin Chang, Black Lawrence Press
+● _Past Lives, Future Bodies_, Kristin Chang, Black Lawrence Press
 
-● *Surge*, Etel Adnan, Nightboat Books
+● _Surge_, Etel Adnan, Nightboat Books
 
-● *Who Is Trixie the Trasher? And Other Questions*, Jane Miller, Copper Canyon Press
+● _Who Is Trixie the Trasher? And Other Questions_, Jane Miller, Copper Canyon Press
 
 **Gay Poetry**
 
-● *ESL or You Weren’t Here*, Aldrin Valdez, Nightboat Books
+● _ESL or You Weren’t Here_, Aldrin Valdez, Nightboat Books
 
-● *Indecency*, Justin Phillip Reed, Coffee House Press
+● _Indecency_, Justin Phillip Reed, Coffee House Press
 
-● *Inquisition*, Kazim Ali, Wesleyan University Press
+● _Inquisition_, Kazim Ali, Wesleyan University Press
 
-● *Junk*, Tommy Pico, Tin House Books
+● _Junk_, Tommy Pico, Tin House Books
 
-● *Not Here*, Hieu Minh Nguyen, Coffee House Press
+● _Not Here_, Hieu Minh Nguyen, Coffee House Press
 
-● *Stereo(TYPE)*, Jonah Mixon-Webster, Ahsahta Press
+● _Stereo(TYPE)_, Jonah Mixon-Webster, Ahsahta Press
 
-● *Unfinished Sketches of a Revolution*, Brane Mozetič, Translated by Barbara Jursa, Talisman House Publishers
+● _Unfinished Sketches of a Revolution_, Brane Mozetič, Translated by Barbara Jursa, Talisman House Publishers
 
-● *Wild Is the Wind: Poems*, Carl Phillips, Farrar, Straus and Giroux
+● _Wild Is the Wind: Poems_, Carl Phillips, Farrar, Straus and Giroux
 
 **Bisexual Poetry** (\*new category for the 31st Annual Lammys)
 
-● *Cenzontle*, Marcelo Hernandez Castillo, BOA Editions Ltd.
+● _Cenzontle_, Marcelo Hernandez Castillo, BOA Editions Ltd.
 
-● *If They Come for Us*, Fatimah Asghar, Random House / One World
+● _If They Come for Us_, Fatimah Asghar, Random House / One World
 
-● *Mad Quick Hand of the Seashore: Love Poems*, Frances Donovan, Reaching Press / Createspace
+● _Mad Quick Hand of the Seashore: Love Poems_, Frances Donovan, Reaching Press / Createspace
 
-● *My Woman Card Is anti-Native & Other Two-Spirit Truths*, Xemiyulu Manibusan Tapepechul, CreateSpace Independent Publishing Platform
+● _My Woman Card Is anti-Native & Other Two-Spirit Truths_, Xemiyulu Manibusan Tapepechul, CreateSpace Independent Publishing Platform
 
-● *We Play a Game*, Duy Doan, Yale University Press
+● _We Play a Game_, Duy Doan, Yale University Press
 
 **Transgender Poetry**
 
-● *Heal Your Love,* Luna Merbruja, biyuti publishing
+● _Heal Your Love,_ Luna Merbruja, biyuti publishing
 
-● *Holy Wild*, Gwen Benaway, Book\*hug Press
+● _Holy Wild_, Gwen Benaway, Book\*hug Press
 
-● *If the Color Is Fugitive,* Sara Mithra, Nomadic Press
+● _If the Color Is Fugitive,_ Sara Mithra, Nomadic Press
 
-● *Lo Terciario / The Tertiary*, Raquel Salas Rivera, Timeless, Infinite Light
+● _Lo Terciario / The Tertiary_, Raquel Salas Rivera, Timeless, Infinite Light
 
-● *Some Animal,* Ely Shipley, Nightboat Books
+● _Some Animal,_ Ely Shipley, Nightboat Books
 
 **Lesbian Mystery**
 
-● *A Matter of Blood,* Catherine Maiorisi, Bella Books
+● _A Matter of Blood,_ Catherine Maiorisi, Bella Books
 
-● *A Study in Honor: A Novel*, Claire O’Dell, HarperCollins / HarperVoyager
+● _A Study in Honor: A Novel_, Claire O’Dell, HarperCollins / HarperVoyager
 
-● *A Whisper of Bones: A Jane Lawless Mystery*, Ellen Hart, Minotaur Books
+● _A Whisper of Bones: A Jane Lawless Mystery_, Ellen Hart, Minotaur Books
 
-● *Alice Isn’t Dead: A Novel,* Joseph Fink, Harper Perennial
+● _Alice Isn’t Dead: A Novel,_ Joseph Fink, Harper Perennial
 
-● *Gnarled Hollow,* Charlotte Greene, Bold Strokes Books
+● _Gnarled Hollow,_ Charlotte Greene, Bold Strokes Books
 
-● *The Locket,* Gerri Hill, Bella Books
+● _The Locket,_ Gerri Hill, Bella Books
 
-● *Secrets of the Last Castle*, A. Rose Mathieu, Bold Strokes Books
+● _Secrets of the Last Castle_, A. Rose Mathieu, Bold Strokes Books
 
-● *Stolen: A Kieran Yeats Mystery*, Linda J. Wright, Cats Paw Books
+● _Stolen: A Kieran Yeats Mystery_, Linda J. Wright, Cats Paw Books
 
 **Gay Mystery**
 
-● *Black Diamond Fall*, Joseph Olshan, Polis Books
+● _Black Diamond Fall_, Joseph Olshan, Polis Books
 
-● *Boystown 11: Heart's Desire*, Marshall Thornton, Kenmore Books
+● _Boystown 11: Heart's Desire_, Marshall Thornton, Kenmore Books
 
-● *Death Checks In*, David S. Pederson, Bold Strokes Books
+● _Death Checks In_, David S. Pederson, Bold Strokes Books
 
-● *Dodging and Burning: A Mystery*, John Copenhaver, Pegasus Books
+● _Dodging and Burning: A Mystery_, John Copenhaver, Pegasus Books
 
-● *The God Game: A Dan Sharp Mystery,* Jeffrey Round, Dundurn
+● _The God Game: A Dan Sharp Mystery,_ Jeffrey Round, Dundurn
 
-● *Late Fees: A Pinx Video Mystery*, Marshall Thornton, Kenmore Books
+● _Late Fees: A Pinx Video Mystery_, Marshall Thornton, Kenmore Books
 
-● *Somewhere Over Lorain Road*, Bud Gundy, Bold Stroke Books
+● _Somewhere Over Lorain Road_, Bud Gundy, Bold Stroke Books
 
-● *Survival Is a Dying Art: An Angus Green Novel*, Neil S. Plakcy, Samwise Books
+● _Survival Is a Dying Art: An Angus Green Novel_, Neil S. Plakcy, Samwise Books
 
 **Lesbian Memoir/Biography**
 
-● *Apocalypse, Darling*, Barrie Jean Borich, Mad Creek Books / The Ohio State University Press
+● _Apocalypse, Darling_, Barrie Jean Borich, Mad Creek Books / The Ohio State University Press
 
-● *Berenice Abbott: A Life in Photography*, Julia Van Haaften, W. W. Norton & Company
+● _Berenice Abbott: A Life in Photography_, Julia Van Haaften, W. W. Norton & Company
 
-● *A Certain Loneliness: A Memoir*, Sandra Gail Lambert, University of Nebraska Press
+● _A Certain Loneliness: A Memoir_, Sandra Gail Lambert, University of Nebraska Press
 
-● *Chronology*, Zahra Patterson, Ugly Duckling Presse
+● _Chronology_, Zahra Patterson, Ugly Duckling Presse
 
-● *Food Was Her Country: The Memoir of a Queer Daughter*, Marusya Bociurkiw, Dagger Editions
+● _Food Was Her Country: The Memoir of a Queer Daughter_, Marusya Bociurkiw, Dagger Editions
 
-● *MINE: Essays*, Sarah Viren, University of New Mexico Press
+● _MINE: Essays_, Sarah Viren, University of New Mexico Press
 
-● *My Butch Career: A Memoir*, Esther Newton, Duke University Press
+● _My Butch Career: A Memoir_, Esther Newton, Duke University Press
 
-● *nîtisânak*, Lindsay Nixon, Metonymy Press
+● _nîtisânak_, Lindsay Nixon, Metonymy Press
 
 **Gay Memoir/Biography**
 
-● *Harvey Milk: His Lives and Death*, Lillian Faderman, Yale University Press
+● _Harvey Milk: His Lives and Death_, Lillian Faderman, Yale University Press
 
-● *How to Write an Autobiographical Novel*, Alexander Chee, Bloomsbury
+● _How to Write an Autobiographical Novel_, Alexander Chee, Bloomsbury
 
 Publishing
 
-● *No Ashes in the Fire: Coming of Age Black and Free in America*, Darnell L.
+● _No Ashes in the Fire: Coming of Age Black and Free in America_, Darnell L.
 
 Moore, Bold Type Books
 
-● *On the Other Side of Freedom: The Case for Hope*, Deray Mckesson, Viking
+● _On the Other Side of Freedom: The Case for Hope_, Deray Mckesson, Viking
 
-● *The Marble Faun of Grey Gardens: A Memoir of the Beales, the Maysles*
+● _The Marble Faun of Grey Gardens: A Memoir of the Beales, the Maysles_
 
-*Brothers and Jacqueline Kennedy*, Jerry Torre & Tony Maietta, Querelle Press
+_Brothers and Jacqueline Kennedy_, Jerry Torre & Tony Maietta, Querelle Press
 
-● *The New Negro: The Life of Alain Locke*, Jeffrey C. Stewart, Oxford University
+● _The New Negro: The Life of Alain Locke_, Jeffrey C. Stewart, Oxford University
 
 Press
 
-● *The Unpunished Vice: A Life of Reading*, Edmund White, Bloomsbury Publishing
+● _The Unpunished Vice: A Life of Reading_, Edmund White, Bloomsbury Publishing
 
-● *There Will Be No Miracles Here: A Memoir*, Casey Gerald, Penguin Random House
+● _There Will Be No Miracles Here: A Memoir_, Casey Gerald, Penguin Random House
 
 **Lesbian Romance**
 
-● *Autumn’s Light,* Aurora Rey, Bold Strokes Books
+● _Autumn’s Light,_ Aurora Rey, Bold Strokes Books
 
-● *Beowolf For Cretins: A Love Story,* Ann McMan, Bywater Books
+● _Beowolf For Cretins: A Love Story,_ Ann McMan, Bywater Books
 
-● *Breaking Down Her Walls*, Erin Zak, Bold Strokes Books
+● _Breaking Down Her Walls_, Erin Zak, Bold Strokes Books
 
-● *Charming the Vicar,* Jenny Frame, Bold Strokes Books
+● _Charming the Vicar,_ Jenny Frame, Bold Strokes Books
 
-● *In Development,* Rachel Spangler, Brisk Press
+● _In Development,_ Rachel Spangler, Brisk Press
 
-● *Just For Show,* Jae, Ylva Publishing
+● _Just For Show,_ Jae, Ylva Publishing
 
-● *The Music And The Mirror,* Lola Keeley, Ylva Publishing
+● _The Music And The Mirror,_ Lola Keeley, Ylva Publishing
 
-● *The Talebearer,* Sheri Lewis Wohl, Bold Strokes Books
+● _The Talebearer,_ Sheri Lewis Wohl, Bold Strokes Books
 
 **Gay Romance**
 
-● *The CEO's Christmas Manny,* Angela McCallister, Dreamspinner Press
+● _The CEO's Christmas Manny,_ Angela McCallister, Dreamspinner Press
 
-● *Crashing Upwards,* S.C. Wynne, self-published
+● _Crashing Upwards,_ S.C. Wynne, self-published
 
-● *Detour,* Reesa Herberth & Michelle Moore, Riptide Publishing
+● _Detour,_ Reesa Herberth & Michelle Moore, Riptide Publishing
 
-● *Learn with Me,* Kris Jacen, MLR Press, LLC
+● _Learn with Me,_ Kris Jacen, MLR Press, LLC
 
-● *No Luck,* Kayleigh Sky, Kiss Drunk Books
+● _No Luck,_ Kayleigh Sky, Kiss Drunk Books
 
-● *Of Sunlight and Stardust,* Christina Lee & Riley Hart, self-published
+● _Of Sunlight and Stardust,_ Christina Lee & Riley Hart, self-published
 
-● *Point of Contact,* Melanie Hansen, Carina Press
+● _Point of Contact,_ Melanie Hansen, Carina Press
 
-● *Undue Influence: A Persuasion Retelling,* Jenny Holiday, self-published
+● _Undue Influence: A Persuasion Retelling,_ Jenny Holiday, self-published
 
 **LGBTQ Anthology**
 
-● *As You Like It: The Gerald Kraak Anthology Volume II*, The Other Foundation, Jacana Media
+● _As You Like It: The Gerald Kraak Anthology Volume II_, The Other Foundation, Jacana Media
 
-● *Beyond II: The Queer Post-Apocalyptic & Urban Fantasy Comic Anthology*, Taneka Stotts & Sfé R. Monster, Beyond Press
+● _Beyond II: The Queer Post-Apocalyptic & Urban Fantasy Comic Anthology_, Taneka Stotts & Sfé R. Monster, Beyond Press
 
-● *Foglifter Volume 3, Issue 1,* Miah Jefra, Chad Koch, et al., Foglifter Press
+● _Foglifter Volume 3, Issue 1,_ Miah Jefra, Chad Koch, et al., Foglifter Press
 
-● *Not That Bad: Dispatches from Rape Culture*, Roxane Gay, HarperCollins / Harper Perennial
+● _Not That Bad: Dispatches from Rape Culture_, Roxane Gay, HarperCollins / Harper Perennial
 
-● *Q2Q: Queer Canadian Performance Texts*, Peter Dickinson, C.E. Gatchalian, Kathleen Oliver, Dalbir Singh, Playwrights Canada Press
+● _Q2Q: Queer Canadian Performance Texts_, Peter Dickinson, C.E. Gatchalian, Kathleen Oliver, Dalbir Singh, Playwrights Canada Press
 
-● *Sista\!: An Anthology of Writing By and About Same Gender Loving Women of African/Caribbean Descent with a UK Connection*, Phyll Opoku-Gyimah, Rikki Beadle-Blair, John R. Gordon, Team Angelica Publishing
+● _Sista\!: An Anthology of Writing By and About Same Gender Loving Women of African/Caribbean Descent with a UK Connection_, Phyll Opoku-Gyimah, Rikki Beadle-Blair, John R. Gordon, Team Angelica Publishing
 
-● *Spawning Generations: Rants and Reflections on Growing Up with LGBTQ Parents*, Sadie Epstein-Fine & Makeda Zook, Demeter Press
+● _Spawning Generations: Rants and Reflections on Growing Up with LGBTQ Parents_, Sadie Epstein-Fine & Makeda Zook, Demeter Press
 
-● *Written on the Body: Letters from Trans and Non-Binary Survivors of Sexual Assault and Domestic Violence*, Lexie Bean, Jessica Kingsley Publishers
+● _Written on the Body: Letters from Trans and Non-Binary Survivors of Sexual Assault and Domestic Violence_, Lexie Bean, Jessica Kingsley Publishers
 
 **LGBTQ Children’s/Young Adult**
 
-● *Anger Is a Gift: A Novel*, Mark Oshiro, Tor Teen
+● _Anger Is a Gift: A Novel_, Mark Oshiro, Tor Teen
 
-● *The Dangerous Art of Blending In*, Angelo Surmelis, HarperCollins / Balzer & Bray
+● _The Dangerous Art of Blending In_, Angelo Surmelis, HarperCollins / Balzer & Bray
 
-● *Darius the Great Is Not Okay*, Adib Khorram, Dial
+● _Darius the Great Is Not Okay_, Adib Khorram, Dial
 
-● *Girl Made of Stars*, Ashley Herring Blake, Houghton Mifflin & Little, Brown
+● _Girl Made of Stars_, Ashley Herring Blake, Houghton Mifflin & Little, Brown
 
-● *Hurricane Child*, Kheryn Callender, Scholastic / Scholastic Press
+● _Hurricane Child_, Kheryn Callender, Scholastic / Scholastic Press
 
-● *The Poet X*, Elizabeth Acevedo, HarperCollins / HarperTeen
+● _The Poet X_, Elizabeth Acevedo, HarperCollins / HarperTeen
 
-● *Sawkill Girls*, Claire Legrand, HarperCollins / Katherine Tegen Books
+● _Sawkill Girls_, Claire Legrand, HarperCollins / Katherine Tegen Books
 
-● *This Is Kind of an Epic Love Story*, Kheryn Callender, HarperCollins / Balzer \+ Bray
+● _This Is Kind of an Epic Love Story_, Kheryn Callender, HarperCollins / Balzer \+ Bray
 
 **LGBTQ Drama**
 
-● *Black Light*, Daniel Alexander Jones, produced by The Public Theater
+● _Black Light_, Daniel Alexander Jones, produced by The Public Theater
 
-● *Collective Rage: A Play in Five Betties,* Jen Silverman, Samuel French, Inc.
+● _Collective Rage: A Play in Five Betties,_ Jen Silverman, Samuel French, Inc.
 
-● *Draw the Circle*, Mashuq Mushtaq Deen, Dramatists Play Service
+● _Draw the Circle_, Mashuq Mushtaq Deen, Dramatists Play Service
 
-● *Plot Points in Our Sexual Development*, Miranda Rose Hall, produced by LCT3 at Lincoln Center Theater
+● _Plot Points in Our Sexual Development_, Miranda Rose Hall, produced by LCT3 at Lincoln Center Theater
 
-● *Singlet*, Erin Markey, produced by The Bushwick Starr
+● _Singlet_, Erin Markey, produced by The Bushwick Starr
 
 **LGBTQ Erotica**
 
-● *Best Lesbian Erotica of the Year, Volume 3*, Sacchi Green, Cleis Press
+● _Best Lesbian Erotica of the Year, Volume 3_, Sacchi Green, Cleis Press
 
-● *Crossplay,* Niki Smith, Iron Circus Comics
+● _Crossplay,_ Niki Smith, Iron Circus Comics
 
-● *Gents: Steamy Stories From the Age of Steam*, Matthew Bright, Lethe Press
+● _Gents: Steamy Stories From the Age of Steam_, Matthew Bright, Lethe Press
 
-● *The Lurid Sea,* Tom Cardamone, Bold Strokes Books
+● _The Lurid Sea,_ Tom Cardamone, Bold Strokes Books
 
-● *Miles & Honesty in SCFSX\!*, Blue Delliquanti & Kazimir Lee, self-published
+● _Miles & Honesty in SCFSX\!_, Blue Delliquanti & Kazimir Lee, self-published
 
 **LGBTQ Graphic Novels**
 
-● *Exit Stage Left: The Snagglepuss Chronicles*, Mark Russell (Writer), Sean Parsons, Mark Morales, Howard Porter, Mike Feehan (Illustrators), DC Entertainment
+● _Exit Stage Left: The Snagglepuss Chronicles_, Mark Russell (Writer), Sean Parsons, Mark Morales, Howard Porter, Mike Feehan (Illustrators), DC Entertainment
 
-● *The Lie and How We Told It*, Tommi Parrish, Fantagraphics Books
+● _The Lie and How We Told It_, Tommi Parrish, Fantagraphics Books
 
-● *Love Letters to Jane's World*, Paige Braddock, Lion Forge
+● _Love Letters to Jane's World_, Paige Braddock, Lion Forge
 
-● *On a Sunbeam*, Tillie Walden, First Second / Roaring Brook Press
+● _On a Sunbeam_, Tillie Walden, First Second / Roaring Brook Press
 
-● *Our Wretched Town Hall*, Eric Kostiuk Williams, Retrofit Comics & Big Planet Comics
+● _Our Wretched Town Hall_, Eric Kostiuk Williams, Retrofit Comics & Big Planet Comics
 
-● *The Pervert*, Michelle Perez (Writer), Remy Boydell (Illustrator), Image Comics
+● _The Pervert_, Michelle Perez (Writer), Remy Boydell (Illustrator), Image Comics
 
-● *Unpacking*, Steve MacIsaac, Northwest Press
+● _Unpacking_, Steve MacIsaac, Northwest Press
 
-● *We're Still Here: An All-Trans Comics Anthology*, Jeanne Thornton & Tara Madison Avery, Stacked Deck Press
+● _We're Still Here: An All-Trans Comics Anthology_, Jeanne Thornton & Tara Madison Avery, Stacked Deck Press
 
 **LGBTQ Science Fiction/Fantasy/Horror**
 
-● *The Barrow Will Send What It May*, Margaret Killjoy, Tor.com
+● _The Barrow Will Send What It May_, Margaret Killjoy, Tor.com
 
-● *The Breath of the Sun*, Isaac R. Fellman, Aqueduct
+● _The Breath of the Sun_, Isaac R. Fellman, Aqueduct
 
-● *The Descent of Monsters*, JY Yang, Tor.com
+● _The Descent of Monsters_, JY Yang, Tor.com
 
-● *Forget the Sleepless Shores,* Sonya Taaffe, Lethe Press
+● _Forget the Sleepless Shores,_ Sonya Taaffe, Lethe Press
 
-● *In the Vanishers’ Palace*, Aliette de Bodard, JABberwocky
+● _In the Vanishers’ Palace_, Aliette de Bodard, JABberwocky
 
-● *Metabolize, If Able*, Clay AD, Monster House Press
+● _Metabolize, If Able_, Clay AD, Monster House Press
 
-● *Resilience*, Fletcher DeLancey, Heartsome Publishing
+● _Resilience_, Fletcher DeLancey, Heartsome Publishing
 
-● *Witchmark*, C.L. Polk, Tor.com
+● _Witchmark_, C.L. Polk, Tor.com
 
 **LGBTQ Studies**
 
-● *Black. Queer. Southern. Women.: An Oral History,* E. Patrick Johnson, University of North Carolina Press
+● _Black. Queer. Southern. Women.: An Oral History,_ E. Patrick Johnson, University of North Carolina Press
 
-● *Erotic Islands: Art and Activism in the Queer Caribbean*, Lyndon K. Gill, Duke University Press
+● _Erotic Islands: Art and Activism in the Queer Caribbean_, Lyndon K. Gill, Duke University Press
 
-● *Gay, Inc.: The Nonprofitization of Queer Politics*, Myrl Beam, University of Minnesota Press
+● _Gay, Inc.: The Nonprofitization of Queer Politics_, Myrl Beam, University of Minnesota Press
 
-● *Herlands: Exploring the Women's Land Movement in the United States*, Keridwen N. Luis, University of Minnesota Press
+● _Herlands: Exploring the Women's Land Movement in the United States_, Keridwen N. Luis, University of Minnesota Press
 
-● *Media and the Coming Out of Gay Male Athletes in American Team Sports*, Andrew Billings & Leigh Moscowitz, Peter Lang International Academic Publishers
+● _Media and the Coming Out of Gay Male Athletes in American Team Sports_, Andrew Billings & Leigh Moscowitz, Peter Lang International Academic Publishers
 
-● *Post-Borderlandia: Chicana Literature and Gender Variant Critique*, T. Jackie Cuevas, Rutgers University Press
+● _Post-Borderlandia: Chicana Literature and Gender Variant Critique_, T. Jackie Cuevas, Rutgers University Press
 
-● *Semi Queer: Inside the World of Gay, Trans, and Black Truck Drivers*, Anne Balay, University of North Carolina Press
+● _Semi Queer: Inside the World of Gay, Trans, and Black Truck Drivers_, Anne Balay, University of North Carolina Press
 
-● *Toxic Silence: Race, Black Gender Identity, and Addressing the Violence Against Black Transgender Women in Houston*, William T. Hoston, Peter Lang International Academic Publisher
+● _Toxic Silence: Race, Black Gender Identity, and Addressing the Violence Against Black Transgender Women in Houston_, William T. Hoston, Peter Lang International Academic Publisher

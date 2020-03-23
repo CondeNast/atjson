@@ -23,7 +23,7 @@ async function defineHTMLInterface(page: puppeteer.Page) {
 
     while (list.tagName !== "UL") list = list.nextElementSibling!;
 
-    return Array.from(list.querySelectorAll("a")).map(anchor => {
+    return Array.from(list.querySelectorAll("a")).map((anchor) => {
       return [anchor.innerText, "string"];
     });
   });
@@ -55,7 +55,7 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
     readFileSync(path.join(__dirname, "class-names.json")).toString()
   );
 
-  page.on("console", msg => {
+  page.on("console", (msg) => {
     for (let i = 0; i < msg.args().length; ++i)
       console.log(`${i}: ${msg.args()[i]}`);
   });
@@ -63,21 +63,21 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
   await defineHTMLInterface(page);
 
   // Next section!
-  await page.$eval("nav a:last-child", link =>
+  await page.$eval("nav a:last-child", (link) =>
     (link as HTMLAnchorElement).click()
   );
 
   let definitions: DOMDefinition[] = [];
 
   while (true) {
-    let sectionNumber = await page.$$eval(".secno", elements => {
+    let sectionNumber = await page.$$eval(".secno", (elements) => {
       return elements[0] ? (elements[0] as HTMLSpanElement).innerText : "4";
     });
     if (!sectionNumber.match(/^4/)) break;
 
     let hasSections = (await page.$$("h4")).length > 0;
     if (!hasSections) {
-      await page.$eval("nav a:last-child", link =>
+      await page.$eval("nav a:last-child", (link) =>
         (link as HTMLAnchorElement).click()
       );
     }
@@ -92,20 +92,20 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
       let isElementDefinition = await heading.$("dfn code");
       if (!isElementDefinition) continue;
 
-      let id = await page.evaluate(element => element.id, heading);
+      let id = await page.evaluate((element) => element.id, heading);
       let section = await page.evaluate(
-        selector => document.getElementById(selector)!.innerText,
+        (selector) => document.getElementById(selector)!.innerText,
         id
       );
 
       // Multiple HTML elements are sometimes defined per section, like `sub` and `sup`.
-      let types = await heading.$$eval("dfn code", nodes =>
-        nodes.map(node => (node as HTMLElement).innerText)
+      let types = await heading.$$eval("dfn code", (nodes) =>
+        nodes.map((node) => (node as HTMLElement).innerText)
       );
 
       // The content model is used to determine what kind of annotation
       // class we should use for the HTML element.
-      let contentModel = await page.evaluate(elementId => {
+      let contentModel = await page.evaluate((elementId) => {
         let element = document.getElementById(elementId)!;
         while (!element.classList.contains("element"))
           element = element.nextElementSibling as HTMLElement;
@@ -116,7 +116,7 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
         )!.parentElement!.nextElementSibling as HTMLElement).innerText;
       }, id);
 
-      let attributes = await page.evaluate(elementId => {
+      let attributes = await page.evaluate((elementId) => {
         let element = document.getElementById(elementId)!;
         while (!element.classList.contains("element"))
           element = element.nextElementSibling as HTMLElement;
@@ -143,8 +143,8 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
         return attrs;
       }, id);
 
-      types.forEach(type => {
-        if (definitions.find(dfn => dfn.type === type)) return;
+      types.forEach((type) => {
+        if (definitions.find((dfn) => dfn.type === type)) return;
         definitions.push({
           type,
           className: classNames[type],
@@ -158,12 +158,12 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
               ? "InlineAnnotation"
               : "BlockAnnotation",
           section,
-          attributes
+          attributes,
         });
       });
     }
 
-    await page.$eval("nav a:last-child", link =>
+    await page.$eval("nav a:last-child", (link) =>
       (link as HTMLAnchorElement).click()
     );
   }
@@ -176,7 +176,7 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
   });
 
   // Generate definition
-  definitions.forEach(dfn => {
+  definitions.forEach((dfn) => {
     if (dfn.attributes.length) {
       writeFileSync(
         path.join(__dirname, "..", "src", "annotations", `${dfn.type}.ts`),
@@ -188,7 +188,7 @@ import { GlobalAttributes } from "../global-attributes";
 
 // [§ ${dfn.section}](${dfn.permalink})
 export class ${dfn.className} extends ${dfn.extends}<GlobalAttributes & {
-${dfn.attributes.map(attribute => `  ${attribute}?: string;`).join("\n")}
+${dfn.attributes.map((attribute) => `  ${attribute}?: string;`).join("\n")}
 }> {
   static vendorPrefix = "html";
   static type = "${dfn.type}";
@@ -229,7 +229,7 @@ export class ${dfn.className} extends ${dfn.extends}<GlobalAttributes> {
   writeFileSync(
     path.join(__dirname, "..", "src", "annotations", `index.ts`),
     `// ⚠️ Generated via script; modifications may be overridden
-${definitions.map(dfn => `export * from "./${dfn.type}";`).join("\n")}
+${definitions.map((dfn) => `export * from "./${dfn.type}";`).join("\n")}
 `
   );
 })();

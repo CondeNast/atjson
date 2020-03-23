@@ -12,7 +12,7 @@ const skippedTests = [
   142, // Additional newline after HTML block
   303, // Whitespace in code is stripped by markdown-it
   326, // This test has an HTML entity at the start of a paragraph, which we strip
-  331 // Whitespace in code is stripped by markdown-it
+  331, // Whitespace in code is stripped by markdown-it
 ];
 
 const unitTestsBySection: {
@@ -30,11 +30,11 @@ spec.tests.reduce((modules, unitTest) => {
   return modules;
 }, unitTestsBySection);
 
-Object.keys(unitTestsBySection).forEach(moduleName => {
+Object.keys(unitTestsBySection).forEach((moduleName) => {
   const unitTests = unitTestsBySection[moduleName];
 
   describe(moduleName, () => {
-    unitTests.forEach(unitTest => {
+    unitTests.forEach((unitTest) => {
       let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
 
       (shouldSkip ? test.skip : test)(unitTest.markdown, () => {

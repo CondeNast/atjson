@@ -35,7 +35,7 @@ function without<T>(array: T[], value: T): T[] {
   }, result);
 }
 
-const Giphy: FC<AttributesOf<GiphyEmbed>> = props => {
+const Giphy: FC<AttributesOf<GiphyEmbed>> = (props) => {
   let url = new URL(props.url);
   let giphyId = without<string>(url.pathname.split("/"), "")[1]
     .split("-")
@@ -60,7 +60,7 @@ export const URLPaste: FC = () => {
       <TextField
         type="url"
         value={url}
-        onChange={evt => setURL(evt.target.value)}
+        onChange={(evt) => setURL(evt.target.value)}
       />
       <ReactRendererProvider value={{ GiphyEmbed: Giphy }}>
         {Renderer.render(URLSource.fromRaw(url).convertTo(OffsetSource))}

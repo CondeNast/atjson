@@ -16,12 +16,12 @@ class MyHTMLRenderer extends HTMLRenderer {
       frameborder: "0",
       allow:
         "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
-      allowfullscreen: true
+      allowfullscreen: true,
     });
   }
 }
 
-const RenderedHTML: FC<{ document: OffsetSource }> = props => {
+const RenderedHTML: FC<{ document: OffsetSource }> = (props) => {
   return (
     <CodeBlock className="html">
       {MyHTMLRenderer.render(props.document)}
@@ -37,11 +37,11 @@ const ScaledIframe = styled.div`
   }
 `;
 
-export const RenderedDOM: FC<{ document: OffsetSource }> = props => {
+export const RenderedDOM: FC<{ document: OffsetSource }> = (props) => {
   return (
     <ScaledIframe
       dangerouslySetInnerHTML={{
-        __html: MyHTMLRenderer.render(props.document)
+        __html: MyHTMLRenderer.render(props.document),
       }}
     />
   );
@@ -69,7 +69,7 @@ export const HTMLRendererDemo = () => {
       <TextArea
         autoResize={true}
         value={html}
-        onChange={evt => setHTML(evt.target.value)}
+        onChange={(evt) => setHTML(evt.target.value)}
       />
     </>
   );

@@ -5,7 +5,7 @@ import * as fs from "fs";
 
 const example = fs.readFileSync(__dirname + "/invisible-cities.html");
 
-document.addEventListener("paste", evt => {
+document.addEventListener("paste", (evt) => {
   let html =
     evt.clipboardData.getData("application/html") ||
     evt.clipboardData.getData("text/plain");

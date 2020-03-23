@@ -11,7 +11,7 @@ Brands at Condé Nast such as the New Yorker, WIRED, and Vogue have versions of 
 Read the XML as a string and pass it directly to the PRISM source:
 
 ```typescript
-import PRISMSource from '@atjson/source-prism';
+import PRISMSource from "@atjson/source-prism";
 
 let prism = PRISMSource.fromRaw(xml);
 ```

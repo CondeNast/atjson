@@ -29,7 +29,7 @@ import {
   TikTokEmbed,
   TwitterEmbed,
   Underline,
-  VideoEmbed
+  VideoEmbed,
 } from "./annotations";
 
 export * from "./annotations";
@@ -67,6 +67,6 @@ export default class OffsetSource extends Document {
     TikTokEmbed,
     TwitterEmbed,
     Underline,
-    VideoEmbed
+    VideoEmbed,
   ];
 }

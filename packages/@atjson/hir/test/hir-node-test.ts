@@ -6,7 +6,7 @@ import {
   Image,
   ListItem,
   OrderedList,
-  Paragraph
+  Paragraph,
 } from "./test-source";
 import {
   blockquote,
@@ -16,7 +16,7 @@ import {
   li,
   node,
   ol,
-  paragraph
+  paragraph,
 } from "./utils";
 
 class TestAnnotation extends InlineAnnotation {

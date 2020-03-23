@@ -40,18 +40,18 @@ describe("@atjson/source-ckeditor classic build", () => {
       {
         type: "$root",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "$text",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 19
-      }
+        end: 19,
+      },
     ]);
   });
 
@@ -66,28 +66,28 @@ describe("@atjson/source-ckeditor classic build", () => {
       {
         type: "$root",
         start: 0,
-        end: 44
+        end: 44,
       },
       {
         type: "$text",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "$text",
         start: 19,
-        end: 44
+        end: 44,
       },
       {
         type: "paragraph",
         start: 19,
-        end: 44
-      }
+        end: 44,
+      },
     ]);
   });
 
@@ -100,18 +100,18 @@ describe("@atjson/source-ckeditor classic build", () => {
       {
         type: "$root",
         start: 0,
-        end: 13
+        end: 13,
       },
       {
         type: "$text",
         start: 0,
-        end: 13
+        end: 13,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 13
-      }
+        end: 13,
+      },
     ]);
   });
 
@@ -126,43 +126,43 @@ describe("@atjson/source-ckeditor classic build", () => {
       {
         type: "$root",
         start: 0,
-        end: 16
+        end: 16,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 16
+        end: 16,
       },
       {
         type: "$text",
         start: 0,
         end: 4,
-        attributes: { bold: true }
+        attributes: { bold: true },
       },
       {
         type: "$text",
         start: 4,
         end: 5,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
         start: 5,
         end: 11,
-        attributes: { italic: true }
+        attributes: { italic: true },
       },
       {
         type: "$text",
         start: 11,
         end: 12,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
         start: 12,
         end: 16,
-        attributes: { linkHref: "https://www.condenast.com" }
-      }
+        attributes: { linkHref: "https://www.condenast.com" },
+      },
     ]);
   });
 
@@ -177,12 +177,12 @@ describe("@atjson/source-ckeditor classic build", () => {
       {
         type: "$root",
         start: 0,
-        end: 35
+        end: 35,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 35
+        end: 35,
       },
       {
         type: "$text",
@@ -190,14 +190,14 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 15,
         attributes: {
           bold: true,
-          italic: true
-        }
+          italic: true,
+        },
       },
       {
         type: "$text",
         start: 15,
         end: 16,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
@@ -205,15 +205,15 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 25,
         attributes: {
           bold: true,
-          linkHref: "https://www.condenast.com"
-        }
+          linkHref: "https://www.condenast.com",
+        },
       },
       {
         type: "$text",
         start: 25,
         end: 35,
-        attributes: { bold: true }
-      }
+        attributes: { bold: true },
+      },
     ]);
   });
   test("update children start/end positions to enforce nesting hierarchy", () => {
@@ -226,15 +226,15 @@ describe("@atjson/source-ckeditor classic build", () => {
         type: "$root",
         start: 0,
         end: 47,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "parse-token",
         start: 0,
         end: 7,
         attributes: {
-          reason: "$root_open"
-        }
+          reason: "$root_open",
+        },
       },
       {
         type: "listItem",
@@ -242,39 +242,39 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 39,
         attributes: {
           listIndent: 0,
-          listType: "numbered"
-        }
+          listType: "numbered",
+        },
       },
       {
         type: "parse-token",
         start: 7,
         end: 17,
         attributes: {
-          reason: "listItem_open"
-        }
+          reason: "listItem_open",
+        },
       },
       {
         type: "$text",
         start: 17,
         end: 28,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "parse-token",
         start: 28,
         end: 39,
         attributes: {
-          reason: "listItem_close"
-        }
+          reason: "listItem_close",
+        },
       },
       {
         type: "parse-token",
         start: 39,
         end: 47,
         attributes: {
-          reason: "$root_close"
-        }
-      }
+          reason: "$root_close",
+        },
+      },
     ]);
   });
 });

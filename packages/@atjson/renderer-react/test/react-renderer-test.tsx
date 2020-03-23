@@ -6,7 +6,7 @@ import OffsetSource, {
   Italic,
   LineBreak,
   Link,
-  VideoEmbed
+  VideoEmbed,
 } from "@atjson/offset-annotations";
 import * as React from "react";
 import { FC } from "react";
@@ -24,15 +24,15 @@ function renderDocument(
   );
 }
 
-const BoldComponent: FC<{}> = props => {
+const BoldComponent: FC<{}> = (props) => {
   return <strong>{props.children}</strong>;
 };
 
-const ItalicComponent: FC<{}> = props => {
+const ItalicComponent: FC<{}> = (props) => {
   return <em>{props.children}</em>;
 };
 
-const LinkComponent: FC<AttributesOf<Link>> = props => {
+const LinkComponent: FC<AttributesOf<Link>> = (props) => {
   return (
     <a
       href={props.url}
@@ -49,7 +49,7 @@ const LineBreakComponent: FC<{}> = () => {
   return <br />;
 };
 
-const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = props => {
+const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = (props) => {
   let match = props.url.match(/\/gifs\/(.*)-([^-]*)/);
   if (match) {
     return <img src={`https://media.giphy.com/media/${match[2]}/giphy.gif`} />;
@@ -57,7 +57,7 @@ const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = props => {
   return <s>Sorry</s>;
 };
 
-const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = props => {
+const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = (props) => {
   return (
     <iframe
       width="560"
@@ -69,7 +69,7 @@ const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = props => {
   );
 };
 
-const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => {
+const IframeComponent: FC<AttributesOf<IframeEmbed>> = (props) => {
   return (
     <figure>
       <iframe src={props.url} />
@@ -78,11 +78,11 @@ const IframeComponent: FC<AttributesOf<IframeEmbed>> = props => {
   );
 };
 
-const CaptionBold: FC<{}> = props => {
+const CaptionBold: FC<{}> = (props) => {
   return <b>{props.children}</b>;
 };
 
-const IframeComponentWithProvider: FC<AttributesOf<IframeEmbed>> = props => {
+const IframeComponentWithProvider: FC<AttributesOf<IframeEmbed>> = (props) => {
   return (
     <figure>
       <iframe src={props.url} />
@@ -99,14 +99,14 @@ describe("ReactRenderer", () => {
       content: "This is bold and italic text",
       annotations: [
         new Bold({ start: 8, end: 17 }),
-        new Italic({ start: 12, end: 23 })
-      ]
+        new Italic({ start: 12, end: 23 }),
+      ],
     });
 
     expect(
       renderDocument(document, {
         Bold: BoldComponent,
-        Italic: ItalicComponent
+        Italic: ItalicComponent,
       })
     ).toBe(`This is <strong>bold<em> and </em></strong><em>italic</em> text`);
   });
@@ -117,8 +117,8 @@ describe("ReactRenderer", () => {
       end: 10,
       attributes: {
         url:
-          "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0"
-      }
+          "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0",
+      },
     });
 
     let doc = new OffsetSource({
@@ -128,12 +128,12 @@ describe("ReactRenderer", () => {
           start: 0,
           end: 10,
           attributes: {
-            url: "https://www.youtube.com/watch?v=U8x85EY03vY"
-          }
+            url: "https://www.youtube.com/watch?v=U8x85EY03vY",
+          },
         }),
         new LineBreak({ start: 8, end: 9 }),
-        video
-      ]
+        video,
+      ],
     });
 
     expect(
@@ -142,7 +142,7 @@ describe("ReactRenderer", () => {
         Italic: ItalicComponent,
         Link: LinkComponent,
         LineBreak: LineBreakComponent,
-        VideoEmbed: VideoEmbedComponent
+        VideoEmbed: VideoEmbedComponent,
       })
     ).toBe(
       `<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a>`
@@ -157,25 +157,25 @@ describe("ReactRenderer", () => {
           start: 0,
           end: 19,
           attributes: {
-            url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy"
-          }
+            url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy",
+          },
         }),
         new LineBreak({ start: 16, end: 17 }),
         new GiphyEmbed({
           start: 17,
           end: 18,
           attributes: {
-            url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy"
-          }
-        })
-      ]
+            url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy",
+          },
+        }),
+      ],
     });
 
     expect(
       renderDocument(doc, {
         LineBreak: LineBreakComponent,
         Link: LinkComponent,
-        GiphyEmbed: GiphyEmbedComponent
+        GiphyEmbed: GiphyEmbedComponent,
       })
     ).toBe(
       `<a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a>`
@@ -185,7 +185,7 @@ describe("ReactRenderer", () => {
   it("errors when no provider present", () => {
     let document = new OffsetSource({
       content: "This is bold text",
-      annotations: [new Bold({ start: 8, end: 12 })]
+      annotations: [new Bold({ start: 8, end: 12 })],
     });
 
     expect(() =>
@@ -200,13 +200,13 @@ describe("ReactRenderer", () => {
         annotations: [
           new Bold({
             start: 0,
-            end: 4
+            end: 4,
           }),
           new Italic({
             start: 8,
-            end: 12
-          })
-        ]
+            end: 12,
+          }),
+        ],
       });
 
       let doc = new OffsetSource({
@@ -214,24 +214,24 @@ describe("ReactRenderer", () => {
         annotations: [
           new Bold({
             start: 3,
-            end: 8
+            end: 8,
           }),
           new IframeEmbed({
             start: 23,
             end: 24,
             attributes: {
               url: "https://foo.bar",
-              caption: subDoc
-            }
-          })
-        ]
+              caption: subDoc,
+            },
+          }),
+        ],
       });
 
       expect(
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponent
+          IframeEmbed: IframeComponent,
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.`
@@ -244,13 +244,13 @@ describe("ReactRenderer", () => {
         annotations: [
           new Bold({
             start: 0,
-            end: 4
+            end: 4,
           }),
           new Italic({
             start: 8,
-            end: 12
-          })
-        ]
+            end: 12,
+          }),
+        ],
       });
 
       let doc = new OffsetSource({
@@ -258,24 +258,24 @@ describe("ReactRenderer", () => {
         annotations: [
           new Bold({
             start: 3,
-            end: 8
+            end: 8,
           }),
           new IframeEmbed({
             start: 23,
             end: 24,
             attributes: {
               url: "https://foo.bar",
-              caption: subDoc
-            }
-          })
-        ]
+              caption: subDoc,
+            },
+          }),
+        ],
       });
 
       expect(
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponentWithProvider
+          IframeEmbed: IframeComponentWithProvider,
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><b>This</b> is <em>some</em> caption text</figcaption></figure>) and some text following.`

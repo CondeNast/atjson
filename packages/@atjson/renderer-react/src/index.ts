@@ -95,7 +95,7 @@ export default class ReactRenderer extends Renderer {
         } else {
           return annotationChildren;
         }
-      }
+      },
     });
   }
 }

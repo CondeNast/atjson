@@ -15,7 +15,7 @@ export default function extractHorizontalRule(
       type: "-gdocs-horizontal_rule",
       start: i,
       end: i + 1,
-      attributes: {}
+      attributes: {},
     });
   }
 

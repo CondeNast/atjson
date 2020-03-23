@@ -27,9 +27,7 @@ to text. Each "style slice" is a list where each element corresponds to a
 character offset in the document.
 
 ```js
-dsl_styleslices [
-  { stsl_type: "...", stsl_styles: [] }
-]
+dsl_styleslices[{ stsl_type: "...", stsl_styles: [] }];
 ```
 
 Our interest in these is limited for the time being to a few of the `stsl_type`s,
@@ -43,11 +41,12 @@ applies (? - needs verification) to the text seen _since_ the previous paragraph
 
 Paragraph styles set on a character level are either `null` or an object with the following properties:
 
-`ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)  
-  - `0`: Normal paragraph
-  - `1-6`: Headings level 1-6
-  - `100`: Title
-  - `101`: Subtitle
+`ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)
+
+- `0`: Normal paragraph
+- `1-6`: Headings level 1-6
+- `100`: Title
+- `101`: Subtitle
 
 `ps_hdid`: 'string' - Heading ID (unknown use)
 
@@ -59,7 +58,7 @@ Paragraph styles set on a character level are either `null` or an object with th
 `ps_sa`: `float` - Space before  
 `ps_sb`: `float` - Space after  
 `ps_ifl`: `float` - Indent first line  
-`ps_il`: `float` - Indent line  
+`ps_il`: `float` - Indent line
 
 #### Unknown
 
@@ -79,13 +78,13 @@ properties set:
 `ts_va`: `enum` (`nor`, `sup`, `sub`) - Vertical align: Superscript / Subscript / Normal  
 `ts_sc`: `boolean` - Smallcaps
 
-#### Unimplemented  
+#### Unimplemented
 
 `ts_fs`: `integer` - Font size  
 `ts_ff`: `string` - Font family  
 `ts_tw`: `integer` - Text weight  
 `ts_bgc2`: `object` - Background color  
-`ts_fgc2`: `object` - Foreground color  
+`ts_fgc2`: `object` - Foreground color
 
 ### `link` style
 
@@ -105,15 +104,17 @@ For each list:
 
 `le_nb.nl_0.b_a`: `integer` - 2 for roman numerals, 0 otherwise  
 `le_nb.nl_0.b_gs`: `string` - Bullet style  
-`le_nb.nl_0.b_gt`: `integer` - Enumeration of ordered list types:  
-  - `9`: All bulleted lists have this
-  - `10`: Numbered
-  - `12`: Alphabetical (upper case)
-  - `13`: Alphabetical (lower case)
-  - `14`: Roman numerals (upper case)
-  - `15`: Roman numerals (lower case)
+`le_nb.nl_0.b_gt`: `integer` - Enumeration of ordered list types:
+
+- `9`: All bulleted lists have this
+- `10`: Numbered
+- `12`: Alphabetical (upper case)
+- `13`: Alphabetical (lower case)
+- `14`: Roman numerals (upper case)
+- `15`: Roman numerals (lower case)
 
 ### `horizontal_rule` style
 
 ## Further reading
+
 - [Forensic analysis of cloud-native artifacts: § Understanding Google Docs](https://www.sciencedirect.com/science/article/pii/S174228761630007X#sec3)

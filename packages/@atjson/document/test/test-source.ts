@@ -3,7 +3,7 @@ import Document, {
   EdgeBehaviour,
   InlineAnnotation,
   Insertion,
-  ObjectAnnotation
+  ObjectAnnotation,
 } from "../src";
 
 export class Anchor extends InlineAnnotation<{
@@ -102,6 +102,6 @@ export default class TestSource extends Document {
     Locale,
     Manual,
     Paragraph,
-    Preformatted
+    Preformatted,
   ];
 }

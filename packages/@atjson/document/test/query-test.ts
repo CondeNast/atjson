@@ -9,25 +9,25 @@ describe("Document#all", () => {
           id: "1",
           type: "-test-a",
           attributes: {
-            "-test-href": "https://example.com"
+            "-test-href": "https://example.com",
           },
           start: 0,
-          end: 5
+          end: 5,
         },
         {
           id: "2",
           type: "-test-a",
           attributes: {
-            "-test-href": "https://condenast.com"
+            "-test-href": "https://condenast.com",
           },
           start: 6,
-          end: 10
-        }
-      ]
+          end: 10,
+        },
+      ],
     });
 
     expect(doc.all().length).toEqual(2);
-    expect(doc.all().toJSON()).toEqual(doc.annotations.map(a => a.toJSON()));
+    expect(doc.all().toJSON()).toEqual(doc.annotations.map((a) => a.toJSON()));
   });
 });
 
@@ -41,9 +41,9 @@ describe("Document#where", () => {
           type: "-test-bold",
           start: 0,
           end: 5,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     expect(doc.where({ type: "-test-bold" }).length).toEqual(1);
@@ -59,13 +59,13 @@ describe("Document#where", () => {
           type: "-test-bold",
           start: 0,
           end: 5,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
-    expect(doc.where({ type: "-test-bold" }).map(a => a.type)).toEqual([
-      "bold"
+    expect(doc.where({ type: "-test-bold" }).map((a) => a.type)).toEqual([
+      "bold",
     ]);
   });
 
@@ -78,25 +78,25 @@ describe("Document#where", () => {
           type: "-test-h1",
           start: 0,
           end: 5,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     doc
       .where({ type: "-test-h1" })
       .set({ type: "-test-heading", attributes: { "-test-level": 1 } });
     expect(doc.content).toBe("Hello");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-heading",
         attributes: {
-          "-test-level": 1
+          "-test-level": 1,
         },
         start: 0,
-        end: 5
-      }
+        end: 5,
+      },
     ]);
   });
 
@@ -109,33 +109,33 @@ describe("Document#where", () => {
           type: "-test-social",
           attributes: {
             "-test-type": "instagram",
-            "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+            "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
           },
           start: 0,
-          end: 1
-        }
-      ]
+          end: 1,
+        },
+      ],
     });
 
     doc
       .where({
         type: "-test-social",
-        attributes: { "-test-type": "instagram" }
+        attributes: { "-test-type": "instagram" },
       })
       .set({ type: "-test-instagram" })
       .unset("attributes.-test-type");
 
     expect(doc.content).toBe("\uFFFC");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-instagram",
         attributes: {
-          "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/"
+          "-test-uri": "https://www.instagram.com/p/BeW0pqZDUuK/",
         },
         start: 0,
-        end: 1
-      }
+        end: 1,
+      },
     ]);
   });
 
@@ -147,21 +147,21 @@ describe("Document#where", () => {
           id: "1",
           type: "-test-a",
           attributes: {
-            "-test-href": "https://example.com"
+            "-test-href": "https://example.com",
           },
           start: 0,
-          end: 5
+          end: 5,
         },
         {
           id: "2",
           type: "-test-a",
           attributes: {
-            "-test-href": "https://condenast.com"
+            "-test-href": "https://condenast.com",
           },
           start: 6,
-          end: 10
-        }
-      ]
+          end: 10,
+        },
+      ],
     });
 
     doc
@@ -169,50 +169,50 @@ describe("Document#where", () => {
       .set({ type: "-test-link" })
       .rename({ attributes: { "-test-href": "-test-url" } });
     expect(doc.content).toBe("Conde Nast");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-link",
         attributes: {
-          "-test-url": "https://example.com"
+          "-test-url": "https://example.com",
         },
         start: 0,
-        end: 5
+        end: 5,
       },
       {
         id: "2",
         type: "-test-link",
         attributes: {
-          "-test-url": "https://condenast.com"
+          "-test-url": "https://condenast.com",
         },
         start: 6,
-        end: 10
-      }
+        end: 10,
+      },
     ]);
 
     doc
       .where({ type: "-test-link" })
       .rename({ attributes: { "-test-url": "-vendor-url" } });
     expect(doc.content).toBe("Conde Nast");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-link",
         attributes: {
-          "-vendor-url": "https://example.com"
+          "-vendor-url": "https://example.com",
         },
         start: 0,
-        end: 5
+        end: 5,
       },
       {
         id: "2",
         type: "-test-link",
         attributes: {
-          "-vendor-url": "https://condenast.com"
+          "-vendor-url": "https://condenast.com",
         },
         start: 6,
-        end: 10
-      }
+        end: 10,
+      },
     ]);
   });
 
@@ -224,12 +224,12 @@ describe("Document#where", () => {
           id: "1",
           type: "-test-a",
           attributes: {
-            "-test-href": "http://example.com"
+            "-test-href": "http://example.com",
           },
           start: 0,
-          end: 5
-        }
-      ]
+          end: 5,
+        },
+      ],
     });
 
     doc.where({ type: "-test-a" }).update((anchor: Anchor) => {
@@ -240,22 +240,22 @@ describe("Document#where", () => {
         start: anchor.start,
         end: anchor.end,
         attributes: {
-          "-test-url": href.replace("http://", "https://")
-        }
+          "-test-url": href.replace("http://", "https://"),
+        },
       });
     });
 
     expect(doc.content).toBe("Conde Nast");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "2",
         type: "-test-link",
         attributes: {
-          "-test-url": "https://example.com"
+          "-test-url": "https://example.com",
         },
         start: 0,
-        end: 5
-      }
+        end: 5,
+      },
     ]);
   });
 
@@ -268,9 +268,9 @@ describe("Document#where", () => {
           type: "-test-code",
           start: 0,
           end: 14,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     doc.where({ type: "-test-code" }).remove();
@@ -289,8 +289,8 @@ describe("Document#where", () => {
           end: 14,
           attributes: {
             "-test-class": "language-js",
-            "-test-language": "js"
-          }
+            "-test-language": "js",
+          },
         },
         {
           id: "2",
@@ -299,10 +299,10 @@ describe("Document#where", () => {
           end: 28,
           attributes: {
             "-test-class": "language-rb",
-            "-test-language": "rb"
-          }
-        }
-      ]
+            "-test-language": "rb",
+          },
+        },
+      ],
     });
 
     doc
@@ -315,41 +315,41 @@ describe("Document#where", () => {
             type: "-test-pre",
             start: code.start,
             end: code.end,
-            attributes: code.toJSON().attributes
+            attributes: code.toJSON().attributes,
           },
           {
             id: code.id + "-2",
             type: "-test-code",
             start: code.start,
             end: code.end,
-            attributes: {}
+            attributes: {},
           }
         );
 
         return {
           add: annotations,
-          remove: [code]
+          remove: [code],
         };
       })
       .unset("attributes.-test-class");
 
     expect(doc.content).toBe("string.trim();\nstring.strip");
-    expect(doc.annotations.map(a => a.toJSON())).toEqual([
+    expect(doc.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1-1",
         type: "-test-pre",
         start: 0,
         end: 14,
         attributes: {
-          "-test-language": "js"
-        }
+          "-test-language": "js",
+        },
       },
       {
         id: "1-2",
         type: "-test-code",
         start: 0,
         end: 14,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2-1",
@@ -357,16 +357,16 @@ describe("Document#where", () => {
         start: 16,
         end: 28,
         attributes: {
-          "-test-language": "rb"
-        }
+          "-test-language": "rb",
+        },
       },
       {
         id: "2-2",
         type: "-test-code",
         start: 16,
         end: 28,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -382,31 +382,31 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           {
             id: "2",
             type: "-test-pre",
             start: 0,
             end: 14,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-pre",
             start: 16,
             end: 28,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-test-code",
             start: 30,
             end: 35,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       let codeBlocks = doc.where({ type: "-test-code" }).as("code");
@@ -425,8 +425,8 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           pre: [
             {
@@ -434,10 +434,10 @@ describe("Document#where", () => {
               type: "-test-pre",
               start: 0,
               end: 14,
-              attributes: {}
-            }
-          ]
-        }
+              attributes: {},
+            },
+          ],
+        },
       ]);
 
       preAndCode.update(
@@ -448,7 +448,7 @@ describe("Document#where", () => {
         }
       );
 
-      expect(doc.annotations.map(a => a.toJSON())).toEqual([
+      expect(doc.annotations.map((a) => a.toJSON())).toEqual([
         {
           id: "1",
           type: "-test-code",
@@ -457,23 +457,23 @@ describe("Document#where", () => {
           attributes: {
             "-test-class": "language-js",
             "-test-language": "js",
-            "-test-textStyle": "pre"
-          }
+            "-test-textStyle": "pre",
+          },
         },
         {
           id: "3",
           type: "-test-pre",
           start: 14,
           end: 26,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "4",
           type: "-test-code",
           end: 33,
           start: 28,
-          attributes: {}
-        }
+          attributes: {},
+        },
       ]);
     });
 
@@ -488,31 +488,31 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           {
             id: "2",
             type: "-test-pre",
             start: 0,
             end: 14,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-pre",
             start: 16,
             end: 28,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-test-code",
             start: 30,
             end: 35,
-            attributes: {}
-          }
-        ]
+            attributes: {},
+          },
+        ],
       });
 
       let codeBlocks = doc.where({ type: "-test-code" }).as("code");
@@ -531,8 +531,8 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           pre: [
             {
@@ -540,9 +540,9 @@ describe("Document#where", () => {
               type: "-test-pre",
               start: 0,
               end: 14,
-              attributes: {}
-            }
-          ]
+              attributes: {},
+            },
+          ],
         },
         {
           code: {
@@ -550,22 +550,22 @@ describe("Document#where", () => {
             type: "-test-code",
             start: 30,
             end: 35,
-            attributes: {}
+            attributes: {},
           },
-          pre: []
-        }
+          pre: [],
+        },
       ]);
 
       preAndCode
-        .where(join => join.pre.length === 0)
-        .update(join => {
+        .where((join) => join.pre.length === 0)
+        .update((join) => {
           join.code.attributes = {
             class: "language-html",
-            language: "html"
+            language: "html",
           };
         });
 
-      expect(doc.annotations.map(a => a.toJSON())).toEqual([
+      expect(doc.annotations.map((a) => a.toJSON())).toEqual([
         {
           id: "1",
           type: "-test-code",
@@ -573,22 +573,22 @@ describe("Document#where", () => {
           end: 14,
           attributes: {
             "-test-class": "language-js",
-            "-test-language": "js"
-          }
+            "-test-language": "js",
+          },
         },
         {
           id: "2",
           type: "-test-pre",
           start: 0,
           end: 14,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "3",
           type: "-test-pre",
           start: 16,
           end: 28,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "4",
@@ -597,9 +597,9 @@ describe("Document#where", () => {
           end: 35,
           attributes: {
             "-test-class": "language-html",
-            "-test-language": "html"
-          }
-        }
+            "-test-language": "html",
+          },
+        },
       ]);
     });
 
@@ -614,29 +614,29 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           {
             id: "2",
             type: "-test-pre",
             start: 0,
             end: 14,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "3",
             type: "-test-pre",
             start: 16,
             end: 28,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "4",
             type: "-test-code",
             start: 30,
             end: 35,
-            attributes: {}
+            attributes: {},
           },
           {
             id: "5",
@@ -644,17 +644,17 @@ describe("Document#where", () => {
             start: 0,
             end: 14,
             attributes: {
-              "-test-locale": "en-us"
-            }
+              "-test-locale": "en-us",
+            },
           },
           {
             id: "6",
             type: "-test-pre",
             start: 0,
             end: 14,
-            attributes: { "-test-style": "color: red" }
-          }
-        ]
+            attributes: { "-test-style": "color: red" },
+          },
+        ],
       });
 
       let codeBlocks = doc.where({ type: "-test-code" }).as("code");
@@ -680,8 +680,8 @@ describe("Document#where", () => {
             end: 14,
             attributes: {
               "-test-class": "language-js",
-              "-test-language": "js"
-            }
+              "-test-language": "js",
+            },
           },
           preElements: [
             {
@@ -689,7 +689,7 @@ describe("Document#where", () => {
               type: "-test-pre",
               start: 0,
               end: 14,
-              attributes: {}
+              attributes: {},
             },
             {
               id: "6",
@@ -697,9 +697,9 @@ describe("Document#where", () => {
               start: 0,
               end: 14,
               attributes: {
-                "-test-style": "color: red"
-              }
-            }
+                "-test-style": "color: red",
+              },
+            },
           ],
           locale: [
             {
@@ -708,18 +708,18 @@ describe("Document#where", () => {
               start: 0,
               end: 14,
               attributes: {
-                "-test-locale": "en-us"
-              }
-            }
-          ]
-        }
+                "-test-locale": "en-us",
+              },
+            },
+          ],
+        },
       ]);
 
       threeWayJoin.update(
         ({
           code,
           preElements,
-          locale
+          locale,
         }: {
           code: Code;
           preElements: Preformatted[];
@@ -728,7 +728,7 @@ describe("Document#where", () => {
           doc.insertText(0, "Hello!\n");
 
           let newCode = code.clone();
-          preElements.forEach(pre => {
+          preElements.forEach((pre) => {
             Object.assign(newCode.attributes, pre.attributes);
             doc.removeAnnotation(pre);
           });
@@ -739,7 +739,7 @@ describe("Document#where", () => {
         }
       );
 
-      expect(doc.annotations.map(a => a.toJSON())).toEqual([
+      expect(doc.annotations.map((a) => a.toJSON())).toEqual([
         {
           id: "1",
           type: "-test-code",
@@ -749,23 +749,23 @@ describe("Document#where", () => {
             "-test-class": "language-js",
             "-test-language": "js",
             "-test-locale": "en-us",
-            "-test-style": "color: red"
-          }
+            "-test-style": "color: red",
+          },
         },
         {
           id: "3",
           type: "-test-pre",
           start: 23,
           end: 35,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "4",
           type: "-test-code",
           start: 37,
           end: 42,
-          attributes: {}
-        }
+          attributes: {},
+        },
       ]);
     });
   });

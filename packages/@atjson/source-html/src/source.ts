@@ -9,7 +9,7 @@ export default class HTMLSource extends Document {
     let parser = new Parser(html);
     return new this({
       content: parser.content,
-      annotations: parser.annotations
+      annotations: parser.annotations,
     });
   }
 }

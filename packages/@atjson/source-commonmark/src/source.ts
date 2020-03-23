@@ -17,7 +17,7 @@ import {
   ListItem,
   OrderedList,
   Paragraph,
-  Strong
+  Strong,
 } from "./annotations";
 import Parser from "./parser";
 
@@ -40,7 +40,7 @@ export default class CommonMarkSource extends Document {
     ListItem,
     OrderedList,
     Paragraph,
-    Strong
+    Strong,
   ];
 
   static fromRaw(markdown: string) {
@@ -52,7 +52,7 @@ export default class CommonMarkSource extends Document {
 
     return new this({
       content: parser.content,
-      annotations: parser.annotations
+      annotations: parser.annotations,
     });
   }
 

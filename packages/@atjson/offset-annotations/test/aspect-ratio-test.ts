@@ -25,7 +25,7 @@ describe("getClosestAspectRatio", () => {
       [576, 324],
       [448, 252],
       [320, 180],
-      [192, 108]
+      [192, 108],
     ] as const).forEach(([width, height]) => {
       expect(getClosestAspectRatio(width, height)).toBe("16:9");
     });
@@ -65,7 +65,7 @@ describe("getClosestAspectRatio", () => {
       [208, 156],
       [176, 132],
       [144, 108],
-      [112, 84]
+      [112, 84],
     ] as const).forEach(([width, height]) => {
       expect(getClosestAspectRatio(width, height)).toBe("4:3");
     });

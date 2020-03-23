@@ -9,7 +9,7 @@ import {
   ListItem,
   Strikethrough,
   Underline,
-  VerticalAdjust
+  VerticalAdjust,
 } from "./annotations";
 
 import GDocsParser, { GDocsPasteBuffer } from "./gdocs-parser";
@@ -26,14 +26,14 @@ export default class extends Document {
     ListItem,
     Strikethrough,
     Underline,
-    VerticalAdjust
+    VerticalAdjust,
   ];
   static fromRaw(pasteBuffer: GDocsPasteBuffer) {
     let gDocsParser = new GDocsParser(pasteBuffer);
 
     return new this({
       content: gDocsParser.getContent(),
-      annotations: gDocsParser.getAnnotations()
+      annotations: gDocsParser.getAnnotations(),
     });
   }
 }
