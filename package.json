@@ -38,7 +38,7 @@
     "jest": "25.1.0",
     "jest-environment-jsdom-sixteen": "1.0.3",
     "lerna": "3.20.2",
-    "lint-staged": "10.0.8",
+    "lint-staged": "10.0.9",
     "markdown-it": "10.0.0",
     "os-name": "3.1.0",
     "parcel-bundler": "1.12.4",
