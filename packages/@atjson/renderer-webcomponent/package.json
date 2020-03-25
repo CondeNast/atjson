@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-webcomponent",
-  "version": "0.21.19-dev.0",
+  "version": "0.21.19",
   "description": "Render atjson documents into web components",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
