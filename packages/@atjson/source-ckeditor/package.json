@@ -12,6 +12,7 @@
   "devDependencies": {
     "@atjson/document": "file:../document",
     "@ckeditor/ckeditor5-build-classic": "*",
+    "@ckeditor/ckeditor5-engine": "*",
     "@types/jsdom": "*",
     "@types/minimist": "*",
     "@types/prettier": "*",

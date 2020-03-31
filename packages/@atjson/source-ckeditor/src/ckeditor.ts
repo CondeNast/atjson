@@ -238,6 +238,10 @@ export interface DocumentFragment {
   toJSON(): object;
 }
 
+export interface DocumentFragmentConstructor {
+  fromJSON(json: object[]): DocumentFragment;
+}
+
 export type PositionStickiness = "toNone" | "toNext" | "toPrevious";
 export type PositionRelation = "before" | "after" | "same";
 
