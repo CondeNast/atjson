@@ -7,7 +7,7 @@ import minimist from "minimist";
 import * as CK from "../src/ckeditor";
 
 let dom = new JSDOM(``, {
-  url: "https://atjson.condenast.io"
+  url: "https://atjson.condenast.io",
 });
 
 (global as any).window = dom.window;
@@ -19,8 +19,8 @@ let dom = new JSDOM(``, {
   "DOMParser",
   "HTMLElement",
   "HTMLTextAreaElement",
-  "Node"
-].forEach(key => {
+  "Node",
+].forEach((key) => {
   (global as any)[key] = (dom.window as any)[key];
 });
 
@@ -35,7 +35,7 @@ function classify(name: string) {
 }
 
 function dasherize(name: string) {
-  return name.replace(/([A-Z])/g, chr => `-${chr.toLowerCase()}`);
+  return name.replace(/([A-Z])/g, (chr) => `-${chr.toLowerCase()}`);
 }
 
 function writeAnnotationFile(
@@ -55,7 +55,7 @@ import { ${AnnotationClass} } from "@atjson/document";
 export class ${classify(name)} extends ${AnnotationClass}${
           attributes.length
             ? `<{
-  ${attributes.map(attribute => `${attribute}: unknown;`).join("\n")}
+  ${attributes.map((attribute) => `${attribute}: unknown;`).join("\n")}
 }>`
             : ""
         } {
@@ -93,7 +93,7 @@ function writeAnnotationIndex(
     join(dir, "annotations", `index.${extension}`),
     format(
       `${schemas
-        .map(schema => `export * from "./${dasherize(schema.name)}";`)
+        .map((schema) => `export * from "./${dasherize(schema.name)}";`)
         .join("\n")}`,
       { parser: parser }
     )
@@ -114,8 +114,8 @@ import CKEditorSource, { CK } from "@atjson/source-ckeditor";
 import * as annotations from "./annotations";
 
 export default class ${ClassName} extends CKEditorSource {
-  static fromRaw(model: CK.Model, rootName = "main") {
-      return new this(this.fromModel(model, rootName));
+  static fromRaw(doc: CK.Document | CK.DocumentFragment, rootName?: string) {
+    return new this(this.fromDocument(doc, rootName));
   }
 
   static schema = [...Object.values(annotations)];
@@ -162,7 +162,7 @@ export default ${name};
 
 function run() {
   const args = minimist(process.argv.slice(2), {
-    string: ["out", "name", "buildPackage", "buildName", "language"]
+    string: ["out", "name", "buildPackage", "buildName", "language"],
   });
 
   let options = {
@@ -170,7 +170,7 @@ function run() {
     buildPackage: args.buildPackage || "@ckeditor/ckeditor5-build-classic",
     buildName: args.buildName || "default",
     out: join(process.cwd(), args.out || "test"),
-    name: args.name || "CKEditorClassicBuildSource"
+    name: args.name || "CKEditorClassicBuildSource",
   };
 
   console.info("Generating CKEditorSource with args:\n", options);
@@ -191,7 +191,7 @@ function run() {
     const fileInfo = {
       extension: language === "typescript" ? "ts" : "js",
       parser: language === "javascript" ? "babel" : "typescript",
-      dir: options.out
+      dir: options.out,
     } as FileInfo;
 
     let div = dom.window.document.createElement("div");
@@ -242,7 +242,7 @@ function run() {
 
 run()
   .then(() => process.exit(1))
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(0);
   });

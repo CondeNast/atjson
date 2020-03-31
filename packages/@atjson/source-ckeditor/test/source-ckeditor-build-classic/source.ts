@@ -3,8 +3,8 @@ import CKEditorSource, { CK } from "../../src";
 import * as annotations from "./annotations";
 
 export default class CKEditorTestSource extends CKEditorSource {
-  static fromRaw(model: CK.Model, rootName = "main") {
-    return new this(this.fromModel(model, rootName));
+  static fromRaw(doc: CK.Document | CK.DocumentFragment, rootName?: string) {
+    return new this(this.fromDocument(doc, rootName));
   }
 
   static schema = [...Object.values(annotations)];

@@ -1,9 +1,9 @@
 import Document, { AnnotationJSON, ParseAnnotation } from "@atjson/document";
 import * as CK from "./ckeditor";
-import { isTextNode, isElement } from "./utils";
+import { isTextNode, isElement, isNode, isDocumentFragment } from "./utils";
 
 function fromNode(
-  node: CK.Node | null,
+  node: CK.Node | CK.DocumentFragment | null,
   { content, annotations }: { content: string; annotations: AnnotationJSON[] }
 ) {
   if (!node) {
@@ -12,8 +12,10 @@ function fromNode(
 
   let start = content.length;
   let attributes = {} as { [index: string]: any };
-  for (let [key, value] of node.getAttributes()) {
-    attributes[`-ckeditor-${key}`] = value;
+  if (isNode(node)) {
+    for (let [key, value] of node.getAttributes()) {
+      attributes[`-ckeditor-${key}`] = value;
+    }
   }
 
   if (isTextNode(node)) {
@@ -24,36 +26,38 @@ function fromNode(
       type: "-ckeditor-$text",
       attributes,
     });
-  } else if (isElement(node)) {
-    let openTag = `<${node.name}>`;
+  } else if (isElement(node) || isDocumentFragment(node)) {
+    let name = isElement(node) ? node.name : "$root";
+
+    let openTag = `<${name}>`;
     content += openTag;
     annotations.push(
       new ParseAnnotation({
         start: content.length - openTag.length,
         end: content.length,
         attributes: {
-          reason: `${node.name}_open`,
+          reason: `${name}_open`,
         },
       })
     );
     for (let child of node.getChildren()) {
       ({ content, annotations } = fromNode(child, { content, annotations }));
     }
-    let closeTag = `</${node.name}>`;
+    let closeTag = `</${name}>`;
     content += closeTag;
     annotations.push(
       new ParseAnnotation({
         start: content.length - closeTag.length,
         end: content.length,
         attributes: {
-          reason: `${node.name}_close`,
+          reason: `${name}_close`,
         },
       })
     );
     annotations.push({
       start,
       end: content.length,
-      type: `-ckeditor-${node.name}`,
+      type: `-ckeditor-${name}`,
       attributes,
     });
   }
@@ -62,8 +66,13 @@ function fromNode(
 }
 
 export default abstract class CKEditorSource extends Document {
-  static fromModel(model: CK.Model, rootName = "main") {
-    let root = model.document.getRoot(rootName);
+  static fromDocument(
+    doc: CK.DocumentFragment | CK.Document,
+    rootName = "main"
+  ) {
+    let root = (doc as CK.DocumentFragment).root
+      ? (doc as CK.DocumentFragment).root
+      : (doc as CK.Document).getRoot(rootName);
     let annotations: AnnotationJSON[] = [];
     let content = "";
 

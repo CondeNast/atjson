@@ -1,5 +1,6 @@
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Annotation } from "@atjson/document";
-import DocumentFragment from "@ckeditor/ckeditor5-engine/src/model/documentfragment";
+import { CK } from "../src";
 import CKEditorSource from "./source-ckeditor-build-classic";
 
 function compareAnnotations(a: Annotation, b: Annotation) {
@@ -15,18 +16,24 @@ function compareAnnotations(a: Annotation, b: Annotation) {
 }
 
 describe("@atjson/source-ckeditor classic build", () => {
+  let editor: CK.Editor;
+  let div: HTMLElement;
+
+  beforeEach(async () => {
+    div = document.createElement("div");
+    document.body.appendChild(div);
+
+    editor = await (ClassicEditor as CK.EditorConstructor).create(div);
+  });
+
+  afterEach(async () => {
+    await editor.destroy();
+    document.body.removeChild(div);
+  });
+
   test("single paragraph", () => {
-    let ckDoc = DocumentFragment.fromJSON([
-      {
-        name: "paragraph",
-        children: [
-          {
-            data: "Here is a paragraph",
-          },
-        ],
-      },
-    ]);
-    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
+    editor.setData("<p>Here is a paragraph</p>");
+    let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Here is a paragraph");
     expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
@@ -49,25 +56,10 @@ describe("@atjson/source-ckeditor classic build", () => {
   });
 
   test("multiple paragraphs", () => {
-    let ckDoc = DocumentFragment.fromJSON([
-      {
-        name: "paragraph",
-        children: [
-          {
-            data: "Here is a paragraph",
-          },
-        ],
-      },
-      {
-        name: "paragraph",
-        children: [
-          {
-            data: "Here is another paragraph",
-          },
-        ],
-      },
-    ]);
-    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
+    editor.setData(
+      "<p>Here is a paragraph</p>\n\n<p>Here is another paragraph</p>"
+    );
+    let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Here is a paragraphHere is another paragraph");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
@@ -99,33 +91,35 @@ describe("@atjson/source-ckeditor classic build", () => {
     ]);
   });
 
-  test("single text styles", () => {
-    let ckDoc = DocumentFragment.fromJSON([
+  test("autoparagraph", () => {
+    editor.setData("autoparagraph");
+    let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
+
+    expect(doc.content).toBe("autoparagraph");
+    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
       {
-        name: "paragraph",
-        children: [
-          {
-            data: "Bold",
-            attributes: { bold: true },
-          },
-          {
-            data: " ",
-          },
-          {
-            data: "italic",
-            attributes: { italic: true },
-          },
-          {
-            data: " ",
-          },
-          {
-            data: "link",
-            attributes: { linkHref: "https://www.condenast.com" },
-          },
-        ],
+        type: "$root",
+        start: 0,
+        end: 13,
+      },
+      {
+        type: "$text",
+        start: 0,
+        end: 13,
+      },
+      {
+        type: "paragraph",
+        start: 0,
+        end: 13,
       },
     ]);
-    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
+  });
+
+  test("single text styles", () => {
+    editor.setData(
+      "<strong>Bold</strong> <em>italic</em> <a href='https://www.condenast.com'>link</a>"
+    );
+    let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Bold italic link");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
@@ -173,29 +167,10 @@ describe("@atjson/source-ckeditor classic build", () => {
   });
 
   test("nested text styles", () => {
-    let ckDoc = DocumentFragment.fromJSON([
-      {
-        name: "paragraph",
-        children: [
-          {
-            data: "Bold and italic",
-            attributes: { bold: true, italic: true },
-          },
-          {
-            data: " ",
-          },
-          {
-            data: "bold link",
-            attributes: { bold: true, linkHref: "https://www.condenast.com" },
-          },
-          {
-            data: " just bold",
-            attributes: { bold: true },
-          },
-        ],
-      },
-    ]);
-    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
+    editor.setData(
+      "<strong><em>Bold and italic</em></strong> <strong><a href='https://www.condenast.com'>bold link</a> just bold</strong>"
+    );
+    let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Bold and italic bold link just bold");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
@@ -241,20 +216,9 @@ describe("@atjson/source-ckeditor classic build", () => {
       },
     ]);
   });
-
   test("update children start/end positions to enforce nesting hierarchy", () => {
-    let ckDoc = DocumentFragment.fromJSON([
-      {
-        name: "listItem",
-        attributes: { listIndent: 0, listType: "numbered" },
-        children: [
-          {
-            data: "List item 1",
-          },
-        ],
-      },
-    ]);
-    let doc = CKEditorSource.fromRaw(ckDoc);
+    editor.setData("<ol><li>List item 1</li></ol>");
+    let doc = CKEditorSource.fromRaw(editor.model.document);
 
     expect(doc.content).toBe("<$root><listItem>List item 1</listItem></$root>");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
