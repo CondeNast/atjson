@@ -8,6 +8,7 @@
     "@babel/preset-react": "7.9.4",
     "@babel/preset-typescript": "7.9.0",
     "@ckeditor/ckeditor5-build-classic": "17.0.0",
+    "@ckeditor/ckeditor5-engine": "17.0.0",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@condenast/perf-kit": "0.1.2",
@@ -107,6 +108,9 @@
     "testURL": "http://localhost",
     "testMatch": [
       "**/*-test.(ts|tsx|js|jsx)"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@ckeditor).+\\.js$"
     ]
   },
   "husky": {
