@@ -33,3 +33,45 @@ the `@ckeditor/ckeditor5-build-classic` editor build via running:
 ```
 ts-node bin/index.ts --out=test/source-ckeditor-build-classic --name=CKEditorTestSource --buildPackage=@ckeditor/ckeditor5-build-classic --buildName=default --language=ts
 ```
+
+Once the tool has run and generated a concrete implementation of an atjson source for your build, you can use it by
+calling the static method `fromRaw` and passing either a CK [DocumentFragment](https://ckeditor.com/docs/ckeditor5/latest/api/module_engine_model_documentfragment-DocumentFragment.html) or a CK [Model Document](https://ckeditor.com/docs/ckeditor5/latest/api/module_engine_model_document-Document.html) along with the root from the document. As an example, see the tests written in
+`/test/source-classic-build-test.ts`:
+
+```
+import DocumentFragment from "@ckeditor/ckeditor5-engine/src/model/documentfragment";
+import CKEditorSource from "./source-ckeditor-build-classic";
+
+test("single paragraph", () => {
+  let ckDoc = DocumentFragment.fromJSON([
+    {
+      name: "paragraph",
+      children: [
+        {
+          data: "Here is a paragraph",
+        },
+      ],
+    },
+  ]);
+  let doc = CKEditorSource.fromRaw(ckDoc).canonical();
+
+  expect(doc.content).toBe("Here is a paragraph");
+  expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
+    {
+      type: "$root",
+      start: 0,
+      end: 19,
+    },
+    {
+      type: "$text",
+      start: 0,
+      end: 19,
+    },
+    {
+      type: "paragraph",
+      start: 0,
+      end: 19,
+    },
+  ]);
+});
+```
