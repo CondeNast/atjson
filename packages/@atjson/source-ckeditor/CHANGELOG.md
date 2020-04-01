@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.6...@atjson/source-ckeditor@0.2.0) (2020-04-01)
+
+### Features
+
+- update fromRaw to accept doc or docFragment ([c3112f9](https://github.com/CondeNast/atjson/commit/c3112f99671381eb3abd5e7e019ffc36b76035b3))
+
 # [0.2.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.1.6...@atjson/source-ckeditor@0.2.0-dev.0) (2020-03-31)
 
 ### Features
