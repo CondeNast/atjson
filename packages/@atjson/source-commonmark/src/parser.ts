@@ -50,14 +50,14 @@ function toTree(tokens: Token[], rootNode: Node) {
         name: "text",
         value: "\n",
         parent: currentNode,
-        children: []
+        children: [],
       });
     } else if (token.type === "text") {
       currentNode.children.push({
         name: "text",
         value: token.content,
         parent: currentNode,
-        children: []
+        children: [],
       });
     } else if (token.type === "inline") {
       toTree(token.children, currentNode);
@@ -66,7 +66,7 @@ function toTree(tokens: Token[], rootNode: Node) {
         name: token.type,
         open: token,
         parent: currentNode,
-        children: []
+        children: [],
       };
       currentNode.children.push(node);
       toTree(token.children, node);
@@ -76,7 +76,7 @@ function toTree(tokens: Token[], rootNode: Node) {
         open: token,
         close: token,
         parent: currentNode,
-        children: []
+        children: [],
       };
       currentNode.children.push(node);
       currentNode = node;
@@ -109,9 +109,9 @@ function toTree(tokens: Token[], rootNode: Node) {
             name: "text",
             value: text,
             parent: currentNode,
-            children: []
-          }
-        ]
+            children: [],
+          },
+        ],
       });
     }
   }
@@ -157,17 +157,12 @@ export default class Parser {
             name: "text",
             parent: node,
             value: "\u202F",
-            children: []
+            children: [],
           });
         } else if (node.name === "image" && node.open) {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push([
-            "alt",
-            getText(node)
-              .map(getValue)
-              .join("")
-          ]);
+          token.attrs.push(["alt", getText(node).map(getValue).join("")]);
           node.children = [];
         }
         let attrs: Attributes = {};
@@ -217,8 +212,8 @@ export default class Parser {
         start,
         end: start + 1,
         attributes: {
-          reason: `${name}_open`
-        }
+          reason: `${name}_open`,
+        },
       })
     );
 
@@ -243,14 +238,14 @@ export default class Parser {
         start: end - 1,
         end,
         attributes: {
-          reason: `${name}_close`
-        }
+          reason: `${name}_close`,
+        },
       }),
       {
         type: `-commonmark-${name}`,
         start,
         end,
-        attributes
+        attributes,
       }
     );
   }

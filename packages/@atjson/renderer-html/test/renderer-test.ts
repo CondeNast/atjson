@@ -18,7 +18,7 @@ import OffsetSource, {
   Subscript,
   Superscript,
   TikTokEmbed,
-  Underline
+  Underline,
 } from "@atjson/offset-annotations";
 import Renderer from "../src";
 
@@ -26,7 +26,7 @@ describe("renderer-html", () => {
   test("blockquote", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Blockquote({ start: 0, end: 5 })]
+      annotations: [new Blockquote({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<blockquote>Hello</blockquote>");
@@ -35,7 +35,7 @@ describe("renderer-html", () => {
   test("bold", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Bold({ start: 0, end: 5 })]
+      annotations: [new Bold({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<strong>Hello</strong>");
@@ -45,7 +45,7 @@ describe("renderer-html", () => {
     let code = new Code({ start: 0, end: 5 });
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [code]
+      annotations: [code],
     });
 
     expect(Renderer.render(doc)).toEqual("<code>Hello</code>");
@@ -55,10 +55,10 @@ describe("renderer-html", () => {
   });
 
   describe("heading", () => {
-    test.each([1, 2, 3, 4, 5, 6] as const)("level %s", level => {
+    test.each([1, 2, 3, 4, 5, 6] as const)("level %s", (level) => {
       let doc = new OffsetSource({
         content: "Hello",
-        annotations: [new Heading({ start: 0, end: 5, attributes: { level } })]
+        annotations: [new Heading({ start: 0, end: 5, attributes: { level } })],
       });
 
       expect(Renderer.render(doc)).toEqual(`<h${level}>Hello</h${level}>`);
@@ -68,7 +68,7 @@ describe("renderer-html", () => {
   test("horizontal rule", () => {
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [new HorizontalRule({ start: 0, end: 1 })]
+      annotations: [new HorizontalRule({ start: 0, end: 1 })],
     });
 
     expect(Renderer.render(doc)).toEqual(`<hr />`);
@@ -82,13 +82,13 @@ describe("renderer-html", () => {
         url:
           "https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif",
         description: "Hippo Hula Hooping",
-        title: "Haigney Hippo"
-      }
+        title: "Haigney Hippo",
+      },
     });
 
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [image]
+      annotations: [image],
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -104,7 +104,7 @@ describe("renderer-html", () => {
   test("italic", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Italic({ start: 0, end: 5 })]
+      annotations: [new Italic({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<em>Hello</em>");
@@ -113,7 +113,7 @@ describe("renderer-html", () => {
   test("line break", () => {
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [new LineBreak({ start: 0, end: 1 })]
+      annotations: [new LineBreak({ start: 0, end: 1 })],
     });
 
     expect(Renderer.render(doc)).toEqual(`<br />`);
@@ -131,10 +131,10 @@ describe("renderer-html", () => {
               url: "https://condenast.com",
               title: "Condé Nast",
               rel: "nofollow",
-              target: "_blank"
-            }
-          })
-        ]
+              target: "_blank",
+            },
+          }),
+        ],
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -150,10 +150,10 @@ describe("renderer-html", () => {
             start: 0,
             end: 6,
             attributes: {
-              url: "https://en.wiktionary.org/wiki/日本人"
-            }
-          })
-        ]
+              url: "https://en.wiktionary.org/wiki/日本人",
+            },
+          }),
+        ],
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -170,10 +170,10 @@ describe("renderer-html", () => {
             end: 4,
             attributes: {
               url: "https://example.com?q=this is a search",
-              title: `"test" <tag>`
-            }
-          })
-        ]
+              title: `"test" <tag>`,
+            },
+          }),
+        ],
       });
 
       expect(Renderer.render(doc)).toEqual(
@@ -191,12 +191,12 @@ describe("renderer-html", () => {
             start: 0,
             end: 7,
             attributes: {
-              type: "numbered"
-            }
+              type: "numbered",
+            },
           }),
           new ListItem({ start: 0, end: 3 }),
-          new ListItem({ start: 4, end: 7 })
-        ]
+          new ListItem({ start: 4, end: 7 }),
+        ],
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol><li>one</li>\n<li>two</li></ol>`
@@ -212,12 +212,12 @@ describe("renderer-html", () => {
             end: 7,
             attributes: {
               type: "numbered",
-              startsAt: 3
-            }
+              startsAt: 3,
+            },
           }),
           new ListItem({ start: 0, end: 3 }),
-          new ListItem({ start: 4, end: 7 })
-        ]
+          new ListItem({ start: 4, end: 7 }),
+        ],
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol starts=3><li>one</li>\n<li>two</li></ol>`
@@ -233,12 +233,12 @@ describe("renderer-html", () => {
             end: 7,
             attributes: {
               type: "numbered",
-              tight: true
-            }
+              tight: true,
+            },
           }),
           new ListItem({ start: 0, end: 3 }),
-          new ListItem({ start: 4, end: 7 })
-        ]
+          new ListItem({ start: 4, end: 7 }),
+        ],
       });
       expect(Renderer.render(doc)).toEqual(
         `<ol compact><li>one</li>\n<li>two</li></ol>`
@@ -255,12 +255,12 @@ describe("renderer-html", () => {
             start: 0,
             end: 7,
             attributes: {
-              type: "bulleted"
-            }
+              type: "bulleted",
+            },
           }),
           new ListItem({ start: 0, end: 3 }),
-          new ListItem({ start: 4, end: 7 })
-        ]
+          new ListItem({ start: 4, end: 7 }),
+        ],
       });
       expect(Renderer.render(doc)).toEqual(
         `<ul><li>one</li>\n<li>two</li></ul>`
@@ -276,12 +276,12 @@ describe("renderer-html", () => {
             end: 7,
             attributes: {
               type: "bulleted",
-              delimiter: "square"
-            }
+              delimiter: "square",
+            },
           }),
           new ListItem({ start: 0, end: 3 }),
-          new ListItem({ start: 4, end: 7 })
-        ]
+          new ListItem({ start: 4, end: 7 }),
+        ],
       });
       expect(Renderer.render(doc)).toEqual(
         `<ul type="square"><li>one</li>\n<li>two</li></ul>`
@@ -292,7 +292,7 @@ describe("renderer-html", () => {
   test("paragraph", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Paragraph({ start: 0, end: 5 })]
+      annotations: [new Paragraph({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
@@ -303,8 +303,8 @@ describe("renderer-html", () => {
       content: "Text in a paragraph in a section.",
       annotations: [
         new Section({ start: 0, end: 33 }),
-        new Paragraph({ start: 0, end: 33 })
-      ]
+        new Paragraph({ start: 0, end: 33 }),
+      ],
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -315,7 +315,7 @@ describe("renderer-html", () => {
   test("smallcaps", () => {
     let doc = new OffsetSource({
       content: "Text with smallcaps.",
-      annotations: [new SmallCaps({ start: 10, end: 19 })]
+      annotations: [new SmallCaps({ start: 10, end: 19 })],
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -326,7 +326,7 @@ describe("renderer-html", () => {
   test("strikethrough", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Strikethrough({ start: 0, end: 5 })]
+      annotations: [new Strikethrough({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<s>Hello</s>");
@@ -335,7 +335,7 @@ describe("renderer-html", () => {
   test("subscript", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Subscript({ start: 0, end: 5 })]
+      annotations: [new Subscript({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<sub>Hello</sub>");
@@ -344,7 +344,7 @@ describe("renderer-html", () => {
   test("superscript", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Superscript({ start: 0, end: 5 })]
+      annotations: [new Superscript({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<sup>Hello</sup>");
@@ -353,7 +353,7 @@ describe("renderer-html", () => {
   test("underline", () => {
     let doc = new OffsetSource({
       content: "Hello",
-      annotations: [new Underline({ start: 0, end: 5 })]
+      annotations: [new Underline({ start: 0, end: 5 })],
     });
 
     expect(Renderer.render(doc)).toEqual("<u>Hello</u>");
@@ -370,10 +370,10 @@ describe("renderer-html", () => {
             end: 1,
             attributes: {
               url: "//view.ceros.com/ceros-inspire/carousel-3",
-              aspectRatio: 2
-            }
-          })
-        ]
+              aspectRatio: 2,
+            },
+          }),
+        ],
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
@@ -392,10 +392,10 @@ describe("renderer-html", () => {
             attributes: {
               url: "//view.ceros.com/ceros-inspire/carousel-3",
               aspectRatio: 2,
-              mobileAspectRatio: 3
-            }
-          })
-        ]
+              mobileAspectRatio: 3,
+            },
+          }),
+        ],
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
@@ -412,10 +412,11 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            url: "https://www.tiktok.com/@vogueitalia/video/6771026615137750277"
-          }
-        })
-      ]
+            url:
+              "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
+          },
+        }),
+      ],
     });
 
     expect(Renderer.render(doc)).toEqual(

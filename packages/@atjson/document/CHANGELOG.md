@@ -3,24 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.11...@atjson/document@0.23.0) (2020-02-20)
-
-
-### Features
-
-* add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
-
-
-
-
-
-## [0.22.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.22.10...@atjson/document@0.22.11) (2020-02-10)
+## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.2...@atjson/document@0.23.3) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/document
 
 
 
 
+
+## [0.23.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.2...@atjson/document@0.23.3-dev.0) (2020-03-23)
+
+**Note:** Version bump only for package @atjson/document
+
+
+
+
+
+## [0.23.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.1...@atjson/document@0.23.2) (2020-03-11)
+
+**Note:** Version bump only for package @atjson/document
+
+## [0.23.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.0...@atjson/document@0.23.1) (2020-03-02)
+
+**Note:** Version bump only for package @atjson/document
+
+# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.11...@atjson/document@0.23.0) (2020-02-20)
+
+### Features
+
+- add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
+
+## [0.22.11](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/document@0.22.10...@atjson/document@0.22.11) (2020-02-10)
+
+**Note:** Version bump only for package @atjson/document
 
 ## [0.22.10](https://github.com/CondeNast/atjson/compare/@atjson/document@0.22.9...@atjson/document@0.22.10) (2020-01-24)
 

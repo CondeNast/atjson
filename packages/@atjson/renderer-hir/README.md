@@ -21,10 +21,9 @@ npm install --save @atjson/renderer-hir
 And import it to the top of the file:
 
 ```ts
-import Renderer from '@atjson/renderer-hir';
+import Renderer from "@atjson/renderer-hir";
 
-export default class SlackRenderer extends Renderer {
-}
+export default class SlackRenderer extends Renderer {}
 ```
 
 We have a renderer that will return the text of the document we pass in! (yay!)
@@ -32,12 +31,12 @@ We have a renderer that will return the text of the document we pass in! (yay!)
 Let's make the renderer return a string instead of an array of strings:
 
 ```ts
-import Renderer from '@atjson/renderer-hir';
+import Renderer from "@atjson/renderer-hir";
 
 export default class SlackRenderer extends Renderer {
   *root() {
     let text = yield;
-    return text.join('');
+    return text.join("");
   }
 }
 ```
@@ -47,17 +46,17 @@ Let's start writing tests to verify what we're writing works. For this example w
 We're going to use the `OffsetSource` as our source document and set of annotations, since it's provided with out-of-the-box support for the basic syntax that Slack supports.
 
 ```ts
-import OffsetSource from '@atjson/offset-annotations';
-import SlackRenderer from '../src';
+import OffsetSource from "@atjson/offset-annotations";
+import SlackRenderer from "../src";
 
-describe('SlackRenderer', () => {
-  test('it returns text', () => {
+describe("SlackRenderer", () => {
+  test("it returns text", () => {
     let doc = new OffsetSource({
-      content: 'Hello!',
-      annotations: []
+      content: "Hello!",
+      annotations: [],
     });
 
-    expect(SlackRenderer.render(doc)).toBe('Hello!');
+    expect(SlackRenderer.render(doc)).toBe("Hello!");
   });
 });
 ```
@@ -105,17 +104,17 @@ Running tests should result in 3 failing tests.
 Now that we have some failing test cases, let's go back to our renderer and implement bold markup:
 
 ```ts
-import Renderer from '@atjson/renderer-hir';
+import Renderer from "@atjson/renderer-hir";
 
 export default class SlackRenderer extends Renderer {
   *Bold() {
     let text = yield;
-    return `*${text.join('')}*`;
+    return `*${text.join("")}*`;
   }
 
   *root() {
     let text = yield;
-    return text.join('');
+    return text.join("");
   }
 }
 ```
@@ -127,27 +126,27 @@ Running tests now should result in 2 failing tests. 🎉
 Now that we've got the hang of the first one, let's bang out the other 2 failing tests:
 
 ```ts
-import Renderer from '@atjson/renderer-hir';
+import Renderer from "@atjson/renderer-hir";
 
 export default class SlackRenderer extends Renderer {
   *Bold() {
     let text = yield;
-    return `*${text.join('')}*`;
+    return `*${text.join("")}*`;
   }
 
   *Italic() {
     let text = yield;
-    return `_${text.join('')}_`;
+    return `_${text.join("")}_`;
   }
 
   *Strikethrough() {
     let text = yield;
-    return `~${text.join('')}~`;
+    return `~${text.join("")}~`;
   }
 
   *root() {
     let text = yield;
-    return text.join('');
+    return text.join("");
   }
 }
 ```

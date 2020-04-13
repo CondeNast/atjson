@@ -3,7 +3,7 @@ import Document, {
   BlockAnnotation,
   ParseAnnotation,
   UnknownAnnotation,
-  is
+  is,
 } from "@atjson/document";
 import {
   Bold,
@@ -13,7 +13,7 @@ import {
   Image,
   Italic,
   Link,
-  List
+  List,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import {
@@ -24,7 +24,7 @@ import {
   LEADING_MD_SPACES,
   TRAILING_MD_SPACES,
   UNMATCHED_TRAILING_ESCAPE_SEQUENCES,
-  WHITESPACE_PUNCTUATION
+  WHITESPACE_PUNCTUATION,
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
@@ -39,18 +39,16 @@ function getEnd(a: { end: number }) {
 function isParseAnnotation(
   annotation: Annotation<any>
 ): annotation is ParseAnnotation {
-  let constructor = annotation.getAnnotationConstructor();
   return (
-    constructor.vendorPrefix === "atjson" && annotation.type === "parse-token"
+    annotation.vendorPrefix === "atjson" && annotation.type === "parse-token"
   );
 }
 
 function isParseOrUnknown(
   annotation: Annotation<any>
 ): annotation is ParseAnnotation | UnknownAnnotation {
-  let constructor = annotation.getAnnotationConstructor();
   return (
-    constructor.vendorPrefix === "atjson" &&
+    annotation.vendorPrefix === "atjson" &&
     (annotation.type === "parse-token" || annotation.type === "unknown")
   );
 }
@@ -315,7 +313,7 @@ export default class CommonmarkRenderer extends Renderer {
     if (options == null) {
       let DocumentClass = document.constructor as typeof Document;
       this.options = {
-        escapeHtmlEntities: !!DocumentClass.schema.find(isHTML)
+        escapeHtmlEntities: !!DocumentClass.schema.find(isHTML),
       };
     } else {
       this.options = options;
@@ -389,10 +387,7 @@ export default class CommonmarkRenderer extends Renderer {
       endOfQuote--;
 
     let quote =
-      lines
-        .slice(startOfQuote, endOfQuote)
-        .map(blockquotify)
-        .join("\n") + "\n";
+      lines.slice(startOfQuote, endOfQuote).map(blockquotify).join("\n") + "\n";
 
     if (!this.state.tight) {
       quote += "\n";
@@ -530,7 +525,7 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
-      htmlSafe: true
+      htmlSafe: true,
     });
 
     let rawText = yield;
@@ -551,12 +546,7 @@ export default class CommonmarkRenderer extends Renderer {
         return `\`\`\`${info}${text}\`\`\`${newlines}`;
       }
     } else if (code.attributes.style === "block") {
-      return (
-        text
-          .split("\n")
-          .map(codify)
-          .join("\n") + "\n"
-      );
+      return text.split("\n").map(codify).join("\n") + "\n";
     } else {
       // MarkdownIt strips all leading and trailing whitespace from code blocks,
       // which means that we get an empty string for a single whitespace (` `).
@@ -576,7 +566,7 @@ export default class CommonmarkRenderer extends Renderer {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
-      htmlSafe: true
+      htmlSafe: true,
     });
 
     let rawText = yield;
@@ -619,9 +609,9 @@ export default class CommonmarkRenderer extends Renderer {
       "\n" +
       rest
         .map(function leftPad(line) {
-          return indent + line;
+          return indent + line + "\n";
         })
-        .join("\n")
+        .join("")
         .replace(/[ ]+$/, "");
 
     if (this.state.tight) {
@@ -687,7 +677,7 @@ export default class CommonmarkRenderer extends Renderer {
       digit: start,
       delimiter,
       tight: list.attributes.tight,
-      hasCodeBlockFollowing
+      hasCodeBlockFollowing,
     });
 
     let text = yield;

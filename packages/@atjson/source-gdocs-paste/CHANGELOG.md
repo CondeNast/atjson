@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.0...@atjson/source-gdocs-paste@0.22.1) (2020-02-26)
+## [0.22.6](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.5...@atjson/source-gdocs-paste@0.22.6) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
 
@@ -11,48 +11,70 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 
 
-# [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.19...@atjson/source-gdocs-paste@0.22.0) (2020-02-20)
+## [0.22.6-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.5...@atjson/source-gdocs-paste@0.22.6-dev.0) (2020-03-23)
 
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+
+
+
+
+## [0.22.5](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.4...@atjson/source-gdocs-paste@0.22.5) (2020-03-19)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+## [0.22.4](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.3...@atjson/source-gdocs-paste@0.22.4) (2020-03-11)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+## [0.22.3](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.2...@atjson/source-gdocs-paste@0.22.3) (2020-03-04)
+
+### Bug Fixes
+
+- handle p in lists outside of list items ([e3d715c](https://github.com/CondeNast/atjson/commit/e3d715cb002506b0dada7f3c2e1a06780b28d144))
+- use single newline for gdocs paragraphs ([51f1468](https://github.com/CondeNast/atjson/commit/51f14682644d37fd502ccda784c9aaa1aac6e319))
+
+## [0.22.3-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.2...@atjson/source-gdocs-paste@0.22.3-dev.1) (2020-03-03)
+
+### Bug Fixes
+
+- use single newline for gdocs paragraphs ([3767f37](https://github.com/CondeNast/atjson/commit/3767f373472f82078d81a7334b8cb750138d5a7e))
+
+## [0.22.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.2...@atjson/source-gdocs-paste@0.22.3-dev.0) (2020-03-03)
+
+### Bug Fixes
+
+- use single newline for gdocs paragraphs ([3767f37](https://github.com/CondeNast/atjson/commit/3767f373472f82078d81a7334b8cb750138d5a7e))
+
+## [0.22.2](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.1...@atjson/source-gdocs-paste@0.22.2) (2020-03-02)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+## [0.22.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.22.0...@atjson/source-gdocs-paste@0.22.1) (2020-02-26)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
+# [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.19...@atjson/source-gdocs-paste@0.22.0) (2020-02-20)
 
 ### Features
 
-* add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
-
-
-
-
+- add Annotation is type narrowing function ([#423](https://github.com/CondeNast/atjson/issues/423)) ([2858a4f](https://github.com/CondeNast/atjson/commit/2858a4f707dd14d0ece5d0bc576f38363dfbe5ba))
 
 ## [0.21.19](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.18...@atjson/source-gdocs-paste@0.21.19) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
 
-
-
-
-
 ## [0.21.18](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-gdocs-paste@0.21.17...@atjson/source-gdocs-paste@0.21.18) (2020-02-10)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
-
-
-
-
 
 ## [0.21.17](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.16...@atjson/source-gdocs-paste@0.21.17) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
 
-
-
-
-
 ## [0.21.16](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.15...@atjson/source-gdocs-paste@0.21.16) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
-
-
-
-
 
 ## [0.21.15](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.21.14...@atjson/source-gdocs-paste@0.21.15) (2020-01-24)
 

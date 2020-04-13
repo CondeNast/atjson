@@ -20,29 +20,30 @@ button {
   position: relative;
   height: 40px;
   border: 0;
-  padding: 0 .75rem;
+  padding: 0 0.75rem;
   border-radius: 2px;
   font-size: 16px;
   font-family: inherit;
-  color: #FFF;
+  color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   transition: all 120ms;
-  background: #0023FF;
+  background: #0023ff;
   outline: none;
 }
 
 button:hover {
-  background: #0023C4;
+  background: #0023c4;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.65);
 }
 
 button:focus {
-  background: #0023C4;
-  box-shadow: 0 0 0 2px #F2F2F2, 0 0 0 4px #0023FF, 0 3px 10px rgba(0, 0, 0, 0.65);
+  background: #0023c4;
+  box-shadow: 0 0 0 2px #f2f2f2, 0 0 0 4px #0023ff,
+    0 3px 10px rgba(0, 0, 0, 0.65);
 }
 
 button:active {
-  background: #0023C4;
+  background: #0023c4;
   box-shadow: 0 0 0px rgba(0, 0, 0, 0.65);
 }
 

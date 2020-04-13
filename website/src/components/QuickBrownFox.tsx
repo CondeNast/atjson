@@ -32,6 +32,19 @@ const SVG = styled.svg`
     cursor: default;
   }
 
+  .brace {
+    stroke: #3246b9;
+  }
+
+  html[data-theme="dark"] & {
+    text {
+      fill: #fff;
+    }
+    .brace {
+      stroke: #f3f3f3;
+    }
+  }
+
   rect {
     transition: all 120ms;
     mix-blend-mode: multiply;
@@ -67,11 +80,11 @@ export class QuickBrownFoxSource extends Document {
   static schema = [Comment, Image, Italic, TextColor];
 }
 
-const ItalicComponent: FC<AttributesOf<Italic>> = props => {
+const ItalicComponent: FC<AttributesOf<Italic>> = (props) => {
   return <em>{props.children}</em>;
 };
 
-const TextColorComponent: FC<AttributesOf<TextColor>> = props => {
+const TextColorComponent: FC<AttributesOf<TextColor>> = (props) => {
   return <span style={{ color: props.color }}>{props.children}</span>;
 };
 
@@ -82,7 +95,7 @@ interface Position {
   height: number;
 }
 
-const BelowBrace: FC<Position> = props => {
+const BelowBrace: FC<Position> = (props) => {
   let x1 = props.x;
   let x2 = props.x + props.width;
   let y1 = props.y + props.height - 2;
@@ -114,15 +127,15 @@ const BelowBrace: FC<Position> = props => {
     `T ${tx1},${ty1}`,
     `M ${x2},${y2}`,
     `Q ${qx3},${qy3} ${qx4},${qy4}`,
-    `T ${tx1},${ty1}`
+    `T ${tx1},${ty1}`,
   ];
 
   return (
-    <path d={path.join(" ")} stroke="#0023FF" strokeWidth={1} fill="none" />
+    <path className="brace" d={path.join(" ")} strokeWidth={1} fill="none" />
   );
 };
 
-const AboveBrace: FC<Position> = props => {
+const AboveBrace: FC<Position> = (props) => {
   let x1 = props.x;
   let x2 = props.x + props.width;
   let y1 = props.y + 2;
@@ -154,15 +167,15 @@ const AboveBrace: FC<Position> = props => {
     `T ${tx1},${ty1}`,
     `M ${x2},${y2}`,
     `Q ${qx3},${qy3} ${qx4},${qy4}`,
-    `T ${tx1},${ty1}`
+    `T ${tx1},${ty1}`,
   ];
 
   return (
-    <path d={path.join(" ")} stroke="#0023FF" strokeWidth={1} fill="none" />
+    <path className="brace" d={path.join(" ")} strokeWidth={1} fill="none" />
   );
 };
 
-const ImageComponent: FC<AttributesOf<Image> & Position> = props => {
+const ImageComponent: FC<AttributesOf<Image> & Position> = (props) => {
   let [isHovered, setHovered] = useState(false);
 
   return (
@@ -188,7 +201,7 @@ const ImageComponent: FC<AttributesOf<Image> & Position> = props => {
   );
 };
 
-const CommentComponent: FC<AttributesOf<Comment> & Position> = props => {
+const CommentComponent: FC<AttributesOf<Comment> & Position> = (props) => {
   let [isHovered, setHovered] = useState(false);
 
   return (
@@ -240,12 +253,12 @@ function getNodeAndOffset(
 
 const offscreenComponents: { [key: string]: FC<any> } = {
   Image: ImageComponent,
-  Comment: CommentComponent
+  Comment: CommentComponent,
 };
 
 export const QuickBrownFox: FC<{
   value: QuickBrownFoxSource;
-}> = props => {
+}> = (props) => {
   let wrapper = useRef<HTMLHeadingElement>(null);
   let [positions, setPositions] = useState<{
     [id: string]: ClientRect | DOMRect;
@@ -259,7 +272,7 @@ export const QuickBrownFox: FC<{
     () => {
       if (wrapper.current) {
         let annotations = props.value.where(
-          a => !(a instanceof Italic) && !(a instanceof TextColor)
+          (a) => !(a instanceof Italic) && !(a instanceof TextColor)
         );
         let range = document.createRange();
         let annotationPositions: { [id: string]: ClientRect | DOMRect } = {};
@@ -288,9 +301,9 @@ export const QuickBrownFox: FC<{
   return (
     <Container>
       <SVG>
-        {Object.keys(positions).map(id => {
+        {Object.keys(positions).map((id) => {
           let rect = positions[id];
-          let annotation = props.value.annotations.find(a => a.id === id)!;
+          let annotation = props.value.annotations.find((a) => a.id === id)!;
           let boundingRect = wrapper.current!.getBoundingClientRect();
           let offsetLeft = boundingRect.left;
           let offsetTop = boundingRect.top;
@@ -317,7 +330,7 @@ export const QuickBrownFox: FC<{
         <ReactRendererProvider
           value={{
             Italic: ItalicComponent,
-            TextColor: TextColorComponent
+            TextColor: TextColorComponent,
           }}
         >
           {Renderer.render(props.value)}

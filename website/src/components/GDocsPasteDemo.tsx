@@ -5,7 +5,7 @@ import * as React from "react";
 import { FC, useState } from "react";
 import { TextArea } from "./TextArea.tsx";
 
-const AtjsonBlock: FC<{ document: OffsetSource }> = props => {
+const AtjsonBlock: FC<{ document: OffsetSource }> = (props) => {
   let { schema, ...json } = props.document.toJSON();
   return (
     <CodeBlock className="json">{JSON.stringify(json, null, 2)}</CodeBlock>
@@ -20,8 +20,8 @@ export const GDocsPasteDemo = () => {
       <TextArea
         autoResize={true}
         value={value}
-        onChange={evt => setValue(evt.target.value)}
-        onPaste={evt => {
+        onChange={(evt) => setValue(evt.target.value)}
+        onPaste={(evt) => {
           let gdocsPaste = evt.clipboardData.getData(
             "application/x-vnd.google-docs-document-slice-clip+wrapped"
           );

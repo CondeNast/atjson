@@ -31,7 +31,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts bold", () => {
       let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_bd");
+      let annotations = gdocs.where((a) => a.type === "ts_bd");
       expect(annotations.length).toEqual(2);
 
       let [a0, a1] = annotations;
@@ -41,7 +41,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts italic", () => {
       let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_it");
+      let annotations = gdocs.where((a) => a.type === "ts_it");
       expect(annotations.length).toEqual(2);
 
       let [a0, a1] = [...annotations];
@@ -51,7 +51,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts headings", () => {
       let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === "ps_hd").sort();
+      let annotations = gdocs.where((a) => a.type === "ps_hd").sort();
       expect(annotations.length).toEqual(4);
 
       let [a0, a1, a2, a3] = [...annotations];
@@ -72,7 +72,7 @@ describe("@atjson/source-gdocs-paste", () => {
     describe("lists", () => {
       it("extracts lists", () => {
         let gdocs = GDocsSource.fromRaw(pasteBuffer);
-        let annotations = gdocs.where(a => a.type === "list");
+        let annotations = gdocs.where((a) => a.type === "list");
         expect(annotations.length).toEqual(2);
 
         let [a0] = [...annotations];
@@ -85,7 +85,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
       it("extracts list items", () => {
         let gdocs = GDocsSource.fromRaw(pasteBuffer);
-        let annotations = gdocs.where(a => a.type === "list_item");
+        let annotations = gdocs.where((a) => a.type === "list_item");
         expect(annotations.length).toEqual(4);
 
         let [a0, a1] = [...annotations];
@@ -106,7 +106,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts links", () => {
       let gdocs = GDocsSource.fromRaw(pasteBuffer);
-      let annotations = gdocs.where(a => a.type === "lnks_link");
+      let annotations = gdocs.where((a) => a.type === "lnks_link");
       expect(annotations.length).toEqual(1);
 
       let [link] = [...annotations];
@@ -146,7 +146,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts bold", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_bd");
+      let annotations = gdocs.where((a) => a.type === "ts_bd");
       expect(annotations.length).toEqual(1);
 
       let [bold] = annotations;
@@ -155,7 +155,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts italic", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_it");
+      let annotations = gdocs.where((a) => a.type === "ts_it");
       expect(annotations.length).toEqual(1);
 
       let [italic] = annotations;
@@ -166,7 +166,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts underline", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_un");
+      let annotations = gdocs.where((a) => a.type === "ts_un");
       expect(annotations.length).toEqual(1);
 
       let [underline] = annotations;
@@ -177,7 +177,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts horizontal rules", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a.type === "horizontal_rule");
+      let annotations = gdocs.where((a) => a.type === "horizontal_rule");
       expect(annotations.length).toEqual(1);
 
       let [hr] = annotations;
@@ -186,7 +186,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts strikethrough", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => a.type === "ts_st");
+      let annotations = gdocs.where((a) => a.type === "ts_st");
       expect(annotations.length).toEqual(1);
 
       let [strikethrough] = annotations;
@@ -197,14 +197,14 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("extracts vertical adjust", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let annotations = gdocs.where(a => is(a, VerticalAdjust));
+      let annotations = gdocs.where((a) => is(a, VerticalAdjust));
       expect(annotations.length).toEqual(2);
 
       let [superscript] = annotations.where(
-        annotation => annotation.attributes.va === "sup"
+        (annotation) => annotation.attributes.va === "sup"
       );
       let [subscript] = annotations.where(
-        annotation => annotation.attributes.va === "sub"
+        (annotation) => annotation.attributes.va === "sub"
       );
       expect(
         gdocs.content.substring(superscript.start, superscript.end)
@@ -225,18 +225,18 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("creates the right number of list annotations", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let lists = gdocs.where(a => a.type === "list");
+      let lists = gdocs.where((a) => a.type === "list");
 
       expect(lists.length).toEqual(2);
     });
 
     it("captures list-specific attributes", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let lists = gdocs.where(a => a.type === "list");
+      let lists = gdocs.where((a) => a.type === "list");
       let expectedShape = expect.objectContaining({
         ls_b_gs: expect.anything(),
         ls_b_gt: expect.anything(),
-        ls_b_a: expect.anything()
+        ls_b_a: expect.anything(),
       });
 
       for (let list of lists) {
@@ -247,8 +247,8 @@ describe("@atjson/source-gdocs-paste", () => {
     it("distinguishes numbered from bulleted lists", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
       let lists = gdocs.annotations
-        .filter(a => a.type === "list")
-        .filter(a => a.attributes.ls_b_gt === 9);
+        .filter((a) => a.type === "list")
+        .filter((a) => a.attributes.ls_b_gt === 9);
 
       expect(lists.length).toEqual(1);
     });
@@ -264,7 +264,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
     it("creates the right number of link annotations", () => {
       let gdocs = GDocsSource.fromRaw(gdocsBuffer);
-      let links = gdocs.annotations.filter(a => a.type === "lnks_link");
+      let links = gdocs.annotations.filter((a) => a.type === "lnks_link");
 
       expect(links.length).toEqual(1);
     });
@@ -286,10 +286,10 @@ describe("@atjson/source-gdocs-paste", () => {
     it("creates the right number of list and list-item annotations", () => {
       let gdocs = GDocsSource.fromRaw(pasteBuffer);
       let listAndItems = gdocs
-        .where(a => a.type === "list")
+        .where((a) => a.type === "list")
         .as("list")
         .join(
-          gdocs.where(a => a.type === "list_item").as("listItems"),
+          gdocs.where((a) => a.type === "list_item").as("listItems"),
           (l, r) => l.start <= r.start && l.end >= r.end
         );
 
@@ -298,20 +298,20 @@ describe("@atjson/source-gdocs-paste", () => {
           list: { start: 0, end: 22, type: "-gdocs-list" },
           listItems: [
             { start: 0, end: 8, type: "-gdocs-list_item" },
-            { start: 9, end: 22, type: "-gdocs-list_item" }
-          ]
+            { start: 9, end: 22, type: "-gdocs-list_item" },
+          ],
         },
         {
           list: { start: 41, end: 68, type: "-gdocs-list" },
           listItems: [
             { start: 41, end: 54, type: "-gdocs-list_item" },
-            { start: 55, end: 68, type: "-gdocs-list_item" }
-          ]
+            { start: 55, end: 68, type: "-gdocs-list_item" },
+          ],
         },
         {
           list: { start: 89, end: 102, type: "-gdocs-list" },
-          listItems: [{ start: 89, end: 102, type: "-gdocs-list_item" }]
-        }
+          listItems: [{ start: 89, end: 102, type: "-gdocs-list_item" }],
+        },
       ]);
     });
   });

@@ -17,7 +17,7 @@ export class UnknownAnnotation extends Annotation<{
       start: this.start,
       end: this.end,
       type: this.attributes.type,
-      attributes: clone(this.attributes.attributes)
+      attributes: clone(this.attributes.attributes),
     };
   }
 }

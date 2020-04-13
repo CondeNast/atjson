@@ -10,7 +10,7 @@ const osName = require("os-name");
 
 const skippedTests = [
   140, // Additional newline in HTML block
-  491 // Alt text that is never used
+  491, // Alt text that is never used
 ];
 
 class Statistics {
@@ -48,7 +48,7 @@ class Statistics {
   get standardDeviation() {
     let mean = this.mean;
 
-    let squaredDifferences = this.entries.map(entry => {
+    let squaredDifferences = this.entries.map((entry) => {
       var diff = entry.duration - mean;
       return diff * diff;
     });
@@ -75,7 +75,7 @@ function measure(name, fn) {
 performance.maxEntries = spec.tests.length * 400;
 
 for (let i = 0; i < 100; i++) {
-  spec.tests.forEach(unitTest => {
+  spec.tests.forEach((unitTest) => {
     let shouldSkip = skippedTests.indexOf(unitTest.number) !== -1;
     if (shouldSkip) {
       return;
@@ -117,8 +117,8 @@ console.log(
       new Statistics("CommonMarkSource.fromRaw"),
       new Statistics("CommonMarkSource.convertTo(OffsetSource)"),
       new Statistics("CommonMarkRenderer.render"),
-      new Statistics("Round trip")
-    ].map(stats => {
+      new Statistics("Round trip"),
+    ].map((stats) => {
       return `| ${stats.name} | ${stats.mean.toFixed(
         3
       )}ms | ${stats.median.toFixed(3)}ms | ${stats
@@ -126,7 +126,7 @@ console.log(
         .toFixed(3)}ms | ${stats.max}ms | ${stats.standardDeviation.toFixed(
         3
       )}ms |`;
-    })
+    }),
   ].join("\n")
 );
 
@@ -137,13 +137,13 @@ performance.clearMeasures();
 let fixtures = [
   "alexander-mcqueen.md",
   "lambda-literary-awards.md",
-  "inoa-listings.md" // ~1s
-].map(filename =>
+  "inoa-listings.md", // ~1s
+].map((filename) =>
   readFileSync(join(__dirname, "fixtures", filename)).toString()
 );
 
 for (let i = 0; i < 10; i++) {
-  fixtures.forEach(markdown => {
+  fixtures.forEach((markdown) => {
     performance.mark("start");
     let original = measure("CommonMarkSource.fromRaw", () =>
       CommonMarkSource.fromRaw(markdown)
@@ -181,8 +181,8 @@ console.log(
       new Statistics("CommonMarkSource.fromRaw"),
       new Statistics("CommonMarkSource.convertTo(OffsetSource)"),
       new Statistics("CommonMarkRenderer.render"),
-      new Statistics("Round trip")
-    ].map(stats => {
+      new Statistics("Round trip"),
+    ].map((stats) => {
       return `| ${stats.name} | ${stats.mean.toFixed(
         3
       )}ms | ${stats.median.toFixed(3)}ms | ${stats
@@ -190,6 +190,6 @@ console.log(
         .toFixed(3)}ms | ${stats.max}ms | ${stats.standardDeviation.toFixed(
         3
       )}ms |`;
-    })
+    }),
   ].join("\n")
 );

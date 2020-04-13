@@ -31,9 +31,9 @@ This will regenerate all files in the annotations directory, so beware! Any manu
 This source can be used to parse and convert HTML pages into another form of markup, like markdown. The snippet of code to do this is:
 
 ```ts
-import HTMLSource from '@atjson/source-html';
-import CommonMarkRenderer from '@atjson/renderer-commonmark';
-import OffsetSource from '@atjson/offset-annotations';
+import HTMLSource from "@atjson/source-html";
+import CommonMarkRenderer from "@atjson/renderer-commonmark";
+import OffsetSource from "@atjson/offset-annotations";
 
 function htmlToMarkdown(html: string) {
   return CommonMarkRenderer.render(

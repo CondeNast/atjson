@@ -2,7 +2,7 @@ import Document, {
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationJSON,
-  ParseAnnotation
+  ParseAnnotation,
 } from "@atjson/document";
 import HTMLSource from "@atjson/source-html";
 import * as entities from "entities";
@@ -54,7 +54,7 @@ export default class PRISMSource extends Document {
     Description,
     Media,
     Message,
-    Title
+    Title,
   ]);
 
   static fromRaw(xml: string) {
@@ -63,7 +63,7 @@ export default class PRISMSource extends Document {
       normalize: false,
       lowercase: true,
       xmlns: false,
-      position: true
+      position: true,
     });
 
     let content = xml;
@@ -77,8 +77,8 @@ export default class PRISMSource extends Document {
           start: xmlStart,
           end: xmlEnd,
           attributes: {
-            reason: "<?xml>"
-          }
+            reason: "<?xml>",
+          },
         })
       );
     }
@@ -94,29 +94,29 @@ export default class PRISMSource extends Document {
             type: `-${vendorPrefix}-${type}`,
             start: parser.startTagPosition - 1,
             end: parser.position,
-            attributes: prefix(vendorPrefix, node.attributes)
+            attributes: prefix(vendorPrefix, node.attributes),
           },
           new ParseAnnotation({
             start: parser.startTagPosition - 1,
             end: parser.position,
             attributes: {
-              reason: `<${node.name}/>`
-            }
+              reason: `<${node.name}/>`,
+            },
           })
         );
       } else {
         partialAnnotations.push({
           type: `-${vendorPrefix}-${type}`,
           start: parser.startTagPosition - 1,
-          attributes: prefix(vendorPrefix, node.attributes)
+          attributes: prefix(vendorPrefix, node.attributes),
         });
         annotations.push(
           new ParseAnnotation({
             start: parser.startTagPosition - 1,
             end: parser.position,
             attributes: {
-              reason: `<${node.name}>`
-            }
+              reason: `<${node.name}>`,
+            },
           })
         );
       }
@@ -146,8 +146,8 @@ export default class PRISMSource extends Document {
           start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: {
-            reason: `</${tagName}>`
-          }
+            reason: `</${tagName}>`,
+          },
         })
       );
     };
@@ -156,7 +156,7 @@ export default class PRISMSource extends Document {
 
     let prism = new this({
       content,
-      annotations
+      annotations,
     });
 
     let results = prism

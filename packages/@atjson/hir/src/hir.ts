@@ -31,7 +31,7 @@ export default class HIR {
       new Root({
         start: 0,
         end: document.content.length,
-        attributes: {}
+        attributes: {},
       })
     );
 

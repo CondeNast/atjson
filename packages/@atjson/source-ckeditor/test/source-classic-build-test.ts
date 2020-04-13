@@ -1,6 +1,5 @@
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Annotation } from "@atjson/document";
-import * as CK from "../src/ckeditor";
+import DocumentFragment from "@ckeditor/ckeditor5-engine/src/model/documentfragment";
 import CKEditorSource from "./source-ckeditor-build-classic";
 
 function compareAnnotations(a: Annotation, b: Annotation) {
@@ -16,173 +15,199 @@ function compareAnnotations(a: Annotation, b: Annotation) {
 }
 
 describe("@atjson/source-ckeditor classic build", () => {
-  let editor: CK.Editor;
-  let div: HTMLElement;
-
-  beforeEach(async () => {
-    div = document.createElement("div");
-    document.body.appendChild(div);
-
-    editor = await (ClassicEditor as typeof CK.Editor).create(div);
-  });
-
-  afterEach(async () => {
-    await editor.destroy();
-    document.body.removeChild(div);
-  });
-
   test("single paragraph", () => {
-    editor.setData("<p>Here is a paragraph</p>");
-    let doc = CKEditorSource.fromRaw(editor.model);
+    let ckDoc = DocumentFragment.fromJSON([
+      {
+        name: "paragraph",
+        children: [
+          {
+            data: "Here is a paragraph",
+          },
+        ],
+      },
+    ]);
+    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Here is a paragraph");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
       {
         type: "$root",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "$text",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 19
-      }
+        end: 19,
+      },
     ]);
   });
 
   test("multiple paragraphs", () => {
-    editor.setData(
-      "<p>Here is a paragraph</p>\n\n<p>Here is another paragraph</p>"
-    );
-    let doc = CKEditorSource.fromRaw(editor.model);
+    let ckDoc = DocumentFragment.fromJSON([
+      {
+        name: "paragraph",
+        children: [
+          {
+            data: "Here is a paragraph",
+          },
+        ],
+      },
+      {
+        name: "paragraph",
+        children: [
+          {
+            data: "Here is another paragraph",
+          },
+        ],
+      },
+    ]);
+    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Here is a paragraphHere is another paragraph");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
       {
         type: "$root",
         start: 0,
-        end: 44
+        end: 44,
       },
       {
         type: "$text",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 19
+        end: 19,
       },
       {
         type: "$text",
         start: 19,
-        end: 44
+        end: 44,
       },
       {
         type: "paragraph",
         start: 19,
-        end: 44
-      }
-    ]);
-  });
-
-  test("autoparagraph", () => {
-    editor.setData("autoparagraph");
-    let doc = CKEditorSource.fromRaw(editor.model);
-
-    expect(doc.content).toBe("autoparagraph");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
-      {
-        type: "$root",
-        start: 0,
-        end: 13
+        end: 44,
       },
-      {
-        type: "$text",
-        start: 0,
-        end: 13
-      },
-      {
-        type: "paragraph",
-        start: 0,
-        end: 13
-      }
     ]);
   });
 
   test("single text styles", () => {
-    editor.setData(
-      "<strong>Bold</strong> <em>italic</em> <a href='https://www.condenast.com'>link</a>"
-    );
-    let doc = CKEditorSource.fromRaw(editor.model);
+    let ckDoc = DocumentFragment.fromJSON([
+      {
+        name: "paragraph",
+        children: [
+          {
+            data: "Bold",
+            attributes: { bold: true },
+          },
+          {
+            data: " ",
+          },
+          {
+            data: "italic",
+            attributes: { italic: true },
+          },
+          {
+            data: " ",
+          },
+          {
+            data: "link",
+            attributes: { linkHref: "https://www.condenast.com" },
+          },
+        ],
+      },
+    ]);
+    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Bold italic link");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
       {
         type: "$root",
         start: 0,
-        end: 16
+        end: 16,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 16
+        end: 16,
       },
       {
         type: "$text",
         start: 0,
         end: 4,
-        attributes: { bold: true }
+        attributes: { bold: true },
       },
       {
         type: "$text",
         start: 4,
         end: 5,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
         start: 5,
         end: 11,
-        attributes: { italic: true }
+        attributes: { italic: true },
       },
       {
         type: "$text",
         start: 11,
         end: 12,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
         start: 12,
         end: 16,
-        attributes: { linkHref: "https://www.condenast.com" }
-      }
+        attributes: { linkHref: "https://www.condenast.com" },
+      },
     ]);
   });
 
   test("nested text styles", () => {
-    editor.setData(
-      "<strong><em>Bold and italic</em></strong> <strong><a href='https://www.condenast.com'>bold link</a> just bold</strong>"
-    );
-    let doc = CKEditorSource.fromRaw(editor.model);
+    let ckDoc = DocumentFragment.fromJSON([
+      {
+        name: "paragraph",
+        children: [
+          {
+            data: "Bold and italic",
+            attributes: { bold: true, italic: true },
+          },
+          {
+            data: " ",
+          },
+          {
+            data: "bold link",
+            attributes: { bold: true, linkHref: "https://www.condenast.com" },
+          },
+          {
+            data: " just bold",
+            attributes: { bold: true },
+          },
+        ],
+      },
+    ]);
+    let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Bold and italic bold link just bold");
     expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
       {
         type: "$root",
         start: 0,
-        end: 35
+        end: 35,
       },
       {
         type: "paragraph",
         start: 0,
-        end: 35
+        end: 35,
       },
       {
         type: "$text",
@@ -190,14 +215,14 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 15,
         attributes: {
           bold: true,
-          italic: true
-        }
+          italic: true,
+        },
       },
       {
         type: "$text",
         start: 15,
         end: 16,
-        attributes: {}
+        attributes: {},
       },
       {
         type: "$text",
@@ -205,15 +230,87 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 25,
         attributes: {
           bold: true,
-          linkHref: "https://www.condenast.com"
-        }
+          linkHref: "https://www.condenast.com",
+        },
       },
       {
         type: "$text",
         start: 25,
         end: 35,
-        attributes: { bold: true }
-      }
+        attributes: { bold: true },
+      },
+    ]);
+  });
+
+  test("update children start/end positions to enforce nesting hierarchy", () => {
+    let ckDoc = DocumentFragment.fromJSON([
+      {
+        name: "listItem",
+        attributes: { listIndent: 0, listType: "numbered" },
+        children: [
+          {
+            data: "List item 1",
+          },
+        ],
+      },
+    ]);
+    let doc = CKEditorSource.fromRaw(ckDoc);
+
+    expect(doc.content).toBe("<$root><listItem>List item 1</listItem></$root>");
+    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+      {
+        type: "$root",
+        start: 0,
+        end: 47,
+        attributes: {},
+      },
+      {
+        type: "parse-token",
+        start: 0,
+        end: 7,
+        attributes: {
+          reason: "$root_open",
+        },
+      },
+      {
+        type: "listItem",
+        start: 7,
+        end: 39,
+        attributes: {
+          listIndent: 0,
+          listType: "numbered",
+        },
+      },
+      {
+        type: "parse-token",
+        start: 7,
+        end: 17,
+        attributes: {
+          reason: "listItem_open",
+        },
+      },
+      {
+        type: "$text",
+        start: 17,
+        end: 28,
+        attributes: {},
+      },
+      {
+        type: "parse-token",
+        start: 28,
+        end: 39,
+        attributes: {
+          reason: "listItem_close",
+        },
+      },
+      {
+        type: "parse-token",
+        start: 39,
+        end: 47,
+        attributes: {
+          reason: "$root_close",
+        },
+      },
     ]);
   });
 });

@@ -31,7 +31,7 @@ export default class MyHTMLRenderer extends HTMLRenderer {
       frameborder: "0",
       allow:
         "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
-      allowfullscreen: true
+      allowfullscreen: true,
     });
   }
 }

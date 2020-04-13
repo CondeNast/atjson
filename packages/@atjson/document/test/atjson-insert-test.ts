@@ -5,7 +5,7 @@ describe("Document.insertText", () => {
   test("insert text adds text to the content attribute", () => {
     let atjson = new TestSource({
       content: "Hello",
-      annotations: []
+      annotations: [],
     });
     atjson.insertText(5, " world.");
     expect(atjson.content).toBe("Hello world.");
@@ -19,7 +19,7 @@ describe("Document.insertText", () => {
           id: "1",
           start: 1,
           end: 3,
-          attributes: {}
+          attributes: {},
         }),
         {
           id: "2",
@@ -27,10 +27,10 @@ describe("Document.insertText", () => {
           start: 1,
           end: 2,
           attributes: {
-            "-test-uri": "https://example.com"
-          }
-        }
-      ]
+            "-test-uri": "https://example.com",
+          },
+        },
+      ],
     });
 
     atjson.insertText(0, "zzz");
@@ -39,13 +39,13 @@ describe("Document.insertText", () => {
     let [bold, unknown] = atjson.annotations;
     expect(bold).toBeInstanceOf(Bold);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-bold",
         start: 4,
         end: 6,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
@@ -53,9 +53,9 @@ describe("Document.insertText", () => {
         start: 4,
         end: 5,
         attributes: {
-          "-test-uri": "https://example.com"
-        }
-      }
+          "-test-uri": "https://example.com",
+        },
+      },
     ]);
   });
 
@@ -67,7 +67,7 @@ describe("Document.insertText", () => {
           id: "1",
           start: 0,
           end: 2,
-          attributes: {}
+          attributes: {},
         }),
         {
           id: "2",
@@ -75,10 +75,10 @@ describe("Document.insertText", () => {
           start: 0,
           end: 2,
           attributes: {
-            "-test-color": "blue"
-          }
-        }
-      ]
+            "-test-color": "blue",
+          },
+        },
+      ],
     });
     atjson.insertText(3, "zzz");
     expect(atjson.content).toBe("abczzzd");
@@ -86,13 +86,13 @@ describe("Document.insertText", () => {
     let [italic, unknown] = atjson.annotations;
     expect(italic).toBeInstanceOf(Italic);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-italic",
         start: 0,
         end: 2,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
@@ -100,9 +100,9 @@ describe("Document.insertText", () => {
         start: 0,
         end: 2,
         attributes: {
-          "-test-color": "blue"
-        }
-      }
+          "-test-color": "blue",
+        },
+      },
     ]);
   });
 
@@ -114,16 +114,16 @@ describe("Document.insertText", () => {
           id: "1",
           start: 1,
           end: 3,
-          attributes: {}
+          attributes: {},
         }),
         {
           id: "2",
           type: "-test-underline",
           start: 1,
           end: 3,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
     atjson.insertText(2, "xyz");
     expect(atjson.content).toBe("abxyzcd");
@@ -131,21 +131,21 @@ describe("Document.insertText", () => {
     let [bold, unknown] = atjson.annotations;
     expect(bold).toBeInstanceOf(Bold);
     expect(unknown).toBeInstanceOf(UnknownAnnotation);
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-bold",
         start: 1,
         end: 6,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-underline",
         start: 1,
         end: 6,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -158,34 +158,34 @@ describe("Document.insertText", () => {
           type: "-test-italic",
           start: 0,
           end: 2,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-strikethrough",
           start: 0,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
     atjson.insertText(0, "zzz");
     expect(atjson.content).toBe("zzzabcd");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-italic",
         start: 3,
         end: 5,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-strikethrough",
         start: 3,
         end: 5,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -198,34 +198,34 @@ describe("Document.insertText", () => {
           type: "-test-italic",
           start: 0,
           end: 2,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-underline",
           start: 0,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
     atjson.insertText(2, "zzz");
     expect(atjson.content).toBe("abzzzcd");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-italic",
         start: 0,
         end: 5,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-underline",
         start: 0,
         end: 5,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -238,64 +238,64 @@ describe("Document.insertText", () => {
           type: "-test-italic",
           start: 0,
           end: 1,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-bold",
           start: 1,
           end: 2,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "3",
           type: "-test-superscript",
           start: 0,
           end: 1,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "4",
           type: "-test-subscript",
           start: 1,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     atjson.insertText(1, "b");
 
     expect(atjson.content).toBe("abc");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-italic",
         start: 0,
         end: 2,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-bold",
         start: 2,
         end: 3,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "3",
         type: "-test-superscript",
         start: 0,
         end: 2,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "4",
         type: "-test-subscript",
         start: 2,
         end: 3,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -308,20 +308,20 @@ describe("Document.insertText", () => {
           type: "-test-bold",
           start: 0,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
     atjson.insertText(0, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
     expect(atjson.content).toBe("zzzabcd");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-bold",
         start: 0,
         end: 5,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -334,35 +334,35 @@ describe("Document.insertText", () => {
           type: "-test-italic",
           start: 0,
           end: 2,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-underline",
           start: 0,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     atjson.insertText(2, "zzz", AdjacentBoundaryBehaviour.preserveTrailing);
     expect(atjson.content).toBe("abzzzcd");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-italic",
         start: 0,
         end: 2,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-underline",
         start: 0,
         end: 2,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -375,36 +375,36 @@ describe("Document.insertText", () => {
           type: "-test-bold",
           start: 0,
           end: 1,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-italic",
           start: 1,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveTrailing);
 
     expect(atjson.content).toBe("abc");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-bold",
         start: 0,
         end: 1,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-italic",
         start: 1,
         end: 3,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -417,36 +417,36 @@ describe("Document.insertText", () => {
           type: "-test-bold",
           start: 0,
           end: 1,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
           type: "-test-italic",
           start: 1,
           end: 2,
-          attributes: {}
-        }
-      ]
+          attributes: {},
+        },
+      ],
     });
 
     atjson.insertText(1, "b", AdjacentBoundaryBehaviour.preserveBoth);
 
     expect(atjson.content).toBe("abc");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-bold",
         start: 0,
         end: 1,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
         type: "-test-italic",
         start: 2,
         end: 3,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -459,7 +459,7 @@ describe("Document.insertText", () => {
           type: "-test-manual",
           start: 0,
           end: 2,
-          attributes: {}
+          attributes: {},
         },
         {
           id: "2",
@@ -467,21 +467,21 @@ describe("Document.insertText", () => {
           start: 0,
           end: 2,
           attributes: {
-            "-test-emoji": "❤️"
-          }
-        }
-      ]
+            "-test-emoji": "❤️",
+          },
+        },
+      ],
     });
 
     atjson.insertText(2, "zzz");
     expect(atjson.content).toBe("abzzzcd");
-    expect(atjson.annotations.map(a => a.toJSON())).toEqual([
+    expect(atjson.annotations.map((a) => a.toJSON())).toEqual([
       {
         id: "1",
         type: "-test-manual",
         start: 1,
         end: 3,
-        attributes: {}
+        attributes: {},
       },
       {
         id: "2",
@@ -489,9 +489,9 @@ describe("Document.insertText", () => {
         start: 0,
         end: 5,
         attributes: {
-          "-test-emoji": "❤️"
-        }
-      }
+          "-test-emoji": "❤️",
+        },
+      },
     ]);
   });
 });

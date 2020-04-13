@@ -1,7 +1,7 @@
 import OffsetSource, {
   SocialURLs,
   VideoURLs,
-  VideoEmbed
+  VideoEmbed,
 } from "@atjson/offset-annotations";
 import { URLAnnotation } from "./annotations";
 import URLSource from "./source";
@@ -10,7 +10,7 @@ function isURL(annotation: URLAnnotation): annotation is URLAnnotation {
   return annotation.type === "url";
 }
 
-URLSource.defineConverterTo(OffsetSource, doc => {
+URLSource.defineConverterTo(OffsetSource, (doc) => {
   doc
     .where(isURL)
     .update(function identifyAndReplaceSocialURLs(annotation: URLAnnotation) {
@@ -23,7 +23,7 @@ URLSource.defineConverterTo(OffsetSource, doc => {
             id: annotation.id,
             start: annotation.start,
             end: annotation.end,
-            attributes
+            attributes,
           })
         );
       }
@@ -31,18 +31,16 @@ URLSource.defineConverterTo(OffsetSource, doc => {
 
   doc
     .where(isURL)
-    .update(function identifyAndReplaceVidoURLs(annotation: URLAnnotation) {
-      let url = VideoURLs.identify(annotation.attributes);
-      if (url) {
+    .update(function identifyAndReplaceVideoURLs(annotation: URLAnnotation) {
+      let urlAttributes = VideoURLs.identify(annotation.attributes);
+      if (urlAttributes) {
         doc.replaceAnnotation(
           annotation,
           new VideoEmbed({
             id: annotation.id,
             start: annotation.start,
             end: annotation.end,
-            attributes: {
-              url
-            }
+            attributes: urlAttributes,
           })
         );
       } else {

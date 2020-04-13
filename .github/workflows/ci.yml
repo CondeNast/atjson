@@ -7,6 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
       - name: Install
         run: |
           npm ci
@@ -22,9 +25,24 @@ jobs:
       - name: ✅ Type Check
         run: |
           npm run typecheck
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Docs
+        run: |
+          cd website
+          npm ci
+          npm run build
   perf:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
       - uses: actions/checkout@v2
         with:
           path: baseline
@@ -35,17 +53,17 @@ jobs:
       - name: 🐢 Performance
         run: |
           pushd baseline
-          npm ci
+          npm install
           npm run typecheck
-          npm run perf -- --baseline
+          npx ts-node ./perf-kit/index.ts profile --out baseline
           popd
           cd current
-          cp -r ../baseline/performance/profiles ./performance/profiles
-          npm ci
+          cp -r ../baseline/perf-kit/profiles ./perf-kit/profiles
+          npm install
           npm run typecheck
-          npm run perf
-          npm run perf-tstat
+          npx ts-node ./perf-kit/index.ts profile --out current
+          npx ts-node ./perf-kit/index.ts compare baseline current
       - uses: actions/upload-artifact@v1
         with:
           name: performance-profiles
-          path: ./current/performance/profiles
+          path: ./current/perf-kit/profiles

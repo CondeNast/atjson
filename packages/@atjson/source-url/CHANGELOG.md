@@ -3,67 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.25.3](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.2...@atjson/source-url@0.25.3) (2020-02-26)
+## [0.26.1](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.26.0...@atjson/source-url@0.26.1) (2020-03-25)
 
+**Note:** Version bump only for package @atjson/source-url
+
+
+
+
+
+## [0.26.1-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.26.0...@atjson/source-url@0.26.1-dev.0) (2020-03-23)
+
+**Note:** Version bump only for package @atjson/source-url
+
+
+
+
+
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.5...@atjson/source-url@0.26.0) (2020-03-19)
+
+### Features
+
+- **video annotations:** add provider attribute to video embeds ([#457](https://github.com/CondeNast/atjson/issues/457)) ([fa2e2be](https://github.com/CondeNast/atjson/commit/fa2e2be847208f9f9ac237f6b0908594b3a6d0af))
+- add support for IGTV ([#461](https://github.com/CondeNast/atjson/issues/461)) ([a7b67f9](https://github.com/CondeNast/atjson/commit/a7b67f98924ab14942d7c5a0a78b538dd02bb22e))
+
+## [0.25.5](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.4...@atjson/source-url@0.25.5) (2020-03-11)
+
+**Note:** Version bump only for package @atjson/source-url
+
+## [0.25.4](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.3...@atjson/source-url@0.25.4) (2020-03-02)
+
+**Note:** Version bump only for package @atjson/source-url
+
+## [0.25.3](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.2...@atjson/source-url@0.25.3) (2020-02-26)
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
-
-
-
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 ## [0.25.2](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.1...@atjson/source-url@0.25.2) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-url
 
-
-
-
-
 ## [0.25.1](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.25.0...@atjson/source-url@0.25.1) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-url
 
-
-
-
-
 # [0.25.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-url@0.24.1...@atjson/source-url@0.25.0) (2020-02-10)
-
 
 ### Bug Fixes
 
-* just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
-
+- just say no to Unknown-Unknowns! ([#292](https://github.com/CondeNast-Copilot/atjson/issues/292)) ([a90f294](https://github.com/CondeNast-Copilot/atjson/commit/a90f294b5964eb2c22a77eceeab70cdc600d4bf2))
 
 ### Features
 
-* add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
-
-
-
-
+- add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
 
 ## [0.24.1](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.24.0...@atjson/source-url@0.24.1) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-url
 
-
-
-
-
 # [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.23.0...@atjson/source-url@0.24.0) (2020-01-28)
-
 
 ### Features
 
-* start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
-
-
-
-
+- start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
 
 ## [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.22.7...@atjson/source-url@0.23.0) (2020-01-24)
 

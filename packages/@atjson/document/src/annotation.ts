@@ -10,7 +10,7 @@ import {
   JSON,
   removeUndefinedValuesFromObject,
   toJSON,
-  unprefix
+  unprefix,
 } from "./internals";
 
 export interface AnnotationJSON {
@@ -137,11 +137,12 @@ export abstract class Annotation<Attributes = {}> {
         this.vendorPrefix,
         this.subdocuments,
         attrs.attributes
-      )
+      ),
     });
   }
 
   readonly type: string;
+  readonly vendorPrefix: string;
   abstract get rank(): number;
   id: string;
   start: number;
@@ -156,6 +157,7 @@ export abstract class Annotation<Attributes = {}> {
   }) {
     let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
+    this.vendorPrefix = AnnotationClass.vendorPrefix;
     this.id = attrs.id || uuid();
     this.start = attrs.start;
     this.end = attrs.end;
@@ -172,9 +174,6 @@ export abstract class Annotation<Attributes = {}> {
   }
 
   equals(annotationToCompare: Annotation<any>): boolean {
-    let AnnotationClass = this.getAnnotationConstructor();
-    let AnnotationToCompareClass = annotationToCompare.getAnnotationConstructor();
-
     let lhsAnnotationAttributes = removeUndefinedValuesFromObject(
       this.attributes
     );
@@ -186,7 +185,7 @@ export abstract class Annotation<Attributes = {}> {
       this.start === annotationToCompare.start &&
       this.end === annotationToCompare.end &&
       this.type === annotationToCompare.type &&
-      AnnotationClass.vendorPrefix === AnnotationToCompareClass.vendorPrefix &&
+      this.vendorPrefix === annotationToCompare.vendorPrefix &&
       areAttributesEqual(lhsAnnotationAttributes, rhsAnnotationAttributes)
     );
   }
@@ -292,19 +291,17 @@ export abstract class Annotation<Attributes = {}> {
       id: this.id,
       start: this.start,
       end: this.end,
-      attributes: clone(this.attributes)
+      attributes: clone(this.attributes),
     });
   }
 
   toJSON() {
-    let AnnotationClass = this.getAnnotationConstructor();
-    let vendorPrefix = AnnotationClass.vendorPrefix;
     return {
       id: this.id,
-      type: `-${vendorPrefix}-${this.type}`,
+      type: `-${this.vendorPrefix}-${this.type}`,
       start: this.start,
       end: this.end,
-      attributes: toJSON(vendorPrefix, this.attributes)
+      attributes: toJSON(this.vendorPrefix, this.attributes),
     };
   }
 }

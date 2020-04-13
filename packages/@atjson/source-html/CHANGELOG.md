@@ -3,73 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.3...@atjson/source-html@0.27.4) (2020-02-26)
+## [0.28.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.0...@atjson/source-html@0.28.1) (2020-03-25)
 
+**Note:** Version bump only for package @atjson/source-html
+
+
+
+
+
+## [0.28.1-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.0...@atjson/source-html@0.28.1-dev.0) (2020-03-23)
+
+**Note:** Version bump only for package @atjson/source-html
+
+
+
+
+
+# [0.28.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.6...@atjson/source-html@0.28.0) (2020-03-19)
+
+### Features
+
+- **video annotations:** add provider attribute to video embeds ([#457](https://github.com/CondeNast/atjson/issues/457)) ([fa2e2be](https://github.com/CondeNast/atjson/commit/fa2e2be847208f9f9ac237f6b0908594b3a6d0af))
+- add support for IGTV ([#461](https://github.com/CondeNast/atjson/issues/461)) ([a7b67f9](https://github.com/CondeNast/atjson/commit/a7b67f98924ab14942d7c5a0a78b538dd02bb22e))
+
+## [0.27.6](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.5...@atjson/source-html@0.27.6) (2020-03-11)
+
+**Note:** Version bump only for package @atjson/source-html
+
+## [0.27.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.4...@atjson/source-html@0.27.5) (2020-03-02)
 
 ### Bug Fixes
 
-* update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
+- leading whitespace trim ([d67f236](https://github.com/CondeNast/atjson/commit/d67f236c6282f6df76ef1f8c6044e9a52c74a1f8))
 
+## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.3...@atjson/source-html@0.27.4) (2020-02-26)
 
+### Bug Fixes
 
-
+- update peer dependencies to @atjson/document ([49f5fd8](https://github.com/CondeNast/atjson/commit/49f5fd849e9c6c167509e244081593662424e4a2))
 
 ## [0.27.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.2...@atjson/source-html@0.27.3) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-html
 
-
-
-
-
 ## [0.27.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.1...@atjson/source-html@0.27.2) (2020-02-20)
 
 **Note:** Version bump only for package @atjson/source-html
 
-
-
-
-
 ## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.0...@atjson/source-html@0.27.1) (2020-02-11)
-
 
 ### Bug Fixes
 
-* protocol-relative iframes were throwing errors when being converted ([#409](https://github.com/CondeNast/atjson/issues/409)) ([a574059](https://github.com/CondeNast/atjson/commit/a574059463e888daa4ba759c2f2c947600296521))
-
-
-
-
+- protocol-relative iframes were throwing errors when being converted ([#409](https://github.com/CondeNast/atjson/issues/409)) ([a574059](https://github.com/CondeNast/atjson/commit/a574059463e888daa4ba759c2f2c947600296521))
 
 # [0.27.0](https://github.com/CondeNast-Copilot/atjson/compare/@atjson/source-html@0.26.1...@atjson/source-html@0.27.0) (2020-02-10)
 
-
 ### Features
 
-* add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
-
-
-
-
+- add support for TikTok embeds ([#403](https://github.com/CondeNast-Copilot/atjson/issues/403)) ([0b33260](https://github.com/CondeNast-Copilot/atjson/commit/0b33260c187bb3fb512418ce70616ccb3aca38b6))
 
 ## [0.26.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.26.0...@atjson/source-html@0.26.1) (2020-01-28)
 
 **Note:** Version bump only for package @atjson/source-html
 
-
-
-
-
 # [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.25.5...@atjson/source-html@0.26.0) (2020-01-28)
-
 
 ### Features
 
-* start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
-
-
-
-
+- start moving from YouTube embeds to a more generic VideoEmbed ([79080dd](https://github.com/CondeNast/atjson/commit/79080dd4b899eae9d32a02d737778385a7464275))
 
 ## [0.25.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.25.4...@atjson/source-html@0.25.5) (2020-01-24)
 

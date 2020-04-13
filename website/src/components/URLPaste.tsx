@@ -7,6 +7,16 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 // @ts-ignore
 import { TextField } from "./TextField.tsx";
+// @ts-ignore
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
+
+// The SSR engine that docusaurus uses doesn't have
+// a global URL, which means that we need to hack around it :(
+if (!ExecutionEnvironment.canUseDOM) {
+  let url = require("url");
+  global.URL = url.URL;
+  global.URLSearchParams = url.URLSearchParams;
+}
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -25,7 +35,7 @@ function without<T>(array: T[], value: T): T[] {
   }, result);
 }
 
-const Giphy: FC<AttributesOf<GiphyEmbed>> = props => {
+const Giphy: FC<AttributesOf<GiphyEmbed>> = (props) => {
   let url = new URL(props.url);
   let giphyId = without<string>(url.pathname.split("/"), "")[1]
     .split("-")
@@ -50,7 +60,7 @@ export const URLPaste: FC = () => {
       <TextField
         type="url"
         value={url}
-        onChange={evt => setURL(evt.target.value)}
+        onChange={(evt) => setURL(evt.target.value)}
       />
       <ReactRendererProvider value={{ GiphyEmbed: Giphy }}>
         {Renderer.render(URLSource.fromRaw(url).convertTo(OffsetSource))}

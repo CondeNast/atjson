@@ -13,15 +13,15 @@ describe("Document#convert", () => {
       content: "Hello, World!",
       annotations: [
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 5 })
-      ]
+        new Bold({ start: 0, end: 5 }),
+      ],
     });
-    TestSource.defineConverterTo(TextSource, doc => {
+    TestSource.defineConverterTo(TextSource, (doc) => {
       let { schema: expectedSchema, ...expectedJson } = doc.toJSON();
       let { schema: actualSchema, ...actualJson } = testDoc.toJSON();
       expect(expectedJson).toMatchObject(actualJson);
       expect(expectedSchema).toEqual(expect.arrayContaining(actualSchema));
-      doc.where(a => a.type !== "paragraph").remove();
+      doc.where((a) => a.type !== "paragraph").remove();
       doc.where({ type: "-test-paragraph" }).set({ type: "-text-paragraph" });
 
       return doc;
@@ -34,8 +34,8 @@ describe("Document#convert", () => {
         type: "-text-paragraph",
         start: 0,
         end: 13,
-        attributes: {}
-      }
+        attributes: {},
+      },
     ]);
   });
 
@@ -44,15 +44,15 @@ describe("Document#convert", () => {
       content: "Hello, World!",
       annotations: [
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 5 })
-      ]
+        new Bold({ start: 0, end: 5 }),
+      ],
     });
 
     expect(() => testDoc.convertTo(TestSource)).toThrowError();
   });
 
   test("conversion doesn't modify the original document", () => {
-    TestSource.defineConverterTo(TextSource, doc => {
+    TestSource.defineConverterTo(TextSource, (doc) => {
       doc.annotations.forEach((a: Annotation) => {
         a.start = 0;
         a.end = 0;
@@ -65,8 +65,8 @@ describe("Document#convert", () => {
       content: "Hello, World!",
       annotations: [
         new Paragraph({ start: 0, end: 13 }),
-        new Bold({ start: 0, end: 5 })
-      ]
+        new Bold({ start: 0, end: 5 }),
+      ],
     });
 
     testDoc.convertTo(TextSource);
@@ -75,18 +75,18 @@ describe("Document#convert", () => {
       content: "Hello, World!",
       annotations: [
         { start: 0, end: 13 },
-        { start: 0, end: 5 }
-      ]
+        { start: 0, end: 5 },
+      ],
     });
   });
 
   test("slice of conversion document is in the original source", () => {
     let testDoc = new TestSource({
       content: "Hello, World!",
-      annotations: []
+      annotations: [],
     });
 
-    TestSource.defineConverterTo(TextSource, doc => {
+    TestSource.defineConverterTo(TextSource, (doc) => {
       let slice = doc.slice(0, 1);
       let SliceClass = slice.constructor as typeof Document;
 

@@ -15,15 +15,15 @@ describe("@atjson/source-Mobiledoc", () => {
       "h6",
       "blockquote",
       "pull-quote",
-      "aside"
-    ])("%s", type => {
+      "aside",
+    ])("%s", (type) => {
       test("with text", () => {
         let doc = MobiledocSource.fromRaw({
           version: "0.3.1",
           atoms: [],
           cards: [],
           markups: [],
-          sections: [[1, type.toUpperCase(), [[0, [], 0, "hello"]]]]
+          sections: [[1, type.toUpperCase(), [[0, [], 0, "hello"]]]],
         });
         let hir = new HIR(doc).toJSON();
 
@@ -34,9 +34,9 @@ describe("@atjson/source-Mobiledoc", () => {
             {
               type,
               attributes: {},
-              children: ["hello"]
-            }
-          ]
+              children: ["hello"],
+            },
+          ],
         });
       });
 
@@ -46,7 +46,7 @@ describe("@atjson/source-Mobiledoc", () => {
           atoms: [],
           cards: [],
           markups: [],
-          sections: [[1, type.toUpperCase(), [[0, [], 0, ""]]]]
+          sections: [[1, type.toUpperCase(), [[0, [], 0, ""]]]],
         });
         let hir = new HIR(doc).toJSON();
 
@@ -57,9 +57,9 @@ describe("@atjson/source-Mobiledoc", () => {
             {
               type,
               attributes: {},
-              children: []
-            }
-          ]
+              children: [],
+            },
+          ],
         });
       });
     });
@@ -68,13 +68,13 @@ describe("@atjson/source-Mobiledoc", () => {
   describe("markup", () => {
     test.each(["b", "code", "em", "i", "s", "strong", "sub", "sup", "u"])(
       "%s",
-      type => {
+      (type) => {
         let doc = MobiledocSource.fromRaw({
           version: "0.3.1",
           atoms: [],
           cards: [],
           markups: [[type.toUpperCase()]],
-          sections: [[1, "P", [[0, [0], 1, "hello"]]]]
+          sections: [[1, "P", [[0, [0], 1, "hello"]]]],
         });
 
         let hir = new HIR(doc).toJSON();
@@ -90,11 +90,11 @@ describe("@atjson/source-Mobiledoc", () => {
                 {
                   type,
                   attributes: {},
-                  children: ["hello"]
-                }
-              ]
-            }
-          ]
+                  children: ["hello"],
+                },
+              ],
+            },
+          ],
         });
       }
     );
@@ -112,10 +112,10 @@ describe("@atjson/source-Mobiledoc", () => {
             [
               [0, [1], 0, "hello "], // a tag open
               [0, [0], 1, "brave new"], // b tag open/close
-              [0, [], 1, " world"] // a tag close
-            ]
-          ]
-        ]
+              [0, [], 1, " world"], // a tag close
+            ],
+          ],
+        ],
       });
 
       let hir = new HIR(doc).toJSON();
@@ -136,14 +136,14 @@ describe("@atjson/source-Mobiledoc", () => {
                   {
                     type: "b",
                     attributes: {},
-                    children: ["brave new"]
+                    children: ["brave new"],
                   },
-                  " world"
-                ]
-              }
-            ]
-          }
-        ]
+                  " world",
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -153,7 +153,7 @@ describe("@atjson/source-Mobiledoc", () => {
         atoms: [],
         cards: [],
         markups: [["STRONG"], ["SUB"]],
-        sections: [[1, "P", [[0, [0, 1], 2, "test"]]]]
+        sections: [[1, "P", [[0, [0, 1], 2, "test"]]]],
       });
 
       let hir = new HIR(doc).toJSON();
@@ -173,13 +173,13 @@ describe("@atjson/source-Mobiledoc", () => {
                   {
                     type: "strong",
                     attributes: {},
-                    children: ["test"]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    children: ["test"],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -198,10 +198,10 @@ describe("@atjson/source-Mobiledoc", () => {
               [0, [1], 0, "bold, "],
               [0, [2], 2, "underlined"],
               [0, [], 1, ", and italicized"],
-              [0, [], 0, " plus some text after"]
-            ]
-          ]
-        ]
+              [0, [], 0, " plus some text after"],
+            ],
+          ],
+        ],
       });
 
       let hir = new HIR(doc).toJSON();
@@ -227,17 +227,17 @@ describe("@atjson/source-Mobiledoc", () => {
                       {
                         type: "u",
                         attributes: {},
-                        children: ["underlined"]
-                      }
-                    ]
+                        children: ["underlined"],
+                      },
+                    ],
                   },
-                  ", and italicized"
-                ]
+                  ", and italicized",
+                ],
               },
-              " plus some text after"
-            ]
-          }
-        ]
+              " plus some text after",
+            ],
+          },
+        ],
       });
     });
   });
@@ -259,7 +259,7 @@ describe("@atjson/source-Mobiledoc", () => {
       atoms: [["mention", "@bob", { id: 42 }]],
       cards: [],
       markups: [],
-      sections: [[1, "P", [[1, [], 0, 0]]]]
+      sections: [[1, "P", [[1, [], 0, 0]]]],
     });
 
     let hir = new HIR(doc).toJSON();
@@ -275,11 +275,11 @@ describe("@atjson/source-Mobiledoc", () => {
             {
               type: "mention-atom",
               attributes: { id: 42 },
-              children: ["@bob"]
-            }
-          ]
-        }
-      ]
+              children: ["@bob"],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -306,12 +306,12 @@ describe("@atjson/source-Mobiledoc", () => {
             style: "mosaic",
             ids: [2, 4, 8, 14],
             size: null,
-            dropped: undefined
-          }
-        ]
+            dropped: undefined,
+          },
+        ],
       ],
       markups: [],
-      sections: [[10, 0]]
+      sections: [[10, 0]],
     });
 
     let hir = new HIR(doc).toJSON();
@@ -325,10 +325,10 @@ describe("@atjson/source-Mobiledoc", () => {
           attributes: {
             style: "mosaic",
             ids: [2, 4, 8, 14],
-            size: null
-          }
-        }
-      ]
+            size: null,
+          },
+        },
+      ],
     });
   });
 
@@ -338,7 +338,7 @@ describe("@atjson/source-Mobiledoc", () => {
       atoms: [],
       cards: [],
       markups: [],
-      sections: [[2, "https://example.com/example.png"]]
+      sections: [[2, "https://example.com/example.png"]],
     });
 
     let hir = new HIR(doc).toJSON();
@@ -350,16 +350,16 @@ describe("@atjson/source-Mobiledoc", () => {
         {
           type: "img",
           attributes: {
-            src: "https://example.com/example.png"
+            src: "https://example.com/example.png",
           },
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     });
   });
 
   describe("list", () => {
-    test.each(["ol", "ul"])("%s", type => {
+    test.each(["ol", "ul"])("%s", (type) => {
       let doc = MobiledocSource.fromRaw({
         version: "0.3.1",
         atoms: [],
@@ -372,15 +372,15 @@ describe("@atjson/source-Mobiledoc", () => {
             [
               [
                 [0, [], 0, "first item "],
-                [0, [0], 1, "with italic text"]
+                [0, [0], 1, "with italic text"],
               ],
               [
                 [0, [], 0, "second item "],
-                [0, [1], 1, "with struck-through text"]
-              ]
-            ]
-          ] as ListSection
-        ]
+                [0, [1], 1, "with struck-through text"],
+              ],
+            ],
+          ] as ListSection,
+        ],
       });
 
       let hir = new HIR(doc).toJSON();
@@ -401,9 +401,9 @@ describe("@atjson/source-Mobiledoc", () => {
                   {
                     type: "em",
                     attributes: {},
-                    children: ["with italic text"]
-                  }
-                ]
+                    children: ["with italic text"],
+                  },
+                ],
               },
               {
                 type: "li",
@@ -413,13 +413,13 @@ describe("@atjson/source-Mobiledoc", () => {
                   {
                     type: "s",
                     attributes: {},
-                    children: ["with struck-through text"]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    children: ["with struck-through text"],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
   });

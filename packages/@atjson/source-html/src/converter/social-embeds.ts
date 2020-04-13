@@ -48,7 +48,7 @@ function identifyURL(src: string) {
   return SocialURLs.identify(url);
 }
 
-export default function(doc: Document) {
+export default function (doc: Document) {
   /**
    * Instagram/Twitter embeds in blockquotes:
    *   <blockquote class="instagram-media" data-instgrm-permalink="url">
@@ -84,7 +84,7 @@ export default function(doc: Document) {
     .update(function joinBlockQuoteWithLinksAndScripts({
       blockquote,
       links,
-      scripts
+      scripts,
     }) {
       let canonicalURL;
       if (blockquote.attributes.cite) {
@@ -113,13 +113,13 @@ export default function(doc: Document) {
             start,
             end,
             attributes: {
-              reason: Class.type + "-embed"
-            }
+              reason: Class.type + "-embed",
+            },
           }),
           new Class({
             start,
             end,
-            attributes
+            attributes,
           })
         );
       }
@@ -151,13 +151,13 @@ export default function(doc: Document) {
           start,
           end,
           attributes: {
-            reason: "facebook-embed"
-          }
+            reason: "facebook-embed",
+          },
         }),
         new Class({
           start,
           end,
-          attributes
+          attributes,
         })
       );
     }
@@ -190,7 +190,7 @@ export default function(doc: Document) {
     .update(function joinIframeWithParagraphsAndLinks({
       iframe,
       paragraphs,
-      links
+      links,
     }) {
       let { start, end } = iframe;
       let { height, width, src } = iframe.attributes;
@@ -208,15 +208,15 @@ export default function(doc: Document) {
             attributes: {
               url: attributes.url,
               height,
-              width
-            }
+              width,
+            },
           }),
           new ParseAnnotation({
             start: paragraphs[0].start,
             end: paragraphs[0].end,
             attributes: {
-              reason: "Giphy embed paragraph"
-            }
+              reason: "Giphy embed paragraph",
+            },
           })
         );
       }
@@ -237,8 +237,8 @@ export default function(doc: Document) {
           attributes: {
             url: attributes.url,
             height,
-            width
-          }
+            width,
+          },
         })
       );
     }

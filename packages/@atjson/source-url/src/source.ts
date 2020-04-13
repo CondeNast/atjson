@@ -24,15 +24,15 @@ export default class URLSource extends Document {
               hash: url.hash,
               pathname: url.pathname,
               protocol: url.protocol,
-              searchParams
-            }
-          })
-        ]
+              searchParams,
+            },
+          }),
+        ],
       });
     } catch (e) {
       return new this({
         content: text,
-        annotations: []
+        annotations: [],
       });
     }
   }

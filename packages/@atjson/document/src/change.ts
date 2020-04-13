@@ -4,7 +4,7 @@ export abstract class Change {
 
 export enum EdgeBehaviour {
   preserve,
-  modify
+  modify,
 }
 
 // the "public" API for behaviour
@@ -16,7 +16,7 @@ export enum AdjacentBoundaryBehaviour {
   preserveLeading,
   preserve,
   preserveTrailing,
-  preserveBoth
+  preserveBoth,
 }
 
 export class Deletion extends Change {

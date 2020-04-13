@@ -13,9 +13,9 @@ describe("@atjson/source-html", () => {
           {
             type: "strong",
             start: 9,
-            end: 19
-          }
-        ]
+            end: 19,
+          },
+        ],
       });
     });
 
@@ -29,9 +29,9 @@ describe("@atjson/source-html", () => {
           {
             type: "strong",
             start: 9,
-            end: 19
-          }
-        ]
+            end: 19,
+          },
+        ],
       });
     });
 
@@ -43,28 +43,28 @@ describe("@atjson/source-html", () => {
           type: "parse-token",
           start: 0,
           end: 3,
-          attributes: { reason: "<p>" }
+          attributes: { reason: "<p>" },
         },
         {
           type: "parse-token",
           start: 18,
           end: 21,
-          attributes: { reason: "<b>" }
+          attributes: { reason: "<b>" },
         },
         {
           type: "parse-token",
           start: 25,
           end: 29,
-          attributes: { reason: "</b>" }
+          attributes: { reason: "</b>" },
         },
         { type: "b", start: 18, end: 29 },
         {
           type: "parse-token",
           start: 29,
           end: 33,
-          attributes: { reason: "</p>" }
+          attributes: { reason: "</p>" },
         },
-        { type: "p", start: 0, end: 33 }
+        { type: "p", start: 0, end: 33 },
       ]);
     });
 
@@ -76,22 +76,22 @@ describe("@atjson/source-html", () => {
           type: "parse-token",
           start: 0,
           end: 3,
-          attributes: { reason: "<p>" }
+          attributes: { reason: "<p>" },
         },
         {
           type: "parse-token",
           start: 18,
           end: 24,
-          attributes: { reason: "<img>" }
+          attributes: { reason: "<img>" },
         },
         { type: "img", start: 18, end: 24 },
         {
           type: "parse-token",
           start: 24,
           end: 28,
-          attributes: { reason: "</p>" }
+          attributes: { reason: "</p>" },
         },
-        { type: "p", start: 0, end: 28 }
+        { type: "p", start: 0, end: 28 },
       ]);
     });
 
@@ -105,22 +105,22 @@ describe("@atjson/source-html", () => {
           type: "parse-token",
           start: 0,
           end: 3,
-          attributes: { reason: "<p>" }
+          attributes: { reason: "<p>" },
         },
         { type: "p", start: 0, end: 28 },
         {
           type: "parse-token",
           start: 28,
           end: 31,
-          attributes: { reason: "<p>" }
+          attributes: { reason: "<p>" },
         },
         {
           type: "parse-token",
           start: 44,
           end: 48,
-          attributes: { reason: "</p>" }
+          attributes: { reason: "</p>" },
         },
-        { type: "p", start: 28, end: 48 }
+        { type: "p", start: 28, end: 48 },
       ]);
     });
   });
@@ -136,10 +136,10 @@ describe("@atjson/source-html", () => {
           "-html-class": "spaceship",
           "-html-dataset": {
             "-html-ship-id": "92432",
-            "-html-weapons": "kittens"
-          }
-        }
-      }
+            "-html-weapons": "kittens",
+          },
+        },
+      },
     ]);
   });
 
@@ -165,14 +165,14 @@ describe("@atjson/source-html", () => {
                 {
                   type: "b",
                   attributes: {},
-                  children: ["is"]
+                  children: ["is"],
                 },
-                " a test"
-              ]
-            }
-          ]
-        }
-      ]
+                " a test",
+              ],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -189,10 +189,10 @@ describe("@atjson/source-html", () => {
           children: [
             "aaa",
             { type: "br", attributes: {}, children: [] },
-            "\nbbb"
-          ]
-        }
-      ]
+            "\nbbb",
+          ],
+        },
+      ],
     });
   });
 
@@ -207,11 +207,11 @@ describe("@atjson/source-html", () => {
         {
           type: "a",
           attributes: {
-            href: "https://example.com"
+            href: "https://example.com",
           },
-          children: ["example"]
-        }
-      ]
+          children: ["example"],
+        },
+      ],
     });
   });
 
@@ -225,12 +225,12 @@ describe("@atjson/source-html", () => {
         {
           type: "img",
           attributes: {
-            src: "https://example.com/test.png"
+            src: "https://example.com/test.png",
           },
-          children: []
+          children: [],
         },
-        " "
-      ]
+        " ",
+      ],
     });
   });
 
@@ -244,21 +244,21 @@ describe("@atjson/source-html", () => {
         {
           type: "h2",
           attributes: {},
-          children: []
+          children: [],
         },
         "\n",
         {
           type: "h1",
           attributes: {},
-          children: []
+          children: [],
         },
         "\n",
         {
           type: "h3",
           attributes: {},
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     });
   });
 
@@ -280,13 +280,13 @@ describe("@atjson/source-html", () => {
               attributes: {
                 src: "/url",
                 alt: "Foo",
-                title: "title"
+                title: "title",
               },
-              children: []
-            }
-          ]
-        }
-      ]
+              children: [],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -305,13 +305,13 @@ describe("@atjson/source-html", () => {
             {
               type: "a",
               attributes: {
-                href: "**"
+                href: "**",
               },
-              children: []
-            }
-          ]
-        }
-      ]
+              children: [],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -321,7 +321,7 @@ describe("@atjson/source-html", () => {
     expect(hir).toMatchObject({
       type: "root",
       attributes: {},
-      children: ["<>"]
+      children: ["<>"],
     });
   });
 
@@ -338,10 +338,10 @@ describe("@atjson/source-html", () => {
           end: 4,
           attributes: {
             href: "https://example.com?q=this is a search",
-            title: `"test" <tag>`
-          }
-        }
-      ]
+            title: `"test" <tag>`,
+          },
+        },
+      ],
     });
   });
 
@@ -357,11 +357,11 @@ describe("@atjson/source-html", () => {
         {
           type: "a",
           attributes: {
-            href: "https://en.wiktionary.org/wiki/日本人"
+            href: "https://en.wiktionary.org/wiki/日本人",
           },
-          children: ["日本人"]
-        }
-      ]
+          children: ["日本人"],
+        },
+      ],
     });
   });
 
@@ -373,8 +373,8 @@ describe("@atjson/source-html", () => {
     expect([...doc.where({ type: "-html-body" })]).toMatchObject([
       {
         start: 31,
-        end: 49
-      }
+        end: 49,
+      },
     ]);
     expect(doc.content).toEqual(
       '<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
@@ -386,16 +386,16 @@ describe("@atjson/source-html", () => {
       {
         type: "body",
         start: 0,
-        end: 5
+        end: 5,
       },
       {
         type: "html",
         start: 0,
         end: 5,
         attributes: {
-          lang: "en"
-        }
-      }
+          lang: "en",
+        },
+      },
     ]);
   });
 
@@ -407,8 +407,8 @@ describe("@atjson/source-html", () => {
     expect([...doc.where({ type: "-html-body" })]).toMatchObject([
       {
         start: 34,
-        end: 52
-      }
+        end: 52,
+      },
     ]);
     expect(doc.content).toEqual(
       '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
@@ -420,16 +420,16 @@ describe("@atjson/source-html", () => {
       {
         type: "body",
         start: 3,
-        end: 8
+        end: 8,
       },
       {
         type: "html",
         start: 3,
         end: 8,
         attributes: {
-          lang: "en"
-        }
-      }
+          lang: "en",
+        },
+      },
     ]);
   });
 
@@ -439,8 +439,8 @@ describe("@atjson/source-html", () => {
     expect([...doc.where({ type: "-html-body" })]).toMatchObject([
       {
         start: 16,
-        end: 34
-      }
+        end: 34,
+      },
     ]);
     expect(doc.content).toEqual('<html lang="en"><body>Hello</body></html>');
 
@@ -450,16 +450,16 @@ describe("@atjson/source-html", () => {
       {
         type: "body",
         start: 0,
-        end: 5
+        end: 5,
       },
       {
         type: "html",
         start: 0,
         end: 5,
         attributes: {
-          lang: "en"
-        }
-      }
+          lang: "en",
+        },
+      },
     ]);
   });
 });

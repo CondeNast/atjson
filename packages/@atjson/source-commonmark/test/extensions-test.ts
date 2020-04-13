@@ -17,7 +17,7 @@ class MarkdownItSource extends CommonmarkSource {
   }
 }
 
-MarkdownItSource.defineConverterTo(OffsetSource, doc => {
+MarkdownItSource.defineConverterTo(OffsetSource, (doc) => {
   let convertCommonmark = getConverterFor(CommonmarkSource, OffsetSource);
   convertCommonmark(doc);
   doc.where({ type: "-commonmark-s" }).set({ type: "-offset-strikethrough" });
@@ -29,15 +29,15 @@ describe("strikethrough", () => {
   test("~~hello~~ is converted to strikethrough annotations", () => {
     let doc = MarkdownItSource.fromRaw("~~hello~~");
     expect(render(doc)).toBe("hello\n\n");
-    let strikeThrough = doc.where(a => is(a, StrikeThrough));
+    let strikeThrough = doc.where((a) => is(a, StrikeThrough));
     expect(strikeThrough.toJSON()).toEqual([
       {
         id: "Any<id>",
         type: "-commonmark-s",
         attributes: {},
         start: 1,
-        end: 8
-      }
+        end: 8,
+      },
     ]);
   });
 
@@ -47,7 +47,7 @@ describe("strikethrough", () => {
     );
     expect(
       doc
-        .where(a => a.type !== "parse-token")
+        .where((a) => a.type !== "parse-token")
         .sort()
         .toJSON()
     ).toEqual([
@@ -56,22 +56,22 @@ describe("strikethrough", () => {
         type: "-offset-paragraph",
         attributes: {},
         start: 0,
-        end: 17
+        end: 17,
       },
       {
         id: "Any<id>",
         type: "-offset-strikethrough",
         attributes: {},
         start: 1,
-        end: 8
+        end: 8,
       },
       {
         id: "Any<id>",
         type: "-offset-italic",
         attributes: {},
         start: 9,
-        end: 16
-      }
+        end: 16,
+      },
     ]);
   });
 });

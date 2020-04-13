@@ -29,8 +29,8 @@ const blink = keyframes`
 `;
 
 const Cursor = styled.rect<{ collapsed: boolean }>`
-  fill: ${props => (props.collapsed ? "#0023FF" : "rgba(0, 52, 255, 0.25)")};
-  ${props =>
+  fill: ${(props) => (props.collapsed ? "#0023FF" : "rgba(0, 52, 255, 0.25)")};
+  ${(props) =>
     props.collapsed
       ? css`
           animation: ${blink} 1.2s infinite ease-out;
@@ -58,7 +58,7 @@ const PositionalInfo = styled.svg`
 export const CharacterOffsetViewer: FC<{
   rtl?: boolean;
   children: string;
-}> = props => {
+}> = (props) => {
   let ref = useRef<HTMLHeadingElement | null>(null);
   let [positions, setPositions] = useState<
     Array<{
@@ -120,7 +120,7 @@ export const CharacterOffsetViewer: FC<{
             x,
             y: rect.top - offset.top + rect.height,
             width: rect.width,
-            height: rect.height
+            height: rect.height,
           });
         }
 
@@ -133,7 +133,7 @@ export const CharacterOffsetViewer: FC<{
           x: lastX,
           y: lastRect.top - offset.top + lastRect.height,
           width: 0,
-          height: lastRect.height
+          height: lastRect.height,
         });
 
         if (props.rtl) {
@@ -149,7 +149,7 @@ export const CharacterOffsetViewer: FC<{
   useLayoutEffect(() => {
     if (ref.current) {
       setOffsetDims(
-        Array.from(ref.current.querySelectorAll("text")).map(element => {
+        Array.from(ref.current.querySelectorAll("text")).map((element) => {
           return element.getClientRects()[0];
         })
       );
@@ -167,26 +167,26 @@ export const CharacterOffsetViewer: FC<{
       let mid = positions[center].x - positions[center].width / 2;
       lhs = {
         index: center,
-        left: mid
+        left: mid,
       };
       rhs = {
         index: center - 1,
-        right: mid
+        right: mid,
       };
       // Move outwards using the center
     } else {
       let center = Math.floor(positions.length / 2);
       endPoints[center] = {
         x: positions[center].x,
-        y: positions[center].y + padding / 2
+        y: positions[center].y + padding / 2,
       };
       lhs = {
         index: center,
-        left: positions[center].x - offsetDims[center].width / 2
+        left: positions[center].x - offsetDims[center].width / 2,
       };
       rhs = {
         index: center,
-        right: positions[center].x + offsetDims[center].width / 2 + padding
+        right: positions[center].x + offsetDims[center].width / 2 + padding,
       };
     }
 
@@ -198,7 +198,7 @@ export const CharacterOffsetViewer: FC<{
 
       endPoints[before] = {
         x: beforeLeft + delta,
-        y: positions[before].y + padding / 2
+        y: positions[before].y + padding / 2,
       };
       lhs.index = before;
       lhs.left = endPoints[before].x - padding;
@@ -210,7 +210,7 @@ export const CharacterOffsetViewer: FC<{
 
       endPoints[after] = {
         x: afterLeft + delta,
-        y: positions[after].y + padding / 2
+        y: positions[after].y + padding / 2,
       };
       rhs.index = after;
       rhs.right = afterRight + delta + padding;
@@ -227,7 +227,7 @@ export const CharacterOffsetViewer: FC<{
     if (delta !== 0) {
       endPoints = endPoints.map(({ x, y }) => ({
         x: x + delta,
-        y
+        y,
       }));
     }
   }
@@ -278,16 +278,16 @@ export const CharacterOffsetViewer: FC<{
           let endPos = endPoints[index] || { x: x - offset * 5, y };
           let dim = offsetDims[index] || {
             width: index < 10 ? 9 : 18,
-            height: 12
+            height: 12,
           };
           let isActive = index >= cursor[0] && index <= cursor[1];
 
           return (
             <g key={index}>
               <path
-                d={`M ${x},${y - 1} L ${x},${y} C ${x},${y + 5} ${
-                  endPos.x
-                },${y + 5} ${endPos.x},${y + 10}`}
+                d={`M ${x},${y - 1} L ${x},${y} C ${x},${y + 5} ${endPos.x},${
+                  y + 5
+                } ${endPos.x},${y + 10}`}
                 stroke="#0023FF"
                 strokeWidth={isActive ? 2 : 1}
                 fill="none"

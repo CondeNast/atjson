@@ -6,7 +6,7 @@ import OffsetSource, {
   PinterestEmbed,
   TikTokEmbed,
   TwitterEmbed,
-  VideoEmbed
+  VideoEmbed,
 } from "@atjson/offset-annotations";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import URLSource from "../src/index";
@@ -73,10 +73,10 @@ describe("url-source", () => {
     "https://twitter.com",
     "https://facebook.com",
     "https://pinterest.com",
-    "https://spotify.com"
+    "https://spotify.com",
   ])(
     "URLs that do not match our embed expansion are displayed as text (%s)",
-    text => {
+    (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(text);
     }
@@ -87,11 +87,23 @@ describe("url-source", () => {
       "https://www.instagram.com/p/Bnzz-g6gpwg/",
       "https://instagram.com/p/Bnzz-g6gpwg/?taken-by=lgbt_history",
       "https://www.instagr.am/p/Bnzz-g6gpwg",
-      "https://instagr.am/p/Bnzz-g6gpwg/?taken-by=lgbt_history"
-    ])("%s", text => {
+      "https://instagr.am/p/Bnzz-g6gpwg/?taken-by=lgbt_history",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Bnzz-g6gpwg" data-instgrm-version="12"></blockquote>'
+      );
+    });
+
+    test.each([
+      "https://www.instagram.com/tv/B95M4kNhbzz",
+      "https://instagram.com/tv/B95M4kNhbzz/?utm_source=ig_web_copy_link",
+      "https://instagr.am/tv/B95M4kNhbzz",
+      "https://instagr.am/tv/B95M4kNhbzz/?utm_source=ig_web_copy_link",
+    ])("%s", (text) => {
+      let url = URLSource.fromRaw(text);
+      expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
+        '<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/tv/B95M4kNhbzz" data-instgrm-version="12"></blockquote>'
       );
     });
   });
@@ -100,8 +112,8 @@ describe("url-source", () => {
     test.each([
       "https://twitter.com/jennschiffer/status/708888255828250625/",
       "https://m.twitter.com/jennschiffer/status/708888255828250625",
-      "https://m.twitter.com/jennschiffer/status/708888255828250625?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed&ref_url=https%3A%2F%2Ftwitter.com%2Fjennschiffer%2Fstatus%2F708888255828250625"
-    ])("%s", text => {
+      "https://m.twitter.com/jennschiffer/status/708888255828250625?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed&ref_url=https%3A%2F%2Ftwitter.com%2Fjennschiffer%2Fstatus%2F708888255828250625",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<blockquote lang="en" data-type="twitter" data-url="https://twitter.com/jennschiffer/status/708888255828250625"><p><a href="https://twitter.com/jennschiffer/status/708888255828250625">https://twitter.com/jennschiffer/status/708888255828250625</a></p></blockquote>'
@@ -113,8 +125,8 @@ describe("url-source", () => {
     test.each([
       "https://www.youtube.com/watch?v=Mh5LY4Mz15o",
       "https://m.youtube.com/watch/?v=Mh5LY4Mz15o",
-      "https://youtu.be/Mh5LY4Mz15o"
-    ])("%s", text => {
+      "https://youtu.be/Mh5LY4Mz15o",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<iframe src="https://www.youtube.com/embed/Mh5LY4Mz15o" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
@@ -129,8 +141,8 @@ describe("url-source", () => {
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o",
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165",
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?controls=0",
-      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165&controls=0"
-    ])("%s", text => {
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165&controls=0",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         `<iframe src="${text}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
@@ -143,8 +155,8 @@ describe("url-source", () => {
       "https://vimeo.com/156254412",
       "https://www.vimeo.com/156254412",
       "http://vimeo.com/156254412",
-      "http://player.vimeo.com/video/156254412"
-    ])("%s", text => {
+      "http://player.vimeo.com/video/156254412",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<iframe src="https://player.vimeo.com/video/156254412" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
@@ -153,7 +165,7 @@ describe("url-source", () => {
   });
 
   describe("dailymotion", () => {
-    test.each(["https://www.dailymotion.com/video/x6gmvnp"])("%s", text => {
+    test.each(["https://www.dailymotion.com/video/x6gmvnp"])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<iframe src="https://www.dailymotion.com/embed/video/x6gmvnp" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'
@@ -163,8 +175,8 @@ describe("url-source", () => {
 
   describe("brightcove", () => {
     test.each([
-      "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001"
-    ])("%s", url => {
+      "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
+    ])("%s", (url) => {
       let doc = URLSource.fromRaw(url);
       expect(EmbedRenderer.render(doc.convertTo(OffsetSource))).toBe(
         `<iframe src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
@@ -202,8 +214,8 @@ describe("url-source", () => {
   describe("giphy", () => {
     test.each([
       "https://giphy.com/gifs/yosub-i-dont-know-her-3o7btW6jvrZduOA3ZK",
-      "https://giphy.com/embed/3o7btW6jvrZduOA3ZK/"
-    ])("%s", text => {
+      "https://giphy.com/embed/3o7btW6jvrZduOA3ZK/",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<iframe src="https://giphy.com/embed/3o7btW6jvrZduOA3ZK"></iframe>'
@@ -215,8 +227,8 @@ describe("url-source", () => {
     describe("photos", () => {
       test.each([
         "https://www.facebook.com/Vogue/photos/a.71982647278/10156453076157279/?type=3&theater",
-        "https://www.facebook.com/Vogue/posts/10156453076157279"
-      ])("%s", text => {
+        "https://www.facebook.com/Vogue/posts/10156453076157279",
+      ])("%s", (text) => {
         let url = URLSource.fromRaw(text);
         expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
           '<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/10156453076157279" data-show-text="true"></div>'
@@ -227,8 +239,8 @@ describe("url-source", () => {
     describe("videos", () => {
       test.each([
         "https://www.facebook.com/Vogue/videos/vb.42933792278/258591818132754/?type=2&theater",
-        "https://www.facebook.com/Vogue/posts/258591818132754"
-      ])("%s", text => {
+        "https://www.facebook.com/Vogue/posts/258591818132754",
+      ])("%s", (text) => {
         let url = URLSource.fromRaw(text);
         expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
           '<div class="fb-post" data-href="https://www.facebook.com/Vogue/posts/258591818132754" data-show-text="true"></div>'
@@ -253,8 +265,8 @@ describe("url-source", () => {
       "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
       "https://m.tiktok.com/@vogueitalia/video/6771026615137750277",
       "http://www.tiktok.com/@vogueitalia/video/6771026615137750277",
-      "http://m.tiktok.com/@vogueitalia/video/6771026615137750277"
-    ])("%s", text => {
+      "http://m.tiktok.com/@vogueitalia/video/6771026615137750277",
+    ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(
         '<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277"></blockquote>'
@@ -266,36 +278,36 @@ describe("url-source", () => {
     test.each([
       [
         "https://open.spotify.com/track/5e0vgBWfwToyphURwynSXa?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/track/5e0vgBWfwToyphURwynSXa" height="80" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/album/6UjZgFbK6CQptu8aOobzPV?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/album/6UjZgFbK6CQptu8aOobzPV" height="380" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/artist/6sFIWsNpZYqfjUpaCgueju?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/artist/6sFIWsNpZYqfjUpaCgueju" height="380" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/playlist/2s1HL7UaXEPWqJR4E1Gt1A?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>'
+        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>',
       ],
       [
         "https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A?si=xxxxxxxxxxxxxxx",
-        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>'
-      ]
+        '<iframe src="https://open.spotify.com/embed/playlist/2s1HL7UaXEPWqJR4E1Gt1A" height="380" width="300"></iframe>',
+      ],
     ])("%s", (url, rendered) => {
       let doc = URLSource.fromRaw(url).convertTo(OffsetSource);
       expect(EmbedRenderer.render(doc)).toBe(rendered);

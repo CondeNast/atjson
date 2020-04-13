@@ -4,10 +4,10 @@ import { join } from "path";
 import { format } from "prettier";
 import { JSDOM } from "jsdom";
 import minimist from "minimist";
-import { Editor, SchemaCompiledItemDefinition } from "../ckeditor";
+import * as CK from "../src/ckeditor";
 
 let dom = new JSDOM(``, {
-  url: "https://atjson.condenast.io"
+  url: "https://atjson.condenast.io",
 });
 
 (global as any).window = dom.window;
@@ -17,9 +17,10 @@ let dom = new JSDOM(``, {
   "navigator",
   "localStorage",
   "DOMParser",
+  "HTMLElement",
   "HTMLTextAreaElement",
-  "Node"
-].forEach(key => {
+  "Node",
+].forEach((key) => {
   (global as any)[key] = (dom.window as any)[key];
 });
 
@@ -34,7 +35,7 @@ function classify(name: string) {
 }
 
 function dasherize(name: string) {
-  return name.replace(/([A-Z])/g, chr => `-${chr.toLowerCase()}`);
+  return name.replace(/([A-Z])/g, (chr) => `-${chr.toLowerCase()}`);
 }
 
 function writeAnnotationFile(
@@ -54,7 +55,7 @@ import { ${AnnotationClass} } from "@atjson/document";
 export class ${classify(name)} extends ${AnnotationClass}${
           attributes.length
             ? `<{
-  ${attributes.map(attribute => `${attribute}: unknown;`).join("\n")}
+  ${attributes.map((attribute) => `${attribute}: unknown;`).join("\n")}
 }>`
             : ""
         } {
@@ -85,14 +86,14 @@ export class ${classify(name)} extends ${AnnotationClass} {
 }
 
 function writeAnnotationIndex(
-  schemas: SchemaCompiledItemDefinition[],
+  schemas: CK.SchemaCompiledItemDefinition[],
   { extension, dir, parser }: FileInfo
 ) {
   writeFileSync(
     join(dir, "annotations", `index.${extension}`),
     format(
       `${schemas
-        .map(schema => `export * from "./${dasherize(schema.name)}";`)
+        .map((schema) => `export * from "./${dasherize(schema.name)}";`)
         .join("\n")}`,
       { parser: parser }
     )
@@ -113,8 +114,8 @@ import CKEditorSource, { CK } from "@atjson/source-ckeditor";
 import * as annotations from "./annotations";
 
 export default class ${ClassName} extends CKEditorSource {
-  static fromRaw(model: CK.Model, rootName = "main") {
-      return new this(this.fromModel(model, rootName));
+  static fromRaw(doc: CK.Document | CK.DocumentFragment, rootName?: string) {
+    return new this(this.fromDocument(doc, rootName));
   }
 
   static schema = [...Object.values(annotations)];
@@ -161,22 +162,23 @@ export default ${name};
 
 function run() {
   const args = minimist(process.argv.slice(2), {
-    string: ["out", "name", "build", "language"]
+    string: ["out", "name", "buildPackage", "buildName", "language"],
   });
 
   let options = {
     language: args.language || "ts",
-    build: args.build || "@ckeditor/ckeditor5-build-classic",
+    buildPackage: args.buildPackage || "@ckeditor/ckeditor5-build-classic",
+    buildName: args.buildName || "default",
     out: join(process.cwd(), args.out || "test"),
-    name: args.name || "CKEditorClassicBuildSource"
+    name: args.name || "CKEditorClassicBuildSource",
   };
 
   console.info("Generating CKEditorSource with args:\n", options);
 
   mkdirSync(join(options.out, "annotations"), { recursive: true });
 
-  return import(options.build).then(async (module: any) => {
-    let Build = module.default as typeof Editor;
+  return import(options.buildPackage).then(async (module: any) => {
+    let Build = module[options.buildName] as CK.EditorConstructor;
     if (!["ts", "typescript", "js", "javascript"].includes(options.language)) {
       throw new Error(`Only "js" or "ts" are supported for languages.`);
     }
@@ -189,14 +191,14 @@ function run() {
     const fileInfo = {
       extension: language === "typescript" ? "ts" : "js",
       parser: language === "javascript" ? "babel" : "typescript",
-      dir: options.out
+      dir: options.out,
     } as FileInfo;
 
     let div = dom.window.document.createElement("div");
     dom.window.document.body.appendChild(div);
     let editor = await Build.create(div);
     let schemaDefinition = editor.model.schema.getDefinitions();
-    let schemas: SchemaCompiledItemDefinition[] = [];
+    let schemas: CK.SchemaCompiledItemDefinition[] = [];
 
     for (let key in schemaDefinition) {
       let schema = schemaDefinition[key];
@@ -240,7 +242,7 @@ function run() {
 
 run()
   .then(() => process.exit(1))
-  .catch(e => {
+  .catch((e) => {
     console.error(e);
     process.exit(0);
   });

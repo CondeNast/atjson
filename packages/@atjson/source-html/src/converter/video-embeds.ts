@@ -1,9 +1,9 @@
-import Document, { Annotation, AnnotationConstructor } from "@atjson/document";
+import Document, { Annotation, is } from "@atjson/document";
 import OffsetSource, {
   getClosestAspectRatio,
   VideoEmbed,
   VideoURLs,
-  CaptionSource
+  CaptionSource,
 } from "@atjson/offset-annotations";
 import { Iframe, Anchor, Div } from "../annotations";
 
@@ -15,17 +15,6 @@ function assert(value: any, message: string): asserts value {
   if (!value) {
     throw new Error(message);
   }
-}
-
-function is<T extends AnnotationConstructor<any, any>>(
-  annotation: Annotation<any>,
-  Class: T
-): annotation is InstanceType<T> {
-  let AnnotationClass = annotation.getAnnotationConstructor();
-  return (
-    AnnotationClass.vendorPrefix === Class.vendorPrefix &&
-    annotation.type === Class.type
-  );
 }
 
 function isIframe(annotation: Annotation<any>) {
@@ -67,7 +56,7 @@ function getSize(annotation: Iframe, name: "width" | "height") {
   return undefined;
 }
 
-export default function(doc: Document) {
+export default function (doc: Document) {
   doc
     .where(isVimeoEmbed)
     .as("video")
@@ -90,9 +79,9 @@ export default function(doc: Document) {
       if (src?.indexOf("//") === 0) {
         src = `https:${src}`;
       }
-      let url = VideoURLs.identify(new URL(src));
+      let urlAttributes = VideoURLs.identify(new URL(src));
       assert(
-        url,
+        urlAttributes && urlAttributes.url,
         `The Vimeo embed ${video.attributes.src} was definitely defined in our queries, but was not identified.`
       );
 
@@ -111,15 +100,15 @@ export default function(doc: Document) {
           start: video.start,
           end: video.end,
           attributes: {
-            url,
+            ...urlAttributes,
             width,
             height,
             aspectRatio:
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
-            caption
-          }
+            caption,
+          },
         })
       );
     });
@@ -160,11 +149,14 @@ export default function(doc: Document) {
           end: video.end,
           attributes: {
             url: video.attributes.src,
+            provider: VideoURLs.Provider.BRIGHTCOVE,
             width,
             height,
             aspectRatio:
-              width && height ? getClosestAspectRatio(width, height) : undefined
-          }
+              width && height
+                ? getClosestAspectRatio(width, height)
+                : undefined,
+          },
         })
       );
       doc.removeAnnotations(divsToToss);
@@ -175,8 +167,8 @@ export default function(doc: Document) {
     if (src?.indexOf("//") === 0) {
       src = `https:${src}`;
     }
-    let url = VideoURLs.identify(new URL(src));
-    if (url) {
+    let urlAttributes = VideoURLs.identify(new URL(src));
+    if (urlAttributes) {
       let width = getSize(iframe, "width");
       let height = getSize(iframe, "height");
 
@@ -186,12 +178,14 @@ export default function(doc: Document) {
           start: iframe.start,
           end: iframe.end,
           attributes: {
-            url,
+            ...urlAttributes,
             width,
             height,
             aspectRatio:
-              width && height ? getClosestAspectRatio(width, height) : undefined
-          }
+              width && height
+                ? getClosestAspectRatio(width, height)
+                : undefined,
+          },
         })
       );
     }

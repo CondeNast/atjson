@@ -21,10 +21,10 @@ export default function extractTextStyles(
       state.ts_va = {
         type: "-gdocs-ts_va",
         attributes: {
-          "-gdocs-va": style.ts_va
+          "-gdocs-va": style.ts_va,
         },
         start: i,
-        end: -1
+        end: -1,
       };
     } else if (
       style.ts_va === "nor" &&
@@ -42,7 +42,7 @@ export default function extractTextStyles(
           type: "-gdocs-" + styleType,
           start: i,
           end: -1,
-          attributes: {}
+          attributes: {},
         };
       } else if (
         style[styleType] === false &&

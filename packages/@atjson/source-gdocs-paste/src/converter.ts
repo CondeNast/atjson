@@ -2,18 +2,37 @@ import {
   Annotation,
   BlockAnnotation,
   ParseAnnotation,
-  is
+  is,
 } from "@atjson/document";
-import OffsetSource, { LineBreak, Paragraph } from "@atjson/offset-annotations";
+import OffsetSource, {
+  LineBreak,
+  Paragraph,
+  ListItem,
+  List,
+} from "@atjson/offset-annotations";
 import { Heading } from "./annotations";
 import GDocsSource from "./source";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
-const MULTIPLE_NEWLINES = /\n{2,}/g;
-const ALL_NEWLINES = /\n/g;
+const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
 
-GDocsSource.defineConverterTo(OffsetSource, doc => {
+function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
+  if (a.start !== b.start) {
+    return a.start - b.start;
+  }
+  if (a.end !== b.end) {
+    return b.end - a.end;
+  }
+
+  if (a.rank !== b.rank) {
+    return a.rank - b.rank;
+  }
+
+  return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
+}
+
+GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.
   // If necessary, underlined text can be added afterwards;
@@ -73,34 +92,55 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .set({ type: "-offset-link" })
     .rename({ attributes: { "-gdocs-ulnk_url": "-offset-url" } });
 
-  doc
+  let convertedLists = doc
     .where({ type: "-offset-list" })
     .as("list")
     .join(
       doc.where({ type: "-offset-list-item" }).as("listItems"),
-      (l, r) => l.start === r.start && l.end === r.end
-    )
-    .update(({ list, listItems }) => {
-      let item = listItems[0];
-      let insertionPoint = list.end;
-      doc.insertText(insertionPoint, "\uFFFC");
-      doc.addAnnotations(
-        new ParseAnnotation({
-          start: insertionPoint,
-          end: insertionPoint + 1,
-          attributes: {
-            reason: "object replacement character for single-item list"
-          }
-        })
+      (list, listItem) =>
+        list.start <= listItem.start && list.end >= listItem.end
+    );
+
+  convertedLists.update(({ list, listItems }) => {
+    for (let newline of doc.match(
+      NEWLINE_PARAGRAPH_SEPARATOR,
+      list.start,
+      list.end
+    )) {
+      let adjacentListItem = listItems.find(
+        (listItem) => listItem.end === newline.start
       );
-      item.end--;
-    });
+      if (adjacentListItem) {
+        doc.addAnnotations(
+          new ParseAnnotation({
+            start: newline.start,
+            end: newline.end,
+            attributes: { reason: "list item separator" },
+          })
+        );
+      }
+    }
+  });
 
-  // Replace vertical tabs with newlines
-  doc.content = doc.content.replace(VERTICAL_TABS, "\n");
+  // Convert vertical tabs to line breaks
+  for (let verticalTab of doc.match(VERTICAL_TABS)) {
+    doc.addAnnotations(
+      new LineBreak({
+        start: verticalTab.start,
+        end: verticalTab.end,
+      }),
+      new ParseAnnotation({
+        start: verticalTab.start,
+        end: verticalTab.end,
+        attributes: {
+          reason: "vertical tab",
+        },
+      })
+    );
+  }
 
-  // Convert newlines to LineBreaks and Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation,
-  // so divide the document into 'block boundaries' and then look for single/multiple new lines within each
+  // Convert newlines to Paragraphs. Paragraphs must not cross the boundary of a BlockAnnotation, so
+  // divide the document into 'block boundaries' and then look for single/multiple new lines within each
   // block boundary
   let blockBoundaries = doc
     .where((annotation: Annotation) => annotation instanceof BlockAnnotation)
@@ -116,41 +156,34 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
     .map((_, index, array) => {
       return {
         start: array[index - 1] || 0,
-        end: array[index]
+        end: array[index],
       };
     })
     .forEach(({ start, end }) => {
       // Multiple newlines indicate paragraph boundaries within the block boundary
-      let paragraphBoundaries = doc.match(MULTIPLE_NEWLINES, start, end);
+      let paragraphBoundaries = doc.match(
+        NEWLINE_PARAGRAPH_SEPARATOR,
+        start,
+        end
+      );
       let lastEnd = start;
-      let newlinesInParagraphBoundaries = [];
       for (let paragraphBoundary of paragraphBoundaries) {
-        doc.addAnnotations(
-          new ParseAnnotation({
-            start: paragraphBoundary.start,
-            end: paragraphBoundary.end,
-            attributes: {
-              reason: "multiple new lines to paragraph"
-            }
-          })
-        );
-
         if (lastEnd < paragraphBoundary.start) {
           doc.addAnnotations(
             new Paragraph({
               start: lastEnd,
-              end: paragraphBoundary.start
+              end: paragraphBoundary.start,
+            }),
+            new ParseAnnotation({
+              start: paragraphBoundary.start,
+              end: paragraphBoundary.end,
+              attributes: {
+                reason: "paragraph boundary",
+              },
             })
           );
         }
         lastEnd = paragraphBoundary.end;
-
-        // keep track of which newlines we've seen
-        let current = paragraphBoundary.start;
-        while (current < paragraphBoundary.end) {
-          newlinesInParagraphBoundaries.push(current);
-          current++;
-        }
       }
 
       // Close a remaining paragraph boundary at the block boundary
@@ -158,71 +191,89 @@ GDocsSource.defineConverterTo(OffsetSource, doc => {
         doc.addAnnotations(
           new Paragraph({
             start: lastEnd,
-            end
+            end,
           })
         );
       }
+    });
 
-      // Convert single new lines to LineBreaks
-      for (let newline of doc.match(ALL_NEWLINES, start, end)) {
-        if (newlinesInParagraphBoundaries.indexOf(newline.start) > -1) {
+  // GDocs can produce lists that have paragraphs in them that are
+  // not wrapped by a list item. In these cases, split the list before
+  // and after the paragraph, as necessary
+  convertedLists
+    .join(
+      doc.where({ type: "-offset-paragraph" }).as("paragraphs"),
+      ({ list }, paragraph) =>
+        list.start <= paragraph.start && paragraph.end <= list.end
+    )
+    .update(({ list, listItems, paragraphs }) => {
+      let blocks = [...listItems, ...paragraphs];
+
+      // Sort list items and paragraphs topologically so we can determine their
+      // nested structure
+      blocks.sort(compareAnnotations);
+
+      let lastListItem = null;
+      let currentList = list;
+      let listEnd = list.end;
+      for (let block of blocks) {
+        // We have a list item, so mark it as the last seen.
+        if (is(block, ListItem)) {
+          lastListItem = block;
+
+          // if the list was previously split, wrap the remainder in a new
+          // list annotation. We only have to do this in this case when we've
+          // found more list items that now lie outside the current list
+          if (currentList.end < block.end) {
+            currentList = new List({
+              ...currentList,
+              start: block.start,
+              end: listEnd,
+            });
+            doc.addAnnotations(currentList);
+          }
           continue;
         }
 
-        doc.addAnnotations(
-          new LineBreak({
-            start: newline.start,
-            end: newline.end
-          }),
-          new ParseAnnotation({
-            start: newline.start,
-            end: newline.end,
-            attributes: {
-              reason: "new line"
-            }
-          })
-        );
+        // In this case we have a paragraph that is wrapped in a list item
+        // We can just continue
+        if (lastListItem && lastListItem.end >= block.end) {
+          continue;
+        }
+
+        // We've found a paragraph with no wrapping list item. If the current
+        // list overlaps this paragraph, truncate it to the beginning of the
+        // of the paragraph.
+        if (currentList.end > block.start) {
+          currentList.end = block.start;
+        }
       }
     });
 
-  // LineBreaks/paragraphs may have been created for listItem separators,
-  // so delete those which exist in a list (or immediately after) but not in any list item
+  // Resolve single-item lists. New ones may have been created by splitting
+  // lists
   doc
-    .where(
-      (annotation: Annotation) =>
-        is(annotation, LineBreak) || is(annotation, Paragraph)
-    )
-    .as("lineBreak")
+    .where({ type: "-offset-list" })
+    .as("list")
     .join(
-      doc.where({ type: "-offset-list" }).as("lists"),
-      (l: Annotation, r: Annotation) => l.start >= r.start && l.end <= r.end + 1
-    )
-    .outerJoin(
       doc.where({ type: "-offset-list-item" }).as("listItems"),
-      (
-        l: { lineBreak: LineBreak; lists: Array<Annotation<any>> },
-        r: Annotation<any>
-      ) => {
-        return l.lineBreak.start >= r.start && l.lineBreak.end <= r.end;
-      }
+      (list, listItem) =>
+        list.start === listItem.start && list.end === listItem.end
     )
-    .update(({ lineBreak, listItems }) => {
-      if (listItems.length === 0) {
-        doc.removeAnnotation(lineBreak);
-      }
-    });
-
-  // LineBreaks may have been created at a block boundary co-terminating
-  // with a paragraph, so delete those which match a paragraph end
-  doc
-    .where(annotation => is(annotation, LineBreak))
-    .as("lineBreak")
-    .join(
-      doc.where(annotation => is(annotation, Paragraph)).as("paragraphs"),
-      (l: Annotation, r: Annotation) => l.end === r.end
-    )
-    .update(({ lineBreak }) => {
-      doc.removeAnnotation(lineBreak);
+    .update(({ list, listItems }) => {
+      let insertionPoint = list.end;
+      let item = listItems[0];
+      doc.insertText(insertionPoint, "\uFFFC");
+      doc.addAnnotations(
+        new ParseAnnotation({
+          start: insertionPoint,
+          end: insertionPoint + 1,
+          attributes: {
+            reason: "object replacement character for single-item list",
+          },
+        })
+      );
+      item.end--;
     });
 
   return doc;

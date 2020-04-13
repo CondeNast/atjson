@@ -2,7 +2,7 @@ import {
   Annotation,
   NamedCollection,
   JSONArray,
-  JSONObject
+  JSONObject,
 } from "./internals";
 
 /**
@@ -121,7 +121,7 @@ export class Join<Left extends string, Right extends string> {
       for (let key in join) {
         let annotation = (join as any)[key] as Annotation | Annotation[];
         if (Array.isArray(annotation)) {
-          json[key] = annotation.map(a => a.toJSON());
+          json[key] = annotation.map((a) => a.toJSON());
         } else {
           json[key] = annotation.toJSON();
         }
@@ -177,7 +177,7 @@ export class Join<Left extends string, Right extends string> {
     ) => boolean
   ): never | Join<Left, Right | J> {
     return this.outerJoin(rightCollection, filter).where(
-      record => record[rightCollection.name].length > 0
+      (record) => record[rightCollection.name].length > 0
     );
   }
 

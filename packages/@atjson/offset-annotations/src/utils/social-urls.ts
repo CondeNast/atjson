@@ -5,7 +5,7 @@ import {
   InstagramEmbed,
   PinterestEmbed,
   TwitterEmbed,
-  TikTokEmbed
+  TikTokEmbed,
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -42,22 +42,46 @@ function getSearchParam(
 // - www.instagr.am/p/:id
 // - instagram.com/p/:id
 // - instagr.am/p/:id
-function isInstagramURL(url: IUrl) {
+function isInstagramPhotoURL(url: IUrl) {
   return (
     [
       "www.instagram.com",
       "www.instagr.am",
       "instagram.com",
-      "instagr.am"
+      "instagr.am",
     ].includes(url.host) && url.pathname.startsWith("/p/")
   );
 }
 
-function normalizeInstagramURL(url: IUrl) {
+function normalizeInstagramPhotoURL(url: IUrl) {
   let [, id] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: { url: `https://www.instagram.com/p/${id}` },
-    Class: InstagramEmbed
+    Class: InstagramEmbed,
+  };
+}
+
+// Instagram
+// - www.instagram.com/tv/:id
+// - www.instagr.am/tv/:id
+// - instagram.com/tv/:id
+// - instagr.am/tv/:id
+function isInstagramTVURL(url: IUrl) {
+  return (
+    [
+      "www.instagram.com",
+      "www.instagr.am",
+      "instagram.com",
+      "instagr.am",
+    ].includes(url.host) && url.pathname.startsWith("/tv/")
+  );
+}
+
+function normalizeInstagramTVURL(url: IUrl) {
+  let [, id] = without<string>(url.pathname.split("/"), "");
+  return {
+    attributes: { url: `https://www.instagram.com/tv/${id}` },
+    Class: InstagramEmbed,
   };
 }
 
@@ -75,9 +99,9 @@ function normalizeTwitterURL(url: IUrl) {
   let [username, , tweetId] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: {
-      url: `https://twitter.com/${username}/status/${tweetId}`
+      url: `https://twitter.com/${username}/status/${tweetId}`,
     },
-    Class: TwitterEmbed
+    Class: TwitterEmbed,
   };
 }
 
@@ -92,9 +116,9 @@ function isPinterestURL(url: IUrl) {
 function normalizePinterestURL(url: IUrl) {
   return {
     attributes: {
-      url: `https://www.pinterest.com${url.pathname}`
+      url: `https://www.pinterest.com${url.pathname}`,
     },
-    Class: PinterestEmbed
+    Class: PinterestEmbed,
   };
 }
 
@@ -141,9 +165,9 @@ function normalizeFacebookURL(url: IUrl) {
 
   return {
     attributes: {
-      url: `https://www.facebook.com/${username}/posts/${id}`
+      url: `https://www.facebook.com/${username}/posts/${id}`,
     },
-    Class: FacebookEmbed
+    Class: FacebookEmbed,
   };
 }
 
@@ -169,7 +193,7 @@ function normalizeGiphyURL(url: IUrl) {
 
   return {
     attributes: { url: `https://giphy.com/embed/${id}` },
-    Class: GiphyEmbed
+    Class: GiphyEmbed,
   };
 }
 
@@ -189,7 +213,7 @@ const spotifyEmbedTypes: {
 } = {
   episode: "embed-podcast",
   show: "embed-podcast",
-  default: "embed"
+  default: "embed",
 };
 
 const spotifyEmbedSizes: {
@@ -197,20 +221,20 @@ const spotifyEmbedSizes: {
 } = {
   default: {
     height: "380",
-    width: "300"
+    width: "300",
   },
   track: {
     height: "80",
-    width: "300"
+    width: "300",
   },
   episode: {
     height: "232",
-    width: "100%"
+    width: "100%",
   },
   show: {
     height: "232",
-    width: "100%"
-  }
+    width: "100%",
+  },
 };
 
 function normalizeSpotifyUrl(url: IUrl) {
@@ -228,8 +252,8 @@ function normalizeSpotifyUrl(url: IUrl) {
     attributes: {
       url: `https://open.spotify.com/${embedType}/${type}/${id}`,
       width,
-      height
-    }
+      height,
+    },
   };
 }
 
@@ -246,8 +270,8 @@ function normalizeTikTokUrl(url: IUrl) {
   return {
     Class: TikTokEmbed,
     attributes: {
-      url: `https://www.tiktok.com/${handle}/${type}/${id}`
-    }
+      url: `https://www.tiktok.com/${handle}/${type}/${id}`,
+    },
   };
 }
 
@@ -265,8 +289,12 @@ export function identify(
     return normalizeGiphyURL(url);
   }
 
-  if (isInstagramURL(url)) {
-    return normalizeInstagramURL(url);
+  if (isInstagramPhotoURL(url)) {
+    return normalizeInstagramPhotoURL(url);
+  }
+
+  if (isInstagramTVURL(url)) {
+    return normalizeInstagramTVURL(url);
   }
 
   if (isPinterestURL(url)) {

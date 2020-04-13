@@ -119,7 +119,7 @@ export default class Parser {
       new ParseAnnotation({
         attributes: { reason },
         start: start - this.offset,
-        end: end - this.offset
+        end: end - this.offset,
       })
     );
     this.content += this.html.slice(start, end);
@@ -148,7 +148,7 @@ export default class Parser {
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
-        end
+        end,
       });
     } else if (location.startTag) {
       let start = location.startTag.startOffset - this.offset;
@@ -160,7 +160,7 @@ export default class Parser {
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
-        end: location.endOffset - this.offset
+        end: location.endOffset - this.offset,
       });
     } else {
       let start = location.startOffset - this.offset;
@@ -171,7 +171,7 @@ export default class Parser {
         new ParseAnnotation({
           attributes: { reason: `<${tagName}/>` },
           start,
-          end
+          end,
         })
       );
 
@@ -181,7 +181,7 @@ export default class Parser {
           type: `-html-${tagName}`,
           attributes: getAttributes(node),
           start,
-          end
+          end,
         });
       }
 
