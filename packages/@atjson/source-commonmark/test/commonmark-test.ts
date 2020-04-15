@@ -142,14 +142,14 @@ describe("images", () => {
     ).canonical();
     expect(doc.annotations).toMatchObject([
       {
+        type: "paragraph",
+      },
+      {
         type: "image",
         attributes: {
           src: "test.jpg",
           alt: "Markdown is stripped from this",
         },
-      },
-      {
-        type: "paragraph",
       },
     ]);
   });
@@ -160,15 +160,15 @@ describe("images", () => {
     ).canonical();
     expect(doc.annotations).toMatchObject([
       {
+        type: "paragraph",
+      },
+      {
         type: "image",
         attributes: {
           src: "test.jpg",
           title: "Title of test.jpg",
           alt: "",
         },
-      },
-      {
-        type: "paragraph",
       },
     ]);
   });

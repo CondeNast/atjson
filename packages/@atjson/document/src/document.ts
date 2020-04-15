@@ -614,6 +614,11 @@ export class Document {
     let canonicalDoc = this.clone();
     let parseTokensToDelete = [];
 
+    // preserve order in the original document before
+    // modifying it, as deleting text ranges may collapse
+    // annotations onto each other
+    canonicalDoc.annotations.sort(compareAnnotations);
+
     for (let annotation of canonicalDoc.annotations) {
       if (
         annotation.vendorPrefix === "atjson" &&
@@ -625,8 +630,6 @@ export class Document {
 
     canonicalDoc.removeAnnotations(parseTokensToDelete);
     canonicalDoc.deleteTextRanges(parseTokensToDelete);
-
-    canonicalDoc.annotations.sort(compareAnnotations);
 
     return canonicalDoc;
   }

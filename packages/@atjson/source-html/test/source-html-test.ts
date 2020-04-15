@@ -384,17 +384,17 @@ describe("@atjson/source-html", () => {
     expect(canonical.content).toEqual("Hello");
     expect(canonical.annotations).toMatchObject([
       {
-        type: "body",
-        start: 0,
-        end: 5,
-      },
-      {
         type: "html",
         start: 0,
         end: 5,
         attributes: {
           lang: "en",
         },
+      },
+      {
+        type: "body",
+        start: 0,
+        end: 5,
       },
     ]);
   });
@@ -418,17 +418,17 @@ describe("@atjson/source-html", () => {
     expect(canonical.content).toEqual("  \tHello");
     expect(canonical.annotations).toMatchObject([
       {
-        type: "body",
-        start: 3,
-        end: 8,
-      },
-      {
         type: "html",
         start: 3,
         end: 8,
         attributes: {
           lang: "en",
         },
+      },
+      {
+        type: "body",
+        start: 3,
+        end: 8,
       },
     ]);
   });
@@ -448,17 +448,17 @@ describe("@atjson/source-html", () => {
     expect(canonical.content).toEqual("Hello");
     expect(canonical.annotations).toMatchObject([
       {
-        type: "body",
-        start: 0,
-        end: 5,
-      },
-      {
         type: "html",
         start: 0,
         end: 5,
         attributes: {
           lang: "en",
         },
+      },
+      {
+        type: "body",
+        start: 0,
+        end: 5,
       },
     ]);
   });
