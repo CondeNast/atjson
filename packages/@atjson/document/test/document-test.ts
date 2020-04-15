@@ -1,5 +1,5 @@
 import { mergeRanges } from "../src/internals";
-import TestSource, { Bold, Paragraph } from "./test-source";
+import TestSource, { Bold, Italic, Paragraph } from "./test-source";
 import { ParseAnnotation } from "../src";
 
 describe("Document#deleteTextRanges", () => {
@@ -145,8 +145,8 @@ describe("Document#removeAnnotations", () => {
 
     expect(testDoc).toMatchObject({
       annotations: [
-        { type: "bold", start: 0, end: 12 },
         { type: "paragraph", start: 0, end: 13 },
+        { type: "bold", start: 0, end: 12 },
       ],
     });
   });
@@ -211,19 +211,38 @@ describe("Document#canonical", () => {
       content: "Hello,\n World!",
       annotations: [
         {
-          type: "bold",
-          start: 0,
-          end: 5,
-          attributes: {},
-        },
-        {
           type: "paragraph",
           start: 0,
           end: 6,
           attributes: {},
         },
+        {
+          type: "bold",
+          start: 0,
+          end: 5,
+          attributes: {},
+        },
       ],
     });
+  });
+
+  test("annotations are properly sorted", () => {
+    let testDoc = new TestSource({
+      content: "Hello World!",
+      annotations: [
+        new Italic({ start: 4, end: 7 }),
+        new Bold({ start: 0, end: 12 }),
+        new Italic({ start: 0, end: 1 }),
+        new Paragraph({ start: 0, end: 12 }),
+      ],
+    });
+
+    expect(testDoc.canonical().annotations).toMatchObject([
+      { type: "paragraph", start: 0, end: 12 },
+      { type: "bold", start: 0, end: 12 },
+      { type: "italic", start: 0, end: 1 },
+      { type: "italic", start: 4, end: 7 },
+    ]);
   });
 });
 
