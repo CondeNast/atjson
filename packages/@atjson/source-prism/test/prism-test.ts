@@ -24,13 +24,13 @@ describe("@atjson/source-prism", () => {
     let doc = PRISMSource.fromRaw("<body>some text</body>");
 
     expect(doc.where({}).sort().toJSON()).toMatchObject([
+      { type: "-html-body", start: 0, end: 22 },
       {
         type: "-atjson-parse-token",
         start: 0,
         end: 6,
         attributes: { "-atjson-reason": "<body>" },
       },
-      { type: "-html-body", start: 0, end: 22 },
       {
         type: "-atjson-parse-token",
         start: 15,
@@ -70,20 +70,20 @@ describe("@atjson/source-prism", () => {
         end: 38,
         attributes: { "-atjson-reason": "<?xml>" },
       },
+      { type: "-pam-message", start: 38, end: 117 },
       {
         type: "-atjson-parse-token",
         start: 38,
         end: 51,
         attributes: { "-atjson-reason": "<pam:message>" },
       },
-      { type: "-pam-message", start: 38, end: 117 },
+      { type: "-pam-article", start: 51, end: 103 },
       {
         type: "-atjson-parse-token",
         start: 51,
         end: 64,
         attributes: { "-atjson-reason": "<pam:article>" },
       },
-      { type: "-pam-article", start: 51, end: 103 },
       { type: "-html-head", start: 64, end: 72 },
       {
         type: "-atjson-parse-token",
@@ -91,13 +91,13 @@ describe("@atjson/source-prism", () => {
         end: 72,
         attributes: { "-atjson-reason": "<head/>" },
       },
+      { type: "-html-body", start: 72, end: 89 },
       {
         type: "-atjson-parse-token",
         start: 72,
         end: 78,
         attributes: { "-atjson-reason": "<body>" },
       },
-      { type: "-html-body", start: 72, end: 89 },
       {
         type: "-atjson-parse-token",
         start: 82,
@@ -148,27 +148,27 @@ describe("@atjson/source-prism", () => {
         "<pam:article><head><dc:title>Title</dc:title></head><body><p>∀x∈Λ, x∨¬x∎</p></body></pam:article>"
       );
       expect(doc.where({}).sort().toJSON()).toMatchObject([
+        { type: "-pam-article", start: 0, end: 97 },
         {
           type: "-atjson-parse-token",
           start: 0,
           end: 13,
           attributes: { "-atjson-reason": "<pam:article>" },
         },
-        { type: "-pam-article", start: 0, end: 97 },
+        { type: "-html-head", start: 13, end: 52 },
         {
           type: "-atjson-parse-token",
           start: 13,
           end: 19,
           attributes: { "-atjson-reason": "<head>" },
         },
-        { type: "-html-head", start: 13, end: 52 },
+        { type: "-dc-title", start: 19, end: 45 },
         {
           type: "-atjson-parse-token",
           start: 19,
           end: 29,
           attributes: { "-atjson-reason": "<dc:title>" },
         },
-        { type: "-dc-title", start: 19, end: 45 },
         {
           type: "-atjson-parse-token",
           start: 34,
@@ -181,20 +181,20 @@ describe("@atjson/source-prism", () => {
           end: 52,
           attributes: { "-atjson-reason": "</head>" },
         },
+        { type: "-html-body", start: 52, end: 83 },
         {
           type: "-atjson-parse-token",
           start: 52,
           end: 58,
           attributes: { "-atjson-reason": "<body>" },
         },
-        { type: "-html-body", start: 52, end: 83 },
+        { type: "-html-p", start: 58, end: 76 },
         {
           type: "-atjson-parse-token",
           start: 58,
           end: 61,
           attributes: { "-atjson-reason": "<p>" },
         },
-        { type: "-html-p", start: 58, end: 76 },
         {
           type: "-atjson-parse-token",
           start: 72,
