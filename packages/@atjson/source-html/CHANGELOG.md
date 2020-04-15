@@ -3,21 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.1...@atjson/source-html@0.28.2) (2020-04-15)
+
+### Bug Fixes
+
+- preserve original document sort in canonical ([fe75116](https://github.com/CondeNast/atjson/commit/fe751169647e02888a207eb08747e5576bea4cc1))
+
 ## [0.28.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.0...@atjson/source-html@0.28.1) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/source-html
 
-
-
-
-
 ## [0.28.1-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.0...@atjson/source-html@0.28.1-dev.0) (2020-03-23)
 
 **Note:** Version bump only for package @atjson/source-html
-
-
-
-
 
 # [0.28.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.27.6...@atjson/source-html@0.28.0) (2020-03-19)
 

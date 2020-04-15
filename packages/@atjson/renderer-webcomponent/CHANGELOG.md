@@ -3,21 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.20](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.19...@atjson/renderer-webcomponent@0.21.20) (2020-04-15)
+
+**Note:** Version bump only for package @atjson/renderer-webcomponent
+
 ## [0.21.19](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.18...@atjson/renderer-webcomponent@0.21.19) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/renderer-webcomponent
 
-
-
-
-
 ## [0.21.19-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.18...@atjson/renderer-webcomponent@0.21.19-dev.0) (2020-03-23)
 
 **Note:** Version bump only for package @atjson/renderer-webcomponent
-
-
-
-
 
 ## [0.21.18](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.17...@atjson/renderer-webcomponent@0.21.18) (2020-03-11)
 

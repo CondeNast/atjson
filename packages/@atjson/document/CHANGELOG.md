@@ -3,21 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.3...@atjson/document@0.23.4) (2020-04-15)
+
+### Bug Fixes
+
+- preserve original document sort in canonical ([fe75116](https://github.com/CondeNast/atjson/commit/fe751169647e02888a207eb08747e5576bea4cc1))
+
 ## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.2...@atjson/document@0.23.3) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/document
 
-
-
-
-
 ## [0.23.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.2...@atjson/document@0.23.3-dev.0) (2020-03-23)
 
 **Note:** Version bump only for package @atjson/document
-
-
-
-
 
 ## [0.23.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.1...@atjson/document@0.23.2) (2020-03-11)
 

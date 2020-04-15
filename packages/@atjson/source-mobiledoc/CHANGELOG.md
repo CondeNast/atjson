@@ -3,21 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.26](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.25...@atjson/source-mobiledoc@0.21.26) (2020-04-15)
+
+**Note:** Version bump only for package @atjson/source-mobiledoc
+
 ## [0.21.25](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.24...@atjson/source-mobiledoc@0.21.25) (2020-03-25)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
 
-
-
-
-
 ## [0.21.25-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.24...@atjson/source-mobiledoc@0.21.25-dev.0) (2020-03-23)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
-
-
-
-
 
 ## [0.21.24](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.21.23...@atjson/source-mobiledoc@0.21.24) (2020-03-19)
 
