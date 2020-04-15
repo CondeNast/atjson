@@ -4,6 +4,7 @@ import Document, {
   InlineAnnotation,
   Insertion,
   ObjectAnnotation,
+  BlockAnnotation,
 } from "../src";
 
 export class Anchor extends InlineAnnotation<{
@@ -34,7 +35,7 @@ export class Instagram extends ObjectAnnotation {
   static type = "instagram";
 }
 
-export class Paragraph extends ObjectAnnotation {
+export class Paragraph extends BlockAnnotation {
   static vendorPrefix = "test";
   static type = "paragraph";
 }

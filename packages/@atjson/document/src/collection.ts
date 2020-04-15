@@ -2,10 +2,15 @@ import { Annotation, AnnotationJSON, Document, Join } from "./internals";
 
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
   let startDelta = a.start - b.start;
-  let endDelta = a.end - b.end;
+  let endDelta = b.end - a.end;
+  let rankDelta = a.rank - b.rank;
   if (startDelta === 0) {
     if (endDelta === 0) {
-      return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
+      if (rankDelta === 0) {
+        return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
+      } else {
+        return rankDelta;
+      }
     } else {
       return endDelta;
     }

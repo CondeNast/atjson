@@ -319,14 +319,14 @@ describe("new Document", () => {
             end: 20,
           },
           {
-            type: "-atjson-parse-token",
-            start: 7,
-            end: 10,
-          },
-          {
             type: "-test-bold",
             start: 7,
             end: 19,
+          },
+          {
+            type: "-atjson-parse-token",
+            start: 7,
+            end: 10,
           },
           {
             type: "-atjson-parse-token",
@@ -366,13 +366,6 @@ describe("new Document", () => {
         contentType: "application/vnd.atjson+test",
         annotations: [
           {
-            id: "1",
-            type: "-test-bold",
-            start: 0,
-            end: 5,
-            attributes: {},
-          },
-          {
             id: "2",
             type: "-test-italic",
             start: 0,
@@ -384,6 +377,13 @@ describe("new Document", () => {
             type: "-test-underline",
             start: 0,
             end: 13,
+            attributes: {},
+          },
+          {
+            id: "1",
+            type: "-test-bold",
+            start: 0,
+            end: 5,
             attributes: {},
           },
           {
@@ -517,12 +517,6 @@ describe("new Document", () => {
         contentType: "application/vnd.atjson+test",
         annotations: [
           {
-            type: "-atjson-parse-token",
-            start: 0,
-            end: 3,
-            attributes: {},
-          },
-          {
             type: "-test-bold",
             start: 0,
             end: 12,
@@ -532,6 +526,12 @@ describe("new Document", () => {
             type: "-test-italic",
             start: 0,
             end: 12,
+            attributes: {},
+          },
+          {
+            type: "-atjson-parse-token",
+            start: 0,
+            end: 3,
             attributes: {},
           },
           {
@@ -548,15 +548,15 @@ describe("new Document", () => {
         annotations: [
           {
             attributes: {},
-            end: 4,
-            start: 0,
-            type: "-atjson-parse-token",
-          },
-          {
-            attributes: {},
             end: 17,
             start: 0,
             type: "-test-italic",
+          },
+          {
+            attributes: {},
+            end: 4,
+            start: 0,
+            type: "-atjson-parse-token",
           },
           {
             attributes: {},
