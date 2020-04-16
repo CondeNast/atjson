@@ -56,19 +56,19 @@ test("single paragraph", () => {
   let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
   expect(doc.content).toBe("Here is a paragraph");
-  expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
+  expect(doc.canonical().annotations.sort()).toMatchObject([
     {
       type: "$root",
       start: 0,
       end: 19,
     },
     {
-      type: "$text",
+      type: "paragraph",
       start: 0,
       end: 19,
     },
     {
-      type: "paragraph",
+      type: "$text",
       start: 0,
       end: 19,
     },
