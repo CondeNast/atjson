@@ -2,6 +2,7 @@ import {
   Annotation,
   BlockAnnotation,
   ParseAnnotation,
+  compareAnnotations,
   is,
 } from "@atjson/document";
 import OffsetSource, {
@@ -16,21 +17,6 @@ import GDocsSource from "./source";
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
 const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
-
-function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
-  if (a.start !== b.start) {
-    return a.start - b.start;
-  }
-  if (a.end !== b.end) {
-    return b.end - a.end;
-  }
-
-  if (a.rank !== b.rank) {
-    return a.rank - b.rank;
-  }
-
-  return a.type < b.type ? -1 : a.type > b.type ? 1 : 0;
-}
 
 GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove all underlines that align with links, since

@@ -1,18 +1,6 @@
-import { Annotation } from "@atjson/document";
+import { compareAnnotations } from "@atjson/document";
 import DocumentFragment from "@ckeditor/ckeditor5-engine/src/model/documentfragment";
 import CKEditorSource from "./source-ckeditor-build-classic";
-
-function compareAnnotations(a: Annotation, b: Annotation) {
-  if (a.start !== b.start) {
-    return a.start - b.start;
-  }
-
-  if (a.end !== b.end) {
-    return b.end - a.end;
-  }
-
-  return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
-}
 
 describe("@atjson/source-ckeditor classic build", () => {
   test("single paragraph", () => {
@@ -36,12 +24,12 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 19,
       },
       {
-        type: "$text",
+        type: "paragraph",
         start: 0,
         end: 19,
       },
       {
-        type: "paragraph",
+        type: "$text",
         start: 0,
         end: 19,
       },
@@ -77,22 +65,22 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 44,
       },
       {
-        type: "$text",
-        start: 0,
-        end: 19,
-      },
-      {
         type: "paragraph",
         start: 0,
         end: 19,
       },
       {
         type: "$text",
+        start: 0,
+        end: 19,
+      },
+      {
+        type: "paragraph",
         start: 19,
         end: 44,
       },
       {
-        type: "paragraph",
+        type: "$text",
         start: 19,
         end: 44,
       },
