@@ -1,19 +1,7 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Annotation } from "@atjson/document";
+import { compareAnnotations } from "@atjson/document";
 import { CK } from "../src";
 import CKEditorSource from "./source-ckeditor-build-classic";
-
-function compareAnnotations(a: Annotation, b: Annotation) {
-  if (a.start !== b.start) {
-    return a.start - b.start;
-  }
-
-  if (a.end !== b.end) {
-    return b.end - a.end;
-  }
-
-  return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
-}
 
 describe("@atjson/source-ckeditor classic build", () => {
   let editor: CK.Editor;
@@ -36,19 +24,19 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Here is a paragraph");
-    expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.canonical().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
         end: 19,
       },
       {
-        type: "$text",
+        type: "paragraph",
         start: 0,
         end: 19,
       },
       {
-        type: "paragraph",
+        type: "$text",
         start: 0,
         end: 19,
       },
@@ -69,22 +57,22 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 44,
       },
       {
-        type: "$text",
-        start: 0,
-        end: 19,
-      },
-      {
         type: "paragraph",
         start: 0,
         end: 19,
       },
       {
         type: "$text",
+        start: 0,
+        end: 19,
+      },
+      {
+        type: "paragraph",
         start: 19,
         end: 44,
       },
       {
-        type: "paragraph",
+        type: "$text",
         start: 19,
         end: 44,
       },
@@ -103,12 +91,12 @@ describe("@atjson/source-ckeditor classic build", () => {
         end: 13,
       },
       {
-        type: "$text",
+        type: "paragraph",
         start: 0,
         end: 13,
       },
       {
-        type: "paragraph",
+        type: "$text",
         start: 0,
         end: 13,
       },
