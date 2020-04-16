@@ -226,7 +226,7 @@ describe("Document#canonical", () => {
     });
   });
 
-  test("annotations are properly sorted", () => {
+  test("annotations are sorted by position and rank", () => {
     let testDoc = new TestSource({
       content: "Hello World!",
       annotations: [

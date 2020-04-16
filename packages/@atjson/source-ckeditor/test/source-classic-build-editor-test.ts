@@ -1,5 +1,4 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { compareAnnotations } from "@atjson/document";
 import { CK } from "../src";
 import CKEditorSource from "./source-ckeditor-build-classic";
 
@@ -24,7 +23,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Here is a paragraph");
-    expect(doc.canonical().annotations).toMatchObject([
+    expect(doc.annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -50,7 +49,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Here is a paragraphHere is another paragraph");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -84,7 +83,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("autoparagraph");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -110,7 +109,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Bold italic link");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -161,7 +160,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
     expect(doc.content).toBe("Bold and italic bold link just bold");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -209,7 +208,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(editor.model.document);
 
     expect(doc.content).toBe("<$root><listItem>List item 1</listItem></$root>");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,

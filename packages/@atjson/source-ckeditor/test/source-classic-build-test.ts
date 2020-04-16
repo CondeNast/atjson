@@ -1,4 +1,3 @@
-import { compareAnnotations } from "@atjson/document";
 import DocumentFragment from "@ckeditor/ckeditor5-engine/src/model/documentfragment";
 import CKEditorSource from "./source-ckeditor-build-classic";
 
@@ -17,7 +16,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Here is a paragraph");
-    expect(doc.canonical().annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -58,7 +57,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Here is a paragraphHere is another paragraph");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -116,7 +115,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Bold italic link");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -186,7 +185,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(ckDoc).canonical();
 
     expect(doc.content).toBe("Bold and italic bold link just bold");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
@@ -245,7 +244,7 @@ describe("@atjson/source-ckeditor classic build", () => {
     let doc = CKEditorSource.fromRaw(ckDoc);
 
     expect(doc.content).toBe("<$root><listItem>List item 1</listItem></$root>");
-    expect(doc.annotations.sort(compareAnnotations)).toMatchObject([
+    expect(doc.all().sort().annotations).toMatchObject([
       {
         type: "$root",
         start: 0,
