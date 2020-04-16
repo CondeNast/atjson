@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.4...@atjson/document@0.24.0) (2020-04-16)
+
+### Features
+
+- use hierarchical sort as default sort ([ed8ee3d](https://github.com/CondeNast/atjson/commit/ed8ee3d1f41c4afd200fdfe5eb80c4f0fad175f6))
+
 ## [0.23.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.23.3...@atjson/document@0.23.4) (2020-04-15)
 
 ### Bug Fixes
