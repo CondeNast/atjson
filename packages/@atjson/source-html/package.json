@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
-    "parse5": "^5.0.0"
+    "parse5": "^6.0.0"
   },
   "devDependencies": {
     "@atjson/document": "file:../document"
