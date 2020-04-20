@@ -6,6 +6,8 @@ export * from "./code";
 export * from "./facebook-embed";
 export * from "./fixed-indent";
 export * from "./giphy-embed";
+export * from "./group-item";
+export * from "./group";
 export * from "./heading";
 export * from "./horizontal-rule";
 export * from "./html";
