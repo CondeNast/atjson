@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.28.3...@atjson/offset-annotations@0.29.0) (2020-04-20)
+
+### Features
+
+- add groups with art direction ([#499](https://github.com/CondeNast/atjson/issues/499)) ([4c4a004](https://github.com/CondeNast/atjson/commit/4c4a004e9bb9fa0389ef36096dbcbf057fe04a71))
+
 ## [0.28.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.28.2...@atjson/offset-annotations@0.28.3) (2020-04-16)
 
 **Note:** Version bump only for package @atjson/offset-annotations
