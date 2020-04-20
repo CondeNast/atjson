@@ -34,13 +34,13 @@ export function addDelimitersToLists(stream: TokenStream) {
         markers.push({
           value: current.startsAt,
           delimiter: ")",
-          indent
+          indent,
         });
       } else {
         markers.push({
           value: current.startsAt,
           delimiter: ".",
-          indent
+          indent,
         });
       }
     } else if (is(current, T.NumberedListEnd)) {
@@ -52,14 +52,15 @@ export function addDelimitersToLists(stream: TokenStream) {
       // We alternate between markers that start with
       // * and - for bulleted lists
       if (is(previous, T.BulletedListEnd) && lastMarker?.delimiter === "-") {
+        debugger;
         markers.push({
           delimiter: "*",
-          indent
+          indent,
         });
       } else {
         markers.push({
           delimiter: "-",
-          indent
+          indent,
         });
       }
     } else if (is(current, T.BulletedListEnd)) {
@@ -88,6 +89,8 @@ export function addDelimitersToLists(stream: TokenStream) {
       // https://spec.commonmark.org/0.29/#example-31
       if (marker.delimiter === "*") {
         result.push(T.ThematicBreak("-"));
+      } else if (marker.delimiter === "-") {
+        result.push(T.ThematicBreak("*"));
       }
     } else if (
       is(current, T.SoftLineBreak) ||

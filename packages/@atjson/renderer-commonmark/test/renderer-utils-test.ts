@@ -8,7 +8,7 @@ import {
   flatMapStringReplace,
   streamFlatMapStringReplace,
   greedilyTakeLeadingWhiteSpace,
-  greedilyTakeTrailingWhiteSpace
+  greedilyTakeTrailingWhiteSpace,
 } from "../src";
 
 import * as T from "../src/lib/tokens";
@@ -23,7 +23,7 @@ describe("commonmark renderer utility functions", () => {
         ".",
         " ",
         T.StrongStarStart,
-        "some bold text"
+        "some bold text",
       ]);
     });
 
@@ -36,7 +36,7 @@ describe("commonmark renderer utility functions", () => {
         T.StrongStarEnd,
         ")",
         T.EmphasisStarEnd,
-        T.BlockSeparator
+        T.BlockSeparator,
       ];
 
       expect(fixDelimiterRuns(stream)).toEqual(stream);
@@ -50,7 +50,7 @@ describe("commonmark renderer utility functions", () => {
         T.StrongStarEnd,
         " ",
         "-",
-        "some other stuff"
+        "some other stuff",
       ]);
     });
 
@@ -66,7 +66,7 @@ describe("commonmark renderer utility functions", () => {
         T.StrongStarEnd,
         T.StrongStarEnd,
         "\\*\\*\\*baz",
-        T.BlockSeparator
+        T.BlockSeparator,
       ];
 
       expect(fixDelimiterRuns(stream)).toEqual(stream);
@@ -88,7 +88,7 @@ describe("commonmark renderer utility functions", () => {
         "\n",
         "2",
         T.EscapedPunctuation("."),
-        " list item"
+        " list item",
       ]);
     });
   });
@@ -99,7 +99,7 @@ describe("commonmark renderer utility functions", () => {
       T.HardLineBreak,
       T.StrongStarStart,
       "test",
-      T.StrongStarEnd
+      T.StrongStarEnd,
     ];
 
     expect(
@@ -113,7 +113,7 @@ describe("commonmark renderer utility functions", () => {
       T.HardLineBreak,
       T.StrongStarStart,
       "eeeee",
-      T.StrongStarEnd
+      T.StrongStarEnd,
     ]);
   });
 
@@ -123,19 +123,18 @@ describe("commonmark renderer utility functions", () => {
     expect(mergeStrings(stream)).toEqual([
       "\n\n",
       T.ThematicBreak("*"),
-      "testing1\n2"
+      "testing1\n2",
     ]);
   });
 
   test("splitLines", () => {
-    debugger;
     let stream = ["test\nstream", T.ThematicBreak("*"), "\nhello\nworld"];
 
     expect(splitLines(stream)).toEqual([
       ["test"],
       ["stream", T.ThematicBreak("*"), ""],
       ["hello"],
-      ["world"]
+      ["world"],
     ]);
   });
 
@@ -170,7 +169,7 @@ describe("commonmark renderer utility functions", () => {
       expect(greedilyTakeLeadingWhiteSpace(stream, 1)).toEqual({
         leadingSpaces: [" "],
         trailingStream: [],
-        splitLeadingString: "test"
+        splitLeadingString: "test",
       });
     });
 
@@ -181,13 +180,13 @@ describe("commonmark renderer utility functions", () => {
         "\t\ttest\n",
         T.StrongStarStart,
         "some stuff",
-        T.StrongStarEnd
+        T.StrongStarEnd,
       ];
 
       expect(greedilyTakeLeadingWhiteSpace(stream1, 0)).toEqual({
         leadingSpaces: [" ", T.HardLineBreak, "\t\t"],
         trailingStream: [T.StrongStarStart, "some stuff", T.StrongStarEnd],
-        splitLeadingString: "test\n"
+        splitLeadingString: "test\n",
       });
     });
   });
@@ -199,7 +198,7 @@ describe("commonmark renderer utility functions", () => {
       expect(greedilyTakeTrailingWhiteSpace(stream, 2)).toEqual({
         trailingSpaces: [" "],
         leadingStream: [T.EmphasisStarStart, " "],
-        splitTrailingString: "-italic-"
+        splitTrailingString: "-italic-",
       });
     });
 
@@ -209,7 +208,7 @@ describe("commonmark renderer utility functions", () => {
       expect(greedilyTakeTrailingWhiteSpace(stream, 2)).toEqual({
         trailingSpaces: ["\n", T.HardLineBreak, "\t\n"],
         leadingStream: [],
-        splitTrailingString: "some stuff"
+        splitTrailingString: "some stuff",
       });
     });
 
@@ -219,7 +218,7 @@ describe("commonmark renderer utility functions", () => {
       expect(greedilyTakeTrailingWhiteSpace(stream, 0)).toEqual({
         trailingSpaces: [" "],
         leadingStream: [],
-        splitTrailingString: "bold text"
+        splitTrailingString: "bold text",
       });
     });
   });

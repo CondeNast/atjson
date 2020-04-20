@@ -70,32 +70,6 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
   );
 }
 
-function getChildNodeAnnotations(childNode: HIRNode) {
-  if (isTextAnnotation(childNode.annotation)) {
-    return {
-      type: "text" as const,
-      start: childNode.start,
-      end: childNode.end,
-      attributes: {
-        text: childNode.text,
-      },
-      toJSON(): object {
-        return {
-          id: "Any<id>",
-          type: "-atjson-text",
-          start: childNode.start,
-          end: childNode.end,
-          attributes: {
-            "-atjson-text": childNode.text,
-          },
-        };
-      },
-    };
-  } else {
-    return childNode.annotation;
-  }
-}
-
 function compile(
   renderer: Renderer,
   node: HIRNode,

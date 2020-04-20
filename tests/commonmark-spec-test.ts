@@ -6,7 +6,7 @@ import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
-import * as MarkdownIt from "markdown-it";
+import MarkdownIt from "markdown-it";
 
 const skippedTests = [
   142, // Additional newline after HTML block

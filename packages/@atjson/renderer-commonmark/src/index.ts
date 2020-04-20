@@ -492,13 +492,7 @@ export function splitLines(stream: TokenStream) {
         // always true
         let [firstLine, ...middleLines] = parts.slice(0, parts.length - 1);
         line.push(firstLine);
-        lines.push(
-          line,
-          ...middleLines.map((line) => {
-            if (line === "hello") debugger;
-            return [...line];
-          })
-        );
+        lines.push(line, ...middleLines.map((line) => [line]));
         line = array(parts[parts.length - 1]);
       }
     } else {
@@ -1082,7 +1076,7 @@ export default class CommonmarkRenderer extends Renderer {
         T.NumberedListEnd,
       ];
     } else {
-      return [T.BulletedListStart, ...(yield), T.NumberedListEnd];
+      return [T.BulletedListStart, ...(yield), T.BulletedListEnd];
     }
   }
 
