@@ -10,7 +10,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "file:../offset-annotations",
     "@wordpress/shortcode": "2.7.0"
   },
   "devDependencies": {
