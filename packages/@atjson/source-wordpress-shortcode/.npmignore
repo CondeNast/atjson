@@ -1,0 +1,11 @@
+.cache
+.vscode
+dist/**/test
+dist/**/node_modules
+scripts
+src
+public
+test
+tmp
+.npmrc
+tsconfig.json
