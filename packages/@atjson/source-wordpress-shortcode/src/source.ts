@@ -71,7 +71,7 @@ function parse(text: string) {
 }
 
 export default class WordpressShortcodeSource extends Document {
-  static contentType = "application/vnd.atjson+wp";
+  static contentType = "application/vnd.atjson+wordpress";
   static schema = [Shortcode];
   static fromRaw(content: string) {
     return new this({

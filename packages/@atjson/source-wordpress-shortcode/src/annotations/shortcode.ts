@@ -8,6 +8,6 @@ export class Shortcode extends InlineAnnotation<{
     numeric: any[];
   };
 }> {
-  static vendorPrefix = "wp";
+  static vendorPrefix = "wordpress";
   static type = "shortcode";
 }
