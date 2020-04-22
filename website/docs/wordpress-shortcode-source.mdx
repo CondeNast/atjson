@@ -1,0 +1,63 @@
+---
+title: Wordpress Shortcode
+---
+
+The Wordpress Shortcode source adds annotations to documents with Wordpress shortcodes.
+
+## Getting Started
+
+Install the HTML source using `npm`:
+
+```bash
+npm install --save @atjson/source-wordpress-shortcode
+```
+
+## Using with HTML
+
+This plugin only handles Wordpress shortcodes, and requires a converter to be written to turn the shortcodes into a well understood format.
+
+You can combine the annotations together from the Wordpress Shortcode source and the HTML source:
+
+```ts
+import OffsetSource from "@atjson/offset-annotations";
+import HTMLSource from "@atjson/source-html";
+import WPSource from "@atjson/source-wordpress-shortcode";
+
+WPSource.defineConverterTo(OffsetSource, (doc) => {
+  // Write your conversions here
+  return doc;
+});
+
+function getAnnotatedSource(html: string) {
+  let doc = HTMLSource.fromRaw(html).convertTo(OffsetSource);
+  let wpDoc = WPSource.fromRaw(doc.content).convertTo(offsetSource);
+  doc.addAnnotations(...wpDoc.annotations);
+  return doc;
+}
+```
+
+## Test
+
+Test your Wordpress code here. (This website doesn't collect any data, and this runs completely on this page with bundled packages)
+
+import { useState } from "react";
+import { TextArea } from "../src/components/TextArea.tsx";
+import HTMLSource from "@atjson/source-html";
+import WPSource from "@atjson/source-wordpress-shortcode";
+
+export const WPDemo = (props) => {
+  let [code, setCode] = useState(
+    `[caption id="attachment_6" align="alignright" width="300"]<img src="http://localhost/wp-content/uploads/2010/07/800px-Great_Wave_off_Kanagawa2-300x205.jpg" alt="Kanagawa" title="The Great Wave" width="300" height="205" class="size-medium wp-image-6" /> The Great Wave[/caption]`
+  );
+  let doc = HTMLSource.fromRaw(code);
+  doc.addAnnotations(...WPSource.fromRaw(code).annotations);
+  return (
+    <>
+      <TextArea value={code} onChange={(evt) => setCode(evt.target.value)} />
+      <code language="json">{JSON.stringify(doc.toJSON(), null, 2)}</code>
+      <code>{doc.canonical().content}</code>
+    </>
+  );
+};
+
+<WPDemo />

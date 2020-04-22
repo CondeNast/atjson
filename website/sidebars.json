@@ -16,7 +16,8 @@
       "html-source",
       "markdown-source",
       "prism-source",
-      "mobiledoc-source"
+      "mobiledoc-source",
+      "wordpress-shortcode-source"
     ],
     "Rendering": [
       "react-renderer",

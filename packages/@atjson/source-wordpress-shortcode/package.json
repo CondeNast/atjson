@@ -1,0 +1,22 @@
+{
+  "name": "@atjson/source-wordpress-shortcode",
+  "version": "0.1.0",
+  "description": "Parse Wordpress shortcodes into annotations",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@wordpress/shortcode": "2.7.0"
+  },
+  "devDependencies": {
+    "@atjson/document": "file:../document"
+  },
+  "peerDependencies": {
+    "@atjson/document": "^0.23.0"
+  }
+}
