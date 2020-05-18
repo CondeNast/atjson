@@ -379,16 +379,24 @@ export class Document {
 
   /**
    * Slices return part of a document from the parent document.
+   * By default, the slice contains a truncated copy of any annotation
+   * overlapping the range. This can be overriden by specifying a filter
    */
-  slice(start: number, end: number): Document {
+  slice(
+    start: number,
+    end: number,
+    filter?: (annotation: Annotation<any>) => boolean
+  ): Document {
     let DocumentClass = this.constructor as typeof Document;
-    let slicedAnnotations = this.where(function sliceContainsAnnotation(a) {
-      if (start < a.start) {
-        return end > a.start;
-      } else {
-        return a.end > start;
-      }
-    });
+    let slicedAnnotations = filter
+      ? this.where(filter)
+      : this.where(function sliceContainsAnnotation(a) {
+          if (start < a.start) {
+            return end > a.start;
+          } else {
+            return a.end > start;
+          }
+        });
 
     let doc = new DocumentClass({
       content: this.content,
@@ -403,12 +411,24 @@ export class Document {
   }
 
   /**
-   * Cuts out part of the document, modifying `this` and returning the removed portion
+   * Cuts out part of the document, modifying `this` and returning the removed portion.
+   * By default, the cut contains a truncated copy of any annotation
+   * overlapping the range. This can be overriden by specifying a filter.
+   * Annotations included wholly in the cut that are matched by the filter
+   * will be removed from the original document
    */
-  cut(start: number, end: number): Document {
-    let slice = this.slice(start, end);
+  cut(
+    start: number,
+    end: number,
+    filter?: (annotation: Annotation<any>) => boolean
+  ): Document {
+    let slice = this.slice(start, end, filter);
     this.where(function annotationWasCut(annotation) {
-      return annotation.start >= start && annotation.end <= end;
+      return (
+        annotation.start >= start &&
+        annotation.end <= end &&
+        (!filter || filter(annotation))
+      );
     }).remove();
     this.deleteText(start, end);
 

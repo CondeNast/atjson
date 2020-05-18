@@ -582,6 +582,7 @@ doc.slice(0, 8);
 ```
 
 `slice` is a way to pull out a fragment of the document out of the original document. It does not remove the text or annotations from the original document.
+By default, all annotations that overlap the range of the slice will be truncated and included in the slice. This can be overriden by specifying a `filter` function
 
 import HTMLSource from "@atjson/source-html";
 import CodeBlock from "@theme/CodeBlock";
