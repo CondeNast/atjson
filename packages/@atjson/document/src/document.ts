@@ -445,8 +445,12 @@ export class Document {
       /**
        * overrides Document.slice to return the result in the original source
        */
-      slice(start: number, end: number): Document {
-        let sliceDoc = super.slice(start, end);
+      slice(
+        start: number,
+        end: number,
+        filter?: (annotation: Annotation<any>) => boolean
+      ): Document {
+        let sliceDoc = super.slice(start, end, filter);
 
         return new DocumentClass({
           content: sliceDoc.content,
