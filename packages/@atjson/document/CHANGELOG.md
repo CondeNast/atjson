@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.2](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.1...@atjson/document@0.24.2) (2020-05-20)
+
+### Bug Fixes
+
+- pass slice filter override in conversion docs ([172b4d9](https://github.com/CondeNast/atjson/commit/172b4d9dd4cc4c9162375e0f7135f2e3c908feda))
+
 ## [0.24.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.0...@atjson/document@0.24.1) (2020-05-19)
 
 **Note:** Version bump only for package @atjson/document
