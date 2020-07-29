@@ -5,6 +5,10 @@
   "rebaseStalePrs": false,
   "packageRules": [
     {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
       "packagePatterns": ["@docusaurus/*"],
       "groupName": "docusaurus monorepo",
       "groupSlug": "docusaurus-monorepo"
