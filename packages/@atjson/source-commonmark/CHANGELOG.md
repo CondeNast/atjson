@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.22.11](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.22.10...@atjson/source-commonmark@0.22.11) (2020-07-29)
+
+### Bug Fixes
+
+- **deps:** update dependency entities to v2.0.2 ([#519](https://github.com/CondeNast/atjson/issues/519)) ([1685af4](https://github.com/CondeNast/atjson/commit/1685af49637a6ed147c35e8a8dd74d26e9db1374))
+- **deps:** update dependency entities to v2.0.3 ([#539](https://github.com/CondeNast/atjson/issues/539)) ([8dfc319](https://github.com/CondeNast/atjson/commit/8dfc3197366c5ad5947d3a10400de07021a7426c))
+
 ## [0.22.10](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.22.9...@atjson/source-commonmark@0.22.10) (2020-05-20)
 
 **Note:** Version bump only for package @atjson/source-commonmark
