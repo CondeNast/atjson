@@ -17,6 +17,7 @@
     "@atjson/source-commonmark": "*",
     "@atjson/source-gdocs-paste": "*",
     "@atjson/source-html": "*",
+    "@atjson/source-wordpress-shortcode": "*",
     "@atjson/source-url": "*",
     "@babel/plugin-proposal-class-properties": "7.10.1",
     "@babel/plugin-proposal-object-rest-spread": "7.10.1",
