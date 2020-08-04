@@ -1,6 +1,10 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export class Paragraph extends BlockAnnotation {
+export class Paragraph<
+  T = {
+    decorations?: string[];
+  }
+> extends BlockAnnotation<T> {
   static type = "paragraph";
   static vendorPrefix = "offset";
 
