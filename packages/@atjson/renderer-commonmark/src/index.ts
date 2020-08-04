@@ -14,6 +14,7 @@ import {
   Italic,
   Link,
   List,
+  Paragraph,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import {
@@ -689,7 +690,10 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(): Generator<void, string, string[]> {
+  *Paragraph(
+    _paragraph: Paragraph,
+    _context: Context
+  ): Generator<void, string, string[]> {
     let rawText = yield;
     let text = rawText.join("");
 
