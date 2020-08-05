@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.12...@atjson/renderer-commonmark@0.23.0) (2020-08-05)
+
+### Features
+
+- add decorations as an optional attribute on paragraphs ([2a37f41](https://github.com/CondeNast/atjson/commit/2a37f4157c98fbcec15e84ea6ea25acfa082edf7))
+
 ## [0.22.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.22.11...@atjson/renderer-commonmark@0.22.12) (2020-07-29)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

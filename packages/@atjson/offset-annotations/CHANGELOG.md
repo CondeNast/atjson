@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.29.2...@atjson/offset-annotations@0.30.0) (2020-08-05)
+
+### Features
+
+- add decorations as an optional attribute on paragraphs ([2a37f41](https://github.com/CondeNast/atjson/commit/2a37f4157c98fbcec15e84ea6ea25acfa082edf7))
+
 ## [0.29.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.29.1...@atjson/offset-annotations@0.29.2) (2020-05-20)
 
 **Note:** Version bump only for package @atjson/offset-annotations
