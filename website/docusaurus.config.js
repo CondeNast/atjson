@@ -9,7 +9,7 @@ module.exports = {
   themeConfig: {
     navbar: {
       title: "atjson",
-      links: [
+      items: [
         {
           to: "docs/getting-started",
           label: "Docs",
