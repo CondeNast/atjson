@@ -32,7 +32,7 @@
     "chance": "1.1.6",
     "commonmark": "0.29.1",
     "commonmark-spec": "0.29.0",
-    "conventional-changelog-core": "4.1.7",
+    "conventional-changelog-core": "4.2.0",
     "eslint": "7.6.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-jest": "23.20.0",
