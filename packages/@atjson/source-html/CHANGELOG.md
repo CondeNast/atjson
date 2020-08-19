@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.8](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.7...@atjson/source-html@0.28.8) (2020-08-19)
+
+### Bug Fixes
+
+- handle HTML link titles ([93187ae](https://github.com/CondeNast/atjson/commit/93187aeb14b2190aa9569051ee0c39dadc1d030e))
+
 ## [0.28.7](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.28.6...@atjson/source-html@0.28.7) (2020-08-05)
 
 **Note:** Version bump only for package @atjson/source-html
