@@ -60,6 +60,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
         "-html-href": "-offset-url",
         "-html-rel": "-offset-rel",
         "-html-target": "-offset-target",
+        "-html-title": "-offset-title",
       },
     });
 

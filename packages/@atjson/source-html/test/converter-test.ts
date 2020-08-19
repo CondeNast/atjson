@@ -145,7 +145,7 @@ describe("@atjson/source-html", () => {
 
     test("a", () => {
       let doc = HTMLSource.fromRaw(
-        'This <a href="https://condenast.com" rel="nofollow" target="_blank">is a link</a>'
+        'This <a href="https://condenast.com" rel="nofollow" target="_blank" title="Condé Nast">is a link</a>'
       );
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
       expect(hir).toMatchObject({
@@ -159,6 +159,7 @@ describe("@atjson/source-html", () => {
               url: "https://condenast.com",
               rel: "nofollow",
               target: "_blank",
+              title: "Condé Nast",
             },
             children: ["is a link"],
           },
