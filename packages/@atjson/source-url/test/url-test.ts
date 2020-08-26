@@ -135,13 +135,13 @@ describe("url-source", () => {
 
     test.each([
       "https://www.youtube.com/embed/Mh5LY4Mz15o",
-      "https://www.youtube.com/embed/Mh5LY4Mz15o?t=165",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?start=165",
       "https://www.youtube.com/embed/Mh5LY4Mz15o?controls=0",
-      "https://www.youtube.com/embed/Mh5LY4Mz15o?t=165&controls=0",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?start=165&controls=0",
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o",
-      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165",
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?start=165",
       "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?controls=0",
-      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?t=165&controls=0",
+      "https://www.youtube-nocookie.com/embed/Mh5LY4Mz15o?start=165&controls=0",
     ])("%s", (text) => {
       let url = URLSource.fromRaw(text);
       expect(EmbedRenderer.render(url.convertTo(OffsetSource))).toBe(

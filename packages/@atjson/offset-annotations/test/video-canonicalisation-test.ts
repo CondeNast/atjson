@@ -51,5 +51,17 @@ describe("VideoURLs", () => {
         provider: VideoURLs.Provider.YOUTUBE,
       });
     });
+
+    test.each([
+      "https://www.youtube.com/watch?v=Mh5LY4Mz15o&t=20",
+      "https://m.youtube.com/watch/?v=Mh5LY4Mz15o&t=20",
+      "https://youtu.be/Mh5LY4Mz15o?start=20",
+      "https://www.youtube.com/embed/Mh5LY4Mz15o?start=20",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://www.youtube.com/embed/Mh5LY4Mz15o?start=20",
+        provider: VideoURLs.Provider.YOUTUBE,
+      });
+    });
   });
 });
