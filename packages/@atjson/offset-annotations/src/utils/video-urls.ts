@@ -83,9 +83,11 @@ function normalizeYouTubeURL(url: IUrl) {
       ? new URL("https://www.youtube-nocookie.com")
       : new URL("https://www.youtube.com");
 
-  let timestamp = getSearchParam(url.searchParams, "t");
+  let timestamp =
+    getSearchParam(url.searchParams, "t") ||
+    getSearchParam(url.searchParams, "start");
   if (timestamp) {
-    normalized.searchParams.set("t", timestamp);
+    normalized.searchParams.set("start", timestamp);
   }
 
   if (isYouTubeEmbedURL(url)) {
