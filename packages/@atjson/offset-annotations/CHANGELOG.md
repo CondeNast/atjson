@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.30.0...@atjson/offset-annotations@0.30.1) (2020-08-26)
+
+### Bug Fixes
+
+- change the `t` param to `start` for YouTube videos ([467b432](https://github.com/CondeNast/atjson/commit/467b4327817869435e1d01422ad42a4f5ec23fec))
+
 # [0.30.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.29.2...@atjson/offset-annotations@0.30.0) (2020-08-05)
 
 ### Features

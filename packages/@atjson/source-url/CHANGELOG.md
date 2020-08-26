@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.8](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.26.7...@atjson/source-url@0.26.8) (2020-08-26)
+
+### Bug Fixes
+
+- change the `t` param to `start` for YouTube videos ([467b432](https://github.com/CondeNast/atjson/commit/467b4327817869435e1d01422ad42a4f5ec23fec))
+
 ## [0.26.7](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.26.6...@atjson/source-url@0.26.7) (2020-08-05)
 
 **Note:** Version bump only for package @atjson/source-url
