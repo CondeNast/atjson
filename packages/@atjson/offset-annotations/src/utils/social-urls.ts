@@ -37,6 +37,20 @@ function getSearchParam(
   return searchParams[name];
 }
 
+function getSearchString(
+  searchParams: { [key: string]: string } | URLSearchParams
+) {
+  if (searchParams instanceof URLSearchParams) {
+    return "?" + searchParams.toString();
+  }
+  return (
+    "?" +
+    Object.entries(searchParams)
+      .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+      .join("&")
+  );
+}
+
 // Instagram
 // - www.instagram.com/p/:id
 // - www.instagr.am/p/:id
@@ -257,6 +271,27 @@ function normalizeSpotifyUrl(url: IUrl) {
   };
 }
 
+// Megaphone URLs
+// - playlist.megaphone.fm/?p=playlistId
+// - playlist.megaphone.fm/?p-playlistId&light=true
+// - playlist.megaphone.fm/?e=episodeId
+// - playlist.megaphone.fm/?e=episodeId&light=true
+function isMegaphoneUrl(url: IUrl) {
+  return url.host === "playlist.megaphone.fm";
+}
+
+function normalizeMegaphoneUrl(url: IUrl) {
+  let height = getSearchParam(url.searchParams, "p") ? "485" : "200";
+  return {
+    Class: IframeEmbed,
+    attributes: {
+      url: `https://playlist.megaphone.fm/${getSearchString(url.searchParams)}`,
+      height,
+      width: "100%",
+    },
+  };
+}
+
 function isTikTokUrl(url: IUrl) {
   return (
     url.host === "www.tiktok.com" ||
@@ -307,6 +342,10 @@ export function identify(
 
   if (isSpotifyUrl(url)) {
     return normalizeSpotifyUrl(url);
+  }
+
+  if (isMegaphoneUrl(url)) {
+    return normalizeMegaphoneUrl(url);
   }
 
   if (isTikTokUrl(url)) {

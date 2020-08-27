@@ -110,4 +110,30 @@ describe("SocialURLs", () => {
       });
     });
   });
+
+  describe("identify Megaphone", () => {
+    test.each([
+      [
+        "http://playlist.megaphone.fm?e=PPY2173798513&light=true",
+        {
+          url: "https://playlist.megaphone.fm/?e=PPY2173798513&light=true",
+          height: "200",
+          width: "100%",
+        },
+      ],
+      [
+        "https://playlist.megaphone.fm/?p=DGT6274552575",
+        {
+          url: "https://playlist.megaphone.fm/?p=DGT6274552575",
+          height: "485",
+          width: "100%",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: IframeEmbed,
+        attributes,
+      });
+    });
+  });
 });
