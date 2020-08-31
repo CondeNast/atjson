@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.30.1...@atjson/offset-annotations@0.31.0) (2020-08-31)
+
+### Features
+
+- identify megaphone playlist/episode URLs ([f5e03a6](https://github.com/CondeNast/atjson/commit/f5e03a6f42811fb034c0c1e817fa121eb784b285))
+
 ## [0.30.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.30.0...@atjson/offset-annotations@0.30.1) (2020-08-26)
 
 ### Bug Fixes

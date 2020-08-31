@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-prism",
-  "version": "0.25.5",
+  "version": "0.25.6",
   "description": "Converts PRISM XML into atjson",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
