@@ -118,6 +118,7 @@ export interface AnnotationConstructor<T, Attributes> {
   }): T;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;

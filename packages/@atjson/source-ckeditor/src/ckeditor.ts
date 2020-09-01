@@ -25,7 +25,7 @@ export interface EditorConstructor {
   new (): Editor;
   prototype: Editor;
   builtinPlugins: PluginCollection;
-  defaultConfig: object;
+  defaultConfig: Record<string, unknown>;
   create(element: HTMLElement, config?: Config): Promise<Editor>;
 }
 
@@ -39,12 +39,12 @@ export interface EditingController {
 
 export interface Config {
   define(name: string, value: any): void;
-  define(name: object): void;
-  define(name: string | object, value?: any): void;
+  define(name: Record<string, unknown>): void;
+  define(name: string | Record<string, unknown>, value?: any): void;
   get(name: string): unknown;
   set(name: string, value: any): void;
-  set(name: object): void;
-  set(name: string | object, value?: any): void;
+  set(name: Record<string, unknown>): void;
+  set(name: string | Record<string, unknown>, value?: any): void;
 }
 
 export interface Model {
@@ -83,7 +83,7 @@ export interface Document {
   readonly roots: Collection<DocumentFragment>[];
   getRoot(name: string): RootElement | null;
   getRootNames(): string[];
-  toJSON(): object;
+  toJSON(): Record<string, unknown>;
 }
 
 export interface Schema {
@@ -147,7 +147,7 @@ export interface Node {
   is(type: string): boolean;
   isAfter(node: Node): boolean;
   isBefore(node: Node): boolean;
-  toJSON(): object;
+  toJSON(): Record<string, unknown>;
 }
 
 export interface TextNode extends Node {
@@ -197,7 +197,7 @@ export interface Range {
   is(type: string): boolean;
   isEqual(otherRange: Range): boolean;
   isIntersecting(otherRange: Range): boolean;
-  toJSON(): object;
+  toJSON(): Record<string, unknown>;
 }
 
 export interface Element extends Node {
@@ -235,11 +235,11 @@ export interface DocumentFragment {
   getNodeByPath(relativePath: number[]): Node | null;
   is(type: string): boolean;
   offsetToIndex(offset: number): number;
-  toJSON(): object;
+  toJSON(): Record<string, unknown>;
 }
 
 export interface DocumentFragmentConstructor {
-  fromJSON(json: object[]): DocumentFragment;
+  fromJSON(json: Record<string, unknown>[]): DocumentFragment;
 }
 
 export type PositionStickiness = "toNone" | "toNext" | "toPrevious";
@@ -288,7 +288,7 @@ export interface Position {
   isBefore(otherPosition: Position): boolean;
   isEqual(otherPosition: Position): boolean;
   isTouching(otherPosition: Position): boolean;
-  toJSON(): object;
+  toJSON(): Record<string, unknown>;
 }
 
 export interface TreeWalkerValue {

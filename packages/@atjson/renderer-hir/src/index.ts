@@ -58,8 +58,14 @@ export function classify(type: string) {
 
 export interface Context {
   parent: Annotation<any>;
-  previous: Annotation<any> | (AnnotationJSON & { toJSON(): object }) | null;
-  next: Annotation<any> | (AnnotationJSON & { toJSON(): object }) | null;
+  previous:
+    | Annotation<any>
+    | (AnnotationJSON & { toJSON(): Record<string, unknown> })
+    | null;
+  next:
+    | Annotation<any>
+    | (AnnotationJSON & { toJSON(): Record<string, unknown> })
+    | null;
   children: Array<Annotation<any>>;
   document: Document;
 }
@@ -160,7 +166,7 @@ function textAnnotationFromNode(childNode: HIRNode) {
     attributes: {
       text: childNode.text,
     },
-    toJSON(): object {
+    toJSON(): Record<string, unknown> {
       return {
         id: "Any<id>",
         type: "-atjson-text",
