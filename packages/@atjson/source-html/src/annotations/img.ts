@@ -16,6 +16,7 @@ export class Image extends ObjectAnnotation<
     height?: string;
     referrerpolicy?: string;
     decoding?: string;
+    loading?: string;
   }
 > {
   static vendorPrefix = "html";
