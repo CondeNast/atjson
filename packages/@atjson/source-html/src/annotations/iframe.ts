@@ -15,6 +15,7 @@ export class Iframe extends ObjectAnnotation<
     width?: string;
     height?: string;
     referrerpolicy?: string;
+    loading?: string;
   }
 > {
   static vendorPrefix = "html";

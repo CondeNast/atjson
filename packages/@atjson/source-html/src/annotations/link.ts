@@ -18,6 +18,7 @@ export class Link extends ObjectAnnotation<
     imagesizes?: string;
     as?: string;
     color?: string;
+    disabled?: string;
     title?: string;
   }
 > {

@@ -1,8 +1,9 @@
 import { readFileSync, writeFileSync } from "fs";
 import * as path from "path";
 import { format } from "prettier";
-import * as puppeteer from "puppeteer";
 import { URL } from "url";
+import { get, nextSection } from "./utils";
+import { JSDOM } from "jsdom";
 
 interface DOMDefinition {
   type: string;
@@ -13,20 +14,19 @@ interface DOMDefinition {
   attributes: string[];
 }
 
-async function defineHTMLInterface(page: puppeteer.Page) {
+async function defineHTMLInterface(document: Document, url: string) {
   // We use tuple pairs to define the default
   // global attributes interface, since that makes
   // it easier to generate the TypeScript file
-  let attributes = await page.evaluate(() => {
-    let list = document.querySelector("h4#global-attributes");
-    if (list == null) return [];
-
+  let list = document.querySelector("h4#global-attributes");
+  let attributes: [string, string][] = [];
+  if (list != null) {
     while (list.tagName !== "UL") list = list.nextElementSibling!;
 
-    return Array.from(list.querySelectorAll("a")).map((anchor) => {
-      return [anchor.innerText, "string"];
+    attributes = [...list.querySelectorAll("a")].map((anchor) => {
+      return [anchor.textContent ?? "", "string"];
     });
-  });
+  }
   attributes.push(["dataset", "{ [attribute: string]: string; }"]);
 
   writeFileSync(
@@ -37,7 +37,7 @@ async function defineHTMLInterface(page: puppeteer.Page) {
 
 /**
  * Global HTML attributes for all HTML elements,
- * as defined in the [HTML Spec](${page.url()}#global-attributes)
+ * as defined in the [HTML Spec](${url}#global-attributes)
  */
 export interface GlobalAttributes {
 ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
@@ -49,99 +49,94 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
 }
 
 (async () => {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
   const classNames = JSON.parse(
     readFileSync(path.join(__dirname, "class-names.json")).toString()
   );
 
-  page.on("console", (msg) => {
-    for (let i = 0; i < msg.args().length; ++i)
-      console.log(`${i}: ${msg.args()[i]}`);
-  });
-  await page.goto("https://html.spec.whatwg.org/multipage/dom.html");
-  await defineHTMLInterface(page);
+  let html = await get("https://html.spec.whatwg.org/multipage/dom.html");
+  let dom = new JSDOM(html);
+  let document = dom.window.document;
+  await defineHTMLInterface(
+    document,
+    "https://html.spec.whatwg.org/multipage/dom.html"
+  );
 
   // Next section!
-  await page.$eval("nav a:last-child", (link) =>
-    (link as HTMLAnchorElement).click()
-  );
+  let href = nextSection(document);
+  html = await get(href);
 
   let definitions: DOMDefinition[] = [];
 
   while (true) {
-    let sectionNumber = await page.$$eval(".secno", (elements) => {
-      return elements[0] ? (elements[0] as HTMLSpanElement).innerText : "4";
-    });
+    dom = new JSDOM(html);
+    document = dom.window.document;
+    let secNo = document.querySelector(".secno");
+    let sectionNumber = secNo?.textContent ?? "4";
     if (!sectionNumber.match(/^4/)) break;
 
-    let hasSections = (await page.$$("h4")).length > 0;
+    let hasSections = document.querySelectorAll("h4").length > 0;
     if (!hasSections) {
-      await page.$eval("nav a:last-child", (link) =>
-        (link as HTMLAnchorElement).click()
-      );
+      href = nextSection(document);
+      html = await get(href);
+      continue;
     }
 
-    let url = new URL(page.url());
+    let url = new URL(href);
 
     // Grab all element definitions, and begin to
     // parse and create annotation definitions for each one
-    let headings = await page.$$("h4");
+    let headings = document.querySelectorAll("h4");
 
     for (let heading of headings) {
-      let isElementDefinition = await heading.$("dfn code");
+      let isElementDefinition = heading.querySelector("dfn code");
       if (!isElementDefinition) continue;
 
-      let id = await page.evaluate((element) => element.id, heading);
-      let section = await page.evaluate(
-        (selector) => document.getElementById(selector)!.innerText,
-        id
-      );
+      let id = heading.id;
+      let section = (heading.textContent ?? "")
+        .replace("\n", "")
+        .replace(/\s{2,}/g, " ");
 
       // Multiple HTML elements are sometimes defined per section, like `sub` and `sup`.
-      let types = await heading.$$eval("dfn code", (nodes) =>
-        nodes.map((node) => (node as HTMLElement).innerText)
+      let types = [...heading.querySelectorAll("dfn code")].map(
+        (node) => node.textContent ?? ""
       );
 
       // The content model is used to determine what kind of annotation
       // class we should use for the HTML element.
-      let contentModel = await page.evaluate((elementId) => {
-        let element = document.getElementById(elementId)!;
-        while (!element.classList.contains("element"))
-          element = element.nextElementSibling as HTMLElement;
-        if (element == null) return "";
+      let contentModel = "";
 
-        return (element.querySelector(
-          'a[href="dom.html#concept-element-content-model"]'
-        )!.parentElement!.nextElementSibling as HTMLElement).innerText;
-      }, id);
+      let $contentModel = document.getElementById(id)!;
+      while (!$contentModel.classList.contains("element")) {
+        $contentModel = $contentModel.nextElementSibling as HTMLElement;
+      }
+      if ($contentModel != null) {
+        contentModel =
+          ($contentModel.querySelector(
+            'a[href="dom.html#concept-element-content-model"]'
+          )!.parentElement!.nextElementSibling as HTMLElement).textContent ??
+          "";
+      }
 
-      let attributes = await page.evaluate((elementId) => {
-        let element = document.getElementById(elementId)!;
-        while (!element.classList.contains("element"))
-          element = element.nextElementSibling as HTMLElement;
+      let attributes: string[] = [];
 
-        let attrs = [];
-        let dfn = element.querySelector(
-          'a[href="dom.html#concept-element-attributes"]'
-        )!.parentElement!.nextElementSibling!;
-        while (dfn.tagName !== "DT") {
-          let attr = dfn.querySelector("code a") as HTMLAnchorElement;
-          if (
-            attr &&
-            !attr.innerText.startsWith("on") &&
-            attr.getAttribute("href")!.match(/#attr\-/)
-          ) {
-            let attributeName = attr.innerText;
-            if (attributeName.indexOf("-") !== -1) {
-              attributeName = `'${attributeName}'`;
-            }
-            attrs.push(attributeName);
+      let dfn = $contentModel.querySelector(
+        'a[href="dom.html#concept-element-attributes"]'
+      )!.parentElement!.nextElementSibling!;
+      while (dfn.tagName !== "DT") {
+        let attr = dfn.querySelector("code a") as HTMLAnchorElement;
+        if (
+          attr &&
+          !attr.textContent?.startsWith("on") &&
+          attr.getAttribute("href")!.match(/#attr\-/)
+        ) {
+          let attributeName = attr.textContent ?? "";
+          if (attributeName.indexOf("-") !== -1) {
+            attributeName = `'${attributeName}'`;
           }
-          dfn = dfn.nextElementSibling!;
+          attributes.push(attributeName);
         }
-        return attrs;
-      }, id);
+        dfn = dfn.nextElementSibling!;
+      }
 
       types.forEach((type) => {
         if (definitions.find((dfn) => dfn.type === type)) return;
@@ -163,11 +158,9 @@ ${attributes.map(([key, type]) => `  ${key}?: ${type};`).join("\n")}
       });
     }
 
-    await page.$eval("nav a:last-child", (link) =>
-      (link as HTMLAnchorElement).click()
-    );
+    href = nextSection(document);
+    html = await get(href);
   }
-  browser.close();
 
   definitions = definitions.sort((a, b) => {
     if (a.type < b.type) return -1;
