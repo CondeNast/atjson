@@ -41,7 +41,6 @@
     "lint-staged": "10.3.0",
     "markdown-it": "10.0.0",
     "minimist": "1.2.5",
-    "os-name": "4.0.0",
     "prettier": "2.1.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -79,10 +78,10 @@
     "prerelease": "lerna publish --dist-tag dev --preid dev --conventional-prerelease",
     "test": "./node_modules/jest/bin/jest.js",
     "typecheck": "tsc -b packages/**/* --force",
-    "anonymize-fixtures": "npx ts-node ./performance/anonymize-fixtures.ts",
-    "perf": "npx ts-node ./performance/index.ts",
-    "perf:baseline": "npx ts-node ./performance/index.ts --baseline baseline",
-    "perf-tstat": "npx ts-node ./performance/tstat.ts"
+    "anonymize-fixtures": "npx ts-node ./perf-kit/anonymize-fixtures.ts",
+    "perf": "npx ts-node ./perf-kit/index.ts profile --out current",
+    "perf:baseline": "npx ts-node ./perf-kit/index.ts profile --out baseline",
+    "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current"
   },
   "workspaces": [
     "packages/@atjson/*"
