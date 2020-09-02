@@ -15,7 +15,7 @@
     "@types/chance": "1.1.0",
     "@types/entities": "1.1.1",
     "@types/jest": "25.2.3",
-    "@types/jsdom": "16.2.3",
+    "@types/jsdom": "16.2.4",
     "@types/markdown-it": "0.0.9",
     "@types/minimist": "1.2.0",
     "@types/node": "12.12.54",
