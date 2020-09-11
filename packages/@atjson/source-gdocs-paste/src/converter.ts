@@ -64,6 +64,24 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
     .set({ type: "-offset-heading" })
     .rename({ attributes: { "-gdocs-level": "-offset-level" } });
 
+  doc
+    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 1 } })
+    .unset("attributes.-gdocs-align")
+    .set({ attributes: { "-offset-alignment": "center" } });
+
+  doc
+    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 2 } })
+    .unset("attributes.-gdocs-align")
+    .set({ attributes: { "-offset-alignment": "end" } });
+
+  doc
+    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 3 } })
+    .unset("attributes.-gdocs-align")
+    .set({ attributes: { "-offset-alignment": "justify" } });
+
+  // Remove all other alignments
+  doc.where({ type: "-offset-heading" }).unset("attributes.-gdocs-align");
+
   // b_gt: 9 indicates an unordered list, but ordered lists have a variety of b_gt values
   doc
     .where({ type: "-gdocs-list", attributes: { "-gdocs-ls_b_gt": 9 } })
@@ -182,6 +200,34 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
         );
       }
     });
+
+  doc.where({ type: "-gdocs-ps_al" }).update((align) => {
+    let alignment: "start" | "center" | "end" | "justify" | undefined;
+    switch (align.attributes.align) {
+      case 0:
+        alignment = "start";
+        break;
+      case 1:
+        alignment = "center";
+        break;
+      case 2:
+        alignment = "end";
+        break;
+      case 3:
+        alignment = "justify";
+        break;
+    }
+    doc.replaceAnnotation(
+      align,
+      new Paragraph({
+        start: align.start,
+        end: align.end,
+        attributes: {
+          alignment,
+        },
+      })
+    );
+  });
 
   // GDocs can produce lists that have paragraphs in them that are
   // not wrapped by a list item. In these cases, split the list before

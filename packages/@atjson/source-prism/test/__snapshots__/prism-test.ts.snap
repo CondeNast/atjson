@@ -2650,9 +2650,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "byline",
-      },
+      "attributes": Object {},
       "end": 752,
       "id": "Any<id>",
       "start": 639,
@@ -2725,9 +2723,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "deck",
-      },
+      "attributes": Object {},
       "end": 1086,
       "id": "Any<id>",
       "start": 753,
@@ -7714,9 +7710,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "byline",
-      },
+      "attributes": Object {},
       "end": 666,
       "id": "Any<id>",
       "start": 635,
@@ -7741,9 +7735,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "deck",
-      },
+      "attributes": Object {},
       "end": 725,
       "id": "Any<id>",
       "start": 667,
@@ -8756,9 +8748,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "byline",
-      },
+      "attributes": Object {},
       "end": 665,
       "id": "Any<id>",
       "start": 635,
@@ -8783,9 +8773,7 @@ Object {
       "type": "-atjson-parse-token",
     },
     Object {
-      "attributes": Object {
-        "-html-class": "deck",
-      },
+      "attributes": Object {},
       "end": 753,
       "id": "Any<id>",
       "start": 666,

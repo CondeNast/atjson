@@ -3,6 +3,7 @@ import { BlockAnnotation } from "@atjson/document";
 export class Paragraph<
   T = {
     decorations?: string[];
+    alignment?: "start" | "center" | "end" | "justify";
   }
 > extends BlockAnnotation<T> {
   static type = "paragraph";

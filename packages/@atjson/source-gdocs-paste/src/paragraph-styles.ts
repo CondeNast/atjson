@@ -8,7 +8,7 @@ import { GDocsStyleSlice } from "./types";
  *
  * Paragraph style attributes are:
  *
- *   ps_al: unknown
+ *   ps_al: 0 | 1 | 2 | 3 // Paragraph alignment
  *   ps_awao: unknown
  *   ps_bb: unknown
  *   ps_bbtw: unknown
@@ -50,6 +50,18 @@ export default function extractParagraphStyles(
         end: i,
         attributes: {
           "-gdocs-level": style.ps_hd,
+          "-gdocs-align": style.ps_al,
+        },
+      });
+    }
+
+    if (style.ps_al !== 0) {
+      annotations.push({
+        type: "-gdocs-ps_al",
+        start: lastParagraphStart,
+        end: i,
+        attributes: {
+          "-gdocs-align": style.ps_al,
         },
       });
     }

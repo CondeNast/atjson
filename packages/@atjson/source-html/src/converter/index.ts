@@ -5,6 +5,8 @@ import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
 import convertThirdPartyEmbeds from "./third-party-embeds";
 import convertVideoEmbeds from "./video-embeds";
+import convertHeadings from "./headings";
+import convertParagraphs from "./paragraphs";
 
 function getText(doc: Document) {
   let text = "";
@@ -66,26 +68,9 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
   doc.where({ type: "-html-blockquote" }).set({ type: "-offset-blockquote" });
 
-  doc
-    .where({ type: "-html-h1" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 1 } });
-  doc
-    .where({ type: "-html-h2" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 2 } });
-  doc
-    .where({ type: "-html-h3" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 3 } });
-  doc
-    .where({ type: "-html-h4" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 4 } });
-  doc
-    .where({ type: "-html-h5" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 5 } });
-  doc
-    .where({ type: "-html-h6" })
-    .set({ type: "-offset-heading", attributes: { "-offset-level": 6 } });
+  convertHeadings(doc);
+  convertParagraphs(doc);
 
-  doc.where({ type: "-html-p" }).set({ type: "-offset-paragraph" });
   doc.where({ type: "-html-br" }).set({ type: "-offset-line-break" });
   doc.where({ type: "-html-hr" }).set({ type: "-offset-horizontal-rule" });
 

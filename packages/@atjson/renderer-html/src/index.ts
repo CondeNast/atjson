@@ -6,6 +6,7 @@ import {
   Link,
   List,
   TikTokEmbed,
+  Paragraph,
 } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
@@ -150,7 +151,11 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *Heading(heading: Heading) {
-    return yield* this.$(`h${heading.attributes.level}`);
+    let style: string | undefined;
+    if (heading.attributes.alignment) {
+      style = this.textAlign(heading.attributes.alignment);
+    }
+    return yield* this.$(`h${heading.attributes.level}`, { style });
   }
 
   *HorizontalRule() {
@@ -196,8 +201,12 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("li");
   }
 
-  *Paragraph() {
-    return yield* this.$("p");
+  *Paragraph(paragraph: Paragraph) {
+    let style: string | undefined;
+    if (paragraph.attributes.alignment) {
+      style = this.textAlign(paragraph.attributes.alignment);
+    }
+    return yield* this.$("p", { style });
   }
 
   *Section() {
@@ -230,5 +239,14 @@ export default class HTMLRenderer extends Renderer {
 
   *Underline() {
     return yield* this.$("u");
+  }
+
+  protected textAlign(alignment: "start" | "center" | "end" | "justify") {
+    if (alignment === "start") {
+      return `text-align:left;`;
+    } else if (alignment === "end") {
+      return `text-align:right;`;
+    }
+    return `text-align:${alignment};`;
   }
 }
