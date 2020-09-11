@@ -1,3 +1,4 @@
+export * from "./alignment";
 export * from "./bold";
 export * from "./heading";
 export * from "./horizontal-rule";

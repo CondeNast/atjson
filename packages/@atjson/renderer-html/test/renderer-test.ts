@@ -63,6 +63,35 @@ describe("renderer-html", () => {
 
       expect(Renderer.render(doc)).toEqual(`<h${level}>Hello</h${level}>`);
     });
+
+    describe("alignment", () => {
+      describe.each([
+        ["left", "start"],
+        ["center", "center"],
+        ["right", "end"],
+        ["justify", "justify"],
+      ] as const)("%s", (textAlign, alignment) => {
+        test.each([1, 2, 3, 4, 5, 6] as const)("level %s", (level) => {
+          let doc = new OffsetSource({
+            content: "Hello",
+            annotations: [
+              new Heading({
+                start: 0,
+                end: 5,
+                attributes: {
+                  level,
+                  alignment,
+                },
+              }),
+            ],
+          });
+
+          expect(Renderer.render(doc)).toEqual(
+            `<h${level} style="text-align:${textAlign};">Hello</h${level}>`
+          );
+        });
+      });
+    });
   });
 
   test("horizontal rule", () => {
@@ -289,13 +318,39 @@ describe("renderer-html", () => {
     });
   });
 
-  test("paragraph", () => {
-    let doc = new OffsetSource({
-      content: "Hello",
-      annotations: [new Paragraph({ start: 0, end: 5 })],
+  describe("paragraph", () => {
+    test("paragraph", () => {
+      let doc = new OffsetSource({
+        content: "Hello",
+        annotations: [new Paragraph({ start: 0, end: 5 })],
+      });
+
+      expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
     });
 
-    expect(Renderer.render(doc)).toEqual("<p>Hello</p>");
+    describe("alignment", () => {
+      describe.each([
+        ["left", "start"],
+        ["center", "center"],
+        ["right", "end"],
+        ["justify", "justify"],
+      ] as const)("%s", (textAlign, alignment) => {
+        let doc = new OffsetSource({
+          content: "Hello",
+          annotations: [
+            new Paragraph({
+              start: 0,
+              end: 5,
+              attributes: { alignment },
+            }),
+          ],
+        });
+
+        expect(Renderer.render(doc)).toEqual(
+          `<p style="text-align:${textAlign};">Hello</p>`
+        );
+      });
+    });
   });
 
   test("section", () => {

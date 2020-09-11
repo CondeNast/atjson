@@ -41,6 +41,13 @@ applies (? - needs verification) to the text seen _since_ the previous paragraph
 
 Paragraph styles set on a character level are either `null` or an object with the following properties:
 
+`ps_al`: `integer` between `0` and `3`
+
+- `0`: Left align text
+- `1`: Center text
+- `2`: Right align text
+- `3`: Justify text
+
 `ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)
 
 - `0`: Normal paragraph

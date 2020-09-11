@@ -1,5 +1,6 @@
 import Document from "@atjson/document";
 import {
+  Alignment,
   Bold,
   Heading,
   HorizontalRule,
@@ -17,6 +18,7 @@ import GDocsParser, { GDocsPasteBuffer } from "./gdocs-parser";
 export default class extends Document {
   static contentType = "application/vnd.atjson+gdocs";
   static schema = [
+    Alignment,
     Bold,
     Heading,
     HorizontalRule,
