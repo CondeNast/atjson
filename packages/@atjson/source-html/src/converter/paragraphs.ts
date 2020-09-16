@@ -8,13 +8,20 @@ export default function (doc: Document) {
     .as("paragraph")
     .outerJoin(
       doc
-        .where((annotation) => annotation.attributes.lang != null)
-        .as("languages"),
-      (heading, language) =>
-        heading.start >= language.start && heading.end <= language.end
+        .where((annotation) => annotation.attributes.dir != null)
+        .as("directions"),
+      (heading, direction) =>
+        heading.start >= direction.start && heading.end <= direction.end
     )
-    .update(({ paragraph, languages }) => {
-      let lang = languages.sort((language) => language.end - language.start)[0];
+    .update(({ paragraph, directions }) => {
+      let direction = directions.sort(
+        (direction) => direction.end - direction.start
+      )[0];
+      if (direction?.attributes.dir === "rtl") {
+        throw new Error(
+          "Right to left languages are currently not supported in atjson."
+        );
+      }
 
       doc.replaceAnnotation(
         paragraph,
@@ -24,7 +31,7 @@ export default function (doc: Document) {
           attributes: {
             alignment: toAlignment(
               parseCSS(paragraph.attributes.style)["text-align"],
-              lang?.attributes?.lang
+              direction?.attributes?.lang
             ),
           },
         })
