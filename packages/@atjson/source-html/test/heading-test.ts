@@ -30,7 +30,7 @@ describe("headings", () => {
           "%s",
           (tagname) => {
             let doc = HTMLSource.fromRaw(
-              `<${tagname} style="text-align:${textAlign};" lang="en-US">Heading from ${tagname}</${tagname}>`
+              `<${tagname} style="text-align:${textAlign};">Heading from ${tagname}</${tagname}>`
             ).convertTo(OffsetSource);
             expect(
               doc.where({ type: `-offset-heading` }).annotations
@@ -46,16 +46,15 @@ describe("headings", () => {
         ["center", "center"],
         ["right", "start"],
         ["justify", "justify"],
-      ] as const)("%s", (textAlign, alignment) => {
+      ] as const)("%s", (textAlign) => {
         test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
           "%s",
           (tagname) => {
-            let doc = HTMLSource.fromRaw(
-              `<${tagname} style="text-align:${textAlign};" lang="ar">Heading from ${tagname}</${tagname}>`
-            ).convertTo(OffsetSource);
-            expect(
-              doc.where({ type: `-offset-heading` }).annotations
-            ).toMatchObject([{ attributes: { alignment } }]);
+            expect(() => {
+              HTMLSource.fromRaw(
+                `<${tagname} style="text-align:${textAlign};" dir="rtl">Heading from ${tagname}</${tagname}>`
+              ).convertTo(OffsetSource);
+            }).toThrow();
           }
         );
       });

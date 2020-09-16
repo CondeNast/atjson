@@ -10,21 +10,6 @@ export function parseCSS(css: string | undefined) {
   return styles;
 }
 
-const RightToLeft = [
-  "ar",
-  "arc",
-  "dv",
-  "fa",
-  "ha",
-  "he",
-  "khw",
-  "ks",
-  "ku",
-  "ps",
-  "ur",
-  "yi",
-];
-
 const RightToLeftAlignment = {
   left: "end",
   right: "start",
@@ -46,14 +31,13 @@ const LeftToRightAlignment = {
  */
 export function toAlignment(
   alignment: string | undefined,
-  language: string | undefined
+  direction: string | undefined
 ) {
   if (alignment == null) {
     return alignment;
   }
 
-  let [languageCode] = (language || "").toLowerCase().split("-");
-  if (RightToLeft.indexOf(languageCode) !== -1) {
+  if (direction === "rtl") {
     return RightToLeftAlignment[alignment];
   }
   return LeftToRightAlignment[alignment];

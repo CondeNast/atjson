@@ -11,7 +11,7 @@ describe("paragraphs", () => {
         ["justify", "justify"],
       ] as const)("%s attribute is converted", (textAlign, alignment) => {
         let doc = HTMLSource.fromRaw(
-          `<p style="text-align:${textAlign};" lang="en-US">Here is some text</p>`
+          `<p style="text-align:${textAlign};">Here is some text</p>`
         ).convertTo(OffsetSource);
 
         expect(
@@ -32,20 +32,12 @@ describe("paragraphs", () => {
         ["right", "start"],
         ["center", "center"],
         ["justify", "justify"],
-      ] as const)("%s attribute is converted", (textAlign, alignment) => {
-        let doc = HTMLSource.fromRaw(
-          `<p style="text-align:${textAlign};" lang="ar">Here is some text</p>`
-        ).convertTo(OffsetSource);
-
-        expect(
-          doc.where({ type: `-offset-paragraph` }).annotations
-        ).toMatchObject([
-          {
-            attributes: {
-              alignment,
-            },
-          },
-        ]);
+      ] as const)("%s attribute is converted", (textAlign) => {
+        expect(() => {
+          HTMLSource.fromRaw(
+            `<p style="text-align:${textAlign};" dir="rtl">Here is some text</p>`
+          ).convertTo(OffsetSource);
+        }).toThrow();
       });
     });
   });
