@@ -12,7 +12,7 @@
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
     "entities": "2.0.3",
-    "markdown-it": "10.0.0"
+    "markdown-it": "11.0.1"
   },
   "devDependencies": {
     "@atjson/document": "file:../document"

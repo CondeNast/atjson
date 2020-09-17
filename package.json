@@ -39,7 +39,7 @@
     "jest": "26.4.2",
     "lerna": "3.22.1",
     "lint-staged": "10.4.0",
-    "markdown-it": "10.0.0",
+    "markdown-it": "11.0.1",
     "minimist": "1.2.5",
     "prettier": "2.1.2",
     "react": "16.13.1",
