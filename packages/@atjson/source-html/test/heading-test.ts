@@ -21,22 +21,27 @@ describe("headings", () => {
   describe("alignment", () => {
     describe("left to right", () => {
       describe.each([
-        ["left", "start"],
-        ["center", "center"],
-        ["right", "end"],
-        ["justify", "justify"],
-      ] as const)("%s", (textAlign, alignment) => {
-        test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
-          "%s",
-          (tagname) => {
-            let doc = HTMLSource.fromRaw(
-              `<${tagname} style="text-align:${textAlign};">Heading from ${tagname}</${tagname}>`
-            ).convertTo(OffsetSource);
-            expect(
-              doc.where({ type: `-offset-heading` }).annotations
-            ).toMatchObject([{ attributes: { alignment } }]);
-          }
-        );
+        ["with direction attribute", `dir="ltr"`],
+        ["without direction attribute", ""],
+      ])("%s", (dir) => {
+        describe.each([
+          ["left", "start"],
+          ["center", "center"],
+          ["right", "end"],
+          ["justify", "justify"],
+        ] as const)("%s", (textAlign, alignment) => {
+          test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
+            "%s",
+            (tagname) => {
+              let doc = HTMLSource.fromRaw(
+                `<${tagname} style="text-align:${textAlign};" ${dir}>Heading from ${tagname}</${tagname}>`
+              ).convertTo(OffsetSource);
+              expect(
+                doc.where({ type: `-offset-heading` }).annotations
+              ).toMatchObject([{ attributes: { alignment } }]);
+            }
+          );
+        });
       });
     });
 

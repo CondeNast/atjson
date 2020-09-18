@@ -4,25 +4,30 @@ import HTMLSource from "../src";
 describe("paragraphs", () => {
   describe("alignment", () => {
     describe("left to right", () => {
-      test.each([
-        ["left", "start"],
-        ["right", "end"],
-        ["center", "center"],
-        ["justify", "justify"],
-      ] as const)("%s attribute is converted", (textAlign, alignment) => {
-        let doc = HTMLSource.fromRaw(
-          `<p style="text-align:${textAlign};">Here is some text</p>`
-        ).convertTo(OffsetSource);
+      describe.each([
+        ["with direction attribute", `dir="ltr"`],
+        ["without direction attribute", ""],
+      ])("%s", (dir) => {
+        test.each([
+          ["left", "start"],
+          ["right", "end"],
+          ["center", "center"],
+          ["justify", "justify"],
+        ] as const)("%s attribute is converted", (textAlign, alignment) => {
+          let doc = HTMLSource.fromRaw(
+            `<p style="text-align:${textAlign};" ${dir}>Here is some text</p>`
+          ).convertTo(OffsetSource);
 
-        expect(
-          doc.where({ type: `-offset-paragraph` }).annotations
-        ).toMatchObject([
-          {
-            attributes: {
-              alignment,
+          expect(
+            doc.where({ type: `-offset-paragraph` }).annotations
+          ).toMatchObject([
+            {
+              attributes: {
+                alignment,
+              },
             },
-          },
-        ]);
+          ]);
+        });
       });
     });
 
