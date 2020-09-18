@@ -43,9 +43,9 @@ Paragraph styles set on a character level are either `null` or an object with th
 
 `ps_al`: `integer` between `0` and `3`
 
-- `0`: Left align text
+- `0`: Align text to the start of the line
 - `1`: Center text
-- `2`: Right align text
+- `2`: Align text to the end of the line
 - `3`: Justify text
 
 `ps_hd`: `integer` between `0` and `6`, `100`, `101` (others?)
