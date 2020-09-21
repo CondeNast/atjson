@@ -16,7 +16,7 @@ function convert(
         .where((annotation) => annotation.attributes.dir != null)
         .as("directions"),
       (heading, direction) =>
-        heading.start >= direction.start && heading.end <= direction.end
+        direction.start <= heading.start && heading.end <= direction.end
     )
     .update(({ heading, directions }) => {
       let direction = directions.sort(
