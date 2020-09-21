@@ -6,17 +6,25 @@ import {
   is,
 } from "@atjson/document";
 import OffsetSource, {
+  Heading,
   LineBreak,
-  Paragraph,
   ListItem,
   List,
+  Paragraph,
 } from "@atjson/offset-annotations";
-import { Heading } from "./annotations";
 import GDocsSource from "./source";
+import { Heading as GDocsHeading } from "./annotations";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
 const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
+
+const ALIGNMENT = {
+  0: undefined,
+  1: "center",
+  2: "end",
+  3: "justify",
+} as const;
 
 GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove all underlines that align with links, since
@@ -54,33 +62,25 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove headings with level 100, 101, as these are Titles/Subtitles
   // in GDocs which is not yet supported, as these should be thought of
   // as non-body annotations
-  doc
-    .where({ type: "-gdocs-ps_hd" })
-    .where((annotation: Heading) => annotation.attributes.level >= 100)
-    .remove();
-
-  doc
-    .where({ type: "-gdocs-ps_hd" })
-    .set({ type: "-offset-heading" })
-    .rename({ attributes: { "-gdocs-level": "-offset-level" } });
-
-  doc
-    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 1 } })
-    .unset("attributes.-gdocs-align")
-    .set({ attributes: { "-offset-alignment": "center" } });
-
-  doc
-    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 2 } })
-    .unset("attributes.-gdocs-align")
-    .set({ attributes: { "-offset-alignment": "end" } });
-
-  doc
-    .where({ type: "-offset-heading", attributes: { "-gdocs-align": 3 } })
-    .unset("attributes.-gdocs-align")
-    .set({ attributes: { "-offset-alignment": "justify" } });
-
-  // Remove all other alignments
-  doc.where({ type: "-offset-heading" }).unset("attributes.-gdocs-align");
+  doc.where({ type: "-gdocs-ps_hd" }).update((heading: GDocsHeading) => {
+    let level = heading.attributes.level;
+    if (level >= 100) {
+      doc.removeAnnotation(heading);
+    } else {
+      doc.replaceAnnotation(
+        heading,
+        new Heading({
+          id: heading.id,
+          start: heading.start,
+          end: heading.end,
+          attributes: {
+            level: level as 1 | 2 | 3 | 4 | 5 | 6,
+            alignment: ALIGNMENT[heading.attributes.align],
+          },
+        })
+      );
+    }
+  });
 
   // b_gt: 9 indicates an unordered list, but ordered lists have a variety of b_gt values
   doc
