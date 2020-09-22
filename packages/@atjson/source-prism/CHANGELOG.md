@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.25.6...@atjson/source-prism@0.26.0) (2020-09-22)
+
+### Features
+
+- add support for text alignment ([3da23ad](https://github.com/CondeNast/atjson/commit/3da23ad2eec4cfabe80a363618e6eb1b2ae8ffe0))
+
 ## [0.25.6](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.25.5...@atjson/source-prism@0.25.6) (2020-08-31)
 
 **Note:** Version bump only for package @atjson/source-prism

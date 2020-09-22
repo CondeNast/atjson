@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.24.15...@atjson/renderer-html@0.25.0) (2020-09-22)
+
+### Features
+
+- add support for text alignment ([3da23ad](https://github.com/CondeNast/atjson/commit/3da23ad2eec4cfabe80a363618e6eb1b2ae8ffe0))
+
 ## [0.24.15](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.24.14...@atjson/renderer-html@0.24.15) (2020-08-31)
 
 **Note:** Version bump only for package @atjson/renderer-html
