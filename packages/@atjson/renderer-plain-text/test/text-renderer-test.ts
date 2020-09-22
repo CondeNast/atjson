@@ -1,5 +1,7 @@
 import Document from "@atjson/document";
 import HTMLSource from "@atjson/source-html";
+import OffsetSource from "@atjson/offset-annotations";
+
 import PlainTextRenderer from "../src";
 
 class PlainText extends Document {
@@ -34,5 +36,22 @@ describe("PlainTextRenderer", () => {
 
     let text = PlainTextRenderer.render(doc);
     expect(text).toBe("This is some fancy text.");
+  });
+
+  it("renders line breaks", () => {
+    let document = new OffsetSource({
+      content: "first linesecond line",
+      annotations: [
+        {
+          type: "-offset-line-break",
+          start: 10,
+          end: 12,
+          attributes: {},
+        },
+      ],
+    });
+
+    let text = PlainTextRenderer.render(document);
+    expect(text).toBe("first line\nsecond line");
   });
 });
