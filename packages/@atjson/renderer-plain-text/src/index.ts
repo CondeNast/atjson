@@ -13,4 +13,8 @@ export default class PlainTextRenderer extends Renderer {
     let text = yield;
     return text.join("");
   }
+
+  *LineBreak() {
+    return "\n";
+  }
 }
