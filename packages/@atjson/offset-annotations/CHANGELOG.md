@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.33.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.32.0...@atjson/offset-annotations@0.33.0) (2020-09-23)
+
+### Features
+
+- add affiliate link attribute ([db7bb01](https://github.com/CondeNast/atjson/commit/db7bb015bd9550d0aaa33c3cea0c2383050a3441))
+
 # [0.32.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.31.0...@atjson/offset-annotations@0.32.0) (2020-09-22)
 
 ### Features
