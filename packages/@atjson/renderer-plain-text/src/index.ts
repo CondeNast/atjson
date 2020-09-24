@@ -7,6 +7,7 @@ export default class PlainTextRenderer extends Renderer {
     document
       .where(
         (annotation: Annotation) =>
+          // explicitly removing annotations we don't support here
           annotation.type !== "parse-token" &&
           annotation.type !== "line-break" &&
           annotation.type !== "list-item" &&
