@@ -159,7 +159,7 @@ describe("PlainTextRenderer", () => {
       expect(text).toBe(
         `${index}. one fish\n${index + 1}. two fish\n${index + 2}. red fish\n${
           index + 3
-        }. blue fish\n`
+        }. blue fish\n\n`
       );
     }
   );
@@ -216,6 +216,6 @@ describe("PlainTextRenderer", () => {
     });
 
     let text = PlainTextRenderer.render(document);
-    expect(text).toBe("- one fish\n- two fish\n- red fish\n- blue fish\n");
+    expect(text).toBe("- one fish\n- two fish\n- red fish\n- blue fish\n\n");
   });
 });

@@ -61,7 +61,7 @@ export default class PlainTextRenderer extends Renderer {
         return `${startsAt + index}. ${item}`;
       });
     }
-    return items.join("\n") + "\n";
+    return items.join("\n") + "\n\n";
   }
 
   *Paragraph() {
