@@ -14,7 +14,8 @@
     "@atjson/source-html": "file:../source-html"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "file:../renderer-hir"
+    "@atjson/renderer-hir": "file:../renderer-hir",
+    "@atjson/offset-annotations": "file:../offset-annotations"
   },
   "peerDependencies": {
     "@atjson/document": "^0.23.0"
