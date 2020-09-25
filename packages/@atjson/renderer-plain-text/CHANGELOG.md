@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.41...@atjson/renderer-plain-text@0.22.0) (2020-09-25)
+
+### Features
+
+- add annotations to plain text renderer ([1cb452b](https://github.com/CondeNast/atjson/commit/1cb452ba3f7b7ec29112ece2ca8df077e72efae7))
+- add formatting to plain text renderer ([80be243](https://github.com/CondeNast/atjson/commit/80be2433400cd1b62893a89815910ea0b4495345))
+- add test for rendering line breaks in plain text editor ([398ed72](https://github.com/CondeNast/atjson/commit/398ed7222ae5ba7bd44ec3e316e31c02b965c087))
+- update plain text renderer ([83f54b0](https://github.com/CondeNast/atjson/commit/83f54b0ce6c7a044640937509ffc10a39c797b43))
+
 ## [0.21.41](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.21.40...@atjson/renderer-plain-text@0.21.41) (2020-09-23)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
