@@ -5,7 +5,7 @@ export class Link extends InlineAnnotation<{
   title?: string;
   rel?: string;
   target?: string;
-  isAffiliateLink?: string;
+  isAffiliateLink?: boolean;
 }> {
   static vendorPrefix = "offset";
   static type = "link";
