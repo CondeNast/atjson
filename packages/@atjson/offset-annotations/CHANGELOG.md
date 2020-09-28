@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.33.0...@atjson/offset-annotations@0.34.0) (2020-09-28)
+
+### Features
+
+- update code to use boolean instead of string ([ae4f336](https://github.com/CondeNast/atjson/commit/ae4f336ce70eefc261f45b36bba877374220e2bd))
+
 # [0.33.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.32.0...@atjson/offset-annotations@0.33.0) (2020-09-23)
 
 ### Features
