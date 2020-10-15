@@ -26,8 +26,8 @@
     "@docusaurus/preset-classic": "2.0.0-alpha.65",
     "classnames": "2.2.6",
     "docusaurus-typescript-loader": "file:./plugins/docusaurus-typescript-loader",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "resize-observer": "1.0.0",
     "styled-components": "5.2.0"
   },
