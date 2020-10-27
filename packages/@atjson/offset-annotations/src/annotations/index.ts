@@ -23,6 +23,7 @@ export * from "./paragraph";
 export * from "./pinterest-embed";
 export * from "./pullquote";
 export * from "./section";
+export * from "./sidebar";
 export * from "./small-caps";
 export * from "./strikethrough";
 export * from "./subscript";
