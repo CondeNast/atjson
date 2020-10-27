@@ -346,6 +346,14 @@ document.insertText(5, " folks");
 document.removeText(document.annotations[0]);
 ```
 
+## Updating Snapshots
+
+When adding or modifying existing code, you might need to create/update snapshots. You can do this by passing the -u flag to Jest. In this case, the following command will update the snapshots:
+
+```sh
+npm test -- -u
+```
+
 ## Contributing
 
 See the guide in [Contributing](CONTRIBUTING.md).
