@@ -44,7 +44,7 @@
     "prettier": "2.1.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "ts-loader": "8.0.8",
+    "ts-loader": "8.0.9",
     "typescript": "4.0.5",
     "uuid-random": "1.3.2"
   },
