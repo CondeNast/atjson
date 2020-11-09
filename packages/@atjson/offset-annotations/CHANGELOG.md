@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.35.0-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.35.0-dev.0...@atjson/offset-annotations@0.35.0-dev.1) (2020-11-09)
+
+### Bug Fixes
+
+- require inset on sidebars ([6ee90f7](https://github.com/CondeNast/atjson/commit/6ee90f7fb9dcf2a3d29c4973f3a7bf16f855239b))
+- update sidebar comment ([ef4fe46](https://github.com/CondeNast/atjson/commit/ef4fe463042bacb6fcca338dda45a5b9e233f9fe))
+
 # [0.35.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.34.0...@atjson/offset-annotations@0.35.0-dev.0) (2020-10-27)
 
 ### Bug Fixes
