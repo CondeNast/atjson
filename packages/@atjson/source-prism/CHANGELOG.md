@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.26.3](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.26.2...@atjson/source-prism@0.26.3) (2020-11-13)
+
+### Bug Fixes
+
+- update snapshot ([9a6878e](https://github.com/CondeNast/atjson/commit/9a6878ea42d6359a26e902d54f3c96359b8e652c))
+
 ## [0.26.3-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.26.3-dev.0...@atjson/source-prism@0.26.3-dev.1) (2020-11-09)
 
 **Note:** Version bump only for package @atjson/source-prism
