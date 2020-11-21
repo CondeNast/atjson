@@ -7,7 +7,7 @@
     "@babel/preset-env": "7.12.7",
     "@babel/preset-react": "7.12.7",
     "@babel/preset-typescript": "7.12.7",
-    "@ckeditor/ckeditor5-build-classic": "22.0.0",
+    "@ckeditor/ckeditor5-build-classic": "23.1.0",
     "@ckeditor/ckeditor5-engine": "22.0.0",
     "@commitlint/cli": "9.1.2",
     "@commitlint/config-conventional": "9.1.2",
