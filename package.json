@@ -12,7 +12,7 @@
     "@commitlint/cli": "9.1.2",
     "@commitlint/config-conventional": "9.1.2",
     "@condenast/perf-kit": "0.1.2",
-    "@types/chance": "1.1.0",
+    "@types/chance": "1.1.1",
     "@types/entities": "1.1.1",
     "@types/jest": "25.2.3",
     "@types/jsdom": "16.2.5",
