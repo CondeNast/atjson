@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "14.15.1"
       - name: Install
         run: |
           npm ci
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "14.15.1"
       - name: Docs
         run: |
           cd website
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "14.15.1"
       - uses: actions/checkout@v2
         with:
           path: baseline
