@@ -14,14 +14,14 @@ class PlainTextRenderer extends Renderer {
   }
   *bullet_list(list: BulletList) {
     let wasTight = this.tight;
-    this.tight = list.attributes.tight;
+    this.tight = !list.attributes.loose;
     let text = yield;
     this.tight = wasTight;
     return text;
   }
   *ordered_list(list: OrderedList) {
     let wasTight = this.tight;
-    this.tight = list.attributes.tight;
+    this.tight = !list.attributes.loose;
     let text = yield;
     this.tight = wasTight;
     return text;

@@ -677,7 +677,7 @@ export default class CommonmarkRenderer extends Renderer {
       type: list.attributes.type,
       digit: start,
       delimiter,
-      tight: list.attributes.tight,
+      tight: !list.attributes.loose,
       hasCodeBlockFollowing,
     });
 

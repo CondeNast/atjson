@@ -186,7 +186,7 @@ export default class Parser {
             }
           }
 
-          attrs["-commonmark-tight"] = isTight;
+          attrs["-commonmark-loose"] = !isTight;
         }
         let annotationGenerator = this.convertTokenToAnnotation(
           node.name,

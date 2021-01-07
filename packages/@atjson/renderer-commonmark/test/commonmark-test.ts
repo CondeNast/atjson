@@ -135,7 +135,7 @@ describe("commonmark", () => {
         {
           id: "4",
           type: "-offset-list",
-          attributes: { "-offset-type": "numbered", "-offset-tight": true },
+          attributes: { "-offset-type": "numbered", "-offset-loose": false },
           start: 14,
           end: 81,
         },
@@ -170,7 +170,7 @@ describe("commonmark", () => {
         {
           id: "9",
           type: "-offset-list",
-          attributes: { "-offset-type": "bulleted", "-offset-tight": true },
+          attributes: { "-offset-type": "bulleted", "-offset-loose": false },
           start: 67,
           end: 81,
         },
