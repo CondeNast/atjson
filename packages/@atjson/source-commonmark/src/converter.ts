@@ -10,7 +10,7 @@ CommonmarkSource.defineConverterTo(
     doc
       .where({ type: "-commonmark-bullet_list" })
       .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } })
-      .rename({ attributes: { "-commonmark-tight": "-offset-tight" } });
+      .rename({ attributes: { "-commonmark-loose": "-offset-loose" } });
     doc
       .where({ type: "-commonmark-code_block" })
       .set({ type: "-offset-code", attributes: { "-offset-style": "block" } });
@@ -68,7 +68,7 @@ CommonmarkSource.defineConverterTo(
       .rename({
         attributes: {
           "-commonmark-start": "-offset-startsAt",
-          "-commonmark-tight": "-offset-tight",
+          "-commonmark-loose": "-offset-loose",
         },
       });
     doc

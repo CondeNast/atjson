@@ -2,7 +2,7 @@ import { BlockAnnotation } from "@atjson/document";
 
 export class OrderedList extends BlockAnnotation<{
   start: number;
-  tight: boolean;
+  loose: boolean;
 }> {
   static type = "ordered_list";
   static vendorPrefix = "commonmark";

@@ -98,19 +98,19 @@ describe("list", () => {
       {
         type: "-commonmark-bullet_list",
         attributes: {
-          "-commonmark-tight": true,
+          "-commonmark-loose": false,
         },
       },
       {
         type: "-commonmark-bullet_list",
         attributes: {
-          "-commonmark-tight": true,
+          "-commonmark-loose": false,
         },
       },
       {
         type: "-commonmark-bullet_list",
         attributes: {
-          "-commonmark-tight": true,
+          "-commonmark-loose": false,
         },
       },
     ]);
@@ -122,13 +122,13 @@ describe("list", () => {
         type: "-commonmark-ordered_list",
         attributes: {
           "-commonmark-start": 2,
-          "-commonmark-tight": true,
+          "-commonmark-loose": false,
         },
       },
       {
         type: "-commonmark-ordered_list",
         attributes: {
-          "-commonmark-tight": false,
+          "-commonmark-loose": true,
         },
       },
     ]);

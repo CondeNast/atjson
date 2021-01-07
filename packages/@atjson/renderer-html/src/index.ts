@@ -192,7 +192,7 @@ export default class HTMLRenderer extends Renderer {
 
     return yield* this.$(tagName, {
       starts: list.attributes.startsAt,
-      compact: list.attributes.tight,
+      compact: !list.attributes.loose,
       type: list.attributes.delimiter,
     });
   }

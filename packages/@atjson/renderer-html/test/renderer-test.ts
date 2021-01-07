@@ -228,7 +228,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol><li>one</li>\n<li>two</li></ol>`
+        `<ol compact><li>one</li>\n<li>two</li></ol>`
       );
     });
 
@@ -249,11 +249,11 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol starts=3><li>one</li>\n<li>two</li></ol>`
+        `<ol starts=3 compact><li>one</li>\n<li>two</li></ol>`
       );
     });
 
-    test("compact", () => {
+    test("loose", () => {
       let doc = new OffsetSource({
         content: "one\ntwo",
         annotations: [
@@ -262,7 +262,7 @@ describe("renderer-html", () => {
             end: 7,
             attributes: {
               type: "numbered",
-              tight: true,
+              loose: true,
             },
           }),
           new ListItem({ start: 0, end: 3 }),
@@ -270,7 +270,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol compact><li>one</li>\n<li>two</li></ol>`
+        `<ol><li>one</li>\n<li>two</li></ol>`
       );
     });
   });
@@ -292,7 +292,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ul><li>one</li>\n<li>two</li></ul>`
+        `<ul compact><li>one</li>\n<li>two</li></ul>`
       );
     });
 
@@ -313,7 +313,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ul type="square"><li>one</li>\n<li>two</li></ul>`
+        `<ul compact type="square"><li>one</li>\n<li>two</li></ul>`
       );
     });
   });
