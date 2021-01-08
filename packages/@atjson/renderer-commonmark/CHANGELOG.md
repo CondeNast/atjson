@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.23.7...@atjson/renderer-commonmark@0.24.0) (2021-01-08)
+
+### chore
+
+- change tight attribute to loose on lists ([ead46bf](https://github.com/CondeNast/atjson/commit/ead46bfaaa9a27d0bfda25c4e04be7136819fda8))
+
+### BREAKING CHANGES
+
+- this changes defaults when creating List
+  annotations without a tight attribute and will make all lists
+  without this attribute tight by default.
+
 ## [0.23.7](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.23.6...@atjson/renderer-commonmark@0.23.7) (2021-01-04)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

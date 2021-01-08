@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.35.0...@atjson/offset-annotations@0.36.0) (2021-01-08)
+
+### chore
+
+- change tight attribute to loose on lists ([ead46bf](https://github.com/CondeNast/atjson/commit/ead46bfaaa9a27d0bfda25c4e04be7136819fda8))
+
+### BREAKING CHANGES
+
+- this changes defaults when creating List
+  annotations without a tight attribute and will make all lists
+  without this attribute tight by default.
+
 # [0.35.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.34.0...@atjson/offset-annotations@0.35.0) (2020-11-13)
 
 ### Bug Fixes
