@@ -1,10 +1,12 @@
 import {
+  Blockquote,
   CerosEmbed,
   Code,
   Heading,
   Image,
   Link,
   List,
+  ListItem,
   TikTokEmbed,
   Paragraph,
 } from "@atjson/offset-annotations";
@@ -88,8 +90,10 @@ export default class HTMLRenderer extends Renderer {
     return html.join("");
   }
 
-  *Blockquote() {
-    return yield* this.$("blockquote");
+  *Blockquote(blockquote: Blockquote) {
+    return yield* this.$("blockquote", {
+      id: blockquote.attributes.anchorName,
+    });
   }
 
   *Bold() {
@@ -155,7 +159,10 @@ export default class HTMLRenderer extends Renderer {
     if (heading.attributes.alignment) {
       style = this.textAlign(heading.attributes.alignment);
     }
-    return yield* this.$(`h${heading.attributes.level}`, { style });
+    return yield* this.$(`h${heading.attributes.level}`, {
+      id: heading.attributes.anchorName,
+      style,
+    });
   }
 
   *HorizontalRule() {
@@ -164,6 +171,7 @@ export default class HTMLRenderer extends Renderer {
 
   *Image(image: Image) {
     return yield* this.$("img", {
+      id: image.attributes.anchorName,
       src: image.attributes.url,
       title: image.attributes.title,
       alt: image.attributes.description,
@@ -197,8 +205,10 @@ export default class HTMLRenderer extends Renderer {
     });
   }
 
-  *ListItem() {
-    return yield* this.$("li");
+  *ListItem(item: ListItem) {
+    return yield* this.$("li", {
+      id: item.attributes.anchorName,
+    });
   }
 
   *Paragraph(paragraph: Paragraph) {
@@ -206,7 +216,7 @@ export default class HTMLRenderer extends Renderer {
     if (paragraph.attributes.alignment) {
       style = this.textAlign(paragraph.attributes.alignment);
     }
-    return yield* this.$("p", { style });
+    return yield* this.$("p", { id: paragraph.attributes.anchorName, style });
   }
 
   *Section() {
@@ -234,7 +244,11 @@ export default class HTMLRenderer extends Renderer {
     let parts = embed.attributes.url.split("/");
     let username = parts[parts.length - 3];
     let videoId = parts[parts.length - 1];
-    return `<blockquote class="tiktok-embed" cite="${embed.attributes.url}" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
+    return `<blockquote${
+      embed.attributes.anchorName ? ` id=${embed.attributes.anchorName}` : ""
+    } class="tiktok-embed" cite="${
+      embed.attributes.url
+    }" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
   }
 
   *Underline() {

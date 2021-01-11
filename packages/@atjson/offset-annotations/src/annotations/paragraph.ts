@@ -4,6 +4,10 @@ export class Paragraph<
   T = {
     decorations?: string[];
     alignment?: "start" | "center" | "end" | "justify";
+    /**
+     * A named identifier used to quickly jump to this item
+     */
+    anchorName?: string;
   }
 > extends BlockAnnotation<T> {
   static type = "paragraph";

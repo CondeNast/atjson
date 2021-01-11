@@ -68,12 +68,12 @@ export default function (doc: Document) {
         );
       }
     )
-    .outerJoin(doc.where(isVimeoLink).as("links"), function vimeoCaptionJoin(
-      { paragraph },
-      link
-    ) {
-      return covers(paragraph[0], link);
-    })
+    .outerJoin(
+      doc.where(isVimeoLink).as("links"),
+      function vimeoCaptionJoin({ paragraph }, link) {
+        return covers(paragraph[0], link);
+      }
+    )
     .update(function convertVimeoVideos({ video, paragraph, links }) {
       let src = video.attributes.src;
       if (src?.indexOf("//") === 0) {
@@ -108,6 +108,7 @@ export default function (doc: Document) {
                 ? getClosestAspectRatio(width, height)
                 : undefined,
             caption,
+            anchorName: video.attributes.id,
           },
         })
       );
@@ -156,6 +157,7 @@ export default function (doc: Document) {
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
+            anchorName: video.attributes.id,
           },
         })
       );
@@ -185,6 +187,7 @@ export default function (doc: Document) {
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
+            anchorName: iframe.attributes.id,
           },
         })
       );

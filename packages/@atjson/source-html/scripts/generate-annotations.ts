@@ -27,7 +27,11 @@ async function defineHTMLInterface(document: Document, url: string) {
       return [anchor.textContent ?? "", "string"];
     });
   }
-  attributes.push(["dataset", "{ [attribute: string]: string; }"]);
+  attributes.push(
+    ["dataset", "{ [attribute: string]: string; }"],
+    ["class", "string"],
+    ["id", "string"]
+  );
 
   writeFileSync(
     path.join(__dirname, "..", "src", "global-attributes.ts"),

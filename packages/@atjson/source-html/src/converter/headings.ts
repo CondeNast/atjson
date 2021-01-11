@@ -39,6 +39,7 @@ function convert(
           start: heading.start,
           end: heading.end,
           attributes: {
+            anchorName: heading.attributes.id,
             level,
             alignment,
           },

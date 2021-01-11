@@ -17,7 +17,13 @@ import { BlockAnnotation } from "@atjson/document";
  * across multiple documents.
  */
 export class Group<T = {}> extends BlockAnnotation<
-  T & { artDirection: string }
+  T & {
+    artDirection: string;
+    /**
+     * A named identifier used to quickly jump to this item
+     */
+    anchorName?: string;
+  }
 > {
   static type = "group";
   static vendorPrefix = "offset";

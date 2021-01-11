@@ -29,6 +29,10 @@ export class VideoEmbed extends ObjectAnnotation<{
    */
   height?: number;
   caption?: CaptionSource;
+  /**
+   * A named identifier used to quickly jump to this item
+   */
+  anchorName?: string;
 }> {
   static type = "video-embed";
   static vendorPrefix = "offset";
