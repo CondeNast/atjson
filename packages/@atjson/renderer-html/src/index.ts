@@ -7,8 +7,9 @@ import {
   Link,
   List,
   ListItem,
-  TikTokEmbed,
   Paragraph,
+  Section,
+  TikTokEmbed,
 } from "@atjson/offset-annotations";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
@@ -120,6 +121,7 @@ export default class HTMLRenderer extends Renderer {
     }).join(" ")}><iframe ${this.htmlAttributes({
       allowfullscreen: true,
       src: embed.attributes.url,
+      id: embed.attributes.anchorName,
       style: [
         "position: absolute",
         "top: 0",
@@ -202,6 +204,7 @@ export default class HTMLRenderer extends Renderer {
       starts: list.attributes.startsAt,
       compact: !list.attributes.loose,
       type: list.attributes.delimiter,
+      id: list.attributes.anchorName,
     });
   }
 
@@ -219,8 +222,10 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("p", { id: paragraph.attributes.anchorName, style });
   }
 
-  *Section() {
-    return yield* this.$("section");
+  *Section(section: Section) {
+    return yield* this.$("section", {
+      id: section.attributes.anchorName,
+    });
   }
 
   *SmallCaps() {
