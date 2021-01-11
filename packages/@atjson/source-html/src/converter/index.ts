@@ -1,5 +1,9 @@
 import Document, { Annotation } from "@atjson/document";
-import OffsetSource, { Code, IframeEmbed } from "@atjson/offset-annotations";
+import OffsetSource, {
+  Code,
+  List,
+  IframeEmbed,
+} from "@atjson/offset-annotations";
 import { OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
@@ -49,6 +53,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
           url: iframe.attributes.src,
           height: iframe.attributes.height,
           width: iframe.attributes.width,
+          anchorName: iframe.attributes.id,
         },
       })
     );
@@ -66,7 +71,14 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
       },
     });
 
-  doc.where({ type: "-html-blockquote" }).set({ type: "-offset-blockquote" });
+  doc
+    .where({ type: "-html-blockquote" })
+    .set({ type: "-offset-blockquote" })
+    .rename({
+      attributes: {
+        "-html-id": "-offset-anchorName",
+      },
+    });
 
   convertHeadings(doc);
   convertParagraphs(doc);
@@ -80,18 +92,27 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
   doc
     .where({ type: "-html-ol" })
     .update(function updateOList(list: OrderedList) {
-      doc.replaceAnnotation(list, {
-        id: list.id,
-        type: "-offset-list",
-        start: list.start,
-        end: list.end,
-        attributes: {
-          "-offset-type": "numbered",
-          "-offset-startsAt": parseInt(list.attributes.start || "1", 10),
-        },
-      });
+      doc.replaceAnnotation(
+        list,
+        new List({
+          id: list.id,
+          start: list.start,
+          end: list.end,
+          attributes: {
+            type: "numbered",
+            startsAt: parseInt(list.attributes.start || "1", 10),
+          },
+        })
+      );
     });
-  doc.where({ type: "-html-li" }).set({ type: "-offset-list-item" });
+  doc
+    .where({ type: "-html-li" })
+    .set({ type: "-offset-list-item" })
+    .rename({
+      attributes: {
+        "-html-id": "-offset-anchorName",
+      },
+    });
 
   doc.where({ type: "-html-em" }).set({ type: "-offset-italic" });
   doc.where({ type: "-html-i" }).set({ type: "-offset-italic" });
@@ -111,6 +132,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
         "-html-src": "-offset-url",
         "-html-title": "-offset-title",
         "-html-alt": "-offset-description",
+        "-html-id": "-offset-anchorName",
       },
     });
 

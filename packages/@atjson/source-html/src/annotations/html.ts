@@ -3,11 +3,7 @@ import { BlockAnnotation } from "@atjson/document";
 import { GlobalAttributes } from "../global-attributes";
 
 // [§ 4.1.1 The html element](https://html.spec.whatwg.org/multipage/semantics.html#the-html-element)
-export class Html extends BlockAnnotation<
-  GlobalAttributes & {
-    manifest?: string;
-  }
-> {
+export class Html extends BlockAnnotation<GlobalAttributes> {
   static vendorPrefix = "html";
   static type = "html";
 }

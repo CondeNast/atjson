@@ -28,4 +28,6 @@ export interface GlobalAttributes {
   title?: string;
   translate?: string;
   dataset?: { [attribute: string]: string };
+  class?: string;
+  id?: string;
 }

@@ -7,6 +7,10 @@ export class IframeEmbed extends ObjectAnnotation<{
   height?: string;
   caption?: CaptionSource;
   sandbox?: string;
+  /**
+   * A named identifier used to quickly jump to this item
+   */
+  anchorName?: string;
 }> {
   static type = "iframe-embed";
   static vendorPrefix = "offset";

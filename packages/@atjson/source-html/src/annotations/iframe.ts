@@ -11,7 +11,6 @@ export class Iframe extends ObjectAnnotation<
     sandbox?: string;
     allow?: string;
     allowfullscreen?: string;
-    allowpaymentrequest?: string;
     width?: string;
     height?: string;
     referrerpolicy?: string;

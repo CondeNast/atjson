@@ -4,6 +4,10 @@ export class CerosEmbed extends ObjectAnnotation<{
   url: string;
   aspectRatio: number;
   mobileAspectRatio?: number;
+  /**
+   * A named identifier used to quickly jump to this item
+   */
+  anchorName?: string;
 }> {
   static vendorPrefix = "offset";
   static type = "ceros-embed";

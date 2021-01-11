@@ -29,6 +29,7 @@ export default function (doc: Document) {
           start: paragraph.start,
           end: paragraph.end,
           attributes: {
+            anchorName: paragraph.attributes.id,
             alignment: toAlignment(
               parseCSS(paragraph.attributes.style)["text-align"],
               direction?.attributes?.lang

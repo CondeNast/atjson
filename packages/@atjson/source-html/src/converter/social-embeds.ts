@@ -238,6 +238,7 @@ export default function (doc: Document) {
             url: attributes.url,
             height,
             width,
+            anchorName: iframe.attributes.id,
           },
         })
       );
