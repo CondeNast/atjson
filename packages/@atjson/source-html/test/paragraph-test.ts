@@ -46,4 +46,18 @@ describe("paragraphs", () => {
       });
     });
   });
+
+  test("fragment ids", () => {
+    let doc = HTMLSource.fromRaw(
+      `<p id="test">Here is some text</p>`
+    ).convertTo(OffsetSource);
+
+    expect(doc.where({ type: `-offset-paragraph` }).annotations).toMatchObject([
+      {
+        attributes: {
+          anchorName: "test",
+        },
+      },
+    ]);
+  });
 });

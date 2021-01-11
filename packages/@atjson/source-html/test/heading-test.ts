@@ -65,4 +65,18 @@ describe("headings", () => {
       });
     });
   });
+
+  describe("anchorName", () => {
+    test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
+      "%s",
+      (tagname) => {
+        let doc = HTMLSource.fromRaw(
+          `<${tagname} id="test">Heading from ${tagname}</${tagname}>`
+        ).convertTo(OffsetSource);
+        expect(
+          doc.where({ type: `-offset-heading` }).annotations
+        ).toMatchObject([{ attributes: { anchorName: "test" } }]);
+      }
+    );
+  });
 });

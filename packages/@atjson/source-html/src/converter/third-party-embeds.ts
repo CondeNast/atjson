@@ -63,6 +63,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: container.start,
           end: container.end,
           attributes: {
+            anchorName: iframes[0].attributes.id,
             aspectRatio,
             mobileAspectRatio,
             url: iframes[0].attributes.src,

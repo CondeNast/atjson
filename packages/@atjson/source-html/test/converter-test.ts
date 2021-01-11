@@ -208,22 +208,6 @@ describe("@atjson/source-html", () => {
       });
     });
 
-    test("blockquote", () => {
-      let doc = HTMLSource.fromRaw("<blockquote>This is a quote</blockquote>");
-      let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
-      expect(hir).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
-          {
-            type: "blockquote",
-            attributes: {},
-            children: ["This is a quote"],
-          },
-        ],
-      });
-    });
-
     test("code", () => {
       let doc = HTMLSource.fromRaw(`<code>console.log('wowowowow');</code>`);
       let hir = new HIR(doc.convertTo(OffsetSource)).toJSON();
