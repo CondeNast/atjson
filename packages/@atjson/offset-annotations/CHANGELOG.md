@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.36.0...@atjson/offset-annotations@0.37.0) (2021-01-20)
+
+### Features
+
+- add anchorName attributes to block annotations ([61006d3](https://github.com/CondeNast/atjson/commit/61006d3cd9e2bfbbac96a684a176abf1037207e7))
+
 # [0.36.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.35.0...@atjson/offset-annotations@0.36.0) (2021-01-08)
 
 ### chore

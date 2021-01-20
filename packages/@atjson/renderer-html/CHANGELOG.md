@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.26.0...@atjson/renderer-html@0.27.0) (2021-01-20)
+
+### Features
+
+- add anchorName attributes to block annotations ([61006d3](https://github.com/CondeNast/atjson/commit/61006d3cd9e2bfbbac96a684a176abf1037207e7))
+
 # [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.25.3...@atjson/renderer-html@0.26.0) (2021-01-08)
 
 ### chore
