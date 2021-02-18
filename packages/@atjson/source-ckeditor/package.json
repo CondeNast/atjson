@@ -21,6 +21,6 @@
     "prettier": "*"
   },
   "peerDependencies": {
-    "@atjson/document": "^0.23.0"
+    "@atjson/document": ">=0.23.0"
   }
 }
