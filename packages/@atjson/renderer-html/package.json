@@ -18,6 +18,6 @@
     "@atjson/offset-annotations": "file:../offset-annotations"
   },
   "peerDependencies": {
-    "@atjson/document": "^0.23.0"
+    "@atjson/document": ">=0.23.0"
   }
 }
