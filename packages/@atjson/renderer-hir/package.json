@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-hir",
-  "version": "0.22.10",
+  "version": "0.22.11",
   "description": "Generalized tools for generating documents in a hierarchical fashion",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,12 +10,13 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/hir": "file:../hir"
+    "@atjson/hir": "0.22.11"
   },
   "devDependencies": {
-    "@atjson/document": "file:../document"
+    "@atjson/document": "0.24.3"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.23.0"
-  }
+  },
+  "gitHead": "4727d5eadcdbd47558abfa61d760e8cebe3ba58e"
 }
