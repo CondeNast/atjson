@@ -21,7 +21,7 @@
     "@atjson/source-url": "*",
     "@babel/plugin-proposal-class-properties": "7.12.13",
     "@babel/plugin-proposal-object-rest-spread": "7.12.13",
-    "@babel/preset-typescript": "7.12.16",
+    "@babel/preset-typescript": "7.12.17",
     "@docusaurus/core": "2.0.0-alpha.fd17476c3",
     "@docusaurus/preset-classic": "2.0.0-alpha.fd17476c3",
     "classnames": "2.2.6",
