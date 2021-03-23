@@ -178,11 +178,62 @@ function isBrightcoveURL(url: IUrl) {
   );
 }
 
+function isTwitchURL(url: IUrl) {
+  return (
+    isTwitchStreamURL(url) || isTwitchChannelURL(url) || isTwitchClipURL(url)
+  );
+}
+
+function isTwitchStreamURL(url: IUrl) {
+  return (
+    (url.host === "player.twitch.tv" &&
+      getSearchParam(url.searchParams, "video")) ||
+    ((url.host === "www.twitch.tv" || url.host === "m.twitch.tv") &&
+      url.pathname.startsWith("/videos"))
+  );
+}
+
+function isTwitchClipURL(url: IUrl) {
+  return (
+    url.host === "clips.twitch.tv" ||
+    (url.host === "www.twitch.tv" && url.pathname.match(/\/clip\/.*/))
+  );
+}
+
+function isTwitchChannelURL(url: IUrl) {
+  return (
+    (url.host === "player.twitch.tv" &&
+      getSearchParam(url.searchParams, "channel")) ||
+    ((url.host === "www.twitch.tv" || url.host === "m.twitch.tv") &&
+      !url.pathname.startsWith("/videos"))
+  );
+}
+
+function normalizeTwitchURL(url: IUrl) {
+  if (isTwitchClipURL(url)) {
+    let clipID =
+      getSearchParam(url.searchParams, "clip") ??
+      without<string>(url.pathname.split("/"), "").pop();
+    return `https://clips.twitch.tv/embed?clip=${clipID}&parent=www.example.com`;
+  } else if (isTwitchChannelURL(url)) {
+    let channelID =
+      getSearchParam(url.searchParams, "channel") ??
+      without<string>(url.pathname.split("/"), "").pop();
+    return `https://player.twitch.tv/?channel=${channelID}&parent=www.example.com`;
+  } else {
+    let videoID =
+      getSearchParam(url.searchParams, "video") ??
+      without<string>(url.pathname.split("/"), "").pop();
+    return `https://player.twitch.tv/?video=${videoID}&parent=www.example.com`;
+  }
+}
+
 export enum Provider {
   YOUTUBE = "YOUTUBE",
   VIMEO = "VIMEO",
   BRIGHTCOVE = "BRIGHTCOVE",
   DAILYMOTION = "DAILYMOTION",
+  TWITCH = "TWITCH",
   OTHER = "OTHER",
 }
 
@@ -212,6 +263,13 @@ export function identify(url: IUrl) {
     return {
       provider: Provider.BRIGHTCOVE,
       url: toURL(url),
+    };
+  }
+
+  if (isTwitchURL(url)) {
+    return {
+      provider: Provider.TWITCH,
+      url: normalizeTwitchURL(url),
     };
   }
 

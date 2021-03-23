@@ -64,4 +64,41 @@ describe("VideoURLs", () => {
       });
     });
   });
+
+  describe("Twitch", () => {
+    test.each([
+      "https://www.twitch.tv/videos/956002196",
+      "https://m.twitch.tv/videos/956002196",
+      "https://player.twitch.tv/?video=956002196&parent=www.wired.com",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://player.twitch.tv/?video=956002196&parent=www.example.com",
+        provider: VideoURLs.Provider.TWITCH,
+      });
+    });
+
+    test.each([
+      "https://www.twitch.tv/dunkstream",
+      "https://m.twitch.tv/dunkstream",
+      "https://player.twitch.tv/?channel=dunkstream&parent=www.wired.com",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url:
+          "https://player.twitch.tv/?channel=dunkstream&parent=www.example.com",
+        provider: VideoURLs.Provider.TWITCH,
+      });
+    });
+
+    test.each([
+      "https://www.twitch.tv/fanbyte/clip/MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-?filter=clips&range=7d&sort=time",
+      "https://clips.twitch.tv/MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-",
+      "https://clips.twitch.tv/embed?clip=MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-&parent=www.wired.com",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url:
+          "https://clips.twitch.tv/embed?clip=MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-&parent=www.example.com",
+        provider: VideoURLs.Provider.TWITCH,
+      });
+    });
+  });
 });
