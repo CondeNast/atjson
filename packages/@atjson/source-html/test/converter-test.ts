@@ -777,6 +777,50 @@ describe("@atjson/source-html", () => {
           },
         ]);
       });
+
+      test("Twitch videos", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://player.twitch.tv/?video=956002196&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`
+        )
+          .convertTo(OffsetSource)
+          .canonical();
+
+        expect(doc.annotations).toMatchObject([
+          {
+            type: "video-embed",
+            attributes: {
+              url:
+                "https://player.twitch.tv/?video=956002196&parent=www.example.com",
+              provider: VideoURLs.Provider.TWITCH,
+              width: 620,
+              height: 378,
+              aspectRatio: "5:3",
+            },
+          },
+        ]);
+      });
+
+      test("Twitch clips", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`
+        )
+          .convertTo(OffsetSource)
+          .canonical();
+
+        expect(doc.annotations).toMatchObject([
+          {
+            type: "video-embed",
+            attributes: {
+              url:
+                "https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com",
+              provider: VideoURLs.Provider.TWITCH,
+              width: 620,
+              height: 378,
+              aspectRatio: "5:3",
+            },
+          },
+        ]);
+      });
     });
 
     describe("Third Party embeds", () => {
