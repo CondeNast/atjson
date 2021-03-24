@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.38.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.37.2...@atjson/offset-annotations@0.38.0) (2021-03-24)
+
+### Features
+
+- add support for Twitch embed recognition ([2a6fdd2](https://github.com/CondeNast/atjson/commit/2a6fdd22f8fde9c9335b12b43965797d12e11d75))
+
 ## [0.37.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.37.1...@atjson/offset-annotations@0.37.2) (2021-02-18)
 
 **Note:** Version bump only for package @atjson/offset-annotations
