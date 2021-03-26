@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.38.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.0...@atjson/offset-annotations@0.38.1) (2021-03-26)
+
+### Bug Fixes
+
+- preserve twitch parent param if set ([25a4dbc](https://github.com/CondeNast/atjson/commit/25a4dbcfcd22bcf32ea40990f40fcbbc8a30b180))
+
 # [0.38.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.37.2...@atjson/offset-annotations@0.38.0) (2021-03-24)
 
 ### Features
