@@ -210,21 +210,22 @@ function isTwitchChannelURL(url: IUrl) {
 }
 
 function normalizeTwitchURL(url: IUrl) {
+  let parent = getSearchParam(url.searchParams, "parent") ?? "www.example.com";
   if (isTwitchClipURL(url)) {
     let clipID =
       getSearchParam(url.searchParams, "clip") ??
       without<string>(url.pathname.split("/"), "").pop();
-    return `https://clips.twitch.tv/embed?clip=${clipID}&parent=www.example.com`;
+    return `https://clips.twitch.tv/embed?clip=${clipID}&parent=${parent}`;
   } else if (isTwitchChannelURL(url)) {
     let channelID =
       getSearchParam(url.searchParams, "channel") ??
       without<string>(url.pathname.split("/"), "").pop();
-    return `https://player.twitch.tv/?channel=${channelID}&parent=www.example.com`;
+    return `https://player.twitch.tv/?channel=${channelID}&parent=${parent}`;
   } else {
     let videoID =
       getSearchParam(url.searchParams, "video") ??
       without<string>(url.pathname.split("/"), "").pop();
-    return `https://player.twitch.tv/?video=${videoID}&parent=www.example.com`;
+    return `https://player.twitch.tv/?video=${videoID}&parent=${parent}`;
   }
 }
 
