@@ -12,6 +12,8 @@ import {
   UnknownAnnotation,
 } from "./internals";
 
+import * as Automerge from "automerge";
+
 /**
  * Get the function that converts between two documents. Use this to grab a converter
  * for testing, or for nesting conversions.
@@ -133,7 +135,12 @@ export class Document {
     converters[this.contentType][to.contentType] = converter;
   }
 
-  content: string;
+  crdt: Automerge.Doc;
+
+  get content(): string {
+    return this.crdt.text.toString();
+  }
+
   readonly contentType: string;
   annotations: Array<Annotation<any>>;
   changeListeners: Array<() => void>;
@@ -147,7 +154,11 @@ export class Document {
     let DocumentClass = this.constructor as typeof Document;
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
-    this.content = options.content;
+    this.crdt = Automerge.change(Automerge.init(), (doc) => {
+      doc.text = new Automerge.Text(options.content);
+      // FIXME this doesn't pull in annotations from the args here.
+      //doc.annotations = new Automerge.List([]);
+    });
 
     let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
       this.createAnnotation(annotation);
@@ -310,8 +321,9 @@ export class Document {
         annotation.handleChange(insertion);
       }
 
-      this.content =
-        this.content.slice(0, start) + text + this.content.slice(start);
+      this.crdt = Automerge.change(this.crdt, (doc) => {
+        doc.text.insertAt(start, ...text.split(""));
+      });
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Failed to insert text", e);
@@ -355,7 +367,10 @@ export class Document {
         let annotation = this.annotations[i];
         annotation.handleChange(deletion);
       }
-      this.content = this.content.slice(0, start) + this.content.slice(end);
+      this.crdt = Automerge.change(this.crdt, (doc) => {
+        doc.text.deleteAt(start, end - start);
+      });
+      //this.content = this.content.slice(0, start) + this.content.slice(end);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error("Failed to delete text", e);
@@ -557,6 +572,19 @@ export class Document {
      * because the ranges are now *sorted* and *non-overlapping* we can straightforwardly extract the text *between* the ranges,
      * join the extracted text, and make that our new content.
      */
+
+    this.crdt = Automerge.change(this.crdt, (doc) => {
+      let cumulativeDeleteLength = 0;
+      for (let i = 0; i < mergedRanges.length; i++) {
+        const thisDeletionLength = mergedRanges[i].end - mergedRanges[i].start;
+        doc.text.deleteAt(
+          mergedRanges[i].start - cumulativeDeleteLength,
+          thisDeletionLength
+        );
+        cumulativeDeleteLength += thisDeletionLength;
+      }
+    });
+    /*
     let newContent = this.content.slice(0, mergedRanges[0].start);
     let lastEnd;
     for (let i = 0; i < mergedRanges.length - 1; i++) {
@@ -568,6 +596,7 @@ export class Document {
     }
 
     this.content = newContent + this.content.slice(lastEnd);
+    */
 
     /**
      * for adjusting annotations, we need to handle the ranges backwards.
