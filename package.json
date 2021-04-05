@@ -46,7 +46,8 @@
     "react-dom": "17.0.2",
     "ts-loader": "8.1.0",
     "typescript": "4.1.5",
-    "uuid-random": "1.3.2"
+    "uuid-random": "1.3.2",
+    "automerge": "github:automerge/automerge#cursors-v2"
   },
   "dependencies": {
     "@atjson/document": "file:packages/@atjson/document",
