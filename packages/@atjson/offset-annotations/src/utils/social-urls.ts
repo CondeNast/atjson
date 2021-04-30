@@ -218,6 +218,7 @@ function normalizeGiphyURL(url: IUrl) {
 // - open.spotify.com/artist/:id
 // - open.spotify.com/episode/:id
 // - open.spotify.com/show/:id
+// - open.spotify.com/embed
 function isSpotifyUrl(url: IUrl) {
   return url.host === "open.spotify.com";
 }
@@ -251,14 +252,34 @@ const spotifyEmbedSizes: {
   },
 };
 
-function normalizeSpotifyUrl(url: IUrl) {
-  let parts = without<string>(url.pathname.split("/"), "");
-  if (parts[0] === "embed" || parts[0] === "embed-podcast") {
-    parts.shift();
+// parses a spotify uri, in the form spotify:<type>:<id>
+function parseSpotifyEmbedUri(uri: string) {
+  let uriParts = uri.split(":");
+  return {
+    type: uriParts[1],
+    id: uriParts[2],
+  };
+}
+
+function parseSpotifyEmbedPath(pathname: string) {
+  let pathParts = without<string>(pathname.split("/"), "");
+  if (pathParts[0] === "embed" || pathParts[0] === "embed-podcast") {
+    pathParts.shift();
   }
-  let type = parts[0];
+
+  return {
+    type: pathParts[0],
+    id: pathParts[1],
+  };
+}
+
+function normalizeSpotifyUrl(url: IUrl) {
+  const embedUri = getSearchParam(url.searchParams, "uri");
+
+  let { id, type } = embedUri
+    ? parseSpotifyEmbedUri(embedUri)
+    : parseSpotifyEmbedPath(url.pathname);
   let embedType = spotifyEmbedTypes[type] || spotifyEmbedTypes.default;
-  let id = parts[1];
   let { height, width } = spotifyEmbedSizes[type] || spotifyEmbedSizes.default;
 
   return {
