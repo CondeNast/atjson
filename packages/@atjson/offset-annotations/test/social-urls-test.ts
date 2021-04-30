@@ -103,6 +103,14 @@ describe("SocialURLs", () => {
           width: "100%",
         },
       ],
+      [
+        "https://open.spotify.com/embed?uri=spotify:album:0RZ90KfXzXhQrgnoMcANUN",
+        {
+          url: "https://open.spotify.com/embed/album/0RZ90KfXzXhQrgnoMcANUN",
+          height: "380",
+          width: "300",
+        },
+      ],
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: IframeEmbed,
