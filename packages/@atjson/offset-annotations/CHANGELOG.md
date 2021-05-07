@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.38.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.1...@atjson/offset-annotations@0.38.2) (2021-05-07)
+
+### Bug Fixes
+
+- **spotify-embeds:** parse Spotify uri-based embeds ([db6b59c](https://github.com/CondeNast/atjson/commit/db6b59ce63f0d4ad5a0ef9fc71e4238367830590))
+
 ## [0.38.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.0...@atjson/offset-annotations@0.38.1) (2021-03-26)
 
 ### Bug Fixes

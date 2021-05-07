@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.7](https://github.com/CondeNast/atjson/compare/@atjson/source-wordpress-shortcode@0.2.6...@atjson/source-wordpress-shortcode@0.2.7) (2021-05-07)
+
+### Bug Fixes
+
+- **deps:** update dependency @wordpress/shortcode to v2.13.0 ([ac0d10e](https://github.com/CondeNast/atjson/commit/ac0d10e568280d547b1bda0abf16afdf31c182b1))
+- **deps:** update dependency @wordpress/shortcode to v2.13.2 ([a569864](https://github.com/CondeNast/atjson/commit/a569864d5b5d4fee3af69619fdd82688fa08e808))
+
 ## [0.2.6](https://github.com/CondeNast/atjson/compare/@atjson/source-wordpress-shortcode@0.2.5...@atjson/source-wordpress-shortcode@0.2.6) (2021-02-18)
 
 **Note:** Version bump only for package @atjson/source-wordpress-shortcode
