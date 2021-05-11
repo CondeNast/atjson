@@ -54,8 +54,8 @@ describe("Document#convert", () => {
   test("conversion doesn't modify the original document", () => {
     TestSource.defineConverterTo(TextSource, (doc) => {
       doc.annotations.forEach((a: Annotation) => {
-        a.start = 0;
-        a.end = 0;
+        a.startStatic = 0;
+        a.endStatic = 0;
       });
 
       return doc;

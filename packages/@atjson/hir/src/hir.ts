@@ -23,7 +23,7 @@ export default class HIR {
     for (let a of document.annotations) {
       if (a.start === a.end) {
         document.insertText(a.start, "\uFFFC");
-        a.start = Math.max(0, a.start - 1);
+        a.startStatic = Math.max(0, a.start - 1);
       }
     }
 

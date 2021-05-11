@@ -135,14 +135,14 @@ export class Document {
     converters[this.contentType][to.contentType] = converter;
   }
 
-  crdt: Automerge.Doc;
+  crdt: Automerge.Doc<any>;
 
   get content(): string {
-    return this.crdt.text.toString();
+    return this.crdt.content.toString();
   }
 
   readonly contentType: string;
-  annotations: Array<Annotation<any>>;
+  //  annotations: Array<Annotation<any>>;
   changeListeners: Array<() => void>;
 
   private pendingChangeEvent: any;
@@ -155,14 +155,24 @@ export class Document {
     this.contentType = DocumentClass.contentType;
     this.changeListeners = [];
     this.crdt = Automerge.change(Automerge.init(), (doc) => {
-      doc.text = new Automerge.Text(options.content);
-      // FIXME this doesn't pull in annotations from the args here.
-      //doc.annotations = new Automerge.List([]);
+      doc.content = new Automerge.Text(options.content);
+      let emptyAnnotations: Array<AnnotationJSON | Annotation<any>> = [];
+      doc.annotations = emptyAnnotations;
     });
 
     let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
       this.createAnnotation(annotation);
-    this.annotations = options.annotations.map(createAnnotation);
+    this.crdt = Automerge.change(this.crdt, (doc) => {
+      doc.annotations = options.annotations.map(createAnnotation);
+    });
+  }
+
+  get annotations(): Array<Annotation<any>> {
+    let annotations: Array<Annotation<any>>;
+    let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
+      this.createAnnotation(annotation);
+    annotations = this.crdt.annotations.map(createAnnotation);
+    return annotations;
   }
 
   /**
@@ -183,6 +193,13 @@ export class Document {
   */
 
   /**
+   */
+  getCursorAt(offset: number): Automerge.Cursor {
+    let content: Automerge.Text = this.crdt.content;
+    return content.getCursorAt(offset);
+  }
+
+  /**
    * Annotations must be explicitly allowed unless they
    * are added to the annotations array directly- this is
    * acceptable, but side-affects created by queries will
@@ -193,7 +210,9 @@ export class Document {
   ): void {
     let createAnnotation = (annotation: AnnotationJSON | Annotation<any>) =>
       this.createAnnotation(annotation);
-    this.annotations.push(...annotations.map(createAnnotation));
+    this.crdt = Automerge.change(this.crdt, (doc) => {
+      doc.annotations.push(...annotations.map(createAnnotation));
+    });
     this.triggerChange();
   }
 
@@ -257,7 +276,9 @@ export class Document {
       }
     }
 
-    this.annotations = keptAnnotations;
+    this.crdt = Automerge.change(this.crdt, (doc) => {
+      doc.annotations = keptAnnotations;
+    });
     this.triggerChange();
   }
 
@@ -314,15 +335,16 @@ export class Document {
       behaviourLeading,
       behaviourTrailing
     );
+    insertion;
 
     try {
       for (let i = this.annotations.length - 1; i >= 0; i--) {
-        let annotation = this.annotations[i];
-        annotation.handleChange(insertion);
+        //let annotation = this.annotations[i];
+        //annotation.handleChange(insertion);
       }
 
       this.crdt = Automerge.change(this.crdt, (doc) => {
-        doc.text.insertAt(start, ...text.split(""));
+        doc.content.insertAt(start, ...text.split(""));
       });
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -368,7 +390,7 @@ export class Document {
         annotation.handleChange(deletion);
       }
       this.crdt = Automerge.change(this.crdt, (doc) => {
-        doc.text.deleteAt(start, end - start);
+        doc.content.deleteAt(start, end - start);
       });
       //this.content = this.content.slice(0, start) + this.content.slice(end);
     } catch (e) {
@@ -577,7 +599,7 @@ export class Document {
       let cumulativeDeleteLength = 0;
       for (let i = 0; i < mergedRanges.length; i++) {
         const thisDeletionLength = mergedRanges[i].end - mergedRanges[i].start;
-        doc.text.deleteAt(
+        doc.content.deleteAt(
           mergedRanges[i].start - cumulativeDeleteLength,
           thisDeletionLength
         );
@@ -607,6 +629,13 @@ export class Document {
       let change = mergedRanges[i];
 
       for (let annotation of this.annotations) {
+        if (
+          annotation.startStatic === undefined ||
+          annotation.endStatic === undefined
+        ) {
+          continue;
+        }
+
         let length = change.end - change.start;
 
         // We're deleting after the annotation, nothing needed to be done.
@@ -621,8 +650,8 @@ export class Document {
         //           [       ]
         // --*---*-------------
         if (change.end < annotation.start) {
-          annotation.start -= length;
-          annotation.end -= length;
+          annotation.startStatic -= length;
+          annotation.endStatic -= length;
         } else {
           if (change.end < annotation.end) {
             // Annotation spans the whole deleted text, so just truncate the end of
@@ -630,15 +659,15 @@ export class Document {
             //   [             ]
             // ------*------*---------
             if (change.start > annotation.start) {
-              annotation.end -= length;
+              annotation.endStatic -= length;
 
               // Annotation occurs within the deleted text, affecting both start and
               // end of the annotation, but by only part of the deleted text length.
               //         [         ]
               // ---*---------*------------
             } else if (change.start <= annotation.start) {
-              annotation.start -= annotation.start - change.start;
-              annotation.end -= length;
+              annotation.startStatic -= annotation.start - change.start;
+              annotation.endStatic -= length;
             }
           } else if (change.end >= annotation.end) {
             //             [  ]
@@ -647,13 +676,13 @@ export class Document {
             //              [     ]
             //    ------*---------*--------
             if (change.start <= annotation.start) {
-              annotation.start = change.start;
-              annotation.end = change.start;
+              annotation.startStatic = change.start;
+              annotation.endStatic = change.start;
 
               //       [        ]
               //    ------*---------*--------
             } else if (change.start > annotation.start) {
-              annotation.end = change.start;
+              annotation.endStatic = change.start;
             }
           }
         }
@@ -729,17 +758,23 @@ export class Document {
       });
 
       if (KnownAnnotation) {
-        return KnownAnnotation.hydrate(annotation.toJSON());
+        return KnownAnnotation.hydrate(this.crdt.content, annotation.toJSON());
       }
       return annotation;
     } else if (annotation instanceof Annotation) {
       let AnnotationClass = annotation.getAnnotationConstructor();
       if (schema.indexOf(AnnotationClass) === -1) {
         let json = annotation.toJSON();
+        let startCursor: Automerge.Cursor;
+        let endCursor: Automerge.Cursor;
+        Automerge.change(this.crdt, (d) => {
+          startCursor = d.content.getCursorAt(json.start);
+          endCursor = d.content.getCursorAt(json.end);
+        });
         return new UnknownAnnotation({
           id: json.id,
-          start: json.start,
-          end: json.end,
+          startCursor: startCursor,
+          endCursor: endCursor,
           attributes: {
             type: json.type,
             attributes: json.attributes,
@@ -758,12 +793,20 @@ export class Document {
       });
 
       if (ConcreteAnnotation) {
-        return ConcreteAnnotation.hydrate(annotation);
+        return ConcreteAnnotation.hydrate(this.crdt.content, annotation);
       } else {
+        let startCursor: Automerge.Cursor;
+        let endCursor: Automerge.Cursor;
+        Automerge.change(this.crdt, (doc) => {
+          startCursor =
+            annotation.startCursor || doc.content.getCursorAt(annotation.start);
+          endCursor =
+            annotation.endCursor || doc.content.getCursorAt(annotation.end);
+        });
         return new UnknownAnnotation({
           id: annotation.id,
-          start: annotation.start,
-          end: annotation.end,
+          startCursor: startCursor,
+          endCursor: endCursor,
           attributes: {
             type: annotation.type,
             attributes: annotation.attributes,

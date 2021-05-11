@@ -13,11 +13,15 @@ import {
   unprefix,
 } from "./internals";
 
+import * as Automerge from "automerge";
+
 export interface AnnotationJSON {
   id?: string;
   type: string;
   start: number;
+  startCursor: Automerge.Cursor;
   end: number;
+  endCursor: Automerge.Cursor;
   attributes: JSON;
 }
 
@@ -106,16 +110,19 @@ export interface AnnotationConstructor<T, Attributes> {
   subdocuments: { [key: string]: typeof Document };
   new (attributes: {
     id?: string;
-    start: number;
-    end: number;
+    startCursor: Automerge.Cursor;
+    endCursor: Automerge.Cursor;
     attributes?: Attributes;
   }): T;
-  hydrate(attrs: {
-    id?: string;
-    start: number;
-    end: number;
-    attributes: JSON;
-  }): T;
+  hydrate(
+    content: Automerge.Text,
+    attrs: {
+      id?: string;
+      start: number;
+      end: number;
+      attributes: JSON;
+    }
+  ): T;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -124,16 +131,21 @@ export abstract class Annotation<Attributes = {}> {
   static type: string;
   static subdocuments: { [key: string]: typeof Document } = {};
 
-  static hydrate(attrs: {
-    id?: string;
-    start: number;
-    end: number;
-    attributes: JSON;
-  }) {
+  static hydrate(
+    content: Automerge.Text,
+    attrs: {
+      id?: string;
+      start: number;
+      end: number;
+      attributes: JSON;
+    }
+  ) {
+    let startCursor = content.getCursorAt(attrs.start);
+    let endCursor = content.getCursorAt(attrs.end);
     return new (this as any)({
       id: attrs.id,
-      start: attrs.start,
-      end: attrs.end,
+      startCursor: startCursor,
+      endCursor: endCursor,
       attributes: unprefix(
         this.vendorPrefix,
         this.subdocuments,
@@ -146,22 +158,42 @@ export abstract class Annotation<Attributes = {}> {
   readonly vendorPrefix: string;
   abstract get rank(): number;
   id: string;
-  start: number;
-  end: number;
+  startCursor?: Automerge.Cursor;
+  startStatic?: number;
+  get start(): number {
+    if (this.startCursor) {
+      return this.startCursor.index;
+    } else if (this.startStatic != undefined) {
+      return this.startStatic;
+    } else {
+      throw new Error("No valid start position found!");
+    }
+  }
+  endCursor?: Automerge.Cursor;
+  endStatic?: number;
+  get end(): number {
+    if (this.endCursor) {
+      return this.endCursor.index;
+    } else if (this.endStatic != undefined) {
+      return this.endStatic;
+    } else {
+      throw new Error("No valid end position found!");
+    }
+  }
   attributes: Attributes;
 
   constructor(attrs: {
     id?: string;
-    start: number;
-    end: number;
+    startCursor: Automerge.Cursor;
+    endCursor: Automerge.Cursor;
     attributes?: Attributes;
   }) {
     let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
     this.vendorPrefix = AnnotationClass.vendorPrefix;
     this.id = attrs.id || uuid();
-    this.start = attrs.start;
-    this.end = attrs.end;
+    this.startCursor = attrs.startCursor;
+    this.endCursor = attrs.endCursor;
 
     this.attributes = attrs.attributes || ({} as Attributes);
   }
@@ -204,7 +236,20 @@ export abstract class Annotation<Attributes = {}> {
     }
   }
 
+  handleCRDTDeletion(change: Deletion) {
+    change;
+    // no-op (so far)!
+  }
+
   handleDeletion(change: Deletion) {
+    if (this.startCursor) {
+      return this.handleCRDTDeletion(change);
+    }
+
+    if (this.startStatic === undefined || this.endStatic == undefined) {
+      throw new Error("well, this was unexpected");
+    }
+
     let length = change.end - change.start;
 
     // We're deleting after the annotation, nothing needed to be done.
@@ -217,8 +262,8 @@ export abstract class Annotation<Attributes = {}> {
     //           [       ]
     // --*---*-------------
     if (change.end < this.start) {
-      this.start -= length;
-      this.end -= length;
+      this.startStatic -= length;
+      this.endStatic -= length;
     } else {
       if (change.end < this.end) {
         // Annotation spans the whole deleted text, so just truncate the end of
@@ -226,15 +271,15 @@ export abstract class Annotation<Attributes = {}> {
         //   [             ]
         // ------*------*---------
         if (change.start > this.start) {
-          this.end -= length;
+          this.endStatic -= length;
 
           // Annotation occurs within the deleted text, affecting both start and
           // end of the annotation, but by only part of the deleted text length.
           //         [         ]
           // ---*---------*------------
         } else if (change.start <= this.start) {
-          this.start -= this.start - change.start;
-          this.end -= length;
+          this.startStatic -= this.start - change.start;
+          this.endStatic -= length;
         }
       } else if (change.end >= this.end) {
         //             [  ]
@@ -243,28 +288,41 @@ export abstract class Annotation<Attributes = {}> {
         //              [     ]
         //    ------*---------*--------
         if (change.start <= this.start) {
-          this.start = change.start;
-          this.end = change.start;
+          this.startStatic = change.start;
+          this.endStatic = change.start;
 
           //       [        ]
           //    ------*---------*--------
         } else if (change.start > this.start) {
-          this.end = change.start;
+          this.endStatic = change.start;
         }
       }
     }
   }
 
+  handleCRDTInsertion(change: Insertion) {
+    change;
+    // no-op (so far)!
+  }
+
   handleInsertion(change: Insertion) {
+    if (this.startCursor) {
+      return this.handleCRDTInsertion(change);
+    }
+
+    if (this.startStatic === undefined || this.endStatic == undefined) {
+      throw new Error("well, this was unexpected");
+    }
+
     let length = change.text.length;
 
     // The first two normal cases are self explanatory. Just adjust the annotation
     // position, since there is never a case where we wouldn't want to.
     if (change.start < this.start) {
-      this.start += length;
-      this.end += length;
+      this.startStatic += length;
+      this.endStatic += length;
     } else if (change.start > this.start && change.start < this.end) {
-      this.end += length;
+      this.endStatic += length;
 
       // When considering inserting text at a point adjacent to an annotation,
       // the edge behaviour dictates how adjacent annotations respond. With
@@ -273,14 +331,14 @@ export abstract class Annotation<Attributes = {}> {
       // newly-inserted text. See "insertText" docs for details.
     } else if (change.start === this.start) {
       if (change.behaviourLeading === EdgeBehaviour.preserve) {
-        this.start += length;
-        this.end += length;
+        this.startStatic += length;
+        this.endStatic += length;
       } else {
-        this.end += length;
+        this.endStatic += length;
       }
     } else if (change.start === this.end) {
       if (change.behaviourTrailing === EdgeBehaviour.modify) {
-        this.end += length;
+        this.endStatic += length;
       }
     }
   }
@@ -290,8 +348,8 @@ export abstract class Annotation<Attributes = {}> {
 
     return new AnnotationClass({
       id: this.id,
-      start: this.start,
-      end: this.end,
+      startCursor: this.startCursor,
+      endCursor: this.endCursor,
       attributes: clone(this.attributes),
     });
   }
