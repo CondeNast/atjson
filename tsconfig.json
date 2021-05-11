@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "alwaysStrict": true,
+    "alwaysStrict": false,
     "baseUrl": "./",
     "composite": true,
     "declaration": true,
@@ -17,13 +17,14 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noEmitOnError": false,
     "paths": {
       "parse5": ["./node_modules/@types/parse5/index.d.ts"]
     },
     "removeComments": true,
     "jsx": "react",
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "target": "ES6"
   },
   "exclude": ["node_modules", "dist", "public", "test"]
