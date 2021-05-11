@@ -26,7 +26,7 @@
     "@types/wordpress__shortcode": "2.3.1",
     "@typescript-eslint/eslint-plugin": "4.20.0",
     "@typescript-eslint/parser": "4.20.0",
-    "automerge": "github:automerge/automerge#cursors-v2",
+    "automerge": "github:blaine/automerge#cursors-v2",
     "babel-jest": "26.6.3",
     "chance": "1.1.7",
     "commonmark": "0.29.3",

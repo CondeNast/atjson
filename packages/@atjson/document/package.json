@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "automerge": "github:automerge/automerge#cursors-v2",
+    "automerge": "github:blaine/automerge#cursors-v2",
     "uuid-random": "^1.3.0"
   }
 }
