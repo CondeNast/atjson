@@ -20,7 +20,7 @@
     "@atjson/source-wordpress-shortcode": "*",
     "@atjson/source-url": "*",
     "@babel/plugin-proposal-class-properties": "7.13.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.13.8",
+    "@babel/plugin-proposal-object-rest-spread": "7.14.2",
     "@babel/preset-typescript": "7.13.0",
     "@docusaurus/core": "2.0.0-alpha.ffe8b6106",
     "@docusaurus/preset-classic": "2.0.0-alpha.ffe8b6106",
