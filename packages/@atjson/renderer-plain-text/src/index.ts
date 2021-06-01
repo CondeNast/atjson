@@ -21,7 +21,7 @@ export default class PlainTextRenderer extends Renderer {
     super(document, args);
   }
 
-  *root() {
+  *root(): Iterator<void, string, string[]> {
     let text = yield;
     return text.join("");
   }
@@ -30,27 +30,27 @@ export default class PlainTextRenderer extends Renderer {
     return "\n";
   }
 
-  *Heading() {
+  *Heading(): Iterator<void, string, string[]> {
     let item = yield;
     return item.join("") + "\n\n";
   }
 
-  *Blockquote() {
+  *Blockquote(): Iterator<void, string, string[]> {
     let item = yield;
     return item.join("") + "\n\n";
   }
 
-  *Pullquote() {
+  *Pullquote(): Iterator<void, string, string[]> {
     let item = yield;
     return item.join("") + "\n\n";
   }
 
-  *ListItem() {
+  *ListItem(): Iterator<void, string, string[]> {
     let item = yield;
     return item.join("");
   }
 
-  *List(annotation: List) {
+  *List(annotation: List): Iterator<void, string, string[]> {
     let items: string[] = yield;
     if (annotation.attributes.type === "bulleted") {
       items = items.map((item) => {
@@ -65,7 +65,7 @@ export default class PlainTextRenderer extends Renderer {
     return items.join("\n") + "\n\n";
   }
 
-  *Paragraph() {
+  *Paragraph(): Iterator<void, string, string[]> {
     let item = yield;
     return item.join("") + "\n\n";
   }
