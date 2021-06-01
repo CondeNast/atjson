@@ -125,8 +125,7 @@ describe("renderer-html", () => {
       start: 0,
       end: 1,
       attributes: {
-        url:
-          "https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif",
+        url: "https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif",
         description: "Hippo Hula Hooping",
         title: "Haigney Hippo",
       },
@@ -500,8 +499,7 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            url:
-              "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
+            url: "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
           },
         }),
       ],

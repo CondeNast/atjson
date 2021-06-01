@@ -18,9 +18,10 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
 // user of the library has not wrapped in a provider).
 const EMPTY_COMPONENT_MAP = {};
 
-export const ReactRendererContext = React.createContext<{
-  [key: string]: ComponentType<any>;
-}>(EMPTY_COMPONENT_MAP);
+export const ReactRendererContext =
+  React.createContext<{
+    [key: string]: ComponentType<any>;
+  }>(EMPTY_COMPONENT_MAP);
 
 export const ReactRendererConsumer = ReactRendererContext.Consumer;
 

@@ -21,7 +21,7 @@ export function unprefix(
       return result;
     });
   } else if (subdocuments[path.join(".")]) {
-    let serializedDocument = (attribute as any) as {
+    let serializedDocument = attribute as any as {
       content: string;
       annotations: AnnotationJSON[];
     };
