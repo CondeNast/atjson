@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { CK } from "../src";
 import CKEditorSource from "./source-ckeditor-build-classic";
