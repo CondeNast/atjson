@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import Document, {
   Annotation,
   BlockAnnotation,
@@ -26,7 +30,7 @@ class TestSource extends Document {
   static schema = [Bold, Italic, BlockQuote];
 }
 
-function text(t: string, start: number): Annotation {
+function text(t: string, start: number): Annotation<any> {
   return new TextAnnotation({
     id: "Any<id>",
     start,
