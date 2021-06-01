@@ -426,8 +426,7 @@ describe("@atjson/source-html", () => {
             {
               type: "facebook-embed",
               attributes: {
-                url:
-                  "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
+                url: "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
                 height: "633",
                 width: "500",
               },
@@ -449,8 +448,7 @@ describe("@atjson/source-html", () => {
             {
               type: "facebook-embed",
               attributes: {
-                url:
-                  "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
+                url: "https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743",
               },
               children: [],
             },
@@ -555,8 +553,7 @@ describe("@atjson/source-html", () => {
             {
               type: "iframe-embed",
               attributes: {
-                url:
-                  "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
+                url: "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
                 height: "232",
                 width: "100%",
               },
@@ -583,8 +580,7 @@ describe("@atjson/source-html", () => {
             {
               type: "iframe-embed",
               attributes: {
-                url:
-                  "https://open.spotify.com/embed/track/1QY4TdhuNIOX2SHLdElzd5",
+                url: "https://open.spotify.com/embed/track/1QY4TdhuNIOX2SHLdElzd5",
                 height: "380",
                 width: "300",
               },
@@ -767,8 +763,7 @@ describe("@atjson/source-html", () => {
           {
             type: "video-embed",
             attributes: {
-              url:
-                "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
+              url: "https://players.brightcove.net/1752604059001/default_default/index.html?videoId=5802784116001",
               provider: VideoURLs.Provider.BRIGHTCOVE,
               width: 640,
               height: 360,
@@ -789,8 +784,7 @@ describe("@atjson/source-html", () => {
           {
             type: "video-embed",
             attributes: {
-              url:
-                "https://player.twitch.tv/?video=956002196&parent=www.example.com",
+              url: "https://player.twitch.tv/?video=956002196&parent=www.example.com",
               provider: VideoURLs.Provider.TWITCH,
               width: 620,
               height: 378,
@@ -811,8 +805,7 @@ describe("@atjson/source-html", () => {
           {
             type: "video-embed",
             attributes: {
-              url:
-                "https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com",
+              url: "https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com",
               provider: VideoURLs.Provider.TWITCH,
               width: 620,
               height: 378,

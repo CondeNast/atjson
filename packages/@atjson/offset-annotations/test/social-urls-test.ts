@@ -6,8 +6,7 @@ describe("SocialURLs", () => {
       [
         "https://open.spotify.com/embed-podcast/episode/5YNTk67O5fpJfYZAIpCZCz",
         {
-          url:
-            "https://open.spotify.com/embed-podcast/episode/5YNTk67O5fpJfYZAIpCZCz",
+          url: "https://open.spotify.com/embed-podcast/episode/5YNTk67O5fpJfYZAIpCZCz",
           height: "232",
           width: "100%",
         },
@@ -15,8 +14,7 @@ describe("SocialURLs", () => {
       [
         "https://open.spotify.com/episode/056ZfewzAOQFphcDjva5bP?si=W4NnJijJR7-kwC3R2uPXHQ",
         {
-          url:
-            "https://open.spotify.com/embed-podcast/episode/056ZfewzAOQFphcDjva5bP",
+          url: "https://open.spotify.com/embed-podcast/episode/056ZfewzAOQFphcDjva5bP",
           height: "232",
           width: "100%",
         },
@@ -88,8 +86,7 @@ describe("SocialURLs", () => {
       [
         "https://open.spotify.com/show/1iohmBNlRooIVtukKeavRa?si=_ZEhAhfZTUGz3UOKPLkH8Q",
         {
-          url:
-            "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
+          url: "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
           height: "232",
           width: "100%",
         },
@@ -97,8 +94,7 @@ describe("SocialURLs", () => {
       [
         "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
         {
-          url:
-            "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
+          url: "https://open.spotify.com/embed-podcast/show/1iohmBNlRooIVtukKeavRa",
           height: "232",
           width: "100%",
         },

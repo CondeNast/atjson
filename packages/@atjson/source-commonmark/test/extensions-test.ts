@@ -42,9 +42,8 @@ describe("strikethrough", () => {
   });
 
   test("conversion to Offset uses existing conversions", () => {
-    let doc = MarkdownItSource.fromRaw("~~hello~~ *world*").convertTo(
-      OffsetSource
-    );
+    let doc =
+      MarkdownItSource.fromRaw("~~hello~~ *world*").convertTo(OffsetSource);
     expect(
       doc
         .where((a) => a.type !== "parse-token")

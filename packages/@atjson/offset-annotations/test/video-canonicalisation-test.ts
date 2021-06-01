@@ -85,8 +85,7 @@ describe("VideoURLs", () => {
       "https://player.twitch.tv/?channel=dunkstream&parent=www.example.com",
     ])("%s", (url) => {
       expect(VideoURLs.identify(new URL(url))).toEqual({
-        url:
-          "https://player.twitch.tv/?channel=dunkstream&parent=www.example.com",
+        url: "https://player.twitch.tv/?channel=dunkstream&parent=www.example.com",
         provider: VideoURLs.Provider.TWITCH,
       });
     });
@@ -98,8 +97,7 @@ describe("VideoURLs", () => {
       "https://clips.twitch.tv/embed?clip=MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-&parent=www.example.com",
     ])("%s", (url) => {
       expect(VideoURLs.identify(new URL(url))).toEqual({
-        url:
-          "https://clips.twitch.tv/embed?clip=MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-&parent=www.example.com",
+        url: "https://clips.twitch.tv/embed?clip=MistyPluckyNeanderthalWow-1bomfgLj4qFB3uO-&parent=www.example.com",
         provider: VideoURLs.Provider.TWITCH,
       });
     });

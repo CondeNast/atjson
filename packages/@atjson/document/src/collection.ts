@@ -122,9 +122,7 @@ export class Collection {
   }
 
   update(
-    updater: (
-      annotation: Annotation<any>
-    ) => void | {
+    updater: (annotation: Annotation<any>) => void | {
       add?: Array<Annotation<any>>;
       remove?: Array<Annotation<any>>;
       retain?: Array<Annotation<any>>;
