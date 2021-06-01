@@ -81,7 +81,8 @@
     "anonymize-fixtures": "npx ts-node ./perf-kit/anonymize-fixtures.ts",
     "perf": "npx ts-node ./perf-kit/index.ts profile --out current",
     "perf:baseline": "npx ts-node ./perf-kit/index.ts profile --out baseline",
-    "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current"
+    "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current",
+    "prepare": "husky install"
   },
   "workspaces": [
     "packages/@atjson/*"
@@ -105,12 +106,6 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!@ckeditor).+\\.js$"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx,css,js,jsx,json,md}": [
