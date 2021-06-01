@@ -35,7 +35,7 @@
     "eslint-config-prettier": "7.2.0",
     "eslint-plugin-jest": "24.3.6",
     "eslint-plugin-prettier": "3.4.0",
-    "husky": "4.3.8",
+    "husky": "6.0.0",
     "jest": "26.6.3",
     "lerna": "3.22.1",
     "lint-staged": "11.0.0",
@@ -81,7 +81,8 @@
     "anonymize-fixtures": "npx ts-node ./perf-kit/anonymize-fixtures.ts",
     "perf": "npx ts-node ./perf-kit/index.ts profile --out current",
     "perf:baseline": "npx ts-node ./perf-kit/index.ts profile --out baseline",
-    "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current"
+    "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current",
+    "prepare": "husky install"
   },
   "workspaces": [
     "packages/@atjson/*"
@@ -105,12 +106,6 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!@ckeditor).+\\.js$"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx,css,js,jsx,json,md}": [
