@@ -42,7 +42,7 @@ export const ReactRendererProvider: FC<{
 };
 
 export default class ReactRenderer extends Renderer {
-  *root() {
+  *root(): Iterator<void, React.ReactNode, React.ReactNode[]> {
     return React.createElement(React.Fragment, {}, ...(yield));
   }
 

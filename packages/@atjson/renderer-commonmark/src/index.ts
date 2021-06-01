@@ -328,7 +328,7 @@ export default class CommonmarkRenderer extends Renderer {
     return escapePunctuation(text, this.options);
   }
 
-  *root() {
+  *root(): Iterator<void, string, string[]> {
     let rawText = yield;
     return rawText.join("");
   }

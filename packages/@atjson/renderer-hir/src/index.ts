@@ -214,7 +214,7 @@ export default class Renderer {
     }
   }
 
-  *root() {
+  *root(): Iterator<void, any, any> {
     return yield;
   }
 

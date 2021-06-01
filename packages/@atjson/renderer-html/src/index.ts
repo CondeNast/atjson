@@ -86,7 +86,7 @@ export default class HTMLRenderer extends Renderer {
     return results;
   }
 
-  *root() {
+  *root(): Iterator<void, string, string[]> {
     let html = yield;
     return html.join("");
   }
