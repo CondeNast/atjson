@@ -37,6 +37,6 @@
   ],
   "devDependencies": {
     "@types/react": "16.14.8",
-    "@types/styled-components": "5.1.9"
+    "@types/styled-components": "5.1.10"
   }
 }
