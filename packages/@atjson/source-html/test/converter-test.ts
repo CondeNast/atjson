@@ -814,6 +814,25 @@ describe("@atjson/source-html", () => {
           },
         ]);
       });
+
+      test("Wirewax", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe style="position: absolute; top: 0; left: 0;" width="100%" height="100%" src="https://embedder.wirewax.com/8203724/" frameborder="0" scrolling="yes" allowfullscreen></iframe>`
+        )
+          .convertTo(OffsetSource)
+          .canonical();
+
+        expect(doc.annotations).toMatchObject([
+          {
+            type: "video-embed",
+            attributes: {
+              url: "https://embedder.wirewax.com/8203724",
+              provider: VideoURLs.Provider.WIREWAX,
+              aspectRatio: "1:1",
+            },
+          },
+        ]);
+      });
     });
 
     describe("Third Party embeds", () => {
