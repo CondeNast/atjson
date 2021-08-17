@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.3...@atjson/offset-annotations@0.39.0) (2021-08-17)
+
+
+### Features
+
+* **link:** add link style attribute ([e60a445](https://github.com/CondeNast/atjson/commit/e60a44545eaabb34308e144a42b561431b8c56ab))
+* **video-embed:** support wirewax urls ([8099a6e](https://github.com/CondeNast/atjson/commit/8099a6e184291fcaed1e0f747bd57131086f2446))
+
+
+
+
+
 ## [0.38.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.2...@atjson/offset-annotations@0.38.3) (2021-06-01)
 
 **Note:** Version bump only for package @atjson/offset-annotations
