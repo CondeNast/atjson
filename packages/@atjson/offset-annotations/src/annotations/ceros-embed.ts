@@ -4,6 +4,7 @@ export class CerosEmbed extends ObjectAnnotation<{
   url: string;
   aspectRatio: number;
   mobileAspectRatio?: number;
+  cerosEmbedStyle?: string;
   /**
    * A named identifier used to quickly jump to this item
    */
