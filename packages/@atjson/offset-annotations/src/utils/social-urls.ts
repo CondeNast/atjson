@@ -4,8 +4,9 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  TwitterEmbed,
+  TelegramEmbed,
   TikTokEmbed,
+  TwitterEmbed
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -331,6 +332,24 @@ function normalizeTikTokUrl(url: IUrl) {
   };
 }
 
+// Telegram URLs
+// Needs to covert post URL (https://t.me/:channelSlug/:postId) to post slug (:channelSlug/:postId)
+// Docs here https://core.telegram.org/widgets/post
+
+function isTelegramUrl(url: IUrl) {
+  return url.host === "t.me";
+}
+
+function normalizeTelegramUrl(url: IUrl) {
+  let [cahnnelSlug, postId] = without<string>(url.pathname.split("/"), "");
+  return {
+    Class: TelegramEmbed,
+    attributes: {
+      url: `${cahnnelSlug}/${postId}`,
+    },
+  };
+}
+
 export function identify(
   url: IUrl
 ): {
@@ -371,6 +390,10 @@ export function identify(
 
   if (isTikTokUrl(url)) {
     return normalizeTikTokUrl(url);
+  }
+
+  if (isTelegramUrl(url)) {
+    return normalizeTelegramUrl(url);
   }
 
   return null;
