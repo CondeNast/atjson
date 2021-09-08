@@ -3,17 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [0.39.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.3...@atjson/offset-annotations@0.39.0) (2021-08-17)
+# [0.40.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.39.0...@atjson/offset-annotations@0.40.0) (2021-09-08)
 
+### Bug Fixes
+
+- adding size attribute to ceros embed offset annotations ([2894f1a](https://github.com/CondeNast/atjson/commit/2894f1a556a10f90fce272d68953d99bb069bca3))
+- adding size attribute to ceros embed offset annotations ([10dbfa4](https://github.com/CondeNast/atjson/commit/10dbfa4c398af0dcc63e9932af4396d511541106))
+- **ceros-embed:** adding size attribute to annotation ([33423c7](https://github.com/CondeNast/atjson/commit/33423c790a2311774fe9727bb59ced7f8c043b09))
+- set prerelease version ([3d56c94](https://github.com/CondeNast/atjson/commit/3d56c948525ee732618a8ceb51910690cb8b2c22))
 
 ### Features
 
-* **link:** add link style attribute ([e60a445](https://github.com/CondeNast/atjson/commit/e60a44545eaabb34308e144a42b561431b8c56ab))
-* **video-embed:** support wirewax urls ([8099a6e](https://github.com/CondeNast/atjson/commit/8099a6e184291fcaed1e0f747bd57131086f2446))
+- **telegram-embed:** Add Telegram urls recognition ([7f7ba18](https://github.com/CondeNast/atjson/commit/7f7ba18844f327c4c2bc8a3e4c6859ccab25dfac))
 
+# [0.39.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.3...@atjson/offset-annotations@0.39.0) (2021-08-17)
 
+### Features
 
-
+- **link:** add link style attribute ([e60a445](https://github.com/CondeNast/atjson/commit/e60a44545eaabb34308e144a42b561431b8c56ab))
+- **video-embed:** support wirewax urls ([8099a6e](https://github.com/CondeNast/atjson/commit/8099a6e184291fcaed1e0f747bd57131086f2446))
 
 ## [0.38.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.38.2...@atjson/offset-annotations@0.38.3) (2021-06-01)
 
