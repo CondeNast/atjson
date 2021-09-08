@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.41.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.39.0...@atjson/offset-annotations@0.41.0) (2021-09-08)
+
+### Bug Fixes
+
+- adding size attribute to ceros embed offset annotations ([2894f1a](https://github.com/CondeNast/atjson/commit/2894f1a556a10f90fce272d68953d99bb069bca3))
+- adding size attribute to ceros embed offset annotations ([10dbfa4](https://github.com/CondeNast/atjson/commit/10dbfa4c398af0dcc63e9932af4396d511541106))
+- **ceros-embed:** adding size attribute to annotation ([33423c7](https://github.com/CondeNast/atjson/commit/33423c790a2311774fe9727bb59ced7f8c043b09))
+- release 0.40.0 ([#1055](https://github.com/CondeNast/atjson/issues/1055)) ([cdc8640](https://github.com/CondeNast/atjson/commit/cdc8640abea2ab297b0fd31393f8b6bec86ef7cc))
+
+### Features
+
+- **telegram-embed:** Add Telegram urls recognition ([7f7ba18](https://github.com/CondeNast/atjson/commit/7f7ba18844f327c4c2bc8a3e4c6859ccab25dfac))
+
 # [0.40.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.39.0...@atjson/offset-annotations@0.40.0) (2021-09-08)
 
 ### Bug Fixes
