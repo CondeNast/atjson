@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@atjson/document": "0.24.4",
-    "@atjson/offset-annotations": "0.39.0"
+    "@atjson/offset-annotations": "0.40.0"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.23.0"

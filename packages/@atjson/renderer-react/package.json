@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@atjson/document": "0.24.4",
-    "@atjson/offset-annotations": "0.39.0"
+    "@atjson/offset-annotations": "0.40.0"
   },
   "gitHead": "4727d5eadcdbd47558abfa61d760e8cebe3ba58e"
 }
