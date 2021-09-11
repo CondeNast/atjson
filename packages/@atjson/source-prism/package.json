@@ -16,7 +16,7 @@
     "@atjson/offset-annotations": "0.41.0",
     "@atjson/source-html": "0.32.5",
     "@types/sax": "^1.0.1",
-    "entities": "^2.0.0",
+    "entities": "^3.0.0",
     "sax": "^1.2.4"
   },
   "devDependencies": {

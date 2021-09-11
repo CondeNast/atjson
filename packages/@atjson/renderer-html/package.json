@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@atjson/renderer-hir": "0.22.12",
-    "entities": "^2.0.0"
+    "entities": "^3.0.0"
   },
   "devDependencies": {
     "@atjson/document": "0.24.4",
