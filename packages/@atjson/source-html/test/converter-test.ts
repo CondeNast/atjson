@@ -589,6 +589,26 @@ describe("@atjson/source-html", () => {
           ],
         });
       });
+
+      test("Telegram post link", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe src="https://t.me/voguerussia/8714" />`
+        ).convertTo(OffsetSource);
+
+        let hir = new HIR(doc).toJSON();
+        expect(hir).toMatchObject({
+          type: "root",
+          children: [
+            {
+              type: "telegram-embed",
+              attributes: {
+                url: "voguerussia/8714",
+              },
+              children: [],
+            },
+          ],
+        });
+      });
     });
 
     describe("video embeds", () => {
