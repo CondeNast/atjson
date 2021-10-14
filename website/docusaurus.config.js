@@ -2,7 +2,7 @@ const { join } = require("path");
 
 module.exports = {
   title: "atjson",
-  tagline: "TK",
+  tagline: "rich text tooling",
   url: "https://atjson.condenast.io",
   baseUrl: "/",
   favicon: "img/favicon.ico",
