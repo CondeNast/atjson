@@ -19,7 +19,7 @@
     "@atjson/renderer-hir": "0.22.12"
   },
   "peerDependencies": {
-    "@atjson/document": ">=0.23.0"
+    "@atjson/document": ">=0.24.0"
   },
   "gitHead": "4727d5eadcdbd47558abfa61d760e8cebe3ba58e"
 }
