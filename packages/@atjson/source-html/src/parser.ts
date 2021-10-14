@@ -3,9 +3,7 @@ import * as parse5 from "parse5";
 
 const LEADING_WHITESPACE = /^\s+/;
 
-function isElement(
-  node: parse5.DefaultTreeNode
-): node is parse5.DefaultTreeElement {
+function isElement(node: parse5.Node): node is parse5.Element {
   return (
     node.nodeName !== undefined &&
     node.nodeName !== "#text" &&
@@ -13,25 +11,11 @@ function isElement(
   );
 }
 
-function isDocumentFragment(
-  node: parse5.DocumentFragment
-): node is parse5.DefaultTreeDocumentFragment {
-  let nodeName = "nodeName" in node ? node.nodeName : null;
-  return nodeName === "#document-fragment";
-}
-
-function isDocument(node: parse5.Document): node is parse5.DefaultTreeDocument {
-  let nodeName = "nodeName" in node ? node.nodeName : null;
-  return nodeName === "#document";
-}
-
-function isText(
-  node: parse5.DefaultTreeNode
-): node is parse5.DefaultTreeTextNode {
+function isText(node: parse5.Node): node is parse5.TextNode {
   return node.nodeName === "#text";
 }
 
-function getAttributes(node: parse5.DefaultTreeElement): NonNullable<any> {
+function getAttributes(node: parse5.Element): NonNullable<any> {
   if (!node.attrs) return {};
 
   let attributes: NonNullable<any> = {};
@@ -74,14 +58,10 @@ export default class Parser {
     // and HTML fragments cleanly.
     let tree = parse5.parse(this.html, { sourceCodeLocationInfo: true });
 
-    if (isDocumentFragment(tree) || isDocument(tree)) {
-      this.walk(tree.childNodes);
-    } else {
-      throw new Error("Invalid return from parser. Failing.");
-    }
+    this.walk(tree.childNodes);
   }
 
-  walk(nodes: parse5.DefaultTreeNode[]) {
+  walk(nodes: parse5.Node[]) {
     if (!nodes) return;
     for (let node of nodes) {
       if (isElement(node)) {
@@ -105,10 +85,7 @@ export default class Parser {
     }
   }
 
-  convertTag(
-    node: parse5.DefaultTreeElement,
-    which: "startTag" | "endTag"
-  ): number {
+  convertTag(node: parse5.Element, which: "startTag" | "endTag"): number {
     let location = node.sourceCodeLocation;
     if (location == null) return -1;
 
@@ -126,9 +103,7 @@ export default class Parser {
     return end - this.offset;
   }
 
-  *convertNodeToAnnotation(
-    node: parse5.DefaultTreeElement
-  ): IterableIterator<void> {
+  *convertNodeToAnnotation(node: parse5.Element): IterableIterator<void> {
     let location = node.sourceCodeLocation;
     let tagName = node.tagName;
 
