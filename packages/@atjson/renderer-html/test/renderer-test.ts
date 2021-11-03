@@ -183,7 +183,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://condenast.com" title="Cond&#xe9; Nast" rel="nofollow" target="_blank">Hello</a>`
+        `<a href="https://condenast.com" title="Cond&#xE9; Nast" rel="nofollow" target="_blank">Hello</a>`
       );
     });
 
@@ -202,7 +202,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65e5;&#x672c;&#x4eba;</a>`
+        `<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>`
       );
     });
 

@@ -22,6 +22,7 @@ export * from "./list-item";
 export * from "./paragraph";
 export * from "./pinterest-embed";
 export * from "./pullquote";
+export * from "./reddit-embed";
 export * from "./section";
 export * from "./sidebar";
 export * from "./small-caps";

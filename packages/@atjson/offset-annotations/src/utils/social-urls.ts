@@ -4,9 +4,10 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
+  RedditEmbed,
   TelegramEmbed,
   TikTokEmbed,
-  TwitterEmbed
+  TwitterEmbed,
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -134,6 +135,21 @@ function normalizePinterestURL(url: IUrl) {
       url: `https://www.pinterest.com${url.pathname}`,
     },
     Class: PinterestEmbed,
+  };
+}
+
+// Reddit embeds
+// - www.redditmedia.com/r/
+function isRedditURL(url: IUrl) {
+  return url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/");
+}
+
+function normalizeRedditURL(url: IUrl) {
+  return {
+    attributes: {
+      url: `https://www.redditmedia.com${url.pathname}`,
+    },
+    Class: RedditEmbed,
   };
 }
 
@@ -350,9 +366,7 @@ function normalizeTelegramUrl(url: IUrl) {
   };
 }
 
-export function identify(
-  url: IUrl
-): {
+export function identify(url: IUrl): {
   attributes: { url: string; width?: string; height?: string };
   Class: typeof IframeEmbed;
 } | null {
@@ -374,6 +388,10 @@ export function identify(
 
   if (isPinterestURL(url)) {
     return normalizePinterestURL(url);
+  }
+
+  if (isRedditURL(url)) {
+    return normalizeRedditURL(url);
   }
 
   if (isTwitterURL(url)) {
