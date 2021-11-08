@@ -1,3 +1,4 @@
+import { AttributesOf } from "@atjson/document";
 import {
   IframeEmbed,
   FacebookEmbed,
@@ -148,6 +149,8 @@ function normalizeRedditURL(url: IUrl) {
   return {
     attributes: {
       url: `https://www.redditmedia.com${url.pathname}`,
+      dataPreviewImage: "",
+      dataCardCreated: "",
     },
     Class: RedditEmbed,
   };
@@ -366,10 +369,28 @@ function normalizeTelegramUrl(url: IUrl) {
   };
 }
 
-export function identify(url: IUrl): {
-  attributes: { url: string; width?: string; height?: string };
-  Class: typeof IframeEmbed;
-} | null {
+type EmbedInfo<T> = {
+  attributes: AttributesOf<T>;
+  Class: new (attr: {
+    start: number;
+    end: number;
+    attributes: AttributesOf<T>;
+  }) => T;
+};
+
+type SocialEmbedInfo =
+  | EmbedInfo<IframeEmbed>
+  | EmbedInfo<FacebookEmbed>
+  | EmbedInfo<GiphyEmbed>
+  | EmbedInfo<InstagramEmbed>
+  | EmbedInfo<PinterestEmbed>
+  | EmbedInfo<RedditEmbed>
+  | EmbedInfo<TelegramEmbed>
+  | EmbedInfo<TikTokEmbed>
+  | EmbedInfo<TwitterEmbed>
+  | null;
+
+export function identify(url: IUrl): SocialEmbedInfo {
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }

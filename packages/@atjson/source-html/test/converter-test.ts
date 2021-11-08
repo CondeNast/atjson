@@ -591,6 +591,34 @@ describe("@atjson/source-html", () => {
       });
     });
 
+    test("Reddit Embed code", () => {
+      let doc = HTMLSource.fromRaw(
+        `<iframe id="reddit-embed"
+        src="https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&amp;ref=share&amp;embed=true"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        style="border: none;"
+        height="476"
+        width="640"
+        scrolling="no"></iframe>`
+      ).convertTo(OffsetSource);
+
+      let hir = new HIR(doc).toJSON();
+      expect(hir).toMatchObject({
+        type: "root",
+        children: [
+          {
+            type: "reddit-embed",
+            attributes: {
+              url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/",
+              height: "476",
+              width: "640",
+            },
+            children: [],
+          },
+        ],
+      });
+    });
+
     describe("video embeds", () => {
       describe("YouTube", () => {
         test.each([
