@@ -235,7 +235,7 @@ export default function (doc: Document) {
           start: start,
           end: end,
           attributes: {
-            url: attributes.url,
+            ...attributes,
             height,
             width,
             anchorName: iframe.attributes.id,

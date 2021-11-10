@@ -609,9 +609,41 @@ describe("@atjson/source-html", () => {
           {
             type: "reddit-embed",
             attributes: {
-              url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/",
+              url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&amp;ref=share&amp;embed=true",
               height: "476",
               width: "640",
+              dataPreviewImage: "1",
+              dataCardCreated: "NA",
+            },
+            children: [],
+          },
+        ],
+      });
+    });
+
+    test("Reddit Embed code", () => {
+      let doc = HTMLSource.fromRaw(
+        `<iframe id="reddit-embed"
+        src="https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&amp;ref=share&amp;embed=true&amp;showmedia=false&amp;showedits=false&amp;created=2021-11-08T13%3A42%3A20.393Z"
+        sandbox="allow-scripts allow-same-origin allow-popups"
+        style="border: none;"
+        height="126"
+        width="640"
+        scrolling="no"></iframe>`
+      ).convertTo(OffsetSource);
+
+      let hir = new HIR(doc).toJSON();
+      expect(hir).toMatchObject({
+        type: "root",
+        children: [
+          {
+            type: "reddit-embed",
+            attributes: {
+              url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&amp;ref=share&amp;embed=true",
+              height: "126",
+              width: "640",
+              dataPreviewImage: "0",
+              dataCardCreated: "2021-11-08T13:42:20.393Z",
             },
             children: [],
           },

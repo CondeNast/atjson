@@ -94,7 +94,7 @@ function isInstagramTVURL(url: IUrl) {
   );
 }
 
-function normalizeInstagramTVURL(url: IUrl) {
+function normalizeInstagramTVURL(url: IUrl): EmbedInfo<InstagramEmbed> {
   let [, id] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: { url: `https://www.instagram.com/tv/${id}` },
@@ -112,7 +112,7 @@ function isTwitterURL(url: IUrl) {
   );
 }
 
-function normalizeTwitterURL(url: IUrl) {
+function normalizeTwitterURL(url: IUrl): EmbedInfo<TwitterEmbed> {
   let [username, , tweetId] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: {
@@ -130,7 +130,7 @@ function isPinterestURL(url: IUrl) {
   return url.host === "www.pinterest.com";
 }
 
-function normalizePinterestURL(url: IUrl) {
+function normalizePinterestURL(url: IUrl): EmbedInfo<PinterestEmbed> {
   return {
     attributes: {
       url: `https://www.pinterest.com${url.pathname}`,
@@ -145,12 +145,23 @@ function isRedditURL(url: IUrl) {
   return url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/");
 }
 
-function normalizeRedditURL(url: IUrl) {
+function normalizeRedditURL(url: IUrl): EmbedInfo<RedditEmbed> {
+  let ref_source = getSearchParam(url.searchParams, "ref_source");
+  let ref = getSearchParam(url.searchParams, "ref");
+  let embed = getSearchParam(url.searchParams, "embed");
+
+  let dataPreviewImage = getSearchParam(url.searchParams, "showmedia")
+    ? "0"
+    : "1";
+
+  let dataCardCreated = getSearchParam(url.searchParams, "created")
+    ? (getSearchParam(url.searchParams, "created") as string)
+    : "NA";
   return {
     attributes: {
-      url: `https://www.redditmedia.com${url.pathname}`,
-      dataPreviewImage: "",
-      dataCardCreated: "",
+      url: `https://www.redditmedia.com${url.pathname}?ref_source=${ref_source}&amp;ref=${ref}&amp;embed=${embed}`,
+      dataPreviewImage,
+      dataCardCreated,
     },
     Class: RedditEmbed,
   };
@@ -188,7 +199,7 @@ function isFacebookURL(url: IUrl) {
   return isFacebookPostURL(url) || isFacebookEmbedURL(url);
 }
 
-function normalizeFacebookURL(url: IUrl) {
+function normalizeFacebookURL(url: IUrl): EmbedInfo<FacebookEmbed> {
   if (isFacebookEmbedURL(url)) {
     url = new URL(getSearchParam(url.searchParams, "href") as string);
   }
@@ -215,7 +226,7 @@ function isGiphyURL(url: IUrl) {
   );
 }
 
-function normalizeGiphyURL(url: IUrl) {
+function normalizeGiphyURL(url: IUrl): EmbedInfo<GiphyEmbed> {
   let pathParts = without<string>(url.pathname.split("/"), "");
   let id = "";
   if (pathParts[0] === "embed") {
@@ -293,7 +304,7 @@ function parseSpotifyEmbedPath(pathname: string) {
   };
 }
 
-function normalizeSpotifyUrl(url: IUrl) {
+function normalizeSpotifyUrl(url: IUrl): EmbedInfo<IframeEmbed> {
   const embedUri = getSearchParam(url.searchParams, "uri");
 
   let { id, type } = embedUri
@@ -321,7 +332,7 @@ function isMegaphoneUrl(url: IUrl) {
   return url.host === "playlist.megaphone.fm";
 }
 
-function normalizeMegaphoneUrl(url: IUrl) {
+function normalizeMegaphoneUrl(url: IUrl): EmbedInfo<IframeEmbed> {
   let height = getSearchParam(url.searchParams, "p") ? "485" : "200";
   return {
     Class: IframeEmbed,
@@ -341,7 +352,7 @@ function isTikTokUrl(url: IUrl) {
   );
 }
 
-function normalizeTikTokUrl(url: IUrl) {
+function normalizeTikTokUrl(url: IUrl): EmbedInfo<TikTokEmbed> {
   let [handle, type, id] = without<string>(url.pathname.split("/"), "");
   return {
     Class: TikTokEmbed,
@@ -359,7 +370,7 @@ function isTelegramUrl(url: IUrl) {
   return url.host === "t.me";
 }
 
-function normalizeTelegramUrl(url: IUrl) {
+function normalizeTelegramUrl(url: IUrl): EmbedInfo<TelegramEmbed> {
   let [cahnnelSlug, postId] = without<string>(url.pathname.split("/"), "");
   return {
     Class: TelegramEmbed,
