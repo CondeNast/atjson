@@ -145,7 +145,7 @@ function isRedditURL(url: IUrl) {
   return url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/");
 }
 
-function normalizeRedditURL(url: IUrl): EmbedInfo<RedditEmbed> {
+function normalizeRedditURL(url: IUrl): EmbedInfo<IframeEmbed> {
   let ref_source = getSearchParam(url.searchParams, "ref_source");
   let ref = getSearchParam(url.searchParams, "ref");
   let embed = getSearchParam(url.searchParams, "embed");
@@ -163,7 +163,7 @@ function normalizeRedditURL(url: IUrl): EmbedInfo<RedditEmbed> {
       dataPreviewImage,
       dataCardCreated,
     },
-    Class: RedditEmbed,
+    Class: IframeEmbed,
   };
 }
 
