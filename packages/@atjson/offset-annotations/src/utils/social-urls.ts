@@ -5,7 +5,6 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  RedditEmbed,
   TelegramEmbed,
   TikTokEmbed,
   TwitterEmbed,
@@ -149,19 +148,9 @@ function normalizeRedditURL(url: IUrl): EmbedInfo<IframeEmbed> {
   let ref_source = getSearchParam(url.searchParams, "ref_source");
   let ref = getSearchParam(url.searchParams, "ref");
   let embed = getSearchParam(url.searchParams, "embed");
-
-  let dataPreviewImage = getSearchParam(url.searchParams, "showmedia")
-    ? "0"
-    : "1";
-
-  let dataCardCreated = getSearchParam(url.searchParams, "created")
-    ? (getSearchParam(url.searchParams, "created") as string)
-    : "NA";
   return {
     attributes: {
       url: `https://www.redditmedia.com${url.pathname}?ref_source=${ref_source}&amp;ref=${ref}&amp;embed=${embed}`,
-      dataPreviewImage,
-      dataCardCreated,
     },
     Class: IframeEmbed,
   };
@@ -395,7 +384,6 @@ type SocialEmbedInfo =
   | EmbedInfo<GiphyEmbed>
   | EmbedInfo<InstagramEmbed>
   | EmbedInfo<PinterestEmbed>
-  | EmbedInfo<RedditEmbed>
   | EmbedInfo<TelegramEmbed>
   | EmbedInfo<TikTokEmbed>
   | EmbedInfo<TwitterEmbed>
