@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.32.6-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.32.5...@atjson/source-html@0.32.6-dev.0) (2021-11-18)
+
+### Bug Fixes
+
+- adding return type to normalizeURL methods and tests ([5ba53b7](https://github.com/CondeNast/atjson/commit/5ba53b729bf1b4a1d11b8956d9075a31c9646e3c))
+- type mismatch error and added test ([e83e2fc](https://github.com/CondeNast/atjson/commit/e83e2fc4169f824e8a0cd86b7b51f0f798adb815))
+
+### Reverts
+
+- reddit annotations ([6111dcd](https://github.com/CondeNast/atjson/commit/6111dcdf521113e6e85f221f67aa1020bd60ae87))
+
 ## [0.32.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.32.4...@atjson/source-html@0.32.5) (2021-09-08)
 
 **Note:** Version bump only for package @atjson/source-html

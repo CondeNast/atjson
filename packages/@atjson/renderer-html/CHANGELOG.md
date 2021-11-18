@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.27.8...@atjson/renderer-html@0.28.0-dev.0) (2021-11-18)
+
+### Bug Fixes
+
+- reverted expected changes ([68d78cb](https://github.com/CondeNast/atjson/commit/68d78cb40da9aae9d6de1262cf10bb0dccb42ea3))
+
+### Features
+
+- add reddit embed annotation COPILOT-9278 ([3aebd95](https://github.com/CondeNast/atjson/commit/3aebd95a2326523f1c27f096b2b5284513f91676))
+
 ## [0.27.8](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.27.7...@atjson/renderer-html@0.27.8) (2021-09-08)
 
 **Note:** Version bump only for package @atjson/renderer-html

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.42.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.0...@atjson/offset-annotations@0.42.0-dev.0) (2021-11-18)
+
+### Bug Fixes
+
+- adding return type to normalizeURL methods and tests ([5ba53b7](https://github.com/CondeNast/atjson/commit/5ba53b729bf1b4a1d11b8956d9075a31c9646e3c))
+- type mismatch error and added test ([e83e2fc](https://github.com/CondeNast/atjson/commit/e83e2fc4169f824e8a0cd86b7b51f0f798adb815))
+
+### Features
+
+- add reddit embed annotation COPILOT-9278 ([3aebd95](https://github.com/CondeNast/atjson/commit/3aebd95a2326523f1c27f096b2b5284513f91676))
+
+### Reverts
+
+- reddit annotations ([6111dcd](https://github.com/CondeNast/atjson/commit/6111dcdf521113e6e85f221f67aa1020bd60ae87))
+- remove redit embed annotations ([8a36131](https://github.com/CondeNast/atjson/commit/8a361311ebdcf9bce35dde09980d1ebd774750b3))
+
 # [0.41.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.39.0...@atjson/offset-annotations@0.41.0) (2021-09-08)
 
 ### Bug Fixes

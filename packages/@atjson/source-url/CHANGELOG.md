@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.10-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.27.9...@atjson/source-url@0.27.10-dev.0) (2021-11-18)
+
+**Note:** Version bump only for package @atjson/source-url
+
 ## [0.27.9](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.27.8...@atjson/source-url@0.27.9) (2021-09-08)
 
 **Note:** Version bump only for package @atjson/source-url

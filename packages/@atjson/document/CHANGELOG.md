@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.4...@atjson/document@0.25.0-dev.0) (2021-11-18)
+
+### Features
+
+- add reddit embed annotation COPILOT-9278 ([3aebd95](https://github.com/CondeNast/atjson/commit/3aebd95a2326523f1c27f096b2b5284513f91676))
+
 ## [0.24.4](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.3...@atjson/document@0.24.4) (2021-06-01)
 
 **Note:** Version bump only for package @atjson/document
