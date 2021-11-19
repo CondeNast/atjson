@@ -21,5 +21,5 @@
   "peerDependencies": {
     "@atjson/document": ">= 0.17.0 < 1"
   },
-  "gitHead": "d2347abb4766561650ca17b33b9d395fe003040e"
+  "gitHead": "14ff6f98df2bdb07bcd9f1abafa0737d95af6441"
 }
