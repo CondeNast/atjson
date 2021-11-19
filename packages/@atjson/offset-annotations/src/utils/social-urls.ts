@@ -357,7 +357,8 @@ function normalizeRedditURL(url: IUrl) {
   let ref_source = getSearchParam(url.searchParams, "ref_source");
   let ref = getSearchParam(url.searchParams, "ref");
   let embed = getSearchParam(url.searchParams, "embed");
-
+  // eslint-disable-next-line no-console
+  console.log("url", embed, ref, ref_source);
   let dataPreviewImage = getSearchParam(url.searchParams, "showmedia")
     ? "0"
     : "1";
