@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.41.1-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.1-dev.0...@atjson/offset-annotations@0.41.1-dev.1) (2021-11-19)
+
+**Note:** Version bump only for package @atjson/offset-annotations
+
 ## [0.41.1-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.0...@atjson/offset-annotations@0.41.1-dev.0) (2021-11-19)
 
 **Note:** Version bump only for package @atjson/offset-annotations
