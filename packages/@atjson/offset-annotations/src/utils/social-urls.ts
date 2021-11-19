@@ -6,7 +6,7 @@ import {
   PinterestEmbed,
   TelegramEmbed,
   TikTokEmbed,
-  TwitterEmbed
+  TwitterEmbed,
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -349,13 +349,41 @@ function normalizeTelegramUrl(url: IUrl) {
     },
   };
 }
+function isRedditURL(url: IUrl) {
+  return url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/");
+}
 
-export function identify(
-  url: IUrl
-): {
+function normalizeRedditURL(url: IUrl) {
+  let ref_source = getSearchParam(url.searchParams, "ref_source");
+  let ref = getSearchParam(url.searchParams, "ref");
+  let embed = getSearchParam(url.searchParams, "embed");
+
+  let dataPreviewImage = getSearchParam(url.searchParams, "showmedia")
+    ? "0"
+    : "1";
+
+  let dataCardCreated = getSearchParam(url.searchParams, "created")
+    ? (getSearchParam(url.searchParams, "created") as string)
+    : "NA";
+  return {
+    attributes: {
+      url: `https://www.redditmedia.com${url.pathname}?ref_source=${ref_source}&amp;ref=${ref}&amp;embed=${embed}`,
+      dataPreviewImage,
+      dataCardCreated,
+    },
+    Class: IframeEmbed,
+  };
+}
+
+export function identify(url: IUrl): {
   attributes: { url: string; width?: string; height?: string };
   Class: typeof IframeEmbed;
 } | null {
+  if (isRedditURL(url)) {
+    // eslint-disable-next-line no-console
+    console.log("url", url);
+    return normalizeRedditURL(url);
+  }
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }
