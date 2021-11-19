@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-html",
-  "version": "0.27.8",
+  "version": "0.27.9-dev.0",
   "description": "Render HTML documents from atjson",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,12 +10,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "0.22.12",
+    "@atjson/renderer-hir": "0.22.13-dev.0",
     "entities": "^3.0.1"
   },
   "devDependencies": {
     "@atjson/document": "0.24.4",
-    "@atjson/offset-annotations": "0.41.0"
+    "@atjson/offset-annotations": "0.41.1-dev.0"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.23.0"
