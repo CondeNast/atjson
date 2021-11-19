@@ -162,4 +162,30 @@ describe("SocialURLs", () => {
       });
     });
   });
+  describe("identify Reddit", () => {
+    test.each([
+      [
+        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
+        {
+          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
+          height: "100%",
+          width: "640",
+        },
+      ],
+      //<iframe id="reddit-embed" src="https://www.redditmedia.com/r/AskReddit/comments/qwujhq/you_are_accidently_sent_back_in_time_to_1986_and/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" scrolling="no" width="640" height="158"></iframe>
+      [
+        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
+        {
+          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
+          height: "100%",
+          width: "640",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: IframeEmbed,
+        attributes,
+      });
+    });
+  });
 });
