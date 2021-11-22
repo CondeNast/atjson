@@ -356,7 +356,6 @@ function isRedditURL(url: IUrl) {
 function normalizeRedditURL(url: IUrl) {
   // eslint-disable-next-line no-console
   console.log("normalize", url);
-  let height = getSearchParam(url.searchParams, "p") ? "100%" : "100%";
   let ref_source = "embed";
   let ref = "share";
   let embed = true;
@@ -364,7 +363,7 @@ function normalizeRedditURL(url: IUrl) {
     attributes: {
       url: `https://www.redditmedia.com${url.pathname}?ref_source=${ref_source}&amp;ref=${ref}&amp;embed=${embed}`,
       width: "640",
-      height,
+      height: "141",
     },
     Class: IframeEmbed,
   };
