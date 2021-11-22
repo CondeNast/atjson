@@ -354,8 +354,6 @@ function isRedditURL(url: IUrl) {
 }
 
 function normalizeRedditURL(url: IUrl) {
-  // eslint-disable-next-line no-console
-  console.log("normalize", url);
   let ref_source = "embed";
   let ref = "share";
   let embed = true;
@@ -373,11 +371,7 @@ export function identify(url: IUrl): {
   attributes: { url: string; width?: string; height?: string };
   Class: typeof IframeEmbed;
 } | null {
-  // eslint-disable-next-line no-console
-  console.log("outside", url);
   if (isRedditURL(url)) {
-    // eslint-disable-next-line no-console
-    console.log("url", url);
     return normalizeRedditURL(url);
   }
   if (isFacebookURL(url)) {
