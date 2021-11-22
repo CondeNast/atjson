@@ -168,7 +168,7 @@ describe("SocialURLs", () => {
         "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
         {
           url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
-          height: "100%",
+          height: "141",
           width: "640",
         },
       ],
@@ -177,7 +177,7 @@ describe("SocialURLs", () => {
         "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
         {
           url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
-          height: "100%",
+          height: "141",
           width: "640",
         },
       ],
