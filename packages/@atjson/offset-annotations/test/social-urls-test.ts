@@ -181,6 +181,14 @@ describe("SocialURLs", () => {
           width: "640",
         },
       ],
+      [
+        "https://www.reddit.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?utm_source=share&utm_medium=web2x&context=3",
+        {
+          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
+          height: "141",
+          width: "640",
+        },
+      ],
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: IframeEmbed,
