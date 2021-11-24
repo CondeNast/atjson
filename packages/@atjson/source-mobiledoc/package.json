@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-mobiledoc",
-  "version": "0.22.10-dev.6",
+  "version": "0.22.10-dev.7",
   "description": "Create atjson documents from Mobiledoc",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "0.41.1-dev.6"
+    "@atjson/offset-annotations": "0.41.1-dev.7"
   },
   "devDependencies": {
     "@atjson/document": "0.24.4"
