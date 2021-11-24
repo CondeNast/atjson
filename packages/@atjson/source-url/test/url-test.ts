@@ -313,4 +313,19 @@ describe("url-source", () => {
       expect(EmbedRenderer.render(doc)).toBe(rendered);
     });
   });
+  describe("reddit", () => {
+    test.each([
+      [
+        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
+        '<iframe src="https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true" height="141" width="640"></iframe>',
+      ],
+      [
+        "https://www.reddit.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
+        '<iframe src="https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true" height="141" width="640"></iframe>',
+      ],
+    ])("%s", (url, rendered) => {
+      let doc = URLSource.fromRaw(url).convertTo(OffsetSource);
+      expect(EmbedRenderer.render(doc)).toBe(rendered);
+    });
+  });
 });
