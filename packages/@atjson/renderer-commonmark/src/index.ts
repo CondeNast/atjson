@@ -218,6 +218,7 @@ function escapePunctuation(
   let escaped = text
     .replace(/([#!*+=\\^_`{|}~])/g, "\\$1")
     .replace(/(\[)([^\]]*$)/g, "\\$1$2") // Escape bare opening brackets [
+    .replace(/(^[\s]*)>/g, "$1\\>") // Escape >
     .replace(/(^[^[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
     .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
     .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
