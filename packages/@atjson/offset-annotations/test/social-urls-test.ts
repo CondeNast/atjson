@@ -165,28 +165,33 @@ describe("SocialURLs", () => {
   describe("identify Reddit", () => {
     test.each([
       [
-        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
+        "https://www.reddit.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?utm_source=share&utm_medium=web2x&context=3",
         {
-          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
+          url: "https://www.redditmedia.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?ref_source=embed&ref=share&embed=true&showmedia=false",
           height: "141",
           width: "640",
-        },
-      ],
-      //<iframe id="reddit-embed" src="https://www.redditmedia.com/r/AskReddit/comments/qwujhq/you_are_accidently_sent_back_in_time_to_1986_and/?ref_source=embed&amp;ref=share&amp;embed=true" sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;" scrolling="no" width="640" height="158"></iframe>
-      [
-        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
-        {
-          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
-          height: "141",
-          width: "640",
+          sandbox: "allow-scripts allow-same-origin allow-popups",
+          style: "border: none",
         },
       ],
       [
-        "https://www.reddit.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?utm_source=share&utm_medium=web2x&context=3",
+        "https://www.reddit.com/r/politics/comments/r9wul2/trump_tried_to_kill_biden_with_covid19_it_turns/?utm_source=share&utm_medium=web2x&context=3",
         {
-          url: "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true",
+          url: "https://www.redditmedia.com/r/politics/comments/r9wul2/trump_tried_to_kill_biden_with_covid19_it_turns/?ref_source=embed&ref=share&embed=true&showmedia=false",
           height: "141",
           width: "640",
+          sandbox: "allow-scripts allow-same-origin allow-popups",
+          style: "border: none",
+        },
+      ],
+      [
+        "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&amp;ref=share&amp;embed=true&amp;showmedia=false",
+        {
+          url: "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&ref=share&embed=true&showmedia=false",
+          height: "141",
+          width: "640",
+          sandbox: "allow-scripts allow-same-origin allow-popups",
+          style: "border: none",
         },
       ],
     ])("%s", (url, attributes) => {

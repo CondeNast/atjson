@@ -352,19 +352,39 @@ function normalizeTelegramUrl(url: IUrl) {
 function isRedditURL(url: IUrl) {
   return (
     (url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/")) ||
-    url.host === "www.reddit.com"
+    (url.host === "www.reddit.com" && url.pathname.startsWith("/r/"))
   );
 }
 
 function normalizeRedditURL(url: IUrl) {
-  let ref_source = "embed";
-  let ref = "share";
-  let embed = true;
+  let ref_source = getSearchParam(url.searchParams, "ref_source") || "embed";
+  let ref = getSearchParam(url.searchParams, "ref") || "share";
+  let embed = getSearchParam(url.searchParams, "embed") || true;
+  let showmedia = getSearchParam(url.searchParams, "showmedia") || "false";
+  let created = getSearchParam(url.searchParams, "created");
+  let theme = getSearchParam(url.searchParams, "theme");
+  let showedits = getSearchParam(url.searchParams, "showedits");
+  let sandbox = "allow-scripts allow-same-origin allow-popups";
+  let style = "border: none";
+  let width = getSearchParam(url.searchParams, "width") || "640";
+  let height = getSearchParam(url.searchParams, "height") || "141";
+  let searchString = `?ref_source=${ref_source}&ref=${ref}&embed=${embed}&showmedia=${showmedia}`;
+  if (showedits) {
+    searchString += `&showedits=${showedits}`;
+  }
+  if (created) {
+    searchString += `&created=${encodeURIComponent(created)}`;
+  }
+  if (theme) {
+    searchString += `&theme=${theme}`;
+  }
   return {
     attributes: {
-      url: `https://www.redditmedia.com${url.pathname}?ref_source=${ref_source}&amp;ref=${ref}&amp;embed=${embed}`,
-      width: "640",
-      height: "141",
+      url: `https://www.redditmedia.com${url.pathname}${searchString}`,
+      width: width,
+      height: height,
+      sandbox: sandbox,
+      style: style,
     },
     Class: IframeEmbed,
   };

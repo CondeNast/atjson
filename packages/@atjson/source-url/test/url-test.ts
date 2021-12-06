@@ -27,7 +27,7 @@ class EmbedRenderer extends CommonMarkRenderer {
   }
 
   *"iframe-embed"(iframe: IframeEmbed) {
-    let { url, height, width } = iframe.attributes;
+    let { url, height, width, sandbox } = iframe.attributes;
     let sizeAttributes = "";
     if (height) {
       sizeAttributes += ` height="${height}"`;
@@ -35,7 +35,9 @@ class EmbedRenderer extends CommonMarkRenderer {
     if (width) {
       sizeAttributes += ` width="${width}"`;
     }
-
+    if (sandbox) {
+      sizeAttributes += ` sandbox="${sandbox}"`;
+    }
     return `<iframe src="${url}"${sizeAttributes}></iframe>`;
   }
 
@@ -316,12 +318,12 @@ describe("url-source", () => {
   describe("reddit", () => {
     test.each([
       [
-        "https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
-        '<iframe src="https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true" height="141" width="640"></iframe>',
+        "https://www.reddit.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?utm_source=share&utm_medium=web2x&context=3",
+        '<iframe src="https://www.redditmedia.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?ref_source=embed&ref=share&embed=true&showmedia=false" height="141" width="640" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>',
       ],
       [
-        "https://www.reddit.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/",
-        '<iframe src="https://www.redditmedia.com/r/AskReddit/comments/quu4c5/as_you_get_older_whats_something_that_becomes/?ref_source=embed&amp;ref=share&amp;embed=true" height="141" width="640"></iframe>',
+        "https://www.reddit.com/r/CryptoCurrency/comments/r9fni8/tether_usdt_created_1500000000_worth_of_usdt_out/?utm_source=share&utm_medium=web2x&context=3",
+        '<iframe src="https://www.redditmedia.com/r/CryptoCurrency/comments/r9fni8/tether_usdt_created_1500000000_worth_of_usdt_out/?ref_source=embed&ref=share&embed=true&showmedia=false" height="141" width="640" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>',
       ],
     ])("%s", (url, rendered) => {
       let doc = URLSource.fromRaw(url).convertTo(OffsetSource);
