@@ -963,21 +963,16 @@ describe("@atjson/source-html", () => {
         scrolling="no"></iframe>`
       ).convertTo(OffsetSource);
 
-      let hir = new HIR(doc).toJSON();
-      expect(hir).toMatchObject({
-        type: "root",
-        children: [
-          {
-            type: "iframe-embed",
-            attributes: {
-              url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&ref=share&embed=true&showmedia=false",
-              height: "476",
-              width: "640",
-            },
-            children: [],
+      expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
+        {
+          type: "iframe-embed",
+          attributes: {
+            url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&ref=share&embed=true&showmedia=false",
+            height: "476",
+            width: "640",
           },
-        ],
-      });
+        },
+      ]);
     });
 
     test("Reddit Embed code", () => {
@@ -991,21 +986,16 @@ describe("@atjson/source-html", () => {
         scrolling="no"></iframe>`
       ).convertTo(OffsetSource);
 
-      let hir = new HIR(doc).toJSON();
-      expect(hir).toMatchObject({
-        type: "root",
-        children: [
-          {
-            type: "iframe-embed",
-            attributes: {
-              url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
-              height: "126",
-              width: "640",
-            },
-            children: [],
+      expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
+        {
+          type: "iframe-embed",
+          attributes: {
+            url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
+            height: "126",
+            width: "640",
           },
-        ],
-      });
+        },
+      ]);
     });
   });
 });
