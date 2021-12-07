@@ -365,7 +365,6 @@ function normalizeRedditURL(url: IUrl) {
   let theme = getSearchParam(url.searchParams, "theme");
   let showedits = getSearchParam(url.searchParams, "showedits");
   let sandbox = "allow-scripts allow-same-origin allow-popups";
-  let style = "border: none";
   let width = getSearchParam(url.searchParams, "width") || "640";
   let height = getSearchParam(url.searchParams, "height") || "141";
   let searchString = `?ref_source=${ref_source}&ref=${ref}&embed=${embed}&showmedia=${showmedia}`;
@@ -381,10 +380,9 @@ function normalizeRedditURL(url: IUrl) {
   return {
     attributes: {
       url: `https://www.redditmedia.com${url.pathname}${searchString}`,
-      width: width,
-      height: height,
-      sandbox: sandbox,
-      style: style,
+      width,
+      height,
+      sandbox,
     },
     Class: IframeEmbed,
   };
