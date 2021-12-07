@@ -171,7 +171,6 @@ describe("SocialURLs", () => {
           height: "141",
           width: "640",
           sandbox: "allow-scripts allow-same-origin allow-popups",
-          style: "border: none",
         },
       ],
       [
@@ -181,7 +180,6 @@ describe("SocialURLs", () => {
           height: "141",
           width: "640",
           sandbox: "allow-scripts allow-same-origin allow-popups",
-          style: "border: none",
         },
       ],
       [
@@ -191,7 +189,6 @@ describe("SocialURLs", () => {
           height: "141",
           width: "640",
           sandbox: "allow-scripts allow-same-origin allow-popups",
-          style: "border: none",
         },
       ],
     ])("%s", (url, attributes) => {
