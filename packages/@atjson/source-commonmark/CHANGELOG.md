@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.10-dev.8](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.23.10-dev.7...@atjson/source-commonmark@0.23.10-dev.8) (2021-12-07)
+
+**Note:** Version bump only for package @atjson/source-commonmark
+
 ## [0.23.10-dev.7](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.23.10-dev.6...@atjson/source-commonmark@0.23.10-dev.7) (2021-11-24)
 
 **Note:** Version bump only for package @atjson/source-commonmark
