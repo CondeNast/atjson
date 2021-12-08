@@ -183,9 +183,18 @@ describe("SocialURLs", () => {
         },
       ],
       [
-        "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&amp;ref=share&amp;embed=true&amp;showmedia=false",
+        "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&ref=share&embed=true&showmedia=false",
         {
           url: "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&ref=share&embed=true&showmedia=false",
+          height: "141",
+          width: "640",
+          sandbox: "allow-scripts allow-same-origin allow-popups",
+        },
+      ],
+      [
+        "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
+        {
+          url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
           height: "141",
           width: "640",
           sandbox: "allow-scripts allow-same-origin allow-popups",

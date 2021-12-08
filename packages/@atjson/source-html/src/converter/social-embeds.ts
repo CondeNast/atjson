@@ -224,7 +224,7 @@ export default function (doc: Document) {
 
   doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
     let { start, end } = iframe;
-    let { height, width, src } = iframe.attributes;
+    let { height, width, src, sandbox } = iframe.attributes;
 
     let result = identifyURL(src);
     if (result) {
@@ -239,6 +239,7 @@ export default function (doc: Document) {
             height,
             width,
             anchorName: iframe.attributes.id,
+            sandbox,
           },
         })
       );
