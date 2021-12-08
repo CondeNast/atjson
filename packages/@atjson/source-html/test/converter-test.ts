@@ -914,88 +914,90 @@ describe("@atjson/source-html", () => {
         });
       });
     });
-  });
+    describe("Reddit Embeds", () => {
+      test("Reddit Embed code", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe id="reddit-embed"
+          src="https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&amp;ref=share&amp;embed=true"
+          sandbox="allow-scripts allow-same-origin allow-popups"
+          height="476"
+          width="640"
+          scrolling="no"></iframe>`
+        ).convertTo(OffsetSource);
 
-  describe("TikTok", () => {
-    test("from embed dialog", () => {
-      let doc = HTMLSource.fromRaw(
-        `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a> <p>When officialayoteo ask to hold your phone 🕴🏾🕴🏾</p> <a target="_blank" title="♬ Better Off Alone - Ayo & Teo" href="https://www.tiktok.com/music/Better-Off-Alone-264491379257659392">♬ Better Off Alone - Ayo & Teo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>`
-      ).convertTo(OffsetSource);
-
-      expect(doc.canonical()).toMatchObject({
-        content: "",
-        annotations: [
+        expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
           {
-            type: "tiktok-embed",
+            type: "iframe-embed",
             attributes: {
-              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+              url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&ref=share&embed=true&showmedia=false",
+              height: "476",
+              width: "640",
+              sandbox: "allow-scripts allow-same-origin allow-popups",
             },
           },
-        ],
+        ]);
       });
-    });
 
-    test("from html rendered output", () => {
-      let doc = HTMLSource.fromRaw(
-        `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
-      ).convertTo(OffsetSource);
+      test("Reddit Embed code", () => {
+        let doc = HTMLSource.fromRaw(
+          `<iframe id="reddit-embed"
+          src="https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&amp;ref=share&amp;embed=true&amp;showmedia=false&amp;showedits=false&amp;created=2021-11-08T13%3A42%3A20.393Z"
+          sandbox="allow-scripts allow-same-origin allow-popups"
+          style="border: none;"
+          height="126"
+          width="640"
+          scrolling="no"></iframe>`
+        ).convertTo(OffsetSource);
 
-      expect(doc.canonical()).toMatchObject({
-        content: "",
-        annotations: [
+        expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
           {
-            type: "tiktok-embed",
+            type: "iframe-embed",
             attributes: {
-              url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+              url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
+              height: "126",
+              width: "640",
+              sandbox: "allow-scripts allow-same-origin allow-popups",
             },
           },
-        ],
+        ]);
       });
     });
-    test("Reddit Embed code", () => {
-      let doc = HTMLSource.fromRaw(
-        `<iframe id="reddit-embed"
-        src="https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&amp;ref=share&amp;embed=true"
-        sandbox="allow-scripts allow-same-origin allow-popups"
-        style="border: none;"
-        height="476"
-        width="640"
-        scrolling="no"></iframe>`
-      ).convertTo(OffsetSource);
+    describe("TikTok", () => {
+      test("from embed dialog", () => {
+        let doc = HTMLSource.fromRaw(
+          `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;" > <section> <a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a> <p>When officialayoteo ask to hold your phone 🕴🏾🕴🏾</p> <a target="_blank" title="♬ Better Off Alone - Ayo & Teo" href="https://www.tiktok.com/music/Better-Off-Alone-264491379257659392">♬ Better Off Alone - Ayo & Teo</a> </section> </blockquote> <script async src="https://www.tiktok.com/embed.js"></script>`
+        ).convertTo(OffsetSource);
 
-      expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
-        {
-          type: "iframe-embed",
-          attributes: {
-            url: "https://www.redditmedia.com/r/IndianDankMemes/comments/qlndlm/average_indian_family/?ref_source=embed&ref=share&embed=true&showmedia=false",
-            height: "476",
-            width: "640",
-          },
-        },
-      ]);
-    });
+        expect(doc.canonical()).toMatchObject({
+          content: "",
+          annotations: [
+            {
+              type: "tiktok-embed",
+              attributes: {
+                url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+              },
+            },
+          ],
+        });
+      });
 
-    test("Reddit Embed code", () => {
-      let doc = HTMLSource.fromRaw(
-        `<iframe id="reddit-embed"
-        src="https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&amp;ref=share&amp;embed=true&amp;showmedia=false&amp;showedits=false&amp;created=2021-11-08T13%3A42%3A20.393Z"
-        sandbox="allow-scripts allow-same-origin allow-popups"
-        style="border: none;"
-        height="126"
-        width="640"
-        scrolling="no"></iframe>`
-      ).convertTo(OffsetSource);
+      test("from html rendered output", () => {
+        let doc = HTMLSource.fromRaw(
+          `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/292170367534714880" data-video-id="292170367534714880" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@teenvogue" href="https://www.tiktok.com/@teenvogue">@teenvogue</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
+        ).convertTo(OffsetSource);
 
-      expect([...doc.where({ type: "-offset-iframe-embed" })]).toMatchObject([
-        {
-          type: "iframe-embed",
-          attributes: {
-            url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
-            height: "126",
-            width: "640",
-          },
-        },
-      ]);
+        expect(doc.canonical()).toMatchObject({
+          content: "",
+          annotations: [
+            {
+              type: "tiktok-embed",
+              attributes: {
+                url: "https://www.tiktok.com/@teenvogue/video/292170367534714880",
+              },
+            },
+          ],
+        });
+      });
     });
   });
 });

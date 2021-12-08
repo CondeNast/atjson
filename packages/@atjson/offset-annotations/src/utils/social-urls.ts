@@ -377,6 +377,7 @@ function normalizeRedditURL(url: IUrl) {
   if (theme) {
     searchString += `&theme=${theme}`;
   }
+
   return {
     attributes: {
       url: `https://www.redditmedia.com${url.pathname}${searchString}`,
@@ -389,7 +390,12 @@ function normalizeRedditURL(url: IUrl) {
 }
 
 export function identify(url: IUrl): {
-  attributes: { url: string; width?: string; height?: string };
+  attributes: {
+    url: string;
+    width?: string;
+    height?: string;
+    sandbox?: string;
+  };
   Class: typeof IframeEmbed;
 } | null {
   if (isRedditURL(url)) {
