@@ -4,7 +4,7 @@
   "devDependencies": {
     "@babel/core": "7.16.10",
     "@babel/plugin-proposal-class-properties": "7.16.7",
-    "@babel/preset-env": "7.16.10",
+    "@babel/preset-env": "7.16.11",
     "@babel/preset-react": "7.16.7",
     "@babel/preset-typescript": "7.16.7",
     "@ckeditor/ckeditor5-build-classic": "31.1.0",
