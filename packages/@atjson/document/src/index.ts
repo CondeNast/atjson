@@ -1,10 +1,7 @@
 import {
   AdjacentBoundaryBehaviour,
   Annotation,
-  AnnotationConstructor,
   AnnotationCollection,
-  AnnotationJSON,
-  AttributesOf,
   BlockAnnotation,
   Change,
   compareAnnotations,
@@ -15,20 +12,23 @@ import {
   InlineAnnotation,
   Insertion,
   Join,
-  JSON,
   ObjectAnnotation,
   ParseAnnotation,
   UnknownAnnotation,
   is,
 } from "./internals";
 
+import type {
+  AnnotationConstructor,
+  AnnotationJSON,
+  AttributesOf,
+  JSON,
+} from "./internals";
+
 export {
   AdjacentBoundaryBehaviour,
   Annotation,
-  AnnotationConstructor,
   AnnotationCollection,
-  AnnotationJSON,
-  AttributesOf,
   BlockAnnotation,
   Change,
   compareAnnotations,
@@ -38,11 +38,12 @@ export {
   InlineAnnotation,
   Insertion,
   Join,
-  JSON,
   ObjectAnnotation,
   ParseAnnotation,
   UnknownAnnotation,
   is,
 };
+
+export type { AnnotationConstructor, AnnotationJSON, AttributesOf, JSON };
 
 export default Document;
