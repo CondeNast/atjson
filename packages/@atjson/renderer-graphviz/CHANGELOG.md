@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.29](https://github.com/CondeNast/atjson/compare/@atjson/renderer-graphviz@0.21.28...@atjson/renderer-graphviz@0.21.29) (2022-01-24)
+
+**Note:** Version bump only for package @atjson/renderer-graphviz
+
 ## [0.21.28](https://github.com/CondeNast/atjson/compare/@atjson/renderer-graphviz@0.21.27...@atjson/renderer-graphviz@0.21.28) (2021-11-29)
 
 **Note:** Version bump only for package @atjson/renderer-graphviz

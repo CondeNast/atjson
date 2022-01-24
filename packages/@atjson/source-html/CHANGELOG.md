@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.32.8](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.32.7...@atjson/source-html@0.32.8) (2022-01-24)
+
+**Note:** Version bump only for package @atjson/source-html
+
 ## [0.32.7](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.32.6...@atjson/source-html@0.32.7) (2021-12-08)
 
 **Note:** Version bump only for package @atjson/source-html

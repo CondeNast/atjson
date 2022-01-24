@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-url",
-  "version": "0.27.10",
+  "version": "0.27.11",
   "description": "Expands URLs into annotations",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -13,10 +13,10 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "0.41.1"
+    "@atjson/offset-annotations": "0.41.2"
   },
   "devDependencies": {
-    "@atjson/document": "0.24.4"
+    "@atjson/document": "0.24.5"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.23.0"
