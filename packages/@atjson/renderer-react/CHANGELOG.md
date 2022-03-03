@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.13-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.24.12...@atjson/renderer-react@0.24.13-dev.0) (2022-03-03)
+
+**Note:** Version bump only for package @atjson/renderer-react
+
 ## [0.24.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.24.11...@atjson/renderer-react@0.24.12) (2022-01-24)
 
 **Note:** Version bump only for package @atjson/renderer-react
