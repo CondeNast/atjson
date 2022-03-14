@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.41.2-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.3-dev.0...@atjson/offset-annotations@0.41.2-dev.1) (2022-03-14)
+
+### Bug Fixes
+
+- test dec release version ([861df02](https://github.com/CondeNast/atjson/commit/861df02b3d2a6f67c021eada977db50b68c5d18d))
+
 ## [0.41.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.2...@atjson/offset-annotations@0.41.3-dev.0) (2022-03-03)
 
 **Note:** Version bump only for package @atjson/offset-annotations
