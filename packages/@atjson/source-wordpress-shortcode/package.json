@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@wordpress/shortcode": "3.3.0"
+    "@wordpress/shortcode": "3.3.1"
   },
   "devDependencies": {
     "@atjson/document": "0.24.5"
