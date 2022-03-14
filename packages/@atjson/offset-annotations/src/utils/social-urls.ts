@@ -101,10 +101,6 @@ function normalizeInstagramTVURL(url: IUrl) {
 }
 
 // Instagram
-// - www.instagram.com/p/:id
-// - www.instagr.am/p/:id
-// - instagram.com/p/:id
-// - instagr.am/p/:id
 function isInstagramReelURL(url: IUrl) {
   return (
     [
