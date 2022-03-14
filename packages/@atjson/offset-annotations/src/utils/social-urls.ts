@@ -76,7 +76,7 @@ function normalizeInstagramPhotoURL(url: IUrl) {
   };
 }
 
-// Instagram
+// Instagram Reel
 // - www.instagram.com/tv/:id
 // - www.instagr.am/tv/:id
 // - instagram.com/tv/:id
