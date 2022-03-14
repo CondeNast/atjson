@@ -100,6 +100,30 @@ function normalizeInstagramTVURL(url: IUrl) {
   };
 }
 
+// Instagram
+// - www.instagram.com/reel/:id
+// - www.instagr.am/reel/:id
+// - instagram.com/reel/:id
+// - instagr.am/reel/:id
+function isInstagramReelURL(url: IUrl) {
+  return (
+    [
+      "www.instagram.com",
+      "www.instagr.am",
+      "instagram.com",
+      "instagr.am",
+    ].includes(url.host) && url.pathname.startsWith("/reel/")
+  );
+}
+
+function normalizeInstagramReelURL(url: IUrl) {
+  let [, id] = without<string>(url.pathname.split("/"), "");
+  return {
+    attributes: { url: `https://www.instagram.com/reel/${id}` },
+    Class: InstagramEmbed,
+  };
+}
+
 // Twitter
 // - www.twitter.com/:handle/status/:tweetId
 // - m.twitter.com/:handle/status/:tweetId
@@ -415,6 +439,10 @@ export function identify(url: IUrl): {
 
   if (isInstagramTVURL(url)) {
     return normalizeInstagramTVURL(url);
+  }
+
+  if (isInstagramReelURL(url)) {
+    return normalizeInstagramReelURL(url);
   }
 
   if (isPinterestURL(url)) {
