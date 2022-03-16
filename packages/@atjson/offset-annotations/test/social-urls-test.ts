@@ -1,4 +1,4 @@
-import { IframeEmbed, TelegramEmbed, SocialURLs } from "../src";
+import { IframeEmbed, TelegramEmbed, SocialURLs, InstagramEmbed } from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -162,6 +162,7 @@ describe("SocialURLs", () => {
       });
     });
   });
+
   describe("identify Reddit", () => {
     test.each([
       [
@@ -203,6 +204,22 @@ describe("SocialURLs", () => {
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: IframeEmbed,
+        attributes,
+      });
+    });
+  });
+
+  describe("identify Instagram", () => {
+    test.each([
+      [
+        "https://www.instagram.com/reel/CDt37vzFw3f",
+        {
+          url: "https://www.instagram.com/reel/CDt37vzFw3f",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: InstagramEmbed,
         attributes,
       });
     });

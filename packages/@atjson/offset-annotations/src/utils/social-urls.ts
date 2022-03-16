@@ -76,7 +76,7 @@ function normalizeInstagramPhotoURL(url: IUrl) {
   };
 }
 
-// Instagram
+// Instagram TV
 // - www.instagram.com/tv/:id
 // - www.instagr.am/tv/:id
 // - instagram.com/tv/:id
@@ -96,6 +96,30 @@ function normalizeInstagramTVURL(url: IUrl) {
   let [, id] = without<string>(url.pathname.split("/"), "");
   return {
     attributes: { url: `https://www.instagram.com/tv/${id}` },
+    Class: InstagramEmbed,
+  };
+}
+
+// Instagram Reel
+// - www.instagram.com/reel/:id
+// - www.instagr.am/reel/:id
+// - instagram.com/reel/:id
+// - instagr.am/reel/:id
+function isInstagramReelURL(url: IUrl) {
+  return (
+    [
+      "www.instagram.com",
+      "www.instagr.am",
+      "instagram.com",
+      "instagr.am",
+    ].includes(url.host) && url.pathname.startsWith("/reel/")
+  );
+}
+
+function normalizeInstagramReelURL(url: IUrl) {
+  let [, id] = without<string>(url.pathname.split("/"), "");
+  return {
+    attributes: { url: `https://www.instagram.com/reel/${id}` },
     Class: InstagramEmbed,
   };
 }
@@ -415,6 +439,10 @@ export function identify(url: IUrl): {
 
   if (isInstagramTVURL(url)) {
     return normalizeInstagramTVURL(url);
+  }
+
+  if (isInstagramReelURL(url)) {
+    return normalizeInstagramReelURL(url);
   }
 
   if (isPinterestURL(url)) {

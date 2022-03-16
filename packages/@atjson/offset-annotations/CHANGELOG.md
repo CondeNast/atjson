@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.41.3-dev.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.3-dev.1...@atjson/offset-annotations@0.41.3-dev.2) (2022-03-14)
+
+### Bug Fixes
+
+- social url test comments ([1a337b7](https://github.com/CondeNast/atjson/commit/1a337b7cfbf197d25a1a7620991a5bd0cddeeab0))
+
+## [0.41.3-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.2...@atjson/offset-annotations@0.41.3-dev.1) (2022-03-14)
+
+**Note:** Version bump only for package @atjson/offset-annotations
+
+## [0.41.3-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.2...@atjson/offset-annotations@0.41.3-dev.0) (2022-03-14)
+
+**Note:** Version bump only for package @atjson/offset-annotations
+
 ## [0.41.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.1...@atjson/offset-annotations@0.41.2) (2022-01-24)
 
 **Note:** Version bump only for package @atjson/offset-annotations
