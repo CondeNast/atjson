@@ -76,7 +76,7 @@ function normalizeInstagramPhotoURL(url: IUrl) {
   };
 }
 
-// Instagram Reel
+// Instagram TV
 // - www.instagram.com/tv/:id
 // - www.instagr.am/tv/:id
 // - instagram.com/tv/:id
@@ -100,7 +100,7 @@ function normalizeInstagramTVURL(url: IUrl) {
   };
 }
 
-// Instagram
+// Instagram Reel
 // - www.instagram.com/reel/:id
 // - www.instagr.am/reel/:id
 // - instagram.com/reel/:id
