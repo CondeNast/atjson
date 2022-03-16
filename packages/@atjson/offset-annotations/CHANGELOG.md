@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.42.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.2...@atjson/offset-annotations@0.42.0) (2022-03-16)
+
+### Features
+
+- add support for embeddable instagram reels ([#1242](https://github.com/CondeNast/atjson/issues/1242)) ([5ffa512](https://github.com/CondeNast/atjson/commit/5ffa512f4ff8093a4f5e760a33578aaaf37bc535))
+
 ## [0.41.3-dev.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.3-dev.1...@atjson/offset-annotations@0.41.3-dev.2) (2022-03-14)
 
 ### Bug Fixes

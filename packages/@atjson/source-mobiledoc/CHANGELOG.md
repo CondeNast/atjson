@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.22.11...@atjson/source-mobiledoc@0.23.0) (2022-03-16)
+
+### Features
+
+- add support for embeddable instagram reels ([#1242](https://github.com/CondeNast/atjson/issues/1242)) ([5ffa512](https://github.com/CondeNast/atjson/commit/5ffa512f4ff8093a4f5e760a33578aaaf37bc535))
+
 ## [0.22.12-dev.2](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.22.12-dev.1...@atjson/source-mobiledoc@0.22.12-dev.2) (2022-03-14)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
