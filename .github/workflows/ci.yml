@@ -6,10 +6,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14.15.1"
+          node-version: "16.14.0"
       - name: Install
         run: |
           npm ci
@@ -25,10 +25,10 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14.15.1"
+          node-version: "16.14.0"
       - name: Docs
         run: |
           cd website
@@ -37,14 +37,14 @@ jobs:
   perf:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14.15.1"
-      - uses: actions/checkout@v2
+          node-version: "16.14.0"
+      - uses: actions/checkout@v3
         with:
           path: baseline
           ref: latest
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           path: current
       - name: 🐢 Performance
