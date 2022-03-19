@@ -60,7 +60,7 @@ jobs:
           npm run typecheck
           npx ts-node ./perf-kit/index.ts profile --out current
           npx ts-node ./perf-kit/index.ts compare baseline current
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: performance-profiles
           path: ./current/perf-kit/profiles
