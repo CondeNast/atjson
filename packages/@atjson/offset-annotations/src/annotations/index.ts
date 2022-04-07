@@ -4,6 +4,7 @@ export * from "./caption-source";
 export * from "./ceros-embed";
 export * from "./code";
 export * from "./facebook-embed";
+export * from "./firework-embed";
 export * from "./fixed-indent";
 export * from "./giphy-embed";
 export * from "./group-item";
