@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-wordpress-shortcode",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Parse Wordpress shortcodes into annotations",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",

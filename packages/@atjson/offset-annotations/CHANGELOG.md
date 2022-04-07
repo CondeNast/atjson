@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.43.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.42.0...@atjson/offset-annotations@0.43.0) (2022-04-07)
+
+### Features
+
+- add support for firework embed ([10d6490](https://github.com/CondeNast/atjson/commit/10d64902e773479a90cac7e7a1858dd6c2d02099))
+
 # [0.42.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.41.2...@atjson/offset-annotations@0.42.0) (2022-03-16)
 
 ### Features
