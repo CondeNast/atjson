@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-html",
-  "version": "0.33.2",
+  "version": "0.33.3",
   "description": "Create atjson documents from HTML",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -17,7 +17,7 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "0.43.1",
+    "@atjson/offset-annotations": "0.44.0",
     "parse5": "^6.0.0"
   },
   "devDependencies": {

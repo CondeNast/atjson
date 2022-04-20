@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.44.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.43.1...@atjson/offset-annotations@0.44.0) (2022-04-20)
+
+### Features
+
+- add channel param to firework embed ([b31321f](https://github.com/CondeNast/atjson/commit/b31321f80745bc1cd4fb2c2f27550932cbee58d0))
+
 ## [0.43.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.43.0...@atjson/offset-annotations@0.43.1) (2022-04-07)
 
 **Note:** Version bump only for package @atjson/offset-annotations
