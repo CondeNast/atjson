@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.44.0...@atjson/offset-annotations@0.44.1) (2022-04-22)
+
+### Bug Fixes
+
+- change channel param type to string ([5aaa112](https://github.com/CondeNast/atjson/commit/5aaa1128d98b0cc5f98f9444207e0440e6f68dee))
+
 # [0.44.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.43.1...@atjson/offset-annotations@0.44.0) (2022-04-20)
 
 ### Features
