@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.44.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.44.1...@atjson/offset-annotations@0.44.2) (2022-05-25)
+
+### Bug Fixes
+
+- rename url field into id to reconciliate definitions ([0111a9e](https://github.com/CondeNast/atjson/commit/0111a9e2c21ea6a317aa22be5b9b3f11140316ef))
+
 ## [0.44.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.44.0...@atjson/offset-annotations@0.44.1) (2022-04-22)
 
 ### Bug Fixes
