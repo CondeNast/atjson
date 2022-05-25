@@ -1,7 +1,7 @@
 import { ObjectAnnotation } from "@atjson/document";
 
 export class FireworkEmbed extends ObjectAnnotation<{
-  url: string;
+  id: string;
   channel?: string;
   open?: "default" | "_self" | "_modal" | "_blank";
   /**
