@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import { ParseAnnotation, UnknownAnnotation } from "../src";
+import { Ref, ParseAnnotation, UnknownAnnotation } from "../src";
 import TestSource, { Bold, CaptionSource, Image, Italic } from "./test-source";
 
 describe("new Document", () => {
@@ -297,15 +297,33 @@ describe("new Document", () => {
     });
 
     test("slice with parse annotations", () => {
+      let italic = new Italic({ start: 0, end: 29 });
+      let bold = new Bold({ start: 11, end: 23 });
       let document = new TestSource({
         content: "<em>Hello, <b>world</b>!</em>",
         annotations: [
-          new ParseAnnotation({ start: 0, end: 4 }),
-          new Italic({ start: 0, end: 29 }),
-          new Bold({ start: 11, end: 23 }),
-          new ParseAnnotation({ start: 11, end: 14 }),
-          new ParseAnnotation({ start: 19, end: 23 }),
-          new ParseAnnotation({ start: 24, end: 29 }),
+          new ParseAnnotation({
+            start: 0,
+            end: 4,
+            attributes: { ref: Ref(italic) },
+          }),
+          italic,
+          bold,
+          new ParseAnnotation({
+            start: 11,
+            end: 14,
+            attributes: { ref: Ref(bold) },
+          }),
+          new ParseAnnotation({
+            start: 19,
+            end: 23,
+            attributes: { ref: Ref(bold) },
+          }),
+          new ParseAnnotation({
+            start: 24,
+            end: 29,
+            attributes: { ref: Ref(italic) },
+          }),
         ],
       });
       let doc = document.slice(4, 24);
@@ -327,11 +345,17 @@ describe("new Document", () => {
             type: "-atjson-parse-token",
             start: 7,
             end: 10,
+            attributes: {
+              "-atjson-ref": expect.anything(),
+            },
           },
           {
             type: "-atjson-parse-token",
             start: 15,
             end: 19,
+            attributes: {
+              "-atjson-ref": expect.anything(),
+            },
           },
         ],
       });

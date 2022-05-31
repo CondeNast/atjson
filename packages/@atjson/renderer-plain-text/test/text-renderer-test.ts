@@ -1,4 +1,4 @@
-import Document, { ParseAnnotation } from "@atjson/document";
+import Document, { Ref, ParseAnnotation } from "@atjson/document";
 import HTMLSource from "@atjson/source-html";
 import OffsetSource, {
   LineBreak,
@@ -107,6 +107,7 @@ describe("PlainTextRenderer", () => {
         content: "one fish\ntwo fish\nred fish\nblue fish",
         annotations: [
           new List({
+            id: "1",
             start: 0,
             end: 36,
             attributes: {
@@ -115,39 +116,46 @@ describe("PlainTextRenderer", () => {
             },
           }),
           new ListItem({
+            id: "2",
             start: 0,
             end: 8,
           }),
           new ParseAnnotation({
+            id: "3",
             start: 8,
             end: 9,
             attributes: {
-              reason: "list item",
+              ref: Ref("2"),
             },
           }),
           new ListItem({
+            id: "4",
             start: 9,
             end: 17,
           }),
           new ParseAnnotation({
+            id: "5",
             start: 17,
             end: 18,
             attributes: {
-              reason: "list item",
+              ref: Ref("4"),
             },
           }),
           new ListItem({
+            id: "6",
             start: 18,
             end: 26,
           }),
           new ParseAnnotation({
+            id: "7",
             start: 26,
             end: 27,
             attributes: {
-              reason: "list item",
+              ref: Ref("6"),
             },
           }),
           new ListItem({
+            id: "8",
             start: 27,
             end: 36,
           }),
@@ -169,6 +177,7 @@ describe("PlainTextRenderer", () => {
       content: "one fish\ntwo fish\nred fish\nblue fish",
       annotations: [
         new List({
+          id: "1",
           start: 0,
           end: 36,
           attributes: {
@@ -176,39 +185,46 @@ describe("PlainTextRenderer", () => {
           },
         }),
         new ListItem({
+          id: "2",
           start: 0,
           end: 8,
         }),
         new ParseAnnotation({
+          id: "3",
           start: 8,
           end: 9,
           attributes: {
-            reason: "list item",
+            ref: Ref("2"),
           },
         }),
         new ListItem({
+          id: "4",
           start: 9,
           end: 17,
         }),
         new ParseAnnotation({
+          id: "5",
           start: 17,
           end: 18,
           attributes: {
-            reason: "list item",
+            ref: Ref("4"),
           },
         }),
         new ListItem({
+          id: "6",
           start: 18,
           end: 26,
         }),
         new ParseAnnotation({
+          id: "7",
           start: 26,
           end: 27,
           attributes: {
-            reason: "list item",
+            ref: Ref("6"),
           },
         }),
         new ListItem({
+          id: "8",
           start: 27,
           end: 36,
         }),

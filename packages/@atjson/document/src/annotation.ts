@@ -1,4 +1,3 @@
-import uuid from "uuid-random";
 import {
   AnnotationAttributesObject,
   Change,
@@ -8,6 +7,7 @@ import {
   EdgeBehaviour,
   Insertion,
   JSON,
+  ObjectId,
   removeUndefinedValuesFromObject,
   toJSON,
   unprefix,
@@ -158,7 +158,7 @@ export abstract class Annotation<Attributes = {}> {
     let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
     this.vendorPrefix = AnnotationClass.vendorPrefix;
-    this.id = attrs.id || uuid();
+    this.id = attrs.id || ObjectId();
     this.start = attrs.start;
     this.end = attrs.end;
 

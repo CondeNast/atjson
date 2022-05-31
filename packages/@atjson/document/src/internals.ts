@@ -1,4 +1,5 @@
 export * from "./annotation";
+export * from "./object-id";
 export * from "./annotations";
 export * from "./attributes";
 export * from "./change";

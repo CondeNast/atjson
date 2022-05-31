@@ -33,6 +33,12 @@ class PlainTextRenderer extends Renderer {
     }
     return `${text.join("")}\n\n`;
   }
+  *code_inline() {
+    return yield;
+  }
+  *list_item() {
+    return yield;
+  }
 }
 
 export function render(doc: Document) {

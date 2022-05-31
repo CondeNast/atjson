@@ -2,6 +2,7 @@ import {
   Annotation,
   BlockAnnotation,
   ParseAnnotation,
+  Ref,
   compareAnnotations,
   is,
 } from "@atjson/document";
@@ -119,7 +120,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
           new ParseAnnotation({
             start: newline.start,
             end: newline.end,
-            attributes: { reason: "list item separator" },
+            attributes: { ref: Ref(adjacentListItem) },
           })
         );
       }
@@ -128,16 +129,17 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
 
   // Convert vertical tabs to line breaks
   for (let verticalTab of doc.match(VERTICAL_TABS)) {
+    let lineBreak = new LineBreak({
+      start: verticalTab.start,
+      end: verticalTab.end,
+    });
     doc.addAnnotations(
-      new LineBreak({
-        start: verticalTab.start,
-        end: verticalTab.end,
-      }),
+      lineBreak,
       new ParseAnnotation({
         start: verticalTab.start,
         end: verticalTab.end,
         attributes: {
-          reason: "vertical tab",
+          ref: Ref(lineBreak),
         },
       })
     );
@@ -173,16 +175,17 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       let lastEnd = start;
       for (let paragraphBoundary of paragraphBoundaries) {
         if (lastEnd < paragraphBoundary.start) {
+          let paragraph = new Paragraph({
+            start: lastEnd,
+            end: paragraphBoundary.start,
+          });
           doc.addAnnotations(
-            new Paragraph({
-              start: lastEnd,
-              end: paragraphBoundary.start,
-            }),
+            paragraph,
             new ParseAnnotation({
               start: paragraphBoundary.start,
               end: paragraphBoundary.end,
               attributes: {
-                reason: "paragraph boundary",
+                ref: Ref(paragraph),
               },
             })
           );
@@ -301,7 +304,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
           start: insertionPoint,
           end: insertionPoint + 1,
           attributes: {
-            reason: "object replacement character for single-item list",
+            ref: Ref(item),
           },
         })
       );

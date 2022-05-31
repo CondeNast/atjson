@@ -357,7 +357,7 @@ describe("@atjson/source-gdocs-paste", () => {
         end,
         type: "-atjson-parse-token",
         attributes: {
-          "-atjson-reason": "paragraph boundary",
+          "-atjson-ref": expect.anything(),
         },
       }))
     );
@@ -397,23 +397,23 @@ describe("@atjson/source-gdocs-paste paragraphs in list", () => {
       {
         start: 1,
         end: 2,
-        attributes: { "-atjson-reason": "list item separator" },
+        attributes: { "-atjson-ref": expect.anything() },
       },
       {
         start: 3,
         end: 4,
-        attributes: { "-atjson-reason": "list item separator" },
+        attributes: { "-atjson-ref": expect.anything() },
       },
       {
         start: 5,
         end: 6,
-        attributes: { "-atjson-reason": "paragraph boundary" },
+        attributes: { "-atjson-ref": expect.anything() },
       },
       {
         start: 7,
         end: 8,
         attributes: {
-          "-atjson-reason": "object replacement character for single-item list",
+          "-atjson-ref": expect.anything(),
         },
       },
     ]);

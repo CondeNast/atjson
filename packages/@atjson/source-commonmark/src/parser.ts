@@ -1,4 +1,9 @@
-import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import {
+  AnnotationJSON,
+  ObjectId,
+  Ref,
+  ParseAnnotation,
+} from "@atjson/document";
 import * as entities from "entities";
 
 export interface Attributes {
@@ -205,6 +210,7 @@ export default class Parser {
     open: Token,
     attrs: Attributes
   ): IterableIterator<void> {
+    let id = ObjectId();
     let start = this.content.length;
     this.content += "\uFFFC";
     this.annotations.push(
@@ -212,7 +218,7 @@ export default class Parser {
         start,
         end: start + 1,
         attributes: {
-          reason: `${name}_open`,
+          ref: Ref(id),
         },
       })
     );
@@ -238,10 +244,11 @@ export default class Parser {
         start: end - 1,
         end,
         attributes: {
-          reason: `${name}_close`,
+          ref: Ref(id),
         },
       }),
       {
+        id,
         type: `-commonmark-${name}`,
         start,
         end,

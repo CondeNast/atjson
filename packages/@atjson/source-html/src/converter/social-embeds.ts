@@ -1,4 +1,4 @@
-import Document, { Annotation, ParseAnnotation } from "@atjson/document";
+import Document, { Annotation, ParseAnnotation, Ref } from "@atjson/document";
 import { SocialURLs } from "@atjson/offset-annotations";
 import { Script, Anchor } from "../annotations";
 
@@ -108,19 +108,20 @@ export default function (doc: Document) {
             return start <= annotation.start && annotation.end <= end;
           })
           .remove();
+        let embed = new Class({
+          start,
+          end,
+          attributes,
+        });
         doc.addAnnotations(
           new ParseAnnotation({
             start,
             end,
             attributes: {
-              reason: Class.type + "-embed",
+              ref: Ref(embed),
             },
           }),
-          new Class({
-            start,
-            end,
-            attributes,
-          })
+          embed
         );
       }
     });
@@ -146,19 +147,20 @@ export default function (doc: Document) {
           return start <= annotation.start && annotation.end <= end;
         })
         .remove();
+      let embed = new Class({
+        start,
+        end,
+        attributes,
+      });
       doc.addAnnotations(
         new ParseAnnotation({
           start,
           end,
           attributes: {
-            reason: "facebook-embed",
+            ref: Ref(embed),
           },
         }),
-        new Class({
-          start,
-          end,
-          attributes,
-        })
+        embed
       );
     }
   }
@@ -200,22 +202,23 @@ export default function (doc: Document) {
         let { attributes, Class } = canonicalURL;
         doc.removeAnnotation(links[0]);
         doc.removeAnnotation(paragraphs[0]);
+        let embed = new Class({
+          start: start,
+          end: end,
+          attributes: {
+            url: attributes.url,
+            height,
+            width,
+          },
+        });
         doc.replaceAnnotation(
           iframe,
-          new Class({
-            start: start,
-            end: end,
-            attributes: {
-              url: attributes.url,
-              height,
-              width,
-            },
-          }),
+          embed,
           new ParseAnnotation({
             start: paragraphs[0].start,
             end: paragraphs[0].end,
             attributes: {
-              reason: "Giphy embed paragraph",
+              ref: Ref(embed),
             },
           })
         );

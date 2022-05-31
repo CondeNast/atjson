@@ -1,4 +1,4 @@
-import Document, { ParseAnnotation } from "@atjson/document";
+import Document, { Ref, ParseAnnotation } from "@atjson/document";
 import { attrs, regexp } from "@wordpress/shortcode";
 import { Shortcode } from "./annotations";
 
@@ -23,17 +23,16 @@ function parse(text: string) {
       type = "single";
     }
 
-    annotations.push(
-      new Shortcode({
-        start,
-        end,
-        attributes: {
-          tag: match[2],
-          type,
-          attrs: attrs(match[3]),
-        },
-      })
-    );
+    let shortcode = new Shortcode({
+      start,
+      end,
+      attributes: {
+        tag: match[2],
+        type,
+        attrs: attrs(match[3]),
+      },
+    });
+    annotations.push(shortcode);
 
     if (match[5] == null) {
       annotations.push(
@@ -41,7 +40,7 @@ function parse(text: string) {
           start,
           end,
           attributes: {
-            reason: `[${match[2]} /]`,
+            ref: Ref(shortcode),
           },
         })
       );
@@ -53,14 +52,14 @@ function parse(text: string) {
           start,
           end: openingShortcodeEnd,
           attributes: {
-            reason: `[${match[2]}]`,
+            ref: Ref(shortcode),
           },
         }),
         new ParseAnnotation({
           start: endingShortcodeStart,
           end,
           attributes: {
-            reason: `[/${match[2]}]`,
+            ref: Ref(shortcode),
           },
         })
       );

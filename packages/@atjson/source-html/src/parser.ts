@@ -1,4 +1,9 @@
-import { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import {
+  AnnotationJSON,
+  ObjectId,
+  Ref,
+  ParseAnnotation,
+} from "@atjson/document";
 import * as parse5 from "parse5";
 
 const LEADING_WHITESPACE = /^\s+/;
@@ -85,16 +90,18 @@ export default class Parser {
     }
   }
 
-  convertTag(node: parse5.Element, which: "startTag" | "endTag"): number {
+  convertTag(
+    node: parse5.Element,
+    which: "startTag" | "endTag",
+    id: string
+  ): number {
     let location = node.sourceCodeLocation;
     if (location == null) return -1;
 
     let { startOffset: start, endOffset: end } = location[which];
-    let reason =
-      which === "startTag" ? `<${node.tagName}>` : `</${node.tagName}>`;
     this.annotations.push(
       new ParseAnnotation({
-        attributes: { reason },
+        attributes: { ref: Ref(id) },
         start: start - this.offset,
         end: end - this.offset,
       })
@@ -113,21 +120,24 @@ export default class Parser {
     }
 
     if (location.startTag && location.endTag) {
+      let id = ObjectId();
       let start = location.startTag.startOffset - this.offset;
-      this.convertTag(node, "startTag");
+      this.convertTag(node, "startTag", id);
 
       yield;
 
-      let end = this.convertTag(node, "endTag");
+      let end = this.convertTag(node, "endTag", id);
       this.annotations.push({
+        id,
         type: `-html-${tagName}`,
         attributes: getAttributes(node),
         start,
         end,
       });
     } else if (location.startTag) {
+      let id = ObjectId();
       let start = location.startTag.startOffset - this.offset;
-      this.convertTag(node, "startTag");
+      this.convertTag(node, "startTag", id);
 
       yield;
 
@@ -138,13 +148,14 @@ export default class Parser {
         end: location.endOffset - this.offset,
       });
     } else {
+      let id = ObjectId();
       let start = location.startOffset - this.offset;
       let end = location.endOffset - this.offset;
 
       this.content += this.html.slice(location.startOffset, location.endOffset);
       this.annotations.push(
         new ParseAnnotation({
-          attributes: { reason: `<${tagName}/>` },
+          attributes: { ref: Ref(id) },
           start,
           end,
         })
@@ -153,6 +164,7 @@ export default class Parser {
       // Handle `<!DOCTYPE html>` gracefully
       if (tagName) {
         this.annotations.push({
+          id,
           type: `-html-${tagName}`,
           attributes: getAttributes(node),
           start,

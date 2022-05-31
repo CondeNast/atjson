@@ -181,8 +181,7 @@ A number of little notes distributed that morning by a footman in red livery had
     start: 37,
     end: 478,
     attributes: {
-      note:
-        "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
+      note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
     },
   },
   {
@@ -279,9 +278,8 @@ This can be done using our built-in parser:
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 
-let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(
-  OffsetSource
-);
+let document =
+  CommonMarkSource.fromRaw("# Hello, world").convertTo(OffsetSource);
 ```
 
 This will result in the following document:
@@ -290,6 +288,7 @@ This will result in the following document:
 {
   content: "# Hello, world",
   annotations: [{
+    id: "1",
     type: "-offset-heading",
     attributes: {
       level: 1
@@ -299,7 +298,10 @@ This will result in the following document:
   }, {
     type: "-atjson-parse-token",
     start: 0,
-    end: 2
+    end: 2,
+    attributes: {
+      ref: "@1"
+    }
   }]
 }
 ```

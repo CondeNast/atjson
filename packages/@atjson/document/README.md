@@ -32,53 +32,60 @@ The result is a logical representation of the markdown document:
   "content": "*Roses* are red,  \n*Violets* are blue.",
   "annotations": [
     {
+      "id": "1",
       "type": "-commonmark-em",
       "start": 0,
       "end": 7,
       "attributes": {}
     },
     {
+      "id": "2",
       "type": "-atjson-parse-token",
       "start": 0,
       "end": 1,
       "attributes": {
-        "-atjson-reason": "em_open"
+        "-atjson-ref": "@1"
       }
     },
     {
+      "id": "3",
       "type": "-atjson-parse-token",
       "start": 6,
       "end": 7,
       "attributes": {
-        "-atjson-reason": "em_close"
+        "-atjson-ref": "@1"
       }
     },
     {
+      "id": "4",
       "type": "-commonmark-hard_break",
       "start": 16,
       "end": 19,
       "attributes": {}
     },
     {
+      "id": "5",
       "type": "-commonmark-em",
       "start": 20,
       "end": 29,
       "attributes": {}
     },
     {
+      "id": "6",
       "type": "-atjson-parse-token",
       "start": 20,
       "end": 21,
       "attributes": {
-        "-atjson-reason": "em_open"
+        "-atjson-ref": "@5"
       }
     },
     {
+      "id": "7",
       "type": "-atjson-parse-token",
       "start": 28,
       "end": 29,
       "attributes": {
-        "-atjson-reason": "em_close"
+        "-atjson-ref": "@5"
       }
     }
   ]

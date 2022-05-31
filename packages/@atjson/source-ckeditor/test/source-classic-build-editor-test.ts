@@ -224,7 +224,7 @@ describe("@atjson/source-ckeditor classic build", () => {
         start: 0,
         end: 7,
         attributes: {
-          reason: "$root_open",
+          ref: expect.anything(),
         },
       },
       {
@@ -241,7 +241,7 @@ describe("@atjson/source-ckeditor classic build", () => {
         start: 7,
         end: 17,
         attributes: {
-          reason: "listItem_open",
+          ref: expect.anything(),
         },
       },
       {
@@ -255,7 +255,7 @@ describe("@atjson/source-ckeditor classic build", () => {
         start: 28,
         end: 39,
         attributes: {
-          reason: "listItem_close",
+          ref: expect.anything(),
         },
       },
       {
@@ -263,7 +263,7 @@ describe("@atjson/source-ckeditor classic build", () => {
         start: 39,
         end: 47,
         attributes: {
-          reason: "$root_close",
+          ref: expect.anything(),
         },
       },
     ]);

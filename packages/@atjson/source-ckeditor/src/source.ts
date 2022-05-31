@@ -1,4 +1,9 @@
-import Document, { AnnotationJSON, ParseAnnotation } from "@atjson/document";
+import Document, {
+  AnnotationJSON,
+  ObjectId,
+  Ref,
+  ParseAnnotation,
+} from "@atjson/document";
 import * as CK from "./ckeditor";
 import { isTextNode, isElement, isNode, isDocumentFragment } from "./utils";
 
@@ -28,6 +33,7 @@ function fromNode(
     });
   } else if (isElement(node) || isDocumentFragment(node)) {
     let name = isElement(node) ? node.name : "$root";
+    let id = ObjectId();
 
     let openTag = `<${name}>`;
     content += openTag;
@@ -36,7 +42,7 @@ function fromNode(
         start: content.length - openTag.length,
         end: content.length,
         attributes: {
-          reason: `${name}_open`,
+          ref: Ref(id),
         },
       })
     );
@@ -50,11 +56,12 @@ function fromNode(
         start: content.length - closeTag.length,
         end: content.length,
         attributes: {
-          reason: `${name}_close`,
+          ref: Ref(id),
         },
       })
     );
     annotations.push({
+      id,
       start,
       end: content.length,
       type: `-ckeditor-${name}`,

@@ -6,6 +6,7 @@ import Document, {
   Annotation,
   BlockAnnotation,
   InlineAnnotation,
+  ObjectId,
 } from "@atjson/document";
 import { HIR, TextAnnotation } from "@atjson/hir";
 import HIRRenderer, { Context, escapeHTML } from "../src/index";
@@ -32,7 +33,7 @@ class TestSource extends Document {
 
 function text(t: string, start: number): Annotation<any> {
   return new TextAnnotation({
-    id: "Any<id>",
+    id: ObjectId(),
     start,
     end: start + t.length,
     attributes: {

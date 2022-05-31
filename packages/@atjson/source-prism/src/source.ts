@@ -2,12 +2,21 @@ import Document, {
   AdjacentBoundaryBehaviour,
   Annotation,
   AnnotationJSON,
+  ObjectId,
+  Ref,
   ParseAnnotation,
 } from "@atjson/document";
 import HTMLSource from "@atjson/source-html";
 import * as entities from "entities";
 import * as sax from "sax";
-import { Article, Description, Media, Message, Title } from "./annotations";
+import {
+  Article,
+  Description,
+  DocumentTypeDefinition,
+  Media,
+  Message,
+  Title,
+} from "./annotations";
 
 function prefix(vendorPrefix: string, attributes: any): any {
   if (Array.isArray(attributes)) {
@@ -52,6 +61,7 @@ export default class PRISMSource extends Document {
   static schema = [...HTMLSource.schema].concat([
     Article,
     Description,
+    DocumentTypeDefinition,
     Media,
     Message,
     Title,
@@ -72,12 +82,17 @@ export default class PRISMSource extends Document {
     let xmlStart = xml.indexOf("<?xml");
     let xmlEnd = xml.indexOf("?>", xmlStart) + 2;
     if (xmlStart > -1 && xmlEnd > 1) {
+      let xmlTag = new DocumentTypeDefinition({
+        start: xmlStart,
+        end: xmlEnd,
+      });
       annotations.push(
+        xmlTag,
         new ParseAnnotation({
           start: xmlStart,
           end: xmlEnd,
           attributes: {
-            reason: "<?xml>",
+            ref: Ref(xmlTag),
           },
         })
       );
@@ -89,8 +104,10 @@ export default class PRISMSource extends Document {
       let vendorPrefix = getVendorPrefix(node.name);
       let type = getType(node.name);
       if (node.isSelfClosing) {
+        let id = ObjectId();
         annotations.push(
           {
+            id,
             type: `-${vendorPrefix}-${type}`,
             start: parser.startTagPosition - 1,
             end: parser.position,
@@ -100,12 +117,14 @@ export default class PRISMSource extends Document {
             start: parser.startTagPosition - 1,
             end: parser.position,
             attributes: {
-              reason: `<${node.name}/>`,
+              ref: Ref(id),
             },
           })
         );
       } else {
+        let id = ObjectId();
         partialAnnotations.push({
+          id,
           type: `-${vendorPrefix}-${type}`,
           start: parser.startTagPosition - 1,
           attributes: prefix(vendorPrefix, node.attributes),
@@ -115,7 +134,7 @@ export default class PRISMSource extends Document {
             start: parser.startTagPosition - 1,
             end: parser.position,
             attributes: {
-              reason: `<${node.name}>`,
+              ref: Ref(id),
             },
           })
         );
@@ -139,6 +158,11 @@ export default class PRISMSource extends Document {
       }
 
       annotation.end = parser.position;
+      if (annotation.id == null) {
+        throw new Error(
+          "Missing annotation ID, unable to create annotation references"
+        );
+      }
 
       annotations.push(
         annotation as AnnotationJSON,
@@ -146,7 +170,7 @@ export default class PRISMSource extends Document {
           start: parser.startTagPosition - 1,
           end: parser.position,
           attributes: {
-            reason: `</${tagName}>`,
+            ref: Ref(annotation.id),
           },
         })
       );

@@ -1,4 +1,4 @@
-import Document, { BlockAnnotation, ParseAnnotation } from "../src/index";
+import Document, { BlockAnnotation, Ref, ParseAnnotation } from "../src/index";
 
 export class Paragraph extends BlockAnnotation {
   static vendorPrefix = "text";
@@ -15,9 +15,10 @@ export class TextSource extends Document {
     let id = 1;
     while (text.indexOf("\n", start) !== -1) {
       let end = text.indexOf("\n", start);
+      let paragraphId = id++;
       annotations.push(
         {
-          id: (id++).toString(),
+          id: paragraphId.toString(),
           type: "-text-paragraph",
           start,
           end: end + 1,
@@ -28,7 +29,9 @@ export class TextSource extends Document {
           type: "-atjson-parse-token",
           start: end,
           end: end + 1,
-          attributes: {},
+          attributes: {
+            ref: Ref(paragraphId),
+          },
         }
       );
       start = end + 1;
@@ -69,7 +72,9 @@ describe("TextSource", () => {
           type: "-atjson-parse-token",
           start: 5,
           end: 6,
-          attributes: {},
+          attributes: {
+            "-atjson-ref": Ref("1"),
+          },
         },
         {
           id: "3",

@@ -1,3 +1,4 @@
+import { Ref } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
@@ -231,26 +232,47 @@ After all the lists
       content: "A\u000BB\nC",
       annotations: [
         {
+          id: "1",
           type: "-offset-list",
           start: 0,
           end: 5,
           attributes: { "-offset-type": "numbered" },
         },
-        { type: "-offset-list-item", start: 0, end: 3, attributes: {} },
-        { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
         {
+          id: "2",
+          type: "-offset-list-item",
+          start: 0,
+          end: 3,
+          attributes: {},
+        },
+        {
+          id: "3",
+          type: "-offset-line-break",
+          start: 1,
+          end: 2,
+          attributes: {},
+        },
+        {
+          id: "4",
           type: "-atjson-parse-token",
           start: 1,
           end: 2,
-          attributes: { "-atjson-reason": "vertical tab" },
+          attributes: { "-atjson-ref": Ref("1") },
         },
         {
+          id: "5",
           type: "-atjson-parse-token",
           start: 3,
           end: 4,
-          attributes: { "-atjson-reason": "new line paragraph separator" },
+          attributes: { "-atjson-ref": Ref("3") },
         },
-        { type: "-offset-list-item", start: 4, end: 5, attributes: {} },
+        {
+          id: "6",
+          type: "-offset-list-item",
+          start: 4,
+          end: 5,
+          attributes: {},
+        },
       ],
     });
 
@@ -261,9 +283,25 @@ After all the lists
     let document = new OffsetSource({
       content: "Sentence ending in *italic* 1. New sentence",
       annotations: [
-        { type: "-offset-italic", start: 19, end: 27, attributes: {} },
-        { type: "-atjson-parse-token", start: 19, end: 20, attributes: {} },
-        { type: "-atjson-parse-token", start: 26, end: 27, attributes: {} },
+        { id: "1", type: "-offset-italic", start: 19, end: 27, attributes: {} },
+        {
+          id: "2",
+          type: "-atjson-parse-token",
+          start: 19,
+          end: 20,
+          attributes: {
+            "-atjson-ref": Ref("1"),
+          },
+        },
+        {
+          id: "3",
+          type: "-atjson-parse-token",
+          start: 26,
+          end: 27,
+          attributes: {
+            "-atjson-ref": Ref("1"),
+          },
+        },
       ],
     });
 
@@ -504,7 +542,7 @@ After all the lists
           type: "-atjson-parse-token",
           start: 6,
           end: 7,
-          attributes: { "-atjson-reason": "newline" },
+          attributes: { "-atjson-ref": Ref("1") },
         },
         {
           id: "3",
@@ -518,7 +556,7 @@ After all the lists
           type: "-atjson-parse-token",
           start: 15,
           end: 16,
-          attributes: { "-atjson-reason": "newline" },
+          attributes: { "-atjson-ref": Ref("3") },
         },
       ],
     });

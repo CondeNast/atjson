@@ -2,8 +2,9 @@ import { Annotation } from "../internals";
 
 export class ParseAnnotation<
   Attributes extends {
-    reason: string;
-  } = { reason: string }
+    reason?: string;
+    ref?: string;
+  } = { reason?: string; ref?: string }
 > extends Annotation<Attributes> {
   static vendorPrefix = "atjson";
   static type = "parse-token";
