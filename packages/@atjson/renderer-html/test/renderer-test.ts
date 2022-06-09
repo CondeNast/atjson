@@ -3,6 +3,7 @@ import OffsetSource, {
   Bold,
   CerosEmbed,
   Code,
+  CodeBlock,
   Heading,
   HorizontalRule,
   Image,
@@ -49,9 +50,24 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual("<code>Hello</code>");
+  });
 
-    code.attributes.style = "block";
+  test("code block", () => {
+    let code = new CodeBlock({
+      start: 0,
+      end: 5,
+    });
+    let doc = new OffsetSource({
+      content: "Hello",
+      annotations: [code],
+    });
+
     expect(Renderer.render(doc)).toEqual("<pre><code>Hello</code></pre>");
+
+    code.attributes.info = "html";
+    expect(Renderer.render(doc)).toEqual(
+      `<pre class="html"><code>Hello</code></pre>`
+    );
   });
 
   describe("heading", () => {
