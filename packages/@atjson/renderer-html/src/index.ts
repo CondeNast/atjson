@@ -1,7 +1,7 @@
 import {
   Blockquote,
   CerosEmbed,
-  Code,
+  CodeBlock,
   Heading,
   Image,
   Link,
@@ -144,16 +144,17 @@ export default class HTMLRenderer extends Renderer {
     )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
   }
 
-  *Code(code: Code) {
-    let codeSnippet = yield* this.$("code");
+  *Code() {
+    return yield* this.$("code");
+  }
 
-    if (
-      code.attributes.style === "block" ||
-      code.attributes.style === "fence"
-    ) {
-      return `<pre>${codeSnippet}</pre>`;
+  *CodeBlock(code: CodeBlock) {
+    let codeSnippet = yield* this.$("code");
+    let attrs = this.htmlAttributes({ class: code.attributes.info });
+    if (attrs.length) {
+      return `<pre ${attrs.join(" ")}>${codeSnippet}</pre>`;
     }
-    return codeSnippet;
+    return `<pre>${codeSnippet}</pre>`;
   }
 
   *Heading(heading: Heading) {

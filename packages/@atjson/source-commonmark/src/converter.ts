@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { CodeBlock } from "@atjson/offset-annotations";
 import CommonmarkSource from "./source";
 
 CommonmarkSource.defineConverterTo(
@@ -11,17 +11,26 @@ CommonmarkSource.defineConverterTo(
       .where({ type: "-commonmark-bullet_list" })
       .set({ type: "-offset-list", attributes: { "-offset-type": "bulleted" } })
       .rename({ attributes: { "-commonmark-loose": "-offset-loose" } });
-    doc
-      .where({ type: "-commonmark-code_block" })
-      .set({ type: "-offset-code", attributes: { "-offset-style": "block" } });
+    doc.where({ type: "-commonmark-code_block" }).set({
+      type: "-offset-code-block",
+    });
     doc
       .where({ type: "-commonmark-code_inline" })
       .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
     doc.where({ type: "-commonmark-em" }).set({ type: "-offset-italic" });
-    doc
-      .where({ type: "-commonmark-fence" })
-      .set({ type: "-offset-code", attributes: { "-offset-style": "fence" } })
-      .rename({ attributes: { "-commonmark-info": "-offset-info" } });
+    doc.where({ type: "-commonmark-fence" }).update((fence) => {
+      doc.replaceAnnotation(
+        fence,
+        new CodeBlock({
+          start: fence.start,
+          end: fence.end,
+          attributes: {
+            info: fence.attributes.info ?? "",
+          },
+        })
+      );
+    });
+
     doc
       .where({ type: "-commonmark-hardbreak" })
       .set({ type: "-offset-line-break" });

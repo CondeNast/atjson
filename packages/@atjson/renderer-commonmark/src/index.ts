@@ -7,7 +7,7 @@ import Document, {
 } from "@atjson/document";
 import {
   Bold,
-  Code,
+  CodeBlock,
   HTML,
   Heading,
   Image,
@@ -517,13 +517,9 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   /**
-   * A `code` span can be inline or as a block:
-   *
-   * ```js
-   * function () {}
-   * ```
+   * A `code` span is for an inline snippet
    */
-  *Code(code: Code, context: Context): Generator<void, string, string[]> {
+  *Code(): Generator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -534,9 +530,43 @@ export default class CommonmarkRenderer extends Renderer {
     let text = rawText.join("");
     this.state = state;
 
-    if (code.attributes.style === "fence") {
+    // MarkdownIt strips all leading and trailing whitespace from code blocks,
+    // which means that we get an empty string for a single whitespace (` `).
+    if (text.length === 0) {
+      return "` `";
+
+      // We need to properly escape backticks inside of code blocks
+      // by using variable numbers of backticks.
+    } else {
+      let backticks = "`".repeat(getNumberOfRequiredBackticks(text));
+      return `${backticks}${text}${backticks}`;
+    }
+  }
+
+  /**
+   * A code block can be fenced or a block:
+   *
+   * ```js
+   * function () {}
+   * ```
+   */
+  *CodeBlock(
+    code: CodeBlock,
+    context: Context
+  ): Generator<void, string, string[]> {
+    let state = Object.assign({}, this.state);
+    Object.assign(this.state, {
+      isPreformatted: true,
+      htmlSafe: true,
+    });
+
+    let rawText = yield;
+    let text = rawText.join("");
+    this.state = state;
+
+    if (code.attributes.info != null) {
       text = "\n" + text;
-      let info = code.attributes.info || "";
+      let info = code.attributes.info;
       let newlines = "\n";
       if (this.state.isList && context.next) {
         newlines += "\n";
@@ -547,20 +577,8 @@ export default class CommonmarkRenderer extends Renderer {
       } else {
         return `\`\`\`${info}${text}\`\`\`${newlines}`;
       }
-    } else if (code.attributes.style === "block") {
-      return text.split("\n").map(codify).join("\n") + "\n";
     } else {
-      // MarkdownIt strips all leading and trailing whitespace from code blocks,
-      // which means that we get an empty string for a single whitespace (` `).
-      if (text.length === 0) {
-        return "` `";
-
-        // We need to properly escape backticks inside of code blocks
-        // by using variable numbers of backticks.
-      } else {
-        let backticks = "`".repeat(getNumberOfRequiredBackticks(text));
-        return `${backticks}${text}${backticks}`;
-      }
+      return text.split("\n").map(codify).join("\n") + "\n";
     }
   }
 
@@ -672,7 +690,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     // Handle indendation for code blocks that immediately follow a list.
     let hasCodeBlockFollowing =
-      context.next instanceof Code && context.next.attributes.style === "block";
+      context.next instanceof CodeBlock && context.next.attributes.info == null;
     Object.assign(this.state, {
       isList: true,
       type: list.attributes.type,
