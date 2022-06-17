@@ -26,19 +26,19 @@ const ASPECT_RATIOS = [
   // HD video standard / Digital broadcast TV standard
   "16:9",
   // US widescreen cinema standard
-  "1.85:1",
+  "37:20",
   // 4K & 2K standard
-  "1.9:1",
+  "19:10",
   // Univisium
   "2:1",
   // 70mm film
-  "2.2:1",
+  "11:5",
   // Cinematic widescreen
   "21:9",
   // Widescreen cinema standard
-  "2.4:1",
+  "12:5",
   // Ultra-WideScreen
-  "3.6:1",
+  "18:5",
 ] as const;
 
 const proportions = ASPECT_RATIOS.map((ratio) => {

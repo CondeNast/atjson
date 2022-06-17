@@ -83,6 +83,6 @@ describe("getClosestAspectRatio", () => {
   });
 
   test("super wide video", () => {
-    expect(getClosestAspectRatio(50, 2)).toBe("3.6:1");
+    expect(getClosestAspectRatio(50, 2)).toBe("18:5");
   });
 });
