@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-prism",
-  "version": "0.28.6",
+  "version": "0.28.7",
   "description": "Converts PRISM XML into atjson",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -13,8 +13,8 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "0.44.3",
-    "@atjson/source-html": "0.33.6",
+    "@atjson/offset-annotations": "0.44.4",
+    "@atjson/source-html": "0.33.7",
     "@types/sax": "^1.2.3",
     "entities": "^3.0.1",
     "sax": "^1.2.4"
