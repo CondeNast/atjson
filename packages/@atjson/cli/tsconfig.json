@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/commonjs",
+    "rootDir": "./src",
+    "module": "Node16",
+    "target": "ES3"
+  },
+  "include": ["src/**/*"]
+}
