@@ -8,7 +8,7 @@
     "@babel/preset-react": "7.17.12",
     "@babel/preset-typescript": "7.17.12",
     "@ckeditor/ckeditor5-build-classic": "31.1.0",
-    "@ckeditor/ckeditor5-engine": "31.1.0",
+    "@ckeditor/ckeditor5-engine": "34.2.0",
     "@commitlint/cli": "15.0.0",
     "@commitlint/config-conventional": "15.0.0",
     "@condenast/perf-kit": "0.1.3",
