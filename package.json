@@ -20,7 +20,7 @@
     "@types/minimist": "1.2.2",
     "@types/node": "16.11.47",
     "@types/parse5": "6.0.3",
-    "@types/prettier": "2.6.4",
+    "@types/prettier": "2.7.0",
     "@types/react": "17.0.48",
     "@types/react-dom": "17.0.17",
     "@types/sax": "1.2.4",
