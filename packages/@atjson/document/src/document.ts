@@ -9,6 +9,7 @@ import {
   EdgeBehaviour,
   Insertion,
   ParseAnnotation,
+  SliceAnnotation,
   UnknownAnnotation,
 } from "./internals";
 
@@ -687,7 +688,7 @@ export class Document {
     annotation: Annotation<any> | AnnotationJSON
   ): Annotation<any> {
     let DocumentClass = this.constructor as typeof Document;
-    let schema = [...DocumentClass.schema, ParseAnnotation];
+    let schema = [...DocumentClass.schema, ParseAnnotation, SliceAnnotation];
 
     if (annotation instanceof UnknownAnnotation) {
       let KnownAnnotation = schema.find(function annotationMatchesClass(
