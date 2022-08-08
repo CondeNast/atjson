@@ -121,6 +121,12 @@ export interface AnnotationConstructor<T, Attributes> {
 export abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
+  /**
+   * Subdocuments are a legacy way of embedding additional
+   * text. We recommend using slices for this instead and
+   * embedding the subdocument in the parent document.
+   * @deprecated Use slices instead
+   */
   static subdocuments: { [key: string]: typeof Document } = {};
 
   static hydrate(attrs: {

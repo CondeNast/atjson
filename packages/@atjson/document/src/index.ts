@@ -14,6 +14,7 @@ import {
   Join,
   ObjectAnnotation,
   ParseAnnotation,
+  SliceAnnotation,
   UnknownAnnotation,
   is,
 } from "./internals";
@@ -40,6 +41,7 @@ export {
   Join,
   ObjectAnnotation,
   ParseAnnotation,
+  SliceAnnotation,
   UnknownAnnotation,
   is,
 };
