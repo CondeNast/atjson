@@ -6,6 +6,7 @@ import Document, {
   Annotation,
   BlockAnnotation,
   InlineAnnotation,
+  SliceAnnotation,
 } from "@atjson/document";
 import { HIR, TextAnnotation } from "@atjson/hir";
 import HIRRenderer, { Context, escapeHTML } from "../src/index";
@@ -15,19 +16,29 @@ class Bold extends InlineAnnotation {
   static type = "bold";
 }
 
+class Link extends InlineAnnotation<{ href: string }> {
+  static vendorPrefix = "test";
+  static type = "link";
+}
+
 class Italic extends InlineAnnotation {
   static vendorPrefix = "test";
   static type = "italic";
 }
 
-class BlockQuote extends BlockAnnotation {
+class BlockQuote extends BlockAnnotation<{ credit?: string }> {
   static vendorPrefix = "test";
   static type = "block-quote";
 }
 
+class Citation extends InlineAnnotation<{ citations: string[] }> {
+  static vendorPrefix = "test";
+  static type = "citation";
+}
+
 class TestSource extends Document {
   static contentType = "application/vnd.atjson+test";
-  static schema = [Bold, Italic, BlockQuote];
+  static schema = [Bold, Italic, BlockQuote, Citation, Link];
 }
 
 function text(t: string, start: number): Annotation<any> {
@@ -102,7 +113,7 @@ describe("@atjson/renderer-hir", () => {
       *renderAnnotation(
         annotation: Annotation<any>,
         context: Context
-      ): IterableIterator<any> {
+      ): Iterator<void, string, string[]> {
         let expected = callStack.shift() as Context & {
           annotation: Annotation<any>;
         };
@@ -159,11 +170,11 @@ describe("@atjson/renderer-hir", () => {
       text(t: string): string {
         return escapeHTML(t);
       }
-      *root(): IterableIterator<any> {
+      *root(): Iterator<void, string, string[]> {
         let rawText: string[] = yield;
         return rawText.join("");
       }
-      *renderAnnotation(): IterableIterator<any> {
+      *renderAnnotation(): Iterator<void, string, string[]> {
         let rawText: string[] = yield;
         return rawText.join("");
       }
@@ -200,7 +211,7 @@ describe("@atjson/renderer-hir", () => {
         return `_${words.join("")}_`;
       }
 
-      *root(): IterableIterator<any> {
+      *root(): Iterator<void, string, string[]> {
         let rawText: string[] = yield;
         return rawText.join("");
       }
@@ -235,12 +246,170 @@ describe("@atjson/renderer-hir", () => {
         return `_${words.join("")}_`;
       }
 
-      *root(): IterableIterator<any> {
+      *root(): Iterator<void, string, string[]> {
         let rawText: string[] = yield;
         return rawText.join("");
       }
     }
 
     expect(SlackRenderer.render(doc)).toBe("> *I am _very_ excited*");
+  });
+
+  describe("slices", () => {
+    test("top level keys are reified", () => {
+      let doc = new TestSource({
+        content:
+          "The radio is stuck right now. Everything sound the same. As far as video-wise everything look the same. So we coming in to change the whole thing. Missy Elliott",
+        annotations: [
+          new BlockQuote({
+            id: "a1",
+            start: 0,
+            end: 146,
+            attributes: { credit: "a2" },
+          }),
+          new SliceAnnotation({
+            id: "a2",
+            start: 147,
+            end: 160,
+            attributes: { refs: ["a1"] },
+          }),
+          new Italic({ start: 147, end: 160 }),
+        ],
+      });
+
+      class HTMLRenderer extends HIRRenderer {
+        *BlockQuote(blockquote: BlockQuote) {
+          let words = yield;
+          return `<blockquote>${words.join("")}${
+            blockquote.attributes.credit
+              ? `<cite>${blockquote.attributes.credit}</cite>`
+              : ""
+          }</blockquote>`;
+        }
+
+        *Bold() {
+          let words = yield;
+          return `<strong>${words.join("")}</strong>`;
+        }
+
+        *Italic() {
+          let words = yield;
+          return `<em>${words.join("")}</em>`;
+        }
+
+        *root(): Iterator<void, string, string[]> {
+          let rawText: string[] = yield;
+          return rawText.join("");
+        }
+      }
+
+      expect(HTMLRenderer.render(doc)).toBe(
+        "<blockquote>The radio is stuck right now. Everything sound the same. As far as video-wise everything look the same. So we coming in to change the whole thing.<cite><em>Missy Elliott</em></cite></blockquote> "
+      );
+    });
+
+    test("arrays are reified", () => {
+      let doc = new TestSource({
+        content: `Arthur Baldwin Turnure, an American businessman, founded Vogue as a weekly newspaper based in New York City, sponsored by Kristoffer Wright, with its first issue on December 17, 1892.Rowlands, Penelope (2008) A Dash of Daring: Carmel Snow and Her Life In Fashion, Art, and Letters Simon & Schuster, 2008.Warren, Lynne (2005) Encyclopedia of Twentieth-Century Photography, 3-Volume Set Routledge, 2005`,
+        annotations: [
+          new Link({
+            id: "a1",
+            start: 0,
+            end: 22,
+            attributes: {
+              href: "https://en.wikipedia.org/wiki/Arthur_Baldwin_Turnure",
+            },
+          }),
+          new Italic({ id: "a2", start: 57, end: 62 }),
+          new Link({
+            id: "a3",
+            start: 94,
+            end: 107,
+            attributes: {
+              href: "https://en.wikipedia.org/wiki/New_York_City",
+            },
+          }),
+          new Citation({
+            id: "a4",
+            start: 0,
+            end: 183,
+            attributes: {
+              citations: ["a5", "a6"],
+            },
+          }),
+          new SliceAnnotation({
+            id: "a5",
+            start: 183,
+            end: 304,
+            attributes: {
+              refs: ["a4"],
+            },
+          }),
+          new SliceAnnotation({
+            id: "a6",
+            start: 304,
+            end: 400,
+            attributes: {
+              refs: ["a4"],
+            },
+          }),
+        ],
+      });
+
+      class HTMLRenderer extends HIRRenderer {
+        citations: string[];
+
+        constructor(document: Document) {
+          super(document);
+          this.citations = [];
+        }
+
+        *Link(link: Link) {
+          let words = yield;
+          return `<a href="${link.attributes.href}">${words.join("")}</a>`;
+        }
+
+        *Citation(citation: Citation) {
+          let words = yield;
+          let start = this.citations.length + 1;
+          this.citations.push(...citation.attributes.citations);
+          return `${words.join("")}${citation.attributes.citations
+            .map(
+              (_, index) =>
+                `<a href="#cite-${start + index}">[${start + index}]</a>`
+            )
+            .join("")}`;
+        }
+
+        *Bold() {
+          let words = yield;
+          return `<strong>${words.join("")}</strong>`;
+        }
+
+        *Italic() {
+          let words = yield;
+          return `<em>${words.join("")}</em>`;
+        }
+
+        *root(): Iterator<void, string, string[]> {
+          let rawText: string[] = yield;
+          return `${rawText.join("")}${
+            this.citations.length
+              ? `\n<ol>${this.citations
+                  .map(
+                    (citation, index) =>
+                      `<li id="cite-${index + 1}">${citation}</li>`
+                  )
+                  .join("")}</ol>`
+              : ""
+          }`;
+        }
+      }
+
+      expect(HTMLRenderer.render(doc)).toBe(
+        `<a href="https://en.wikipedia.org/wiki/Arthur_Baldwin_Turnure">Arthur Baldwin Turnure</a>, an American businessman, founded <em>Vogue</em> as a weekly newspaper based in <a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>, sponsored by Kristoffer Wright, with its first issue on December 17, 1892.<a href="#cite-1">[1]</a><a href="#cite-2">[2]</a>\n` +
+          `<ol><li id="cite-1">Rowlands, Penelope (2008) A Dash of Daring: Carmel Snow and Her Life In Fashion, Art, and Letters Simon & Schuster, 2008.</li><li id="cite-2">Warren, Lynne (2005) Encyclopedia of Twentieth-Century Photography, 3-Volume Set Routledge, 2005</li></ol>`
+      );
+    });
   });
 });
