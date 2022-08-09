@@ -4,6 +4,7 @@ import Document, {
   UnknownAnnotation,
   is,
 } from "@atjson/document";
+import type { JSON as TJSON } from "@atjson/document";
 import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
 
 interface Mapping {
@@ -74,9 +75,37 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
   return a.vendorPrefix === "atjson" && a.type === "text";
 }
 
+function attrs<T>(
+  attributes: TJSON | undefined,
+  slices: Record<string, HIRNode>,
+  transformer: (annotation: HIRNode) => T
+): any {
+  if (attributes == null) {
+    return attributes;
+  } else if (Array.isArray(attributes)) {
+    return attributes.map((item) => attrs(item, slices, transformer));
+  } else if (typeof attributes === "object") {
+    let props: TJSON = {};
+    for (let key in attributes) {
+      props[key] = attrs(attributes[key], slices, transformer);
+    }
+    return props;
+  } else if (typeof attributes === "string") {
+    if (attributes in slices) {
+      let node = slices[attributes];
+      // Only work on slices that are in the document
+      if (node != null) {
+        return transformer(node);
+      }
+    }
+  }
+  return attributes;
+}
+
 function compile(
   renderer: Renderer,
   node: HIRNode,
+  slices: Record<string, HIRNode>,
   context: Partial<Context> & { document: Document }
 ): any {
   let annotation = node.annotation;
@@ -87,6 +116,9 @@ function compile(
   if (context.parent == null) {
     generator = renderer.root();
   } else {
+    annotation.attributes = attrs(annotation.attributes, slices, (sliceNode) =>
+      compile(renderer, sliceNode, slices, { document: context.document })
+    );
     generator = renderer.renderAnnotation(annotation, {
       ...context,
       children: childAnnotations,
@@ -118,7 +150,7 @@ function compile(
           });
         }
 
-        return compile(renderer, childNode, childContext) as any[];
+        return compile(renderer, childNode, slices, childContext) as any[];
       })
     )
   ).value;
@@ -187,8 +219,8 @@ export default class Renderer {
   ) {
     let document = params[0];
     let renderer = new this(document, ...params.slice(1));
-
-    return compile(renderer, new HIR(document).rootNode, { document });
+    let hir = new HIR(document);
+    return compile(renderer, hir.rootNode, hir.sliceNodes, { document });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
