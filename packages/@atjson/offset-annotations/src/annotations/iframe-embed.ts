@@ -1,11 +1,14 @@
 import { ObjectAnnotation } from "@atjson/document";
-import { CaptionSource } from "./caption-source";
 
 export class IframeEmbed extends ObjectAnnotation<{
   url: string;
   width?: string;
   height?: string;
-  caption?: CaptionSource;
+  /**
+   * Refers to a slice instead of being an
+   * embedded document.
+   */
+  caption?: string;
   sandbox?: string;
   /**
    * A named identifier used to quickly jump to this item
@@ -14,7 +17,6 @@ export class IframeEmbed extends ObjectAnnotation<{
 }> {
   static type = "iframe-embed";
   static vendorPrefix = "offset";
-  static subdocuments = { caption: CaptionSource };
 
   get url() {
     try {

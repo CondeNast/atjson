@@ -1,9 +1,9 @@
-import Document, { Annotation, is } from "@atjson/document";
-import OffsetSource, {
+import Document, { Annotation, is, SliceAnnotation } from "@atjson/document";
+import uuid from "uuid-random";
+import {
   getClosestAspectRatio,
   VideoEmbed,
   VideoURLs,
-  CaptionSource,
 } from "@atjson/offset-annotations";
 import { Iframe, Anchor, Div } from "../annotations";
 
@@ -75,6 +75,7 @@ export default function (doc: Document) {
       }
     )
     .update(function convertVimeoVideos({ video, paragraph, links }) {
+      let captionId = uuid();
       let src = video.attributes.src;
       if (src?.indexOf("//") === 0) {
         src = `https:${src}`;
@@ -85,11 +86,18 @@ export default function (doc: Document) {
         `The Vimeo embed ${video.attributes.src} was definitely defined in our queries, but was not identified.`
       );
 
-      let caption: CaptionSource | undefined;
       if (paragraph.length === 1 && links.length > 0) {
-        caption = doc
-          .cut(paragraph[0].start, paragraph[0].end)
-          .convertTo(OffsetSource);
+        doc.replaceAnnotation(
+          paragraph[0],
+          new SliceAnnotation({
+            id: captionId,
+            start: paragraph[0].start,
+            end: paragraph[0].end,
+            attributes: {
+              refs: [video.id],
+            },
+          })
+        );
       }
 
       let width = getSize(video, "width");
@@ -97,6 +105,7 @@ export default function (doc: Document) {
       doc.replaceAnnotation(
         video,
         new VideoEmbed({
+          id: video.id,
           start: video.start,
           end: video.end,
           attributes: {
@@ -107,7 +116,7 @@ export default function (doc: Document) {
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
-            caption,
+            caption: captionId,
             anchorName: video.attributes.id,
           },
         })
