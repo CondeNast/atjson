@@ -651,29 +651,28 @@ describe("@atjson/source-html", () => {
 
       describe("Vimeo", () => {
         test("default embed code (with caption)", () => {
-          let doc = HTMLSource.fromRaw(
-            `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-<p><a href="https://vimeo.com/156254412">TSVETOK - Vogue Italia</a> from <a href="https://vimeo.com/karimandreotti">Karim Andreotti</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`
-          )
+          let html = `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<p><a href="https://vimeo.com/156254412">TSVETOK - Vogue Italia</a> from <a href="https://vimeo.com/karimandreotti">Karim Andreotti</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`;
+          let doc = HTMLSource.fromRaw(html)
             .convertTo(OffsetSource)
             .canonical();
 
-          expect(doc.annotations.length).toBe(1);
+          expect(doc.content).toBe(
+            "\nTSVETOK - Vogue Italia from Karim Andreotti on Vimeo."
+          );
+          // 1 embed, 1 slice, 3 links
+          expect(doc.annotations.length).toBe(5);
           expect(doc.annotations[0]).toMatchObject({
             type: "video-embed",
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
               provider: VideoURLs.Provider.VIMEO,
+              caption: "Any<id>",
               width: 640,
               height: 480,
               aspectRatio: "4:3",
             },
           });
-
-          let caption = doc.annotations[0].attributes.caption.canonical();
-          expect(caption.content).toBe(
-            "TSVETOK - Vogue Italia from Karim Andreotti on Vimeo."
-          );
         });
 
         test("protocol-relative URLs https", () => {

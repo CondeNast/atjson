@@ -1,5 +1,4 @@
 import { ObjectAnnotation } from "@atjson/document";
-import { CaptionSource } from "./caption-source";
 import { getClosestAspectRatio, VideoURLs } from "../utils";
 
 export class VideoEmbed extends ObjectAnnotation<{
@@ -28,7 +27,11 @@ export class VideoEmbed extends ObjectAnnotation<{
    * @deprecated
    */
   height?: number;
-  caption?: CaptionSource;
+  /**
+   * Refers to a slice instead of being an
+   * embedded document.
+   */
+  caption?: string;
   /**
    * A named identifier used to quickly jump to this item
    */
@@ -36,5 +39,4 @@ export class VideoEmbed extends ObjectAnnotation<{
 }> {
   static type = "video-embed";
   static vendorPrefix = "offset";
-  static subdocuments = { caption: CaptionSource };
 }
