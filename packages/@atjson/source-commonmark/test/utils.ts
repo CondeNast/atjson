@@ -12,6 +12,18 @@ class PlainTextRenderer extends Renderer {
   *hardbreak() {
     return "\n";
   }
+  *code_inline() {
+    let text: string[] = yield;
+    return text.join("");
+  }
+  *s() {
+    let text: string[] = yield;
+    return text.join("");
+  }
+  *list_item() {
+    let text: string[] = yield;
+    return text.join("");
+  }
   *bullet_list(list: BulletList) {
     let wasTight = this.tight;
     this.tight = !list.attributes.loose;

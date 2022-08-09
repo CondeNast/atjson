@@ -11,6 +11,7 @@ export default class PlainTextRenderer extends Renderer {
           annotation.type !== "parse-token" &&
           annotation.type !== "line-break" &&
           annotation.type !== "list-item" &&
+          annotation.type !== "code-inline" &&
           annotation.type !== "list" &&
           annotation.type !== "paragraph" &&
           annotation.type !== "heading" &&
