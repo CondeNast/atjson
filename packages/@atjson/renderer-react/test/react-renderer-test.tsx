@@ -1,3 +1,4 @@
+import { ObjectAnnotation, SliceAnnotation } from "@atjson/document";
 import OffsetSource, {
   Bold,
   CaptionSource,
@@ -7,11 +8,12 @@ import OffsetSource, {
   LineBreak,
   Link,
   VideoEmbed,
+  VideoURLs,
 } from "@atjson/offset-annotations";
 import * as React from "react";
-import { FC } from "react";
+import { createElement, Fragment, ReactNode } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer, { AttributesOf, ReactRendererProvider } from "../src";
+import ReactRenderer, { PropsOf, ReactRendererProvider } from "../src";
 
 function renderDocument(
   doc: OffsetSource,
@@ -24,15 +26,40 @@ function renderDocument(
   );
 }
 
-const BoldComponent: FC<{}> = (props) => {
+class IframeEmbedWithSubdocument extends ObjectAnnotation<{
+  url: string;
+  width?: string;
+  height?: string;
+  caption?: CaptionSource;
+  sandbox?: string;
+  /**
+   * A named identifier used to quickly jump to this item
+   */
+  anchorName?: string;
+}> {
+  static type = "iframe-embed-with-subdocument";
+  static vendorPrefix = "offset";
+  static subdocuments = { caption: CaptionSource };
+
+  get url() {
+    try {
+      return new URL(this.attributes.url);
+    } catch (e) {
+      return null;
+    }
+  }
+}
+OffsetSource.schema.push(IframeEmbedWithSubdocument);
+
+function BoldComponent(props: PropsOf<Bold>) {
   return <strong>{props.children}</strong>;
-};
+}
 
-const ItalicComponent: FC<{}> = (props) => {
+function ItalicComponent(props: { children: ReactNode }) {
   return <em>{props.children}</em>;
-};
+}
 
-const LinkComponent: FC<AttributesOf<Link>> = (props) => {
+function LinkComponent(props: PropsOf<Link>) {
   return (
     <a
       href={props.url}
@@ -43,21 +70,21 @@ const LinkComponent: FC<AttributesOf<Link>> = (props) => {
       {props.children}
     </a>
   );
-};
+}
 
-const LineBreakComponent: FC<{}> = () => {
+function LineBreakComponent() {
   return <br />;
-};
+}
 
-const GiphyEmbedComponent: FC<AttributesOf<GiphyEmbed>> = (props) => {
+function GiphyEmbedComponent(props: PropsOf<GiphyEmbed>) {
   let match = props.url.match(/\/gifs\/(.*)-([^-]*)/);
   if (match) {
     return <img src={`https://media.giphy.com/media/${match[2]}/giphy.gif`} />;
   }
   return <s>Sorry</s>;
-};
+}
 
-const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = (props) => {
+function VideoEmbedComponent(props: PropsOf<VideoEmbed>) {
   return (
     <iframe
       width="560"
@@ -67,22 +94,22 @@ const VideoEmbedComponent: FC<AttributesOf<VideoEmbed>> = (props) => {
       allowFullScreen={true}
     ></iframe>
   );
-};
+}
 
-const IframeComponent: FC<AttributesOf<IframeEmbed>> = (props) => {
+function IframeComponent(props: PropsOf<IframeEmbed>) {
   return (
     <figure>
       <iframe src={props.url} />
       <figcaption>{props.caption}</figcaption>
     </figure>
   );
-};
+}
 
-const CaptionBold: FC<{}> = (props) => {
+function CaptionBold(props: { children: ReactNode }) {
   return <b>{props.children}</b>;
-};
+}
 
-const IframeComponentWithProvider: FC<AttributesOf<IframeEmbed>> = (props) => {
+function IframeComponentWithProvider(props: PropsOf<IframeEmbed>) {
   return (
     <figure>
       <iframe src={props.url} />
@@ -91,7 +118,7 @@ const IframeComponentWithProvider: FC<AttributesOf<IframeEmbed>> = (props) => {
       </ReactRendererProvider>
     </figure>
   );
-};
+}
 
 describe("ReactRenderer", () => {
   it("renders simple components", () => {
@@ -116,8 +143,8 @@ describe("ReactRenderer", () => {
       start: 9,
       end: 10,
       attributes: {
-        url:
-          "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0",
+        url: "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0",
+        provider: VideoURLs.Provider.YOUTUBE,
       },
     });
 
@@ -189,8 +216,108 @@ describe("ReactRenderer", () => {
     });
 
     expect(() =>
-      ReactDOMServer.renderToStaticMarkup(ReactRenderer.render(document))
+      ReactDOMServer.renderToStaticMarkup(
+        createElement(Fragment, {}, ReactRenderer.render(document))
+      )
     ).toThrowError(/ReactRendererProvider/);
+  });
+
+  describe("Slices", () => {
+    it("renders single-level nested subdocuments", () => {
+      let doc = new OffsetSource({
+        content:
+          "An embed with caption ￼(This is some caption text) and some text following.",
+        annotations: [
+          new Bold({
+            start: 3,
+            end: 8,
+          }),
+          new IframeEmbed({
+            id: "iframe-1",
+            start: 22,
+            end: 23,
+            attributes: {
+              url: "https://foo.bar",
+              caption: "slice-1",
+            },
+          }),
+          new SliceAnnotation({
+            id: "slice-1",
+            start: 23,
+            end: 50,
+            attributes: {
+              refs: ["iframe-1"],
+            },
+          }),
+          new Bold({
+            start: 24,
+            end: 28,
+          }),
+          new Italic({
+            start: 32,
+            end: 36,
+          }),
+        ],
+      });
+
+      expect(
+        renderDocument(doc, {
+          Bold: BoldComponent,
+          Italic: ItalicComponent,
+          IframeEmbed: IframeComponent,
+        })
+      ).toBe(
+        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<strong>This</strong> is <em>some</em> caption text)</figcaption></figure> and some text following.`
+      );
+    });
+
+    it("Accepts alternate components via a provider", () => {
+      let doc = new OffsetSource({
+        content:
+          "An embed with caption ￼(This is some caption text) and some text following.",
+        annotations: [
+          new Bold({
+            start: 3,
+            end: 8,
+          }),
+          new IframeEmbed({
+            id: "iframe-1",
+            start: 22,
+            end: 23,
+            attributes: {
+              url: "https://foo.bar",
+              caption: "slice-1",
+            },
+          }),
+          new SliceAnnotation({
+            id: "slice-1",
+            start: 23,
+            end: 50,
+            attributes: {
+              refs: ["iframe-1"],
+            },
+          }),
+          new Bold({
+            start: 24,
+            end: 28,
+          }),
+          new Italic({
+            start: 32,
+            end: 36,
+          }),
+        ],
+      });
+
+      expect(
+        renderDocument(doc, {
+          Bold: BoldComponent,
+          Italic: ItalicComponent,
+          IframeEmbed: IframeComponentWithProvider,
+        })
+      ).toBe(
+        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<b>This</b> is <em>some</em> caption text)</figcaption></figure> and some text following.`
+      );
+    });
   });
 
   describe("Subdocuments", () => {
@@ -216,7 +343,7 @@ describe("ReactRenderer", () => {
             start: 3,
             end: 8,
           }),
-          new IframeEmbed({
+          new IframeEmbedWithSubdocument({
             start: 23,
             end: 24,
             attributes: {
@@ -231,7 +358,7 @@ describe("ReactRenderer", () => {
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponent,
+          IframeEmbedWithSubdocument: IframeComponent,
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><strong>This</strong> is <em>some</em> caption text</figcaption></figure>) and some text following.`
@@ -260,7 +387,7 @@ describe("ReactRenderer", () => {
             start: 3,
             end: 8,
           }),
-          new IframeEmbed({
+          new IframeEmbedWithSubdocument({
             start: 23,
             end: 24,
             attributes: {
@@ -275,7 +402,7 @@ describe("ReactRenderer", () => {
         renderDocument(doc, {
           Bold: BoldComponent,
           Italic: ItalicComponent,
-          IframeEmbed: IframeComponentWithProvider,
+          IframeEmbedWithSubdocument: IframeComponentWithProvider,
         })
       ).toBe(
         `An <strong>embed</strong> with caption (<figure><iframe src="https://foo.bar"></iframe><figcaption><b>This</b> is <em>some</em> caption text</figcaption></figure>) and some text following.`
