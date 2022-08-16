@@ -39,15 +39,14 @@ export default class HIR {
     let sliceRanges: { start: number; end: number }[] = [];
     let sliceAnnotations = document.where((a) => is(a, SliceAnnotation));
     for (let annotation of sliceAnnotations) {
-      let slice = document.clone();
-      slice
-        .where(
-          (a) =>
-            !(a.start >= annotation.start && a.end <= annotation.end) ||
-            a.id === annotation.id
-        )
-        .remove();
-      slices[annotation.id] = slice.slice(annotation.start, annotation.end);
+      slices[annotation.id] = document.slice(
+        annotation.start,
+        annotation.end,
+        (a) =>
+          a.start >= annotation.start &&
+          a.end <= annotation.end &&
+          a.id !== annotation.id
+      );
 
       document
         .where(
