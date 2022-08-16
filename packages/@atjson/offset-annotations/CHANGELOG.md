@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.45.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.44.4...@atjson/offset-annotations@0.45.0) (2022-08-16)
+
+### Features
+
+- captions on IframeEmbeds and VideoEmbeds now refer to slices ([1f36f62](https://github.com/CondeNast/atjson/commit/1f36f6213b565651dea23c927e0a6cf5942c2218))
+
 ## [0.44.4](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.44.3...@atjson/offset-annotations@0.44.4) (2022-06-17)
 
 **Note:** Version bump only for package @atjson/offset-annotations

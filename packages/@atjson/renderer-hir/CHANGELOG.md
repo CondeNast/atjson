@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.22.14...@atjson/renderer-hir@0.23.0) (2022-08-16)
+
+### Features
+
+- add support for slices in hir and hir renderer ([a62e762](https://github.com/CondeNast/atjson/commit/a62e762ae66b683edcc008d1c8d595d16126dafd))
+
 ## [0.22.14](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.22.13...@atjson/renderer-hir@0.22.14) (2022-01-24)
 
 **Note:** Version bump only for package @atjson/renderer-hir

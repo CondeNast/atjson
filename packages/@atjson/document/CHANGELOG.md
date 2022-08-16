@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.5...@atjson/document@0.25.0) (2022-08-16)
+
+### Features
+
+- add new core annotation type, slice ([7a3827a](https://github.com/CondeNast/atjson/commit/7a3827a9c9080943c4b3469e807a0013781ae9ae))
+
 ## [0.24.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.4...@atjson/document@0.24.5) (2022-01-24)
 
 **Note:** Version bump only for package @atjson/document
