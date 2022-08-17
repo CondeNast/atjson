@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Document#withStableId annotations are ordered and have consistent ids 1`] = `
+Object {
+  "annotations": Array [
+    Object {
+      "attributes": Object {},
+      "end": 13,
+      "id": "0000000000000001",
+      "start": 0,
+      "type": "-test-paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 12,
+      "id": "0000000000000002",
+      "start": 0,
+      "type": "-test-bold",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 3,
+      "id": "0000000000000003",
+      "start": 0,
+      "type": "-atjson-parse-token",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 12,
+      "id": "0000000000000004",
+      "start": 8,
+      "type": "-atjson-parse-token",
+    },
+  ],
+  "content": "<b>Hello</b>,
+ World!",
+  "contentType": "application/vnd.atjson+test",
+  "schema": Array [
+    "-test-a",
+    "-test-bold",
+    "-test-code",
+    "-test-image",
+    "-test-instagram",
+    "-test-italic",
+    "-test-locale",
+    "-test-manual",
+    "-test-paragraph",
+    "-test-pre",
+    "-test-quote",
+  ],
+}
+`;
+
+exports[`Document#withStableId annotations by id reference are equal (even when the ids are different) 1`] = `
+Object {
+  "annotations": Array [
+    Object {
+      "attributes": Object {
+        "-test-citation": "0000000000000006",
+        "-test-credit": "0000000000000004",
+      },
+      "end": 187,
+      "id": "0000000000000001",
+      "start": 0,
+      "type": "-test-quote",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 190,
+      "id": "0000000000000002",
+      "start": 187,
+      "type": "-atjson-parse-token",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 202,
+      "id": "0000000000000003",
+      "start": 190,
+      "type": "-test-italic",
+    },
+    Object {
+      "attributes": Object {
+        "-atjson-refs": Array [
+          "0000000000000001",
+        ],
+      },
+      "end": 202,
+      "id": "0000000000000004",
+      "start": 190,
+      "type": "-atjson-slice",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 205,
+      "id": "0000000000000005",
+      "start": 202,
+      "type": "-atjson-parse-token",
+    },
+    Object {
+      "attributes": Object {
+        "-atjson-refs": Array [
+          "0000000000000001",
+        ],
+      },
+      "end": 237,
+      "id": "0000000000000006",
+      "start": 205,
+      "type": "-atjson-slice",
+    },
+  ],
+  "content": "If any of you in any way hate homosexuals, people of different color, or women, please do this one favor for us—leave us the fuck alone! Don’t come to our shows and don’t buy our records.
+  —Kurt Cobain
+  “Incesticide” liner notes, 1992.",
+  "contentType": "application/vnd.atjson+test",
+  "schema": Array [
+    "-test-a",
+    "-test-bold",
+    "-test-code",
+    "-test-image",
+    "-test-instagram",
+    "-test-italic",
+    "-test-locale",
+    "-test-manual",
+    "-test-paragraph",
+    "-test-pre",
+    "-test-quote",
+  ],
+}
+`;
+
+exports[`Document#withStableId ids are stable 1`] = `
+Object {
+  "annotations": Array [
+    Object {
+      "attributes": Object {},
+      "end": 13,
+      "id": "0000000000000001",
+      "start": 0,
+      "type": "-test-paragraph",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 12,
+      "id": "0000000000000002",
+      "start": 0,
+      "type": "-test-bold",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 3,
+      "id": "0000000000000003",
+      "start": 0,
+      "type": "-atjson-parse-token",
+    },
+    Object {
+      "attributes": Object {},
+      "end": 12,
+      "id": "0000000000000004",
+      "start": 8,
+      "type": "-atjson-parse-token",
+    },
+  ],
+  "content": "<b>Hello</b>,
+ World!",
+  "contentType": "application/vnd.atjson+test",
+  "schema": Array [
+    "-test-a",
+    "-test-bold",
+    "-test-code",
+    "-test-image",
+    "-test-instagram",
+    "-test-italic",
+    "-test-locale",
+    "-test-manual",
+    "-test-paragraph",
+    "-test-pre",
+    "-test-quote",
+  ],
+}
+`;
