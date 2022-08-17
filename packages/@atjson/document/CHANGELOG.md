@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.25.0...@atjson/document@0.26.0) (2022-08-17)
+
+### Bug Fixes
+
+- make ids stable when doing equality checks ([3d0f435](https://github.com/CondeNast/atjson/commit/3d0f4351ed6883da315dbdc2ff4ed4cfd3feb94b))
+
+### Features
+
+- make withStableIds public (for testing purposes) ([5ca405f](https://github.com/CondeNast/atjson/commit/5ca405fd1f3737b5b913dac370d32ce2f19c186e))
+
 # [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.24.5...@atjson/document@0.25.0) (2022-08-16)
 
 ### Features
