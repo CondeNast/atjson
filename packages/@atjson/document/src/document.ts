@@ -12,7 +12,6 @@ import {
   SliceAnnotation,
   UnknownAnnotation,
 } from "./internals";
-import uuid from "uuid-random";
 
 /**
  * Get the function that converts between two documents. Use this to grab a converter
@@ -661,14 +660,8 @@ export class Document {
   }
 
   equals(docToCompare: Document): boolean {
-    // Just to be sure that we don't have collisions
-    // with anything, we're going to create a throwaway
-    // seed for creating stable ids.
-    let seed = uuid();
-    let canonicalLeftHandSideDoc = this.canonical().withStableIds(seed);
-    let canonicalRightHandSideDoc = docToCompare
-      .canonical()
-      .withStableIds(seed);
+    let canonicalLeftHandSideDoc = this.canonical().withStableIds();
+    let canonicalRightHandSideDoc = docToCompare.canonical().withStableIds();
 
     let isContentEqual =
       canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
@@ -691,11 +684,11 @@ export class Document {
     );
   }
 
-  private withStableIds(seed: string) {
+  withStableIds() {
     let ids: Record<string, string> = {};
     let counter = 1;
     for (let annotation of this.annotations) {
-      ids[annotation.id] = `${seed}-${counter++}`;
+      ids[annotation.id] = (counter++).toString(16);
     }
 
     this.annotations = this.annotations.map((annotation) =>
