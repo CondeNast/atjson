@@ -146,7 +146,7 @@ describe("Document#equals", () => {
   });
 
   describe("slices", () => {
-    test("HTML documents and MD documents are correctly compared for equality", () => {
+    test("annotations by id reference are equal (even when the ids are different)", () => {
       let quoteId = uuid();
       let creditId = uuid();
       let citationId = uuid();

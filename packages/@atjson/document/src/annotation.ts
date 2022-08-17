@@ -11,6 +11,7 @@ import {
   removeUndefinedValuesFromObject,
   toJSON,
   unprefix,
+  withStableIds,
 } from "./internals";
 
 export interface AnnotationJSON {
@@ -298,6 +299,17 @@ export abstract class Annotation<Attributes = {}> {
       start: this.start,
       end: this.end,
       attributes: clone(this.attributes),
+    });
+  }
+
+  withStableIds(ids: Record<string, string>) {
+    let AnnotationClass = this.getAnnotationConstructor();
+
+    return new AnnotationClass({
+      id: ids[this.id],
+      start: this.start,
+      end: this.end,
+      attributes: withStableIds(this.attributes, ids),
     });
   }
 

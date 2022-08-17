@@ -104,6 +104,35 @@ export function clone(attribute: any): NonNullable<any> {
   }
 }
 
+export function withStableIds(
+  attribute: any,
+  ids: Record<string, string>
+): NonNullable<any> {
+  if (attribute == null) {
+    return null;
+  } else if (Array.isArray(attribute)) {
+    let copy = [];
+    for (let i = 0, len = attribute.length; i < len; i++) {
+      copy[i] = withStableIds(attribute[i], ids);
+    }
+    return copy;
+  } else if (attribute instanceof Document) {
+    return attribute;
+  } else if (typeof attribute === "object") {
+    let copy: NonNullable<any> = {};
+    for (let key in attribute) {
+      if (attribute[key] !== undefined) {
+        copy[key] = withStableIds(attribute[key], ids);
+      }
+    }
+    return copy;
+  } else if (typeof attribute === "string" && attribute in ids) {
+    return ids[attribute];
+  } else {
+    return attribute;
+  }
+}
+
 export function removeUndefinedValuesFromObject(obj: any): any {
   let objectEntries = Object.entries(obj);
   let acc = {};
