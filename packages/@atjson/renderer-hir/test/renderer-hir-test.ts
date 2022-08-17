@@ -43,7 +43,7 @@ class TestSource extends Document {
 
 function text(t: string, start: number): Annotation<any> {
   return new TextAnnotation({
-    id: "Any<id>",
+    id: "XXXXXXXX",
     start,
     end: start + t.length,
     attributes: {
@@ -58,23 +58,22 @@ describe("@atjson/renderer-hir", () => {
       content: "This is bold and italic text",
       annotations: [
         {
-          id: "1",
           type: "-test-bold",
           start: 8,
           end: 17,
           attributes: {},
         },
         {
-          id: "2",
           type: "-test-italic",
           start: 12,
           end: 23,
           attributes: {},
         },
       ],
-    });
+    }).withStableIds();
 
     let root = new HIR(atjson).rootNode;
+    root.id = "00000000";
     let [, bold, italic] = root.children();
     let boldAndItalic = bold.children()[1];
 
@@ -120,29 +119,31 @@ describe("@atjson/renderer-hir", () => {
         expect(annotation.toJSON()).toMatchObject(expected.annotation.toJSON());
 
         if (parent) {
-          expect(context.parent.toJSON()).toMatchObject(
-            expected.parent.toJSON()
-          );
+          let { id, ...json } = expected.parent.toJSON();
+          expect(context.parent.toJSON()).toMatchObject(json);
         } else {
           expect(context.parent).toBe(expected.parent);
         }
 
         if (context.previous != null && expected.previous != null) {
-          expect(context.previous.toJSON()).toMatchObject(
-            expected.previous.toJSON()
-          );
+          let { id, ...json } = expected.previous.toJSON();
+          expect(context.previous.toJSON()).toMatchObject(json);
         } else {
           expect(context.previous).toBe(expected.previous);
         }
 
         if (context.next != null && expected.next != null) {
-          expect(context.next.toJSON()).toMatchObject(expected.next.toJSON());
+          let { id, ...json } = expected.next.toJSON();
+          expect(context.next.toJSON()).toMatchObject(json);
         } else {
           expect(context.next).toBe(expected.next);
         }
 
         expect(context.children.map((a) => a.toJSON())).toMatchObject(
-          expected.children.map((a) => a.toJSON())
+          expected.children.map((a) => ({
+            ...a.toJSON(),
+            id: expect.anything(),
+          }))
         );
 
         let rawText: string[] = yield;

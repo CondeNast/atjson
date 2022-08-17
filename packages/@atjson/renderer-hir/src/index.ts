@@ -200,7 +200,7 @@ function textAnnotationFromNode(childNode: HIRNode) {
     },
     toJSON(): Record<string, unknown> {
       return {
-        id: "Any<id>",
+        id: childNode.id,
         type: "-atjson-text",
         start: childNode.start,
         end: childNode.end,
