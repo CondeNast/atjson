@@ -690,7 +690,8 @@ export class Document {
     let ids: Record<string, string> = {};
     let counter = 1;
     for (let annotation of this.annotations) {
-      ids[annotation.id] = (counter++).toString(16).padStart(16, "0");
+      let id = (counter++).toString(16);
+      ids[annotation.id] = "00000000".slice(id.length) + id;
     }
 
     this.annotations = this.annotations.map((annotation) =>
