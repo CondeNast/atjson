@@ -72,6 +72,14 @@ export class Image extends ObjectAnnotation<{
   static subdocuments = { caption: CaptionSource };
 }
 
+export class Quote extends ObjectAnnotation<{
+  credit: string;
+  citation: string;
+}> {
+  static vendorPrefix = "test";
+  static type = "quote";
+}
+
 export class Manual extends ObjectAnnotation {
   static vendorPrefix = "test";
   static type = "manual";
@@ -104,5 +112,6 @@ export default class TestSource extends Document {
     Manual,
     Paragraph,
     Preformatted,
+    Quote,
   ];
 }

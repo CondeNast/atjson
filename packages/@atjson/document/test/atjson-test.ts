@@ -269,6 +269,7 @@ describe("new Document", () => {
           "-test-manual",
           "-test-paragraph",
           "-test-pre",
+          "-test-quote",
         ],
         annotations: [
           {
