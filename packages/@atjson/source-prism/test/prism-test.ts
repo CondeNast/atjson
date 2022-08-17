@@ -224,11 +224,14 @@ describe("@atjson/source-prism", () => {
         let fixturePath = path.join(__dirname, "fixtures", xmlFile);
         let xml = fs.readFileSync(fixturePath).toString();
 
-        let doc = PRISMSource.fromRaw(xml);
+        let doc = PRISMSource.fromRaw(xml).withStableIds();
         let hir = new HIR(doc);
+        hir.rootNode.id = "00000000";
 
         expect(hir.toJSON()).toMatchSnapshot();
-        expect(doc.convertTo(OffsetSource).toJSON()).toMatchSnapshot();
+        expect(
+          doc.convertTo(OffsetSource).withStableIds().toJSON()
+        ).toMatchSnapshot();
       }
     );
   });

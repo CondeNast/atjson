@@ -655,7 +655,8 @@ describe("@atjson/source-html", () => {
 <p><a href="https://vimeo.com/156254412">TSVETOK - Vogue Italia</a> from <a href="https://vimeo.com/karimandreotti">Karim Andreotti</a> on <a href="https://vimeo.com">Vimeo</a>.</p>`;
           let doc = HTMLSource.fromRaw(html)
             .convertTo(OffsetSource)
-            .canonical();
+            .canonical()
+            .withStableIds();
 
           expect(doc.content).toBe(
             "\nTSVETOK - Vogue Italia from Karim Andreotti on Vimeo."
@@ -667,7 +668,7 @@ describe("@atjson/source-html", () => {
             attributes: {
               url: "https://player.vimeo.com/video/156254412",
               provider: VideoURLs.Provider.VIMEO,
-              caption: "Any<id>",
+              caption: "00000002",
               width: 640,
               height: 480,
               aspectRatio: "4:3",

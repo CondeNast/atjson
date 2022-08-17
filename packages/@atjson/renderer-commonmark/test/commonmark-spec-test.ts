@@ -46,11 +46,13 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
         let output = CommonMarkSource.fromRaw(generatedMarkdown);
 
         // Assert that our internal representations (AtJSON) match
-        let originalHIR = new HIR(original).toJSON();
-        let outputHIR = new HIR(output).toJSON();
-        expect(originalHIR).toMatchSnapshot();
-        expect(outputHIR).toMatchSnapshot();
-        expect(outputHIR).toEqual(originalHIR);
+        let originalHIR = new HIR(original.withStableIds());
+        let outputHIR = new HIR(output.withStableIds());
+        originalHIR.rootNode.id = "00000000";
+        outputHIR.rootNode.id = "00000000";
+        expect(originalHIR.toJSON()).toMatchSnapshot();
+        expect(outputHIR.toJSON()).toMatchSnapshot();
+        expect(outputHIR.toJSON()).toEqual(originalHIR.toJSON());
 
         // Assert that external representations (HTML) match
         let md = MarkdownIt("commonmark");

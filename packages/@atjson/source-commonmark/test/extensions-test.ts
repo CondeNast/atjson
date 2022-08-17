@@ -27,50 +27,55 @@ MarkdownItSource.defineConverterTo(OffsetSource, (doc) => {
 
 describe("strikethrough", () => {
   test("~~hello~~ is converted to strikethrough annotations", () => {
-    let doc = MarkdownItSource.fromRaw("~~hello~~");
+    let doc = MarkdownItSource.fromRaw("~~hello~~").withStableIds();
     expect(render(doc)).toBe("hello\n\n");
     let strikeThrough = doc.where((a) => is(a, StrikeThrough));
-    expect(strikeThrough.toJSON()).toEqual([
-      {
-        id: "Any<id>",
-        type: "-commonmark-s",
-        attributes: {},
-        start: 1,
-        end: 8,
-      },
-    ]);
+    expect(strikeThrough.toJSON()).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "attributes": Object {},
+          "end": 8,
+          "id": "00000003",
+          "start": 1,
+          "type": "-commonmark-s",
+        },
+      ]
+    `);
   });
 
   test("conversion to Offset uses existing conversions", () => {
-    let doc =
-      MarkdownItSource.fromRaw("~~hello~~ *world*").convertTo(OffsetSource);
+    let doc = MarkdownItSource.fromRaw("~~hello~~ *world*")
+      .convertTo(OffsetSource)
+      .withStableIds();
     expect(
       doc
         .where((a) => a.type !== "parse-token")
         .sort()
         .toJSON()
-    ).toEqual([
-      {
-        id: "Any<id>",
-        type: "-offset-paragraph",
-        attributes: {},
-        start: 0,
-        end: 17,
-      },
-      {
-        id: "Any<id>",
-        type: "-offset-strikethrough",
-        attributes: {},
-        start: 1,
-        end: 8,
-      },
-      {
-        id: "Any<id>",
-        type: "-offset-italic",
-        attributes: {},
-        start: 9,
-        end: 16,
-      },
-    ]);
+    ).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "attributes": Object {},
+          "end": 17,
+          "id": "00000001",
+          "start": 0,
+          "type": "-offset-paragraph",
+        },
+        Object {
+          "attributes": Object {},
+          "end": 8,
+          "id": "00000003",
+          "start": 1,
+          "type": "-offset-strikethrough",
+        },
+        Object {
+          "attributes": Object {},
+          "end": 16,
+          "id": "00000006",
+          "start": 9,
+          "type": "-offset-italic",
+        },
+      ]
+    `);
   });
 });

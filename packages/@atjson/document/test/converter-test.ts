@@ -27,10 +27,10 @@ describe("Document#convert", () => {
       return doc;
     });
 
-    let textDoc = testDoc.convertTo(TextSource);
+    let textDoc = testDoc.convertTo(TextSource).withStableIds();
     expect(textDoc.all().toJSON()).toEqual([
       {
-        id: "Any<id>",
+        id: "00000001",
         type: "-text-paragraph",
         start: 0,
         end: 13,
