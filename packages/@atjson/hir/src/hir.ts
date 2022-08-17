@@ -22,24 +22,25 @@ function compareAnnotations(a: Annotation, b: Annotation) {
 export default class HIR {
   rootNode: HIRNode;
   sliceNodes: Record<string, HIRNode>;
+  document: Document;
 
   constructor(doc: Document) {
-    let document: Document = doc.clone();
+    this.document = doc.clone();
 
     // Do some basic document normalization here,
     // expanding any zero-width annotations
-    for (let a of document.annotations) {
+    for (let a of this.document.annotations) {
       if (a.start === a.end) {
-        document.insertText(a.start, "\uFFFC");
+        this.document.insertText(a.start, "\uFFFC");
         a.start = Math.max(0, a.start - 1);
       }
     }
 
     let slices: Record<string, Document> = {};
     let sliceRanges: { start: number; end: number }[] = [];
-    let sliceAnnotations = document.where((a) => is(a, SliceAnnotation));
+    let sliceAnnotations = this.document.where((a) => is(a, SliceAnnotation));
     for (let annotation of sliceAnnotations) {
-      slices[annotation.id] = document.slice(
+      slices[annotation.id] = this.document.slice(
         annotation.start,
         annotation.end,
         (a) =>
@@ -48,7 +49,7 @@ export default class HIR {
           a.id !== annotation.id
       );
 
-      document
+      this.document
         .where(
           (a) =>
             (a.start >= annotation.start && a.end <= annotation.end) ||
@@ -57,7 +58,7 @@ export default class HIR {
         .remove();
       sliceRanges.push({ start: annotation.start, end: annotation.end });
     }
-    document.deleteTextRanges(sliceRanges);
+    this.document.deleteTextRanges(sliceRanges);
 
     this.sliceNodes = {};
     for (let id in slices) {
@@ -81,16 +82,16 @@ export default class HIR {
     this.rootNode = new HIRNode(
       new Root({
         start: 0,
-        end: document.content.length,
+        end: this.document.content.length,
         attributes: {},
       })
     );
 
-    for (let annotation of document.annotations.sort(compareAnnotations)) {
+    for (let annotation of this.document.annotations.sort(compareAnnotations)) {
       this.rootNode.insertAnnotation(annotation);
     }
 
-    this.rootNode.insertText(document.content);
+    this.rootNode.insertText(this.document.content);
   }
 
   toJSON(options?: { includeParseTokens: boolean }): JSON {

@@ -220,7 +220,9 @@ export default class Renderer {
     let document = params[0];
     let renderer = new this(document, ...params.slice(1));
     let hir = new HIR(document);
-    return compile(renderer, hir.rootNode, hir.sliceNodes, { document });
+    return compile(renderer, hir.rootNode, hir.sliceNodes, {
+      document: hir.document,
+    });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
