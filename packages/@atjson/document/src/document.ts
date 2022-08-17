@@ -685,10 +685,12 @@ export class Document {
   }
 
   withStableIds() {
+    this.annotations.sort(compareAnnotations);
+
     let ids: Record<string, string> = {};
     let counter = 1;
     for (let annotation of this.annotations) {
-      ids[annotation.id] = (counter++).toString(16);
+      ids[annotation.id] = (counter++).toString(16).padStart(16, "0");
     }
 
     this.annotations = this.annotations.map((annotation) =>
