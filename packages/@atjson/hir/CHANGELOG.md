@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.23.2...@atjson/hir@0.23.3) (2022-08-18)
+
+### Bug Fixes
+
+- pass sliced out document as rendering context ([4884d81](https://github.com/CondeNast/atjson/commit/4884d814513cfd5c192399702f5a232dbc2572ea)), closes [#1307](https://github.com/CondeNast/atjson/issues/1307)
+
 ## [0.23.2](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.23.1...@atjson/hir@0.23.2) (2022-08-18)
 
 ### Bug Fixes

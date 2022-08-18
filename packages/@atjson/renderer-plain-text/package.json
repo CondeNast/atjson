@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-plain-text",
-  "version": "0.24.10",
+  "version": "0.24.11",
   "description": "Render atjson documents in plain text",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@atjson/offset-annotations": "0.45.1",
-    "@atjson/renderer-hir": "0.23.2"
+    "@atjson/renderer-hir": "0.23.3"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"
