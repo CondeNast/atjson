@@ -36,9 +36,14 @@ class Citation extends InlineAnnotation<{ citations: string[] }> {
   static type = "citation";
 }
 
+class Spoiler extends InlineAnnotation<{ spoiler: string }> {
+  static vendorPrefix = "test";
+  static type = "spoiler";
+}
+
 class TestSource extends Document {
   static contentType = "application/vnd.atjson+test";
-  static schema = [Bold, Italic, BlockQuote, Citation, Link];
+  static schema = [Bold, Italic, BlockQuote, Citation, Link, Spoiler];
 }
 
 function text(t: string, start: number): Annotation<any> {
@@ -409,6 +414,57 @@ describe("@atjson/renderer-hir", () => {
       expect(HTMLRenderer.render(doc)).toBe(
         `<a href="https://en.wikipedia.org/wiki/Arthur_Baldwin_Turnure">Arthur Baldwin Turnure</a>, an American businessman, founded <em>Vogue</em> as a weekly newspaper based in <a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>, sponsored by Kristoffer Wright, with its first issue on December 17, 1892.<a href="#cite-1">[1]</a><a href="#cite-2">[2]</a>\n` +
           `<ol><li id="cite-1">Rowlands, Penelope (2008) A Dash of Daring: Carmel Snow and Her Life In Fashion, Art, and Letters Simon & Schuster, 2008.</li><li id="cite-2">Warren, Lynne (2005) Encyclopedia of Twentieth-Century Photography, 3-Volume Set Routledge, 2005</li></ol>`
+      );
+    });
+
+    test("document context is correct for documents with slices", () => {
+      let atjson = new TestSource({
+        content: "This document has a spoiler:\nThis is it!",
+        annotations: [
+          new Italic({ start: 0, end: 28 }),
+          new Spoiler({
+            start: 28,
+            end: 40,
+            attributes: { spoiler: "slice1" },
+          }),
+          new SliceAnnotation({ id: "slice1", start: 29, end: 40 }),
+          new Bold({ start: 37, end: 39 }),
+        ],
+      });
+
+      let callStack = [
+        "This is it!",
+        "This document has a spoiler:\nXXXXXXXXXX",
+      ];
+
+      class ConcreteRenderer extends HIRRenderer {
+        *Italic(_, context) {
+          expect(context.document.content).toEqual(
+            "This document has a spoiler:\n"
+          );
+          return (yield).join("");
+        }
+        *Spoiler(spoiler, context) {
+          expect(context.document.content).toEqual(
+            "This document has a spoiler:\n"
+          );
+          return (
+            (yield).join("") + "X".repeat(spoiler.attributes.spoiler.length - 1)
+          );
+        }
+        *Bold(_, context) {
+          expect(context.document.content).toEqual("This is it!");
+          return (yield).join("");
+        }
+        *root() {
+          let results = (yield).join("");
+          expect(results).toBe(callStack.shift());
+          return results;
+        }
+      }
+
+      expect(ConcreteRenderer.render(atjson)).toEqual(
+        "This document has a spoiler:\nXXXXXXXXXX"
       );
     });
   });
