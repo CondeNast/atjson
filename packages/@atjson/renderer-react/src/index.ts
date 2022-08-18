@@ -65,7 +65,7 @@ export type PropsOf<AnnotationClass> = AnnotationClass extends Annotation<
 
 function propsOf(
   attributes: JSON | undefined,
-  slices: Record<string, HIRNode>,
+  slices: Record<string, { node: HIRNode; document: Document }>,
   subdocuments: Record<string, typeof Document>,
   id: string,
   transformer: (annotation: HIRNode, key: string) => unknown
@@ -95,10 +95,10 @@ function propsOf(
     return props;
   } else if (typeof attributes === "string") {
     if (attributes in slices) {
-      let node = slices[attributes];
+      let slice = slices[attributes];
       // Only work on slices that are in the document
-      if (node != null) {
-        return transformer(node, `${id}-${attributes}`);
+      if (slice != null) {
+        return transformer(slice.node, `${id}-${attributes}`);
       }
     }
   }
@@ -108,7 +108,7 @@ function propsOf(
 function renderNode(props: {
   node: HIRNode;
   includeParseTokens: boolean;
-  slices: Record<string, HIRNode>;
+  slices: Record<string, { node: HIRNode; document: Document }>;
   key: string;
 }): ReactNode {
   let { node, includeParseTokens, slices, key } = props;
@@ -213,7 +213,7 @@ function render(
         renderNode({
           node,
           includeParseTokens: props.includeParseTokens === true,
-          slices: hir.sliceNodes,
+          slices: hir.slices,
           key: `${node.id}-${index}`,
         })
       )

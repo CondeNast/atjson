@@ -77,8 +77,8 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
 
 function attrs<T>(
   attributes: TJSON | undefined,
-  slices: Record<string, HIRNode>,
-  transformer: (annotation: HIRNode) => T
+  slices: Record<string, { node: HIRNode; document: Document }>,
+  transformer: (annotation: HIRNode, document: Document) => T
 ): any {
   if (attributes == null) {
     return attributes;
@@ -92,10 +92,10 @@ function attrs<T>(
     return props;
   } else if (typeof attributes === "string") {
     if (attributes in slices) {
-      let node = slices[attributes];
+      let slice = slices[attributes];
       // Only work on slices that are in the document
-      if (node != null) {
-        return transformer(node);
+      if (slice != null) {
+        return transformer(slice.node, slice.document);
       }
     }
   }
@@ -105,7 +105,7 @@ function attrs<T>(
 function compile(
   renderer: Renderer,
   node: HIRNode,
-  slices: Record<string, HIRNode>,
+  slices: Record<string, { node: HIRNode; document: Document }>,
   context: Partial<Context> & { document: Document }
 ): any {
   let annotation = node.annotation;
@@ -116,8 +116,11 @@ function compile(
   if (context.parent == null) {
     generator = renderer.root();
   } else {
-    annotation.attributes = attrs(annotation.attributes, slices, (sliceNode) =>
-      compile(renderer, sliceNode, slices, { document: context.document })
+    annotation.attributes = attrs(
+      annotation.attributes,
+      slices,
+      (sliceNode, document) =>
+        compile(renderer, sliceNode, slices, { document })
     );
     generator = renderer.renderAnnotation(annotation, {
       ...context,
@@ -220,7 +223,7 @@ export default class Renderer {
     let document = params[0];
     let renderer = new this(document, ...params.slice(1));
     let hir = new HIR(document);
-    return compile(renderer, hir.rootNode, hir.sliceNodes, {
+    return compile(renderer, hir.rootNode, hir.slices, {
       document: hir.document,
     });
   }
