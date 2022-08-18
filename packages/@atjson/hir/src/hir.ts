@@ -21,7 +21,7 @@ function compareAnnotations(a: Annotation, b: Annotation) {
 
 export default class HIR {
   rootNode: HIRNode;
-  sliceNodes: Record<string, HIRNode>;
+  slices: Record<string, { node: HIRNode; document: Document }>;
   document: Document;
 
   constructor(doc: Document) {
@@ -60,7 +60,7 @@ export default class HIR {
     }
     this.document.deleteTextRanges(sliceRanges);
 
-    this.sliceNodes = {};
+    this.slices = {};
     for (let id in slices) {
       let slice = slices[id];
       let sliceNode = new HIRNode(
@@ -76,7 +76,10 @@ export default class HIR {
       }
 
       sliceNode.insertText(slice.content);
-      this.sliceNodes[id] = sliceNode;
+      this.slices[id] = {
+        node: sliceNode,
+        document: slice,
+      };
     }
 
     this.rootNode = new HIRNode(
