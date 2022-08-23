@@ -1,5 +1,6 @@
 /**
  * @jest-environment jsdom
+ * @jest-environment-options {"url": "https://www.condenast.io/"}
  */
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -14,6 +15,12 @@ describe("@atjson/source-ckeditor classic build", () => {
     div = document.createElement("div");
     document.body.appendChild(div);
 
+    // Mock out ResizeObserver for CKEditor 35
+    global.ResizeObserver = class ResizeObserver {
+      observe = jest.fn();
+      unobserve = jest.fn();
+      disconnect = jest.fn();
+    };
     editor = await (ClassicEditor as CK.EditorConstructor).create(div);
   });
 
