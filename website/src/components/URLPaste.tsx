@@ -5,18 +5,7 @@ import URLSource from "@atjson/source-url";
 import * as React from "react";
 import { FC, useState } from "react";
 import styled from "styled-components";
-// @ts-ignore
-import { TextField } from "./TextField.tsx";
-// @ts-ignore
-import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-
-// The SSR engine that docusaurus uses doesn't have
-// a global URL, which means that we need to hack around it :(
-if (!ExecutionEnvironment.canUseDOM) {
-  let url = require("url");
-  global.URL = url.URL;
-  global.URLSearchParams = url.URLSearchParams;
-}
+import { TextField } from "./TextField";
 
 const Wrapper = styled.div`
   margin: 0 auto;

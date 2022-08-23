@@ -25,7 +25,6 @@
     "@docusaurus/core": "2.0.1",
     "@docusaurus/preset-classic": "2.0.1",
     "classnames": "2.3.1",
-    "docusaurus-typescript-loader": "file:./plugins/docusaurus-typescript-loader",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "resize-observer": "1.0.4",
