@@ -1,8 +1,7 @@
 import * as React from "react";
 import { FC, useLayoutEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
-// @ts-ignore
-import { useResizeObserver } from "./hooks.ts";
+import { useResizeObserver } from "./hooks";
 
 const Container = styled.div`
   position: relative;

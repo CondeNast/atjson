@@ -5,7 +5,7 @@ import CodeBlock from "@theme/CodeBlock";
 import * as React from "react";
 import { FC, useState } from "react";
 import styled from "styled-components";
-import { TextArea } from "./TextArea.tsx";
+import { TextArea } from "./TextArea";
 
 class MyHTMLRenderer extends HTMLRenderer {
   *VideoEmbed(embed: VideoEmbed) {

@@ -31,7 +31,6 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`,
     },
   },
-  plugins: [join(__dirname, "plugins", "docusaurus-typescript-loader")],
   presets: [
     [
       "@docusaurus/preset-classic",
