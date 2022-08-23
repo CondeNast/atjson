@@ -17,14 +17,14 @@ function getAttributes(token: Token): Attributes {
 }
 
 interface Token {
-  attrs: string[][];
+  attrs: string[][] | null;
   block: boolean;
-  children: Token[];
+  children: Token[] | null;
   content: string;
   hidden: boolean;
   info: string;
   level: number;
-  map: number[];
+  map: [number, number] | null;
   markup: string;
   meta: any;
   nesting: number;
@@ -60,7 +60,7 @@ function toTree(tokens: Token[], rootNode: Node) {
         children: [],
       });
     } else if (token.type === "inline") {
-      toTree(token.children, currentNode);
+      toTree(token.children ?? [], currentNode);
     } else if (token.children && token.children.length > 0) {
       let node = {
         name: token.type,
