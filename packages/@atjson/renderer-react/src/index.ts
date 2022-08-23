@@ -39,9 +39,10 @@ export function ReactRendererProvider(props: {
   value: { [key: string]: ComponentType<any> };
   children: ReactNode;
 }) {
-  return React.createElement(
+  return createElement(
     ReactRendererConsumer,
     null,
+    // @ts-expect-error TS function overloads don't handle function children for consumers
     (parentComponentMap: { [key: string]: ComponentType<any> }) => {
       const mergedValues = { ...parentComponentMap, ...props.value };
       return createElement(
