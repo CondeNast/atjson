@@ -12,7 +12,7 @@
   "devDependencies": {
     "@atjson/document": "0.26.0",
     "@atjson/source-commonmark": "0.24.9",
-    "@types/markdown-it": "0.0.9"
+    "@types/markdown-it": "12.2.3"
   },
   "dependencies": {
     "@atjson/offset-annotations": "0.45.1",
