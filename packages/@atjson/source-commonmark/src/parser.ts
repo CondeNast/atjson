@@ -17,7 +17,7 @@ function getAttributes(token: Token): Attributes {
 }
 
 interface Token {
-  attrs: string[][] | null;
+  attrs: [string, string][] | null;
   block: boolean;
   children: Token[] | null;
   content: string;

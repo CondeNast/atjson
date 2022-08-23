@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import { HIR } from "@atjson/hir";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
@@ -9,10 +8,10 @@ import MarkdownIt from "markdown-it";
 import CommonMarkRenderer from "../src/index";
 
 const skippedTests = [
-  142, // Additional newline after HTML block
-  303, // Whitespace in code is stripped by markdown-it
-  326, // This test has an HTML entity at the start of a paragraph, which we strip
-  331, // Whitespace in code is stripped by markdown-it
+  17, // [Whitespace in code is stripped by markdown-it](https://spec.commonmark.org/0.30/#example-17)
+  40, // [We expect leading whitespace to be stripped](https://spec.commonmark.org/0.30/#example-40)
+  173, // [Additional newline after HTML block](https://spec.commonmark.org/0.30/#example-173)
+  331, // [Whitespace in code is stripped by markdown-it](https://spec.commonmark.org/0.30/#example-331)
 ];
 
 const unitTestsBySection: {
@@ -46,13 +45,9 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
         let output = CommonMarkSource.fromRaw(generatedMarkdown);
 
         // Assert that our internal representations (AtJSON) match
-        let originalHIR = new HIR(original.withStableIds());
-        let outputHIR = new HIR(output.withStableIds());
-        originalHIR.rootNode.id = "00000000";
-        outputHIR.rootNode.id = "00000000";
-        expect(originalHIR.toJSON()).toMatchSnapshot();
-        expect(outputHIR.toJSON()).toMatchSnapshot();
-        expect(outputHIR.toJSON()).toEqual(originalHIR.toJSON());
+        expect(original.withStableIds().toJSON()).toMatchSnapshot();
+        expect(output.withStableIds().toJSON()).toMatchSnapshot();
+        expect(original.toJSON()).toEqual(output.toJSON());
 
         // Assert that external representations (HTML) match
         let md = MarkdownIt("commonmark");
