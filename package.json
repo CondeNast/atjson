@@ -38,6 +38,7 @@
     "eslint-plugin-prettier": "4.2.1",
     "husky": "8.0.1",
     "jest": "28.1.3",
+    "jest-environment-jsdom": "^28.1.3",
     "lerna": "5.4.3",
     "lint-staged": "13.0.3",
     "markdown-it": "10.0.0",
@@ -100,7 +101,6 @@
     "moduleNameMapper": {
       "^(@atjson/.*)$": "<rootDir>/packages/$1/src/index.ts"
     },
-    "testURL": "http://localhost",
     "testMatch": [
       "**/*-test.(ts|tsx|js|jsx)"
     ],
