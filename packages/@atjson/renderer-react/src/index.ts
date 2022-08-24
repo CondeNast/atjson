@@ -9,6 +9,8 @@ import {
   Fragment,
   ReactElement,
   ReactNode,
+  useContext,
+  useMemo,
 } from "react";
 
 /**
@@ -28,6 +30,11 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
 // assigning this to a var so we can check equality with this (to throw when a
 // user of the library has not wrapped in a provider).
 const EMPTY_COMPONENT_MAP = {};
+
+const SliceContext = React.createContext<{
+  slices: Record<string, Document>;
+  includeParseTokens: boolean;
+}>({ slices: {}, includeParseTokens: false });
 
 export const ReactRendererContext = React.createContext<{
   [key: string]: ComponentType<any>;
@@ -66,7 +73,6 @@ export type PropsOf<AnnotationClass> = AnnotationClass extends Annotation<
 
 function propsOf(
   attributes: JSON | undefined,
-  slices: Record<string, { node: HIRNode; document: Document }>,
   subdocuments: Record<string, typeof Document>,
   id: string,
   transformer: (annotation: HIRNode, key: string) => unknown
@@ -75,7 +81,7 @@ function propsOf(
     return attributes;
   } else if (Array.isArray(attributes)) {
     return attributes.map((item, index) =>
-      propsOf(item, slices, {}, `${id}-${index}`, transformer)
+      propsOf(item, {}, `${id}-${index}`, transformer)
     );
   } else if (typeof attributes === "object") {
     let props: JSON = {};
@@ -84,24 +90,10 @@ function propsOf(
         // @ts-expect-error JSON doesn't allow for typeof Document
         props[key] = render({ document: attributes[key] as Document });
       } else {
-        props[key] = propsOf(
-          attributes[key],
-          slices,
-          {},
-          `${id}-${key}`,
-          transformer
-        );
+        props[key] = propsOf(attributes[key], {}, `${id}-${key}`, transformer);
       }
     }
     return props;
-  } else if (typeof attributes === "string") {
-    if (attributes in slices) {
-      let slice = slices[attributes];
-      // Only work on slices that are in the document
-      if (slice != null) {
-        return transformer(slice.node, `${id}-${attributes}`);
-      }
-    }
   }
   return attributes;
 }
@@ -109,10 +101,9 @@ function propsOf(
 function renderNode(props: {
   node: HIRNode;
   includeParseTokens: boolean;
-  slices: Record<string, { node: HIRNode; document: Document }>;
   key: string;
 }): ReactNode {
-  let { node, includeParseTokens, slices, key } = props;
+  let { node, includeParseTokens, key } = props;
   let annotation = node.annotation;
   if (is(annotation, TextAnnotation)) {
     return node.text;
@@ -140,7 +131,6 @@ function renderNode(props: {
         children[i] = renderNode({
           node: childNodes[i],
           includeParseTokens,
-          slices,
           key: `${node.id}-${i}`,
         });
       }
@@ -154,31 +144,16 @@ function renderNode(props: {
           {
             ...propsOf(
               annotation.attributes,
-              slices,
               subdocuments,
               annotation.id,
               (node: HIRNode, key: string) => {
                 return renderNode({
                   node,
                   includeParseTokens,
-                  slices,
                   key: `${key}-${node.id}`,
                 });
               }
             ),
-            annotation: {
-              id: annotation.id,
-              type: annotation.type,
-              start: annotation.start,
-              end: annotation.end,
-              attributes: propsOf(
-                annotation.attributes,
-                slices,
-                subdocuments,
-                annotation.id,
-                (node: HIRNode) => node.annotation.attributes
-              ),
-            },
           },
           ...children
         );
@@ -206,20 +181,50 @@ function render(
   let hir = new HIR(props.document);
   let rootNode = hir.rootNode;
   return createElement(
-    Fragment,
-    {},
-    ...rootNode
-      .children({ includeParseTokens: props.includeParseTokens === true })
-      .map((node, index) =>
-        renderNode({
-          node,
-          includeParseTokens: props.includeParseTokens === true,
-          slices: hir.slices,
-          key: `${node.id}-${index}`,
-        })
-      )
+    SliceContext.Provider,
+    {
+      value: {
+        slices: hir.slices,
+        includeParseTokens: props.includeParseTokens === true,
+      },
+    },
+    createElement(
+      Fragment,
+      {},
+      ...rootNode
+        .children({ includeParseTokens: props.includeParseTokens === true })
+        .map((node, index) =>
+          renderNode({
+            node,
+            includeParseTokens: props.includeParseTokens === true,
+            key: `${node.id}-${index}`,
+          })
+        )
+    )
   );
 }
+
+/**
+ * Renders a slice that was created via a `SliceAnnotation`.
+ * If you know the rendered output will be identical for
+ * every instance of the slice, wrap the component in
+ * `React.memo` for better performance.
+ *
+ * @example <Slice value={props.caption} />
+ * @param props The id of the slice to render
+ * @returns A React fragment with the value of the slice
+ */
+export function Slice(props: { value?: string; fallback?: ReactNode }) {
+  let { value, fallback } = props;
+  let { slices, includeParseTokens } = useContext(SliceContext);
+  let slice = useMemo(() => (value ? slices[value] : null), [value]);
+  if (slice) {
+    return render({ document: slice, includeParseTokens });
+  } else {
+    return createElement(Fragment, {}, fallback);
+  }
+}
+Slice.displayName = "Slice";
 
 export default {
   render,

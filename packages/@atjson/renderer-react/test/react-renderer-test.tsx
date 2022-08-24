@@ -13,11 +13,11 @@ import OffsetSource, {
 import * as React from "react";
 import { createElement, Fragment, ReactNode } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer, { PropsOf, ReactRendererProvider } from "../src";
+import ReactRenderer, { PropsOf, ReactRendererProvider, Slice } from "../src";
 
 function renderDocument(
   doc: OffsetSource,
-  components: { [key: string]: React.StatelessComponent<any> }
+  components: { [key: string]: React.ComponentType<any> }
 ) {
   return ReactDOMServer.renderToStaticMarkup(
     <ReactRendererProvider value={components}>
@@ -100,7 +100,9 @@ function IframeComponent(props: PropsOf<IframeEmbed>) {
   return (
     <figure>
       <iframe src={props.url} />
-      <figcaption>{props.caption}</figcaption>
+      <figcaption>
+        <Slice value={props.caption} fallback={props.caption} />
+      </figcaption>
     </figure>
   );
 }
@@ -114,7 +116,9 @@ function IframeComponentWithProvider(props: PropsOf<IframeEmbed>) {
     <figure>
       <iframe src={props.url} />
       <ReactRendererProvider value={{ Bold: CaptionBold }}>
-        <figcaption>{props.caption}</figcaption>
+        <figcaption>
+          <Slice value={props.caption} fallback={props.caption} />
+        </figcaption>
       </ReactRendererProvider>
     </figure>
   );
