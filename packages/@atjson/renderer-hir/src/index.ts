@@ -75,18 +75,15 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
   return a.vendorPrefix === "atjson" && a.type === "text";
 }
 
-function attrs<T>(
-  attributes: TJSON | undefined,
-  transformer: (annotation: HIRNode, document: Document) => T
-): any {
+function attrs(attributes: TJSON | undefined): any {
   if (attributes == null) {
     return attributes;
   } else if (Array.isArray(attributes)) {
-    return attributes.map((item) => attrs(item, transformer));
+    return attributes.map((item) => attrs(item));
   } else if (typeof attributes === "object") {
     let props: TJSON = {};
     for (let key in attributes) {
-      props[key] = attrs(attributes[key], transformer);
+      props[key] = attrs(attributes[key]);
     }
     return props;
   }
@@ -106,10 +103,7 @@ function compile(
   if (context.parent == null) {
     generator = renderer.root();
   } else {
-    annotation.attributes = attrs(
-      annotation.attributes,
-      (sliceNode, document) => compile(renderer, sliceNode, { document })
-    );
+    annotation.attributes = attrs(annotation.attributes);
     generator = renderer.renderAnnotation(annotation, {
       ...context,
       children: childAnnotations,
