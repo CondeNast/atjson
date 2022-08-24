@@ -21,7 +21,7 @@ function compareAnnotations(a: Annotation, b: Annotation) {
 
 export default class HIR {
   rootNode: HIRNode;
-  slices: Record<string, { node: HIRNode; document: Document }>;
+  slices: Record<string, Document>;
   document: Document;
 
   constructor(doc: Document) {
@@ -36,11 +36,11 @@ export default class HIR {
       }
     }
 
-    let slices: Record<string, Document> = {};
+    this.slices = {};
     let sliceRanges: { start: number; end: number }[] = [];
     let sliceAnnotations = this.document.where((a) => is(a, SliceAnnotation));
     for (let annotation of sliceAnnotations) {
-      slices[annotation.id] = this.document.slice(
+      this.slices[annotation.id] = this.document.slice(
         annotation.start,
         annotation.end,
         (a) =>
@@ -59,28 +59,6 @@ export default class HIR {
       sliceRanges.push({ start: annotation.start, end: annotation.end });
     }
     this.document.deleteTextRanges(sliceRanges);
-
-    this.slices = {};
-    for (let id in slices) {
-      let slice = slices[id];
-      let sliceNode = new HIRNode(
-        new Root({
-          start: 0,
-          end: slice.content.length,
-          attributes: {},
-        })
-      );
-
-      for (let annotation of slice.annotations.sort(compareAnnotations)) {
-        sliceNode.insertAnnotation(annotation);
-      }
-
-      sliceNode.insertText(slice.content);
-      this.slices[id] = {
-        node: sliceNode,
-        document: slice,
-      };
-    }
 
     this.rootNode = new HIRNode(
       new Root({

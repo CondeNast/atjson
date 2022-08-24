@@ -288,7 +288,9 @@ describe("@atjson/renderer-hir", () => {
           let words = yield;
           return `<blockquote>${words.join("")}${
             blockquote.attributes.credit
-              ? `<cite>${blockquote.attributes.credit}</cite>`
+              ? `<cite>${HTMLRenderer.render(
+                  this.slice(blockquote.attributes.credit)
+                )}</cite>`
               : ""
           }</blockquote>`;
         }
@@ -404,7 +406,9 @@ describe("@atjson/renderer-hir", () => {
               ? `\n<ol>${this.citations
                   .map(
                     (citation, index) =>
-                      `<li id="cite-${index + 1}">${citation}</li>`
+                      `<li id="cite-${index + 1}">${HTMLRenderer.render(
+                        this.slice(citation)
+                      )}</li>`
                   )
                   .join("")}</ol>`
               : ""
@@ -446,12 +450,13 @@ describe("@atjson/renderer-hir", () => {
           return (yield).join("");
         }
         *Spoiler(spoiler, context) {
+          let spoilerText =
+            ConcreteRenderer.render(this.slice(spoiler.attributes.spoiler)) ??
+            "";
           expect(context.document.content).toEqual(
             "This document has a spoiler:\n"
           );
-          return (
-            (yield).join("") + "X".repeat(spoiler.attributes.spoiler.length - 1)
-          );
+          return (yield).join("") + "X".repeat(spoilerText.length - 1);
         }
         *Bold(_, context) {
           expect(context.document.content).toEqual("This is it!");
