@@ -77,27 +77,18 @@ function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
 
 function attrs<T>(
   attributes: TJSON | undefined,
-  slices: Record<string, { node: HIRNode; document: Document }>,
   transformer: (annotation: HIRNode, document: Document) => T
 ): any {
   if (attributes == null) {
     return attributes;
   } else if (Array.isArray(attributes)) {
-    return attributes.map((item) => attrs(item, slices, transformer));
+    return attributes.map((item) => attrs(item, transformer));
   } else if (typeof attributes === "object") {
     let props: TJSON = {};
     for (let key in attributes) {
-      props[key] = attrs(attributes[key], slices, transformer);
+      props[key] = attrs(attributes[key], transformer);
     }
     return props;
-  } else if (typeof attributes === "string") {
-    if (attributes in slices) {
-      let slice = slices[attributes];
-      // Only work on slices that are in the document
-      if (slice != null) {
-        return transformer(slice.node, slice.document);
-      }
-    }
   }
   return attributes;
 }
@@ -105,7 +96,6 @@ function attrs<T>(
 function compile(
   renderer: Renderer,
   node: HIRNode,
-  slices: Record<string, { node: HIRNode; document: Document }>,
   context: Partial<Context> & { document: Document }
 ): any {
   let annotation = node.annotation;
@@ -118,9 +108,7 @@ function compile(
   } else {
     annotation.attributes = attrs(
       annotation.attributes,
-      slices,
-      (sliceNode, document) =>
-        compile(renderer, sliceNode, slices, { document })
+      (sliceNode, document) => compile(renderer, sliceNode, { document })
     );
     generator = renderer.renderAnnotation(annotation, {
       ...context,
@@ -153,7 +141,7 @@ function compile(
           });
         }
 
-        return compile(renderer, childNode, slices, childContext) as any[];
+        return compile(renderer, childNode, childContext) as any[];
       })
     )
   ).value;
@@ -221,15 +209,23 @@ export default class Renderer {
     ...params: ConstructorParameters<T>
   ) {
     let document = params[0];
+    if (document == null) {
+      return;
+    }
     let renderer = new this(document, ...params.slice(1));
     let hir = new HIR(document);
-    return compile(renderer, hir.rootNode, hir.slices, {
+    renderer.slices = hir.slices;
+    return compile(renderer, hir.rootNode, {
       document: hir.document,
     });
   }
 
+  private slices: Record<string, Document>;
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  constructor(_document: Document, ..._args: any[]) {}
+  constructor(_document: Document | null, ..._args: any[]) {
+    this.slices = {};
+  }
 
   *renderAnnotation(
     annotation: Annotation<any>,
@@ -249,6 +245,18 @@ export default class Renderer {
       console.debug("Unsupported annotation:", annotation);
       return yield;
     }
+  }
+
+  /**
+   * Get a slice document by the `SliceAnnotation` id.
+   * Useful for grabbing slices like captions / credit / etc
+   * and rendering them in place.
+   *
+   * @param sliceId The id of the slice to return
+   * @returns The slice document or null if there's no slices that match
+   */
+  slice(sliceId: string) {
+    return this.slices[sliceId] ?? null;
   }
 
   *root(): Iterator<void, any, any> {
