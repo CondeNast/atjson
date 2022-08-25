@@ -1,4 +1,4 @@
-# AtJSON [![Build Status](https://travis-ci.org/CondeNast/atjson.svg?branch=latest)](https://travis-ci.org/CondeNast/atjson) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
+# AtJSON [![CI](https://github.com/CondeNast/atjson/actions/workflows/ci.yml/badge.svg)](https://github.com/CondeNast/atjson/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
 ## Maintainers
 
