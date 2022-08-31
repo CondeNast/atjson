@@ -35,7 +35,7 @@
     "last 2 firefox versions"
   ],
   "devDependencies": {
-    "@types/react": "18.0.17",
+    "@types/react": "18.0.18",
     "@types/styled-components": "5.1.26"
   }
 }
