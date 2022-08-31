@@ -31,9 +31,9 @@ describe("strikethrough", () => {
     expect(render(doc)).toBe("hello\n\n");
     let strikeThrough = doc.where((a) => is(a, StrikeThrough));
     expect(strikeThrough.toJSON()).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "attributes": Object {},
+      [
+        {
+          "attributes": {},
           "end": 8,
           "id": "00000003",
           "start": 1,
@@ -53,23 +53,23 @@ describe("strikethrough", () => {
         .sort()
         .toJSON()
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "attributes": Object {},
+      [
+        {
+          "attributes": {},
           "end": 17,
           "id": "00000001",
           "start": 0,
           "type": "-offset-paragraph",
         },
-        Object {
-          "attributes": Object {},
+        {
+          "attributes": {},
           "end": 8,
           "id": "00000003",
           "start": 1,
           "type": "-offset-strikethrough",
         },
-        Object {
-          "attributes": Object {},
+        {
+          "attributes": {},
           "end": 16,
           "id": "00000006",
           "start": 9,
