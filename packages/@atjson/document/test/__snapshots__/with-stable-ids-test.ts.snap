@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Document#withStableId annotations are ordered and have consistent ids 1`] = `
-Object {
-  "annotations": Array [
-    Object {
-      "attributes": Object {},
+{
+  "annotations": [
+    {
+      "attributes": {},
       "end": 13,
       "id": "00000001",
       "start": 0,
       "type": "-test-paragraph",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 12,
       "id": "00000002",
       "start": 0,
       "type": "-test-bold",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 3,
       "id": "00000003",
       "start": 0,
       "type": "-atjson-parse-token",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 12,
       "id": "00000004",
       "start": 8,
@@ -35,7 +35,7 @@ Object {
   "content": "<b>Hello</b>,
  World!",
   "contentType": "application/vnd.atjson+test",
-  "schema": Array [
+  "schema": [
     "-test-a",
     "-test-bold",
     "-test-code",
@@ -52,10 +52,10 @@ Object {
 `;
 
 exports[`Document#withStableId annotations by id reference are equal (even when the ids are different) 1`] = `
-Object {
-  "annotations": Array [
-    Object {
-      "attributes": Object {
+{
+  "annotations": [
+    {
+      "attributes": {
         "-test-citation": "00000006",
         "-test-credit": "00000004",
       },
@@ -64,23 +64,23 @@ Object {
       "start": 0,
       "type": "-test-quote",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 190,
       "id": "00000002",
       "start": 187,
       "type": "-atjson-parse-token",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 202,
       "id": "00000003",
       "start": 190,
       "type": "-test-italic",
     },
-    Object {
-      "attributes": Object {
-        "-atjson-refs": Array [
+    {
+      "attributes": {
+        "-atjson-refs": [
           "00000001",
         ],
       },
@@ -89,16 +89,16 @@ Object {
       "start": 190,
       "type": "-atjson-slice",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 205,
       "id": "00000005",
       "start": 202,
       "type": "-atjson-parse-token",
     },
-    Object {
-      "attributes": Object {
-        "-atjson-refs": Array [
+    {
+      "attributes": {
+        "-atjson-refs": [
           "00000001",
         ],
       },
@@ -112,7 +112,7 @@ Object {
   —Kurt Cobain
   “Incesticide” liner notes, 1992.",
   "contentType": "application/vnd.atjson+test",
-  "schema": Array [
+  "schema": [
     "-test-a",
     "-test-bold",
     "-test-code",
@@ -129,31 +129,31 @@ Object {
 `;
 
 exports[`Document#withStableId ids are stable 1`] = `
-Object {
-  "annotations": Array [
-    Object {
-      "attributes": Object {},
+{
+  "annotations": [
+    {
+      "attributes": {},
       "end": 13,
       "id": "00000001",
       "start": 0,
       "type": "-test-paragraph",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 12,
       "id": "00000002",
       "start": 0,
       "type": "-test-bold",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 3,
       "id": "00000003",
       "start": 0,
       "type": "-atjson-parse-token",
     },
-    Object {
-      "attributes": Object {},
+    {
+      "attributes": {},
       "end": 12,
       "id": "00000004",
       "start": 8,
@@ -163,7 +163,7 @@ Object {
   "content": "<b>Hello</b>,
  World!",
   "contentType": "application/vnd.atjson+test",
-  "schema": Array [
+  "schema": [
     "-test-a",
     "-test-bold",
     "-test-code",
