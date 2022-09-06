@@ -13,6 +13,10 @@ export class Anchor extends InlineAnnotation<{
 }> {
   static vendorPrefix = "test";
   static type = "a";
+  static edgeBehaviour = {
+    leading: EdgeBehaviour.preserve,
+    trailing: EdgeBehaviour.preserve,
+  };
 }
 
 export class Bold extends InlineAnnotation {
@@ -80,6 +84,21 @@ export class Quote extends ObjectAnnotation<{
   static type = "quote";
 }
 
+export class List extends BlockAnnotation<{
+  type: "numbered" | "bulleted";
+}> {
+  static vendorPrefix = "test";
+  static type = "list";
+}
+
+export class ListItem extends BlockAnnotation<{
+  credit: string;
+  citation: string;
+}> {
+  static vendorPrefix = "test";
+  static type = "list-item";
+}
+
 export class Manual extends ObjectAnnotation {
   static vendorPrefix = "test";
   static type = "manual";
@@ -109,6 +128,8 @@ export default class TestSource extends Document {
     Instagram,
     Italic,
     Locale,
+    List,
+    ListItem,
     Manual,
     Paragraph,
     Preformatted,

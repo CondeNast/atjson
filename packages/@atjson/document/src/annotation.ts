@@ -104,6 +104,7 @@ export interface AnnotationConstructor<T, Attributes> {
   vendorPrefix: string;
   type: string;
   subdocuments: { [key: string]: typeof Document };
+  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
   new (attributes: {
     id?: string;
     start: number;
@@ -129,6 +130,10 @@ export abstract class Annotation<Attributes = {}> {
    * @deprecated Use slices instead
    */
   static subdocuments: { [key: string]: typeof Document } = {};
+  static edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour } = {
+    leading: EdgeBehaviour.preserve,
+    trailing: EdgeBehaviour.modify,
+  };
 
   static hydrate(attrs: {
     id?: string;
