@@ -17,6 +17,7 @@ import {
   SliceAnnotation,
   UnknownAnnotation,
   is,
+  serialize,
 } from "./internals";
 
 import type {
@@ -44,6 +45,7 @@ export {
   SliceAnnotation,
   UnknownAnnotation,
   is,
+  serialize,
 };
 
 export type { AnnotationConstructor, AnnotationJSON, AttributesOf, JSON };
