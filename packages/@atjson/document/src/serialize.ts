@@ -7,6 +7,8 @@ import {
   JSON,
   compareAnnotations,
   Annotation,
+  UnknownAnnotation,
+  AnnotationConstructor,
 } from "./internals";
 
 /**
@@ -108,7 +110,7 @@ export function serialize(doc: Document): StorageFormat {
 
   let annotations = [...doc.annotations].sort(compareAnnotations);
   let blockStack: Annotation[] = [];
-  let offset: number = 0;
+  let offset = 0;
   for (let annotation of annotations) {
     let peek = blockStack[blockStack.length - 1];
     while (peek != null && peek.end <= annotation.start) {
@@ -136,11 +138,9 @@ export function serialize(doc: Document): StorageFormat {
         attributes: annotation.attributes,
       });
     } else if (annotation instanceof ParseAnnotation) {
-      text = text.splice(
-        annotation.start + offset,
-        annotation.end - annotation.start
-      );
-      offset += annotation.end - annotation.start;
+      let length = annotation.end - annotation.start;
+      text.splice(annotation.start + offset, length);
+      offset -= length;
     } else {
       let { leading, trailing } =
         annotation.getAnnotationConstructor().edgeBehaviour;
@@ -165,9 +165,123 @@ export function serialize(doc: Document): StorageFormat {
   };
 }
 
-export function deserialize<T>(json: StorageFormat, DocumentClass: Document) {
-  let doc = new DocumentClass({
-    content: "",
-    annotations: [],
+function offsetsForBlock(
+  blocks: Block[],
+  index: number,
+  positions: number[],
+  AnnotationClass: AnnotationConstructor<any, any> | null
+) {
+  let start = index;
+  let block = blocks[index];
+  // Short circuit for ObjectAnnotations
+  if (AnnotationClass?.prototype.rank === ObjectAnnotation.prototype.rank) {
+    return {
+      start: positions[start],
+      end: positions[index] + 1,
+    };
+  }
+
+  let nextBlock = blocks[index++];
+  while (nextBlock?.parent !== block.id) {
+    nextBlock = blocks[index++];
+  }
+
+  return {
+    start: positions[start],
+    end: positions[index],
+  };
+}
+
+function schemaForItem(item: Mark | Block, DocumentClass: typeof Document) {
+  let schema = DocumentClass.schema;
+  for (let AnnotationClass of schema) {
+    if (AnnotationClass.type === item.type) {
+      return AnnotationClass;
+    }
+  }
+  return null;
+}
+
+export function deserialize(
+  json: StorageFormat,
+  DocumentClass: typeof Document
+) {
+  let annotations: Annotation<any>[] = [];
+  let blocks = json.blocks ?? [];
+  let marks = json.marks ?? [];
+
+  let positions: number[] = [];
+  let blockIndex = json.text.indexOf("\uFFFC");
+  while (blockIndex !== -1) {
+    positions.push(blockIndex);
+    blockIndex = json.text.indexOf("\uFFFC", blockIndex);
+  }
+  positions.push(json.text.length);
+
+  for (let i = 0, len = positions.length - 1; i < len; i++) {
+    let block = blocks[i];
+    let AnnotationClass = schemaForItem(block, DocumentClass);
+    let position = offsetsForBlock(blocks, i, positions, AnnotationClass);
+    annotations.push(
+      new ParseAnnotation({
+        start: positions[i],
+        end: positions[i] + 1,
+      })
+    );
+    if (AnnotationClass === null) {
+      annotations.push(
+        new UnknownAnnotation({
+          id: block.id,
+          ...position,
+          attributes: {
+            type: block.type,
+            attributes: block.attributes,
+          },
+        })
+      );
+    } else {
+      annotations.push(
+        new AnnotationClass({
+          id: block.id,
+          ...position,
+          attributes: block.attributes,
+        })
+      );
+    }
+  }
+
+  for (let mark of marks) {
+    let AnnotationClass = schemaForItem(mark, DocumentClass);
+    let match = mark.range.match(/[[|(](\d+)\.\.(\d+)[\]|)]/);
+    if (match == null) {
+      throw new Error(`Malformed range ${mark.range}`);
+    }
+    if (AnnotationClass == null) {
+      annotations.push(
+        new UnknownAnnotation({
+          id: mark.id,
+          start: parseInt(match[1]),
+          end: parseInt(match[2]),
+          attributes: {
+            type: mark.type,
+            attributes: mark.attributes,
+          },
+        })
+      );
+    } else {
+      annotations.push(
+        new AnnotationClass({
+          id: mark.id,
+          start: parseInt(match[1]),
+          end: parseInt(match[2]),
+          attributes: mark.attributes,
+        })
+      );
+    }
+  }
+
+  return new DocumentClass({
+    content: json.text,
+    annotations: annotations,
   });
 }

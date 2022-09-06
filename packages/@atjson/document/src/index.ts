@@ -17,6 +17,7 @@ import {
   SliceAnnotation,
   UnknownAnnotation,
   is,
+  deserialize,
   serialize,
 } from "./internals";
 
@@ -45,6 +46,7 @@ export {
   SliceAnnotation,
   UnknownAnnotation,
   is,
+  deserialize,
   serialize,
 };
 
