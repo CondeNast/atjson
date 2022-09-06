@@ -1,4 +1,4 @@
-import { serialize } from "@atjson/document";
+import { ParseAnnotation, serialize } from "@atjson/document";
 import TestSource, {
   Anchor,
   Paragraph,
@@ -216,6 +216,63 @@ describe("serialize", () => {
               new Italic({
                 start: 7,
                 end: 12,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFChello, world",
+        blocks: [
+          {
+            type: "paragraph",
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            type: "a",
+            range: "(8..13)",
+            attributes: {
+              href: "https://www.example.com",
+            },
+          },
+          {
+            type: "italic",
+            range: "(8..13]",
+            attributes: {},
+          },
+        ],
+      });
+    });
+
+    test("parse tokens are removed", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "hello, \uFFFCworld\uFFFC",
+            annotations: [
+              new Paragraph({
+                start: 0,
+                end: 12,
+              }),
+              new ParseAnnotation({
+                start: 7,
+                end: 8,
+              }),
+              new Anchor({
+                start: 7,
+                end: 14,
+                attributes: {
+                  href: "https://www.example.com",
+                },
+              }),
+              new Italic({
+                start: 7,
+                end: 14,
+              }),
+              new ParseAnnotation({
+                start: 13,
+                end: 14,
               }),
             ],
           })

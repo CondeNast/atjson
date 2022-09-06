@@ -266,6 +266,8 @@ describe("new Document", () => {
           "-test-instagram",
           "-test-italic",
           "-test-locale",
+          "-test-list",
+          "-test-list-item",
           "-test-manual",
           "-test-paragraph",
           "-test-pre",
