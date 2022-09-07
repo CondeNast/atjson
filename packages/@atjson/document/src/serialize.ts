@@ -65,6 +65,34 @@ type StorageFormat = {
   marks?: Mark[];
 };
 
+function parseRange(range: Range) {
+  let match = range.match(/([[|(])(\d+)\.\.(\d+)([\]|)])/);
+  if (match == null) {
+    throw new Error(`Malformed range ${range}`);
+  }
+  return {
+    start: parseInt(match[2]),
+    end: parseInt(match[3]),
+    edgeBehaviour: {
+      leading: match[1] === "(" ? EdgeBehaviour.preserve : EdgeBehaviour.modify,
+      trailing:
+        match[4] === ")" ? EdgeBehaviour.preserve : EdgeBehaviour.modify,
+    },
+  };
+}
+
+function serializeRange(
+  start: number,
+  end: number,
+  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour }
+) {
+  return `${
+    edgeBehaviour.leading === EdgeBehaviour.preserve ? "(" : "["
+  }${start}..${end}${
+    edgeBehaviour.trailing === EdgeBehaviour.preserve ? ")" : "]"
+  }` as Range;
+}
+
 export function serialize(doc: Document): StorageFormat {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
@@ -141,18 +169,28 @@ export function serialize(doc: Document): StorageFormat {
       let length = annotation.end - annotation.start;
       text.splice(annotation.start + offset, length);
       offset -= length;
+      // Backtrack existing marks and fix their ranges
+      for (let i = marks.length - 1; i >= 0; i--) {
+        let range = parseRange(marks[i].range);
+        if (annotation.end > range.start && annotation.end < range.end) {
+          marks[i].range = serializeRange(
+            range.start,
+            annotation.start,
+            range.edgeBehaviour
+          );
+        } else {
+          break;
+        }
+      }
     } else {
-      let { leading, trailing } =
-        annotation.getAnnotationConstructor().edgeBehaviour;
-
       marks.push({
         id: annotation.id,
         type: annotation.type,
-        range: `${leading === EdgeBehaviour.preserve ? "(" : "["}${
-          annotation.start + offset
-        }..${annotation.end + offset}${
-          trailing === EdgeBehaviour.preserve ? ")" : "]"
-        }`,
+        range: serializeRange(
+          annotation.start + offset,
+          annotation.end + offset,
+          annotation.getAnnotationConstructor().edgeBehaviour
+        ),
         attributes: annotation.attributes,
       });
     }
@@ -252,16 +290,13 @@ export function deserialize(
 
   for (let mark of marks) {
     let AnnotationClass = schemaForItem(mark, DocumentClass);
-    let match = mark.range.match(/[[|(](\d+)\.\.(\d+)[\]|)]/);
-    if (match == null) {
-      throw new Error(`Malformed range ${mark.range}`);
-    }
+    let { start, end } = parseRange(mark.range);
     if (AnnotationClass == null) {
       annotations.push(
         new UnknownAnnotation({
           id: mark.id,
-          start: parseInt(match[1]),
-          end: parseInt(match[2]),
+          start,
+          end,
           attributes: {
             type: mark.type,
             attributes: mark.attributes,
@@ -272,8 +307,8 @@ export function deserialize(
       annotations.push(
         new AnnotationClass({
           id: mark.id,
-          start: parseInt(match[1]),
-          end: parseInt(match[2]),
+          start,
+          end,
           attributes: mark.attributes,
         })
       );
