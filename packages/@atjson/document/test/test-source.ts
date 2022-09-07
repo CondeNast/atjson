@@ -61,6 +61,11 @@ export class Locale extends ObjectAnnotation<{
   static type = "locale";
 }
 
+export class LineBreak extends ObjectAnnotation<{}> {
+  static vendorPrefix = "test";
+  static type = "line-break";
+}
+
 export class Preformatted extends ObjectAnnotation<{
   style: string;
 }> {
@@ -128,6 +133,7 @@ export default class TestSource extends Document {
     Instagram,
     Italic,
     Locale,
+    LineBreak,
     List,
     ListItem,
     Manual,
