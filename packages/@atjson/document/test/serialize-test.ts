@@ -6,6 +6,7 @@ import TestSource, {
   Italic,
   List,
   ListItem,
+  LineBreak,
 } from "./test-source";
 
 describe("serialize", () => {
@@ -28,6 +29,35 @@ describe("serialize", () => {
         blocks: [
           {
             type: "paragraph",
+            attributes: {},
+          },
+        ],
+        marks: [],
+      });
+    });
+
+    test("objects", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "Missy Elliott’s\uFFFC“Supa Dupa Fly”",
+            annotations: [
+              new LineBreak({
+                start: 15,
+                end: 16,
+              }),
+              new ParseAnnotation({
+                start: 15,
+                end: 16,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "Missy Elliott’s\uFFFC“Supa Dupa Fly”",
+        blocks: [
+          {
+            type: "line-break",
             attributes: {},
           },
         ],
