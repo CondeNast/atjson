@@ -289,7 +289,7 @@ describe("@atjson/renderer-hir", () => {
           return `<blockquote>${words.join("")}${
             blockquote.attributes.credit
               ? `<cite>${HTMLRenderer.render(
-                  this.slice(blockquote.attributes.credit)
+                  this.getSlice(blockquote.attributes.credit)
                 )}</cite>`
               : ""
           }</blockquote>`;
@@ -407,7 +407,7 @@ describe("@atjson/renderer-hir", () => {
                   .map(
                     (citation, index) =>
                       `<li id="cite-${index + 1}">${HTMLRenderer.render(
-                        this.slice(citation)
+                        this.getSlice(citation)
                       )}</li>`
                   )
                   .join("")}</ol>`
@@ -451,8 +451,9 @@ describe("@atjson/renderer-hir", () => {
         }
         *Spoiler(spoiler, context) {
           let spoilerText =
-            ConcreteRenderer.render(this.slice(spoiler.attributes.spoiler)) ??
-            "";
+            ConcreteRenderer.render(
+              this.getSlice(spoiler.attributes.spoiler)
+            ) ?? "";
           expect(context.document.content).toEqual(
             "This document has a spoiler:\n"
           );

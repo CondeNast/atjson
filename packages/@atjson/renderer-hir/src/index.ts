@@ -249,7 +249,7 @@ export default class Renderer {
    * @param sliceId The id of the slice to return
    * @returns The slice document or null if there's no slices that match
    */
-  slice(sliceId: string) {
+  getSlice(sliceId: string) {
     return this.slices[sliceId] ?? null;
   }
 
