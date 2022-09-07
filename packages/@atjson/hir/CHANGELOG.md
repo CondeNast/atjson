@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.23.3...@atjson/hir@0.24.0) (2022-09-07)
+
+### Features
+
+- add slice function to renderer-hir ([e3133bd](https://github.com/CondeNast/atjson/commit/e3133bd42f037c67dae57640369a0dff6775d31c))
+
 ## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.23.2...@atjson/hir@0.23.3) (2022-08-18)
 
 ### Bug Fixes

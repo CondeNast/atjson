@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.10](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.9...@atjson/source-prism@0.28.10) (2022-09-07)
+
+### Bug Fixes
+
+- **deps:** update dependency entities to v4.3.1 ([eceb31f](https://github.com/CondeNast/atjson/commit/eceb31f63562fa43ba8ef205858ad005babc8977))
+
 ## [0.28.9](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.8...@atjson/source-prism@0.28.9) (2022-08-17)
 
 **Note:** Version bump only for package @atjson/source-prism

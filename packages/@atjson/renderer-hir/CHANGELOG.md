@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.23.3...@atjson/renderer-hir@0.24.0) (2022-09-07)
+
+### Features
+
+- add Slice component to renderer-react ([a0736d3](https://github.com/CondeNast/atjson/commit/a0736d304f797b50699eae29c7bcaa8cdf2a02a2))
+- add slice function to renderer-hir ([e3133bd](https://github.com/CondeNast/atjson/commit/e3133bd42f037c67dae57640369a0dff6775d31c))
+
 ## [0.23.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.23.2...@atjson/renderer-hir@0.23.3) (2022-08-18)
 
 ### Bug Fixes

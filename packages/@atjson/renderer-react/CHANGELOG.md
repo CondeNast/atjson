@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.26.3...@atjson/renderer-react@0.27.0) (2022-09-07)
+
+### Features
+
+- add Slice component to renderer-react ([a0736d3](https://github.com/CondeNast/atjson/commit/a0736d304f797b50699eae29c7bcaa8cdf2a02a2))
+
 ## [0.26.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.26.2...@atjson/renderer-react@0.26.3) (2022-08-18)
 
 ### Bug Fixes
