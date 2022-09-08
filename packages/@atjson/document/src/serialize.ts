@@ -43,7 +43,8 @@ type Mark = {
 type Block = {
   id: string;
   type: string;
-  parent?: string;
+  parents: string[];
+  selfClosing?: boolean;
   attributes: JSON;
 };
 
@@ -93,6 +94,17 @@ function serializeRange(
   }` as Range;
 }
 
+function splice(
+  text: string,
+  start: number,
+  deleteCount?: number | undefined,
+  item?: string
+) {
+  let before = text.slice(0, start);
+  let after = deleteCount ? text.slice(start + deleteCount) : text.slice(start);
+  return before + (item ?? "") + after;
+}
+
 export function serialize(doc: Document): StorageFormat {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
@@ -132,7 +144,7 @@ export function serialize(doc: Document): StorageFormat {
   //     { id: "a2", type: "paragraph" }
   //   ]
   // }
-  let text: string[] = [...doc.content];
+  let text = doc.content;
   let blocks: Block[] = [];
   let marks: Mark[] = [];
 
@@ -147,27 +159,28 @@ export function serialize(doc: Document): StorageFormat {
     }
 
     if (annotation instanceof BlockAnnotation) {
-      text.splice(annotation.start + offset, 0, "\uFFFC");
+      text = splice(text, annotation.start + offset, 0, "\uFFFC");
       offset++;
       blocks.push({
         id: annotation.id,
         type: annotation.type,
-        parent: blockStack[blockStack.length - 1]?.id,
+        parents: blockStack.map((stack) => stack.type),
         attributes: annotation.attributes,
       });
       blockStack.push(annotation);
     } else if (annotation instanceof ObjectAnnotation) {
-      text.splice(annotation.start + offset, 0, "\uFFFC");
+      text = splice(text, annotation.start + offset, 0, "\uFFFC");
       offset++;
       blocks.push({
         id: annotation.id,
         type: annotation.type,
-        parent: blockStack[blockStack.length - 1]?.id,
+        parents: blockStack.map((stack) => stack.type),
+        selfClosing: true,
         attributes: annotation.attributes,
       });
     } else if (annotation instanceof ParseAnnotation) {
       let length = annotation.end - annotation.start;
-      text.splice(annotation.start + offset, length);
+      text = splice(text, annotation.start + offset, length);
       offset -= length;
       // Backtrack existing marks and fix their ranges
       for (let i = marks.length - 1; i >= 0; i--) {
@@ -197,7 +210,7 @@ export function serialize(doc: Document): StorageFormat {
   }
 
   return {
-    text: text.join(""),
+    text,
     blocks,
     marks,
   };
@@ -220,7 +233,7 @@ function offsetsForBlock(
   }
 
   let nextBlock = blocks[index++];
-  while (nextBlock?.parent !== block.id) {
+  while (nextBlock?.parents[nextBlock?.parents.length - 1] !== block.type) {
     nextBlock = blocks[index++];
   }
 
