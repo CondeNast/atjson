@@ -58,6 +58,7 @@ describe("serialize", () => {
         blocks: [
           {
             type: "line-break",
+            selfClosing: true,
             attributes: {},
           },
         ],
@@ -151,28 +152,27 @@ describe("serialize", () => {
         text: "\uFFFC\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
         blocks: [
           {
-            id: list.id,
             type: "list",
             attributes: {},
           },
           {
             type: "list-item",
-            parent: list.id,
+            parents: ["list"],
             attributes: {},
           },
           {
             type: "list-item",
-            parent: list.id,
+            parents: ["list"],
             attributes: {},
           },
           {
             type: "list-item",
-            parent: list.id,
+            parents: ["list"],
             attributes: {},
           },
           {
             type: "list-item",
-            parent: list.id,
+            parents: ["list"],
             attributes: {},
           },
         ],
