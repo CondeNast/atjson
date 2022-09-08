@@ -2,6 +2,7 @@
 import * as spec from "commonmark-spec";
 import { run } from "@condenast/perf-kit";
 import { md } from "./fixtures";
+import { serialize } from "@atjson/document";
 import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import OffsetSource from "@atjson/offset-annotations";
@@ -41,6 +42,13 @@ run<any>(
       let doc = CommonMarkSource.fromRaw(markdown);
       let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
       doc.equals(CommonMarkSource.fromRaw(md));
+    },
+  },
+  {
+    name: "serialize",
+    cases: md,
+    runner: (markdown) => {
+      serialize(CommonMarkSource.fromRaw(markdown).convertTo(OffsetSource));
     },
   }
 );

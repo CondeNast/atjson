@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
@@ -48,6 +49,9 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
         expect(original.withStableIds().toJSON()).toMatchSnapshot();
         expect(output.withStableIds().toJSON()).toMatchSnapshot();
         expect(original.toJSON()).toEqual(output.toJSON());
+        expect(serialize(original)).toMatchSnapshot();
+        expect(serialize(output)).toMatchSnapshot();
+        expect(serialize(original)).toEqual(serialize(output));
 
         // Assert that external representations (HTML) match
         let md = MarkdownIt("commonmark");
