@@ -61,7 +61,7 @@ export class Locale extends ObjectAnnotation<{
   static type = "locale";
 }
 
-export class LineBreak extends ObjectAnnotation<{}> {
+export class LineBreak extends ObjectAnnotation {
   static vendorPrefix = "test";
   static type = "line-break";
 }
