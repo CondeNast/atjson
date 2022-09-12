@@ -1,4 +1,4 @@
-import { ParseAnnotation, serialize } from "@atjson/document";
+import { ParseAnnotation, deserialize, serialize } from "@atjson/document";
 import TestSource, {
   Anchor,
   Paragraph,
@@ -329,6 +329,124 @@ describe("serialize", () => {
           },
         ],
       });
+    });
+  });
+});
+
+describe("deserialize", () => {
+  describe("blocks", () => {
+    test("single block", () => {
+      expect(
+        deserialize(
+          {
+            text: "\uFFFCHello, world",
+            blocks: [
+              { id: "B01", type: "paragraph", attributes: {}, parents: [] },
+            ],
+          },
+
+          TestSource
+        )
+          .withStableIds()
+          .toJSON()
+      ).toMatchInlineSnapshot(`
+        {
+          "annotations": [
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "00000001",
+              "start": 0,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 1,
+              "id": "00000002",
+              "start": 0,
+              "type": "-atjson-parse-token",
+            },
+          ],
+          "content": "￼Hello, world",
+          "contentType": "application/vnd.atjson+test",
+          "schema": [
+            "-test-a",
+            "-test-bold",
+            "-test-code",
+            "-test-image",
+            "-test-instagram",
+            "-test-italic",
+            "-test-locale",
+            "-test-line-break",
+            "-test-list",
+            "-test-list-item",
+            "-test-manual",
+            "-test-paragraph",
+            "-test-pre",
+            "-test-quote",
+          ],
+        }
+      `);
+    });
+
+    test("objects", () => {
+      expect(
+        deserialize(
+          {
+            text: "Missy Elliott’s\uFFFC“Supa Dupa Fly”",
+            blocks: [
+              {
+                id: "B01",
+                type: "line-break",
+                selfClosing: true,
+                parents: [],
+                attributes: {},
+              },
+            ],
+          },
+
+          TestSource
+        )
+          .withStableIds()
+          .toJSON()
+      ).toMatchInlineSnapshot(`
+        {
+          "annotations": [
+            {
+              "attributes": {},
+              "end": 16,
+              "id": "00000001",
+              "start": 15,
+              "type": "-test-line-break",
+            },
+            {
+              "attributes": {},
+              "end": 16,
+              "id": "00000002",
+              "start": 15,
+              "type": "-atjson-parse-token",
+            },
+          ],
+          "content": "Missy Elliott’s￼“Supa Dupa Fly”",
+          "contentType": "application/vnd.atjson+test",
+          "schema": [
+            "-test-a",
+            "-test-bold",
+            "-test-code",
+            "-test-image",
+            "-test-instagram",
+            "-test-italic",
+            "-test-locale",
+            "-test-line-break",
+            "-test-list",
+            "-test-list-item",
+            "-test-manual",
+            "-test-paragraph",
+            "-test-pre",
+            "-test-quote",
+          ],
+        }
+      `);
     });
   });
 });

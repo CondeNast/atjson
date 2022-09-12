@@ -7,7 +7,6 @@ import {
   JSON,
   Annotation,
   UnknownAnnotation,
-  AnnotationConstructor,
   is,
 } from "./internals";
 
@@ -109,8 +108,8 @@ const START_TOKENS = [
   TokenType.PARSE_START,
 ];
 
-export function serialize(
-  doc: Document,
+export function serialize<T extends Document>(
+  doc: T,
   options?: { withStableIds: boolean }
 ): StorageFormat {
   // Blocks and object annotations are both stored
@@ -318,25 +317,22 @@ export function serialize(
   };
 }
 
-function offsetsForBlock(
-  blocks: Block[],
-  index: number,
-  positions: number[],
-  AnnotationClass: AnnotationConstructor<any, any> | null
-) {
+function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
   let start = index;
   let block = blocks[index];
-  // Short circuit for ObjectAnnotations
-  if (AnnotationClass?.prototype.rank === ObjectAnnotation.prototype.rank) {
+  if (block.selfClosing) {
     return {
       start: positions[start],
       end: positions[index] + 1,
     };
   }
 
-  let nextBlock = blocks[index++];
-  while (nextBlock?.parents[nextBlock?.parents.length - 1] !== block.type) {
-    nextBlock = blocks[index++];
+  let nextBlock = blocks[++index];
+  while (
+    nextBlock &&
+    nextBlock.parents[nextBlock.parents.length - 1] !== block.type
+  ) {
+    nextBlock = blocks[++index];
   }
 
   return {
@@ -367,16 +363,17 @@ export function deserialize(
   let blockIndex = json.text.indexOf("\uFFFC");
   while (blockIndex !== -1) {
     positions.push(blockIndex);
-    blockIndex = json.text.indexOf("\uFFFC", blockIndex);
+    blockIndex = json.text.indexOf("\uFFFC", blockIndex + 1);
   }
   positions.push(json.text.length);
 
   for (let i = 0, len = positions.length - 1; i < len; i++) {
     let block = blocks[i];
     let AnnotationClass = schemaForItem(block, DocumentClass);
-    let position = offsetsForBlock(blocks, i, positions, AnnotationClass);
+    let position = offsetsForBlock(blocks, i, positions);
     annotations.push(
       new ParseAnnotation({
+        id: `B${block.id}`,
         start: positions[i],
         end: positions[i] + 1,
       })
