@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { serialize } from "@atjson/document";
+import { deserialize, serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 import * as spec from "commonmark-spec";
@@ -45,13 +45,34 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
         );
         let output = CommonMarkSource.fromRaw(generatedMarkdown);
 
-        // Assert that our internal representations (AtJSON) match
-        expect(original.withStableIds().toJSON()).toMatchSnapshot();
-        expect(output.withStableIds().toJSON()).toMatchSnapshot();
-        expect(original.toJSON()).toEqual(output.toJSON());
-        expect(serialize(original)).toMatchSnapshot();
-        expect(serialize(output)).toMatchSnapshot();
-        expect(serialize(original)).toEqual(serialize(output));
+        let originalJSON = serialize(original, { withStableIds: true });
+        let generatedJSON = serialize(output, { withStableIds: true });
+        expect(originalJSON).toMatchSnapshot();
+        expect(generatedJSON).toMatchSnapshot();
+        expect(originalJSON).toEqual(generatedJSON);
+
+        let deserializedOriginal = deserialize(originalJSON, CommonMarkSource);
+        let deserializedGenerated = deserialize(
+          generatedJSON,
+          CommonMarkSource
+        );
+
+        // Verify serialization is working properly
+        if (!deserializedOriginal.equals(deserializedGenerated)) {
+          expect(
+            deserializedOriginal.canonical().withStableIds().toJSON()
+          ).toEqual(deserializedGenerated.canonical().withStableIds().toJSON());
+        } else {
+          expect(deserializedOriginal.equals(deserializedGenerated)).toBe(true);
+        }
+
+        if (!original.equals(deserializedGenerated)) {
+          expect(original.canonical().withStableIds().toJSON()).toEqual(
+            deserializedGenerated.canonical().withStableIds().toJSON()
+          );
+        } else {
+          expect(original.equals(deserializedGenerated)).toBe(true);
+        }
 
         // Assert that external representations (HTML) match
         let md = MarkdownIt("commonmark");
