@@ -116,19 +116,18 @@ describe("serialize", () => {
     });
 
     test("nested blocks", () => {
-      let list = new List({
-        start: 0,
-        end: 33,
-        attributes: {
-          type: "bulleted",
-        },
-      });
       expect(
         serialize(
           new TestSource({
             content: "one fishtwo fishred fishblue fish",
             annotations: [
-              list,
+              new List({
+                start: 0,
+                end: 33,
+                attributes: {
+                  type: "bulleted",
+                },
+              }),
               new ListItem({
                 start: 0,
                 end: 8,

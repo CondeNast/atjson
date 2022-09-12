@@ -1,5 +1,5 @@
 /* eslint-disable no-control-regex */
-import { ParseAnnotation, UnknownAnnotation } from "../src";
+import { ParseAnnotation, UnknownAnnotation, serialize } from "../src";
 import TestSource, { Bold, CaptionSource, Image, Italic } from "./test-source";
 
 describe("new Document", () => {
@@ -314,28 +314,16 @@ describe("new Document", () => {
       });
       let doc = document.slice(4, 24);
 
-      expect(doc.toJSON()).toMatchObject({
-        content: "Hello, <b>world</b>!",
-        annotations: [
+      expect(serialize(doc, { withStableIds: true })).toMatchObject({
+        text: "Hello, world!",
+        marks: [
           {
-            type: "-test-italic",
-            start: 0,
-            end: 20,
+            type: "bold",
+            range: "(7..12]",
           },
           {
-            type: "-test-bold",
-            start: 7,
-            end: 19,
-          },
-          {
-            type: "-atjson-parse-token",
-            start: 7,
-            end: 10,
-          },
-          {
-            type: "-atjson-parse-token",
-            start: 15,
-            end: 19,
+            type: "italic",
+            range: "(0..13]",
           },
         ],
       });

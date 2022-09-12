@@ -5,10 +5,10 @@ import {
   ObjectAnnotation,
   ParseAnnotation,
   JSON,
-  compareAnnotations,
   Annotation,
   UnknownAnnotation,
   AnnotationConstructor,
+  is,
 } from "./internals";
 
 /**
@@ -94,18 +94,25 @@ function serializeRange(
   }` as Range;
 }
 
-function splice(
-  text: string,
-  start: number,
-  deleteCount?: number | undefined,
-  item?: string
-) {
-  let before = text.slice(0, start);
-  let after = deleteCount ? text.slice(start + deleteCount) : text.slice(start);
-  return before + (item ?? "") + after;
+enum TokenType {
+  BLOCK_START,
+  BLOCK_END,
+  MARK_START,
+  MARK_END,
+  PARSE_START,
+  PARSE_END,
 }
 
-export function serialize(doc: Document): StorageFormat {
+const START_TOKENS = [
+  TokenType.BLOCK_START,
+  TokenType.MARK_START,
+  TokenType.PARSE_START,
+];
+
+export function serialize(
+  doc: Document,
+  options?: { withStableIds: boolean }
+): StorageFormat {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
   // with a single text character and close when
@@ -144,70 +151,165 @@ export function serialize(doc: Document): StorageFormat {
   //     { id: "a2", type: "paragraph" }
   //   ]
   // }
-  let text = doc.content;
+  let text = "";
   let blocks: Block[] = [];
   let marks: Mark[] = [];
 
-  let annotations = [...doc.annotations].sort(compareAnnotations);
-  let blockStack: Annotation[] = [];
-  let offset = 0;
-  for (let annotation of annotations) {
-    let peek = blockStack[blockStack.length - 1];
-    while (peek != null && peek.end <= annotation.start) {
-      blockStack.pop();
-      peek = blockStack[blockStack.length - 1];
+  let tokens: {
+    type: TokenType;
+    index: number;
+    annotation: Annotation<any>;
+    shared: { start: number };
+    edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
+  }[] = [];
+
+  for (let annotation of doc.annotations) {
+    let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
+      ? [TokenType.PARSE_START, TokenType.PARSE_END]
+      : annotation instanceof BlockAnnotation ||
+        annotation instanceof ObjectAnnotation
+      ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
+      : [TokenType.MARK_START, TokenType.MARK_END];
+    let edgeBehaviour = annotation.getAnnotationConstructor().edgeBehaviour;
+    let shared = { start: -1 };
+    tokens.push(
+      {
+        type: types[0],
+        index: annotation.start,
+        annotation,
+        shared,
+        edgeBehaviour,
+      },
+      {
+        type: types[1],
+        index: annotation.end,
+        annotation,
+        shared,
+        edgeBehaviour,
+      }
+    );
+  }
+
+  tokens.sort(function sortTokens(a, b) {
+    let indexDelta = a.index - b.index;
+    if (indexDelta !== 0) {
+      return indexDelta;
     }
 
-    if (annotation instanceof BlockAnnotation) {
-      text = splice(text, annotation.start + offset, 0, "\uFFFC");
-      offset++;
-      blocks.push({
-        id: annotation.id,
-        type: annotation.type,
-        parents: blockStack.map((stack) => stack.type),
-        attributes: annotation.attributes,
-      });
-      blockStack.push(annotation);
-    } else if (annotation instanceof ObjectAnnotation) {
-      text = splice(text, annotation.start + offset, 0, "\uFFFC");
-      offset++;
-      blocks.push({
-        id: annotation.id,
-        type: annotation.type,
-        parents: blockStack.map((stack) => stack.type),
-        selfClosing: true,
-        attributes: annotation.attributes,
-      });
-    } else if (annotation instanceof ParseAnnotation) {
-      let length = annotation.end - annotation.start;
-      text = splice(text, annotation.start + offset, length);
-      offset -= length;
-      // Backtrack existing marks and fix their ranges
-      for (let i = marks.length - 1; i >= 0; i--) {
-        let range = parseRange(marks[i].range);
-        if (annotation.end > range.start && annotation.end < range.end) {
-          marks[i].range = serializeRange(
-            range.start,
-            annotation.start,
-            range.edgeBehaviour
-          );
-        } else {
+    // Sort end tokens before start tokens
+    if (
+      START_TOKENS.indexOf(a.type) !== -1 &&
+      START_TOKENS.indexOf(b.type) === -1
+    ) {
+      return 1;
+    }
+
+    let startDelta = b.annotation.start - a.annotation.start;
+    if (startDelta !== 0) {
+      return startDelta;
+    }
+    let endDelta = b.annotation.end - a.annotation.end;
+    if (endDelta !== 0) {
+      return endDelta;
+    }
+    let rankDelta = a.annotation.rank - b.annotation.rank;
+    if (rankDelta !== 0) {
+      return rankDelta;
+    }
+    return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
+  });
+
+  // Provide stable ids
+  let blockCounter = 0;
+  let markCounter = 0;
+  let withStableIds = options?.withStableIds ?? false;
+  let ids: Record<string, string> = {};
+  if (withStableIds) {
+    for (let token of tokens) {
+      switch (token.type) {
+        case TokenType.BLOCK_START: {
+          let id = token.annotation.id;
+          if (withStableIds) {
+            id = (blockCounter++).toString(16);
+            id = `B${"00000000".slice(id.length) + id}`;
+          }
+          ids[token.annotation.id] = id;
           break;
         }
+        case TokenType.MARK_START: {
+          let id = token.annotation.id;
+          if (withStableIds) {
+            id = (markCounter++).toString(16);
+            id = `M${"00000000".slice(id.length) + id}`;
+          }
+          ids[token.annotation.id] = id;
+        }
       }
-    } else {
-      marks.push({
-        id: annotation.id,
-        type: annotation.type,
-        range: serializeRange(
-          annotation.start + offset,
-          annotation.end + offset,
-          annotation.getAnnotationConstructor().edgeBehaviour
-        ),
-        attributes: annotation.attributes,
-      });
     }
   }
+
+  let blockStack: Annotation[] = [];
+  let lastIndex = 0;
+  let parseTokenMutex = 0;
+  for (let token of tokens) {
+    if (parseTokenMutex === 0) {
+      text += doc.content.slice(lastIndex, token.index);
+    }
+    lastIndex = token.index;
+
+    switch (token.type) {
+      case TokenType.BLOCK_START: {
+        let annotation = withStableIds
+          ? token.annotation.withStableIds(ids)
+          : token.annotation;
+
+        blocks.push({
+          id: annotation.id,
+          type: annotation.type,
+          parents: blockStack.map((stack) => stack.type),
+          selfClosing: annotation instanceof ObjectAnnotation,
+          attributes: annotation.attributes,
+        });
+        blockStack.push(token.annotation);
+        text += "\uFFFC";
+        break;
+      }
+      case TokenType.BLOCK_END: {
+        blockStack.pop();
+        break;
+      }
+      case TokenType.MARK_START: {
+        token.shared.start = text.length;
+        break;
+      }
+      case TokenType.MARK_END: {
+        let annotation = withStableIds
+          ? token.annotation.withStableIds(ids)
+          : token.annotation;
+
+        marks.push({
+          id: annotation.id,
+          type: annotation.type,
+          range: serializeRange(
+            token.shared.start,
+            text.length,
+            token.edgeBehaviour
+          ),
+          attributes: annotation.attributes,
+        });
+        break;
+      }
+      case TokenType.PARSE_START: {
+        parseTokenMutex++;
+        break;
+      }
+      case TokenType.PARSE_END: {
+        parseTokenMutex--;
+        break;
+      }
+    }
+  }
+  text += doc.content.slice(lastIndex);
 
   return {
     text,
