@@ -81,7 +81,7 @@ export class Image extends ObjectAnnotation<{
   static subdocuments = { caption: CaptionSource };
 }
 
-export class Quote extends ObjectAnnotation<{
+export class Quote extends BlockAnnotation<{
   credit: string;
   citation: string;
 }> {

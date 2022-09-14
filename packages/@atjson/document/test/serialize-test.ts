@@ -7,6 +7,7 @@ import TestSource, {
   List,
   ListItem,
   LineBreak,
+  Quote,
 } from "./test-source";
 
 describe("serialize", () => {
@@ -54,12 +55,91 @@ describe("serialize", () => {
           })
         )
       ).toMatchObject({
-        text: "Missy Elliott’s\uFFFC“Supa Dupa Fly”",
+        text: "\uFFFCMissy Elliott’s\uFFFC“Supa Dupa Fly”",
         blocks: [
+          {
+            type: "text",
+            parents: [],
+          },
           {
             type: "line-break",
             selfClosing: true,
+            parents: ["text"],
             attributes: {},
+          },
+        ],
+        marks: [],
+      });
+    });
+
+    test("sparse blocks", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "onetwothree",
+            annotations: [
+              new Paragraph({
+                start: 3,
+                end: 6,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFCone\uFFFCtwo\uFFFCthree",
+        blocks: [
+          {
+            type: "text",
+            parents: [],
+          },
+          {
+            type: "paragraph",
+            parents: [],
+          },
+          {
+            type: "text",
+            parents: [],
+          },
+        ],
+        marks: [],
+      });
+    });
+
+    test("continuations in blocks", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "onetwothreefour",
+            annotations: [
+              new Quote({
+                start: 0,
+                end: 11,
+              }),
+              new Paragraph({
+                start: 3,
+                end: 6,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFCone\uFFFCtwo\uFFFCthree\uFFFCfour",
+        blocks: [
+          {
+            type: "quote",
+            parents: [],
+          },
+          {
+            type: "paragraph",
+            parents: ["quote"],
+          },
+          {
+            type: "text",
+            parents: ["quote"],
+          },
+          {
+            type: "text",
+            parents: [],
           },
         ],
         marks: [],

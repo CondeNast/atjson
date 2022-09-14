@@ -108,6 +108,49 @@ const START_TOKENS = [
   TokenType.PARSE_START,
 ];
 
+class Text extends BlockAnnotation {
+  static vendorPrefix = "atjson";
+  static type = "text";
+}
+
+type Token = {
+  type: TokenType;
+  index: number;
+  annotation: Annotation<any>;
+  shared: { start: number };
+  selfClosing: boolean;
+  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
+};
+
+function sortTokens(a: Token, b: Token) {
+  let indexDelta = a.index - b.index;
+  if (indexDelta !== 0) {
+    return indexDelta;
+  }
+
+  // Sort end tokens before start tokens
+  if (
+    START_TOKENS.indexOf(a.type) !== -1 &&
+    START_TOKENS.indexOf(b.type) === -1
+  ) {
+    return 1;
+  }
+
+  let startDelta = b.annotation.start - a.annotation.start;
+  if (startDelta !== 0) {
+    return startDelta;
+  }
+  let endDelta = b.annotation.end - a.annotation.end;
+  if (endDelta !== 0) {
+    return endDelta;
+  }
+  let rankDelta = a.annotation.rank - b.annotation.rank;
+  if (rankDelta !== 0) {
+    return rankDelta;
+  }
+  return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
+}
+
 export function serialize<T extends Document>(
   doc: T,
   options?: { withStableIds: boolean }
@@ -154,15 +197,10 @@ export function serialize<T extends Document>(
   let blocks: Block[] = [];
   let marks: Mark[] = [];
 
-  let tokens: {
-    type: TokenType;
-    index: number;
-    annotation: Annotation<any>;
-    shared: { start: number };
-    edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
-  }[] = [];
+  let tokens: Token[] = [];
 
   for (let annotation of doc.annotations) {
+    let selfClosing = annotation instanceof ObjectAnnotation;
     let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
       ? [TokenType.PARSE_START, TokenType.PARSE_END]
       : annotation instanceof BlockAnnotation ||
@@ -177,6 +215,7 @@ export function serialize<T extends Document>(
         index: annotation.start,
         annotation,
         shared,
+        selfClosing,
         edgeBehaviour,
       },
       {
@@ -184,39 +223,13 @@ export function serialize<T extends Document>(
         index: annotation.end,
         annotation,
         shared,
+        selfClosing,
         edgeBehaviour,
       }
     );
   }
 
-  tokens.sort(function sortTokens(a, b) {
-    let indexDelta = a.index - b.index;
-    if (indexDelta !== 0) {
-      return indexDelta;
-    }
-
-    // Sort end tokens before start tokens
-    if (
-      START_TOKENS.indexOf(a.type) !== -1 &&
-      START_TOKENS.indexOf(b.type) === -1
-    ) {
-      return 1;
-    }
-
-    let startDelta = b.annotation.start - a.annotation.start;
-    if (startDelta !== 0) {
-      return startDelta;
-    }
-    let endDelta = b.annotation.end - a.annotation.end;
-    if (endDelta !== 0) {
-      return endDelta;
-    }
-    let rankDelta = a.annotation.rank - b.annotation.rank;
-    if (rankDelta !== 0) {
-      return rankDelta;
-    }
-    return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
-  });
+  tokens.sort(sortTokens);
 
   // Provide stable ids
   let blockCounter = 0;
@@ -266,7 +279,7 @@ export function serialize<T extends Document>(
           id: annotation.id,
           type: annotation.type,
           parents: blockStack.map((stack) => stack.type),
-          selfClosing: annotation instanceof ObjectAnnotation,
+          selfClosing: token.selfClosing,
           attributes: annotation.attributes,
         });
         blockStack.push(token.annotation);
@@ -328,10 +341,17 @@ function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
   }
 
   let nextBlock = blocks[++index];
-  while (
-    nextBlock &&
-    nextBlock.parents[nextBlock.parents.length - 1] !== block.type
-  ) {
+  while (nextBlock) {
+    for (let i = 0, len = block.parents.length; i < len; i++) {
+      if (nextBlock.parents[i] !== block.parents[i]) {
+        break;
+      }
+    }
+    // If there's the same number of parents in this block
+    // and the next block, they're adjacent
+    if (nextBlock.parents.length === block.parents.length) {
+      break;
+    }
     nextBlock = blocks[++index];
   }
 
@@ -373,7 +393,6 @@ export function deserialize(
     let position = offsetsForBlock(blocks, i, positions);
     annotations.push(
       new ParseAnnotation({
-        id: `B${block.id}`,
         start: positions[i],
         end: positions[i] + 1,
       })
