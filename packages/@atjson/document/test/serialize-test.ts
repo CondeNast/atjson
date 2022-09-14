@@ -37,7 +37,7 @@ describe("serialize", () => {
       });
     });
 
-    test("objects", () => {
+    test.skip("objects", () => {
       expect(
         serialize(
           new TestSource({
@@ -72,7 +72,7 @@ describe("serialize", () => {
       });
     });
 
-    test("sparse blocks", () => {
+    test.skip("sparse blocks", () => {
       expect(
         serialize(
           new TestSource({
@@ -105,7 +105,7 @@ describe("serialize", () => {
       });
     });
 
-    test("continuations in blocks", () => {
+    test.skip("continuations in blocks", () => {
       expect(
         serialize(
           new TestSource({
@@ -484,7 +484,6 @@ describe("deserialize", () => {
               },
             ],
           },
-
           TestSource
         )
           .withStableIds()
@@ -508,6 +507,334 @@ describe("deserialize", () => {
             },
           ],
           "content": "Missy Elliott’s￼“Supa Dupa Fly”",
+          "contentType": "application/vnd.atjson+test",
+          "schema": [
+            "-test-a",
+            "-test-bold",
+            "-test-code",
+            "-test-image",
+            "-test-instagram",
+            "-test-italic",
+            "-test-locale",
+            "-test-line-break",
+            "-test-list",
+            "-test-list-item",
+            "-test-manual",
+            "-test-paragraph",
+            "-test-pre",
+            "-test-quote",
+          ],
+        }
+      `);
+    });
+
+    test("nested blocks", () => {
+      expect(
+        deserialize(
+          {
+            text: "\uFFFC\uFFFC\uFFFCone fish\uFFFC\uFFFCtwo fish\uFFFC\uFFFCred fish\uFFFC\uFFFCblue fish",
+            blocks: [
+              {
+                id: "B01",
+                type: "list",
+                selfClosing: false,
+                parents: [],
+                attributes: {},
+              },
+              {
+                id: "B02",
+                type: "list-item",
+                selfClosing: false,
+                parents: ["list"],
+                attributes: {},
+              },
+              {
+                id: "B03",
+                type: "paragraph",
+                selfClosing: false,
+                parents: ["list", "list-item"],
+                attributes: {},
+              },
+              {
+                id: "B04",
+                type: "list-item",
+                selfClosing: false,
+                parents: ["list"],
+                attributes: {},
+              },
+              {
+                id: "B05",
+                type: "paragraph",
+                selfClosing: false,
+                parents: ["list", "list-item"],
+                attributes: {},
+              },
+              {
+                id: "B06",
+                type: "list-item",
+                selfClosing: false,
+                parents: ["list"],
+                attributes: {},
+              },
+              {
+                id: "B07",
+                type: "paragraph",
+                selfClosing: false,
+                parents: ["list", "list-item"],
+                attributes: {},
+              },
+              {
+                id: "B08",
+                type: "list-item",
+                selfClosing: false,
+                parents: ["list"],
+                attributes: {},
+              },
+              {
+                id: "B09",
+                type: "paragraph",
+                selfClosing: false,
+                parents: ["list", "list-item"],
+                attributes: {},
+              },
+            ],
+          },
+          TestSource
+        )
+          .withStableIds()
+          .toJSON()
+      ).toMatchInlineSnapshot(`
+        {
+          "annotations": [
+            {
+              "attributes": {},
+              "end": 42,
+              "id": "00000001",
+              "start": 0,
+              "type": "-test-list",
+            },
+            {
+              "attributes": {},
+              "end": 1,
+              "id": "00000002",
+              "start": 0,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 11,
+              "id": "00000003",
+              "start": 1,
+              "type": "-test-list-item",
+            },
+            {
+              "attributes": {},
+              "end": 2,
+              "id": "00000004",
+              "start": 1,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 11,
+              "id": "00000005",
+              "start": 2,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 3,
+              "id": "00000006",
+              "start": 2,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 21,
+              "id": "00000007",
+              "start": 11,
+              "type": "-test-list-item",
+            },
+            {
+              "attributes": {},
+              "end": 12,
+              "id": "00000008",
+              "start": 11,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 21,
+              "id": "00000009",
+              "start": 12,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "0000000a",
+              "start": 12,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 31,
+              "id": "0000000b",
+              "start": 21,
+              "type": "-test-list-item",
+            },
+            {
+              "attributes": {},
+              "end": 22,
+              "id": "0000000c",
+              "start": 21,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 31,
+              "id": "0000000d",
+              "start": 22,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 23,
+              "id": "0000000e",
+              "start": 22,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 42,
+              "id": "0000000f",
+              "start": 31,
+              "type": "-test-list-item",
+            },
+            {
+              "attributes": {},
+              "end": 32,
+              "id": "00000010",
+              "start": 31,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 42,
+              "id": "00000011",
+              "start": 32,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 33,
+              "id": "00000012",
+              "start": 32,
+              "type": "-atjson-parse-token",
+            },
+          ],
+          "content": "￼￼￼one fish￼￼two fish￼￼red fish￼￼blue fish",
+          "contentType": "application/vnd.atjson+test",
+          "schema": [
+            "-test-a",
+            "-test-bold",
+            "-test-code",
+            "-test-image",
+            "-test-instagram",
+            "-test-italic",
+            "-test-locale",
+            "-test-line-break",
+            "-test-list",
+            "-test-list-item",
+            "-test-manual",
+            "-test-paragraph",
+            "-test-pre",
+            "-test-quote",
+          ],
+        }
+      `);
+    });
+
+    test("jagged blocks", () => {
+      expect(
+        deserialize(
+          {
+            text: "\uFFFC\uFFFCone\uFFFCtwo",
+            blocks: [
+              {
+                id: "B01",
+                type: "quote",
+                selfClosing: false,
+                parents: [],
+                attributes: {},
+              },
+              {
+                id: "B02",
+                type: "paragraph",
+                selfClosing: false,
+                parents: ["quote"],
+                attributes: {},
+              },
+              {
+                id: "B03",
+                type: "paragraph",
+                selfClosing: false,
+                parents: [],
+                attributes: {},
+              },
+            ],
+          },
+          TestSource
+        )
+          .withStableIds()
+          .toJSON()
+      ).toMatchInlineSnapshot(`
+        {
+          "annotations": [
+            {
+              "attributes": {},
+              "end": 5,
+              "id": "00000001",
+              "start": 0,
+              "type": "-test-quote",
+            },
+            {
+              "attributes": {},
+              "end": 1,
+              "id": "00000002",
+              "start": 0,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 5,
+              "id": "00000003",
+              "start": 1,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 2,
+              "id": "00000004",
+              "start": 1,
+              "type": "-atjson-parse-token",
+            },
+            {
+              "attributes": {},
+              "end": 9,
+              "id": "00000005",
+              "start": 5,
+              "type": "-test-paragraph",
+            },
+            {
+              "attributes": {},
+              "end": 6,
+              "id": "00000006",
+              "start": 5,
+              "type": "-atjson-parse-token",
+            },
+          ],
+          "content": "￼￼one￼two",
           "contentType": "application/vnd.atjson+test",
           "schema": [
             "-test-a",
