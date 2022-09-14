@@ -108,11 +108,6 @@ const START_TOKENS = [
   TokenType.PARSE_START,
 ];
 
-class Text extends BlockAnnotation {
-  static vendorPrefix = "atjson";
-  static type = "text";
-}
-
 type Token = {
   type: TokenType;
   index: number;
@@ -200,11 +195,11 @@ export function serialize<T extends Document>(
   let tokens: Token[] = [];
 
   for (let annotation of doc.annotations) {
-    let selfClosing = annotation instanceof ObjectAnnotation;
+    let isBlockAnnotation = annotation instanceof BlockAnnotation;
+    let isObjectAnnotation = annotation instanceof ObjectAnnotation;
     let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
       ? [TokenType.PARSE_START, TokenType.PARSE_END]
-      : annotation instanceof BlockAnnotation ||
-        annotation instanceof ObjectAnnotation
+      : isBlockAnnotation || isObjectAnnotation
       ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
       : [TokenType.MARK_START, TokenType.MARK_END];
     let edgeBehaviour = annotation.getAnnotationConstructor().edgeBehaviour;
@@ -215,7 +210,7 @@ export function serialize<T extends Document>(
         index: annotation.start,
         annotation,
         shared,
-        selfClosing,
+        selfClosing: isObjectAnnotation,
         edgeBehaviour,
       },
       {
@@ -223,7 +218,7 @@ export function serialize<T extends Document>(
         index: annotation.end,
         annotation,
         shared,
-        selfClosing,
+        selfClosing: isObjectAnnotation,
         edgeBehaviour,
       }
     );
@@ -260,7 +255,7 @@ export function serialize<T extends Document>(
     }
   }
 
-  let blockStack: Annotation[] = [];
+  let parents: string[] = [];
   let lastIndex = 0;
   let parseTokenMutex = 0;
   for (let token of tokens) {
@@ -278,16 +273,16 @@ export function serialize<T extends Document>(
         blocks.push({
           id: annotation.id,
           type: annotation.type,
-          parents: blockStack.map((stack) => stack.type),
+          parents: [...parents],
           selfClosing: token.selfClosing,
           attributes: annotation.attributes,
         });
-        blockStack.push(token.annotation);
+        parents.push(token.annotation.type);
         text += "\uFFFC";
         break;
       }
       case TokenType.BLOCK_END: {
-        blockStack.pop();
+        parents.pop();
         break;
       }
       case TokenType.MARK_START: {
@@ -342,14 +337,20 @@ function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
 
   let nextBlock = blocks[++index];
   while (nextBlock) {
+    let hasMatchingParents = true;
     for (let i = 0, len = block.parents.length; i < len; i++) {
-      if (nextBlock.parents[i] !== block.parents[i]) {
+      hasMatchingParents &&=
+        block.parents[i] == null || nextBlock.parents[i] === block.parents[i];
+      if (!hasMatchingParents) {
         break;
       }
     }
     // If there's the same number of parents in this block
     // and the next block, they're adjacent
-    if (nextBlock.parents.length === block.parents.length) {
+    if (
+      !hasMatchingParents ||
+      nextBlock.parents.length === block.parents.length
+    ) {
       break;
     }
     nextBlock = blocks[++index];
