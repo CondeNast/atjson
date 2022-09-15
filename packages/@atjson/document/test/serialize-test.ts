@@ -43,7 +43,7 @@ describe("serialize", () => {
       });
     });
 
-    test("colinear annotations", () => {
+    test("colinear marks & blocks", () => {
       expect(
         serialize(
           new TestSource({
@@ -76,7 +76,49 @@ describe("serialize", () => {
       });
     });
 
-    test.skip("objects", () => {
+    test("colinear marks", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "Hello, world",
+            annotations: [
+              new Paragraph({
+                start: 0,
+                end: 12,
+              }),
+              new Italic({
+                start: 0,
+                end: 12,
+              }),
+              new Bold({
+                start: 0,
+                end: 12,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFCHello, world",
+        blocks: [
+          {
+            type: "paragraph",
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            type: "bold",
+            range: "(1..13]",
+          },
+          {
+            type: "italic",
+            range: "(1..13]",
+          },
+        ],
+      });
+    });
+
+    test("objects", () => {
       expect(
         serialize(
           new TestSource({
@@ -111,7 +153,7 @@ describe("serialize", () => {
       });
     });
 
-    test.skip("sparse blocks", () => {
+    test("sparse blocks", () => {
       expect(
         serialize(
           new TestSource({
@@ -144,7 +186,7 @@ describe("serialize", () => {
       });
     });
 
-    test.skip("continuations in blocks", () => {
+    test("continuations in blocks", () => {
       expect(
         serialize(
           new TestSource({
@@ -401,7 +443,7 @@ describe("serialize", () => {
             annotations: [
               new Paragraph({
                 start: 0,
-                end: 12,
+                end: 14,
               }),
               new ParseAnnotation({
                 start: 7,
