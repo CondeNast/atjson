@@ -43,6 +43,39 @@ describe("serialize", () => {
       });
     });
 
+    test("colinear annotations", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "Hello, world",
+            annotations: [
+              new Paragraph({
+                start: 0,
+                end: 12,
+              }),
+              new Italic({
+                start: 0,
+                end: 12,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFCHello, world",
+        blocks: [
+          {
+            type: "paragraph",
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            type: "italic",
+          },
+        ],
+      });
+    });
+
     test.skip("objects", () => {
       expect(
         serialize(
@@ -920,6 +953,35 @@ describe("deserialize", () => {
           ],
         }
       `);
+    });
+
+    test("malformed ranges throw errors", () => {
+      expect(() =>
+        deserialize(
+          {
+            text: "\uFFFCoops",
+            blocks: [
+              {
+                id: "B01",
+                type: "paragraph",
+                selfClosing: false,
+                parents: [],
+                attributes: {},
+              },
+            ],
+            marks: [
+              {
+                id: "M01",
+                type: "error",
+                // @ts-expect-error We're testing malformed ranges
+                range: "{1..3]",
+                attributes: {},
+              },
+            ],
+          },
+          TestSource
+        )
+      ).toThrowError();
     });
   });
 });
