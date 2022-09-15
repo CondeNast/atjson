@@ -1,4 +1,10 @@
-import { ParseAnnotation, deserialize, serialize } from "@atjson/document";
+import {
+  ParseAnnotation,
+  deserialize,
+  serialize,
+  UnknownAnnotation,
+  is,
+} from "../src";
 import TestSource, {
   Anchor,
   Paragraph,
@@ -753,6 +759,66 @@ describe("deserialize", () => {
           ],
         }
       `);
+    });
+
+    test("unknown blocks", () => {
+      let doc = deserialize(
+        {
+          text: "\uFFFChello",
+          blocks: [
+            {
+              id: "B01",
+              type: "blockquote",
+              selfClosing: false,
+              parents: [],
+              attributes: {
+                align: "left",
+              },
+            },
+          ],
+        },
+        TestSource
+      );
+      let unknown = [...doc.where((a) => is(a, UnknownAnnotation))];
+      expect(unknown.length).toBe(1);
+      expect(unknown[0].attributes).toMatchObject({
+        type: "blockquote",
+        attributes: { align: "left" },
+      });
+    });
+
+    test("unknown marks", () => {
+      let doc = deserialize(
+        {
+          text: "\uFFFChello",
+          blocks: [
+            {
+              id: "B01",
+              type: "paragraph",
+              selfClosing: false,
+              parents: [],
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M01",
+              type: "internalLink",
+              range: "[1..6]",
+              attributes: {
+                urn: "foo",
+              },
+            },
+          ],
+        },
+        TestSource
+      );
+      let unknown = [...doc.where((a) => is(a, UnknownAnnotation))];
+      expect(unknown.length).toBe(1);
+      expect(unknown[0].attributes).toMatchObject({
+        type: "internalLink",
+        attributes: { urn: "foo" },
+      });
     });
 
     test("jagged blocks", () => {
