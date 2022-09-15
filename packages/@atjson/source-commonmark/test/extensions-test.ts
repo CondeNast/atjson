@@ -34,7 +34,7 @@ describe("strikethrough", () => {
       [
         {
           "attributes": {},
-          "end": 8,
+          "end": 7,
           "id": "00000003",
           "start": 1,
           "type": "-commonmark-s",
@@ -56,23 +56,23 @@ describe("strikethrough", () => {
       [
         {
           "attributes": {},
-          "end": 17,
+          "end": 14,
           "id": "00000001",
           "start": 0,
           "type": "-offset-paragraph",
         },
         {
           "attributes": {},
-          "end": 8,
+          "end": 7,
           "id": "00000003",
           "start": 1,
           "type": "-offset-strikethrough",
         },
         {
           "attributes": {},
-          "end": 16,
-          "id": "00000006",
-          "start": 9,
+          "end": 14,
+          "id": "00000005",
+          "start": 8,
           "type": "-offset-italic",
         },
       ]
