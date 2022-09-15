@@ -108,6 +108,16 @@ const START_TOKENS = [
   TokenType.PARSE_START,
 ];
 
+class Text extends BlockAnnotation {
+  static vendorPrefix = "atjson";
+  static type = "text";
+}
+
+class Root extends BlockAnnotation {
+  static vendorPrefix = "atjson";
+  static type = "root";
+}
+
 type Token = {
   type: TokenType;
   index: number;
@@ -129,21 +139,31 @@ function sortTokens(a: Token, b: Token) {
     START_TOKENS.indexOf(b.type) === -1
   ) {
     return 1;
+  } else if (
+    START_TOKENS.indexOf(a.type) === -1 &&
+    START_TOKENS.indexOf(b.type) !== -1
+  ) {
+    return -1;
   }
+  let multiplier = START_TOKENS.indexOf(a.type) === -1 ? -1 : 1;
 
   let startDelta = b.annotation.start - a.annotation.start;
   if (startDelta !== 0) {
-    return startDelta;
+    return startDelta * multiplier;
   }
   let endDelta = b.annotation.end - a.annotation.end;
   if (endDelta !== 0) {
-    return endDelta;
+    return endDelta * multiplier;
   }
   let rankDelta = a.annotation.rank - b.annotation.rank;
   if (rankDelta !== 0) {
-    return rankDelta;
+    return rankDelta * multiplier;
   }
-  return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
+  return a.annotation.type > b.annotation.type
+    ? multiplier * -1
+    : a.annotation.type < b.annotation.type
+    ? multiplier
+    : 0;
 }
 
 export function serialize(
@@ -192,7 +212,21 @@ export function serialize(
   let blocks: Block[] = [];
   let marks: Mark[] = [];
 
-  let tokens: Token[] = [];
+  let root = new Root({
+    start: 0,
+    end: doc.content.length,
+  });
+  let shared = { start: -1 };
+  let tokens: Token[] = [
+    {
+      type: TokenType.BLOCK_START,
+      index: root.start,
+      annotation: root,
+      shared,
+      selfClosing: false,
+      edgeBehaviour: Root.edgeBehaviour,
+    },
+  ];
 
   for (let annotation of doc.annotations) {
     let isBlockAnnotation = annotation instanceof BlockAnnotation;
@@ -224,6 +258,82 @@ export function serialize(
     );
   }
 
+  tokens.sort(sortTokens);
+
+  tokens.push({
+    type: TokenType.BLOCK_END,
+    index: root.end,
+    annotation: root,
+    shared,
+    selfClosing: false,
+    edgeBehaviour: Root.edgeBehaviour,
+  });
+
+  // We're using a backtracking algorithm
+  // to insert text blocks here.
+  //
+  // The approach is:
+  // For every block boundary, if the
+  // boundaries between the blocks are
+  // not filled, wrap that range in block.
+  let previousBlockBoundary: Token = tokens[tokens.length - 1];
+  for (let i = tokens.length - 1; i >= 0; i--) {
+    let token = tokens[i];
+    if (token.selfClosing) continue;
+    switch (token.type) {
+      case TokenType.BLOCK_START:
+      case TokenType.BLOCK_END: {
+        if (
+          (previousBlockBoundary.type === token.type &&
+            token.type === TokenType.BLOCK_END &&
+            previousBlockBoundary.index > token.index) ||
+          (previousBlockBoundary.index > token.index &&
+            is(token.annotation, Root) &&
+            token.type === TokenType.BLOCK_START)
+        ) {
+          // Insert text block
+          let text = new Text({
+            start: token.index,
+            end: previousBlockBoundary.index,
+          });
+          let shared = { start: -1 };
+          let index = tokens.indexOf(previousBlockBoundary);
+          tokens.splice(index - 1, 0, {
+            type: TokenType.BLOCK_END,
+            index: text.end,
+            annotation: text,
+            selfClosing: false,
+            shared,
+            edgeBehaviour: Text.edgeBehaviour,
+          });
+          tokens.splice(i + 1, 0, {
+            type: TokenType.BLOCK_START,
+            index: text.start,
+            annotation: text,
+            selfClosing: false,
+            shared,
+            edgeBehaviour: Text.edgeBehaviour,
+          });
+        }
+        previousBlockBoundary = token;
+        break;
+      }
+    }
+  }
+
+  // Remove root blocks
+  for (let i = tokens.length - 1; i >= 0; i--) {
+    if (is(tokens[i].annotation, Root)) {
+      tokens.splice(i, 1);
+      break;
+    }
+  }
+  for (let i = 0, len = tokens.length; i < len; i++) {
+    if (is(tokens[i].annotation, Root)) {
+      tokens.splice(i, 1);
+      break;
+    }
+  }
   tokens.sort(sortTokens);
 
   // Provide stable ids
@@ -316,7 +426,6 @@ export function serialize(
       }
     }
   }
-  text += doc.content.slice(lastIndex);
 
   return {
     text,
@@ -390,6 +499,9 @@ export function deserialize(
 
   for (let i = 0, len = positions.length - 1; i < len; i++) {
     let block = blocks[i];
+    if (block.type === "text") {
+      continue;
+    }
     let AnnotationClass = schemaForItem(block, DocumentClass);
     let position = offsetsForBlock(blocks, i, positions);
     annotations.push(

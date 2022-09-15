@@ -315,15 +315,16 @@ describe("new Document", () => {
       let doc = document.slice(4, 24);
 
       expect(serialize(doc, { withStableIds: true })).toMatchObject({
-        text: "Hello, world!",
+        text: "\uFFFCHello, world!",
+        blocks: [{ type: "text" }],
         marks: [
           {
             type: "bold",
-            range: "(7..12]",
+            range: "(8..13]",
           },
           {
             type: "italic",
-            range: "(0..13]",
+            range: "(1..14]",
           },
         ],
       });
