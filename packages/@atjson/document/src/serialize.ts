@@ -146,8 +146,8 @@ function sortTokens(a: Token, b: Token) {
   return a.type > b.type ? 1 : a.type < b.type ? -1 : 0;
 }
 
-export function serialize<T extends Document>(
-  doc: T,
+export function serialize(
+  doc: Document,
   options?: { withStableIds: boolean }
 ): StorageFormat {
   // Blocks and object annotations are both stored
