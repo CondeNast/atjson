@@ -319,12 +319,12 @@ describe("new Document", () => {
         blocks: [{ type: "text" }],
         marks: [
           {
-            type: "bold",
-            range: "(8..13]",
-          },
-          {
             type: "italic",
             range: "(1..14]",
+          },
+          {
+            type: "bold",
+            range: "(8..13]",
           },
         ],
       });

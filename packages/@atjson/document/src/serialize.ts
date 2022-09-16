@@ -166,6 +166,40 @@ function sortTokens(a: Token, b: Token) {
     : 0;
 }
 
+function sortMarks(a: Mark, b: Mark) {
+  let rangeA = parseRange(a.range);
+  let rangeB = parseRange(b.range);
+
+  // Sort by start position first
+  let startDelta = rangeA.start - rangeB.start;
+  if (startDelta !== 0) {
+    return startDelta;
+  }
+
+  // If the start positions match,
+  // sort by where the range edge starts
+  if (rangeA.edgeBehaviour.leading !== rangeB.edgeBehaviour.leading) {
+    return rangeA.edgeBehaviour.leading === EdgeBehaviour.modify ? -1 : 1;
+  }
+
+  // Then by the end position
+  let endDelta = rangeA.end - rangeB.end;
+  if (endDelta !== 0) {
+    return endDelta;
+  }
+
+  // Then by the range edge
+  if (rangeA.edgeBehaviour.trailing !== rangeB.edgeBehaviour.trailing) {
+    return rangeA.edgeBehaviour.trailing === EdgeBehaviour.modify ? 1 : -1;
+  }
+
+  // Finally by type
+  if (a.type !== b.type) {
+    return a.type < b.type ? -1 : 1;
+  }
+  return 0;
+}
+
 export function serialize(
   doc: Document,
   options?: { withStableIds: boolean }
@@ -426,6 +460,7 @@ export function serialize(
       }
     }
   }
+  marks.sort(sortMarks);
 
   return {
     text,
