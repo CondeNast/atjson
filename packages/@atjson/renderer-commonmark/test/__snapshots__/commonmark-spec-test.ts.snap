@@ -5395,15 +5395,15 @@ exports[`Emphasis and strong emphasis *(**foo**)*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..6]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(2..5]",
+      "type": "strong",
     },
   ],
   "text": "￼(foo)",
@@ -5425,16 +5425,16 @@ exports[`Emphasis and strong emphasis *(**foo**)*
   "marks": [
     {
       "attributes": {},
+      "id": "M00000000",
+      "range": "(1..6]",
+      "type": "em",
+    },
+    {
+      "attributes": {},
       "id": "M00000001",
       "range": "(2..5]",
       "type": "strong",
     },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
-      "type": "em",
-    },
   ],
   "text": "￼(foo)",
 }
@@ -5489,14 +5489,14 @@ exports[`Emphasis and strong emphasis *(*foo*)*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
+      "id": "M00000000",
+      "range": "(1..6]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
+      "id": "M00000001",
+      "range": "(2..5]",
       "type": "em",
     },
   ],
@@ -5519,14 +5519,14 @@ exports[`Emphasis and strong emphasis *(*foo*)*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
+      "id": "M00000000",
+      "range": "(1..6]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
+      "id": "M00000001",
+      "range": "(2..5]",
       "type": "em",
     },
   ],
@@ -6142,6 +6142,12 @@ exports[`Emphasis and strong emphasis **Gomphocarpus (*Gomphocarpus physocarpus*
   "marks": [
     {
       "attributes": {},
+      "id": "M00000000",
+      "range": "(1..67]",
+      "type": "strong",
+    },
+    {
+      "attributes": {},
       "id": "M00000001",
       "range": "(15..39]",
       "type": "em",
@@ -6151,12 +6157,6 @@ exports[`Emphasis and strong emphasis **Gomphocarpus (*Gomphocarpus physocarpus*
       "id": "M00000002",
       "range": "(46..66]",
       "type": "em",
-    },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(1..67]",
-      "type": "strong",
     },
   ],
   "text": "￼Gomphocarpus (Gomphocarpus physocarpus, syn.
@@ -6180,6 +6180,12 @@ exports[`Emphasis and strong emphasis **Gomphocarpus (*Gomphocarpus physocarpus*
   "marks": [
     {
       "attributes": {},
+      "id": "M00000000",
+      "range": "(1..67]",
+      "type": "strong",
+    },
+    {
+      "attributes": {},
       "id": "M00000001",
       "range": "(15..39]",
       "type": "em",
@@ -6189,12 +6195,6 @@ exports[`Emphasis and strong emphasis **Gomphocarpus (*Gomphocarpus physocarpus*
       "id": "M00000002",
       "range": "(46..66]",
       "type": "em",
-    },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(1..67]",
-      "type": "strong",
     },
   ],
   "text": "￼Gomphocarpus (Gomphocarpus physocarpus, syn.
@@ -6321,15 +6321,15 @@ exports[`Emphasis and strong emphasis **foo "*bar*" foo**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(6..9]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..14]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(6..9]",
+      "type": "em",
     },
   ],
   "text": "￼foo "bar" foo",
@@ -6351,15 +6351,15 @@ exports[`Emphasis and strong emphasis **foo "*bar*" foo**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(6..9]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..14]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(6..9]",
+      "type": "em",
     },
   ],
   "text": "￼foo "bar" foo",
@@ -6490,8 +6490,8 @@ bim* bop**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000002",
-      "range": "(9..12]",
+      "id": "M00000000",
+      "range": "(1..20]",
       "type": "strong",
     },
     {
@@ -6502,8 +6502,8 @@ bim* bop**
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..20]",
+      "id": "M00000002",
+      "range": "(9..12]",
       "type": "strong",
     },
   ],
@@ -6528,8 +6528,8 @@ bim* bop**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000002",
-      "range": "(9..12]",
+      "id": "M00000000",
+      "range": "(1..20]",
       "type": "strong",
     },
     {
@@ -6540,8 +6540,8 @@ bim* bop**
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..20]",
+      "id": "M00000002",
+      "range": "(9..12]",
       "type": "strong",
     },
   ],
@@ -6565,15 +6565,15 @@ exports[`Emphasis and strong emphasis **foo *bar* baz**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "em",
     },
   ],
   "text": "￼foo bar baz",
@@ -6595,15 +6595,15 @@ exports[`Emphasis and strong emphasis **foo *bar* baz**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "em",
     },
   ],
   "text": "￼foo bar baz",
@@ -6690,18 +6690,18 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
       "type": "strong",
     },
     {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(5..8]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/url",
       },
       "id": "M00000001",
       "range": "(5..8]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(5..8]",
-      "type": "em",
     },
   ],
   "text": "￼foo bar",
@@ -6728,18 +6728,18 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
       "type": "strong",
     },
     {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(5..8]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/url",
       },
       "id": "M00000001",
       "range": "(5..8]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(5..8]",
-      "type": "em",
     },
   ],
   "text": "￼foo bar",
@@ -7099,15 +7099,15 @@ exports[`Emphasis and strong emphasis **foo*bar*baz**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(4..7]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..10]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(4..7]",
+      "type": "em",
     },
   ],
   "text": "￼foobarbaz",
@@ -7129,15 +7129,15 @@ exports[`Emphasis and strong emphasis **foo*bar*baz**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(4..7]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..10]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(4..7]",
+      "type": "em",
     },
   ],
   "text": "￼foobarbaz",
@@ -7431,8 +7431,8 @@ exports[`Emphasis and strong emphasis *foo **bar *baz* bim** bop*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000002",
-      "range": "(9..12]",
+      "id": "M00000000",
+      "range": "(1..20]",
       "type": "em",
     },
     {
@@ -7443,8 +7443,8 @@ exports[`Emphasis and strong emphasis *foo **bar *baz* bim** bop*
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..20]",
+      "id": "M00000002",
+      "range": "(9..12]",
       "type": "em",
     },
   ],
@@ -7467,8 +7467,8 @@ exports[`Emphasis and strong emphasis *foo **bar *baz* bim** bop*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000002",
-      "range": "(9..12]",
+      "id": "M00000000",
+      "range": "(1..20]",
       "type": "em",
     },
     {
@@ -7479,8 +7479,8 @@ exports[`Emphasis and strong emphasis *foo **bar *baz* bim** bop*
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..20]",
+      "id": "M00000002",
+      "range": "(9..12]",
       "type": "em",
     },
   ],
@@ -7503,15 +7503,15 @@ exports[`Emphasis and strong emphasis *foo **bar** baz*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar baz",
@@ -7533,15 +7533,15 @@ exports[`Emphasis and strong emphasis *foo **bar** baz*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar baz",
@@ -7736,18 +7736,18 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
       "type": "em",
     },
     {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(5..8]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/url",
       },
       "id": "M00000001",
       "range": "(5..8]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(5..8]",
-      "type": "em",
     },
   ],
   "text": "￼foo bar",
@@ -7774,18 +7774,18 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
       "type": "em",
     },
     {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(5..8]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/url",
       },
       "id": "M00000001",
       "range": "(5..8]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(5..8]",
-      "type": "em",
     },
   ],
   "text": "￼foo bar",
@@ -7871,15 +7871,15 @@ exports[`Emphasis and strong emphasis *foo __bar *baz bim__ bam*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..17]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..21]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..17]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar *baz bim bam",
@@ -7901,15 +7901,15 @@ exports[`Emphasis and strong emphasis *foo __bar *baz bim__ bam*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..17]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..21]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..17]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar *baz bim bam",
@@ -8303,15 +8303,15 @@ exports[`Emphasis and strong emphasis *foo**bar**baz*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(4..7]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..10]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(4..7]",
+      "type": "strong",
     },
   ],
   "text": "￼foobarbaz",
@@ -8333,15 +8333,15 @@ exports[`Emphasis and strong emphasis *foo**bar**baz*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(4..7]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..10]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(4..7]",
+      "type": "strong",
     },
   ],
   "text": "￼foobarbaz",
@@ -8479,15 +8479,15 @@ exports[`Emphasis and strong emphasis _(__foo__)_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..6]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(2..5]",
+      "type": "strong",
     },
   ],
   "text": "￼(foo)",
@@ -8509,16 +8509,16 @@ exports[`Emphasis and strong emphasis _(__foo__)_
   "marks": [
     {
       "attributes": {},
+      "id": "M00000000",
+      "range": "(1..6]",
+      "type": "em",
+    },
+    {
+      "attributes": {},
       "id": "M00000001",
       "range": "(2..5]",
       "type": "strong",
     },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
-      "type": "em",
-    },
   ],
   "text": "￼(foo)",
 }
@@ -8573,14 +8573,14 @@ exports[`Emphasis and strong emphasis _(_foo_)_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
+      "id": "M00000000",
+      "range": "(1..6]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
+      "id": "M00000001",
+      "range": "(2..5]",
       "type": "em",
     },
   ],
@@ -8603,14 +8603,14 @@ exports[`Emphasis and strong emphasis _(_foo_)_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(2..5]",
+      "id": "M00000000",
+      "range": "(1..6]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..6]",
+      "id": "M00000001",
+      "range": "(2..5]",
       "type": "em",
     },
   ],
@@ -9351,14 +9351,14 @@ exports[`Emphasis and strong emphasis __foo __bar__ baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
+      "id": "M00000000",
+      "range": "(1..12]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..12]",
+      "id": "M00000001",
+      "range": "(5..8]",
       "type": "strong",
     },
   ],
@@ -9381,14 +9381,14 @@ exports[`Emphasis and strong emphasis __foo __bar__ baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
+      "id": "M00000000",
+      "range": "(1..12]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..12]",
+      "id": "M00000001",
+      "range": "(5..8]",
       "type": "strong",
     },
   ],
@@ -9411,15 +9411,15 @@ exports[`Emphasis and strong emphasis __foo _bar_ baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "em",
     },
   ],
   "text": "￼foo bar baz",
@@ -9441,15 +9441,15 @@ exports[`Emphasis and strong emphasis __foo _bar_ baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "em",
     },
   ],
   "text": "￼foo bar baz",
@@ -9553,14 +9553,14 @@ exports[`Emphasis and strong emphasis __foo, __bar__, baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(6..9]",
+      "id": "M00000000",
+      "range": "(1..14]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..14]",
+      "id": "M00000001",
+      "range": "(6..9]",
       "type": "strong",
     },
   ],
@@ -9583,14 +9583,14 @@ exports[`Emphasis and strong emphasis __foo, __bar__, baz__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(6..9]",
+      "id": "M00000000",
+      "range": "(1..14]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..14]",
+      "id": "M00000001",
+      "range": "(6..9]",
       "type": "strong",
     },
   ],
@@ -10045,15 +10045,15 @@ exports[`Emphasis and strong emphasis _foo __bar__ baz_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar baz",
@@ -10075,15 +10075,15 @@ exports[`Emphasis and strong emphasis _foo __bar__ baz_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
-      "type": "strong",
-    },
-    {
-      "attributes": {},
       "id": "M00000000",
       "range": "(1..12]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(5..8]",
+      "type": "strong",
     },
   ],
   "text": "￼foo bar baz",
@@ -10105,14 +10105,14 @@ exports[`Emphasis and strong emphasis _foo _bar_ baz_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
+      "id": "M00000000",
+      "range": "(1..12]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..12]",
+      "id": "M00000001",
+      "range": "(5..8]",
       "type": "em",
     },
   ],
@@ -10135,14 +10135,14 @@ exports[`Emphasis and strong emphasis _foo _bar_ baz_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
-      "range": "(5..8]",
+      "id": "M00000000",
+      "range": "(1..12]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
-      "range": "(1..12]",
+      "id": "M00000001",
+      "range": "(5..8]",
       "type": "em",
     },
   ],
@@ -22460,18 +22460,18 @@ exports[`Links [foo *[bar [baz](/uri)](/uri)*](/uri)
   ],
   "marks": [
     {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(6..21]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/uri",
       },
       "id": "M00000001",
       "range": "(11..14]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(6..21]",
-      "type": "em",
     },
   ],
   "text": "￼[foo [bar baz](/uri)](/uri)",
@@ -22492,18 +22492,18 @@ exports[`Links [foo *[bar [baz](/uri)](/uri)*](/uri)
   ],
   "marks": [
     {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(6..21]",
+      "type": "em",
+    },
+    {
       "attributes": {
         "href": "/uri",
       },
       "id": "M00000001",
       "range": "(11..14]",
       "type": "link",
-    },
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(6..21]",
-      "type": "em",
     },
   ],
   "text": "￼[foo [bar baz](/uri)](/uri)",
@@ -24308,12 +24308,6 @@ exports[`Links [link *foo **bar** \`#\`*](/uri)
   ],
   "marks": [
     {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(10..13]",
-      "type": "strong",
-    },
-    {
       "attributes": {
         "href": "/uri",
       },
@@ -24326,6 +24320,12 @@ exports[`Links [link *foo **bar** \`#\`*](/uri)
       "id": "M00000001",
       "range": "(6..15]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(10..13]",
+      "type": "strong",
     },
     {
       "attributes": {},
@@ -24352,12 +24352,6 @@ exports[`Links [link *foo **bar** \`#\`*](/uri)
   ],
   "marks": [
     {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(10..13]",
-      "type": "strong",
-    },
-    {
       "attributes": {
         "href": "/uri",
       },
@@ -24370,6 +24364,12 @@ exports[`Links [link *foo **bar** \`#\`*](/uri)
       "id": "M00000001",
       "range": "(6..15]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(10..13]",
+      "type": "strong",
     },
     {
       "attributes": {},
@@ -24398,12 +24398,6 @@ exports[`Links [link *foo **bar** \`#\`*][ref]
   ],
   "marks": [
     {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(10..13]",
-      "type": "strong",
-    },
-    {
       "attributes": {
         "href": "/uri",
       },
@@ -24416,6 +24410,12 @@ exports[`Links [link *foo **bar** \`#\`*][ref]
       "id": "M00000001",
       "range": "(6..15]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(10..13]",
+      "type": "strong",
     },
     {
       "attributes": {},
@@ -24444,12 +24444,6 @@ exports[`Links [link *foo **bar** \`#\`*][ref]
   ],
   "marks": [
     {
-      "attributes": {},
-      "id": "M00000002",
-      "range": "(10..13]",
-      "type": "strong",
-    },
-    {
       "attributes": {
         "href": "/uri",
       },
@@ -24462,6 +24456,12 @@ exports[`Links [link *foo **bar** \`#\`*][ref]
       "id": "M00000001",
       "range": "(6..15]",
       "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(10..13]",
+      "type": "strong",
     },
     {
       "attributes": {},
