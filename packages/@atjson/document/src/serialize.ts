@@ -535,6 +535,12 @@ export function deserialize(
   for (let i = 0, len = positions.length - 1; i < len; i++) {
     let block = blocks[i];
     if (block.type === "text") {
+      annotations.push(
+        new ParseAnnotation({
+          start: positions[i],
+          end: positions[i] + 1,
+        })
+      );
       continue;
     }
     let AnnotationClass = schemaForItem(block, DocumentClass);
