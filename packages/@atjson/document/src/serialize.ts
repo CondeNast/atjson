@@ -311,19 +311,35 @@ export function serialize(
   // boundaries between the blocks are
   // not filled, wrap that range in block.
   let previousBlockBoundary: Token = tokens[tokens.length - 1];
+  let parseTokens: Token[] = [];
+  let textLength = 0;
+  let lastIndex = previousBlockBoundary.index;
   for (let i = tokens.length - 1; i >= 0; i--) {
     let token = tokens[i];
+    if (parseTokens.length === 0) {
+      textLength += lastIndex - token.index;
+    }
+    lastIndex = token.index;
     if (token.selfClosing) continue;
     switch (token.type) {
+      case TokenType.PARSE_END: {
+        parseTokens.push(token);
+        break;
+      }
+      case TokenType.PARSE_START: {
+        parseTokens.splice(parseTokens.indexOf(token), 1);
+        break;
+      }
       case TokenType.BLOCK_START:
       case TokenType.BLOCK_END: {
         if (
-          (previousBlockBoundary.type === token.type &&
+          textLength > 0 &&
+          ((previousBlockBoundary.type === token.type &&
             token.type === TokenType.BLOCK_END &&
             previousBlockBoundary.index > token.index) ||
-          (previousBlockBoundary.index > token.index &&
-            is(token.annotation, Root) &&
-            token.type === TokenType.BLOCK_START)
+            (previousBlockBoundary.index > token.index &&
+              is(token.annotation, Root) &&
+              token.type === TokenType.BLOCK_START))
         ) {
           // Insert text block
           let text = new Text({
@@ -349,6 +365,7 @@ export function serialize(
             edgeBehaviour: Text.edgeBehaviour,
           });
         }
+        textLength = 0;
         previousBlockBoundary = token;
         break;
       }
@@ -400,10 +417,10 @@ export function serialize(
   }
 
   let parents: string[] = [];
-  let lastIndex = 0;
-  let parseTokenMutex = 0;
+  parseTokens = [];
+  lastIndex = 0;
   for (let token of tokens) {
-    if (parseTokenMutex === 0) {
+    if (parseTokens.length === 0) {
       text += doc.content.slice(lastIndex, token.index);
     }
     lastIndex = token.index;
@@ -451,11 +468,11 @@ export function serialize(
         break;
       }
       case TokenType.PARSE_START: {
-        parseTokenMutex++;
+        parseTokens.push(token);
         break;
       }
       case TokenType.PARSE_END: {
-        parseTokenMutex--;
+        parseTokens.splice(parseTokens.indexOf(token), 1);
         break;
       }
     }

@@ -435,60 +435,128 @@ describe("serialize", () => {
       });
     });
 
-    test("parse tokens are removed", () => {
-      expect(
-        serialize(
-          new TestSource({
-            content: "hello, \uFFFCworld\uFFFC",
-            annotations: [
-              new Paragraph({
-                start: 0,
-                end: 14,
-              }),
-              new ParseAnnotation({
-                start: 7,
-                end: 8,
-              }),
-              new Anchor({
-                start: 7,
-                end: 14,
-                attributes: {
-                  href: "https://www.example.com",
-                },
-              }),
-              new Italic({
-                start: 7,
-                end: 14,
-              }),
-              new ParseAnnotation({
-                start: 13,
-                end: 14,
-              }),
-            ],
-          })
-        )
-      ).toMatchObject({
-        text: "\uFFFChello, world",
-        blocks: [
-          {
-            type: "paragraph",
-            attributes: {},
-          },
-        ],
-        marks: [
-          {
-            type: "a",
-            range: "(8..13)",
-            attributes: {
-              href: "https://www.example.com",
+    describe("parse tokens", () => {
+      test("range shifting", () => {
+        expect(
+          serialize(
+            new TestSource({
+              content: "hello, \uFFFCworld\uFFFC",
+              annotations: [
+                new Paragraph({
+                  start: 0,
+                  end: 14,
+                }),
+                new ParseAnnotation({
+                  start: 7,
+                  end: 8,
+                }),
+                new Anchor({
+                  start: 7,
+                  end: 14,
+                  attributes: {
+                    href: "https://www.example.com",
+                  },
+                }),
+                new Italic({
+                  start: 7,
+                  end: 14,
+                }),
+                new ParseAnnotation({
+                  start: 13,
+                  end: 14,
+                }),
+              ],
+            })
+          )
+        ).toMatchObject({
+          text: "\uFFFChello, world",
+          blocks: [
+            {
+              type: "paragraph",
+              attributes: {},
             },
-          },
-          {
-            type: "italic",
-            range: "(8..13]",
-            attributes: {},
-          },
-        ],
+          ],
+          marks: [
+            {
+              type: "a",
+              range: "(8..13)",
+              attributes: {
+                href: "https://www.example.com",
+              },
+            },
+            {
+              type: "italic",
+              range: "(8..13]",
+              attributes: {},
+            },
+          ],
+        });
+      });
+
+      test("text block insertion", () => {
+        expect(
+          serialize(
+            new TestSource({
+              content: "\uFFFChello, world",
+              annotations: [
+                new Paragraph({
+                  start: 1,
+                  end: 13,
+                }),
+                new ParseAnnotation({
+                  start: 0,
+                  end: 1,
+                }),
+              ],
+            })
+          )
+        ).toMatchObject({
+          text: "\uFFFChello, world",
+          blocks: [
+            {
+              type: "paragraph",
+              attributes: {},
+            },
+          ],
+          marks: [],
+        });
+      });
+
+      test("text block insertion", () => {
+        expect(
+          serialize(
+            new TestSource({
+              content: "\uFFFChello, world\uFFFChi",
+              annotations: [
+                new Paragraph({
+                  start: 1,
+                  end: 13,
+                }),
+                new ParseAnnotation({
+                  start: 0,
+                  end: 1,
+                }),
+                new ParseAnnotation({
+                  start: 13,
+                  end: 14,
+                }),
+              ],
+            })
+          )
+        ).toMatchObject({
+          text: "\uFFFChello, world\uFFFChi",
+          blocks: [
+            {
+              type: "paragraph",
+              attributes: {},
+            },
+            {
+              type: "text",
+              attributes: {},
+            },
+          ],
+          marks: [],
+        });
       });
     });
   });
