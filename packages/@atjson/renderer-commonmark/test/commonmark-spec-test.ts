@@ -49,8 +49,14 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
             original.convertTo(OffsetSource)
           );
           let output = CommonMarkSource.fromRaw(generatedMarkdown);
-          let originalJSON = serialize(original, { withStableIds: true });
-          let generatedJSON = serialize(output, { withStableIds: true });
+          let originalJSON = serialize(original, {
+            withStableIds: true,
+            includeBlockRanges: true,
+          });
+          let generatedJSON = serialize(output, {
+            withStableIds: true,
+            includeBlockRanges: true,
+          });
           expect(originalJSON).toMatchSnapshot();
           expect(generatedJSON).toMatchSnapshot();
           expect(originalJSON).toEqual(generatedJSON);

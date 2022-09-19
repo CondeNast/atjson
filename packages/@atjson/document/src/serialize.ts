@@ -27,7 +27,10 @@ import {
 type Range = `${"[" | "("}${number}..${number}${"]" | ")"}`;
 
 /**
- * A mark is
+ * A mark describes a range of text with inline information.
+ * This could be text formatting, like bold, italics;
+ * links, comments, and other information describing a range
+ * of text.
  */
 type Mark = {
   id: string;
@@ -37,11 +40,29 @@ type Mark = {
 };
 
 /**
- * A block is used
+ * A block is a non-split range of text that may
+ * be a paragraph or quote, or a self closing block
+ * that may be something like an image orstylistic divider.
+ *
+ * Blocks are indicated using a block boundary
+ * character of `\uFFFC` and they are stored
+ * *in order* of their occurrence in the document.
+ * This means that if you choose to store blocks
+ * in a database, the block ordering _must_ be kept
+ * to ensure that the correct blocks are rendered
+ * in the correct place.
  */
 type Block = {
   id: string;
   type: string;
+  /**
+   * Range is only included if specified
+   * as an option. These ranges should be
+   * used for purely analytical purposes
+   * and should not be used to render content
+   * in any way.
+   */
+  range?: Range;
   parents: string[];
   selfClosing?: boolean;
   attributes: JSON;
@@ -203,7 +224,7 @@ function sortMarks(a: Mark, b: Mark) {
 
 export function serialize(
   doc: Document,
-  options?: { withStableIds: boolean }
+  options?: { withStableIds?: boolean; includeBlockRanges?: boolean }
 ): StorageFormat {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
@@ -417,6 +438,7 @@ export function serialize(
     }
   }
 
+  let includeBlockRanges = options?.includeBlockRanges ?? false;
   let parents: string[] = [];
   parseTokens = [];
   lastIndex = 0;
@@ -440,11 +462,26 @@ export function serialize(
           attributes: annotation.attributes,
         });
         parents.push(token.annotation.type);
+        token.shared.start = text.length;
         text += "\uFFFC";
         break;
       }
       case TokenType.BLOCK_END: {
         parents.pop();
+        if (includeBlockRanges) {
+          let id = withStableIds
+            ? ids[token.annotation.id]
+            : token.annotation.id;
+          let block = blocks.find((block) => block.id === id);
+          // This shouldn't happen, but TypeScript likes this
+          if (block != null) {
+            block.range = serializeRange(
+              token.shared.start,
+              text.length,
+              token.edgeBehaviour
+            );
+          }
+        }
         break;
       }
       case TokenType.MARK_START: {
