@@ -197,7 +197,8 @@ function sortMarks(a: Mark, b: Mark) {
   if (a.type !== b.type) {
     return a.type < b.type ? -1 : 1;
   }
-  return 0;
+  // And sort by id if all else fails
+  return a.id < b.id ? -1 : 1;
 }
 
 export function serialize(
