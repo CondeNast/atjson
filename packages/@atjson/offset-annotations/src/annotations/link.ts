@@ -1,4 +1,4 @@
-import { InlineAnnotation } from "@atjson/document";
+import { EdgeBehaviour, InlineAnnotation } from "@atjson/document";
 
 export class Link extends InlineAnnotation<{
   url: string;
@@ -10,4 +10,8 @@ export class Link extends InlineAnnotation<{
 }> {
   static vendorPrefix = "offset";
   static type = "link";
+  static edgeBehaviour = {
+    leading: EdgeBehaviour.preserve,
+    trailing: EdgeBehaviour.preserve,
+  };
 }
