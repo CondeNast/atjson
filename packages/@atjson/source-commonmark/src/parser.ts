@@ -219,6 +219,8 @@ export default class Parser {
 
     let closingToken = yield;
 
+    this.content += "\uFFFC";
+
     let end = this.content.length;
     let attributes = Object.assign(getAttributes(open), attrs || {});
     if (name === "heading") {
@@ -231,11 +233,20 @@ export default class Parser {
     if (this.handlers[name]) {
       Object.assign(attributes, this.handlers[name](open, closingToken));
     }
-    this.annotations.push({
-      type: `-commonmark-${name}`,
-      start,
-      end,
-      attributes,
-    });
+    this.annotations.push(
+      new ParseAnnotation({
+        start: end - 1,
+        end,
+        attributes: {
+          reason: `${name}_close`,
+        },
+      }),
+      {
+        type: `-commonmark-${name}`,
+        start,
+        end,
+        attributes,
+      }
+    );
   }
 }
