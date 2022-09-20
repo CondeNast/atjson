@@ -251,6 +251,7 @@ export function serialize(
   //  "h", "i",
   //  { "id": "a2", "type": "emoji", "parent": "a1" }
   // ]
+  // ```
   //
   // Our flat-pack format will store blocks sequentially
   // in a list and use `\uFFFC` as placeholders. This
@@ -264,6 +265,7 @@ export function serialize(
   //     { id: "a2", type: "paragraph" }
   //   ]
   // }
+  // ```
   let text = "";
   let blocks: Block[] = [];
   let marks: Mark[] = [];

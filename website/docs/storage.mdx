@@ -1,0 +1,199 @@
+---
+title: Storage
+---
+
+atjson has a standard storage format based off of work done on [automerge](https://automerge.org) and [Peritext](https://www.inkandswitch.com/peritext/). The storage format is designed to be closely resembling a possible snapshot format of a automerge Text CRDT, making interoperability between automerge and atjson easier.
+
+This format is compact and solves problems that ended up being hacks in atjson where we used parse tokens to handle ambiguous cases with object annotations and block annotations.
+
+## Storage format
+
+The storage format is composed of the text, blocks, and marks. We have decided to abandon "annotations" in this format in favor of blocks and marks to make it easier for new developers to understand (since this is the terminology most text editors use), and for proper implementation of blocks.
+
+Instead of being represented as ranges, blocks are represented as boundaries. The start of the boundary is what is stored as `\uFFFC`, with any text following indicating contents of the block. Object annotations (like images, emoji, etc.) are also represented as blocks, with a `selfClosing` attribute. This design removes ambiguity from the rendered content and provides simple solutions to problems that we were solving previously as annotation + parse annotation over a `\uFFFC`. This approach also means that the serialized document contains the _minimal_ number of blocks / marks necessary to represent the document losslessly.
+
+### Block design
+
+In automerge, the list of text contains the blocks directly:
+
+```json
+[
+  { "id": "a1", "type": "paragraph" },
+  "h",
+  "e",
+  "l",
+  "l",
+  "o",
+  { "id": "a2", "type": "paragraph" }
+]
+```
+
+If there is nesting of blocks, like in lists, it will specify a `parent`:
+
+```json
+[
+  { "id": "a1", "type": "paragraph" },
+  "h",
+  "i",
+  { "id": "a2", "type": "emoji", "parent": "a1" }
+]
+```
+
+Our flat-pack format will store blocks sequentially in a list and use `\uFFFC` as placeholders. This means the first example will look like:
+
+```json
+{
+  "text": "\uFFFChello\uFFFC",
+  "blocks": [
+    { "id": "a1", "type": "paragraph" },
+    { "id": "a2", "type": "paragraph" }
+  ]
+}
+```
+
+When storing blocks in a database, the order that they occur in the document _must_ be stored in some manner, because the format specifically doesn't contain range information and instead uses a chunking algorithm to create boundaries from the object replacement characters (`\uFFFC`).
+
+### Text blocks
+
+In certain circumstances, there may be blocks that contain child blocks and continue after the end of the child block. There's other examples that create this "jagged" structure of block boundaries, and to solve this, atjson will introduce new block boundaries with a type of `"text"`. So the following document will produce a text block:
+
+```js
+let doc = new OffsetSource({
+  content: "Missy Elliott’s\n“Supa Dupa Fly”",
+  annotations: [
+    new LineBreak({ start: 15, end: 16 }),
+    new ParseAnnotation({ start: 15, end: 16 }),
+  ],
+});
+```
+
+import { serialize, ParseAnnotation } from "@atjson/document";
+import OffsetSource, {
+  LineBreak,
+  Paragraph,
+  Italic,
+  Bold,
+  List,
+  ListItem,
+} from "@atjson/offset-annotations";
+
+export function Serialized(props) {
+  return (
+    <code language="json">
+      {JSON.stringify(serialize(props.doc, props), null, 2)}
+    </code>
+  );
+}
+
+<Serialized
+  doc={
+    new OffsetSource({
+      content: "Missy Elliott’s\n“Supa Dupa Fly”",
+      annotations: [
+        new LineBreak({ start: 15, end: 16 }),
+        new ParseAnnotation({ start: 15, end: 16 }),
+      ],
+    })
+  }
+/>
+
+### Marks
+
+Marks are represented as an object with range information and attributes. Ranges contain information about edge behaviour that was previously handled by options on `insertText`.
+
+See [Peritext](https://www.inkandswitch.com/peritext/#generating-inline-formatting-operations) for context on boundary information with marks. If you wanted to line up this syntax with what Peritext uses, `[|]` is the same as `"before"` and `(|)` is the same as `"after"`. The brackets are commonly used in domain / ranges in math equations, and are reused here to coincide with how automerge stores this information.
+
+<Serialized
+  doc={
+    new OffsetSource({
+      content: "Hello, world",
+      annotations: [
+        new Paragraph({ start: 0, end: 12 }),
+        new Bold({ start: 7, end: 12 }),
+        new Italic({ start: 7, end: 12 }),
+      ],
+    })
+  }
+/>
+
+## API
+
+### `serialize`
+
+```tsx
+function serialize(
+  doc: Document,
+  options?: { withStableIds?: boolean; includeBlockRanges?: boolean }
+): StorageFormat;
+```
+
+Serialize takes a document and returns the serialized version of it according the approaches described above.
+
+For testing purposes and to be able to check whether documents are equivalent, we've provided an option to produce stable identifiers, which is useful for testing snapshots as well.
+
+For querying and analysis purposes on a large corpus of text, we have also provided an option to include block ranges. These ranges follow the same syntax as marks, and are discarded when being deserialized.
+
+<Serialized
+  withStableIds={true}
+  doc={
+    new OffsetSource({
+      content: "Hello, world",
+      annotations: [
+        new Paragraph({
+          start: 0,
+          end: 12,
+        }),
+        new Italic({
+          start: 0,
+          end: 12,
+        }),
+        new Bold({
+          start: 0,
+          end: 12,
+        }),
+      ],
+    })
+  }
+/>
+
+<Serialized
+  includeBlockRanges={true}
+  doc={
+    new OffsetSource({
+      content: "one fishtwo fishred fishblue fish",
+      annotations: [
+        new List({
+          start: 0,
+          end: 33,
+        }),
+        new ListItem({
+          start: 0,
+          end: 8,
+        }),
+        new ListItem({
+          start: 8,
+          end: 16,
+        }),
+        new ListItem({
+          start: 16,
+          end: 24,
+        }),
+        new ListItem({
+          start: 24,
+          end: 33,
+        }),
+      ],
+    })
+  }
+/>
+
+### `deserialize`
+
+```tsx
+function deserialize<T extends typeof Document>(
+  json: StorageFormat,
+  DocumentClass: T
+): InstanceType<T>;
+```
+
+Hydrates content from the storage format into a document. Any blocks or marks that are not described in the schema will be created as Unknown annotations.
