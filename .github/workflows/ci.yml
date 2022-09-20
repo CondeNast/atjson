@@ -31,6 +31,8 @@ jobs:
           node-version: "16.14.0"
       - name: Docs
         run: |
+          npm ci
+          npm run build
           cd website
           npm ci
           npm run build
