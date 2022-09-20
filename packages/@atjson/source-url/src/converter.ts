@@ -1,3 +1,4 @@
+import { ParseAnnotation } from "@atjson/document";
 import OffsetSource, {
   SocialURLs,
   VideoURLs,
@@ -26,6 +27,12 @@ URLSource.defineConverterTo(OffsetSource, (doc) => {
             attributes,
           })
         );
+        doc.addAnnotations(
+          new ParseAnnotation({
+            start: annotation.start,
+            end: annotation.end,
+          })
+        );
       }
     });
 
@@ -41,6 +48,12 @@ URLSource.defineConverterTo(OffsetSource, (doc) => {
             start: annotation.start,
             end: annotation.end,
             attributes: urlAttributes,
+          })
+        );
+        doc.addAnnotations(
+          new ParseAnnotation({
+            start: annotation.start,
+            end: annotation.end,
           })
         );
       } else {

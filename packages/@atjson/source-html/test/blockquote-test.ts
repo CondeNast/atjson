@@ -1,3 +1,4 @@
+import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
@@ -6,15 +7,16 @@ describe("blockquote", () => {
     let doc = HTMLSource.fromRaw(
       "<blockquote>This is a quote</blockquote>"
     ).convertTo(OffsetSource);
-    expect(doc.where({ type: `-offset-blockquote` }).annotations).toMatchObject(
-      [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFCThis is a quote",
+      blocks: [
         {
-          start: 0,
-          end: 40,
+          type: "blockquote",
           attributes: {},
         },
-      ]
-    );
+      ],
+      marks: [],
+    });
   });
 
   test("fragment ids", () => {
@@ -22,16 +24,15 @@ describe("blockquote", () => {
       `<blockquote id="test">This is a quote</blockquote>`
     ).convertTo(OffsetSource);
 
-    expect(doc.where({ type: `-offset-blockquote` }).annotations).toMatchObject(
-      [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFCThis is a quote",
+      blocks: [
         {
-          start: 0,
-          end: 50,
-          attributes: {
-            anchorName: "test",
-          },
+          type: "blockquote",
+          attributes: { anchorName: "test" },
         },
-      ]
-    );
+      ],
+      marks: [],
+    });
   });
 });

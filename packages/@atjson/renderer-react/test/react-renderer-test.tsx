@@ -1,4 +1,8 @@
-import { ObjectAnnotation, SliceAnnotation } from "@atjson/document";
+import {
+  ObjectAnnotation,
+  ParseAnnotation,
+  SliceAnnotation,
+} from "@atjson/document";
 import OffsetSource, {
   Bold,
   CaptionSource,
@@ -143,27 +147,25 @@ describe("ReactRenderer", () => {
   });
 
   it("renders nested components", () => {
-    let video = new VideoEmbed({
-      start: 9,
-      end: 10,
-      attributes: {
-        url: "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0",
-        provider: VideoURLs.Provider.YOUTUBE,
-      },
-    });
-
     let doc = new OffsetSource({
-      content: "Good boy\n ",
+      content: "Good boy ",
       annotations: [
         new Link({
           start: 0,
-          end: 10,
+          end: 8,
           attributes: {
             url: "https://www.youtube.com/watch?v=U8x85EY03vY",
           },
         }),
-        new LineBreak({ start: 8, end: 9 }),
-        video,
+        new LineBreak({ start: 4, end: 5 }),
+        new VideoEmbed({
+          start: 8,
+          end: 9,
+          attributes: {
+            url: "https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&showinfo=0&rel=0",
+            provider: VideoURLs.Provider.YOUTUBE,
+          },
+        }),
       ],
     });
 
@@ -175,30 +177,31 @@ describe("ReactRenderer", () => {
         LineBreak: LineBreakComponent,
         VideoEmbed: VideoEmbedComponent,
       })
-    ).toBe(
-      `<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good boy<br/><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe></a>`
+    ).toMatchInlineSnapshot(
+      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe>"`
     );
   });
 
   it("reuses renderers", () => {
     let doc = new OffsetSource({
-      content: "Another good boy\n ",
+      content: "Another good boy ",
       annotations: [
         new Link({
           start: 0,
-          end: 19,
+          end: 16,
           attributes: {
             url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy",
           },
         }),
-        new LineBreak({ start: 16, end: 17 }),
+        new LineBreak({ start: 7, end: 8 }),
         new GiphyEmbed({
-          start: 17,
-          end: 18,
+          start: 16,
+          end: 17,
           attributes: {
             url: "https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy",
           },
         }),
+        new ParseAnnotation({ start: 16, end: 17 }),
       ],
     });
 
@@ -208,8 +211,8 @@ describe("ReactRenderer", () => {
         Link: LinkComponent,
         GiphyEmbed: GiphyEmbedComponent,
       })
-    ).toBe(
-      `<a href=\"https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy\" target=\"__blank\" rel=\"noreferrer noopener\">Another good boy<br/><img src=\"https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif\"/></a>`
+    ).toMatchInlineSnapshot(
+      `"<a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`
     );
   });
 

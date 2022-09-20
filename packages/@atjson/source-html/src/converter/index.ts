@@ -1,6 +1,6 @@
 import Document, { Annotation } from "@atjson/document";
 import OffsetSource, {
-  Code,
+  CodeBlock,
   List,
   IframeEmbed,
 } from "@atjson/offset-annotations";
@@ -154,12 +154,9 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
       doc.replaceAnnotation(
         code,
-        new Code({
+        new CodeBlock({
           start: code.start,
           end: code.end,
-          attributes: {
-            style: "block",
-          },
         })
       );
       doc.removeAnnotation(pre);
@@ -167,11 +164,11 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
 
   doc
     .where({ type: "-html-code" })
-    .set({ type: "-offset-code", attributes: { "-offset-style": "inline" } });
+    .set({ type: "-offset-code", attributes: {} });
 
   doc.where({ type: "-html-section" }).set({ type: "-offset-section" });
 
-  doc.where(isSmallCaps).set({ type: "-offset-small-caps" });
+  doc.where(isSmallCaps).set({ type: "-offset-small-caps", attributes: {} });
 
   return doc;
 });

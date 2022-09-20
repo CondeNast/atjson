@@ -1,6 +1,6 @@
-import { ObjectAnnotation } from "@atjson/document";
+import { BlockAnnotation } from "@atjson/document";
 
-export class IframeEmbed extends ObjectAnnotation<{
+export class IframeEmbed extends BlockAnnotation<{
   url: string;
   width?: string;
   height?: string;
