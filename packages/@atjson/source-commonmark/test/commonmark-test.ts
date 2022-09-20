@@ -1,4 +1,4 @@
-import { HIR } from "@atjson/hir";
+import { serialize } from "@atjson/document";
 import CommonMarkSource from "../src";
 import { render } from "./utils";
 
@@ -16,30 +16,20 @@ describe("whitespace", () => {
   describe("non-breaking spaces", () => {
     test("html entities are converted to unicode characters", () => {
       let doc = CommonMarkSource.fromRaw("1\n\n&#8239;\n\n&nbsp;&emsp;\n\n2");
-      let hir = new HIR(doc);
-      expect(hir.toJSON()).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFC1\uFFFC\u202F\uFFFC\u00A0\u2003\uFFFC2",
+        blocks: [
           {
             type: "paragraph",
-            attributes: {},
-            children: ["1"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["\u202F"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["\u00A0\u2003"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["2"],
           },
         ],
       });
@@ -47,30 +37,20 @@ describe("whitespace", () => {
 
     test("empty paragraphs are created using narrow no-break unicode characters", () => {
       let doc = CommonMarkSource.fromRaw("1\n\n\u202F\n\n\u00A0\n\n2");
-      let hir = new HIR(doc);
-      expect(hir.toJSON()).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFC1\uFFFC\u202F\uFFFC\u202F\uFFFC2",
+        blocks: [
           {
             type: "paragraph",
-            attributes: {},
-            children: ["1"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["\u202F"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["\u202F"],
           },
           {
             type: "paragraph",
-            attributes: {},
-            children: ["2"],
           },
         ],
       });
@@ -137,39 +117,51 @@ describe("list", () => {
 
 describe("images", () => {
   test("alt text is stripped", () => {
-    let doc = CommonMarkSource.fromRaw(
-      "![Markdown **is stripped** from *this*](test.jpg)"
-    ).canonical();
-    expect(doc.annotations).toMatchObject([
-      {
-        type: "paragraph",
-      },
-      {
-        type: "image",
-        attributes: {
-          src: "test.jpg",
-          alt: "Markdown is stripped from this",
+    expect(
+      serialize(
+        CommonMarkSource.fromRaw(
+          "![Markdown **is stripped** from *this*](test.jpg)"
+        )
+      )
+    ).toMatchObject({
+      text: "\uFFFC\uFFFC",
+      blocks: [
+        {
+          type: "paragraph",
         },
-      },
-    ]);
+        {
+          type: "image",
+          parents: ["paragraph"],
+          selfClosing: true,
+          attributes: {
+            src: "test.jpg",
+            alt: "Markdown is stripped from this",
+          },
+        },
+      ],
+    });
   });
 
   test("title", () => {
-    let doc = CommonMarkSource.fromRaw(
-      '![](test.jpg "Title of test.jpg")'
-    ).canonical();
-    expect(doc.annotations).toMatchObject([
-      {
-        type: "paragraph",
-      },
-      {
-        type: "image",
-        attributes: {
-          src: "test.jpg",
-          title: "Title of test.jpg",
-          alt: "",
+    expect(
+      serialize(CommonMarkSource.fromRaw('![](test.jpg "Title of test.jpg")'))
+    ).toMatchObject({
+      text: "\uFFFC\uFFFC",
+      blocks: [
+        {
+          type: "paragraph",
         },
-      },
-    ]);
+        {
+          type: "image",
+          parents: ["paragraph"],
+          selfClosing: true,
+          attributes: {
+            src: "test.jpg",
+            title: "Title of test.jpg",
+            alt: "",
+          },
+        },
+      ],
+    });
   });
 });

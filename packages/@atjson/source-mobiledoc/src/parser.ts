@@ -66,25 +66,41 @@ export default class Parser {
   processCard(section: CardSection, start: number) {
     let [, cardIndex] = section;
     let card = this.mobiledoc.cards[cardIndex];
-    this.annotations.push({
-      type: `-mobiledoc-${card[0]}-card`,
-      start,
-      end: start + 1,
-      attributes: prefix(card[1]),
-    });
+    this.annotations.push(
+      {
+        type: `-mobiledoc-${card[0]}-card`,
+        start,
+        end: start + 1,
+        attributes: prefix(card[1]),
+      },
+      {
+        type: "-atjson-parse-token",
+        start,
+        end: start + 1,
+        attributes: {},
+      }
+    );
     return "\uFFFC";
   }
 
   processImage(section: ImageSection, start: number) {
     let [, src] = section;
-    this.annotations.push({
-      type: `-mobiledoc-img`,
-      start,
-      end: start + 1,
-      attributes: {
-        "-mobiledoc-src": src,
+    this.annotations.push(
+      {
+        type: `-mobiledoc-img`,
+        start,
+        end: start + 1,
+        attributes: {
+          "-mobiledoc-src": src,
+        },
       },
-    });
+      {
+        type: "-atjson-parse-token",
+        start,
+        end: start + 1,
+        attributes: {},
+      }
+    );
     return "\uFFFC";
   }
 

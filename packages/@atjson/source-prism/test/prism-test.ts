@@ -1,4 +1,4 @@
-import { HIR } from "@atjson/hir";
+import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import * as fs from "fs";
 import * as path from "path";
@@ -8,115 +8,53 @@ describe("@atjson/source-prism", () => {
   it("parses xml declaration", () => {
     let doc = PRISMSource.fromRaw('<?xml version="1.0" encoding="utf-8"?>');
 
-    expect(doc.where({}).toJSON()).toMatchObject([
-      {
-        type: "-atjson-parse-token",
-        start: 0,
-        end: doc.content.length,
-        attributes: {
-          "-atjson-reason": "<?xml>",
-        },
-      },
-    ]);
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      text: "",
+      blocks: [],
+      marks: [],
+    });
   });
 
   it("does not require xml declaration", () => {
     let doc = PRISMSource.fromRaw("<body>some text</body>");
 
-    expect(doc.where({}).sort().toJSON()).toMatchObject([
-      { type: "-html-body", start: 0, end: 22 },
-      {
-        type: "-atjson-parse-token",
-        start: 0,
-        end: 6,
-        attributes: { "-atjson-reason": "<body>" },
-      },
-      {
-        type: "-atjson-parse-token",
-        start: 15,
-        end: 22,
-        attributes: { "-atjson-reason": "</body>" },
-      },
-    ]);
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      text: "\uFFFCsome text",
+      blocks: [
+        {
+          type: "body",
+        },
+      ],
+      marks: [],
+    });
   });
 
   it("parses xml tags", () => {
     let doc = PRISMSource.fromRaw(
       `<?xml version="1.0" encoding="utf-8"?><pam:message><pam:article><head /><body>text</body></pam:article></pam:message>`
     );
-    let hir = new HIR(doc);
 
-    expect(hir.toJSON()).toMatchObject({
-      children: [
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      text: "\uFFFC\uFFFC\uFFFC\uFFFCtext",
+      blocks: [
         {
           type: "message",
-          children: [
-            {
-              type: "article",
-              children: [
-                { type: "head" },
-                { type: "body", children: ["text"] },
-              ],
-            },
-          ],
+        },
+        {
+          type: "article",
+          parents: ["message"],
+        },
+        {
+          type: "head",
+          parents: ["message", "article"],
+        },
+        {
+          type: "body",
+          parents: ["message", "article"],
         },
       ],
+      marks: [],
     });
-
-    expect(doc.where({}).sort().toJSON()).toMatchObject([
-      {
-        type: "-atjson-parse-token",
-        start: 0,
-        end: 38,
-        attributes: { "-atjson-reason": "<?xml>" },
-      },
-      { type: "-pam-message", start: 38, end: 117 },
-      {
-        type: "-atjson-parse-token",
-        start: 38,
-        end: 51,
-        attributes: { "-atjson-reason": "<pam:message>" },
-      },
-      { type: "-pam-article", start: 51, end: 103 },
-      {
-        type: "-atjson-parse-token",
-        start: 51,
-        end: 64,
-        attributes: { "-atjson-reason": "<pam:article>" },
-      },
-      { type: "-html-head", start: 64, end: 72 },
-      {
-        type: "-atjson-parse-token",
-        start: 64,
-        end: 72,
-        attributes: { "-atjson-reason": "<head/>" },
-      },
-      { type: "-html-body", start: 72, end: 89 },
-      {
-        type: "-atjson-parse-token",
-        start: 72,
-        end: 78,
-        attributes: { "-atjson-reason": "<body>" },
-      },
-      {
-        type: "-atjson-parse-token",
-        start: 82,
-        end: 89,
-        attributes: { "-atjson-reason": "</body>" },
-      },
-      {
-        type: "-atjson-parse-token",
-        start: 89,
-        end: 103,
-        attributes: { "-atjson-reason": "</pam:article>" },
-      },
-      {
-        type: "-atjson-parse-token",
-        start: 103,
-        end: 117,
-        attributes: { "-atjson-reason": "</pam:message>" },
-      },
-    ]);
   });
 
   describe("xml entities", () => {
@@ -223,14 +161,11 @@ describe("@atjson/source-prism", () => {
       (xmlFile) => {
         let fixturePath = path.join(__dirname, "fixtures", xmlFile);
         let xml = fs.readFileSync(fixturePath).toString();
+        let doc = PRISMSource.fromRaw(xml);
 
-        let doc = PRISMSource.fromRaw(xml).withStableIds();
-        let hir = new HIR(doc);
-        hir.rootNode.id = "00000000";
-
-        expect(hir.toJSON()).toMatchSnapshot();
+        expect(serialize(doc, { withStableIds: true })).toMatchSnapshot();
         expect(
-          doc.convertTo(OffsetSource).withStableIds().toJSON()
+          serialize(doc.convertTo(OffsetSource), { withStableIds: true })
         ).toMatchSnapshot();
       }
     );
