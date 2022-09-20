@@ -455,13 +455,16 @@ export function serialize(
         let annotation = withStableIds
           ? token.annotation.withStableIds(ids)
           : token.annotation;
+        let { type, attributes } = is(annotation, UnknownAnnotation)
+          ? annotation.attributes
+          : annotation;
 
         blocks.push({
           id: annotation.id,
-          type: annotation.type,
+          type,
           parents: [...parents],
           selfClosing: token.selfClosing,
-          attributes: annotation.attributes,
+          attributes,
         });
         parents.push(token.annotation.type);
         token.shared.start = text.length;
@@ -494,16 +497,19 @@ export function serialize(
         let annotation = withStableIds
           ? token.annotation.withStableIds(ids)
           : token.annotation;
+        let { type, attributes } = is(annotation, UnknownAnnotation)
+          ? annotation.attributes
+          : annotation;
 
         marks.push({
           id: annotation.id,
-          type: annotation.type,
+          type,
           range: serializeRange(
             token.shared.start,
             text.length,
             token.edgeBehaviour
           ),
-          attributes: annotation.attributes,
+          attributes,
         });
         break;
       }

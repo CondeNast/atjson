@@ -386,6 +386,38 @@ describe("serialize", () => {
       });
     });
 
+    test("unknown marks", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content: "Hello, world",
+            annotations: [
+              new Paragraph({
+                start: 0,
+                end: 12,
+              }),
+              new UnknownAnnotation({
+                start: 8,
+                end: 12,
+                attributes: {
+                  type: "subscript",
+                  attributes: {},
+                },
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFCHello, world",
+        blocks: [
+          {
+            type: "paragraph",
+          },
+        ],
+        marks: [{ type: "subscript", range: "(9..13]" }],
+      });
+    });
+
     test("ranges are encoded with custom edge behaviour", () => {
       expect(
         serialize(
