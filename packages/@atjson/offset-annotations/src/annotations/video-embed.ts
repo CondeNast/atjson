@@ -1,7 +1,7 @@
-import { ObjectAnnotation } from "@atjson/document";
+import { BlockAnnotation } from "@atjson/document";
 import { getClosestAspectRatio, VideoURLs } from "../utils";
 
-export class VideoEmbed extends ObjectAnnotation<{
+export class VideoEmbed extends BlockAnnotation<{
   /**
    * The embed URL of the video
    */

@@ -1,19 +1,17 @@
-import { HIR } from "@atjson/hir";
+import { serialize } from "@atjson/document";
 import HTMLSource from "../src";
 
 describe("@atjson/source-html", () => {
   describe("parser", () => {
     test("leading space parsed correctly", () => {
-      let doc = HTMLSource.fromRaw(
-        " leading <strong>whitespace</strong>"
-      ).canonical();
-      expect(doc).toMatchObject({
-        content: " leading whitespace",
-        annotations: [
+      expect(
+        serialize(HTMLSource.fromRaw(" leading <strong>whitespace</strong>"))
+      ).toMatchObject({
+        text: "\uFFFC leading whitespace",
+        marks: [
           {
             type: "strong",
-            start: 9,
-            end: 19,
+            range: "(10..20]",
           },
         ],
       });
@@ -147,30 +145,28 @@ describe("@atjson/source-html", () => {
     let doc = HTMLSource.fromRaw(
       "<pre><code>this <b>is</b> a test</code></pre>"
     );
-    let hir = new HIR(doc).toJSON();
 
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    // This is weird, but follows the HTML spec in terms
+    // of what kinds of things these tags are
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFCthis is a test",
+      blocks: [
+        {
+          type: "text",
+        },
+      ],
+      marks: [
+        {
+          type: "code",
+          range: "(1..15]",
+        },
         {
           type: "pre",
-          attributes: {},
-          children: [
-            {
-              type: "code",
-              attributes: {},
-              children: [
-                "this ",
-                {
-                  type: "b",
-                  attributes: {},
-                  children: ["is"],
-                },
-                " a test",
-              ],
-            },
-          ],
+          range: "(1..15]",
+        },
+        {
+          type: "b",
+          range: "(6..8]",
         },
       ],
     });
@@ -178,38 +174,37 @@ describe("@atjson/source-html", () => {
 
   test("<p>aaa<br />\nbbb</p>", () => {
     let doc = HTMLSource.fromRaw("<p>aaa<br />\nbbb</p>");
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFCaaa\uFFFC\nbbb",
+      blocks: [
         {
           type: "p",
-          attributes: {},
-          children: [
-            "aaa",
-            { type: "br", attributes: {}, children: [] },
-            "\nbbb",
-          ],
+        },
+        {
+          type: "br",
+          selfClosing: true,
         },
       ],
+      marks: [],
     });
   });
 
   test('<a href="https://example.com">example</a>', () => {
     let doc = HTMLSource.fromRaw('<a href="https://example.com">example</a>');
-    let hir = new HIR(doc).toJSON();
-
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFCexample",
+      blocks: [
+        {
+          type: "text",
+        },
+      ],
+      marks: [
         {
           type: "a",
+          range: "(1..8]",
           attributes: {
             href: "https://example.com",
           },
-          children: ["example"],
         },
       ],
     });
@@ -217,46 +212,46 @@ describe("@atjson/source-html", () => {
 
   test('<img src="https://example.com/test.png" /> ', () => {
     let doc = HTMLSource.fromRaw('<img src="https://example.com/test.png" /> ');
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC\uFFFC ",
+      blocks: [
+        {
+          type: "text",
+        },
         {
           type: "img",
+          parents: ["text"],
+          selfClosing: true,
           attributes: {
             src: "https://example.com/test.png",
           },
-          children: [],
         },
-        " ",
       ],
+      marks: [],
     });
   });
 
   test("<h2></h2>\n<h1></h1>\n<h3></h3>", () => {
     let doc = HTMLSource.fromRaw("<h2></h2>\n<h1></h1>\n<h3></h3>");
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC\n\n",
+      blocks: [
+        {
+          type: "text",
+        },
+      ],
+      marks: [
         {
           type: "h2",
-          attributes: {},
-          children: [],
+          range: "(1..1]",
         },
-        "\n",
         {
           type: "h1",
-          attributes: {},
-          children: [],
+          range: "(2..2]",
         },
-        "\n",
         {
           type: "h3",
-          attributes: {},
-          children: [],
+          range: "(3..3]",
         },
       ],
     });
@@ -266,25 +261,20 @@ describe("@atjson/source-html", () => {
     let doc = HTMLSource.fromRaw(
       '<p><img src="/url" alt="Foo" title="title" /></p>'
     );
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC\uFFFC",
+      blocks: [
         {
           type: "p",
-          attributes: {},
-          children: [
-            {
-              type: "img",
-              attributes: {
-                src: "/url",
-                alt: "Foo",
-                title: "title",
-              },
-              children: [],
-            },
-          ],
+        },
+        {
+          type: "img",
+          parents: ["p"],
+          attributes: {
+            src: "/url",
+            alt: "Foo",
+            title: "title",
+          },
         },
       ],
     });
@@ -292,24 +282,18 @@ describe("@atjson/source-html", () => {
 
   test('<p>**<a href="**"></p>', () => {
     let doc = HTMLSource.fromRaw('<p>**<a href="**"></p>');
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC**",
+      blocks: [
         {
           type: "p",
-          attributes: {},
-          children: [
-            "**",
-            {
-              type: "a",
-              attributes: {
-                href: "**",
-              },
-              children: [],
-            },
-          ],
+        },
+      ],
+      marks: [
+        {
+          type: "a",
+          attributes: { href: "**" },
+          range: "(3..3]",
         },
       ],
     });
@@ -317,11 +301,9 @@ describe("@atjson/source-html", () => {
 
   test("&lt;&gt;", () => {
     let doc = HTMLSource.fromRaw("&lt;&gt;");
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: ["<>"],
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC<>",
+      blocks: [{ type: "text" }],
     });
   });
 
@@ -349,17 +331,16 @@ describe("@atjson/source-html", () => {
     let doc = HTMLSource.fromRaw(
       '<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>'
     );
-    let hir = new HIR(doc).toJSON();
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC日本人",
+      blocks: [{ type: "text" }],
+      marks: [
         {
           type: "a",
+          range: "(1..4]",
           attributes: {
             href: "https://en.wiktionary.org/wiki/日本人",
           },
-          children: ["日本人"],
         },
       ],
     });

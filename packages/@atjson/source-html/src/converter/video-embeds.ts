@@ -75,7 +75,7 @@ export default function (doc: Document) {
       }
     )
     .update(function convertVimeoVideos({ video, paragraph, links }) {
-      let captionId = uuid();
+      let caption: SliceAnnotation | undefined = undefined;
       let src = video.attributes.src;
       if (src?.indexOf("//") === 0) {
         src = `https:${src}`;
@@ -87,17 +87,14 @@ export default function (doc: Document) {
       );
 
       if (paragraph.length === 1 && links.length > 0) {
-        doc.replaceAnnotation(
-          paragraph[0],
-          new SliceAnnotation({
-            id: captionId,
-            start: paragraph[0].start,
-            end: paragraph[0].end,
-            attributes: {
-              refs: [video.id],
-            },
-          })
-        );
+        caption = new SliceAnnotation({
+          start: paragraph[0].start,
+          end: paragraph[0].end,
+          attributes: {
+            refs: [video.id],
+          },
+        });
+        doc.replaceAnnotation(paragraph[0], caption);
       }
 
       let width = getSize(video, "width");
@@ -116,7 +113,7 @@ export default function (doc: Document) {
               width && height
                 ? getClosestAspectRatio(width, height)
                 : undefined,
-            caption: captionId,
+            caption: caption?.id,
             anchorName: video.attributes.id,
           },
         })

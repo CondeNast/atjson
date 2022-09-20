@@ -178,7 +178,9 @@ function render(
     propsOrDocument instanceof Document
       ? { document: propsOrDocument }
       : propsOrDocument;
+
   let hir = new HIR(props.document);
+
   let rootNode = hir.rootNode;
   return createElement(
     SliceContext.Provider,

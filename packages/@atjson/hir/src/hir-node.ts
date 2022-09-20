@@ -315,6 +315,9 @@ export default class HIRNode {
           start: newStart,
           end: newEnd,
         });
+    if (this.child) {
+      partial.insertChild(this.child);
+    }
 
     if (partial.start === partial.end) return;
 

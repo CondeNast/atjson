@@ -1,9 +1,8 @@
-import { InlineAnnotation } from "@atjson/document";
-import { HIR } from "@atjson/hir";
+import { BlockAnnotation, InlineAnnotation, serialize } from "@atjson/document";
 import MobiledocSource from "../src";
 import { ListSection } from "../src/parser";
 
-describe("@atjson/source-Mobiledoc", () => {
+describe("@atjson/source-mobiledoc", () => {
   describe("sections", () => {
     describe.each([
       "p",
@@ -25,16 +24,11 @@ describe("@atjson/source-Mobiledoc", () => {
           markups: [],
           sections: [[1, type.toUpperCase(), [[0, [], 0, "hello"]]]],
         });
-        let hir = new HIR(doc).toJSON();
-
-        expect(hir).toMatchObject({
-          type: "root",
-          attributes: {},
-          children: [
+        expect(serialize(doc)).toMatchObject({
+          text: "\uFFFChello",
+          blocks: [
             {
               type,
-              attributes: {},
-              children: ["hello"],
             },
           ],
         });
@@ -48,16 +42,11 @@ describe("@atjson/source-Mobiledoc", () => {
           markups: [],
           sections: [[1, type.toUpperCase(), [[0, [], 0, ""]]]],
         });
-        let hir = new HIR(doc).toJSON();
-
-        expect(hir).toMatchObject({
-          type: "root",
-          attributes: {},
-          children: [
+        expect(serialize(doc)).toMatchObject({
+          text: "\uFFFC",
+          blocks: [
             {
               type,
-              attributes: {},
-              children: [],
             },
           ],
         });
@@ -77,22 +66,17 @@ describe("@atjson/source-Mobiledoc", () => {
           sections: [[1, "P", [[0, [0], 1, "hello"]]]],
         });
 
-        let hir = new HIR(doc).toJSON();
-
-        expect(hir).toMatchObject({
-          type: "root",
-          attributes: {},
-          children: [
+        expect(serialize(doc)).toMatchObject({
+          text: "\uFFFChello",
+          blocks: [
             {
               type: "p",
-              attributes: {},
-              children: [
-                {
-                  type,
-                  attributes: {},
-                  children: ["hello"],
-                },
-              ],
+            },
+          ],
+          marks: [
+            {
+              type,
+              range: "(1..6]",
             },
           ],
         });
@@ -118,30 +102,22 @@ describe("@atjson/source-Mobiledoc", () => {
         ],
       });
 
-      let hir = new HIR(doc).toJSON();
-
-      expect(hir).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFChello brave new world",
+        blocks: [
           {
             type: "p",
-            attributes: {},
-            children: [
-              {
-                type: "a",
-                attributes: { href: "google.com" },
-                children: [
-                  "hello ",
-                  {
-                    type: "b",
-                    attributes: {},
-                    children: ["brave new"],
-                  },
-                  " world",
-                ],
-              },
-            ],
+          },
+        ],
+        marks: [
+          {
+            type: "a",
+            attributes: { href: "google.com" },
+            range: "(1..22]",
+          },
+          {
+            type: "b",
+            range: "(7..16]",
           },
         ],
       });
@@ -156,28 +132,21 @@ describe("@atjson/source-Mobiledoc", () => {
         sections: [[1, "P", [[0, [0, 1], 2, "test"]]]],
       });
 
-      let hir = new HIR(doc).toJSON();
-
-      expect(hir).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFCtest",
+        blocks: [
           {
             type: "p",
-            attributes: {},
-            children: [
-              {
-                type: "sub",
-                attributes: {},
-                children: [
-                  {
-                    type: "strong",
-                    attributes: {},
-                    children: ["test"],
-                  },
-                ],
-              },
-            ],
+          },
+        ],
+        marks: [
+          {
+            type: "strong",
+            range: "(1..5]",
+          },
+          {
+            type: "sub",
+            range: "(1..5]",
           },
         ],
       });
@@ -204,38 +173,25 @@ describe("@atjson/source-Mobiledoc", () => {
         ],
       });
 
-      let hir = new HIR(doc).toJSON();
-
-      expect(hir).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFCtext that is bold, underlined, and italicized plus some text after",
+        blocks: [
           {
             type: "p",
-            attributes: {},
-            children: [
-              {
-                type: "em",
-                attributes: {},
-                children: [
-                  "text that is ",
-                  {
-                    type: "strong",
-                    attributes: {},
-                    children: [
-                      "bold, ",
-                      {
-                        type: "u",
-                        attributes: {},
-                        children: ["underlined"],
-                      },
-                    ],
-                  },
-                  ", and italicized",
-                ],
-              },
-              " plus some text after",
-            ],
+          },
+        ],
+        marks: [
+          {
+            type: "em",
+            range: "(1..46]",
+          },
+          {
+            type: "strong",
+            range: "(14..30]",
+          },
+          {
+            type: "u",
+            range: "(20..30]",
           },
         ],
       });
@@ -251,7 +207,10 @@ describe("@atjson/source-Mobiledoc", () => {
     }
 
     class MentionSource extends MobiledocSource {
-      static schema = [...MobiledocSource.schema, Mention];
+      static schema = [
+        ...MobiledocSource.schema,
+        Mention,
+      ] as typeof MobiledocSource.schema;
     }
 
     let doc = MentionSource.fromRaw({
@@ -262,29 +221,25 @@ describe("@atjson/source-Mobiledoc", () => {
       sections: [[1, "P", [[1, [], 0, 0]]]],
     });
 
-    let hir = new HIR(doc).toJSON();
-
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC@bob",
+      blocks: [
         {
           type: "p",
-          attributes: {},
-          children: [
-            {
-              type: "mention-atom",
-              attributes: { id: 42 },
-              children: ["@bob"],
-            },
-          ],
+        },
+      ],
+      marks: [
+        {
+          type: "mention-atom",
+          range: "(1..5]",
+          attributes: { id: 42 },
         },
       ],
     });
   });
 
   test("card", () => {
-    class Gallery extends InlineAnnotation<{
+    class Gallery extends BlockAnnotation<{
       style: "mosaic" | "slideshow" | "list";
       ids: number[];
     }> {
@@ -293,7 +248,10 @@ describe("@atjson/source-Mobiledoc", () => {
     }
 
     class GallerySource extends MobiledocSource {
-      static schema = [...MobiledocSource.schema, Gallery];
+      static schema = [
+        ...MobiledocSource.schema,
+        Gallery,
+      ] as typeof MobiledocSource.schema;
     }
 
     let doc = GallerySource.fromRaw({
@@ -314,12 +272,9 @@ describe("@atjson/source-Mobiledoc", () => {
       sections: [[10, 0]],
     });
 
-    let hir = new HIR(doc).toJSON();
-
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC",
+      blocks: [
         {
           type: "gallery-card",
           attributes: {
@@ -341,18 +296,14 @@ describe("@atjson/source-Mobiledoc", () => {
       sections: [[2, "https://example.com/example.png"]],
     });
 
-    let hir = new HIR(doc).toJSON();
-
-    expect(hir).toMatchObject({
-      type: "root",
-      attributes: {},
-      children: [
+    expect(serialize(doc)).toMatchObject({
+      text: "\uFFFC",
+      blocks: [
         {
           type: "img",
           attributes: {
             src: "https://example.com/example.png",
           },
-          children: [],
         },
       ],
     });
@@ -383,41 +334,27 @@ describe("@atjson/source-Mobiledoc", () => {
         ],
       });
 
-      let hir = new HIR(doc).toJSON();
-
-      expect(hir).toMatchObject({
-        type: "root",
-        attributes: {},
-        children: [
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFC\uFFFCfirst item with italic text\uFFFCsecond item with struck-through text",
+        blocks: [
+          { type },
           {
-            type,
-            attributes: {},
-            children: [
-              {
-                type: "li",
-                attributes: {},
-                children: [
-                  "first item ",
-                  {
-                    type: "em",
-                    attributes: {},
-                    children: ["with italic text"],
-                  },
-                ],
-              },
-              {
-                type: "li",
-                attributes: {},
-                children: [
-                  "second item ",
-                  {
-                    type: "s",
-                    attributes: {},
-                    children: ["with struck-through text"],
-                  },
-                ],
-              },
-            ],
+            type: "li",
+            parents: [type],
+          },
+          {
+            type: "li",
+            parents: [type],
+          },
+        ],
+        marks: [
+          {
+            type: "em",
+            range: "(13..29]",
+          },
+          {
+            type: "s",
+            range: "(42..66]",
           },
         ],
       });
