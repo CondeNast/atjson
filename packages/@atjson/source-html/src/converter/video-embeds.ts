@@ -1,5 +1,4 @@
 import Document, { Annotation, is, SliceAnnotation } from "@atjson/document";
-import uuid from "uuid-random";
 import {
   getClosestAspectRatio,
   VideoEmbed,
