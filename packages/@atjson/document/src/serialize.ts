@@ -446,7 +446,11 @@ export function serialize(
   lastIndex = 0;
   for (let token of tokens) {
     if (parseTokens.length === 0) {
-      text += doc.content.slice(lastIndex, token.index);
+      let chunk = doc.content.slice(lastIndex, token.index);
+      if (chunk.indexOf("\uFFFC") !== -1) {
+        throw new Error("Text contains reserved character \uFFFC.");
+      }
+      text += chunk;
     }
     lastIndex = token.index;
 

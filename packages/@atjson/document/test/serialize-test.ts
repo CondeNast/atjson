@@ -14,9 +14,26 @@ import TestSource, {
   ListItem,
   LineBreak,
   Quote,
+  Instagram,
 } from "./test-source";
 
 describe("serialize", () => {
+  test("errors are thrown if uFFFC is included in text", () => {
+    expect(() => {
+      serialize(
+        new TestSource({
+          content: "\uFFFC",
+          annotations: [
+            new Instagram({
+              start: 0,
+              end: 1,
+            }),
+          ],
+        })
+      );
+    }).toThrowError();
+  });
+
   describe("blocks", () => {
     test("single block", () => {
       expect(
