@@ -60,7 +60,7 @@ exports[`Document#withStableId annotations by id reference are equal (even when 
     {
       "attributes": {
         "-test-citation": "00000006",
-        "-test-credit": "00000004",
+        "-test-credit": "00000003",
       },
       "end": 187,
       "id": "00000001",
@@ -75,22 +75,22 @@ exports[`Document#withStableId annotations by id reference are equal (even when 
       "type": "-atjson-parse-token",
     },
     {
-      "attributes": {},
-      "end": 202,
-      "id": "00000003",
-      "start": 190,
-      "type": "-test-italic",
-    },
-    {
       "attributes": {
         "-atjson-refs": [
           "00000001",
         ],
       },
       "end": 202,
-      "id": "00000004",
+      "id": "00000003",
       "start": 190,
       "type": "-atjson-slice",
+    },
+    {
+      "attributes": {},
+      "end": 202,
+      "id": "00000004",
+      "start": 190,
+      "type": "-test-italic",
     },
     {
       "attributes": {},
