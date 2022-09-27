@@ -1,4 +1,5 @@
 import {
+  AnnotationConstructor,
   BlockAnnotation,
   Document,
   EdgeBehaviour,
@@ -6,6 +7,7 @@ import {
   ParseAnnotation,
   JSON,
   Annotation,
+  SliceAnnotation,
   UnknownAnnotation,
   is,
 } from "./internals";
@@ -447,8 +449,19 @@ export function serialize(
   for (let token of tokens) {
     if (parseTokens.length === 0) {
       let chunk = doc.content.slice(lastIndex, token.index);
-      if (chunk.indexOf("\uFFFC") !== -1) {
-        throw new Error("Text contains reserved character \uFFFC.");
+      let reservedCharacterIndex = chunk.indexOf("\uFFFC");
+      if (reservedCharacterIndex !== -1) {
+        throw new Error(
+          `Text contains reserved character +uFFFC at index ${
+            lastIndex + reservedCharacterIndex
+          }.\n\n${doc.content.slice(
+            Math.max(0, lastIndex + reservedCharacterIndex - 25),
+            Math.min(
+              lastIndex + reservedCharacterIndex + 25,
+              doc.content.length
+            )
+          )}`
+        );
       }
       text += chunk;
     }
@@ -573,8 +586,14 @@ function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
   };
 }
 
-function schemaForItem(item: Mark | Block, DocumentClass: typeof Document) {
+function schemaForItem(
+  item: Mark | Block,
+  DocumentClass: typeof Document
+): AnnotationConstructor<any, any> | null {
   let schema = DocumentClass.schema;
+  if (item.type === "slice") {
+    return SliceAnnotation;
+  }
   for (let AnnotationClass of schema) {
     if (AnnotationClass.type === item.type) {
       return AnnotationClass;
