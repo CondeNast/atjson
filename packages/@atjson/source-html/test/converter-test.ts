@@ -851,21 +851,21 @@ describe("@atjson/source-html", () => {
               "marks": [
                 {
                   "attributes": {
-                    "url": "https://vimeo.com/156254412",
-                  },
-                  "id": "M00000001",
-                  "range": "(2..24)",
-                  "type": "link",
-                },
-                {
-                  "attributes": {
                     "refs": [
                       "B00000000",
                     ],
                   },
                   "id": "M00000000",
-                  "range": "(2..55]",
+                  "range": "(1..55]",
                   "type": "slice",
+                },
+                {
+                  "attributes": {
+                    "url": "https://vimeo.com/156254412",
+                  },
+                  "id": "M00000001",
+                  "range": "(2..24)",
+                  "type": "link",
                 },
                 {
                   "attributes": {
