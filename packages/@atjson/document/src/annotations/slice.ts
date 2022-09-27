@@ -16,6 +16,6 @@ export class SliceAnnotation extends Annotation<{
   static type = "slice";
 
   get rank() {
-    return 10000;
+    return 5;
   }
 }
