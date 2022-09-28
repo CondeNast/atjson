@@ -97,6 +97,8 @@ export function Serialized(props) {
   }
 />
 
+Text blocks are _explicitly_ used only for disambiguation purposes and to guarantee that text always occurs within a block, which is a requirement of many editors. [ProseMirror](https://prosemirror.net/), a popular text editor, has this requirement. We _do not_ wrap all text in text blocks, as that would introduce conflicts in CRDT implementations like automerge, since every insertion of a block would correspond with another insertion of a text block if it contains text.
+
 ### Marks
 
 Marks are represented as an object with range information and attributes. Ranges contain information about edge behaviour that was previously handled by options on `insertText`.
