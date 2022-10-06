@@ -451,16 +451,16 @@ export function serialize(
       let chunk = doc.content.slice(lastIndex, token.index);
       let reservedCharacterIndex = chunk.indexOf("\uFFFC");
       if (reservedCharacterIndex !== -1) {
+        let index = lastIndex + reservedCharacterIndex;
+        let start = Math.max(0, index - 25);
+        let end = Math.min(index + 25, doc.content.length);
+
+        // Provides some context when throwing an error to make it easier to
+        // find where the object replacement character is in a larger document
         throw new Error(
           `Text contains reserved character +uFFFC at index ${
             lastIndex + reservedCharacterIndex
-          }.\n\n${doc.content.slice(
-            Math.max(0, lastIndex + reservedCharacterIndex - 25),
-            Math.min(
-              lastIndex + reservedCharacterIndex + 25,
-              doc.content.length
-            )
-          )}`
+          }.\n\n${doc.content.slice(start, end)}\n${" ".repeat(index - start)}^`
         );
       }
       text += chunk;
