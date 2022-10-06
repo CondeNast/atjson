@@ -22,16 +22,37 @@ describe("serialize", () => {
     expect(() => {
       serialize(
         new TestSource({
-          content: "\uFFFC",
+          content:
+            "<p>There's text that wasn't wrapped in a ParseAnnotation!</p>\uFFFC",
           annotations: [
-            new Instagram({
+            new ParseAnnotation({
               start: 0,
-              end: 1,
+              end: 3,
+            }),
+
+            new Paragraph({
+              start: 0,
+              end: 61,
+            }),
+
+            new ParseAnnotation({
+              start: 57,
+              end: 61,
+            }),
+
+            new Instagram({
+              start: 61,
+              end: 62,
             }),
           ],
         })
       );
-    }).toThrowError();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Text contains reserved character +uFFFC at index 61.
+
+      in a ParseAnnotation!</p>￼
+                               ^"
+    `);
   });
 
   describe("blocks", () => {
