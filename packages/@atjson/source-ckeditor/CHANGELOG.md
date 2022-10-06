@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.13](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.2.12...@atjson/source-ckeditor@0.2.13) (2022-10-06)
+
+**Note:** Version bump only for package @atjson/source-ckeditor
+
 ## [0.2.12](https://github.com/CondeNast/atjson/compare/@atjson/source-ckeditor@0.2.11...@atjson/source-ckeditor@0.2.12) (2022-09-07)
 
 **Note:** Version bump only for package @atjson/source-ckeditor

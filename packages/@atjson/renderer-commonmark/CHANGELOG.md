@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.25.12...@atjson/renderer-commonmark@0.26.0) (2022-10-06)
+
+### Features
+
+- optionally include ranges for blocks ([bed516b](https://github.com/CondeNast/atjson/commit/bed516b91c40275a47a0f0741f875101f4ddd5ba))
+
 ## [0.25.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.25.11...@atjson/renderer-commonmark@0.25.12) (2022-09-07)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

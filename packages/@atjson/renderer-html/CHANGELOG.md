@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.13](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.28.12...@atjson/renderer-html@0.28.13) (2022-10-06)
+
+**Note:** Version bump only for package @atjson/renderer-html
+
 ## [0.28.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.28.11...@atjson/renderer-html@0.28.12) (2022-09-07)
 
 ### Bug Fixes

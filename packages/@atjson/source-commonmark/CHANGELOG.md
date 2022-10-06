@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.11](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.10...@atjson/source-commonmark@0.24.11) (2022-10-06)
+
+### Bug Fixes
+
+- horizontal_rules are blocks in markdown it turns out! ([81a974a](https://github.com/CondeNast/atjson/commit/81a974a9658456c59899c55386e4e97a2e857f93))
+- remove half of the parse tokens present in the commonmark source ([8c4560f](https://github.com/CondeNast/atjson/commit/8c4560fb8eee588ef63c81ada82d354862a788b4))
+
 ## [0.24.10](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.9...@atjson/source-commonmark@0.24.10) (2022-09-07)
 
 ### Bug Fixes

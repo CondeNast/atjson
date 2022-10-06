@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.26.1...@atjson/document@0.27.0) (2022-10-06)
+
+### Features
+
+- add code for deserializing entities ([a0b448c](https://github.com/CondeNast/atjson/commit/a0b448c0d883c232ce5f9a2dfcf8e9c30ddfeba5))
+- add wip of storage format serialization ([2fa3f85](https://github.com/CondeNast/atjson/commit/2fa3f8584008ea336760c73b5314b43fed26ea37))
+- optionally include ranges for blocks ([bed516b](https://github.com/CondeNast/atjson/commit/bed516b91c40275a47a0f0741f875101f4ddd5ba))
+- split text into blocks to account for jagged boundaries ([7de84cf](https://github.com/CondeNast/atjson/commit/7de84cf083c0bceb753631c4dbaa54ad7b19444e))
+
 ## [0.26.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.26.0...@atjson/document@0.26.1) (2022-09-07)
 
 **Note:** Version bump only for package @atjson/document
