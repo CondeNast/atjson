@@ -1,5 +1,4 @@
 import { serialize } from "@atjson/document";
-import { HIR } from "@atjson/hir";
 import OffsetSource, { VideoURLs } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
@@ -197,9 +196,9 @@ describe("@atjson/source-html", () => {
     });
 
     test("hr", () => {
-      let doc = HTMLSource.fromRaw("Horizontal <hr> rules!").convertTo(
-        OffsetSource
-      );
+      let doc = HTMLSource.fromRaw(
+        "<p>Horizontal</p><hr><p>rules!</p>"
+      ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
           "blocks": [
@@ -208,20 +207,25 @@ describe("@atjson/source-html", () => {
               "id": "B00000000",
               "parents": [],
               "selfClosing": false,
-              "type": "text",
+              "type": "paragraph",
             },
             {
               "attributes": {},
               "id": "B00000001",
-              "parents": [
-                "text",
-              ],
-              "selfClosing": true,
+              "parents": [],
+              "selfClosing": false,
               "type": "horizontal-rule",
+            },
+            {
+              "attributes": {},
+              "id": "B00000002",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
             },
           ],
           "marks": [],
-          "text": "￼Horizontal ￼ rules!",
+          "text": "￼Horizontal￼￼rules!",
         }
       `);
     });
@@ -1183,7 +1187,7 @@ describe("@atjson/source-html", () => {
                   },
                   "id": "B00000000",
                   "parents": [],
-                  "selfClosing": true,
+                  "selfClosing": false,
                   "type": "ceros-embed",
                 },
               ],
@@ -1209,7 +1213,7 @@ describe("@atjson/source-html", () => {
                   },
                   "id": "B00000000",
                   "parents": [],
-                  "selfClosing": true,
+                  "selfClosing": false,
                   "type": "ceros-embed",
                 },
               ],
@@ -1243,7 +1247,7 @@ describe("@atjson/source-html", () => {
                   },
                   "id": "B00000000",
                   "parents": [],
-                  "selfClosing": true,
+                  "selfClosing": false,
                   "type": "ceros-embed",
                 },
               ],
