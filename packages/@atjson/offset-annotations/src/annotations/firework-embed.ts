@@ -1,6 +1,6 @@
-import { ObjectAnnotation } from "@atjson/document";
+import { BlockAnnotation } from "@atjson/document";
 
-export class FireworkEmbed extends ObjectAnnotation<{
+export class FireworkEmbed extends BlockAnnotation<{
   id: string;
   channel?: string;
   open?: "default" | "_self" | "_modal" | "_blank";

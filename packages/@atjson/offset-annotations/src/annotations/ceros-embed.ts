@@ -1,6 +1,6 @@
-import { ObjectAnnotation } from "@atjson/document";
+import { BlockAnnotation } from "@atjson/document";
 
-export class CerosEmbed extends ObjectAnnotation<{
+export class CerosEmbed extends BlockAnnotation<{
   url: string;
   aspectRatio: number;
   mobileAspectRatio?: number;
