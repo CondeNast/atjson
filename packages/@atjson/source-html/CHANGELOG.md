@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.4](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.3...@atjson/source-html@0.34.4) (2022-10-10)
+
+### Bug Fixes
+
+- change types for ceros-embed / firework-embed / horizontal-rule from object to block ([15a59a5](https://github.com/CondeNast/atjson/commit/15a59a5b6273d09e4a6691d484c360ff3b0e87a3))
+
 ## [0.34.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.2...@atjson/source-html@0.34.3) (2022-10-06)
 
 **Note:** Version bump only for package @atjson/source-html

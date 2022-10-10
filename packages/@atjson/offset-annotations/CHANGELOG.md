@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.45.4](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.45.3...@atjson/offset-annotations@0.45.4) (2022-10-10)
+
+### Bug Fixes
+
+- change types for ceros-embed / firework-embed / horizontal-rule from object to block ([15a59a5](https://github.com/CondeNast/atjson/commit/15a59a5b6273d09e4a6691d484c360ff3b0e87a3))
+
 ## [0.45.3](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.45.2...@atjson/offset-annotations@0.45.3) (2022-10-06)
 
 **Note:** Version bump only for package @atjson/offset-annotations
