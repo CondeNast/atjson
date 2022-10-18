@@ -16,7 +16,7 @@
     "@types/jsdom": "*",
     "@types/minimist": "*",
     "@types/prettier": "*",
-    "jsdom": "20.0.0",
+    "jsdom": "20.0.1",
     "minimist": "1.2.7",
     "prettier": "2.7.1"
   },
