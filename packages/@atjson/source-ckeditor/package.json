@@ -11,14 +11,14 @@
   },
   "devDependencies": {
     "@atjson/document": "0.27.0",
-    "@ckeditor/ckeditor5-build-classic": "*",
-    "@ckeditor/ckeditor5-engine": "*",
+    "@ckeditor/ckeditor5-build-classic": "35.2.1",
+    "@ckeditor/ckeditor5-engine": "35.2.1",
     "@types/jsdom": "*",
     "@types/minimist": "*",
     "@types/prettier": "*",
-    "jsdom": "*",
-    "minimist": "*",
-    "prettier": "*"
+    "jsdom": "20.0.0",
+    "minimist": "1.2.7",
+    "prettier": "2.7.1"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"
