@@ -13,9 +13,9 @@
     "@atjson/document": "0.27.0",
     "@ckeditor/ckeditor5-build-classic": "35.2.1",
     "@ckeditor/ckeditor5-engine": "35.2.1",
-    "@types/jsdom": "*",
-    "@types/minimist": "*",
-    "@types/prettier": "*",
+    "@types/jsdom": "20.0.0",
+    "@types/minimist": "1.2.2",
+    "@types/prettier": "2.7.1",
     "jsdom": "20.0.1",
     "minimist": "1.2.7",
     "prettier": "2.7.1"
