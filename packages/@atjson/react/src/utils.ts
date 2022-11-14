@@ -365,7 +365,9 @@ export function createTree(value?: {
       }
     }
 
-    stack.push(block);
+    if (!block.selfClosing && block.type !== "text") {
+      stack.push(block);
+    }
     blockStart = blockEnd + 1;
   }
   return tree;
