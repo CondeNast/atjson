@@ -49,14 +49,17 @@ export default class HIR {
           a.id !== annotation.id
       );
 
-      this.document
-        .where(
-          (a) =>
-            (a.start >= annotation.start && a.end <= annotation.end) ||
-            a.id === annotation.id
-        )
-        .remove();
-      sliceRanges.push({ start: annotation.start, end: annotation.end });
+      // Only remove slices that aren't retained
+      if (!annotation.attributes.retain) {
+        this.document
+          .where(
+            (a) =>
+              (a.start >= annotation.start && a.end <= annotation.end) ||
+              a.id === annotation.id
+          )
+          .remove();
+        sliceRanges.push({ start: annotation.start, end: annotation.end });
+      }
     }
     this.document.deleteTextRanges(sliceRanges);
 
