@@ -321,7 +321,20 @@ export function createTree(value?: {
         for (let i = 0, len = markStack.length; i < len; i++) {
           let mark = markStack[i];
           let id = parentId === blockId ? mark.id : `${parentId}-${mark.id}`;
-          if (tree[parentId].indexOf(mark) === -1) {
+
+          // Check to see if the mark has already been inserted
+          // into the tree. There's no cases where we'll have
+          // marks that are disjoint at the same level of the
+          // tree, since marks are all treated the same.
+          let parent = tree[parentId];
+          let isInserted = false;
+          for (let j = 0, jlen = parent.length; j < jlen; j++) {
+            let node = parent[j];
+            isInserted =
+              isInserted || (typeof node !== "string" && node.id === id);
+          }
+
+          if (!isInserted) {
             tree[parentId].push({
               ...mark,
               id,
