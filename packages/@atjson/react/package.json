@@ -1,0 +1,16 @@
+{
+  "name": "@atjson/react",
+  "version": "0.1.0",
+  "description": "Render atjson documents into a React app",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "*"
+  },
+  "gitHead": "4f62b3c5b6fabb22a10d210074ec576112630028"
+}
