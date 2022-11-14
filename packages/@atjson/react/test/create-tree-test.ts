@@ -542,5 +542,208 @@ describe("createTree", () => {
         }
       `);
     });
+
+    test("multiple blocks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
+          blocks: [
+            {
+              id: "B0",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B2",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B3",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B0": [
+            "one fish",
+          ],
+          "B1": [
+            "two fish",
+          ],
+          "B2": [
+            "red fish",
+          ],
+          "B3": [
+            "blue fish",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B2",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B3",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+          ],
+        }
+      `);
+    });
+
+    test("block continuations", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone\uFFFCtwo\uFFFCthree\uFFFCfour",
+          blocks: [
+            {
+              id: "B0",
+              type: "quote",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "paragraph",
+              parents: ["quote"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B2",
+              type: "text",
+              parents: ["quote"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B3",
+              type: "text",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B0": [
+            "one",
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [
+                "quote",
+              ],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            "three",
+          ],
+          "B1": [
+            "two",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "quote",
+            },
+            "four",
+          ],
+        }
+      `);
+    });
+
+    test("sparse blocks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone\uFFFCtwo\uFFFCthree",
+          blocks: [
+            {
+              id: "B0",
+              type: "text",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "paragraph",
+              parents: ["text"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B2",
+              type: "text",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B1": [
+            "two",
+          ],
+          "root": [
+            "one",
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [
+                "text",
+              ],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            "three",
+          ],
+        }
+      `);
+    });
   });
 });
