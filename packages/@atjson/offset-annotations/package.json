@@ -13,7 +13,7 @@
     "@atjson/document": "0.28.1"
   },
   "peerDependencies": {
-    "@atjson/document": ">=0.26.0"
+    "@atjson/document": ">=0.27.0"
   },
   "gitHead": "1d161ada22546621208b8d890bdff141bc976439"
 }
