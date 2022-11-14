@@ -543,6 +543,157 @@ describe("createTree", () => {
       `);
     });
 
+    test("nested blocks with marks", () => {
+      expect(
+        createTree({
+          text: "\uFFFC\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
+          blocks: [
+            {
+              id: "B0",
+              type: "list",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "list-item",
+              parents: ["list"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B2",
+              type: "list-item",
+              parents: ["list"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B3",
+              type: "list-item",
+              parents: ["list"],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B4",
+              type: "list-item",
+              parents: ["list"],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M0",
+              type: "color",
+              start: 20,
+              end: 23,
+              range: "[20..23)",
+              attributes: { color: "red" },
+            },
+            {
+              id: "M1",
+              type: "color",
+              start: 29,
+              end: 33,
+              range: "[29..33)",
+              attributes: { color: "blue" },
+            },
+          ],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B0": [
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+            {
+              "attributes": {},
+              "id": "B2",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+            {
+              "attributes": {},
+              "id": "B3",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+            {
+              "attributes": {},
+              "id": "B4",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+          ],
+          "B1": [
+            "one fish",
+          ],
+          "B2": [
+            "two fish",
+          ],
+          "B3": [
+            {
+              "attributes": {
+                "color": "red",
+              },
+              "end": 23,
+              "id": "M0",
+              "range": "[20..23)",
+              "start": 20,
+              "type": "color",
+            },
+            " fish",
+          ],
+          "B4": [
+            {
+              "attributes": {
+                "color": "blue",
+              },
+              "end": 33,
+              "id": "M1",
+              "range": "[29..33)",
+              "start": 29,
+              "type": "color",
+            },
+            " fish",
+          ],
+          "M0": [
+            "red",
+          ],
+          "M1": [
+            "blue",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "list",
+            },
+          ],
+        }
+      `);
+    });
+
     test("multiple blocks", () => {
       expect(
         createTree({
