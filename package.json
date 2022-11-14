@@ -54,6 +54,7 @@
     "@atjson/document": "file:packages/@atjson/document",
     "@atjson/hir": "file:packages/@atjson/hir",
     "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",
+    "@atjson/react": "file:packages/@atjson/react",
     "@atjson/renderer-commonmark": "file:packages/@atjson/renderer-commonmark",
     "@atjson/renderer-graphviz": "file:packages/@atjson/renderer-graphviz",
     "@atjson/renderer-hir": "file:packages/@atjson/renderer-hir",
