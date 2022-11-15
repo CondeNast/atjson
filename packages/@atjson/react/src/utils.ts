@@ -290,7 +290,10 @@ export function createTree(value?: {
     let scopedMarks: InternalMark[] = [];
     for (let j = 0, jlen = marks.length; j < jlen; j++) {
       let mark = marks[j];
-      if (mark.start >= blockStart && mark.start <= blockEnd) {
+      if (
+        (mark.start >= blockStart && mark.start <= blockEnd) ||
+        (mark.end >= blockStart && mark.end <= blockEnd)
+      ) {
         scopedMarks.push(mark);
       }
     }
@@ -308,10 +311,12 @@ export function createTree(value?: {
       let indexes: number[] = [];
       for (let i = 0, len = scopedMarks.length; i < len; i++) {
         let { start, end } = scopedMarks[i];
-        if (indexes.indexOf(start) === -1 && start >= blockStart) {
+        start = Math.max(blockStart, start);
+        end = Math.min(blockEnd, end);
+        if (indexes.indexOf(start) === -1) {
           indexes.push(start);
         }
-        if (indexes.indexOf(end) === -1 && end <= blockEnd) {
+        if (indexes.indexOf(end) === -1) {
           indexes.push(end);
         }
       }
@@ -330,7 +335,7 @@ export function createTree(value?: {
         if (start == end) continue;
         // Then add marks that are starting from this position
         scopedMarks
-          .filter((mark) => mark.start === start)
+          .filter((mark) => Math.max(mark.start, blockStart) === start)
           .sort((a, b) => b.end - a.end)
           .forEach((mark) => {
             markStack.push(mark);
@@ -339,7 +344,7 @@ export function createTree(value?: {
         let parentId: string = blockId;
         for (let i = 0, len = markStack.length; i < len; i++) {
           let mark = markStack[i];
-          let id = parentId === blockId ? mark.id : `${parentId}-${mark.id}`;
+          let id = parentId === ROOT ? mark.id : `${parentId}-${mark.id}`;
 
           // Check to see if the mark has already been inserted
           // into the tree. There's no cases where we'll have
@@ -388,7 +393,7 @@ export function createTree(value?: {
 
         // Remove from the stack marks that have ended first
         scopedMarks
-          .filter((mark) => mark.end === end)
+          .filter((mark) => Math.min(mark.end, blockEnd) === end)
           .forEach((mark) => {
             markStack.splice(markStack.indexOf(mark), 1);
           });
