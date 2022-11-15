@@ -319,6 +319,68 @@ describe("createTree", () => {
       `);
     });
 
+    test("adjacent marks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCHello, world",
+          blocks: [
+            {
+              id: "B0",
+              type: "text",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M0",
+              type: "bold",
+              start: 1,
+              end: 6,
+              range: "[1..6)",
+              attributes: {},
+            },
+            {
+              id: "M1",
+              type: "italic",
+              start: 6,
+              end: 13,
+              range: "[6..13)",
+              attributes: {},
+            },
+          ],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "M0": [
+            "Hello",
+          ],
+          "M1": [
+            ", world",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "end": 6,
+              "id": "M0",
+              "range": "[1..6)",
+              "start": 1,
+              "type": "bold",
+            },
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "M1",
+              "range": "[6..13)",
+              "start": 6,
+              "type": "italic",
+            },
+          ],
+        }
+      `);
+    });
+
     test("overlapping marks", () => {
       expect(
         createTree({
@@ -715,12 +777,15 @@ describe("createTree", () => {
                 "color": "red",
               },
               "end": 23,
-              "id": "M0",
+              "id": "B3-M0",
               "range": "[20..23)",
               "start": 20,
               "type": "color",
             },
             " fish",
+          ],
+          "B3-M0": [
+            "red",
           ],
           "B4": [
             {
@@ -728,17 +793,14 @@ describe("createTree", () => {
                 "color": "blue",
               },
               "end": 33,
-              "id": "M1",
+              "id": "B4-M1",
               "range": "[29..33)",
               "start": 29,
               "type": "color",
             },
             " fish",
           ],
-          "M0": [
-            "red",
-          ],
-          "M1": [
+          "B4-M1": [
             "blue",
           ],
           "root": [
@@ -1083,6 +1145,87 @@ describe("createTree", () => {
             {
               "attributes": {},
               "id": "B4",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+          ],
+        }
+      `);
+    });
+
+    test("marks across blocks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone two\uFFFCthree four",
+          blocks: [
+            {
+              id: "B0",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M1",
+              type: "bold",
+              start: 5,
+              end: 14,
+              range: "[5..14)",
+              attributes: {},
+            },
+          ],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B0": [
+            "one ",
+            {
+              "attributes": {},
+              "end": 14,
+              "id": "B0-M1",
+              "range": "[5..14)",
+              "start": 5,
+              "type": "bold",
+            },
+          ],
+          "B0-M1": [
+            "two",
+          ],
+          "B1": [
+            {
+              "attributes": {},
+              "end": 14,
+              "id": "B1-M1",
+              "range": "[5..14)",
+              "start": 5,
+              "type": "bold",
+            },
+            " four",
+          ],
+          "B1-M1": [
+            "three",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B1",
               "parents": [],
               "selfClosing": false,
               "type": "paragraph",
