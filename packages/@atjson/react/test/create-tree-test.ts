@@ -956,5 +956,140 @@ describe("createTree", () => {
         }
       `);
     });
+
+    test("multiple self-closing blocks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone\uFFFCtwo\uFFFCthree\uFFFCfour\uFFFCfive\uFFFCsix\uFFFCseven",
+          blocks: [
+            {
+              id: "B0",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "line-break",
+              parents: ["paragraph"],
+              selfClosing: true,
+              attributes: {},
+            },
+            {
+              id: "B2",
+              type: "line-break",
+              parents: ["paragraph"],
+              selfClosing: true,
+              attributes: {},
+            },
+            {
+              id: "B3",
+              type: "line-break",
+              parents: ["paragraph"],
+              selfClosing: true,
+              attributes: {},
+            },
+            {
+              id: "B4",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B5",
+              type: "line-break",
+              parents: ["paragraph"],
+              selfClosing: true,
+              attributes: {},
+            },
+            {
+              id: "B6",
+              type: "line-break",
+              parents: ["paragraph"],
+              selfClosing: true,
+              attributes: {},
+            },
+          ],
+          marks: [],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "B0": [
+            "one",
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [
+                "paragraph",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "two",
+            {
+              "attributes": {},
+              "id": "B2",
+              "parents": [
+                "paragraph",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "three",
+            {
+              "attributes": {},
+              "id": "B3",
+              "parents": [
+                "paragraph",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "four",
+          ],
+          "B4": [
+            "five",
+            {
+              "attributes": {},
+              "id": "B5",
+              "parents": [
+                "paragraph",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "six",
+            {
+              "attributes": {},
+              "id": "B6",
+              "parents": [
+                "paragraph",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "seven",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B4",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+          ],
+        }
+      `);
+    });
   });
 });
