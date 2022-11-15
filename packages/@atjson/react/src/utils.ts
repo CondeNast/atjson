@@ -150,9 +150,10 @@ export function extractSlices(value: {
     }
   }
 
-  let text = value.text.slice(0, rangesToDelete[0][0]);
+  let firstRange = rangesToDelete[0];
+  let text = firstRange ? value.text.slice(0, firstRange[0]) : value.text;
   let lastEnd;
-  for (let i = 0; i < rangesToDelete.length - 1; i++) {
+  for (let i = 0, len = rangesToDelete.length; i < len - 1; i++) {
     text += value.text.slice(rangesToDelete[i][1], rangesToDelete[i + 1][0]);
     lastEnd = rangesToDelete[i + 1][1];
   }
@@ -247,19 +248,12 @@ export function createTree(value?: {
   let blockStart = 1;
   for (let i = 0, len = blocks.length; i < len; i++) {
     let block = blocks[i];
-    let text = chunks[i + 1];
-    let blockEnd = blockStart + text.length;
+    let chunk = chunks[i + 1];
+    let text: Array<string | Block> = chunk.length ? [chunk] : [];
+    let blockEnd = blockStart + chunk.length;
 
     while (block.parents.length < stack.length) {
       stack.pop();
-    }
-
-    let scopedMarks: InternalMark[] = [];
-    for (let j = 0, jlen = marks.length; j < jlen; j++) {
-      let mark = marks[j];
-      if (mark.start >= blockStart && mark.start <= blockEnd) {
-        scopedMarks.push(mark);
-      }
     }
 
     let parentId = stack[stack.length - 1]?.id ?? ROOT;
@@ -275,11 +269,35 @@ export function createTree(value?: {
       tree[blockId] = [];
     }
 
+    // Consume any self-closing tokens inside this block
+    let nextBlock = blocks[i + 1];
+    while (
+      nextBlock &&
+      nextBlock.selfClosing &&
+      nextBlock.parents[nextBlock.parents.length - 1] === block.type
+    ) {
+      text.push(nextBlock);
+      i++;
+
+      chunk = chunks[i + 1];
+      blockEnd += 1 + chunk.length;
+      if (chunk.length) {
+        text.push(chunk);
+      }
+      nextBlock = blocks[i + 1];
+    }
+
+    let scopedMarks: InternalMark[] = [];
+    for (let j = 0, jlen = marks.length; j < jlen; j++) {
+      let mark = marks[j];
+      if (mark.start >= blockStart && mark.start <= blockEnd) {
+        scopedMarks.push(mark);
+      }
+    }
+
     // If there's no marks, we can return the text as a single chunk
     if (scopedMarks.length === 0) {
-      if (text.length) {
-        tree[blockId].push(text);
-      }
+      tree[blockId].push(...text);
     } else {
       // To chunk the text properly, we need to handle several cases:
       // 1. Overlapping marks
@@ -302,6 +320,7 @@ export function createTree(value?: {
       // Now with the mark boundaries, we can construct a tree
       // of items in the block
       let start = blockStart;
+      let consumedTextLength = 0;
 
       // We'll walk through the ranges and insert nodes into
       // the correct parent
@@ -346,9 +365,25 @@ export function createTree(value?: {
           }
         }
 
-        let leaf = text.slice(start - blockStart, end - blockStart);
-        if (leaf.length) {
-          tree[parentId].push(leaf);
+        let markEnd = end - blockStart;
+
+        while (consumedTextLength < markEnd) {
+          let part = text.shift();
+          if (part == null) break;
+
+          if (typeof part === "string") {
+            if (part.length > markEnd - consumedTextLength) {
+              tree[parentId].push(part.slice(0, markEnd - consumedTextLength));
+              text.unshift(part.slice(markEnd - consumedTextLength));
+              consumedTextLength = markEnd;
+            } else {
+              tree[parentId].push(part);
+              consumedTextLength += part.length;
+            }
+          } else {
+            tree[parentId].push(part);
+            consumedTextLength++;
+          }
         }
 
         // Remove from the stack marks that have ended first
@@ -359,10 +394,8 @@ export function createTree(value?: {
           });
         start = end;
       }
-      let remainder = text.slice(start - blockStart);
-      if (remainder) {
-        tree[blockId].push(remainder);
-      }
+
+      tree[blockId].push(...text);
     }
 
     if (!block.selfClosing && block.type !== "text") {
@@ -370,5 +403,6 @@ export function createTree(value?: {
     }
     blockStart = blockEnd + 1;
   }
+
   return tree;
 }
