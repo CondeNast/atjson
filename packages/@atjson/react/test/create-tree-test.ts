@@ -391,6 +391,66 @@ describe("createTree", () => {
         }
       `);
     });
+
+    test("self-closing blocks in marks", () => {
+      expect(
+        createTree({
+          text: "\uFFFCone\uFFFCtwo",
+          blocks: [
+            {
+              id: "B0",
+              type: "text",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+            {
+              id: "B1",
+              type: "line-break",
+              parents: ["text"],
+              selfClosing: true,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M0",
+              type: "bold",
+              start: 1,
+              end: 8,
+              range: "[1..8)",
+              attributes: {},
+            },
+          ],
+        })
+      ).toMatchInlineSnapshot(`
+        {
+          "M0": [
+            "one",
+            {
+              "attributes": {},
+              "id": "B1",
+              "parents": [
+                "text",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            "two",
+          ],
+          "root": [
+            {
+              "attributes": {},
+              "end": 8,
+              "id": "M0",
+              "range": "[1..8)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+        }
+      `);
+    });
   });
 
   describe("blocks", () => {
