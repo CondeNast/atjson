@@ -1,10 +1,4 @@
-import Document, {
-  Annotation,
-  BlockAnnotation,
-  ParseAnnotation,
-  UnknownAnnotation,
-  is,
-} from "@atjson/document";
+import Document from "@atjson/document";
 import {
   Bold,
   CodeBlock,
@@ -17,6 +11,7 @@ import {
   Paragraph,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
+import type { Block, Mark, InternalMark } from "@atjson/util";
 import {
   BEGINNING_WHITESPACE,
   BEGINNING_WHITESPACE_PUNCTUATION,
@@ -29,97 +24,40 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
-function getStart(a: { start: number }) {
-  return a.start;
-}
-
-function getEnd(a: { end: number }) {
-  return a.end;
-}
-
-function isParseAnnotation(
-  annotation: Annotation<any>
-): annotation is ParseAnnotation {
-  return (
-    annotation.vendorPrefix === "atjson" && annotation.type === "parse-token"
-  );
-}
-
-function isParseOrUnknown(
-  annotation: Annotation<any>
-): annotation is ParseAnnotation | UnknownAnnotation {
-  return (
-    annotation.vendorPrefix === "atjson" &&
-    (annotation.type === "parse-token" || annotation.type === "unknown")
-  );
-}
-
-function getPreviousChar(doc: Document, end: number) {
-  let start = end;
-
-  function isOverlappingParseAnnotation(a: Annotation<any>) {
-    return isParseAnnotation(a) && a.end >= start && a.start < start;
+function getPreviousChar(
+  doc: { text: string; blocks?: Block[]; marks?: Mark[] },
+  end: number
+) {
+  let start = end - 1;
+  while (doc.text[start] === "\uFFFC" && start >= 0) {
+    start--;
   }
-
-  function isCoveredNonParseAnnotation(a: Annotation<any>) {
-    return (
-      !isParseOrUnknown(a) &&
-      ((a.start >= start && a.start < end) || (a.end >= start && a.end <= end))
-    );
-  }
-
-  while (start > 0) {
-    let parseAnnotations = doc.where(isOverlappingParseAnnotation);
-    if (parseAnnotations.length) {
-      start = Math.min(...parseAnnotations.annotations.map(getStart));
-    } else {
-      break;
-    }
-  }
-
-  for (let a of doc.annotations) {
-    if (isCoveredNonParseAnnotation(a)) {
-      return "";
-    }
-  }
-
-  return doc.content[start - 1] || "";
+  return doc.text[start] || "";
 }
 
-function getNextChar(doc: Document, start: number) {
+function getNextChar(
+  doc: {
+    text: string;
+    blocks: Block[];
+    marks: Mark[];
+  },
+  start: number
+) {
   let end = start;
 
-  function isOverlappingParseAnnotation(a: Annotation<any>) {
-    return isParseAnnotation(a) && a.start <= end && a.end > end;
-  }
-
-  function isCoveredNonParseAnnotation(a: Annotation<any>) {
-    return (
-      !isParseOrUnknown(a) &&
-      ((a.start >= start && a.start <= end) || (a.end > start && a.end <= end))
-    );
-  }
-
-  while (end < doc.content.length) {
-    let parseAnnotations = doc.where(isOverlappingParseAnnotation);
-    if (parseAnnotations.length) {
-      end = Math.max(...parseAnnotations.annotations.map(getEnd));
+  while (end < doc.text.length) {
+    if (doc.text[end] === "\uFFFC") {
+      end++;
     } else {
       break;
     }
   }
 
-  for (let a of doc.annotations) {
-    if (isCoveredNonParseAnnotation(a)) {
-      return "";
-    }
-  }
-
-  return doc.content[end] || "";
+  return doc.text[end] || "";
 }
 
 export function* splitDelimiterRuns(
-  annotation: Annotation,
+  mark: InternalMark,
   context: Context,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
 ): Generator<void, [string, string, string], string[]> {
@@ -132,9 +70,11 @@ export function* splitDelimiterRuns(
   let child = context.children.length === 1 ? context.children[0] : null;
   if (
     child &&
-    child.start === annotation.start &&
-    child.end === annotation.end &&
-    (is(child, Bold) || is(child, Italic))
+    typeof child !== "string" &&
+    "range" in child &&
+    child.start === mark.start &&
+    child.end === mark.end &&
+    (child.type === Bold.type || child.type === Italic.type)
   ) {
     return ["", text, ""] as [string, string, string];
   }
@@ -145,7 +85,7 @@ export function* splitDelimiterRuns(
     if (match[2]) {
       start += match[2].length;
     } else if (match[3]) {
-      let prevChar = getPreviousChar(context.document, annotation.start);
+      let prevChar = getPreviousChar(context.document, mark.start);
       if (start === 0 && prevChar && !prevChar.match(WHITESPACE_PUNCTUATION)) {
         start += match[3].length;
       } else {
@@ -165,7 +105,7 @@ export function* splitDelimiterRuns(
         end -= 1;
         break;
       }
-      let nextChar = getNextChar(context.document, annotation.end);
+      let nextChar = getNextChar(context.document, mark.end);
       if (
         end === text.length &&
         nextChar &&
@@ -340,7 +280,10 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(bold: Bold, context: Context): Generator<void, string, string[]> {
+  *Bold(
+    bold: InternalMark,
+    context: Context
+  ): Generator<void, string, string[]> {
     let [before, text, after] = yield* splitDelimiterRuns(
       bold,
       context,
@@ -359,7 +302,7 @@ export default class CommonmarkRenderer extends Renderer {
       if (
         !context.previous &&
         !context.next &&
-        context.parent instanceof Italic &&
+        context.parent?.type === "italic" &&
         !hasInnerMarkup
       ) {
         return `${before}__${text}__${after}`;
@@ -447,7 +390,10 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *Italic(italic: Italic, context: Context): Generator<void, string, string[]> {
+  *Italic(
+    italic: InternalMark,
+    context: Context
+  ): Generator<void, string, string[]> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
@@ -465,13 +411,19 @@ export default class CommonmarkRenderer extends Renderer {
     } else {
       let markup = state.isItalicized ? "_" : "*";
       let hasWrappingBoldMarkup =
-        !context.previous && !context.next && context.parent instanceof Bold;
+        !context.previous && !context.next && context.parent?.type === "bold";
       let hasAdjacentBoldMarkup =
-        (context.next instanceof Bold && after.length === 0) ||
-        (context.previous instanceof Bold && before.length === 0);
+        (typeof context.next !== "string" &&
+          context.next?.type === "bold" &&
+          after.length === 0) ||
+        (typeof context.previous !== "string" &&
+          context.previous?.type === "bold" &&
+          before.length === 0);
       let hasAlignedParent =
-        context.parent.start === italic.start &&
-        context.parent.end === italic.end;
+        context.parent &&
+        "range" in context.parent &&
+        context.parent?.start === italic.start &&
+        context.parent?.end === italic.end;
 
       if (
         (hasWrappingBoldMarkup && !hasAlignedParent) ||
@@ -490,13 +442,18 @@ export default class CommonmarkRenderer extends Renderer {
   *LineBreak(_: any, context: Context): Generator<void, string, string[]> {
     // Line breaks cannot end markdown block elements or paragraphs
     // https://spec.commonmark.org/0.29/#example-641
-    if (context.parent instanceof BlockAnnotation && context.next == null) {
+    if (
+      context.parent &&
+      "parents" in context.parent &&
+      context.parent.parents &&
+      context.next == null
+    ) {
       return "";
     }
 
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
-    if (context.parent.type === "code" || context.parent.type === "html") {
+    if (context.parent?.type === "code" || context.parent?.type === "html") {
       return "\n";
     }
 
@@ -667,7 +624,8 @@ export default class CommonmarkRenderer extends Renderer {
       delimiter = ".";
 
       if (
-        context.previous instanceof List &&
+        typeof context.previous !== "string" &&
+        context.previous?.type === "list" &&
         context.previous.attributes.type === "numbered" &&
         context.previous.attributes.delimiter === "."
       ) {
@@ -677,7 +635,8 @@ export default class CommonmarkRenderer extends Renderer {
       delimiter = "-";
 
       if (
-        context.previous instanceof List &&
+        typeof context.previous !== "string" &&
+        context.previous?.type === "list" &&
         context.previous.attributes.type === "bulleted" &&
         context.previous.attributes.delimiter === "-"
       ) {
@@ -690,7 +649,9 @@ export default class CommonmarkRenderer extends Renderer {
 
     // Handle indendation for code blocks that immediately follow a list.
     let hasCodeBlockFollowing =
-      context.next instanceof CodeBlock && context.next.attributes.info == null;
+      typeof context.next !== "string" &&
+      context.next?.type === "code-block" &&
+      context.next.attributes.info == null;
     Object.assign(this.state, {
       isList: true,
       type: list.attributes.type,

@@ -5,7 +5,7 @@ import {
   EdgeBehaviour,
   ObjectAnnotation,
   ParseAnnotation,
-  JSON,
+  JSONObject,
   Annotation,
   SliceAnnotation,
   UnknownAnnotation,
@@ -38,7 +38,7 @@ type Mark = {
   id: string;
   type: string;
   range: Range;
-  attributes: JSON;
+  attributes: JSONObject;
 };
 
 /**
@@ -67,7 +67,7 @@ type Block = {
   range?: Range;
   parents: string[];
   selfClosing?: boolean;
-  attributes: JSON;
+  attributes: JSONObject;
 };
 
 // @blaine and @tim-evans have been doing explorations
