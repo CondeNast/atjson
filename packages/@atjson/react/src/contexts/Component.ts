@@ -1,5 +1,5 @@
+import type { Block, InternalMark } from "@atjson/util";
 import { createContext, createElement, ComponentType, ReactNode } from "react";
-import type { Block, InternalMark } from "../types";
 
 export const DEFAULT_CONTEXT = {
   keyOf: (blockOrMark: Block | InternalMark) => blockOrMark.type,

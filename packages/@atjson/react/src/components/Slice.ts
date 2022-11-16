@@ -1,9 +1,8 @@
 import type { ReactElement, ReactNode } from "react";
 import { createElement, Fragment, useContext, useMemo } from "react";
-import { createTree } from "../utils";
+import { createTree, ROOT } from "@atjson/util";
 import { Node } from "./Node";
 import { SliceContext } from "../contexts";
-import { ROOT } from "../const";
 
 /**
  * Renders a slice that was created via a `Slice` mark.

@@ -1,6 +1,6 @@
 import { createElement, Fragment, useContext, useMemo } from "react";
 import type { ReactElement } from "react";
-import type { Block, InternalMark } from "../types";
+import type { Block, InternalMark } from "@atjson/util";
 import { ComponentContext, DEFAULT_CONTEXT } from "../contexts";
 
 /**
