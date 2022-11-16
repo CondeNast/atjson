@@ -152,7 +152,7 @@ export function extractSlices(value: {
 
   let firstRange = rangesToDelete[0];
   let text = firstRange ? value.text.slice(0, firstRange[0]) : "";
-  let lastEnd;
+  let lastEnd = firstRange ? firstRange[1] : 0;
   for (let i = 0, len = rangesToDelete.length; i < len - 1; i++) {
     text += value.text.slice(rangesToDelete[i][1], rangesToDelete[i + 1][0]);
     lastEnd = rangesToDelete[i + 1][1];
