@@ -21,6 +21,7 @@ import OffsetSource, {
   TikTokEmbed,
   Underline,
 } from "@atjson/offset-annotations";
+import { ParseAnnotation } from "@atjson/document";
 import Renderer from "../src";
 
 describe("renderer-html", () => {
@@ -130,7 +131,13 @@ describe("renderer-html", () => {
   test("horizontal rule", () => {
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [new HorizontalRule({ start: 0, end: 1 })],
+      annotations: [
+        new HorizontalRule({ start: 0, end: 1 }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
     });
 
     expect(Renderer.render(doc)).toEqual(`<hr />`);
@@ -149,7 +156,13 @@ describe("renderer-html", () => {
 
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [image],
+      annotations: [
+        image,
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
     });
 
     expect(Renderer.render(doc)).toEqual(
@@ -174,7 +187,13 @@ describe("renderer-html", () => {
   test("line break", () => {
     let doc = new OffsetSource({
       content: "\uFFFC",
-      annotations: [new LineBreak({ start: 0, end: 1 })],
+      annotations: [
+        new LineBreak({ start: 0, end: 1 }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
     });
 
     expect(Renderer.render(doc)).toEqual(`<br />`);
@@ -476,6 +495,10 @@ describe("renderer-html", () => {
               aspectRatio: 2,
             },
           }),
+          new ParseAnnotation({
+            start: 0,
+            end: 1,
+          }),
         ],
       });
 
@@ -498,6 +521,10 @@ describe("renderer-html", () => {
               mobileAspectRatio: 3,
             },
           }),
+          new ParseAnnotation({
+            start: 0,
+            end: 1,
+          }),
         ],
       });
 
@@ -517,6 +544,10 @@ describe("renderer-html", () => {
           attributes: {
             url: "https://www.tiktok.com/@vogueitalia/video/6771026615137750277",
           },
+        }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
         }),
       ],
     });

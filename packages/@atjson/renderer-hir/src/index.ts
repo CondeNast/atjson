@@ -1,11 +1,6 @@
-import Document, {
-  Annotation,
-  AnnotationJSON,
-  UnknownAnnotation,
-  is,
-} from "@atjson/document";
-import type { JSON as TJSON } from "@atjson/document";
-import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
+import Document, { serialize } from "@atjson/document";
+import { createTree, extractSlices, ROOT } from "@atjson/util";
+import type { Block, Mark, InternalMark } from "@atjson/util";
 
 interface Mapping {
   [key: string]: string;
@@ -58,56 +53,47 @@ export function classify(type: string) {
 }
 
 export interface Context {
-  parent: Annotation<any>;
-  previous:
-    | Annotation<any>
-    | (AnnotationJSON & { toJSON(): Record<string, unknown> })
-    | null;
-  next:
-    | Annotation<any>
-    | (AnnotationJSON & { toJSON(): Record<string, unknown> })
-    | null;
-  children: Array<Annotation<any>>;
-  document: Document;
-}
-
-function isTextAnnotation(a: Annotation<any>): a is TextAnnotation {
-  return a.vendorPrefix === "atjson" && a.type === "text";
-}
-
-function attrs(attributes: TJSON | undefined): any {
-  if (attributes == null) {
-    return attributes;
-  } else if (Array.isArray(attributes)) {
-    return attributes.map((item) => attrs(item));
-  } else if (typeof attributes === "object") {
-    let props: TJSON = {};
-    for (let key in attributes) {
-      props[key] = attrs(attributes[key]);
-    }
-    return props;
-  }
-  return attributes;
+  parent: Block | InternalMark | null;
+  previous: Block | InternalMark | string | null;
+  next: Block | InternalMark | string | null;
+  children: Array<Block | InternalMark | string>;
+  document: {
+    text: string;
+    blocks: Block[];
+    marks: Mark[];
+  };
 }
 
 function compile(
   renderer: Renderer,
-  node: HIRNode,
-  context: Partial<Context> & { document: Document }
+  value: Block | InternalMark | null,
+  map: Record<string, Array<Block | InternalMark | string>>,
+  key: string,
+  context: Partial<Context> & {
+    document: {
+      text: string;
+      blocks: Block[];
+      marks: Mark[];
+    };
+  }
 ): any {
-  let annotation = node.annotation;
-  let childNodes = node.children();
-  let childAnnotations = childNodes.map(normalizeChildNode);
+  let children = map[key] ?? [];
   let generator: Iterator<void, any, any[]>;
 
-  if (context.parent == null) {
+  if (value == null) {
     generator = renderer.root();
   } else {
-    annotation.attributes = attrs(annotation.attributes);
-    generator = renderer.renderAnnotation(annotation, {
-      ...context,
-      children: childAnnotations,
-    } as Context);
+    if ("range" in value) {
+      generator = renderer.renderMark(value, {
+        ...context,
+        children,
+      } as Context);
+    } else {
+      generator = renderer.renderBlock(value, {
+        ...context,
+        children,
+      } as Context);
+    }
   }
 
   let result = generator.next();
@@ -117,84 +103,25 @@ function compile(
 
   return generator.next(
     flatten(
-      childNodes.map(function compileChildNode(
-        childNode: HIRNode,
-        idx: number
-      ) {
+      children.map(function compileChildNode(child, idx) {
         let childContext = {
-          parent: annotation || null,
-          previous: childAnnotations[idx - 1] || null,
-          next: childAnnotations[idx + 1] || null,
+          parent: value || null,
+          previous: children[idx - 1] || null,
+          next: children[idx + 1] || null,
           document: context.document,
         };
 
-        if (childNode.type === "text") {
-          return renderer.text(childNode.text, {
+        if (typeof child === "string") {
+          return renderer.text(child, {
             ...childContext,
             children: [],
           });
         }
 
-        return compile(renderer, childNode, childContext) as any[];
+        return compile(renderer, child, map, child.id, childContext) as any[];
       })
     )
   ).value;
-}
-
-/**
- * This normalizes the child node (from the HIR) to ensure that we only attempt
- * to render _known_ annotations, and converts text nodes (leaf nodes in the HIR)
- * to have the same shape as 'normal' annotations.
- *
- * Usually, a document that contains `UnknownAnnotations` hasn't been fully
- * converted, and if we didn't throw here, we would simply silently fail to
- * render the document properly.
- *
- * It may be that in the future, we'll add a check that converters *must* convert
- * all annotations (and there is a WIP change to make all converters renderers,
- * which would have the same effect in conjunction with this change). In that case,
- * it would be impossible to have a document that has UnknownAnnotations. At
- * the time of writing, though, we haven't made a determination because there
- * are some use cases that would benefit from supporting UnknownAnnotations.
- */
-function normalizeChildNode(childNode: HIRNode) {
-  if (isTextAnnotation(childNode.annotation)) {
-    return textAnnotationFromNode(childNode);
-  } else if (is(childNode.annotation, UnknownAnnotation)) {
-    // FIXME This is not helpful debugging information, but I'm not sure the best way to surface more detail.
-    // eslint-disable-next-line no-console
-    console.debug(
-      "Encountered unknown annotation in render:",
-      childNode.annotation
-    );
-    throw new Error(
-      "Cannot render an unknown annotation. Ensure all annotations are converted or removed before attempting to render."
-    );
-  } else {
-    return childNode.annotation;
-  }
-}
-
-function textAnnotationFromNode(childNode: HIRNode) {
-  return {
-    type: "text",
-    start: childNode.start,
-    end: childNode.end,
-    attributes: {
-      text: childNode.text,
-    },
-    toJSON(): Record<string, unknown> {
-      return {
-        id: childNode.id,
-        type: "-atjson-text",
-        start: childNode.start,
-        end: childNode.end,
-        attributes: {
-          "-atjson-text": childNode.text,
-        },
-      };
-    },
-  };
 }
 
 export default class Renderer {
@@ -207,36 +134,56 @@ export default class Renderer {
       return;
     }
     let renderer = new this(document, ...params.slice(1));
-    let hir = new HIR(document);
-    renderer.slices = hir.slices;
-    return compile(renderer, hir.rootNode, {
-      document: hir.document,
+    let { text, blocks, marks } = serialize(document);
+    let [remainder, slices] = extractSlices({
+      text,
+      blocks: blocks ?? [],
+      marks: marks ?? [],
+    });
+    renderer.slices = slices;
+    return compile(renderer, null, createTree(remainder), ROOT, {
+      document: remainder,
     });
   }
 
-  private slices: Record<string, Document>;
+  private slices: Record<
+    string,
+    { text: string; marks: Mark[]; blocks: Block[] }
+  >;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   constructor(_document: Document | null, ..._args: any[]) {
     this.slices = {};
   }
 
-  *renderAnnotation(
-    annotation: Annotation<any>,
-    context: Context
-  ): Iterator<void, any, any> {
+  *renderBlock(block: Block, context: Context): Iterator<void, any, any> {
     let generator =
-      (this as any)[annotation.type] ||
-      (this as any)[classify(annotation.type)];
+      (this as any)[block.type] || (this as any)[classify(block.type)];
     if (generator) {
-      return yield* generator.call(this, annotation, context);
+      return yield* generator.call(this, block, context);
     } else {
       // eslint-disable-next-line no-console
       console.warn(
-        `[${this.constructor.name}]: No handler present for annotations of type ${annotation.type}. Possibly important information has been dropped.`
+        `[${this.constructor.name}]: No handler present for block of type ${block.type}. Possibly important information has been dropped.`
       );
       // eslint-disable-next-line no-console
-      console.debug("Unsupported annotation:", annotation);
+      console.debug("Unsupported block:", block);
+      return yield;
+    }
+  }
+
+  *renderMark(mark: Mark, context: Context): Iterator<void, any, any> {
+    let generator =
+      (this as any)[mark.type] || (this as any)[classify(mark.type)];
+    if (generator) {
+      return yield* generator.call(this, mark, context);
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[${this.constructor.name}]: No handler present for mark of type ${mark.type}. Possibly important information has been dropped.`
+      );
+      // eslint-disable-next-line no-console
+      console.debug("Unsupported mark:", mark);
       return yield;
     }
   }

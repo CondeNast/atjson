@@ -32,6 +32,13 @@ describe("commonmark", () => {
               "Image descriptions ![are escaped](example.jpg)",
           },
         },
+        {
+          id: "1",
+          type: "-atjson-parse-token",
+          start: 0,
+          end: 1,
+          attributes: {},
+        },
       ],
     });
 
@@ -476,6 +483,13 @@ After all the lists
           attributes: {},
         },
         {
+          id: "p1",
+          type: "-atjson-parse-token",
+          start: 1,
+          end: 2,
+          attributes: {},
+        },
+        {
           id: "3",
           type: "-offset-paragraph",
           start: 2,
@@ -616,7 +630,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**_bold then italic_** ***italic then bold***"
+      "***bold then italic*** ***italic then bold***"
     );
   });
 
