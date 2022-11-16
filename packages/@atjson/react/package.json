@@ -1,13 +1,16 @@
 {
   "name": "@atjson/react",
   "version": "0.1.0",
-  "description": "Render atjson documents into a React app",
+  "description": "Render serialized atjson documents directly to React",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
   "types": "dist/commonjs/index.d.ts",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@atjson/util": "file:../util"
   },
   "peerDependencies": {
     "react": "*"

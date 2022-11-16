@@ -1,27 +1,24 @@
-import type { Block, Mark } from "./types";
+import type { Block, Mark } from "@atjson/util";
+import { ROOT, createTree, extractSlices } from "@atjson/util";
 import { ComponentContext, ComponentProvider, SliceContext } from "./contexts";
 import { Node, Slice } from "./components";
-import { ROOT } from "./const";
 import { useMemo, createElement } from "react";
-import { createTree, extractSlices } from "./utils";
 
-export {
-  ComponentContext,
-  ComponentProvider,
-  Slice,
-  createTree,
-  extractSlices,
-};
+export { ComponentContext, ComponentProvider, Slice };
 
 export default function Text(props: {
   value: {
     text: string;
-    marks: Mark[];
-    blocks: Block[];
+    marks?: Mark[];
+    blocks?: Block[];
   };
 }) {
   let [tree, slices] = useMemo(() => {
-    let [doc, slices] = extractSlices(props.value);
+    let [doc, slices] = extractSlices({
+      text: props.value.text,
+      blocks: props.value.blocks ?? [],
+      marks: props.value.marks ?? [],
+    });
     return [createTree(doc), slices] as const;
   }, [props.value]);
 
