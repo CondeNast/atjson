@@ -26,6 +26,8 @@ import type {
   AnnotationJSON,
   AttributesOf,
   JSON,
+  Mark,
+  Block,
 } from "./internals";
 
 export {
@@ -50,6 +52,13 @@ export {
   serialize,
 };
 
-export type { AnnotationConstructor, AnnotationJSON, AttributesOf, JSON };
+export type {
+  AnnotationConstructor,
+  AnnotationJSON,
+  AttributesOf,
+  JSON,
+  Mark,
+  Block,
+};
 
 export default Document;
