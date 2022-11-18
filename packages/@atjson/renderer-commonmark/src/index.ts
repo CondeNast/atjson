@@ -11,7 +11,7 @@ import {
   Paragraph,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
-import type { Block, Mark, InternalMark } from "@atjson/util";
+import type { Block, Mark } from "@atjson/document";
 import {
   BEGINNING_WHITESPACE,
   BEGINNING_WHITESPACE_PUNCTUATION,
@@ -24,40 +24,31 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
-function getPreviousChar(
-  doc: { text: string; blocks?: Block[]; marks?: Mark[] },
-  end: number
-) {
-  let start = end - 1;
-  while (doc.text[start] === "\uFFFC" && start >= 0) {
-    start--;
+function getPreviousChar(doc: { text: string }, end: number) {
+  let previousChar = doc.text[end - 1];
+  // Block boundary
+  if (previousChar === "\uFFFC") {
+    return "";
   }
-  return doc.text[start] || "";
+  return previousChar;
 }
 
 function getNextChar(
   doc: {
     text: string;
-    blocks: Block[];
-    marks: Mark[];
   },
   start: number
 ) {
-  let end = start;
-
-  while (end < doc.text.length) {
-    if (doc.text[end] === "\uFFFC") {
-      end++;
-    } else {
-      break;
-    }
+  let nextChar = doc.text[start + 1];
+  // Block boundary
+  if (nextChar === "\uFFFC") {
+    return "";
   }
-
-  return doc.text[end] || "";
+  return nextChar;
 }
 
 export function* splitDelimiterRuns(
-  mark: InternalMark,
+  mark: Mark & { start: number; end: number },
   context: Context,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
 ): Generator<void, [string, string, string], string[]> {
@@ -281,7 +272,7 @@ export default class CommonmarkRenderer extends Renderer {
    * words; underscores cannot split words.
    */
   *Bold(
-    bold: InternalMark,
+    bold: Mark & { start: number; end: number },
     context: Context
   ): Generator<void, string, string[]> {
     let [before, text, after] = yield* splitDelimiterRuns(
@@ -391,7 +382,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Italic text looks like *this* in Markdown.
    */
   *Italic(
-    italic: InternalMark,
+    italic: Mark & { start: number; end: number },
     context: Context
   ): Generator<void, string, string[]> {
     // This adds support for strong emphasis (per Commonmark)
@@ -463,7 +454,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * A [link](http://commonmark.org) has the url right next to it in Markdown.
    */
-  *Link(link: Link): Generator<void, string, string[]> {
+  *Link(link: Mark<Link>): Generator<void, string, string[]> {
     let [before, text, after] = yield* split();
     let url = escapeAttribute(link.attributes.url);
     if (link.attributes.title) {
@@ -508,7 +499,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ```
    */
   *CodeBlock(
-    code: CodeBlock,
+    code: Block<CodeBlock>,
     context: Context
   ): Generator<void, string, string[]> {
     let state = Object.assign({}, this.state);
@@ -539,7 +530,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
   }
 
-  *Html(html: HTML): Generator<void, string, string[]> {
+  *Html(html: Block<HTML>): Generator<void, string, string[]> {
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -611,7 +602,10 @@ export default class CommonmarkRenderer extends Renderer {
    * 2. A number
    * 3. Of things with numbers preceding them
    */
-  *List(list: List, context: Context): Generator<void, string, string[]> {
+  *List(
+    list: Block<List>,
+    context: Context
+  ): Generator<void, string, string[]> {
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -671,7 +665,7 @@ export default class CommonmarkRenderer extends Renderer {
    * Paragraphs are delimited by two or more newlines in markdown.
    */
   *Paragraph(
-    _paragraph: Paragraph,
+    _paragraph: Block<Paragraph>,
     _context: Context
   ): Generator<void, string, string[]> {
     let rawText = yield;

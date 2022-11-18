@@ -34,11 +34,11 @@ type Range = `${"[" | "("}${number}..${number}${"]" | ")"}`;
  * links, comments, and other information describing a range
  * of text.
  */
-type Mark = {
+export type Mark<T = null> = {
   id: string;
   type: string;
   range: Range;
-  attributes: JSONObject;
+  attributes: T extends Annotation<infer Attributes> ? Attributes : JSONObject;
 };
 
 /**
@@ -54,7 +54,7 @@ type Mark = {
  * to ensure that the correct blocks are rendered
  * in the correct place.
  */
-type Block = {
+export type Block<T = null> = {
   id: string;
   type: string;
   /**
@@ -67,7 +67,7 @@ type Block = {
   range?: Range;
   parents: string[];
   selfClosing?: boolean;
-  attributes: JSONObject;
+  attributes: T extends Annotation<infer Attributes> ? Attributes : JSONObject;
 };
 
 // @blaine and @tim-evans have been doing explorations
@@ -82,11 +82,6 @@ type Block = {
 // up being hacks in atjson where we used parse tokens
 // to handle ambiguous cases with object annotations and
 // block annotations.
-type StorageFormat = {
-  text: string;
-  blocks?: Block[];
-  marks?: Mark[];
-};
 
 function parseRange(range: Range) {
   let match = range.match(/([[|(])(\d+)\.\.(\d+)([\]|)])/);
@@ -227,7 +222,7 @@ function sortMarks(a: Mark, b: Mark) {
 export function serialize(
   doc: Document,
   options?: { withStableIds?: boolean; includeBlockRanges?: boolean }
-): StorageFormat {
+): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
   // with a single text character and close when
@@ -622,7 +617,7 @@ function schemaForItem(
 }
 
 export function deserialize(
-  json: StorageFormat,
+  json: { text: string; blocks?: Block[]; marks?: Mark[] },
   DocumentClass: typeof Document
 ) {
   let annotations: Annotation<any>[] = [];
