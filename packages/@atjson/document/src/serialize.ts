@@ -151,6 +151,11 @@ function sortTokens(a: Token, b: Token) {
     return indexDelta;
   }
 
+  // Handle start before end for a 0 length mark
+  if (a.annotation.id === b.annotation.id) {
+    return START_TOKENS.indexOf(a.type) ? 1 : -1;
+  }
+
   // Sort end tokens before start tokens
   if (
     START_TOKENS.indexOf(a.type) !== -1 &&
