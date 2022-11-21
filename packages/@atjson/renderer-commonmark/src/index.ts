@@ -25,7 +25,6 @@ import {
 export * from "./lib/punctuation";
 
 export function* splitDelimiterRuns(
-  mark: Mark & { start: number; end: number },
   context: Context,
   options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
 ): Generator<void, [string, string, string], string[]> {
@@ -40,8 +39,6 @@ export function* splitDelimiterRuns(
     child &&
     typeof child !== "string" &&
     "range" in child &&
-    child.start === mark.start &&
-    child.end === mark.end &&
     (child.type === Bold.type || child.type === Italic.type)
   ) {
     return ["", text, ""] as [string, string, string];
@@ -256,12 +253,8 @@ export default class CommonmarkRenderer extends Renderer {
    * Asterisks are used here because they can split
    * words; underscores cannot split words.
    */
-  *Bold(
-    bold: Mark & { start: number; end: number },
-    context: Context
-  ): Generator<void, string, string[]> {
+  *Bold(_: Mark, context: Context): Generator<void, string, string[]> {
     let [before, text, after] = yield* splitDelimiterRuns(
-      bold,
       context,
       this.options
     );
@@ -366,17 +359,13 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Italic text looks like *this* in Markdown.
    */
-  *Italic(
-    italic: Mark & { start: number; end: number },
-    context: Context
-  ): Generator<void, string, string[]> {
+  *Italic(_: Mark, context: Context): Generator<void, string, string[]> {
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
     this.state.isItalicized = true;
 
     let [before, text, after] = yield* splitDelimiterRuns(
-      italic,
       context,
       this.options
     );
@@ -398,8 +387,8 @@ export default class CommonmarkRenderer extends Renderer {
       let hasAlignedParent =
         context.parent &&
         "range" in context.parent &&
-        context.parent?.start === italic.start &&
-        context.parent?.end === italic.end;
+        context.next == null &&
+        context.previous == null;
 
       if (
         (hasWrappingBoldMarkup && !hasAlignedParent) ||
