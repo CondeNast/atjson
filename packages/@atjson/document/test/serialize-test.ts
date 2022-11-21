@@ -55,6 +55,34 @@ describe("serialize", () => {
     `);
   });
 
+  test("errors are when throwOnUnknown is passed in", () => {
+    expect(() => {
+      serialize(
+        new TestSource({
+          content: "Hello, world",
+          annotations: [
+            new Paragraph({
+              start: 0,
+              end: 12,
+            }),
+            new UnknownAnnotation({
+              start: 8,
+              end: 12,
+              attributes: {
+                type: "subscript",
+                attributes: {},
+              },
+            }),
+          ],
+        }),
+        { throwOnUnknown: true }
+      );
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Unknown annotations were found:
+      - subscript[8..12]"
+    `);
+  });
+
   describe("blocks", () => {
     test("single block", () => {
       expect(
