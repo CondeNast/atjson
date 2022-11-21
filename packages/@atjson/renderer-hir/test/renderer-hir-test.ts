@@ -3,13 +3,13 @@
  */
 
 import Document, {
-  Annotation,
   BlockAnnotation,
   InlineAnnotation,
   SliceAnnotation,
+  Block,
+  Mark,
 } from "@atjson/document";
-import { HIR, TextAnnotation } from "@atjson/hir";
-import HIRRenderer, { Context, escapeHTML } from "../src/index";
+import Renderer, { Context, escapeHTML } from "../src/index";
 
 class Bold extends InlineAnnotation {
   static vendorPrefix = "test";
@@ -46,17 +46,6 @@ class TestSource extends Document {
   static schema = [Bold, Italic, BlockQuote, Citation, Link, Spoiler];
 }
 
-function text(t: string, start: number): Annotation<any> {
-  return new TextAnnotation({
-    id: "XXXXXXXX",
-    start,
-    end: start + t.length,
-    attributes: {
-      text: t,
-    },
-  });
-}
-
 describe("@atjson/renderer-hir", () => {
   it("defines an abstract rendering interface", () => {
     let atjson = new TestSource({
@@ -77,32 +66,27 @@ describe("@atjson/renderer-hir", () => {
       ],
     }).withStableIds();
 
-    let root = new HIR(atjson).rootNode;
-    root.id = "00000000";
-    let [, bold, italic] = root.children();
-    let boldAndItalic = bold.children()[1];
-
     let callStack = [
       {
-        annotation: bold.annotation,
-        parent: root.annotation,
-        previous: text("This is ", 0),
-        next: italic.annotation,
-        children: [text("bold", 8), boldAndItalic.annotation],
+        value: { id: "00000001", type: "bold" },
+        parent: null,
+        previous: "This is ",
+        next: { type: "italic" },
+        children: ["bold", { type: "italic" }],
       },
       {
-        annotation: boldAndItalic.annotation,
-        parent: bold.annotation,
-        previous: text("bold", 8),
+        value: { id: "00000001-00000002", type: "italic" },
+        parent: { type: "bold" },
+        previous: "bold",
         next: null,
-        children: [text(" and ", 12)],
+        children: [" and "],
       },
       {
-        annotation: italic.annotation,
-        parent: root.annotation,
-        previous: bold.annotation,
-        next: text(" text", 23),
-        children: [text("italic", 17)],
+        value: { id: "00000002", type: "italic" },
+        parent: null,
+        previous: { type: "bold" },
+        next: " text",
+        children: ["italic"],
       },
     ];
 
@@ -113,43 +97,53 @@ describe("@atjson/renderer-hir", () => {
       "This is bold and italic text",
     ];
 
-    class ConcreteRenderer extends HIRRenderer {
-      *renderAnnotation(
-        annotation: Annotation<any>,
+    function matches(received, expected) {
+      if (
+        received != null &&
+        expected != null &&
+        typeof expected !== "string"
+      ) {
+        expect(received).toMatchObject(expected);
+      } else {
+        expect(received).toBe(expected);
+      }
+    }
+
+    class ConcreteRenderer extends Renderer {
+      *renderBlock(
+        block: Block,
         context: Context
       ): Iterator<void, string, string[]> {
         let expected = callStack.shift() as Context & {
-          annotation: Annotation<any>;
+          value: Block;
         };
-        expect(annotation.toJSON()).toMatchObject(expected.annotation.toJSON());
+        expect(block).toMatchObject(expected.value);
 
-        if (parent) {
-          let { id, ...json } = expected.parent.toJSON();
-          expect(context.parent.toJSON()).toMatchObject(json);
-        } else {
-          expect(context.parent).toBe(expected.parent);
-        }
+        matches(context.parent, expected.parent);
+        matches(context.previous, expected.previous);
+        matches(context.next, expected.next);
 
-        if (context.previous != null && expected.previous != null) {
-          let { id, ...json } = expected.previous.toJSON();
-          expect(context.previous.toJSON()).toMatchObject(json);
-        } else {
-          expect(context.previous).toBe(expected.previous);
-        }
+        expect(context.children).toMatchObject(expected.children);
 
-        if (context.next != null && expected.next != null) {
-          let { id, ...json } = expected.next.toJSON();
-          expect(context.next.toJSON()).toMatchObject(json);
-        } else {
-          expect(context.next).toBe(expected.next);
-        }
+        let rawText: string[] = yield;
+        expect(rawText.join("")).toEqual(textBuilder.shift());
+        return rawText.join("");
+      }
 
-        expect(context.children.map((a) => a.toJSON())).toMatchObject(
-          expected.children.map((a) => ({
-            ...a.toJSON(),
-            id: expect.anything(),
-          }))
-        );
+      *renderMark(
+        mark: Mark,
+        context: Context
+      ): Iterator<void, string, string[]> {
+        let expected = callStack.shift() as Context & {
+          value: Mark;
+        };
+        expect(mark).toMatchObject(expected.value);
+
+        matches(context.parent, expected.parent);
+        matches(context.previous, expected.previous);
+        matches(context.next, expected.next);
+
+        expect(context.children).toMatchObject(expected.children);
 
         let rawText: string[] = yield;
         expect(rawText.join("")).toEqual(textBuilder.shift());
@@ -172,7 +166,7 @@ describe("@atjson/renderer-hir", () => {
       annotations: [],
     });
 
-    class ConcreteRenderer extends HIRRenderer {
+    class ConcreteRenderer extends Renderer {
       text(t: string): string {
         return escapeHTML(t);
       }
@@ -201,7 +195,7 @@ describe("@atjson/renderer-hir", () => {
       ],
     });
 
-    class SlackRenderer extends HIRRenderer {
+    class SlackRenderer extends Renderer {
       *"block-quote"() {
         let words = yield;
         return `> ${words.join("")}`;
@@ -236,7 +230,7 @@ describe("@atjson/renderer-hir", () => {
       ],
     });
 
-    class SlackRenderer extends HIRRenderer {
+    class SlackRenderer extends Renderer {
       *BlockQuote() {
         let words = yield;
         return `> ${words.join("")}`;
@@ -283,7 +277,7 @@ describe("@atjson/renderer-hir", () => {
         ],
       });
 
-      class HTMLRenderer extends HIRRenderer {
+      class HTMLRenderer extends Renderer {
         *BlockQuote(blockquote: BlockQuote) {
           let words = yield;
           return `<blockquote>${words.join("")}${
@@ -364,7 +358,7 @@ describe("@atjson/renderer-hir", () => {
         ],
       });
 
-      class HTMLRenderer extends HIRRenderer {
+      class HTMLRenderer extends Renderer {
         citations: string[];
 
         constructor(document: Document) {
@@ -442,10 +436,10 @@ describe("@atjson/renderer-hir", () => {
         "This document has a spoiler:\nXXXXXXXXXX",
       ];
 
-      class ConcreteRenderer extends HIRRenderer {
+      class ConcreteRenderer extends Renderer {
         *Italic(_, context) {
-          expect(context.document.content).toEqual(
-            "This document has a spoiler:\n"
+          expect(context.document.text).toEqual(
+            "\uFFFCThis document has a spoiler:\n"
           );
           return (yield).join("");
         }
@@ -454,13 +448,13 @@ describe("@atjson/renderer-hir", () => {
             ConcreteRenderer.render(
               this.getSlice(spoiler.attributes.spoiler)
             ) ?? "";
-          expect(context.document.content).toEqual(
-            "This document has a spoiler:\n"
+          expect(context.document.text).toEqual(
+            "\uFFFCThis document has a spoiler:\n"
           );
           return (yield).join("") + "X".repeat(spoilerText.length - 1);
         }
         *Bold(_, context) {
-          expect(context.document.content).toEqual("This is it!");
+          expect(context.document.text).toEqual("\uFFFCThis is it!");
           return (yield).join("");
         }
         *root() {

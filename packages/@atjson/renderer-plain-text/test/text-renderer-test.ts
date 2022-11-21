@@ -78,6 +78,10 @@ describe("PlainTextRenderer", () => {
           start: 8,
           end: 9,
         }),
+        new ParseAnnotation({
+          start: 8,
+          end: 9,
+        }),
       ],
     });
 
@@ -90,6 +94,10 @@ describe("PlainTextRenderer", () => {
       content: "first line\uFFFCsecond line",
       annotations: [
         new LineBreak({
+          start: 10,
+          end: 11,
+        }),
+        new ParseAnnotation({
           start: 10,
           end: 11,
         }),

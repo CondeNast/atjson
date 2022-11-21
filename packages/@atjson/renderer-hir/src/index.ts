@@ -1,6 +1,5 @@
-import Document, { serialize } from "@atjson/document";
+import Document, { serialize, Block, Mark } from "@atjson/document";
 import { createTree, extractSlices, ROOT } from "@atjson/util";
-import type { Block, Mark, InternalMark } from "@atjson/util";
 
 interface Mapping {
   [key: string]: string;
@@ -53,10 +52,10 @@ export function classify(type: string) {
 }
 
 export interface Context {
-  parent: Block | InternalMark | null;
-  previous: Block | InternalMark | string | null;
-  next: Block | InternalMark | string | null;
-  children: Array<Block | InternalMark | string>;
+  parent: Block | Mark | null;
+  previous: Block | Mark | string | null;
+  next: Block | Mark | string | null;
+  children: Array<Block | Mark | string>;
   document: {
     text: string;
     blocks: Block[];
@@ -66,8 +65,8 @@ export interface Context {
 
 function compile(
   renderer: Renderer,
-  value: Block | InternalMark | null,
-  map: Record<string, Array<Block | InternalMark | string>>,
+  value: Block | Mark | null,
+  map: Record<string, Array<Block | Mark | string>>,
   key: string,
   context: Partial<Context> & {
     document: {
@@ -83,13 +82,13 @@ function compile(
   if (value == null) {
     generator = renderer.root();
   } else {
-    if ("range" in value) {
-      generator = renderer.renderMark(value, {
+    if ("parents" in value) {
+      generator = renderer.renderBlock(value, {
         ...context,
         children,
       } as Context);
     } else {
-      generator = renderer.renderBlock(value, {
+      generator = renderer.renderMark(value, {
         ...context,
         children,
       } as Context);
@@ -134,12 +133,11 @@ export default class Renderer {
       return;
     }
     let renderer = new this(document, ...params.slice(1));
-    let { text, blocks, marks } = serialize(document);
-    let [remainder, slices] = extractSlices({
-      text,
-      blocks: blocks ?? [],
-      marks: marks ?? [],
-    });
+    let [remainder, slices] = extractSlices(
+      document instanceof Document
+        ? serialize(document, { throwOnUnknown: true })
+        : document
+    );
     renderer.slices = slices;
     return compile(renderer, null, createTree(remainder), ROOT, {
       document: remainder,
@@ -152,7 +150,13 @@ export default class Renderer {
   >;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  constructor(_document: Document | null, ..._args: any[]) {
+  constructor(
+    _document:
+      | Document
+      | { text: string; marks: Mark[]; blocks: Block[] }
+      | null,
+    ..._args: any[]
+  ) {
     this.slices = {};
   }
 

@@ -922,7 +922,7 @@ After all the lists
       // *[menu.as](https://menu.as/)*\n\n\n\n__Missoni Partners with Donghia__\n\n
       test("delimiters wrapping links are not parsed as punctuation at paragraph boundaries", () => {
         let md =
-          "*[menu.as](https://menu.as/)*\n\n**Missoni Partners with Donghia**\n\n";
+          "[*menu.as*](https://menu.as/)\n\n**Missoni Partners with Donghia**\n\n";
         let mdDoc = CommonmarkSource.fromRaw(md);
         let document = mdDoc.convertTo(OffsetSource);
 
@@ -1331,8 +1331,8 @@ After all the lists
         {
           id: "1",
           type: "-offset-bold",
-          start: 0,
-          end: 0,
+          start: 1,
+          end: 1,
           attributes: {},
         },
         {
@@ -1724,7 +1724,9 @@ After all the lists
         content: "a\n\nb",
         annotations: [
           { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
+          { type: "-atjson-parse-token", start: 1, end: 2, attributes: {} },
           { type: "-offset-line-break", start: 2, end: 3, attributes: {} },
+          { type: "-atjson-parse-token", start: 2, end: 3, attributes: {} },
         ],
       });
 
@@ -1746,6 +1748,7 @@ After all the lists
             attributes: { "-offset-level": 2 },
           },
           { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
+          { type: "-atjson-parse-token", start: 1, end: 2, attributes: {} },
         ],
       });
 
@@ -1763,6 +1766,7 @@ After all the lists
             attributes: { "-offset-style": "inline" },
           },
           { type: "-offset-line-break", start: 1, end: 2, attributes: {} },
+          { type: "-atjson-parse-token", start: 1, end: 2, attributes: {} },
         ],
       });
 
