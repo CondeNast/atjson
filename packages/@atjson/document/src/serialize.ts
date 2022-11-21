@@ -224,7 +224,7 @@ export function serialize(
   options?: {
     withStableIds?: boolean;
     includeBlockRanges?: boolean;
-    throwOnUnknown?: boolean;
+    onUnknown?: "warn" | "throw";
   }
 ): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
@@ -280,9 +280,6 @@ export function serialize(
 
   let unknown: Annotation<any>[] = [];
   for (let annotation of doc.annotations) {
-    if (annotation instanceof UnknownAnnotation) {
-      unknown.push(annotation);
-    }
     let isBlockAnnotation = annotation instanceof BlockAnnotation;
     let isObjectAnnotation = annotation instanceof ObjectAnnotation;
     let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
@@ -310,16 +307,24 @@ export function serialize(
         edgeBehaviour,
       }
     );
+    if (annotation instanceof UnknownAnnotation) {
+      unknown.push(annotation);
+    }
   }
-  if (options?.throwOnUnknown && unknown.length > 0) {
-    throw new Error(
-      `Unknown annotations were found:\n${unknown
-        .map(
-          (annotation) =>
-            `- ${annotation.attributes.type}[${annotation.start}..${annotation.end}]`
-        )
-        .join("\n")}`
-    );
+  if (options?.onUnknown && unknown.length > 0) {
+    let info = `Unknown annotations were found:\n${unknown
+      .map(
+        (annotation) =>
+          `- ${annotation.attributes.type}[${annotation.start}..${annotation.end}]`
+      )
+      .join("\n")}`;
+
+    if (options.onUnknown === "throw") {
+      throw new Error(info);
+    } else {
+      // eslint-ignore-next-line
+      console.warn(info);
+    }
   }
 
   tokens.sort(sortTokens);

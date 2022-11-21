@@ -75,7 +75,7 @@ describe("serialize", () => {
             }),
           ],
         }),
-        { throwOnUnknown: true }
+        { onUnknown: "throw" }
       );
     }).toThrowErrorMatchingInlineSnapshot(`
       "Unknown annotations were found:

@@ -135,13 +135,22 @@ export default class Renderer {
     let renderer = new this(document, ...params.slice(1));
     let [remainder, slices] = extractSlices(
       document instanceof Document
-        ? serialize(document, { throwOnUnknown: true })
+        ? serialize(document, { onUnknown: "throw" })
         : document
     );
-    renderer.slices = slices;
-    return compile(renderer, null, createTree(remainder), ROOT, {
-      document: remainder,
-    });
+    renderer.slices = slices as Record<
+      string,
+      { text: string; marks: Mark[]; blocks: Block[] }
+    >;
+    return compile(
+      renderer,
+      null,
+      createTree(remainder) as Record<string, Array<Block | Mark | string>>,
+      ROOT,
+      {
+        document: remainder as { text: string; marks: Mark[]; blocks: Block[] },
+      }
+    );
   }
 
   private slices: Record<
