@@ -221,7 +221,11 @@ function sortMarks(a: Mark, b: Mark) {
 
 export function serialize(
   doc: Document,
-  options?: { withStableIds?: boolean; includeBlockRanges?: boolean }
+  options?: {
+    withStableIds?: boolean;
+    includeBlockRanges?: boolean;
+    throwOnUnknown?: boolean;
+  }
 ): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
@@ -274,7 +278,11 @@ export function serialize(
   let shared = { start: -1 };
   let tokens: Token[] = [];
 
+  let unknown: Annotation<any>[] = [];
   for (let annotation of doc.annotations) {
+    if (annotation instanceof UnknownAnnotation) {
+      unknown.push(annotation);
+    }
     let isBlockAnnotation = annotation instanceof BlockAnnotation;
     let isObjectAnnotation = annotation instanceof ObjectAnnotation;
     let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
@@ -301,6 +309,16 @@ export function serialize(
         selfClosing: isObjectAnnotation,
         edgeBehaviour,
       }
+    );
+  }
+  if (options?.throwOnUnknown && unknown.length > 0) {
+    throw new Error(
+      `Unknown annotations were found:\n${unknown
+        .map(
+          (annotation) =>
+            `- ${annotation.attributes.type}[${annotation.start}..${annotation.end}]`
+        )
+        .join("\n")}`
     );
   }
 
