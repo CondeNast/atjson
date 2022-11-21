@@ -11,6 +11,7 @@ import {
   Section,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
+import { Mark, Block } from "@atjson/document";
 import Renderer from "@atjson/renderer-hir";
 import * as entities from "entities";
 
@@ -91,7 +92,7 @@ export default class HTMLRenderer extends Renderer {
     return html.join("");
   }
 
-  *Blockquote(blockquote: Blockquote) {
+  *Blockquote(blockquote: Block<Blockquote>) {
     return yield* this.$("blockquote", {
       id: blockquote.attributes.anchorName,
     });
@@ -101,7 +102,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("strong");
   }
 
-  *CerosEmbed(embed: CerosEmbed) {
+  *CerosEmbed(embed: Block<CerosEmbed>) {
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",
@@ -148,7 +149,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("code");
   }
 
-  *CodeBlock(code: CodeBlock) {
+  *CodeBlock(code: Block<CodeBlock>) {
     let codeSnippet = yield* this.$("code");
     let attrs = this.htmlAttributes({ class: code.attributes.info });
     if (attrs.length) {
@@ -157,7 +158,7 @@ export default class HTMLRenderer extends Renderer {
     return `<pre>${codeSnippet}</pre>`;
   }
 
-  *Heading(heading: Heading) {
+  *Heading(heading: Block<Heading>) {
     let style: string | undefined;
     if (heading.attributes.alignment) {
       style = this.textAlign(heading.attributes.alignment);
@@ -172,7 +173,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("hr");
   }
 
-  *Image(image: Image) {
+  *Image(image: Block<Image>) {
     return yield* this.$("img", {
       id: image.attributes.anchorName,
       src: image.attributes.url,
@@ -189,7 +190,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("br");
   }
 
-  *Link(link: Link) {
+  *Link(link: Mark<Link>) {
     return yield* this.$("a", {
       href: encodeURI(link.attributes.url),
       title: link.attributes.title,
@@ -198,7 +199,7 @@ export default class HTMLRenderer extends Renderer {
     });
   }
 
-  *List(list: List) {
+  *List(list: Block<List>) {
     let tagName = list.attributes.type === "numbered" ? "ol" : "ul";
 
     return yield* this.$(tagName, {
@@ -209,13 +210,13 @@ export default class HTMLRenderer extends Renderer {
     });
   }
 
-  *ListItem(item: ListItem) {
+  *ListItem(item: Block<ListItem>) {
     return yield* this.$("li", {
       id: item.attributes.anchorName,
     });
   }
 
-  *Paragraph(paragraph: Paragraph) {
+  *Paragraph(paragraph: Block<Paragraph>) {
     let style: string | undefined;
     if (paragraph.attributes.alignment) {
       style = this.textAlign(paragraph.attributes.alignment);
@@ -223,7 +224,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("p", { id: paragraph.attributes.anchorName, style });
   }
 
-  *Section(section: Section) {
+  *Section(section: Block<Section>) {
     return yield* this.$("section", {
       id: section.attributes.anchorName,
     });
@@ -246,7 +247,7 @@ export default class HTMLRenderer extends Renderer {
   }
 
   // This hook is TiktokEmbed instead of TikTokEmbed because of our classify function
-  *TiktokEmbed(embed: TikTokEmbed) {
+  *TiktokEmbed(embed: Block<TikTokEmbed>) {
     let parts = embed.attributes.url.split("/");
     let username = parts[parts.length - 3];
     let videoId = parts[parts.length - 1];
