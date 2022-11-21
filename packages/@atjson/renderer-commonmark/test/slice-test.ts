@@ -60,7 +60,7 @@ describe("commonmark", () => {
     });
 
     expect(CommonmarkRenderer.render(doc)).toBe(
-      "And an *[emphasized link](https://www.bonappetit.com)*\n\n"
+      "And an [*emphasized link*](https://www.bonappetit.com)\n\n"
     );
   });
 });
