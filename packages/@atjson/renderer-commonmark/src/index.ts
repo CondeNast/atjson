@@ -24,29 +24,6 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
-function getPreviousChar(doc: { text: string }, end: number) {
-  let previousChar = doc.text[end - 1];
-  // Block boundary
-  if (previousChar === "\uFFFC") {
-    return "";
-  }
-  return previousChar;
-}
-
-function getNextChar(
-  doc: {
-    text: string;
-  },
-  start: number
-) {
-  let nextChar = doc.text[start + 1];
-  // Block boundary
-  if (nextChar === "\uFFFC") {
-    return "";
-  }
-  return nextChar;
-}
-
 export function* splitDelimiterRuns(
   mark: Mark & { start: number; end: number },
   context: Context,
@@ -76,8 +53,15 @@ export function* splitDelimiterRuns(
     if (match[2]) {
       start += match[2].length;
     } else if (match[3]) {
-      let prevChar = getPreviousChar(context.document, mark.start);
-      if (start === 0 && prevChar && !prevChar.match(WHITESPACE_PUNCTUATION)) {
+      let previousCharacter =
+        typeof context.previous === "string"
+          ? context.previous[context.previous.length - 1]
+          : "";
+      if (
+        start === 0 &&
+        previousCharacter &&
+        !previousCharacter.match(WHITESPACE_PUNCTUATION)
+      ) {
         start += match[3].length;
       } else {
         break;
@@ -96,11 +80,12 @@ export function* splitDelimiterRuns(
         end -= 1;
         break;
       }
-      let nextChar = getNextChar(context.document, mark.end);
+      let nextCharacter =
+        typeof context.next === "string" ? context.next[0] : "";
       if (
         end === text.length &&
-        nextChar &&
-        !nextChar.match(WHITESPACE_PUNCTUATION)
+        nextCharacter &&
+        !nextCharacter.match(WHITESPACE_PUNCTUATION)
       ) {
         end -= match[5].length;
       } else {
