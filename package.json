@@ -68,7 +68,8 @@
     "@atjson/source-mobiledoc": "file:packages/@atjson/source-mobiledoc",
     "@atjson/source-prism": "file:packages/@atjson/source-prism",
     "@atjson/source-url": "file:packages/@atjson/source-url",
-    "@atjson/source-wordpress-shortcode": "file:packages/@atjson/source-wordpress-shortcode"
+    "@atjson/source-wordpress-shortcode": "file:packages/@atjson/source-wordpress-shortcode",
+    "@atjson/util": "file:packages/@atjson/util"
   },
   "scripts": {
     "build": "tsc -b packages/**/* --verbose && tsc -b packages/@atjson/**/tsconfig.modules.json --verbose",
