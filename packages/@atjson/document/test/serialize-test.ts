@@ -190,6 +190,69 @@ describe("serialize", () => {
         marks: [],
       });
     });
+    
+    test("jagged list", () => {
+      let doc = new TestSource({
+        content: "one\ntwo",
+        annotations: [
+          new List({
+            start: 0,
+            end: 7,
+            attributes: {
+              type: "bulleted",
+            },
+          }),
+          new ListItem({ start: 0, end: 3 }),
+          new ListItem({ start: 4, end: 7 }),
+        ],
+      });
+
+      expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+        {
+          "blocks": [
+            {
+              "attributes": {
+                "type": "bulleted",
+              },
+              "id": "B00000000",
+              "parents": [],
+              "selfClosing": false,
+              "type": "list",
+            },
+            {
+              "attributes": {},
+              "id": "B00000001",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+            {
+              "attributes": {},
+              "id": "B00000002",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "text",
+            },
+            {
+              "attributes": {},
+              "id": "B00000003",
+              "parents": [
+                "list",
+              ],
+              "selfClosing": false,
+              "type": "list-item",
+            },
+          ],
+          "marks": [],
+          "text": "￼￼one￼
+        ￼two",
+        }
+      `);
+    });
 
     test("sparse blocks", () => {
       expect(
