@@ -277,16 +277,7 @@ export function serialize(
     end: doc.content.length,
   });
   let shared = { start: -1 };
-  let tokens: Token[] = [
-    {
-      type: TokenType.BLOCK_START,
-      index: root.start,
-      annotation: root,
-      shared,
-      selfClosing: false,
-      edgeBehaviour: Root.edgeBehaviour,
-    },
-  ];
+  let tokens: Token[] = [];
 
   for (let annotation of doc.annotations) {
     let isBlockAnnotation = annotation instanceof BlockAnnotation;
@@ -319,7 +310,14 @@ export function serialize(
   }
 
   tokens.sort(sortTokens);
-
+  tokens.unshift({
+    type: TokenType.BLOCK_START,
+    index: root.start,
+    annotation: root,
+    shared,
+    selfClosing: false,
+    edgeBehaviour: Root.edgeBehaviour,
+  });
   tokens.push({
     type: TokenType.BLOCK_END,
     index: root.end,
@@ -328,6 +326,7 @@ export function serialize(
     selfClosing: false,
     edgeBehaviour: Root.edgeBehaviour,
   });
+  
 
   // We're using a backtracking algorithm
   // to insert text blocks here.
@@ -337,6 +336,7 @@ export function serialize(
   // boundaries between the blocks are
   // not filled, wrap that range in block.
   let previousBlockBoundary: Token = tokens[tokens.length - 1];
+  let stack: Token[] = [previousBlockBoundary];
   let parseTokens: Token[] = [];
   let textLength = 0;
   let lastIndex = previousBlockBoundary.index;
@@ -358,15 +358,24 @@ export function serialize(
       }
       case TokenType.BLOCK_START:
       case TokenType.BLOCK_END: {
-        if (
-          textLength > 0 &&
-          ((previousBlockBoundary.type === token.type &&
-            token.type === TokenType.BLOCK_END &&
-            previousBlockBoundary.index > token.index) ||
-            (previousBlockBoundary.index > token.index &&
-              is(token.annotation, Root) &&
-              token.type === TokenType.BLOCK_START))
-        ) {
+        // Keep track of the parent block
+        // so we know if there's a hole
+        // we need to put a text block in.
+        let parent = stack[stack.length - 1];
+        let isEndGap =
+          previousBlockBoundary.type === token.type &&
+          token.type === TokenType.BLOCK_END &&
+          previousBlockBoundary.index > token.index;
+        let isGap =
+          previousBlockBoundary.index > token.index &&
+          previousBlockBoundary.type === TokenType.BLOCK_START &&
+          token.type === TokenType.BLOCK_END &&
+          token.annotation.id !== parent.annotation.id;
+        let isRoot =
+          previousBlockBoundary.index > token.index &&
+          is(token.annotation, Root) &&
+          token.type === TokenType.BLOCK_START;
+        if (textLength > 0 && (isEndGap || isGap || isRoot)) {
           // Insert text block
           let text = new Text({
             start: token.index,
@@ -393,6 +402,17 @@ export function serialize(
         }
         textLength = 0;
         previousBlockBoundary = token;
+
+        // Keep track of the block stack
+        // so we know whether there's holes
+        if (token.type === TokenType.BLOCK_END) {
+          stack.push(token);
+        } else {
+          stack.splice(
+            stack.findIndex((t) => t.annotation.id === token.annotation.id),
+            1
+          );
+        }
         break;
       }
     }
