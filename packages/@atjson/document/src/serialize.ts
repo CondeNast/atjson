@@ -326,7 +326,6 @@ export function serialize(
     selfClosing: false,
     edgeBehaviour: Root.edgeBehaviour,
   });
-  
 
   // We're using a backtracking algorithm
   // to insert text blocks here.
