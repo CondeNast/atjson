@@ -950,6 +950,13 @@ describe("@atjson/source-html", () => {
                   "id": "B00000001",
                   "parents": [],
                   "selfClosing": false,
+                  "type": "text",
+                },
+                {
+                  "attributes": {},
+                  "id": "B00000002",
+                  "parents": [],
+                  "selfClosing": false,
                   "type": "paragraph",
                 },
               ],
@@ -959,11 +966,11 @@ describe("@atjson/source-html", () => {
                     "url": "https://vogue.it",
                   },
                   "id": "M00000000",
-                  "range": "(33..45)",
+                  "range": "(34..46)",
                   "type": "link",
                 },
               ],
-              "text": "￼
+              "text": "￼￼
             ￼Hello, this is something from Vogue Italia!",
             }
           `);
