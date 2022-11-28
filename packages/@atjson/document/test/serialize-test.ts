@@ -190,7 +190,7 @@ describe("serialize", () => {
         marks: [],
       });
     });
-    
+
     test("jagged list", () => {
       let doc = new TestSource({
         content: "one\ntwo",
