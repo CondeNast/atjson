@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-webcomponent",
-  "version": "0.21.35",
+  "version": "0.21.36",
   "description": "Render atjson documents into web components",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,11 +10,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/hir": "0.24.1",
-    "@atjson/renderer-hir": "0.24.1"
+    "@atjson/hir": "0.24.2",
+    "@atjson/renderer-hir": "0.24.2"
   },
   "devDependencies": {
-    "@atjson/document": "0.27.0"
+    "@atjson/document": "0.27.1"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"

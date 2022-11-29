@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.27.0...@atjson/document@0.27.1) (2022-11-29)
+
+### Bug Fixes
+
+- handle jagged lists in serialization ([071a69e](https://github.com/CondeNast/atjson/commit/071a69e71fc8af6358575b9e344a13ca19d8547c))
+
 # [0.27.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.26.1...@atjson/document@0.27.0) (2022-10-06)
 
 ### Features
