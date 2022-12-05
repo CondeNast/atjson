@@ -11,6 +11,10 @@ Using this package should be done seldomly, instead, we encourage developers to 
 
 `extractSlices` will take a document and return a tuple with the remainder document and a map of id / document pairs that are slice documents.
 
+:::note
+Marks that cross slice boundaries are excluded from slice documents. All marks should be included within the slices for them to be included.
+:::
+
 ```ts
 let [remainder, slices] = extractSlices(doc);
 ```
