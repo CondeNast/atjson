@@ -82,11 +82,9 @@ The document above is represented as the following JSON:
 export const CanonicalBefore = (props) => {
   let json = HTMLSource.fromRaw(props.html).toJSON();
   return (
-    <pre>
-      <CodeBlock className="json">
-        {JSON.stringify(json.annotations, null, 2)}
-      </CodeBlock>
-    </pre>
+    <CodeBlock language="json">
+      {JSON.stringify(json.annotations, null, 2)}
+    </CodeBlock>
   );
 };
 
@@ -98,11 +96,7 @@ export const CanonicalAfter = (props) => {
   let json = HTMLSource.fromRaw(props.html).canonical().toJSON();
   delete json.schema;
   delete json.contentType;
-  return (
-    <pre>
-      <CodeBlock className="json">{JSON.stringify(json, null, 2)}</CodeBlock>
-    </pre>
-  );
+  return <CodeBlock language="json">{JSON.stringify(json, null, 2)}</CodeBlock>;
 };
 
 <CanonicalAfter html="<p>Hello, world</p>" />
@@ -593,11 +587,7 @@ export const Slice = (props) => {
     .toJSON();
   delete json.schema;
   delete json.contentType;
-  return (
-    <pre>
-      <CodeBlock className="json">{JSON.stringify(json, null, 2)}</CodeBlock>
-    </pre>
-  );
+  return <CodeBlock language="json">{JSON.stringify(json, null, 2)}</CodeBlock>;
 };
 
 <Slice html="<p>Hello, <em>world</em></p>" start={0} end={8} />
@@ -624,15 +614,13 @@ import CommonmarkSource from "@atjson/source-commonmark";
 
 export const ToJSON = (props) => {
   return (
-    <pre>
-      <CodeBlock className="json">
-        {JSON.stringify(
-          CommonmarkSource.fromRaw(props.markdown).canonical().toJSON(),
-          null,
-          2
-        )}
-      </CodeBlock>
-    </pre>
+    <CodeBlock language="json">
+      {JSON.stringify(
+        CommonmarkSource.fromRaw(props.markdown).canonical().toJSON(),
+        null,
+        2
+      )}
+    </CodeBlock>
   );
 };
 
