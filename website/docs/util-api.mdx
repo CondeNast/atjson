@@ -1,0 +1,275 @@
+---
+title: Util
+---
+
+`@atjson/util` is a collection of functions used to manipulate atjson's [serialized format](/docs/storage) efficiently. The functions here are designed to encapsulate common
+behaviors for rendering that have been previously done by `@atjson/hir`.
+
+Using this package should be done seldomly, instead, we encourage developers to use higher-level packages that use `@atjson/util` internally to handle layout of text, which includes renderer packages.
+
+### extractSlices
+
+`extractSlices` will take a document and return a tuple with the remainder document and a map of id / document pairs that are slice documents.
+
+```ts
+let [remainder, slices] = extractSlices(doc);
+```
+
+For simple documents, `slices` here will be an empty map:
+
+```ts
+let [remainder, slices] = extractSlices({
+  text: "\uFFFCHello, world",
+  blocks: [
+    {
+      id: "B00000001",
+      type: "text",
+      parents: [],
+      selfClosing: false,
+      attributes: {},
+    },
+  ],
+  marks: [],
+});
+console.log(remainder);
+// {
+//   text: "\uFFFCHello, world",
+//   blocks: [{
+//     id: "B00000001",
+//     type: "text",
+//     parents: [],
+//     selfClosing: false,
+//     attributes: {}
+//   }],
+//   marks: []
+// }
+console.log(slices);
+// {}
+```
+
+When slices are encountered, they'll be pulled into another document:
+
+```ts
+let [remainder, slices] = extractSlices({
+  text: "\uFFFC\uFFFC\uFFFCKobayashi-san’s cat Uzura.",
+  blocks: [
+    {
+      id: "B00000001",
+      type: "text",
+      parents: [],
+      selfClosing: false,
+      attributes: {},
+    },
+    {
+      id: "B00000002",
+      type: "image",
+      parents: ["text"],
+      selfClosing: true,
+      attributes: {
+        caption: "M00000001",
+        sourceUrl:
+          "https://media.newyorker.com/photos/590963916552fa0be682e96b/master/pass/111017_hamada-japan0004_p465.jpg",
+      },
+    },
+    {
+      id: "B00000003",
+      type: "text",
+      parents: ["text"],
+      selfClosing: false,
+      attributes: {},
+    },
+  ],
+  marks: [
+    {
+      id: "M00000001",
+      type: "slice",
+      range: "[2..28]",
+      attributes: {
+        refs: ["B00000002"],
+      },
+    },
+  ],
+});
+console.log(remainder);
+// {
+//   text: "\uFFFC\uFFFC",
+//   blocks: [{
+//     id: "B00000001",
+//     type: "text",
+//     parents: [],
+//     selfClosing: false,
+//     attributes: {},
+//   },
+//   {
+//     id: "B00000002",
+//     type: "image",
+//     parents: ["text"],
+//     selfClosing: true,
+//     attributes: {
+//       caption: "M00000001",
+//       credit: "M00000002",
+//       sourceUrl:
+//         "https://media.newyorker.com/photos/590963916552fa0be682e96b/master/pass/111017_hamada-japan0004_p465.jpg",
+//     },
+//   }],
+//   marks: []
+// }
+console.log(slices);
+// {
+//   "M00000001": {
+//     "text": "\uFFFCKobayashi-san’s cat Uzura.",
+//     "blocks": [{
+//       id: "B00000003",
+//       type: "text",
+//       parents: [],
+//       selfClosing: false,
+//       attributes: {},
+//     }]
+//     "marks": []
+//   },
+// }
+```
+
+### createTree
+
+`createTree` transforms a document into a set of parts that can be iterated through to construct a tree from a flat map. Blocks and marks are represented as nodes that have children that should be iterated through lookup (except in the case of `selfClosing` blocks, where they should be treated as leaf nodes).
+
+To iterate over the tree, start with the list specified at the root, then when encountering block or mark objects, iterate over the lists at the corresponding `id` in the map.
+
+If we were going to create HTML elements using `createTree`, a very simple approach would look like the following:
+
+```tsx
+import { ROOT, createTree } from "@atjson/util";
+import type { Block, Mark } from "@atjson/util";
+
+export function toHTML(
+  map: Record<string, Array<Block | Mark | string>>,
+  list: Array<Block | Mark | string>
+) {
+  return list.map((child) => {
+    if (typeof child === "string") {
+      return child;
+    } else if (child.selfClosing) {
+      return `<${child.type} />`;
+    } else {
+      return `<${child.type}>${toHTML(map, map[child.id])}</${child.type}>`;
+    }
+  });
+}
+```
+
+import { ROOT, createTree } from "../../packages/@atjson/util";
+import { useMemo } from "react";
+
+export function toHTML(map, list) {
+  return list
+    .map((child) => {
+      if (typeof child === "string") {
+        return child;
+      } else if (child.selfClosing) {
+        return `<${child.type} />`;
+      } else {
+        return `<${child.type}>${toHTML(map, map[child.id] ?? [])}</${
+          child.type
+        }>`;
+      }
+    })
+    .join("");
+}
+
+import CodeBlock from "@theme/CodeBlock";
+
+export function Example({ doc }) {
+  let tree = useMemo(() => createTree(doc), []);
+  return <CodeBlock language="html">{toHTML(tree, tree[ROOT])}</CodeBlock>;
+}
+
+With the following input, we'd get the
+
+```json
+{
+  "text": "\uFFFC\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
+  "blocks": [
+    {
+      "id": "B0",
+      "type": "ul",
+      "parents": [],
+      "selfClosing": false,
+      "attributes": {}
+    },
+    {
+      "id": "B1",
+      "type": "li",
+      "parents": ["ul"],
+      "selfClosing": false,
+      "attributes": {}
+    },
+    {
+      "id": "B2",
+      "type": "li",
+      "parents": ["ul"],
+      "selfClosing": false,
+      "attributes": {}
+    },
+    {
+      "id": "B3",
+      "type": "li",
+      "parents": ["ul"],
+      "selfClosing": false,
+      "attributes": {}
+    },
+    {
+      "id": "B4",
+      "type": "li",
+      "parents": ["ul"],
+      "selfClosing": false,
+      "attributes": {}
+    }
+  ],
+  "marks": []
+}
+```
+
+<Example
+  doc={{
+    text: "\uFFFC\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
+    blocks: [
+      {
+        id: "B0",
+        type: "ul",
+        parents: [],
+        selfClosing: false,
+        attributes: {},
+      },
+      {
+        id: "B1",
+        type: "li",
+        parents: ["ul"],
+        selfClosing: false,
+        attributes: {},
+      },
+      {
+        id: "B2",
+        type: "li",
+        parents: ["ul"],
+        selfClosing: false,
+        attributes: {},
+      },
+      {
+        id: "B3",
+        type: "li",
+        parents: ["ul"],
+        selfClosing: false,
+        attributes: {},
+      },
+      {
+        id: "B4",
+        type: "li",
+        parents: ["ul"],
+        selfClosing: false,
+        attributes: {},
+      },
+    ],
+    marks: [],
+  }}
+/>

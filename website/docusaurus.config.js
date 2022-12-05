@@ -1,5 +1,3 @@
-const { join } = require("path");
-
 module.exports = {
   title: "atjson",
   tagline: "rich text tooling",
@@ -26,6 +24,7 @@ module.exports = {
       logo: {
         alt: "Condé Nast",
         src: "/img/conde-nast.svg",
+        srcDark: "/img/conde-nast-dark.svg",
         href: "https://technology.condenast.com",
       },
       copyright: `Copyright © ${new Date().getFullYear()} Condé Nast`,

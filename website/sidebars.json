@@ -11,7 +11,7 @@
       "glossary"
     ],
     "Contributing": ["code-style"],
-    "API Documentation": ["document-api"],
+    "API Documentation": ["document-api", "util-api"],
     "Sources": [
       "ckeditor-source",
       "html-source",
