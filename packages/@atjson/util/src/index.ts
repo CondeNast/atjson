@@ -47,6 +47,22 @@ export const ROOT = "root";
  */
 export const TEXT = "text";
 
+/**
+ * Extracts slices from a document for the special `slice`
+ * type provided by atjson. This function removes slices
+ * from a document and provides a lookup table of document
+ * slices for other functions to use as they would like.
+ *
+ * Slice documents _are_ valid documents— nothing special
+ * is going on with them other than the fact that they
+ * were part of the document and are pulled out for
+ * code that wants to refer to parts of the document by reference.
+ *
+ * @param value The document to extract slices from.
+ * @returns A tuple, with the first item being the document
+ *   remainder without slices, and the second item being
+ *   a lookup table of slice id to document slices.
+ */
 export function extractSlices(value: {
   marks: Mark[];
   blocks: Block[];
@@ -287,6 +303,18 @@ export function extractSlices(value: {
   ] as const;
 }
 
+/**
+ * Creates a lookup table to be used to render text in a
+ * heirarchical structure compatible with DOM, and many
+ * markup languages.
+ *
+ * See documentation at atjson.condenast.io/docs/util-api for
+ * more details on how to use the output.
+ *
+ * @param value A document to flatten out into a lookup table
+ * @returns A lookup table of node ids to a list of mark / block nodes
+ *   or leaf strings.
+ */
 export function createTree(value?: {
   marks: InternalMark[];
   blocks: Block[];

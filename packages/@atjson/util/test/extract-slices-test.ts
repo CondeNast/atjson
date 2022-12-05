@@ -226,4 +226,76 @@ describe("extractSlices", () => {
       },
     });
   });
+
+  test("mark crossing slice boundary", () => {
+    let original = {
+      text: "\uFFFCHello, world\uFFFCThis is a paragraph",
+      blocks: [
+        {
+          id: "B0",
+          type: "text",
+          parents: [],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "B1",
+          type: "paragraph",
+          parents: [],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "M0",
+          type: "slice",
+          range: "[0..13]",
+          attributes: {},
+        },
+        {
+          id: "M1",
+          type: "bold",
+          range: "[1..33]",
+          attributes: {},
+        },
+      ],
+    };
+    let [doc, slices] = extractSlices(original);
+    expect(doc).toMatchObject({
+      text: "\uFFFCThis is a paragraph",
+      blocks: [
+        {
+          id: "B1",
+          type: "paragraph",
+          parents: [],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "M1",
+          type: "bold",
+          range: "[0..20]",
+          attributes: {},
+        },
+      ],
+    });
+    expect(slices).toMatchObject({
+      M0: {
+        text: "\uFFFCHello, world",
+        blocks: [
+          {
+            id: "M0-B0",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [],
+      },
+    });
+  });
 });
