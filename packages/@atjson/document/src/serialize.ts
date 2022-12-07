@@ -327,7 +327,7 @@ export function serialize(
     if (options.onUnknown === "throw") {
       throw new Error(info);
     } else {
-      // eslint-ignore-next-line
+      // eslint-disable-next-line
       console.warn(info);
     }
   }
