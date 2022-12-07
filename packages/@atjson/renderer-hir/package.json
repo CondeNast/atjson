@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/hir": "0.24.2"
+    "@atjson/util": "0.2.0"
   },
   "devDependencies": {
     "@atjson/document": "0.27.1"
