@@ -1,0 +1,62 @@
+name: Perf
+
+on: [push]
+
+jobs:
+  perf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.14.0"
+      - uses: actions/checkout@v3
+        with:
+          path: baseline
+          ref: latest
+      - uses: actions/checkout@v3
+        with:
+          path: current
+      - name: 🐢 Performance
+        run: |
+          pushd baseline
+          npm install
+          npm run typecheck
+          npx ts-node ./perf-kit/index.ts profile --out baseline
+          popd
+          cd current
+          cp -r ../baseline/perf-kit/profiles ./perf-kit/profiles
+          npm install
+          npm run typecheck
+          npx ts-node ./perf-kit/index.ts profile --out current
+          npx ts-node ./perf-kit/index.ts compare baseline current
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require("fs/promises");
+            let directories = fs.readdir(`${__dirname}/current/perf-kit/profiles`);
+            for (let directory of directories) {
+              let profile = await fs.readFile(`./current/perf-kit/profiles/${directory}/current/baseline-current-tStats.json`);
+              let stats = JSON.parse(profile);
+              if (stats.pValue < 0.05) {
+                let range = stats.confidenceInterval;
+                let low = Math.round(range[0] / 1000);
+                let high = Math.round(range[1] / 1000);
+                let description = low < 0 && high < 0 ?
+                  `${Math.abs(high)}-${Math.abs(low)}ms faster` :
+                  low > 0 && high > 0 ?
+                  `${low}-${high}ms slower` :
+                  `${Math.abs(low)}ms faster - ${high}ms slower`;
+                await github.request('POST /repos/{owner}/{repo}/statuses/{sha}', {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  sha: context.sha,
+                  state: 'success',
+                  context: low < 0 && high < 0 ? `▼ ${name}` : low > 0 && high > 0 ? `▲ ${name}` : name,
+                  description
+                });
+              }
+            }
+      - uses: actions/upload-artifact@v3
+        with:
+          name: performance-profiles
+          path: ./current/perf-kit/profiles

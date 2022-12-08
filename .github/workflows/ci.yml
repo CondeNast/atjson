@@ -36,33 +36,3 @@ jobs:
           cd website
           npm ci
           npm run build
-  perf:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16.14.0"
-      - uses: actions/checkout@v3
-        with:
-          path: baseline
-          ref: latest
-      - uses: actions/checkout@v3
-        with:
-          path: current
-      - name: 🐢 Performance
-        run: |
-          pushd baseline
-          npm install
-          npm run typecheck
-          npx ts-node ./perf-kit/index.ts profile --out baseline
-          popd
-          cd current
-          cp -r ../baseline/perf-kit/profiles ./perf-kit/profiles
-          npm install
-          npm run typecheck
-          npx ts-node ./perf-kit/index.ts profile --out current
-          npx ts-node ./perf-kit/index.ts compare baseline current
-      - uses: actions/upload-artifact@v3
-        with:
-          name: performance-profiles
-          path: ./current/perf-kit/profiles

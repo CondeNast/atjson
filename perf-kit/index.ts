@@ -10,7 +10,7 @@ import OffsetSource from "@atjson/offset-annotations";
 
 run<any>(
   {
-    name: "commonmark-spec",
+    name: "Commonmark Spec",
     cases: spec.tests,
     runner: (test) => {
       CommonMarkRenderer.render(
@@ -19,7 +19,7 @@ run<any>(
     },
   },
   {
-    name: "commonmark-spec equality",
+    name: "Commonmark Spec Equality",
     cases: spec.tests,
     runner: (test) => {
       let doc = CommonMarkSource.fromRaw(test.markdown);
@@ -28,7 +28,7 @@ run<any>(
     },
   },
   {
-    name: "degenerate-markdown",
+    name: "Degenerate Markdown",
     cases: md,
     runner: (markdown) => {
       CommonMarkRenderer.render(
@@ -37,7 +37,7 @@ run<any>(
     },
   },
   {
-    name: "degenerate-markdown equality",
+    name: "Degenerate Markdown Equality",
     cases: md,
     runner: (markdown) => {
       let doc = CommonMarkSource.fromRaw(markdown);
@@ -46,14 +46,14 @@ run<any>(
     },
   },
   {
-    name: "html",
+    name: "HTML",
     cases: html,
     runner: (text) => {
       HTMLRenderer.render(HTMLSource.fromRaw(text).convertTo(OffsetSource));
     },
   },
   {
-    name: "html equality",
+    name: "HTML Equality",
     cases: html,
     runner: (text) => {
       let doc = HTMLSource.fromRaw(text);
