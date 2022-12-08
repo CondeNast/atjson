@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.6](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.5...@atjson/source-html@0.34.6) (2022-12-08)
+
+### Bug Fixes
+
+- new URL for Ceros detection was not in try / catch ([32a0d35](https://github.com/CondeNast/atjson/commit/32a0d35c8aabb77c8acb3d58980d4582382164a8))
+
 ## [0.34.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.4...@atjson/source-html@0.34.5) (2022-11-29)
 
 **Note:** Version bump only for package @atjson/source-html

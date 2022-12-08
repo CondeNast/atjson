@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.46.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.45.5...@atjson/offset-annotations@0.46.0) (2022-12-08)
+
+### Features
+
+- **autolinking:** add new data attribute to Link class ([63a5bd5](https://github.com/CondeNast/atjson/commit/63a5bd5972d5bba3e8f1daf9263b221f52475cec))
+
 ## [0.45.5](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.45.4...@atjson/offset-annotations@0.45.5) (2022-11-29)
 
 **Note:** Version bump only for package @atjson/offset-annotations
