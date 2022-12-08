@@ -10,7 +10,7 @@ import CommonmarkRenderer from "@atjson/renderer-commonmark";
 import OffsetSource, { Link } from "@atjson/offset-annotations";
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-import * as Chance from "chance";
+import Chance from "chance";
 
 const chance = new Chance();
 
