@@ -14,7 +14,11 @@ function isCerosOriginDomainsScript(a: Annotation<any>) {
   if (src && src.indexOf("//") === 0) {
     src = `https:${src}`;
   }
-  return src && new URL(src).hostname === "view.ceros.com";
+  try {
+    return src && new URL(src).hostname === "view.ceros.com";
+  } catch (error) {
+    return false;
+  }
 }
 
 function isCerosContainer(a: Annotation<any>) {
