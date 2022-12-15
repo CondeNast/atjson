@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.8](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.7...@atjson/source-html@0.34.8) (2022-12-15)
+
+### Bug Fixes
+
+- handle relative urls in video converter ([91d949f](https://github.com/CondeNast/atjson/commit/91d949fbd1e7aa7132665db1340ba0fe14373af8))
+
 ## [0.34.7](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.6...@atjson/source-html@0.34.7) (2022-12-08)
 
 **Note:** Version bump only for package @atjson/source-html

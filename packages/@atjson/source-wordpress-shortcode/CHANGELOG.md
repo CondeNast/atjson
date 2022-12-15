@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](https://github.com/CondeNast/atjson/compare/@atjson/source-wordpress-shortcode@0.3.8...@atjson/source-wordpress-shortcode@0.3.9) (2022-12-15)
+
+**Note:** Version bump only for package @atjson/source-wordpress-shortcode
+
 ## [0.3.8](https://github.com/CondeNast/atjson/compare/@atjson/source-wordpress-shortcode@0.3.7...@atjson/source-wordpress-shortcode@0.3.8) (2022-11-29)
 
 ### Bug Fixes

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.28.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.27.1...@atjson/document@0.28.0) (2022-12-15)
+
+### Features
+
+- add option to throw on unknown annotations when serializing ([1f74dca](https://github.com/CondeNast/atjson/commit/1f74dcaf6e1f94548cbb282e1731a50935e47118))
+- use @atjson/util in @atjson/renderer-hir ([1ffccf8](https://github.com/CondeNast/atjson/commit/1ffccf8cfb5b1d67ddca6e5b80504a2bd09e1cef))
+
 ## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.27.0...@atjson/document@0.27.1) (2022-11-29)
 
 ### Bug Fixes
