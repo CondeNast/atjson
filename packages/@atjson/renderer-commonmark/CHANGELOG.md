@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.2](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.27.1...@atjson/renderer-commonmark@0.27.2) (2022-12-15)
+
+### Bug Fixes
+
+- update default value for escapeHtmlEntities ([ce81d31](https://github.com/CondeNast/atjson/commit/ce81d311fb2c77d99e2e63d0c9aa9b471c730c6c))
+
 ## [0.27.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.27.0...@atjson/renderer-commonmark@0.27.1) (2022-12-15)
 
 ### Bug Fixes
