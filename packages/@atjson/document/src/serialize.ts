@@ -229,7 +229,7 @@ export function serialize(
   options?: {
     withStableIds?: boolean;
     includeBlockRanges?: boolean;
-    onUnknown?: "warn" | "throw";
+    onUnknown?: "warn" | "throw" | "ignore";
   }
 ): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
@@ -316,7 +316,11 @@ export function serialize(
       unknown.push(annotation);
     }
   }
-  if (options?.onUnknown && unknown.length > 0) {
+  if (
+    options?.onUnknown &&
+    unknown.length > 0 &&
+    options.onUnknown !== "ignore"
+  ) {
     let info = `Unknown annotations were found:\n${unknown
       .map(
         (annotation) =>
