@@ -38,6 +38,7 @@ jobs:
               let profile = await fs.readFile(`./current/perf-kit/profiles/${directory}/current/baseline-current-tStats.json`);
               let stats = JSON.parse(profile);
               if (stats.pValue < 0.05) {
+                console.log(`${directory} has relevant results`);
                 let range = stats.confidenceInterval;
                 let low = Math.round(range[0] / 1000);
                 let high = Math.round(range[1] / 1000);
@@ -54,6 +55,8 @@ jobs:
                   context: low < 0 && high < 0 ? `▼ ${name}` : low > 0 && high > 0 ? `▲ ${name}` : name,
                   description
                 });
+              } else {
+                console.log(`${directory} has statistically inconclusive findings`);
               }
             }
       - uses: actions/upload-artifact@v3
