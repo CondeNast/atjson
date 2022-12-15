@@ -52,7 +52,7 @@ jobs:
                   repo: context.repo.repo,
                   sha: context.sha,
                   state: 'success',
-                  context: low < 0 && high < 0 ? `▼ ${name}` : low > 0 && high > 0 ? `▲ ${name}` : name,
+                  context: low < 0 && high < 0 ? `▼ ${directory}` : low > 0 && high > 0 ? `▲ ${directory}` : directory,
                   description
                 });
               }
