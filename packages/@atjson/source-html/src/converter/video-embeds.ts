@@ -169,35 +169,49 @@ export default function (doc: Document) {
       doc.removeAnnotations(divsToToss);
     });
 
-  doc.where(isIframe).update(function convertIdentifiedVideos(iframe) {
-    let src = iframe.attributes.src;
-    if (src?.indexOf("//") === 0) {
-      src = `https:${src}`;
-    }
-    let urlAttributes = VideoURLs.identify(new URL(src));
-    if (urlAttributes) {
-      let width = getSize(iframe, "width");
-      let height = getSize(iframe, "height");
+  doc
+    .where(isIframe)
+    .where((iframe) => {
+      try {
+        let src = iframe.attributes.src;
+        if (src?.indexOf("//") === 0) {
+          src = `https:${src}`;
+        }
+        new URL(src);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    })
+    .update(function convertIdentifiedVideos(iframe) {
+      let src = iframe.attributes.src;
+      if (src?.indexOf("//") === 0) {
+        src = `https:${src}`;
+      }
+      let urlAttributes = VideoURLs.identify(new URL(src));
+      if (urlAttributes) {
+        let width = getSize(iframe, "width");
+        let height = getSize(iframe, "height");
 
-      doc.replaceAnnotation(
-        iframe,
-        new VideoEmbed({
-          start: iframe.start,
-          end: iframe.end,
-          attributes: {
-            ...urlAttributes,
-            width,
-            height,
-            aspectRatio:
-              width && height
-                ? getClosestAspectRatio(width, height)
-                : undefined,
-            anchorName: iframe.attributes.id,
-          },
-        })
-      );
-    }
-  });
+        doc.replaceAnnotation(
+          iframe,
+          new VideoEmbed({
+            start: iframe.start,
+            end: iframe.end,
+            attributes: {
+              ...urlAttributes,
+              width,
+              height,
+              aspectRatio:
+                width && height
+                  ? getClosestAspectRatio(width, height)
+                  : undefined,
+              anchorName: iframe.attributes.id,
+            },
+          })
+        );
+      }
+    });
 
   return doc;
 }

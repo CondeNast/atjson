@@ -50,19 +50,11 @@ run<any>(
     name: "HTML",
     cases: html,
     runner: (text) => {
-      let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
-      doc.where((a) => is(a, UnknownAnnotation)).remove();
-      HTMLRenderer.render(doc);
-    },
-  },
-  {
-    name: "HTML Equality",
-    cases: html,
-    runner: (text) => {
-      let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
-      doc.where((a) => is(a, UnknownAnnotation)).remove();
-      let html = HTMLRenderer.render(doc);
-      doc.equals(HTMLSource.fromRaw(html));
+      try {
+        let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
+        doc.where((a) => is(a, UnknownAnnotation)).remove();
+        HTMLRenderer.render(doc);
+      } catch (e) {}
     },
   }
 );
