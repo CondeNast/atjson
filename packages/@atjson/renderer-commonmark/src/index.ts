@@ -222,17 +222,13 @@ export default class CommonmarkRenderer extends Renderer {
 
   protected state: any;
 
-  constructor(document: Document, options?: { escapeHtmlEntities: boolean }) {
+  constructor(
+    document: Document | { text: string; marks: Mark[]; blocks: Block[] },
+    options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: false }
+  ) {
     super(document);
     this.state = {};
-    if (options == null) {
-      let DocumentClass = document.constructor as typeof Document;
-      this.options = {
-        escapeHtmlEntities: !!DocumentClass.schema.find(isHTML),
-      };
-    } else {
-      this.options = options;
-    }
+    this.options = options;
   }
 
   text(text: string) {
