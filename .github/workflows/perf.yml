@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             const fs = require("fs/promises");
-            let directories = fs.readdir(`/current/perf-kit/profiles`);
+            let directories = await fs.readdir(`/current/perf-kit/profiles`);
             for (let directory of directories) {
               let profile = await fs.readFile(`./current/perf-kit/profiles/${directory}/current/baseline-current-tStats.json`);
               let stats = JSON.parse(profile);
