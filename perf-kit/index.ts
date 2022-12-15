@@ -7,6 +7,7 @@ import CommonMarkRenderer from "@atjson/renderer-commonmark";
 import HTMLSource from "@atjson/source-html";
 import HTMLRenderer from "@atjson/renderer-html";
 import OffsetSource from "@atjson/offset-annotations";
+import { is, UnknownAnnotation } from "@atjson/document";
 
 run<any>(
   {
@@ -49,15 +50,18 @@ run<any>(
     name: "HTML",
     cases: html,
     runner: (text) => {
-      HTMLRenderer.render(HTMLSource.fromRaw(text).convertTo(OffsetSource));
+      let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
+      doc.where((a) => is(a, UnknownAnnotation)).remove();
+      HTMLRenderer.render(doc);
     },
   },
   {
     name: "HTML Equality",
     cases: html,
     runner: (text) => {
-      let doc = HTMLSource.fromRaw(text);
-      let html = HTMLRenderer.render(doc.convertTo(OffsetSource));
+      let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
+      doc.where((a) => is(a, UnknownAnnotation)).remove();
+      let html = HTMLRenderer.render(doc);
       doc.equals(HTMLSource.fromRaw(html));
     },
   }
