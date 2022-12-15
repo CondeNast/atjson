@@ -194,10 +194,6 @@ function getNumberOfRequiredBackticks(text: string) {
   return total;
 }
 
-function isHTML(a: { type: string }): a is HTML {
-  return a.type === "html";
-}
-
 function blockquotify(line: string) {
   return `> ${line}`;
 }
@@ -224,7 +220,7 @@ export default class CommonmarkRenderer extends Renderer {
 
   constructor(
     document: Document | { text: string; marks: Mark[]; blocks: Block[] },
-    options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: false }
+    options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
   ) {
     super(document);
     this.state = {};
