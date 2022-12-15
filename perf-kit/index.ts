@@ -1,13 +1,10 @@
 /* eslint-env node */
 import * as spec from "commonmark-spec";
 import { run } from "@condenast/perf-kit";
-import { md, html } from "./fixtures";
+import { md } from "./fixtures";
 import CommonMarkSource from "@atjson/source-commonmark";
 import CommonMarkRenderer from "@atjson/renderer-commonmark";
-import HTMLSource from "@atjson/source-html";
-import HTMLRenderer from "@atjson/renderer-html";
 import OffsetSource from "@atjson/offset-annotations";
-import { is, UnknownAnnotation } from "@atjson/document";
 
 run<any>(
   {
@@ -44,17 +41,6 @@ run<any>(
       let doc = CommonMarkSource.fromRaw(markdown);
       let md = CommonMarkRenderer.render(doc.convertTo(OffsetSource));
       doc.equals(CommonMarkSource.fromRaw(md));
-    },
-  },
-  {
-    name: "HTML",
-    cases: html,
-    runner: (text) => {
-      try {
-        let doc = HTMLSource.fromRaw(text).convertTo(OffsetSource);
-        doc.where((a) => is(a, UnknownAnnotation)).remove();
-        HTMLRenderer.render(doc);
-      } catch (e) {}
     },
   }
 );
