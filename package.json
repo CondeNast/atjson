@@ -32,7 +32,7 @@
     "commonmark": "0.30.0",
     "commonmark-spec": "0.30.0",
     "conventional-changelog-core": "4.2.4",
-    "eslint": "8.29.0",
+    "eslint": "8.30.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-jest": "27.1.7",
     "eslint-plugin-prettier": "4.2.1",
