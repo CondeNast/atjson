@@ -116,6 +116,7 @@ export function extractSlices(value: {
     let text = value.text.slice(start, end);
 
     let blocks: Block[] = [];
+    let parentIndex = 0;
     for (let j = 0, jlen = blockBoundaryPositions.length; j < jlen; j++) {
       let position = blockBoundaryPositions[j];
       if (position < start) {
@@ -124,7 +125,9 @@ export function extractSlices(value: {
       } else if (position + 1 <= end) {
         // Add the block to the slice blocks list
         let block = value.blocks[j];
-        let parentIndex = (blocks[0] ?? block).parents.length;
+        if (blocks.length === 0) {
+          parentIndex = block.parents.length;
+        }
         blocks.push({
           ...block,
           id: `${slice.id}-${block.id}`,
