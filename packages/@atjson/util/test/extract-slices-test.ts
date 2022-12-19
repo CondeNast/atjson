@@ -298,4 +298,77 @@ describe("extractSlices", () => {
       },
     });
   });
+
+  test("multiple blocks in slice", () => {
+    const original = {
+      text: "￼￼Maude by Anna Margaret Hollyman from anna margaret hollyman on Vimeo.￼Teeny thought it was just another routine babysitting job—until she's shocked to meet the client. As the day goes on, Teeny decides to become the woman she had no idea she always wanted to be ... until she gets caught.\"Maude\" is this week's Staff Pick Premiere! Read more about it here: https://vimeo.com/blog/post/staff-pick-premiere-maude-by-anna-margaret-hollyman/",
+      blocks: [
+        {
+          id: "B00000000",
+          type: "video-embed",
+          parents: [],
+          selfClosing: false,
+          attributes: {
+            provider: "VIMEO",
+            url: "https://player.vimeo.com/video/366624013",
+            width: 640,
+            height: 360,
+            caption: "M00000000",
+          },
+        },
+        {
+          id: "B00000001",
+          type: "paragraph",
+          parents: ["video-embed"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "B00000002",
+          type: "paragraph",
+          parents: ["video-embed"],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "M00000000",
+          type: "slice",
+          range: "(1..439]",
+          attributes: {
+            refs: ["B00000000"],
+          },
+        },
+        {
+          id: "M00000001",
+          type: "link",
+          range: "(2..33)",
+          attributes: {
+            url: "https://vimeo.com/366624013",
+          },
+        },
+        {
+          id: "M00000002",
+          type: "link",
+          range: "(39..61)",
+          attributes: {
+            url: "https://vimeo.com/annamargarethollyman",
+          },
+        },
+        {
+          id: "M00000003",
+          type: "link",
+          range: "(65..70)",
+          attributes: {
+            url: "https://vimeo.com",
+          },
+        },
+      ],
+    };
+    let [, slices] = extractSlices(original);
+    expect(slices.M00000000.blocks.length).toBe(2);
+    expect(slices.M00000000.blocks[0].parents).toStrictEqual([]);
+    expect(slices.M00000000.blocks[1].parents).toStrictEqual([]);
+  });
 });
