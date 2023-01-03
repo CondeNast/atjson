@@ -6218,13 +6218,13 @@ exports[`Emphasis and strong emphasis ***foo* bar**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "strong",
     },
@@ -6249,13 +6249,13 @@ exports[`Emphasis and strong emphasis ***foo* bar**
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "strong",
     },
@@ -6330,13 +6330,13 @@ exports[`Emphasis and strong emphasis ***foo** bar*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "em",
     },
@@ -6361,13 +6361,13 @@ exports[`Emphasis and strong emphasis ***foo** bar*
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "em",
     },
@@ -7072,7 +7072,7 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
     },
     {
       "attributes": {},
-      "id": "M00000002",
+      "id": "M00000001",
       "range": "(5..8]",
       "type": "em",
     },
@@ -7080,7 +7080,7 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
       "attributes": {
         "href": "/url",
       },
-      "id": "M00000001",
+      "id": "M00000002",
       "range": "(5..8]",
       "type": "link",
     },
@@ -7111,7 +7111,7 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
     },
     {
       "attributes": {},
-      "id": "M00000002",
+      "id": "M00000001",
       "range": "(5..8]",
       "type": "em",
     },
@@ -7119,7 +7119,7 @@ exports[`Emphasis and strong emphasis **foo [*bar*](/url)**
       "attributes": {
         "href": "/url",
       },
-      "id": "M00000001",
+      "id": "M00000002",
       "range": "(5..8]",
       "type": "link",
     },
@@ -8156,7 +8156,7 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
     },
     {
       "attributes": {},
-      "id": "M00000002",
+      "id": "M00000001",
       "range": "(5..8]",
       "type": "em",
     },
@@ -8164,7 +8164,7 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
       "attributes": {
         "href": "/url",
       },
-      "id": "M00000001",
+      "id": "M00000002",
       "range": "(5..8]",
       "type": "link",
     },
@@ -8195,7 +8195,7 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
     },
     {
       "attributes": {},
-      "id": "M00000002",
+      "id": "M00000001",
       "range": "(5..8]",
       "type": "em",
     },
@@ -8203,7 +8203,7 @@ exports[`Emphasis and strong emphasis *foo [*bar*](/url)*
       "attributes": {
         "href": "/url",
       },
-      "id": "M00000001",
+      "id": "M00000002",
       "range": "(5..8]",
       "type": "link",
     },
@@ -9608,13 +9608,13 @@ exports[`Emphasis and strong emphasis ____foo__ bar__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "strong",
     },
@@ -9639,13 +9639,13 @@ exports[`Emphasis and strong emphasis ____foo__ bar__
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "strong",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "strong",
     },
@@ -10158,13 +10158,13 @@ exports[`Emphasis and strong emphasis __foo_ bar_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "em",
     },
@@ -10189,13 +10189,13 @@ exports[`Emphasis and strong emphasis __foo_ bar_
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
     {
       "attributes": {},
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "em",
     },
@@ -22748,7 +22748,7 @@ exports[`Links [*foo* bar]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
@@ -22757,7 +22757,7 @@ exports[`Links [*foo* bar]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "link",
     },
@@ -22784,7 +22784,7 @@ exports[`Links [*foo* bar]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
@@ -22793,7 +22793,7 @@ exports[`Links [*foo* bar]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "link",
     },
@@ -22820,7 +22820,7 @@ exports[`Links [*foo* bar][]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
@@ -22829,7 +22829,7 @@ exports[`Links [*foo* bar][]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "link",
     },
@@ -22856,7 +22856,7 @@ exports[`Links [*foo* bar][]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(1..4]",
       "type": "em",
     },
@@ -22865,7 +22865,7 @@ exports[`Links [*foo* bar][]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(1..8]",
       "type": "link",
     },
@@ -22892,7 +22892,7 @@ exports[`Links [[*foo* bar]]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(2..5]",
       "type": "em",
     },
@@ -22901,7 +22901,7 @@ exports[`Links [[*foo* bar]]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(2..9]",
       "type": "link",
     },
@@ -22928,7 +22928,7 @@ exports[`Links [[*foo* bar]]
   "marks": [
     {
       "attributes": {},
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(2..5]",
       "type": "em",
     },
@@ -22937,7 +22937,7 @@ exports[`Links [[*foo* bar]]
         "href": "/url",
         "title": "title",
       },
-      "id": "M00000000",
+      "id": "M00000001",
       "range": "(2..9]",
       "type": "link",
     },

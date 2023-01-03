@@ -16,6 +16,7 @@ import TestSource, {
   Quote,
   Instagram,
 } from "./test-source";
+import { sortTokens, TokenType, Token } from "../src/serialize";
 
 describe("serialize", () => {
   test("errors are thrown if uFFFC is included in text", () => {
@@ -1253,6 +1254,68 @@ describe("deserialize", () => {
           TestSource
         )
       ).toThrowError();
+    });
+  });
+
+  describe("sortTokens", () => {
+    test("colinear marks have a stable sort", () => {
+      let paragraph = new Paragraph({
+        start: 0,
+        end: 5,
+      });
+      let bold = new Bold({
+        start: 1,
+        end: 3,
+      });
+      let italic = new Italic({
+        start: 1,
+        end: 3,
+      });
+      let tokens = [
+        {
+          annotation: paragraph,
+          type: "block",
+          edgeBehaviour: Paragraph.edgeBehaviour,
+        },
+        {
+          annotation: bold,
+          type: "mark",
+          edgeBehaviour: Bold.edgeBehaviour,
+        },
+        {
+          annotation: italic,
+          type: "mark",
+          edgeBehaviour: Italic.edgeBehaviour,
+        },
+      ].reduce((E, description) => {
+        E.push(
+          {
+            type:
+              description.type === "block"
+                ? TokenType.BLOCK_START
+                : TokenType.MARK_START,
+            index: description.annotation.start,
+            annotation: description.annotation,
+            shared: { start: -1 },
+            selfClosing: false,
+            edgeBehaviour: description.edgeBehaviour,
+          },
+          {
+            type:
+              description.type === "block"
+                ? TokenType.BLOCK_END
+                : TokenType.MARK_END,
+            index: description.annotation.start,
+            annotation: description.annotation,
+            shared: { start: -1 },
+            selfClosing: false,
+            edgeBehaviour: description.edgeBehaviour,
+          }
+        );
+        return E;
+      }, [] as Token[]);
+
+      tokens.sort(sortTokens);
     });
   });
 });

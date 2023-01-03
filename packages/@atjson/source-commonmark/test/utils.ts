@@ -1,4 +1,4 @@
-import Document from "@atjson/document";
+import Document, { Block } from "@atjson/document";
 import Renderer from "@atjson/renderer-hir";
 import { BulletList, OrderedList } from "../src";
 
@@ -24,21 +24,21 @@ class PlainTextRenderer extends Renderer {
     let text: string[] = yield;
     return text.join("");
   }
-  *bullet_list(list: BulletList) {
+  *bullet_list(list: Block<BulletList>): Generator<void, string, string[]> {
     let wasTight = this.tight;
     this.tight = !list.attributes.loose;
     let text = yield;
     this.tight = wasTight;
-    return text;
+    return text.join("");
   }
-  *ordered_list(list: OrderedList) {
+  *ordered_list(list: Block<OrderedList>): Generator<void, string, string[]> {
     let wasTight = this.tight;
     this.tight = !list.attributes.loose;
     let text = yield;
     this.tight = wasTight;
-    return text;
+    return text.join("");
   }
-  *paragraph() {
+  *paragraph(): Generator<void, string, string[]> {
     let text = yield;
     if (this.tight) {
       return `${text.join("")}\n`;
