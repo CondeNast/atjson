@@ -587,7 +587,8 @@ export default class CommonmarkRenderer extends Renderer {
         typeof context.previous !== "string" &&
         context.previous?.type === "list" &&
         context.previous.attributes.type === "numbered" &&
-        context.previous.attributes.delimiter === "."
+        (context.previous.attributes.delimiter === "." ||
+          context.previous.attributes.delimiter == null)
       ) {
         delimiter = ")";
       }
@@ -598,12 +599,12 @@ export default class CommonmarkRenderer extends Renderer {
         typeof context.previous !== "string" &&
         context.previous?.type === "list" &&
         context.previous.attributes.type === "bulleted" &&
-        context.previous.attributes.delimiter === "-"
+        (context.previous.attributes.delimiter === "-" ||
+          context.previous.attributes.delimiter == null)
       ) {
         delimiter = "+";
       }
     }
-    list.attributes.delimiter = delimiter;
 
     let state = Object.assign({}, this.state);
 
