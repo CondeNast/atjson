@@ -10,6 +10,7 @@ import {
   SliceAnnotation,
   UnknownAnnotation,
   is,
+  withStableIds,
 } from "./internals";
 
 /**
@@ -111,7 +112,7 @@ function serializeRange(
   }` as Range;
 }
 
-enum TokenType {
+export enum TokenType {
   BLOCK_START,
   BLOCK_END,
   MARK_START,
@@ -136,7 +137,7 @@ class Root extends BlockAnnotation {
   static type = "root";
 }
 
-type Token = {
+export type Token = {
   type: TokenType;
   index: number;
   annotation: Annotation<any>;
@@ -145,7 +146,7 @@ type Token = {
   edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
 };
 
-function sortTokens(a: Token, b: Token) {
+export function sortTokens(a: Token, b: Token) {
   let indexDelta = a.index - b.index;
   if (indexDelta !== 0) {
     return indexDelta;
@@ -363,8 +364,8 @@ export function serialize(
   // not filled, wrap that range in block.
   let previousBlockBoundary: Token = tokens[tokens.length - 1];
   let stack: Token[] = [previousBlockBoundary];
-  let parseTokens: Token[] = [];
   let textLength = 0;
+  let parseTokens: Token[] = [];
   let lastIndex = previousBlockBoundary.index;
   for (let i = tokens.length - 1; i >= 0; i--) {
     let token = tokens[i];
@@ -459,35 +460,6 @@ export function serialize(
   }
   tokens.sort(sortTokens);
 
-  // Provide stable ids
-  let blockCounter = 0;
-  let markCounter = 0;
-  let withStableIds = options?.withStableIds ?? false;
-  let ids: Record<string, string> = {};
-  if (withStableIds) {
-    for (let token of tokens) {
-      switch (token.type) {
-        case TokenType.BLOCK_START: {
-          let id = token.annotation.id;
-          if (withStableIds) {
-            id = (blockCounter++).toString(16);
-            id = `B${"00000000".slice(id.length) + id}`;
-          }
-          ids[token.annotation.id] = id;
-          break;
-        }
-        case TokenType.MARK_START: {
-          let id = token.annotation.id;
-          if (withStableIds) {
-            id = (markCounter++).toString(16);
-            id = `M${"00000000".slice(id.length) + id}`;
-          }
-          ids[token.annotation.id] = id;
-        }
-      }
-    }
-  }
-
   let includeBlockRanges = options?.includeBlockRanges ?? false;
   let parents: string[] = [];
   parseTokens = [];
@@ -515,9 +487,7 @@ export function serialize(
 
     switch (token.type) {
       case TokenType.BLOCK_START: {
-        let annotation = withStableIds
-          ? token.annotation.withStableIds(ids)
-          : token.annotation;
+        let annotation = token.annotation;
         let { type, attributes } = is(annotation, UnknownAnnotation)
           ? annotation.attributes
           : annotation;
@@ -537,9 +507,7 @@ export function serialize(
       case TokenType.BLOCK_END: {
         parents.pop();
         if (includeBlockRanges) {
-          let id = withStableIds
-            ? ids[token.annotation.id]
-            : token.annotation.id;
+          let id = token.annotation.id;
           let block = blocks.find((block) => block.id === id);
           // This shouldn't happen, but TypeScript likes this
           if (block != null) {
@@ -557,9 +525,7 @@ export function serialize(
         break;
       }
       case TokenType.MARK_END: {
-        let annotation = withStableIds
-          ? token.annotation.withStableIds(ids)
-          : token.annotation;
+        let annotation = token.annotation;
         let { type, attributes } = is(annotation, UnknownAnnotation)
           ? annotation.attributes
           : annotation;
@@ -587,6 +553,33 @@ export function serialize(
     }
   }
   marks.sort(sortMarks);
+
+  // Provide stable ids post-serialization for ids to
+  // be truly stable when marks are colinear in a serialized
+  // format, but not in atjson due to parse tokens
+  if (options?.withStableIds ?? false) {
+    let blockCounter = 0;
+    let markCounter = 0;
+    let ids: Record<string, string> = {};
+    for (let block of blocks) {
+      let id = (blockCounter++).toString(16);
+      id = `B${"00000000".slice(id.length) + id}`;
+      ids[block.id] = id;
+    }
+    for (let mark of marks) {
+      let id = (markCounter++).toString(16);
+      id = `M${"00000000".slice(id.length) + id}`;
+      ids[mark.id] = id;
+    }
+    for (let block of blocks) {
+      block.id = ids[block.id];
+      block.attributes = withStableIds(block.attributes, ids);
+    }
+    for (let mark of marks) {
+      mark.id = ids[mark.id];
+      mark.attributes = withStableIds(mark.attributes, ids);
+    }
+  }
 
   return {
     text,
