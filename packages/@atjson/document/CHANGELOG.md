@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.28.0...@atjson/document@0.28.1) (2023-01-04)
+
+### Bug Fixes
+
+- edge case when using withStableIds in serializing ([ddfbccc](https://github.com/CondeNast/atjson/commit/ddfbccccb3e0c9ecbcaa2498c819c258d685e598))
+
 # [0.28.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.27.1...@atjson/document@0.28.0) (2022-12-15)
 
 ### Features

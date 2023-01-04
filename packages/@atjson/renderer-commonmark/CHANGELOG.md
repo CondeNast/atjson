@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.27.3...@atjson/renderer-commonmark@0.27.4) (2023-01-04)
+
+### Bug Fixes
+
+- don't mutate attributes while rendering ([89e2ab0](https://github.com/CondeNast/atjson/commit/89e2ab0fb686cffeb8787f82c3fe740c04bab19d))
+- edge case when using withStableIds in serializing ([ddfbccc](https://github.com/CondeNast/atjson/commit/ddfbccccb3e0c9ecbcaa2498c819c258d685e598))
+
 ## [0.27.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.27.2...@atjson/renderer-commonmark@0.27.3) (2022-12-20)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

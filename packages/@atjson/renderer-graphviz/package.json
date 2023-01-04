@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-graphviz",
-  "version": "0.21.37",
+  "version": "0.21.38",
   "description": "Render documents into graphs to help with debugging",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,10 +10,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/hir": "0.24.3"
+    "@atjson/hir": "0.24.4"
   },
   "devDependencies": {
-    "@atjson/document": "0.28.0"
+    "@atjson/document": "0.28.1"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"

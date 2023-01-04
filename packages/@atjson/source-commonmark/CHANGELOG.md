@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.24.17](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.16...@atjson/source-commonmark@0.24.17) (2023-01-04)
+
+### Bug Fixes
+
+- edge case when using withStableIds in serializing ([ddfbccc](https://github.com/CondeNast/atjson/commit/ddfbccccb3e0c9ecbcaa2498c819c258d685e598))
+
 ## [0.24.16](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.15...@atjson/source-commonmark@0.24.16) (2022-12-15)
 
 **Note:** Version bump only for package @atjson/source-commonmark
