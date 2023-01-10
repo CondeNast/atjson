@@ -1,0 +1,35 @@
+name: Release
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish:
+    environment: npm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.14.0"
+      - name: Install Dependencies
+        run: npm ci --no-optional
+      - name: Configure git
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+        env:
+          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+      - name: Fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        env:
+          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+      - name: Lerna publish
+        run: $(npm bin)/lerna publish --conventional-graduate --conventional-commits --yes
+        env:
+          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
