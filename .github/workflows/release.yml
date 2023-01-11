@@ -5,6 +5,7 @@ on:
 
 jobs:
   publish:
+    if: "!contains(github.event.head_commit.message, 'chore(release): publish')"
     environment: npm
     runs-on: ubuntu-latest
     steps:
