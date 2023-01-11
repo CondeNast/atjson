@@ -6,7 +6,7 @@ on:
 jobs:
   lerna_publish:
     runs-on: ubuntu-latest
-    if: ${{github.event.issue.pull_request && contains(github.event.comment.body, "@copilot-robot prerelease")}}
+    if: ${{github.event.issue.pull_request && contains(github.event.comment.body, '@copilot-robot prerelease')}}
     steps:
       - uses: actions/github-script@v3
         with:
