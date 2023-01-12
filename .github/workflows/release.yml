@@ -31,9 +31,9 @@ jobs:
       - name: Lerna publish
         run: |
           $(npm bin)/lerna publish\
-            -m "chore(release): publish [skip ci]"
-            --conventional-graduate
-            --conventional-commits
+            -m "chore(release): publish [skip ci]"\
+            --conventional-graduate\
+            --conventional-commits\
             --yes
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
