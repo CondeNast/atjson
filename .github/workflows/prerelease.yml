@@ -52,7 +52,7 @@ jobs:
             --preid "dev-${GITHUB_REF#refs/heads/}"\
             --conventional-prerelease\
             -m 'chore(prerelease): publish'\
-            --yes
+            --yes\
             --summary-file
           echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
           cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
