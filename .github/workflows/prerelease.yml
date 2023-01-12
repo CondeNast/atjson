@@ -12,7 +12,7 @@ jobs:
         with:
           script: |
             try {
-              const result = await github.reactions.createForIssueComment({
+              const result = await github.rest.reactions.createForIssueComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 comment_id: context.event.comment.id,
@@ -65,7 +65,7 @@ jobs:
           script: |
             try {
               let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
-              const result = await github.issues.createComment({
+              const result = await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
