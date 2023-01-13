@@ -54,9 +54,11 @@ jobs:
             -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
-          echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
-          cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
+          if [-f "lerna-publish-summary.json"]
+            echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
+            cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
+            echo 'EOF' >> $GITHUB_OUTPUT
+          fi
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
@@ -64,14 +66,23 @@ jobs:
         with:
           script: |
             try {
-              let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
-              const result = await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                content: `Hi, @${GITHUB_ACTOR}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
-              });
-              return result.data
+              if (process.env.PUBLISH_RESULT) {
+                let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
+                const result = await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  content: `Hi, @${GITHUB_ACTOR}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
+                });
+                return result.data;
+              } else {
+                const result = await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  content: `Hi, @${GITHUB_ACTOR}, there are no changed packages to publish.`
+                });
+              }
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
