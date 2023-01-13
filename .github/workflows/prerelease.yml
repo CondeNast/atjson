@@ -54,38 +54,44 @@ jobs:
             -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
-          if [[-f "lerna-publish-summary.json"]] then
-            echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
-            cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
-            echo 'EOF' >> $GITHUB_OUTPUT
-          fi
+          echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
+          cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
       - uses: actions/github-script@v6
+        if: ${{ success() }}
         with:
           script: |
             try {
-              if (process.env.PUBLISH_RESULT) {
-                let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
-                const result = await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.issue.number,
-                  content: `Hi, @${GITHUB_ACTOR}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
-                });
-                return result.data;
-              } else {
-                const result = await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.issue.number,
-                  content: `Hi, @${GITHUB_ACTOR}, there are no changed packages to publish.`
-                });
-              }
+              let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
+              const result = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                content: `Hi, @${GITHUB_ACTOR}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
+              });
+              return result.data;
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           PUBLISH_RESULT: ${{steps.publish.outputs.RESULT}}
+      - uses: actions/github-script@v3
+        if: ${{ failure() }}
+        with:
+          script: |
+            try {
+              const result = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                content: `Hi, @${GITHUB_ACTOR}, there are no changed packages to publish.`
+              });
+            } catch (err) {
+              core.info(`Failed to reply to user with pre-release info ${err}`)
+            }
+        env:
+          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
