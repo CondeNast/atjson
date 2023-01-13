@@ -63,6 +63,7 @@ jobs:
       - uses: actions/github-script@v6
         if: ${{ success() }}
         with:
+          github-token: ${{secrets.ROBOT_GITHUB_TOKEN}}
           script: |
             try {
               let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
@@ -77,11 +78,11 @@ jobs:
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
         env:
-          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           PUBLISH_RESULT: ${{steps.publish.outputs.RESULT}}
       - uses: actions/github-script@v6
         if: ${{ failure() }}
         with:
+          github-token: ${{secrets.ROBOT_GITHUB_TOKEN}}
           script: |
             try {
               const result = await github.rest.issues.createComment({
@@ -93,5 +94,3 @@ jobs:
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
-        env:
-          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
