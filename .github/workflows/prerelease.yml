@@ -70,7 +70,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                content: `Hi, @${context.actor}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
+                body: `Hi, @${context.actor}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
               });
               return result.data;
             } catch (err) {
@@ -88,7 +88,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                content: `Hi, @${context.actor}, there are no changed packages to publish.`
+                body: `Hi, @${context.actor}, there are no changed packages to publish.`
               });
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
