@@ -54,7 +54,7 @@ jobs:
             -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
-          if [-f "lerna-publish-summary.json"] then
+          if [[-f "lerna-publish-summary.json"]] then
             echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
             cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
             echo 'EOF' >> $GITHUB_OUTPUT
