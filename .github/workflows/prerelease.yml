@@ -79,7 +79,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           PUBLISH_RESULT: ${{steps.publish.outputs.RESULT}}
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v6
         if: ${{ failure() }}
         with:
           script: |
