@@ -18,7 +18,7 @@
     "@types/prettier": "2.7.2",
     "jsdom": "21.0.0",
     "minimist": "1.2.7",
-    "prettier": "2.8.2"
+    "prettier": "2.8.3"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"
