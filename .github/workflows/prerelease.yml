@@ -34,10 +34,10 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
-            if (result.data.head === "main") {
+            if (result.data.head.ref === "main") {
               throw new Error("Prereleasing main is unsupported");
             }
-            return result.data.head;
+            return result.data.head.ref;
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/checkout@v3
