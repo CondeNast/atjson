@@ -68,9 +68,9 @@ jobs:
         id: publish
         run: |
           $(npm bin)/lerna publish\
-            --dist-tag "dev-${BRANCH_NAME}"\
-            --preid "dev-${BRANCH_NAME}"\
-            --conventional-prerelease\
+            --dist-tag "${BRANCH_NAME}"\
+            --preid "${BRANCH_NAME}"\
+            --canary\
             -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
