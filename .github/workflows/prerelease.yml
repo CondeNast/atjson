@@ -68,8 +68,8 @@ jobs:
         id: publish
         run: |
           $(npm bin)/lerna publish\
-            --dist-tag "dev-${GITHUB_REF#refs/heads/}"\
-            --preid "dev-${GITHUB_REF#refs/heads/}"\
+            --dist-tag "dev-${BRANCH_NAME}"\
+            --preid "dev-${BRANCH_NAME}"\
             --conventional-prerelease\
             -m 'chore(prerelease): publish'\
             --yes\
@@ -78,6 +78,7 @@ jobs:
           cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
           echo 'EOF' >> $GITHUB_OUTPUT
         env:
+          BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
       - uses: actions/github-script@v6
