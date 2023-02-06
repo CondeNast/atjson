@@ -29,12 +29,14 @@ jobs:
         with:
           result-encoding: string
           script: |
-            console.log(context.issue);
             const result = await github.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
+            if (result.data.head === "main") {
+              throw new Error("Prereleasing main is unsupported");
+            }
             return result.data.head;
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
@@ -48,8 +50,10 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+          git checkout $BRANCH_NAME
           echo "Prepublishing $(git branch --show-current) on behalf of ${GITHUB_ACTOR}"
         env:
+          BRANCH_NAME: ${{steps.get-ref-name.outputs.results}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/setup-node@v3
         with:
