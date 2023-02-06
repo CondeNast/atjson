@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.3.12-dev-main.0 (2023-02-06)
+
+### Bug Fixes
+
+- **deps:** update dependency @wordpress/shortcode to v3.25.0 ([0ff89f5](https://github.com/CondeNast/atjson/commit/0ff89f5d4f57c92a508d2efde53052081b8c3503))
+- **deps:** update dependency @wordpress/shortcode to v3.26.0 ([861ad3c](https://github.com/CondeNast/atjson/commit/861ad3cda364af10b69b7cd2333365846ed21cae))
+
 ## [0.3.11](https://github.com/CondeNast/atjson/compare/@atjson/source-wordpress-shortcode@0.3.10...@atjson/source-wordpress-shortcode@0.3.11) (2023-01-04)
 
 ### Bug Fixes
