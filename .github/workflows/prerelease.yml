@@ -44,7 +44,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: ${{steps.get-ref-name.outputs.results}}
+          ref: ${{steps.get-ref-name.outputs.result}}
       - name: Configure git
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -53,7 +53,7 @@ jobs:
           git checkout $BRANCH_NAME
           echo "Prepublishing $(git branch --show-current) on behalf of ${GITHUB_ACTOR}"
         env:
-          BRANCH_NAME: ${{steps.get-ref-name.outputs.results}}
+          BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/setup-node@v3
         with:
