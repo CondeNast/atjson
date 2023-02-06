@@ -29,16 +29,12 @@ jobs:
         with:
           result-encoding: string
           script: |
-            try {
-              const result = await github.pulls.get({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: context.issue.id
-              });
-              return result.data.head;
-            } catch (err) {
-              core.info("Failed to get branch name")
-            }
+            const result = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.id
+            });
+            return result.data.head;
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/checkout@v3
