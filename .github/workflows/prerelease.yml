@@ -18,9 +18,26 @@ jobs:
                 comment_id: context.payload.comment.id,
                 content: "+1"
               });
-              return result.data
+              return result.data;
             } catch (err) {
               core.info(`Failed to set reaction error ${err}`)
+            }
+        env:
+          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+      - uses: actions/github-script@v3
+        id: get-ref-name
+        with:
+          result-encoding: string
+          script: |
+            try {
+              const result = await github.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.issue.id
+              });
+              return result.data.head;
+            } catch (err) {
+              core.info("Failed to get branch name")
             }
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
@@ -28,18 +45,20 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16.13.0"
-      - name: Install Dependencies
-        run: npm ci --no-optional
+          ref: ${{steps.get-ref-name.outputs.results}}
       - name: Configure git
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+          echo "Prepublishing ${git branch} on behalf of ${GITHUB_ACTOR}"
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16.13.0"
+      - name: Install Dependencies
+        run: npm ci --no-optional
       - name: Fetch tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         env:
