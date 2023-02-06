@@ -29,10 +29,11 @@ jobs:
         with:
           result-encoding: string
           script: |
+            console.log(context.issue);
             const result = await github.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.issue.id
+              pull_number: context.issue.number
             });
             return result.data.head;
         env:
