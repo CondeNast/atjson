@@ -51,7 +51,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
-          echo "Prepublishing ${git branch} on behalf of ${GITHUB_ACTOR}"
+          echo "Prepublishing $(git branch --show-current) on behalf of ${GITHUB_ACTOR}"
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/setup-node@v3
