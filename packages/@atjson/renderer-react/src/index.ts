@@ -1,6 +1,16 @@
-import Document, { Annotation, is } from "@atjson/document";
+import Document, {
+  Annotation,
+  AnnotationConstructor,
+  serialize,
+} from "@atjson/document";
 import type { JSON } from "@atjson/document";
-import { HIR, HIRNode, TextAnnotation } from "@atjson/hir";
+import {
+  createTree,
+  extractSlices,
+  Block,
+  InternalMark,
+  ROOT,
+} from "@atjson/util";
 import { classify } from "@atjson/renderer-hir";
 import * as React from "react";
 import {
@@ -32,9 +42,12 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
 const EMPTY_COMPONENT_MAP = {};
 
 const SliceContext = React.createContext<{
-  slices: Record<string, Document>;
-  includeParseTokens: boolean;
-}>({ slices: {}, includeParseTokens: false });
+  slices: Record<
+    string,
+    { text: string; blocks: Block[]; marks: InternalMark[] }
+  >;
+  schema: AnnotationConstructor<any, any>[];
+}>({ slices: {}, schema: [] });
 
 export const ReactRendererContext = React.createContext<{
   [key: string]: ComponentType<any>;
@@ -74,15 +87,12 @@ export type PropsOf<AnnotationClass> = AnnotationClass extends Annotation<
 function propsOf(
   attributes: JSON | undefined,
   subdocuments: Record<string, typeof Document>,
-  id: string,
-  transformer: (annotation: HIRNode, key: string) => unknown
+  id: string
 ): any {
   if (attributes == null) {
     return attributes;
   } else if (Array.isArray(attributes)) {
-    return attributes.map((item, index) =>
-      propsOf(item, {}, `${id}-${index}`, transformer)
-    );
+    return attributes.map((item, index) => propsOf(item, {}, `${id}-${index}`));
   } else if (typeof attributes === "object") {
     let props: JSON = {};
     for (let key in attributes) {
@@ -90,7 +100,7 @@ function propsOf(
         // @ts-expect-error JSON doesn't allow for typeof Document
         props[key] = render({ document: attributes[key] as Document });
       } else {
-        props[key] = propsOf(attributes[key], {}, `${id}-${key}`, transformer);
+        props[key] = propsOf(attributes[key], {}, `${id}-${key}`);
       }
     }
     return props;
@@ -99,20 +109,15 @@ function propsOf(
 }
 
 function renderNode(props: {
-  node: HIRNode;
-  includeParseTokens: boolean;
-  key: string;
+  id: string;
+  tree: Record<string, Array<string | InternalMark | Block>>;
+  schema: AnnotationConstructor<any, any>[];
 }): ReactNode {
-  let { node, includeParseTokens, key } = props;
-  let annotation = node.annotation;
-  if (is(annotation, TextAnnotation)) {
-    return node.text;
-  } else if (annotation.type === "slice") {
-    return createElement(Fragment, {});
-  }
+  let { id, tree, schema } = props;
+  let children = tree[id] ?? [];
 
   return createElement(ReactRendererConsumer, {
-    key,
+    key: id,
     children: (componentMap: { [key: string]: ComponentType<any> }) => {
       if (componentMap === EMPTY_COMPONENT_MAP) {
         throw new Error(
@@ -120,46 +125,58 @@ function renderNode(props: {
         );
       }
 
-      let AnnotationComponent =
-        componentMap[annotation.type] ||
-        componentMap[classify(annotation.type)] ||
-        componentMap.Default;
+      return createElement(
+        Fragment,
+        {},
+        children.map((child, index) => {
+          if (typeof child == "string") {
+            return createElement(Fragment, { key: index }, child);
+          }
 
-      let childNodes = node.children({ includeParseTokens });
-      let children = [];
-      for (let i = 0, len = childNodes.length; i < len; i++) {
-        children[i] = renderNode({
-          node: childNodes[i],
-          includeParseTokens,
-          key: `${node.id}-${i}`,
-        });
-      }
+          let nodes = tree[child.id] ?? [];
+          let children = nodes.every((node) => typeof node === "string")
+            ? (tree[child.id] ?? []).join("")
+            : renderNode({ tree, id: child.id, schema });
 
-      // Deprecated code, to be removed when subdocuments
-      // are fully deprecated.
-      if (AnnotationComponent) {
-        let subdocuments = annotation.getAnnotationConstructor().subdocuments;
-        return createElement(
-          AnnotationComponent,
-          {
-            ...propsOf(
-              annotation.attributes,
-              subdocuments,
-              annotation.id,
-              (node: HIRNode, key: string) => {
-                return renderNode({
-                  node,
-                  includeParseTokens,
-                  key: `${key}-${node.id}`,
-                });
-              }
-            ),
-          },
-          ...children
-        );
-      } else {
-        return children;
-      }
+          let AnnotationComponent =
+            componentMap[child.type] ||
+            componentMap[classify(child.type)] ||
+            componentMap.Default;
+          let AnnotationClass = schema.find(
+            (annotationClass) => annotationClass.type === child.type
+          );
+          let attributes = AnnotationComponent
+            ? propsOf(
+                child.attributes,
+                AnnotationClass?.subdocuments ?? {},
+                child.id
+              )
+            : {};
+
+          // @ts-ignore undefined | false is ok here
+          if (child.selfClosing) {
+            return createElement(
+              Fragment,
+              { key: child.id },
+              createElement(AnnotationComponent, attributes),
+              children
+            );
+          }
+
+          if (nodes.length > 0) {
+            return createElement(
+              AnnotationComponent,
+              { key: child.id, ...attributes },
+              children
+            );
+          } else {
+            return createElement(AnnotationComponent, {
+              key: child.id,
+              ...attributes,
+            });
+          }
+        })
+      );
     },
   });
 }
@@ -170,38 +187,39 @@ function render(props: {
   includeParseTokens: boolean;
 }): ReactElement;
 function render(
-  propsOrDocument:
-    | Document
-    | { document: Document; includeParseTokens?: boolean }
+  propsOrDocument: Document | { document: Document }
 ): ReactElement {
   let props =
     propsOrDocument instanceof Document
       ? { document: propsOrDocument }
       : propsOrDocument;
 
-  let hir = new HIR(props.document);
+  let json = serialize(props.document);
 
-  let rootNode = hir.rootNode;
+  let [doc, slices] = extractSlices({
+    text: json.text,
+    blocks: json.blocks ?? [],
+    marks: json.marks ?? [],
+  });
+  let tree = createTree(doc);
+  let schema = (props.document.constructor as typeof Document).schema;
+
   return createElement(
     SliceContext.Provider,
     {
       value: {
-        slices: hir.slices,
-        includeParseTokens: props.includeParseTokens === true,
+        slices,
+        schema,
       },
     },
     createElement(
       Fragment,
       {},
-      ...rootNode
-        .children({ includeParseTokens: props.includeParseTokens === true })
-        .map((node, index) =>
-          renderNode({
-            node,
-            includeParseTokens: props.includeParseTokens === true,
-            key: `${node.id}-${index}`,
-          })
-        )
+      renderNode({
+        id: ROOT,
+        tree,
+        schema,
+      })
     )
   );
 }
@@ -216,12 +234,23 @@ function render(
  * @param props The id of the slice to render
  * @returns A React fragment with the value of the slice
  */
-export function Slice(props: { value?: string; fallback?: ReactNode }) {
+export function Slice(props: {
+  value?: string;
+  fallback?: ReactNode;
+}): ReactElement {
   let { value, fallback } = props;
-  let { slices, includeParseTokens } = useContext(SliceContext);
-  let slice = useMemo(() => (value ? slices[value] : null), [value]);
-  if (slice) {
-    return render({ document: slice, includeParseTokens });
+  let slices = useContext(SliceContext);
+  let tree = useMemo(
+    () => (value ? createTree(slices.slices[value]) : null),
+    [value]
+  );
+
+  if (tree) {
+    return createElement(
+      Fragment,
+      {},
+      renderNode({ tree, id: ROOT, schema: slices.schema })
+    );
   } else {
     return createElement(Fragment, {}, fallback);
   }

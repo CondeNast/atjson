@@ -105,7 +105,11 @@ function IframeComponent(props: PropsOf<IframeEmbed>) {
     <figure>
       <iframe src={props.url} />
       <figcaption>
-        <Slice value={props.caption} fallback={props.caption} />
+        {typeof props.caption === "string" ? (
+          <Slice value={props.caption} fallback={props.caption} />
+        ) : (
+          props.caption
+        )}
       </figcaption>
     </figure>
   );
@@ -121,7 +125,11 @@ function IframeComponentWithProvider(props: PropsOf<IframeEmbed>) {
       <iframe src={props.url} />
       <ReactRendererProvider value={{ Bold: CaptionBold }}>
         <figcaption>
-          <Slice value={props.caption} fallback={props.caption} />
+          {typeof props.caption === "string" ? (
+            <Slice value={props.caption} fallback={props.caption} />
+          ) : (
+            props.caption
+          )}
         </figcaption>
       </ReactRendererProvider>
     </figure>
@@ -158,6 +166,7 @@ describe("ReactRenderer", () => {
           },
         }),
         new LineBreak({ start: 4, end: 5 }),
+        new ParseAnnotation({ start: 4, end: 5 }),
         new VideoEmbed({
           start: 8,
           end: 9,
@@ -184,7 +193,7 @@ describe("ReactRenderer", () => {
 
   it("reuses renderers", () => {
     let doc = new OffsetSource({
-      content: "Another good boy ",
+      content: "Another good boy\uFFFC",
       annotations: [
         new Link({
           start: 0,
@@ -194,6 +203,7 @@ describe("ReactRenderer", () => {
           },
         }),
         new LineBreak({ start: 7, end: 8 }),
+        new ParseAnnotation({ start: 7, end: 8 }),
         new GiphyEmbed({
           start: 16,
           end: 17,
@@ -248,6 +258,10 @@ describe("ReactRenderer", () => {
               caption: "slice-1",
             },
           }),
+          new ParseAnnotation({
+            start: 22,
+            end: 23,
+          }),
           new SliceAnnotation({
             id: "slice-1",
             start: 23,
@@ -295,6 +309,10 @@ describe("ReactRenderer", () => {
               url: "https://foo.bar",
               caption: "slice-1",
             },
+          }),
+          new ParseAnnotation({
+            start: 22,
+            end: 23,
           }),
           new SliceAnnotation({
             id: "slice-1",
@@ -358,6 +376,10 @@ describe("ReactRenderer", () => {
               caption: subDoc,
             },
           }),
+          new ParseAnnotation({
+            start: 23,
+            end: 24,
+          }),
         ],
       });
 
@@ -401,6 +423,10 @@ describe("ReactRenderer", () => {
               url: "https://foo.bar",
               caption: subDoc,
             },
+          }),
+          new ParseAnnotation({
+            start: 23,
+            end: 24,
           }),
         ],
       });
