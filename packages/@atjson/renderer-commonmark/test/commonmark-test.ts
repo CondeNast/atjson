@@ -629,6 +629,9 @@ After all the lists
       ],
     });
 
+    // This also seems wrong below - this test is for
+    // _unambiguous_ nesting, we should see
+    // **_bold then italic_** *__italic then bold__*
     expect(CommonmarkRenderer.render(document)).toBe(
       "***bold then italic*** ***italic then bold***"
     );
@@ -847,6 +850,71 @@ After all the lists
 
         expect(CommonmarkRenderer.render(document)).toBe(
           "[link.](https://some-url.com)a"
+        );
+      });
+
+      test.only("delimiters with bold and italic at punctuation boundary", () => {
+        let document = new OffsetSource({
+          content: "<i><strong>Test</strong></i><strong>: something</strong>",
+          annotations: [
+            {
+              type: "-offset-italic",
+              start: 0,
+              end: 28,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 0,
+              end: 3,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 24,
+              end: 28,
+              attributes: {},
+            },
+            {
+              type: "-offset-bold",
+              start: 3,
+              end: 24,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 3,
+              end: 11,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 15,
+              end: 24,
+              attributes: {},
+            },
+            {
+              type: "-offset-bold",
+              start: 28,
+              end: 56,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 28,
+              end: 36,
+              attributes: {},
+            },
+            {
+              type: "-atjson-parse-token",
+              start: 47,
+              end: 56,
+              attributes: {},
+            },
+          ],
+        });
+        expect(CommonmarkRenderer.render(document)).toBe(
+          "*__Test__***: something**"
         );
       });
 
