@@ -153,7 +153,7 @@ function renderNode(props: {
               )
             : {};
 
-          // @ts-ignore undefined | false is ok here
+          // @ts-expect-error undefined | false is ok here
           if (child.selfClosing) {
             return createElement(
               Fragment,
