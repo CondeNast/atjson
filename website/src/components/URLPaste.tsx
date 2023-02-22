@@ -51,7 +51,9 @@ export const URLPaste: FC = () => {
         value={url}
         onChange={(evt) => setURL(evt.target.value)}
       />
-      <ReactRendererProvider value={{ GiphyEmbed: Giphy }}>
+      <ReactRendererProvider
+        value={{ GiphyEmbed: Giphy, Default: React.Fragment }}
+      >
         {Renderer.render(URLSource.fromRaw(url).convertTo(OffsetSource))}
       </ReactRendererProvider>
     </Wrapper>

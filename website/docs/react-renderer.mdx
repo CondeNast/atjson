@@ -37,6 +37,7 @@ import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 
 const components = {
   Bold: BoldComponent,
+  Default: React.Fragment,
 };
 
 export function Story(props: { document: Document }) {
@@ -78,7 +79,7 @@ The value for any given annotation key is the React component you intend to use 
 
 Using our previous example components, here's how we'd render a document which contains `Bold` and `IframeEmbed` annotations:
 
-```ts {12,14}
+```ts {13,15}
 import * as React from "react";
 import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 
@@ -86,6 +87,7 @@ import ReactRenderer, { ReactRendererProvider } from "@atjson/renderer-react";
 const components = {
   Bold: BoldComponent,
   IframeEmbed: IframeComponent,
+  Default: React.Fragment,
 };
 
 export function Story(props: { document: Document }) {
@@ -121,8 +123,9 @@ function IframeComponent(props: PropsOf<IframeEmbed>){
 
 // top-level component map
 const components = {
-  IframeEmbed: IframeComponent
-  Bold: BoldComponent
+  IframeEmbed: IframeComponent,
+  Bold: BoldComponent,
+  Default: React.Fragment
 }
 
 // top-level component render

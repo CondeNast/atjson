@@ -128,7 +128,7 @@ function renderNode(props: {
       return createElement(
         Fragment,
         {},
-        children.map((child, index) => {
+        ...children.map((child, index) => {
           if (typeof child == "string") {
             return createElement(Fragment, { key: index }, child);
           }
