@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.28.0...@atjson/renderer-react@0.28.1) (2023-02-22)
+
+### Bug Fixes
+
+- handle children properly in fragments ([5d8b419](https://github.com/CondeNast/atjson/commit/5d8b419b2dfb384f396fb5b90cceb78b0055b31f))
+
 # 0.28.0 (2023-02-22)
 
 ### Features
