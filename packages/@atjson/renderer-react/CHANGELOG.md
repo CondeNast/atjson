@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.28.0 (2023-02-22)
+
+### Features
+
+- update @atjson/renderer-react to use @atjson/util ([16802cb](https://github.com/CondeNast/atjson/commit/16802cb1f8715d5a39ac1839b6bb1a50fe68a1da))
+
 ## [0.27.8](https://github.com/CondeNast/atjson/compare/@atjson/renderer-react@0.27.7...@atjson/renderer-react@0.27.8) (2023-01-04)
 
 **Note:** Version bump only for package @atjson/renderer-react
