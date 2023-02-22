@@ -11,6 +11,7 @@ import OffsetSource, {
   Italic,
   LineBreak,
   Link,
+  Paragraph,
   VideoEmbed,
   VideoURLs,
 } from "@atjson/offset-annotations";
@@ -54,6 +55,10 @@ class IframeEmbedWithSubdocument extends ObjectAnnotation<{
   }
 }
 OffsetSource.schema.push(IframeEmbedWithSubdocument);
+
+function ParagraphComponent(props: PropsOf<Paragraph>) {
+  return <p>{props.children}</p>;
+}
 
 function BoldComponent(props: PropsOf<Bold>) {
   return <strong>{props.children}</strong>;
@@ -188,6 +193,36 @@ describe("ReactRenderer", () => {
       })
     ).toMatchInlineSnapshot(
       `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe>"`
+    );
+  });
+
+  it("renders blocks and marks", () => {
+    let doc = new OffsetSource({
+      content: "Text that is bold and italic",
+      annotations: [
+        new Paragraph({
+          start: 0,
+          end: 28,
+        }),
+        new Bold({
+          start: 13,
+          end: 21,
+        }),
+        new Italic({
+          start: 18,
+          end: 28,
+        }),
+      ],
+    });
+
+    expect(
+      renderDocument(doc, {
+        Paragraph: ParagraphComponent,
+        Bold: BoldComponent,
+        Italic: ItalicComponent,
+      })
+    ).toMatchInlineSnapshot(
+      `"<p>Text that is <strong>bold <em>and</em></strong><em> italic</em></p>"`
     );
   });
 

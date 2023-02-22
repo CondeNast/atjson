@@ -330,6 +330,7 @@ export const QuickBrownFox: FC<{
           value={{
             Italic: ItalicComponent,
             TextColor: TextColorComponent,
+            Default: React.Fragment,
           }}
         >
           {Renderer.render(props.value)}
