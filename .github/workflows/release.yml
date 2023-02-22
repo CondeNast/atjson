@@ -18,6 +18,8 @@ jobs:
           node-version: "16.14.0"
       - name: Install Dependencies
         run: npm ci --no-optional
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Configure git
         run: |
           git config user.name "${GITHUB_ACTOR}"
