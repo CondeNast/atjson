@@ -1,3 +1,4 @@
+import { deserialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
@@ -756,6 +757,48 @@ After all the lists
 
     expect(CommonmarkRenderer.render(document)).toBe(
       "**bold**_then italic_\n\n_italic_**then bold**\n\n"
+    );
+  });
+
+  test("five * are avoided", () => {
+    let document = deserialize(
+      {
+        text: "\uFFFCSpace: the final frontier",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "bold",
+            range: "[1..6]",
+            attributes: {},
+          },
+          {
+            id: "M00000001",
+            type: "italic",
+            range: "[1..6]",
+            attributes: {},
+          },
+          {
+            id: "M00000002",
+            type: "bold",
+            range: "[6..26]",
+            attributes: {},
+          },
+        ],
+      },
+      OffsetSource
+    );
+
+    expect(CommonmarkRenderer.render(document)).toBe(
+      "*__Space__***: the final frontier**"
     );
   });
 
