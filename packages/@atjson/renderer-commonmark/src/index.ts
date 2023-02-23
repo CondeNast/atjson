@@ -246,10 +246,25 @@ export default class CommonmarkRenderer extends Renderer {
    * words; underscores cannot split words.
    */
   *Bold(_: Mark, context: Context): Generator<void, string, string[]> {
+    // Handle 4 / 5 star cases
+    let needsUnderscoreBold =
+      typeof context.next !== "string" &&
+      context.next?.type === "bold" &&
+      context.children.length === 1 &&
+      typeof context.children[0] !== "string" &&
+      context.children[0].type === "italic";
+
+    let state = { ...this.state };
+    if (needsUnderscoreBold) {
+      this.state.suppressItalics = true;
+    }
+
     let [before, text, after] = yield* splitDelimiterRuns(
       context,
       this.options
     );
+    this.state = state;
+
     if (text.length === 0) {
       return before + after;
     } else {
@@ -260,7 +275,9 @@ export default class CommonmarkRenderer extends Renderer {
       let hasInnerMarkup =
         context.children.length === 1 && before === "" && after === "";
 
-      if (
+      if (needsUnderscoreBold) {
+        return `${before}*__${text}__*${after}`;
+      } else if (
         !context.previous &&
         !context.next &&
         context.parent?.type === "italic" &&
@@ -352,6 +369,9 @@ export default class CommonmarkRenderer extends Renderer {
    * Italic text looks like *this* in Markdown.
    */
   *Italic(_: Mark, context: Context): Generator<void, string, string[]> {
+    if (this.state.suppressItalics) {
+      return (yield).join("");
+    }
     // This adds support for strong emphasis (per Commonmark)
     // Strong emphasis includes _*two*_ emphasis markers around text.
     let state = Object.assign({}, this.state);
