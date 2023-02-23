@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.27.5 (2023-02-23)
+
+### Bug Fixes
+
+- handle four and five star formatting of markdown ([a17b95c](https://github.com/CondeNast/atjson/commit/a17b95cc6cd0d33759cb06e29cc09023718e8845))
+
 ## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.27.3...@atjson/renderer-commonmark@0.27.4) (2023-01-04)
 
 ### Bug Fixes
