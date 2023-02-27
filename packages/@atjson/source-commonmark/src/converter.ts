@@ -1,4 +1,4 @@
-import OffsetSource, { CodeBlock } from "@atjson/offset-annotations";
+import OffsetSource, { CodeBlock, Image } from "@atjson/offset-annotations";
 import CommonmarkSource from "./source";
 
 CommonmarkSource.defineConverterTo(
@@ -48,16 +48,20 @@ CommonmarkSource.defineConverterTo(
       .where({ type: "-commonmark-html_inline" })
       .set({ type: "-offset-html", attributes: { "-offset-style": "inline" } });
 
-    doc
-      .where({ type: "-commonmark-image" })
-      .set({ type: "-offset-image" })
-      .rename({
-        attributes: {
-          "-commonmark-src": "-offset-url",
-          "-commonmark-title": "-offset-title",
-          "-commonmark-alt": "-offset-description",
-        },
-      });
+    doc.where({ type: "-commonmark-image" }).update((image) => {
+      doc.replaceAnnotation(
+        image,
+        new Image({
+          start: image.start,
+          end: image.end,
+          attributes: {
+            url: image.attributes.src,
+            title: image.attributes.title,
+            description: image.attributes.alt,
+          },
+        })
+      );
+    });
 
     doc
       .where({ type: "-commonmark-link" })

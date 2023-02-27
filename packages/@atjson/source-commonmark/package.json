@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@atjson/offset-annotations": "0.46.3",
-    "entities": "4.4.0",
-    "markdown-it": "12.3.2"
+    "entities": "~3.0.1",
+    "markdown-it": "13.0.1"
   },
   "devDependencies": {
     "@atjson/document": "0.28.1"

@@ -145,6 +145,20 @@ function escapePunctuation(
   }
 }
 
+function escapeDescription(text: string) {
+  let escaped = text
+    .replace(/([#!*+=\\^_`{|}~])/g, "\\\\$1")
+    .replace(/(\[)([^\]]*$)/g, "\\\\$1$2") // Escape bare opening brackets [
+    .replace(/(^[\s]*)>/g, "$1\\\\>") // Escape >
+    .replace(/(\]\()/g, "]\\\\(") // Escape parenthesis ](
+    .replace(/(^[^[]*)(\].*$)/g, "$1\\\\$2") // Escape bare closing brackets ]
+    .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\\\.$2") // Escape list items; not all numbers
+    .replace(/(^[\s]*)-/g, "$1\\\\-") // `  - list item`
+    .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\\\-"); // `- list item\n - list item`
+
+  return escapeEntities(escaped);
+}
+
 function escapeHtmlEntities(text: string) {
   return text
     .replace(/&([^\s]+);/g, "\\&$1;")
@@ -357,7 +371,7 @@ export default class CommonmarkRenderer extends Renderer {
    * ![CommonMark](http://commonmark.org/images/markdown-mark.png)
    */
   *Image(image: Image): Generator<void, string, string[]> {
-    let description = escapePunctuation(image.attributes.description || "");
+    let description = escapeDescription(image.attributes.description || "");
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
       return `![${description}](${image.attributes.url} "${title}")`;
