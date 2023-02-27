@@ -44,7 +44,7 @@ describe("commonmark", () => {
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "![Image descriptions \\![are escaped]\\(example.jpg)](http://commonmark.org/images/markdown-mark.png)"
+      "![Image descriptions \\\\![are escaped]\\\\(example.jpg)](http://commonmark.org/images/markdown-mark.png)"
     );
   });
 

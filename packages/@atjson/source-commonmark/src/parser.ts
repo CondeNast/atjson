@@ -5,6 +5,18 @@ export interface Attributes {
   [key: string]: string | number | boolean | null;
 }
 
+function unescapeAltText(text: string) {
+  return text
+    .replace(/(\\[#!*+=\\^_`{|}~])/g, "$1")
+    .replace(/\\(\[)([^\]]*$)/g, "$1$2") // Unescape bare opening brackets [
+    .replace(/(^[\s]*)\\>/g, "$1>") // Unescape >
+    .replace(/(\]\\\()/g, "](") // Unescape parenthesis ](
+    .replace(/(^[^[]*)\\(\].*$)/g, "$1$2") // Unescape bare closing brackets ]
+    .replace(/^(\s*\d+)\\\.(\s+)/gm, "$1.$2") // Unescape list items; not all numbers
+    .replace(/(^[\s]*)\\-/g, "$1-") // `  - list item`
+    .replace(/(\r\n|\r|\n)([\s]*)\\-/g, "$1$2-"); // `- list item\n - list item`
+}
+
 function getAttributes(token: Token): Attributes {
   let attributes: Attributes = {};
   if (token.attrs) {
@@ -162,7 +174,10 @@ export default class Parser {
         } else if (node.name === "image" && node.open) {
           let token = node.open;
           token.attrs = token.attrs || [];
-          token.attrs.push(["alt", getText(node).map(getValue).join("")]);
+          token.attrs.push([
+            "alt",
+            unescapeAltText(getText(node).map(getValue).join("")),
+          ]);
           node.children = [];
         }
         let attrs: Attributes = {};

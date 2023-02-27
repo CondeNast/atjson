@@ -84,8 +84,8 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
           }
 
           if (!original.equals(deserializedGenerated)) {
-            expect(original.canonical().withStableIds().toJSON()).toEqual(
-              deserializedGenerated.canonical().withStableIds().toJSON()
+            expect(serialize(original, { withStableIds: true })).toEqual(
+              serialize(deserializedGenerated, { withStableIds: true })
             );
           } else {
             expect(original.equals(deserializedGenerated)).toBe(true);
