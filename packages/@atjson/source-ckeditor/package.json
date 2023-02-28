@@ -12,7 +12,7 @@
   "devDependencies": {
     "@atjson/document": "0.28.1",
     "@ckeditor/ckeditor5-build-classic": "35.4.0",
-    "@ckeditor/ckeditor5-engine": "35.3.2",
+    "@ckeditor/ckeditor5-engine": "35.4.0",
     "@types/jsdom": "21.1.0",
     "@types/minimist": "1.2.2",
     "@types/prettier": "2.7.2",
