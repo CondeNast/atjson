@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.17...@atjson/source-commonmark@0.25.0) (2023-02-28)
+
+### Features
+
+- update markdown-it ([b88f38f](https://github.com/CondeNast/atjson/commit/b88f38f89a4ecc12694f8b0d13d89b27dd467a11))
+
 ## [0.24.17](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.24.16...@atjson/source-commonmark@0.24.17) (2023-01-04)
 
 ### Bug Fixes

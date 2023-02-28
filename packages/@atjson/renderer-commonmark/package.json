@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-commonmark",
-  "version": "0.27.5",
+  "version": "0.28.0",
   "description": "Render atjson documents into commonmark",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@atjson/document": "0.28.1",
-    "@atjson/source-commonmark": "0.24.17",
+    "@atjson/source-commonmark": "0.25.0",
     "@types/markdown-it": "12.2.3"
   },
   "dependencies": {
