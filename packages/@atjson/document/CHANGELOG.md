@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.28.1...@atjson/document@0.29.0) (2023-02-28)
+
+### Features
+
+- add support for retained slices ([779c189](https://github.com/CondeNast/atjson/commit/779c189803e1a876ce56e05a436fc2e04df3f5b2))
+
 ## [0.28.1](https://github.com/CondeNast/atjson/compare/@atjson/document@0.28.0...@atjson/document@0.28.1) (2023-01-04)
 
 ### Bug Fixes

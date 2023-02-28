@@ -1,6 +1,6 @@
 {
   "name": "@atjson/source-commonmark",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "description": "Create atjson documents from CommonMark.",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,12 +10,12 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "0.46.3",
+    "@atjson/offset-annotations": "0.46.4",
     "entities": "~3.0.1",
     "markdown-it": "13.0.1"
   },
   "devDependencies": {
-    "@atjson/document": "0.28.1"
+    "@atjson/document": "0.29.0"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"

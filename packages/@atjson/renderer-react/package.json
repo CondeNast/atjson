@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-react",
-  "version": "0.28.1",
+  "version": "0.28.2",
   "description": "Render atjson documents into a React app",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
@@ -10,14 +10,14 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "0.25.2"
+    "@atjson/renderer-hir": "0.25.3"
   },
   "peerDependencies": {
     "react": "*"
   },
   "devDependencies": {
-    "@atjson/document": "0.28.1",
-    "@atjson/offset-annotations": "0.46.3"
+    "@atjson/document": "0.29.0",
+    "@atjson/offset-annotations": "0.46.4"
   },
   "gitHead": "1d161ada22546621208b8d890bdff141bc976439"
 }

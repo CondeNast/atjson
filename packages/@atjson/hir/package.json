@@ -1,6 +1,6 @@
 {
   "name": "@atjson/hir",
-  "version": "0.24.4",
+  "version": "0.25.0",
   "description": "Libraries for annotated JSON documents",
   "contributors": [
     "Blaine Cook <blaine_cook@condenast.com>",
@@ -15,7 +15,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.28.1"
+    "@atjson/document": "0.29.0"
   },
   "peerDependencies": {
     "@atjson/document": ">=0.26.0"

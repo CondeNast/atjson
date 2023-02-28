@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.24.4...@atjson/hir@0.25.0) (2023-02-28)
+
+### Features
+
+- add support for retained slices ([779c189](https://github.com/CondeNast/atjson/commit/779c189803e1a876ce56e05a436fc2e04df3f5b2))
+
 ## [0.24.4](https://github.com/CondeNast/atjson/compare/@atjson/hir@0.24.3...@atjson/hir@0.24.4) (2023-01-04)
 
 **Note:** Version bump only for package @atjson/hir

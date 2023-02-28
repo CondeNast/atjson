@@ -1,6 +1,6 @@
 {
   "name": "@atjson/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Render serialized atjson documents directly to React",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
