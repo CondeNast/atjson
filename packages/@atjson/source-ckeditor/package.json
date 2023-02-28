@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@atjson/document": "0.29.0",
-    "@ckeditor/ckeditor5-build-classic": "35.4.0",
+    "@ckeditor/ckeditor5-build-classic": "36.0.1",
     "@ckeditor/ckeditor5-engine": "35.3.2",
     "@types/jsdom": "21.1.0",
     "@types/minimist": "1.2.2",
