@@ -18,7 +18,7 @@
     "@atjson/offset-annotations": "0.46.4"
   },
   "peerDependencies": {
-    "@atjson/document": ">=0.26.0"
+    "@atjson/document": ">= 0.29.0 < 1"
   },
   "gitHead": "1d161ada22546621208b8d890bdff141bc976439"
 }
