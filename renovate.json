@@ -9,6 +9,10 @@
       "automerge": true
     },
     {
+      "packagePatterns": ["entities", "markdown-it"],
+      "automerge": false
+    },
+    {
       "packagePatterns": ["@docusaurus/*"],
       "groupName": "docusaurus monorepo",
       "groupSlug": "docusaurus-monorepo"
