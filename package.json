@@ -51,6 +51,7 @@
     "uuid-random": "1.3.2"
   },
   "dependencies": {
+    "@atjson/db": "file:packages/@atjson/db",
     "@atjson/document": "file:packages/@atjson/document",
     "@atjson/hir": "file:packages/@atjson/hir",
     "@atjson/offset-annotations": "file:packages/@atjson/offset-annotations",

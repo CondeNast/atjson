@@ -1,0 +1,15 @@
+{
+  "name": "@atjson/db",
+  "version": "0.1.0",
+  "description": "Block & mark focused db",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "uuid-random": "^1.3.0"
+  }
+}
