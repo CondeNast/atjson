@@ -1586,6 +1586,36 @@ After all the lists
   });
 
   describe("delimiter runs with Japanese", () => {
+    test("full width stops with following sentence", () => {
+      let document = deserialize(
+        {
+          text: "\uFFFCタイトルですにします太字。而",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "bold",
+              range: "[1..13]",
+              attributes: {},
+            },
+          ],
+        },
+        OffsetSource
+      );
+
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "**タイトルですにします太字**。而\n\n"
+      );
+    });
+
     test("aligned bold and italic, bold first", () => {
       let document = new OffsetSource({
         content: "タイトルですにします太字",
