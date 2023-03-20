@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.28.2...@atjson/renderer-commonmark@0.28.3) (2023-03-20)
+
+### Bug Fixes
+
+- handle delimiter runs after full-width stops in CJK ([5105aa1](https://github.com/CondeNast/atjson/commit/5105aa13f52aa7ca27cabbe0161d2c4034332e5b))
+
 ## [0.28.2](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.28.1...@atjson/renderer-commonmark@0.28.2) (2023-03-01)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.12](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.11...@atjson/source-html@0.34.12) (2023-03-20)
+
+### Bug Fixes
+
+- **deps:** update dependency parse5 to ^7.1.2 ([07d36c6](https://github.com/CondeNast/atjson/commit/07d36c6db74c33d02a14d57796e163f0cca3e2e8))
+
 ## [0.34.11](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.10...@atjson/source-html@0.34.11) (2023-03-01)
 
 **Note:** Version bump only for package @atjson/source-html
