@@ -239,7 +239,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
         list.start <= paragraph.start && paragraph.end <= list.end
     )
     .update(({ list, listItems, paragraphs }) => {
-      let blocks = [...listItems, ...paragraphs];
+      let blocks: Array<Paragraph | ListItem> = [...listItems, ...paragraphs];
 
       // Sort list items and paragraphs topologically so we can determine their
       // nested structure
