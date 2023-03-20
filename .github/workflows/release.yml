@@ -16,6 +16,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "16.14.0"
+          always-auth: true
       - name: Install Dependencies
         run: npm ci --no-optional
         env:
