@@ -1,6 +1,7 @@
 import { Block } from "./block";
 import { Db } from "./db";
 import { Mark } from "./mark";
+import { BlockSchema, MarkSchema } from "./schema";
 
 /*
 function $in<T>(value: T, matches: T[]) {
@@ -13,28 +14,52 @@ function $match(value: string | null, regexp: RegExp) {
 */
 export const $any = Symbol("any");
 
-export class Blocks<T extends Block<T>> implements Iterable<Block<T>> {
-  #db: Db;
-  #results: Block<T>[];
+export class BlockQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
+  implements Iterable<Block<Blocks>>
+{
+  #db: Db<Blocks, Marks>;
+  #results: Block<Blocks>[];
 
-  constructor(db: Db) {
+  constructor(db: Db<Blocks, Marks>, results: Block<Blocks>[]) {
     this.#db = db;
-    this.#results = this.#db.blocks;
+    this.#results = results;
   }
 
   where(query: {
     id?: string;
-    type?: string;
+    type?: string | string[];
     parents?: Array<string | typeof $any>;
     selfClosing?: boolean;
-    attributes?: T;
+    attributes?: Record<string, unknown>;
   }) {
     let results = [];
+    let ids: Record<string, true | undefined> = {};
+    if (query.id != null) {
+      if (Array.isArray(query.id)) {
+        for (let id of query.id) {
+          ids[id] = true;
+        }
+      } else {
+        ids[query.id] = true;
+      }
+    }
+
+    let types: Record<string, true | undefined> = {};
+    if (query.type != null) {
+      if (Array.isArray(query.type)) {
+        for (let type of query.type) {
+          types[type] = true;
+        }
+      } else {
+        types[query.type] = true;
+      }
+    }
+
     for (let block of this.#results) {
-      if (query.id && block.id !== query.id) {
+      if (query.id && ids[block.id] == null) {
         continue;
       }
-      if (query.type && block.type !== query.type) {
+      if (query.type && types[block.type] == null) {
         continue;
       }
 
@@ -88,6 +113,10 @@ export class Blocks<T extends Block<T>> implements Iterable<Block<T>> {
     return this;
   }
 
+  as(name: string) {
+    return new NamedBlockQuery<Blocks, Marks>(this.#db, this.#results, name);
+  }
+
   *[Symbol.iterator]() {
     for (let result of this.#results) {
       yield result;
@@ -95,30 +124,69 @@ export class Blocks<T extends Block<T>> implements Iterable<Block<T>> {
   }
 }
 
-export class Marks<T extends Mark<T>> implements Iterable<Mark<T>> {
-  #db: Db;
-  #results: Mark<T>[];
-  constructor(db: Db) {
+export class NamedBlockQuery<
+  Blocks extends BlockSchema,
+  Marks extends MarkSchema,
+  Name extends string
+> extends BlockQuery<Blocks, Marks> {
+  name: Name;
+
+  constructor(db: Db<Blocks, Marks>, results: Block<Blocks>[], name: Name) {
+    super(db, results);
+    this.name = name;
+  }
+}
+
+export class MarkQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
+  implements Iterable<Mark<Marks>>
+{
+  #db: Db<Blocks, Marks>;
+
+  #results: Mark<Marks>[];
+  constructor(db: Db<Blocks, Marks>, results: Mark<Marks>[]) {
     this.#db = db;
-    this.#results = this.#db.marks;
+    this.#results = results;
   }
 
-  where(query: {
-    id?: string;
-    type?: string;
+  where<T extends string>(query: {
+    id?: string | string[];
+    type?: T | T[];
     range?:
       | { $in: [number, number] }
       | { $nin: [number, number] }
       | { $gt: number }
       | { $lt: number };
-    attributes?: T;
+    attributes?: Record<string, unknown>;
   }) {
     let results = [];
+    let ids: Record<string, true | undefined> = {};
+    if (query.id != null) {
+      if (Array.isArray(query.id)) {
+        for (let id of query.id) {
+          ids[id] = true;
+        }
+      } else {
+        ids[query.id] = true;
+      }
+    }
+
+    let types: Record<string, true | undefined> = {};
+    if (query.type != null) {
+      if (Array.isArray(query.type)) {
+        for (let type of query.type) {
+          types[type] = true;
+        }
+      } else {
+        types[query.type] = true;
+      }
+    }
+
     for (let mark of this.#results) {
-      if (query.id && mark.id !== query.id) {
+      if (query.id && ids[mark.id] == null) {
         continue;
       }
-      if (query.type && mark.type !== query.type) {
+
+      if (query.type && types[mark.type] == null) {
         continue;
       }
 
@@ -144,9 +212,91 @@ export class Marks<T extends Mark<T>> implements Iterable<Mark<T>> {
     return this;
   }
 
+  as(name: string) {
+    return new NamedMarkQuery<Blocks, Marks>(this.#db, this.#results, name);
+  }
+
   *[Symbol.iterator]() {
     for (let result of this.#results) {
       yield result;
     }
   }
 }
+
+export class NamedMarkQuery<
+  Blocks extends BlockSchema,
+  Marks extends MarkSchema,
+  Left extends string
+> extends MarkQuery<Blocks, Marks> {
+  name: Left;
+
+  constructor(db: Db<Blocks, Marks>, results: Mark<Marks>[], name: Left) {
+    super(db, results);
+    this.name = name;
+  }
+
+  outerJoin<Right extends string>(
+    rightCollection: NamedMarkQuery<Blocks, Marks, Right>,
+    filter: (lhs: Mark<Marks>, rhs: Mark<Marks>) => boolean
+  ): never | Join<Left, Right>;
+  outerJoin<Right extends string>(
+    rightCollection: NamedBlockQuery<Blocks, Marks, Right>,
+    filter: (lhs: Mark<Marks>, rhs: Block<Blocks>) => boolean
+  ): never | Join<Left, Right>;
+  outerJoin<Right extends string>(
+    rightCollection:
+      | NamedBlockQuery<Blocks, Marks, Right>
+      | NamedMarkQuery<Blocks, Marks, Right>,
+    filter:
+      | ((lhs: Mark<Marks>, rhs: Mark<Marks>) => boolean)
+      | ((lhs: Mark<Marks>, rhs: Block<Blocks>) => boolean)
+  ): never | Join<Left, Right> {
+    let results = new Join<Left, Right>(this, []);
+
+    for (let mark of this) {
+      let joinItems = rightCollection.annotations.filter(
+        function testJoinCandidates(rightAnnotation: Annotation<any>) {
+          return filter(leftAnnotation, rightAnnotation);
+        }
+      );
+
+      type JoinItem = Record<Left, Mark<Marks>> &
+        Record<Right, Array<Mark<Marks>>>;
+
+      let join = {
+        [this.name]: mark,
+        [rightCollection.name]: joinItems,
+      };
+      results.push(join as JoinItem);
+    }
+
+    return results;
+  }
+
+  join<Right extends string>(
+    rightCollection: NamedMarkQuery<Blocks, Marks, Right>,
+    filter: (lhs: Mark<Marks>, rhs: Mark<Marks>) => boolean
+  ): never | Join<Left, Right>;
+  join<Right extends string>(
+    rightCollection: NamedBlockQuery<Blocks, Marks, Right>,
+    filter: (lhs: Mark<Marks>, rhs: Block<Blocks>) => boolean
+  ): never | Join<Left, Right>;
+  join<Right extends string>(
+    rightCollection:
+      | NamedBlockQuery<Blocks, Marks, Right>
+      | NamedMarkQuery<Blocks, Marks, Right>,
+    filter:
+      | ((lhs: Mark<Marks>, rhs: Mark<Marks>) => boolean)
+      | ((lhs: Mark<Marks>, rhs: Block<Blocks>) => boolean)
+  ): never | Join<Left, Right> {
+    return this.outerJoin(rightCollection, filter).where({
+      [rightCollection.name]: {
+        attributes: {
+          $size: { $gt: 0 },
+        },
+      },
+    });
+  }
+}
+
+export class Join<Left extends string, Right extends string> {}

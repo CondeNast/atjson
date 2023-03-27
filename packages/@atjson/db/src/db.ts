@@ -1,10 +1,10 @@
 import { Block } from "./block";
 import { Mark } from "./mark";
-import { Blocks, Marks } from "./query";
+import { BlockQuery, MarkQuery } from "./query";
 import uuid from "uuid-random";
 import { BlockSchema, MarkSchema } from "./schema";
 
-export class Db {
+export class Db<Blocks extends BlockSchema, Marks extends MarkSchema> {
   text: string = "";
 
   /**
@@ -13,18 +13,18 @@ export class Db {
    * character in the text, which is an object
    * replacement character.
    */
-  blocks: Block<any>[] = [];
+  blocks: Block<Blocks>[] = [];
 
-  marks: Mark<any>[] = [];
+  marks: Mark<Marks>[] = [];
 
   schema: {
-    blocks: Record<string, BlockSchema>;
-    marks: Record<string, MarkSchema>;
+    blocks: Record<string, Blocks>;
+    marks: Record<string, Marks>;
   };
 
   constructor(schema: {
-    blocks: Record<string, BlockSchema>;
-    marks: Record<string, MarkSchema>;
+    blocks: Record<string, Blocks>;
+    marks: Record<string, Marks>;
   }) {
     this.schema = schema;
   }
@@ -78,7 +78,7 @@ export class Db {
     this.text = this.text.slice(0, start) + this.text.slice(end);
   }
 
-  insertBlock<T extends Record<string, unknown>>(
+  insertBlock<T extends Blocks>(
     index: number,
     block: Omit<Omit<Block<T>, "id">, "selfClosing"> & {
       id?: string;
@@ -112,7 +112,7 @@ export class Db {
     return block;
   }
 
-  deleteBlock<T extends Record<string, unknown>>(block: Block<T>) {
+  deleteBlock<T extends Blocks>(block: Block<T>) {
     let offset = this.blocks.indexOf(block);
     this.blocks.splice(offset, 1);
 
@@ -122,10 +122,10 @@ export class Db {
     return block;
   }
 
-  replaceBlock<
-    R extends Record<string, unknown>,
-    L extends Record<string, unknown>
-  >(oldBlock: Block<R>, newBlock: Block<L>) {
+  replaceBlock<R extends Blocks, L extends Blocks>(
+    oldBlock: Block<R>,
+    newBlock: Block<L>
+  ) {
     // Automatically add an id if not present
     if (newBlock.id == null) {
       newBlock.id = uuid();
@@ -140,17 +140,17 @@ export class Db {
     return newBlock;
   }
 
-  select<B extends Block<B>>(_: { from: "blocks" }): Blocks<B>;
-  select<M extends Mark<M>>(_: { from: "marks" }): Marks<M>;
-  select<B extends Block<B>, M extends Mark<M>>(_: {
+  select(_: { from: "blocks" }): BlockQuery<Blocks, Marks>;
+  select(_: { from: "marks" }): MarkQuery<Blocks, Marks>;
+  select(_: {
     from: "blocks" | "marks";
-  }): Blocks<B> | Marks<M> {
+  }): BlockQuery<Blocks, Marks> | MarkQuery<Blocks, Marks> {
     if (_.from === "blocks") {
-      return new Blocks(this);
+      return new BlockQuery(this, this.blocks);
     }
 
     if (_.from === "marks") {
-      return new Marks(this);
+      return new MarkQuery(this, this.marks);
     }
     throw new Error(`No table for ${_.from} is available for querying`);
   }
@@ -180,26 +180,29 @@ export class Db {
   }
 }
 
+const List = {
+  type: "list",
+  comment: "",
+  defaultSelfClosing: false,
+  attributes: {
+    type: {
+      comment: "",
+      type: { $oneOf: ["numbered", "bulleted"] },
+    },
+  },
+} as const;
+
+const ListItem = {
+  type: "list-item",
+  comment: "",
+  defaultSelfClosing: false,
+  attributes: {},
+} as const;
+
 let db = new Db({
   blocks: {
-    List: {
-      type: "list",
-      comment: "",
-      defaultSelfClosing: false,
-      attributes: [
-        {
-          key: "type",
-          comment: "",
-          type: { $oneOf: ["numbered", "bulleted"] },
-        },
-      ],
-    },
-    ListItem: {
-      type: "list-item",
-      comment: "",
-      defaultSelfClosing: false,
-      attributes: [],
-    },
+    List,
+    ListItem,
   },
   marks: {},
 });
@@ -246,3 +249,10 @@ console.log(
       type: "list-item",
     })
 );
+
+db.select({ from: "marks" }).where({
+  type: "list",
+  attributes: {
+    type: "bulleted",
+  },
+});

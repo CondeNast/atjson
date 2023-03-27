@@ -17,33 +17,47 @@ type Attribute = Readonly<{
   comment: string;
 }>;
 
-export type AttributesOf<T extends MarkSchema | BlockSchema> = {
-  [P in keyof T["attributes"]]: T["attributes"][P]["type"] extends "string"
-    ? string
-    : T["attributes"][P]["type"] extends "string[]"
-    ? string[]
-    : T["attributes"][P]["type"] extends "int"
-    ? number
-    : T["attributes"][P]["type"] extends "int[]"
-    ? number[]
-    : T["attributes"][P]["type"] extends "float"
-    ? number
-    : T["attributes"][P]["type"] extends "float[]"
-    ? number[]
-    : T["attributes"][P]["type"] extends "boolean"
-    ? boolean
-    : T["attributes"][P]["type"] extends "boolean[]"
-    ? boolean[]
-    : T["attributes"][P]["type"] extends "date"
-    ? Date
-    : T["attributes"][P]["type"] extends "date[]"
-    ? Date[]
-    : T["attributes"][P]["type"] extends { $oneOf: unknown }
-    ? T["attributes"][P]["type"]["$oneOf"]
-    : T["attributes"][P]["type"] extends "unknown"
-    ? unknown
-    : never;
+type Type<T extends Attribute["type"]> = T extends "string"
+  ? string
+  : T extends "string[]"
+  ? string[]
+  : T extends "int"
+  ? number
+  : T extends "int[]"
+  ? number[]
+  : T extends "float"
+  ? number
+  : T extends "float[]"
+  ? number[]
+  : T extends "boolean"
+  ? boolean
+  : T extends "boolean[]"
+  ? boolean[]
+  : T extends "date"
+  ? Date
+  : T extends "date[]"
+  ? Date[]
+  : T extends { $oneOf: Array<infer OneOf> }
+  ? OneOf
+  : T extends "unknown"
+  ? unknown
+  : T extends Readonly<{ [key: string]: Attribute }>
+  ? Attributes<T>
+  : never;
+
+type Attributes<
+  T extends Readonly<{
+    [key: string]: Attribute;
+  }>
+> = {
+  -readonly [P in keyof T]: T[P]["required"] extends true
+    ? Type<T[P]["type"]>
+    : Type<T[P]["type"]> | null | undefined;
 };
+
+export type AttributesOf<T extends BlockSchema | MarkSchema> = Attributes<
+  T["attributes"]
+>;
 
 export type MarkSchema = Readonly<{
   type: string;
