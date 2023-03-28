@@ -3,15 +3,73 @@ import { Db } from "./db";
 import { Mark } from "./mark";
 import { BlockSchema, MarkSchema } from "./schema";
 
-/*
-function $in<T>(value: T, matches: T[]) {
-  return matches.includes(value);
+function filter<T>(expression: Filter<T>, value: T): boolean {
+  if ("$eq" in expression) {
+    return expression.$eq === value;
+  } else if ("$neq" in expression) {
+    return expression.$neq !== value;
+  } else if ("$and" in expression) {
+    return expression.$and.every(function $and(expression) {
+      return filter(expression, value);
+    });
+  } else if ("$not" in expression) {
+    return !filter(expression.$not, value);
+  } else if ("$nor" in expression) {
+    return expression.$nor.every(function $nor(expression) {
+      return !filter(expression, value);
+    });
+  } else if ("$or" in expression) {
+    return expression.$or.some(function $or(expression) {
+      return filter(expression, value);
+    });
+  } else if ("$gt" in expression) {
+    return value > expression.$gt;
+  } else if ("$gte" in expression) {
+    return value >= expression.$gte;
+  } else if ("$lt" in expression) {
+    return value < expression.$lt;
+  } else if ("$lte" in expression) {
+    return value <= expression.$lte;
+  } else if ("$in" in expression) {
+    return expression.$in.includes(value);
+  } else if ("$nin" in expression) {
+    return !expression.$nin.includes(value);
+  } else if ("$regex" in expression) {
+    return value && typeof value === "string" && expression.$regex.test(value);
+  }
+
+  throw new Error(`Unknown expression ${expression}`);
 }
 
-function $match(value: string | null, regexp: RegExp) {
-  return value?.match(regexp) != null;
-}
-*/
+type EqualFilter<T> = { $eq: T };
+type NotEqualFilter<T> = { $ne: T };
+type AndFilter<T> = { $and: Filter<T>[] };
+type NotFilter<T> = { $not: Filter<T> };
+type NorFilter<T> = { $nor: Filter<T>[] };
+type OrFilter<T> = { $or: Filter<T>[] };
+type GreaterThanFilter<T> = { $gt: T };
+type GreaterThanOrEqualFilter<T> = { $gte: T };
+type LessThanFilter<T> = { $lt: T };
+type LessThanOrEqualFilter<T> = { $lte: T };
+type InFilter<T> = { $in: T[] };
+type NotInFilter<T> = { $nin: T[] };
+type RegexFilter = { $regex: RegExp };
+
+type Filter<T> =
+  | EqualFilter<T>
+  | NotEqualFilter<T>
+  | AndFilter<T>
+  | NotFilter<T>
+  | NorFilter<T>
+  | OrFilter<T>
+  | GreaterThanFilter<T>
+  | GreaterThanOrEqualFilter<T>
+  | LessThanFilter<T>
+  | LessThanOrEqualFilter<T>
+  | InFilter<T>
+  | NotInFilter<T>
+  | RegexFilter;
+
 export const $any = Symbol("any");
 
 export class BlockQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
@@ -26,40 +84,31 @@ export class BlockQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
   }
 
   where(query: {
-    id?: string;
-    type?: string | string[];
+    id?: string | Filter<string>;
+    type?: string | Filter<string>;
     parents?: Array<string | typeof $any>;
     selfClosing?: boolean;
     attributes?: Record<string, unknown>;
   }) {
     let results = [];
-    let ids: Record<string, true | undefined> = {};
-    if (query.id != null) {
-      if (Array.isArray(query.id)) {
-        for (let id of query.id) {
-          ids[id] = true;
-        }
-      } else {
-        ids[query.id] = true;
-      }
-    }
-
-    let types: Record<string, true | undefined> = {};
-    if (query.type != null) {
-      if (Array.isArray(query.type)) {
-        for (let type of query.type) {
-          types[type] = true;
-        }
-      } else {
-        types[query.type] = true;
-      }
-    }
+    let id =
+      query.id != null
+        ? typeof query.id === "string"
+          ? { $eq: query.id }
+          : query.id
+        : null;
+    let type =
+      query.type != null
+        ? typeof query.type === "string"
+          ? { $eq: query.type }
+          : query.type
+        : null;
 
     for (let block of this.#results) {
-      if (query.id && ids[block.id] == null) {
+      if (id && !filter(id, block.id)) {
         continue;
       }
-      if (query.type && types[block.type] == null) {
+      if (type && !filter(type, block.type)) {
         continue;
       }
 
@@ -113,8 +162,12 @@ export class BlockQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
     return this;
   }
 
-  as(name: string) {
-    return new NamedBlockQuery<Blocks, Marks>(this.#db, this.#results, name);
+  as<Name extends string>(name: Name) {
+    return new NamedBlockQuery<Blocks, Marks, Name>(
+      this.#db,
+      this.#results,
+      name
+    );
   }
 
   *[Symbol.iterator]() {
@@ -150,7 +203,7 @@ export class MarkQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
 
   where<T extends string>(query: {
     id?: string | string[];
-    type?: T | T[];
+    type?: string | Filter<string>;
     range?:
       | { $in: [number, number] }
       | { $nin: [number, number] }
@@ -212,8 +265,12 @@ export class MarkQuery<Blocks extends BlockSchema, Marks extends MarkSchema>
     return this;
   }
 
-  as(name: string) {
-    return new NamedMarkQuery<Blocks, Marks>(this.#db, this.#results, name);
+  as<Name extends string>(name: Name) {
+    return new NamedMarkQuery<Blocks, Marks, Name>(
+      this.#db,
+      this.#results,
+      name
+    );
   }
 
   *[Symbol.iterator]() {
@@ -237,6 +294,7 @@ export class NamedMarkQuery<
 
   outerJoin<Right extends string>(
     rightCollection: NamedMarkQuery<Blocks, Marks, Right>,
+
     filter: (lhs: Mark<Marks>, rhs: Mark<Marks>) => boolean
   ): never | Join<Left, Right>;
   outerJoin<Right extends string>(
