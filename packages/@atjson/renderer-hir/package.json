@@ -10,10 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/util": "0.2.1"
-  },
-  "devDependencies": {
-    "@atjson/document": "0.29.0"
+    "@atjson/util": "file:../util"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"

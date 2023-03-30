@@ -10,13 +10,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@atjson/document": "0.29.0",
-    "@atjson/source-commonmark": "0.25.2",
-    "@types/markdown-it": "12.2.3"
+    "@atjson/source-commonmark": "file:../source-commonmark"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "0.46.5",
-    "@atjson/renderer-hir": "0.25.4"
+    "@atjson/offset-annotations": "file:../offset-annotations",
+    "@atjson/renderer-hir": "file:../renderer-hir"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"

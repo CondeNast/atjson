@@ -10,10 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/offset-annotations": "0.46.5"
-  },
-  "devDependencies": {
-    "@atjson/document": "0.29.0"
+    "@atjson/offset-annotations": "file:../offset-annotations"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"

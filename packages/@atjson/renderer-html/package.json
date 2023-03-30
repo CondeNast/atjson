@@ -10,12 +10,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@atjson/renderer-hir": "0.25.4",
+    "@atjson/renderer-hir": "file:../renderer-hir",
     "entities": "^4.3.1"
-  },
-  "devDependencies": {
-    "@atjson/document": "0.29.0",
-    "@atjson/offset-annotations": "0.46.5"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
