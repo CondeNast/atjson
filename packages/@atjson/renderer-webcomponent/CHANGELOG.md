@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.21.42](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.41...@atjson/renderer-webcomponent@0.21.42) (2023-03-30)
+
+**Note:** Version bump only for package @atjson/renderer-webcomponent
+
 ## [0.21.41](https://github.com/CondeNast/atjson/compare/@atjson/renderer-webcomponent@0.21.40...@atjson/renderer-webcomponent@0.21.41) (2023-03-01)
 
 **Note:** Version bump only for package @atjson/renderer-webcomponent
