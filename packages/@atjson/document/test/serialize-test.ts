@@ -4,6 +4,7 @@ import {
   serialize,
   UnknownAnnotation,
   is,
+  SliceAnnotation,
 } from "../src";
 import TestSource, {
   Anchor,
@@ -354,6 +355,77 @@ describe("serialize", () => {
           },
         ],
         marks: [],
+      });
+    });
+
+    test("continuations in blocks with parse tokens", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content:
+              "<blockquote><p>“My main problem is that I have a lot of energy and I can’t say no,”</p><cite>Prue Leith</cite></blockquote>",
+            annotations: [
+              new ParseAnnotation({
+                start: 0,
+                end: 12,
+              }),
+              new ParseAnnotation({
+                start: 12,
+                end: 15,
+              }),
+              new Paragraph({
+                start: 12,
+                end: 87,
+              }),
+              new ParseAnnotation({
+                start: 83,
+                end: 87,
+              }),
+              new ParseAnnotation({
+                start: 87,
+                end: 93,
+              }),
+              new ParseAnnotation({
+                start: 103,
+                end: 110,
+              }),
+              new ParseAnnotation({
+                start: 110,
+                end: 123,
+              }),
+              new Quote({
+                start: 0,
+                end: 123,
+              }),
+              new SliceAnnotation({
+                start: 87,
+                end: 110,
+              }),
+            ],
+          })
+        )
+      ).toMatchObject({
+        text: "\uFFFC\uFFFC“My main problem is that I have a lot of energy and I can’t say no,”\uFFFCPrue Leith",
+        blocks: [
+          {
+            type: "quote",
+            parents: [],
+          },
+          {
+            type: "paragraph",
+            parents: ["quote"],
+          },
+          {
+            type: "text",
+            parents: ["quote"],
+          },
+        ],
+        marks: [
+          {
+            type: "slice",
+            range: "(70..81]",
+          },
+        ],
       });
     });
 

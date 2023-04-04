@@ -403,14 +403,56 @@ export function serialize(
           is(token.annotation, Root) &&
           token.type === TokenType.BLOCK_START;
         if (textLength > 0 && (isEndGap || isGap || isRoot)) {
+          let start = token.index;
+          let startIndex = i;
+
+          // Adjust start position if this isn't a root
+          // text boundary block being created.
+          //
+          // In this case, we want to set the start
+          // position to the next index where a parse token
+          // doesn't exist. This allows for slices to include
+          // text blocks and handles an edge case where
+          // sometimes slices contained text boundary markers
+          // and sometimes they didn't.
+          while (
+            (isGap || isEndGap) &&
+            (tokens[startIndex + 1].type === TokenType.PARSE_START ||
+              tokens[startIndex + 1].type === TokenType.PARSE_END) &&
+            tokens[startIndex + 1].annotation.start === start
+          ) {
+            start = tokens[startIndex + 1].annotation.start;
+            startIndex++;
+          }
+
+          // Adjust end position if this isn't a root
+          // text boundary block being created.
+          //
+          // In this case, we want to set the end
+          // position to the previous index where a parse token
+          // doesn't exist. This allows for slices to include
+          // text blocks and handles an edge case where
+          // sometimes slices contained text boundary markers
+          // and sometimes they didn't.
+          let end = previousBlockBoundary.index;
+          let endIndex = tokens.indexOf(previousBlockBoundary);
+          while (
+            (isGap || isEndGap) &&
+            (tokens[endIndex - 1].type === TokenType.PARSE_START ||
+              tokens[endIndex - 1].type === TokenType.PARSE_END) &&
+            tokens[endIndex - 1].annotation.end === end
+          ) {
+            end = tokens[endIndex - 1].annotation.start;
+            endIndex--;
+          }
+
           // Insert text block
           let text = new Text({
-            start: token.index,
-            end: previousBlockBoundary.index,
+            start,
+            end,
           });
           let shared = { start: -1 };
-          let index = tokens.indexOf(previousBlockBoundary);
-          tokens.splice(index - 1, 0, {
+          tokens.splice(endIndex - 1, 0, {
             type: TokenType.BLOCK_END,
             index: text.end,
             annotation: text,
@@ -418,7 +460,7 @@ export function serialize(
             shared,
             edgeBehaviour: Text.edgeBehaviour,
           });
-          tokens.splice(i + 1, 0, {
+          tokens.splice(startIndex + 1, 0, {
             type: TokenType.BLOCK_START,
             index: text.start,
             annotation: text,
