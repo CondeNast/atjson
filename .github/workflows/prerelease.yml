@@ -57,7 +57,9 @@ jobs:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
       - uses: actions/setup-node@v3
         with:
+          always-auth: true
           node-version: "16.13.0"
+          registry-url: https://registry.npmjs.org
       - name: Install Dependencies
         run: npm ci --no-optional
       - name: Fetch tags
