@@ -505,9 +505,7 @@ describe("@atjson/source-html", () => {
           ],
           "marks": [
             {
-              "attributes": {
-                "-html-class": "smallcaps",
-              },
+              "attributes": {},
               "id": "M00000000",
               "range": "(1..10]",
               "type": "small-caps",
