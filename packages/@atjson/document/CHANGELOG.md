@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.29.1 (2023-04-10)
+
+### Bug Fixes
+
+- handle text blocks and mark nesting consistently ([13d1a5b](https://github.com/CondeNast/atjson/commit/13d1a5ba418acdb5458b59e41d1ab99ed407106d))
+
 # [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/document@0.28.1...@atjson/document@0.29.0) (2023-02-28)
 
 ### Features
