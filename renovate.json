@@ -1,14 +1,9 @@
 {
   "extends": ["config:base"],
   "timezone": "America/New_York",
-  "schedule": ["on the 2nd and 4th day instance on Monday after 8pm"],
+  "schedule": ["after 10pm and before 5am on every weekday", "every weekend"],
   "rebaseStalePrs": false,
   "packageRules": [
-    {
-      "groupName": "major deps",
-      "groupSlug": "major-deps",
-      "matchUpdateTypes": ["major"]
-    },
     {
       "updateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
@@ -21,6 +16,11 @@
       "packagePatterns": ["@docusaurus/*"],
       "groupName": "docusaurus monorepo",
       "groupSlug": "docusaurus-monorepo"
+    },
+    {
+      "packagePatterns": ["@types/*"],
+      "groupName": "Type Declarations",
+      "groupSlug": "type-declarations"
     },
     {
       "packagePatterns": ["eslint", "eslint-plugin-*", "@typescript-eslint/*"],
