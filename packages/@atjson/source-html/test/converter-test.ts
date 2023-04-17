@@ -1274,6 +1274,35 @@ describe("@atjson/source-html", () => {
           `);
         });
       });
+
+      describe("Firework embeds", () => {
+        test("with channel name vanity_fair", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed channel="vanity_fair" playlist="gYNwOv" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "channel": "vanity_fair",
+                    "id": "B00000000",
+                    "open": "_modal",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
+      });
     });
     describe("Reddit Embeds", () => {
       test("Reddit Embed code", () => {
