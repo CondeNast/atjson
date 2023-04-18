@@ -1302,6 +1302,58 @@ describe("@atjson/source-html", () => {
             }
           `);
         });
+
+        test("without channel name", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed playlist="gYNwOv" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "id": "B00000000",
+                    "open": "_modal",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
+
+        test("without channel open_in", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed channel="vanity_fair" playlist="gYNwOv" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "channel": "vanity_fair",
+                    "id": "B00000000",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
       });
     });
     describe("Reddit Embeds", () => {

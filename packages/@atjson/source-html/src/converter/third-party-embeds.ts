@@ -1,15 +1,6 @@
-import Document, { Annotation, is } from "@atjson/document";
+import Document, { Annotation } from "@atjson/document";
 import { CerosEmbed, FireworkEmbed } from "@atjson/offset-annotations";
-import { Embed } from "../annotations";
 
-function isEmbed(a: Annotation<any>, type: string) {
-  // return is(a, Embed) && a.attributes.type.toLowerCase().trim() === type;
-
-  if (a?.attributes?.type?.toLowerCase().trim() === type) {
-    return a;
-  }
-  //return a?.attributes?.type?.toLowerCase().trim() === type && a;
-}
 function isCerosExperienceFrame(a: Annotation<any>) {
   return a.type === "iframe" && a.attributes.class === "ceros-experience";
 }
@@ -93,29 +84,13 @@ export default function convertThirdPartyEmbeds(doc: Document) {
    *
    */
 
-  //let fireworkContainer = doc.where(isCerosContainer).as("firework");
-  //  let Fcontainers = doc.where(isCerosContainer).as("container");
-  //  doc.where({ type: "-html-fw-embed-feed" }).update(function joinContainerWithFrames({}) {
-  //     console.log("DDDD3",doc.content.split(" "))
-  //   doc.replaceAnnotation(
-  //     new FireworkEmbed({
-  //       start: doc.start,
-  //       end: 100,
-  //       attributes: {
-  //         id: '1',
-  //         channel: 'abc',
-  //         open:'_modal'
-  //       },
-  //     })
-  //   );
-
-  doc.where((a) => {
-    console.log("Docs Old", a);
-  });
+  function isFireworkEmbed(a: Annotation<any>) {
+    return a?.type?.toLowerCase().trim() === "fw-embed-feed";
+  }
 
   doc
-    .where((a) => isEmbed(a, "-html-fw-embed-feed"))
-    .update((embed: any) => {
+    .where((a) => isFireworkEmbed(a))
+    .update((embed) => {
       doc.replaceAnnotation(
         embed,
         new FireworkEmbed({
@@ -124,48 +99,12 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           end: embed.end,
           attributes: {
             id: embed.id,
-            channel: embed.attributes.attributes["-html-channel"],
-            open: embed.attributes.attributes["-html-open_in"],
+            channel: embed.attributes.channel,
+            open: embed.attributes.open_in,
           },
         })
       );
     });
-
-  // doc.where((a) => {
-  //   console.log(
-  //     "aaaa",a,"is(a, Embed)",is(temp, Embed)
-  //   )
-  //   if(a?.attributes?.type?.toLowerCase().trim() === '-html-fw-embed-feed'){
-  //     const temp = {...a,
-  //       type:'embeds',
-  //       vendorPrefix:'html'
-  //     }
-  //     console.log(
-  //       "aaaa",a,"is(a, Embed)",is(temp, Embed)
-  //     )
-  //   }
-
-  // })
-
-  //   let Fcontainers = doc.where({ type: "-html-fw-embed-feed" }).as("embed");
-  //  let fireworkTag = doc.where(isFireworkFrame).as("firework");
-  // console.log("Fcontainerss",Fcontainers)
-  //  Fcontainers.join(fireworkTag,aCoversB).update(function joinContainerWithFrames({firework}) {
-  //     console.log("firework",firework)
-  //   doc.replaceAnnotation(
-  //     firework,
-  //     new FireworkEmbed({
-  //       start: 0,
-  //       end: 0,
-  //       attributes: {
-  //         id: firework[0].attributes.id,
-  //         channel: firework[0].attributes.channel,
-  //         open: firework[0].attributes.vf
-  //       },
-  //     })
-  //   );
-
-  // });
 
   return doc;
 }
