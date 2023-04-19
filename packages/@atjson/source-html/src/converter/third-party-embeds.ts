@@ -98,7 +98,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: embed.start,
           end: embed.end,
           attributes: {
-            id: embed.id,
+            id: embed.attributes.id,
             channel: embed.attributes.channel,
             open: embed.attributes.open_in,
           },
