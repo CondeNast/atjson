@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.34.14 (2023-04-20)
+
+### Bug Fixes
+
+- add support for firework embed recognition for as embed code ([#1645](https://github.com/CondeNast/atjson/issues/1645)) ([180a9a6](https://github.com/CondeNast/atjson/commit/180a9a6e296619da446466d633f499f93cbe25f4))
+
 ## [0.34.13](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.12...@atjson/source-html@0.34.13) (2023-03-30)
 
 **Note:** Version bump only for package @atjson/source-html
