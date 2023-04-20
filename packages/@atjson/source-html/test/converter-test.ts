@@ -1274,6 +1274,87 @@ describe("@atjson/source-html", () => {
           `);
         });
       });
+
+      describe("Firework embeds", () => {
+        test("with channel name vanity_fair", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed id="firework-embed-1" channel="vanity_fair" playlist="gYNwOv" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "channel": "vanity_fair",
+                    "id": "firework-embed-1",
+                    "open": "_modal",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
+
+        test("without channel name", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed id="firework-embed-2" playlist="gYNwOv" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "id": "firework-embed-2",
+                    "open": "_modal",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
+
+        test("without channel open_in", () => {
+          let doc = HTMLSource.fromRaw(
+            `<fw-embed-feed id="firework-embed-3" channel="vanity_fair" playlist="gYNwOv" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+          ).convertTo(OffsetSource);
+
+          expect(serialize(doc, { withStableIds: true }))
+            .toMatchInlineSnapshot(`
+            {
+              "blocks": [
+                {
+                  "attributes": {
+                    "channel": "vanity_fair",
+                    "id": "firework-embed-3",
+                  },
+                  "id": "B00000000",
+                  "parents": [],
+                  "selfClosing": false,
+                  "type": "firework-embed",
+                },
+              ],
+              "marks": [],
+              "text": "￼",
+            }
+          `);
+        });
+      });
     });
     describe("Reddit Embeds", () => {
       test("Reddit Embed code", () => {

@@ -35,6 +35,7 @@ export * from "./embed";
 export * from "./fieldset";
 export * from "./figcaption";
 export * from "./figure";
+export * from "./firework-embed";
 export * from "./footer";
 export * from "./form";
 export * from "./h1";

@@ -1,5 +1,5 @@
 import Document, { Annotation } from "@atjson/document";
-import { CerosEmbed } from "@atjson/offset-annotations";
+import { CerosEmbed, FireworkEmbed } from "@atjson/offset-annotations";
 
 function isCerosExperienceFrame(a: Annotation<any>) {
   return a.type === "iframe" && a.attributes.class === "ceros-experience";
@@ -71,6 +71,36 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             aspectRatio,
             mobileAspectRatio,
             url: iframes[0].attributes.src,
+          },
+        })
+      );
+    });
+
+  /**
+   *
+   * <fw-embed-feed channel="vanity_fair" playlist="gYNwOv" mode="row"
+   * open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right"
+   * pip="false" player_minimize="false" branding="false"></fw-embed-feed>
+   *
+   */
+
+  function isFireworkEmbed(a: Annotation<any>) {
+    return a?.type?.toLowerCase().trim() === "fw-embed-feed";
+  }
+
+  doc
+    .where((a) => isFireworkEmbed(a))
+    .update((embed) => {
+      doc.replaceAnnotation(
+        embed,
+        new FireworkEmbed({
+          id: embed.id,
+          start: embed.start,
+          end: embed.end,
+          attributes: {
+            id: embed.attributes.id,
+            channel: embed.attributes.channel,
+            open: embed.attributes.open_in,
           },
         })
       );
