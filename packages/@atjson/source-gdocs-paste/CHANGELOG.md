@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.25.22 (2023-04-21)
+
+**Note:** Version bump only for package @atjson/source-gdocs-paste
+
 ## [0.25.21](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.25.20...@atjson/source-gdocs-paste@0.25.21) (2023-03-30)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste

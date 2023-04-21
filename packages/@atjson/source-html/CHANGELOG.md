@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.15](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.14...@atjson/source-html@0.34.15) (2023-04-21)
+
+### Bug Fixes
+
+- update firework HTML converters to handle channel|playlistId and use playlist instead of id ([e83d412](https://github.com/CondeNast/atjson/commit/e83d4120b69d267d2c1fcea356220b8c2b281596))
+
 ## 0.34.14 (2023-04-20)
 
 ### Bug Fixes

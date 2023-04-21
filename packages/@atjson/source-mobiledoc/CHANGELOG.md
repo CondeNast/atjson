@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.23.21 (2023-04-21)
+
+**Note:** Version bump only for package @atjson/source-mobiledoc
+
 ## [0.23.20](https://github.com/CondeNast/atjson/compare/@atjson/source-mobiledoc@0.23.19...@atjson/source-mobiledoc@0.23.20) (2023-03-30)
 
 **Note:** Version bump only for package @atjson/source-mobiledoc
