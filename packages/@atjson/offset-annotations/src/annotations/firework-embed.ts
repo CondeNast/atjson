@@ -1,7 +1,7 @@
 import { BlockAnnotation } from "@atjson/document";
 
 export class FireworkEmbed extends BlockAnnotation<{
-  id: string;
+  playlistId: string;
   channel?: string;
   open?: "default" | "_self" | "_modal" | "_blank";
   /**
