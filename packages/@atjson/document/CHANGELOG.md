@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.29.2 (2023-05-03)
+
+### Bug Fixes
+
+- sorting start/end tokens for zero-length marks ([#1648](https://github.com/CondeNast/atjson/issues/1648)) ([cd84fed](https://github.com/CondeNast/atjson/commit/cd84fedf44d7daa69023a43fa299554de0183c74))
+
 ## 0.29.1 (2023-04-10)
 
 ### Bug Fixes
