@@ -152,9 +152,12 @@ export function sortTokens(a: Token, b: Token) {
     return indexDelta;
   }
 
-  // Handle start before end for a 0 length mark
+  // Handle start before end for a 0 length mark:
+  // We're assuming that one of `a` or `b` is a start
+  // token and the other is the end token. Sort the start
+  // token first
   if (a.annotation.id === b.annotation.id) {
-    return START_TOKENS.indexOf(a.type) ? 1 : -1;
+    return START_TOKENS.indexOf(a.type) !== -1 ? -1 : 1;
   }
 
   // Sort end tokens before start tokens
