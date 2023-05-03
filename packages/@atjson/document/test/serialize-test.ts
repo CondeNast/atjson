@@ -793,6 +793,115 @@ describe("serialize", () => {
         });
       });
     });
+
+    test("0 length marks are sorted start -> end", () => {
+      let paragraph = new Paragraph({
+        id: "B00000000",
+        start: 0,
+        end: 5,
+      });
+      let bold = new Bold({
+        id: "M00000000",
+        start: 1,
+        end: 1,
+      });
+      let italic = new Italic({
+        id: "M00000001",
+        start: 3,
+        end: 3,
+      });
+      let tokens = [
+        {
+          annotation: paragraph,
+          type: "block",
+          edgeBehaviour: Paragraph.edgeBehaviour,
+        },
+        {
+          annotation: bold,
+          type: "mark",
+          edgeBehaviour: Bold.edgeBehaviour,
+        },
+        {
+          annotation: italic,
+          type: "mark",
+          edgeBehaviour: Italic.edgeBehaviour,
+        },
+      ].reduce((E, description) => {
+        E.push(
+          {
+            type:
+              description.type === "block"
+                ? TokenType.BLOCK_END
+                : TokenType.MARK_END,
+            index: description.annotation.start,
+            annotation: description.annotation,
+            shared: { start: -1 },
+            selfClosing: false,
+            edgeBehaviour: description.edgeBehaviour,
+          },
+          {
+            type:
+              description.type === "block"
+                ? TokenType.BLOCK_START
+                : TokenType.MARK_START,
+            index: description.annotation.start,
+            annotation: description.annotation,
+            shared: { start: -1 },
+            selfClosing: false,
+            edgeBehaviour: description.edgeBehaviour,
+          }
+        );
+        return E;
+      }, [] as Token[]);
+
+      tokens.sort(sortTokens);
+
+      expect(
+        tokens.map((token) => {
+          switch (token.type) {
+            case TokenType.BLOCK_START:
+              return { id: token.annotation.id, type: "BLOCK_START" };
+            case TokenType.BLOCK_END:
+              return { id: token.annotation.id, type: "BLOCK_END" };
+            case TokenType.MARK_START:
+              return { id: token.annotation.id, type: "MARK_START" };
+            case TokenType.MARK_END:
+              return { id: token.annotation.id, type: "MARK_END" };
+            case TokenType.PARSE_START:
+              return { id: token.annotation.id, type: "PARSE_START" };
+            case TokenType.PARSE_END:
+              return { id: token.annotation.id, type: "PARSE_END" };
+          }
+        })
+      ).toMatchInlineSnapshot(`
+        [
+          {
+            "id": "B00000000",
+            "type": "BLOCK_START",
+          },
+          {
+            "id": "B00000000",
+            "type": "BLOCK_END",
+          },
+          {
+            "id": "M00000000",
+            "type": "MARK_START",
+          },
+          {
+            "id": "M00000000",
+            "type": "MARK_END",
+          },
+          {
+            "id": "M00000001",
+            "type": "MARK_START",
+          },
+          {
+            "id": "M00000001",
+            "type": "MARK_END",
+          },
+        ]
+      `);
+    });
   });
 });
 
