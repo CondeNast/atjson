@@ -90,8 +90,6 @@ describe("@atjson/source-gdocs-paste", () => {
 
     expect(links.join(underlines, (a, b) => a.isAlignedWith(b)).length).toBe(0);
   });
-
-  it("removes zero-length annotations", () => {});
 });
 
 describe("@atjson/source-gdocs-paste paragraphs", () => {
