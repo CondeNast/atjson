@@ -90,6 +90,8 @@ describe("@atjson/source-gdocs-paste", () => {
 
     expect(links.join(underlines, (a, b) => a.isAlignedWith(b)).length).toBe(0);
   });
+
+  it("removes zero-length annotations", () => {});
 });
 
 describe("@atjson/source-gdocs-paste paragraphs", () => {
@@ -417,5 +419,29 @@ describe("@atjson/source-gdocs-paste paragraphs in list", () => {
         },
       },
     ]);
+  });
+});
+
+describe("@atjson/source-gdocs-paste zero-length annotations", () => {
+  let rawDoc: GDocsSource;
+  let doc: OffsetSource;
+
+  beforeAll(() => {
+    // https://docs.google.com/document/d/e/2PACX-1vQLGWvidWZeJleK0wBG1Yh8ciZXpowyJcxrVEW_7Mm1YparnePpz4U-1E2WSQkxaS78147MB5gTB-wM/pub
+    let fixturePath = path.join(
+      __dirname,
+      "fixtures",
+      "text-with-zero-length-bold.json"
+    );
+    let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+    rawDoc = GDocsSource.fromRaw(rawJSON);
+    doc = rawDoc.convertTo(OffsetSource);
+  });
+
+  it("removes zero-length bold", () => {
+    expect(
+      rawDoc.where((a) => a.start === a.end).annotations.length
+    ).toBeGreaterThan(0);
+    expect(doc.where((a) => a.start === a.end).annotations.length).toEqual(0);
   });
 });
