@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.25.23 (2023-05-04)
+
+### Bug Fixes
+
+- remove zero-length annotations in gdocs converter ([#1649](https://github.com/CondeNast/atjson/issues/1649)) ([b038e1c](https://github.com/CondeNast/atjson/commit/b038e1c661ad420a9f7418c88ca7c04d23b644e3))
+
 ## 0.25.22 (2023-04-21)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
