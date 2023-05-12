@@ -426,6 +426,8 @@ describe("@atjson/source-gdocs-paste zero-length annotations", () => {
 
   beforeAll(() => {
     // https://docs.google.com/document/d/e/2PACX-1vQLGWvidWZeJleK0wBG1Yh8ciZXpowyJcxrVEW_7Mm1YparnePpz4U-1E2WSQkxaS78147MB5gTB-wM/pub
+    // Tests a specific edge case where we were producing a malformed range for a zero-length bold annotation which caused
+    // the conversion to fail
     let fixturePath = path.join(
       __dirname,
       "fixtures",
@@ -436,10 +438,10 @@ describe("@atjson/source-gdocs-paste zero-length annotations", () => {
     doc = rawDoc.convertTo(OffsetSource);
   });
 
-  it("removes zero-length bold", () => {
+  it("converts docs and retains the zero-length annotation", () => {
     expect(
       rawDoc.where((a) => a.start === a.end).annotations.length
     ).toBeGreaterThan(0);
-    expect(doc.where((a) => a.start === a.end).annotations.length).toEqual(0);
+    expect(doc.where((a) => a.start === a.end).annotations.length).toEqual(1);
   });
 });
