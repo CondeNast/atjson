@@ -119,6 +119,7 @@ export enum TokenType {
   MARK_END,
   PARSE_START,
   PARSE_END,
+  MARK_COLLAPSED,
 }
 
 const START_TOKENS = [
@@ -298,24 +299,39 @@ export function serialize(
       : [TokenType.MARK_START, TokenType.MARK_END];
     let edgeBehaviour = annotation.getAnnotationConstructor().edgeBehaviour;
     let shared = { start: -1 };
-    tokens.push(
-      {
-        type: types[0],
+    if (
+      types[0] === TokenType.MARK_START &&
+      types[1] === TokenType.MARK_END &&
+      annotation.start === annotation.end
+    ) {
+      tokens.push({
+        type: TokenType.MARK_COLLAPSED,
         index: annotation.start,
         annotation,
         shared,
         selfClosing: isObjectAnnotation,
         edgeBehaviour,
-      },
-      {
-        type: types[1],
-        index: annotation.end,
-        annotation,
-        shared,
-        selfClosing: isObjectAnnotation,
-        edgeBehaviour,
-      }
-    );
+      });
+    } else {
+      tokens.push(
+        {
+          type: types[0],
+          index: annotation.start,
+          annotation,
+          shared,
+          selfClosing: isObjectAnnotation,
+          edgeBehaviour,
+        },
+        {
+          type: types[1],
+          index: annotation.end,
+          annotation,
+          shared,
+          selfClosing: isObjectAnnotation,
+          edgeBehaviour,
+        }
+      );
+    }
     if (annotation instanceof UnknownAnnotation) {
       unknown.push(annotation);
     }
@@ -583,6 +599,20 @@ export function serialize(
             text.length,
             token.edgeBehaviour
           ),
+          attributes,
+        });
+        break;
+      }
+      case TokenType.MARK_COLLAPSED: {
+        let annotation = token.annotation;
+        let { type, attributes } = is(annotation, UnknownAnnotation)
+          ? annotation.attributes
+          : annotation;
+
+        marks.push({
+          id: annotation.id,
+          type,
+          range: serializeRange(text.length, text.length, token.edgeBehaviour),
           attributes,
         });
         break;
