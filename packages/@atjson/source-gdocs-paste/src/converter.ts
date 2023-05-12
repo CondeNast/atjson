@@ -30,7 +30,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   // Remove zero-length annotations
   // This is a bit of a workaround to deal with complications that arise when trying to
   // sort start/end tokens for these annotations when serializing the document
-  doc.where((a) => a.start === a.end).remove();
+  // doc.where((a) => a.start === a.end).remove();
 
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.

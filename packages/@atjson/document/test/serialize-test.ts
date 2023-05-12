@@ -794,6 +794,325 @@ describe("serialize", () => {
       });
     });
 
+    test("0 length marks with parse end and block start are sorted start -> end", () => {
+      // Test a specific edge case where the bold annotation at position 1412 produced a mark with a malformed range
+      // The conditions for this are specific to the way the tokens generated from the annotations are divided during
+      // the sorting process, hence the length of the test document. The requirements for this edge case seem to be:
+      // * some minimum number of annotations
+      // * a zero-length mark coinciding with a block start and parse end
+      let doc = new TestSource({
+        content:
+          "You have a lot of movies coming out again this year. Foe with Saoirse Ronan, and the Andrew Haigh movie. Are you looking forward to another round of getting these movies out there?\nI’m so excited. So I’m actually going to see Foe with Saoirse this week. She saw it and seemed to be really happy with it, so I’m really excited to see that. The Andrew Haigh film, I play opposite Andrew Scott. I probably can’t say a lot about it other than the fact that I think Andrew Scott is going to be—touch wood, from my watching on my end, that was beautiful.His performance was so good, just being beside him. I’m just looking forward to seeing it cut together. It’s that thing of hearing people who are working on the film being really excited about is a good place to be now.\nThat’s probably somewhat similar to Aftersun, right?\nYes. I want to stay in this feeling of looking forward. I don’t think, post-Normal People, that I have never not been looking forward to the next thing that I’m doing. That is remaining true. I feel like I’m starting to be a little bit tired, which is a good feeling, because it means I’m just going to push for another year and a half. Maybe famous last words. [Laughs] I feel the anxiety of taking a break.\nI read that you considered appendicitis a break. Like, a needed break. \nOh yeah. It was a break, like a big old break. [Laughs] Couldn’t do anything for 10 days. It was a nightmare.\nYou should get to a place where you don’t need to get appendicitis to take 10 days off.",
+        annotations: [
+          {
+            id: "5874124f-16da-4b65-96b5-48cade048229",
+            type: "-test-paragraph",
+            start: 0,
+            end: 180,
+            attributes: {},
+          },
+          {
+            id: "19baaa27-d00b-4514-aa58-d489ac5e444e",
+            type: "-test-bold",
+            start: 0,
+            end: 180,
+            attributes: {},
+          },
+          {
+            id: "fa0d177c-9e7e-4361-89b7-e82d95c5672b",
+            type: "-test-italic",
+            start: 53,
+            end: 57,
+            attributes: {},
+          },
+          {
+            id: "364d9ff4-6546-4862-a538-78dacfb1e102",
+            type: "-atjson-parse-token",
+            start: 180,
+            end: 181,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "e2999017-67c6-44b3-9d01-650b4198b139",
+            type: "-test-paragraph",
+            start: 181,
+            end: 767,
+            attributes: {},
+          },
+          {
+            id: "ef791cea-3431-4d49-8340-01df2e340458",
+            type: "-test-italic",
+            start: 226,
+            end: 229,
+            attributes: {},
+          },
+          {
+            id: "54669f82-75cc-4307-b7c1-103aaa27fd70",
+            type: "-test-bold",
+            start: 378,
+            end: 392,
+            attributes: {},
+          },
+          {
+            id: "b5e4f841-a897-4c81-82d9-141ec6b3754f",
+            type: "-atjson-parse-token",
+            start: 767,
+            end: 768,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "c7d0f785-1353-4f66-99d2-c098633374fd",
+            type: "-test-bold",
+            start: 768,
+            end: 821,
+            attributes: {},
+          },
+          {
+            id: "3df11196-7a35-4737-b485-055a59b93707",
+            type: "-test-paragraph",
+            start: 768,
+            end: 820,
+            attributes: {},
+          },
+          {
+            id: "d03fbc48-a9f2-4e92-a949-076b6ac24bf1",
+            type: "-test-italic",
+            start: 804,
+            end: 812,
+            attributes: {},
+          },
+          {
+            id: "aec708b4-268f-4574-a338-92930c3c60e9",
+            type: "-atjson-parse-token",
+            start: 820,
+            end: 821,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "af0c3bd4-afb8-4a9c-b148-c8a6888b2bdd",
+            type: "-test-paragraph",
+            start: 821,
+            end: 1229,
+            attributes: {},
+          },
+          {
+            id: "843b6925-17f2-41b6-ac6a-1bd9eb2233d9",
+            type: "-test-italic",
+            start: 897,
+            end: 910,
+            attributes: {},
+          },
+          {
+            id: "6bcc0cc0-362c-495c-98a1-2fc92054d01e",
+            type: "-test-italic",
+            start: 1184,
+            end: 1190,
+            attributes: {},
+          },
+          {
+            id: "4d774e13-1eac-4fa4-8f32-0662135f788b",
+            type: "-atjson-parse-token",
+            start: 1229,
+            end: 1230,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "91b38eac-f763-48c7-8edc-3461385f2968",
+            type: "-test-bold",
+            start: 1230,
+            end: 1302,
+            attributes: {},
+          },
+          {
+            id: "e34d4658-9387-4f17-9c07-826534fe4259",
+            type: "-test-paragraph",
+            start: 1230,
+            end: 1301,
+            attributes: {},
+          },
+          {
+            id: "e769099f-2955-43b0-8dc1-dc455f9f196f",
+            type: "-atjson-parse-token",
+            start: 1301,
+            end: 1302,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "b8021f1b-db59-436c-a7ee-533ba6deec7e",
+            type: "-test-paragraph",
+            start: 1302,
+            end: 1411,
+            attributes: {},
+          },
+          {
+            id: "bbfcda81-c8d6-43de-92b1-ab867084b5a8",
+            type: "-test-italic",
+            start: 1350,
+            end: 1356,
+            attributes: {},
+          },
+          {
+            id: "5d58d326-c98e-4529-be89-54e6fcff9238",
+            type: "-atjson-parse-token",
+            start: 1411,
+            end: 1412,
+            attributes: {
+              "-atjson-reason": "paragraph boundary",
+            },
+          },
+          {
+            id: "4427e2c5-eca8-451a-ad88-3c9a548d3e5b",
+            type: "-test-paragraph",
+            start: 1412,
+            end: 1499,
+            attributes: {},
+          },
+          {
+            id: "5d58d326-c98e-4529-be89-54e6fcff92ab",
+            type: "-test-bold",
+            start: 1412,
+            end: 1412,
+            attributes: {},
+          },
+        ],
+      });
+
+      expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+        {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "B00000000",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000001",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000002",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000003",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000004",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000005",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B00000006",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+          ],
+          "marks": [
+            {
+              "attributes": {},
+              "id": "M00000000",
+              "range": "(1..181]",
+              "type": "bold",
+            },
+            {
+              "attributes": {},
+              "id": "M00000001",
+              "range": "(54..58]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M00000002",
+              "range": "(227..230]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M00000003",
+              "range": "(379..393]",
+              "type": "bold",
+            },
+            {
+              "attributes": {},
+              "id": "M00000004",
+              "range": "(768..821]",
+              "type": "bold",
+            },
+            {
+              "attributes": {},
+              "id": "M00000005",
+              "range": "(805..813]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M00000006",
+              "range": "(898..911]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M00000007",
+              "range": "(1185..1191]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M00000008",
+              "range": "(1230..1302]",
+              "type": "bold",
+            },
+            {
+              "attributes": {},
+              "id": "M00000009",
+              "range": "(1351..1357]",
+              "type": "italic",
+            },
+            {
+              "attributes": {},
+              "id": "M0000000a",
+              "range": "(1412..1412]",
+              "type": "bold",
+            },
+          ],
+          "text": "￼You have a lot of movies coming out again this year. Foe with Saoirse Ronan, and the Andrew Haigh movie. Are you looking forward to another round of getting these movies out there?￼I’m so excited. So I’m actually going to see Foe with Saoirse this week. She saw it and seemed to be really happy with it, so I’m really excited to see that. The Andrew Haigh film, I play opposite Andrew Scott. I probably can’t say a lot about it other than the fact that I think Andrew Scott is going to be—touch wood, from my watching on my end, that was beautiful.His performance was so good, just being beside him. I’m just looking forward to seeing it cut together. It’s that thing of hearing people who are working on the film being really excited about is a good place to be now.￼That’s probably somewhat similar to Aftersun, right?￼Yes. I want to stay in this feeling of looking forward. I don’t think, post-Normal People, that I have never not been looking forward to the next thing that I’m doing. That is remaining true. I feel like I’m starting to be a little bit tired, which is a good feeling, because it means I’m just going to push for another year and a half. Maybe famous last words. [Laughs] I feel the anxiety of taking a break.￼I read that you considered appendicitis a break. Like, a needed break. ￼Oh yeah. It was a break, like a big old break. [Laughs] Couldn’t do anything for 10 days. It was a nightmare.￼You should get to a place where you don’t need to get appendicitis to take 10 days off.",
+        }
+      `);
+    });
+
     test("0 length marks are sorted start -> end", () => {
       let paragraph = new Paragraph({
         id: "B00000000",
