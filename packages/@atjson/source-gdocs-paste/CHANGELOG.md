@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.24](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.25.23...@atjson/source-gdocs-paste@0.25.24) (2023-05-17)
+
+### Bug Fixes
+
+- add MARK_COLLAPSED token to document serialize ([#1652](https://github.com/CondeNast/atjson/issues/1652)) ([d269169](https://github.com/CondeNast/atjson/commit/d26916975a6a1c2a39ecaa77c875b3fa567c0bc9))
+
 ## 0.25.23 (2023-05-04)
 
 ### Bug Fixes
