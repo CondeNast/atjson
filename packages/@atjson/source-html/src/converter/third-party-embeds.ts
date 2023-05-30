@@ -116,6 +116,10 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           },
         })
       );
+      // Remove newlines from embed code
+      if (scripts.length) {
+        doc.deleteText(scripts[0].end, embed.start);
+      }
       doc.removeAnnotations(scripts);
     });
 
