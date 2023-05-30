@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.34.19 (2023-05-30)
+
+### Bug Fixes
+
+- strip newline when converting firework embed codes ([80f65f2](https://github.com/CondeNast/atjson/commit/80f65f2528ab7ef5a3949a49a9fb1af3d2d2c8a5))
+
 ## [0.34.18](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.17...@atjson/source-html@0.34.18) (2023-04-24)
 
 **Note:** Version bump only for package @atjson/source-html
