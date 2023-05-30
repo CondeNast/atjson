@@ -108,7 +108,7 @@ describe("Firework embeds", () => {
       `<script async
         type="text/javascript"
         src="//asset.fwpub1.com/js/embed-feed.js"
-       ></script><fw-embed-feed
+       ></script>\n<fw-embed-feed
         channel="awesome-channel"
         playlist="jkl"
         mode="row"
@@ -145,7 +145,7 @@ describe("Firework embeds", () => {
       `<script async
         type="text/javascript"
         src="//asset.fwcdn3.com/js/embed-feed.js"
-       ></script><fw-embed-feed
+       ></script>\n<fw-embed-feed
         channel="awesome-channel"
         playlist="jkl"
         mode="row"
