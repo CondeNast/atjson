@@ -17,7 +17,7 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "0.46.7",
+    "@atjson/offset-annotations": "file:../offset-annotations",
     "parse5": "^7.1.2"
   },
   "peerDependencies": {
