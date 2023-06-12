@@ -1,6 +1,7 @@
 import {
   Annotation,
   BlockAnnotation,
+  InlineAnnotation,
   ParseAnnotation,
   compareAnnotations,
   is,
@@ -311,6 +312,24 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
         })
       );
       item.end--;
+    });
+
+  // adjust marks to not cover whitespace at the start / end positions
+  doc
+    .where((a) => a instanceof InlineAnnotation)
+    .update((mark) => {
+      let start = mark.start;
+      let end = mark.end;
+      while (doc.content[start].match(/\s/) && start < end) {
+        start++;
+      }
+
+      while (doc.content[end - 1].match(/\s/) && end > start) {
+        end--;
+      }
+
+      mark.start = start;
+      mark.end = end;
     });
 
   return doc;
