@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.25.25 (2023-06-12)
+
+### Bug Fixes
+
+- normalize mark boundaries from google docs paste ([b9e8e1a](https://github.com/CondeNast/atjson/commit/b9e8e1afe209ac17af4086cdadf687c2032ccd0b))
+
 ## [0.25.24](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.25.23...@atjson/source-gdocs-paste@0.25.24) (2023-05-17)
 
 ### Bug Fixes
