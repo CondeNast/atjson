@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.26](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.25.25...@atjson/source-gdocs-paste@0.25.26) (2023-06-22)
+
+### Bug Fixes
+
+- handle zero-width marks when adjusting for whitespace ([#1659](https://github.com/CondeNast/atjson/issues/1659)) ([d5a15b6](https://github.com/CondeNast/atjson/commit/d5a15b6133c29a9da6fde852e5dd18c3975cc9d1))
+
 ## 0.25.25 (2023-06-12)
 
 ### Bug Fixes
