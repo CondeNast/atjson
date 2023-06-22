@@ -320,11 +320,19 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
     .update((mark) => {
       let start = mark.start;
       let end = mark.end;
-      while (doc.content[start].match(/\s/) && start < end) {
+      while (
+        start < end &&
+        doc.content[start] &&
+        doc.content[start].match(/\s/)
+      ) {
         start++;
       }
 
-      while (doc.content[end - 1].match(/\s/) && end > start) {
+      while (
+        end > start &&
+        doc.content[end - 1] &&
+        doc.content[end - 1].match(/\s/)
+      ) {
         end--;
       }
 
