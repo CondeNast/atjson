@@ -1,158 +1,135 @@
 import OffsetSource from "@atjson/offset-annotations";
 import CommonmarkRenderer from "../src";
+import { deserialize } from "@atjson/document";
 
 describe("adjacent inline annotations", () => {
   test("adjacent bold italic", () => {
-    let document = new OffsetSource({
-      content: "bolditalic",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 4,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-offset-italic",
-          start: 4,
-          end: 10,
-          attributes: {},
-        },
-      ],
-    });
+    let document = deserialize(
+      {
+        text: "\uFFFCbolditalic",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..5]", attributes: {} },
+          {
+            id: "M00000001",
+            type: "italic",
+            range: "(5..11]",
+            attributes: {},
+          },
+        ],
+      },
+      OffsetSource
+    );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold**_italic_");
   });
 
   test("continued bold", () => {
-    let document = new OffsetSource({
-      content: "boldbold",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 4,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-offset-bold",
-          start: 4,
-          end: 8,
-          attributes: {},
-        },
-      ],
-    });
+    let document = deserialize(
+      {
+        text: "\uFFFCboldbold",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..5]", attributes: {} },
+          { id: "M00000001", type: "bold", range: "(5..9]", attributes: {} },
+        ],
+      },
+      OffsetSource
+    );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold**__bold__");
   });
 
   test("continued bold with leading space", () => {
-    let document = new OffsetSource({
-      content: "bold bold",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 4,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-offset-bold",
-          start: 4,
-          end: 9,
-          attributes: {},
-        },
-      ],
-    });
+    let document = deserialize(
+      {
+        text: "\uFFFCbold bold",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..5]", attributes: {} },
+          { id: "M00000001", type: "bold", range: "(5..10]", attributes: {} },
+        ],
+      },
+      OffsetSource
+    );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold** **bold**");
   });
 
-  test("continued bold with parse annotations in between", () => {
-    let document = new OffsetSource({
-      content: "<b>bold</b><b>bold</b>",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 11,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-atjson-parse-token",
-          start: 0,
-          end: 3,
-          attributes: {},
-        },
-        {
-          id: "3",
-          type: "-atjson-parse-token",
-          start: 7,
-          end: 11,
-          attributes: {},
-        },
-        {
-          id: "4",
-          type: "-offset-bold",
-          start: 11,
-          end: 22,
-          attributes: {},
-        },
-        {
-          id: "5",
-          type: "-atjson-parse-token",
-          start: 11,
-          end: 14,
-          attributes: {},
-        },
-        {
-          id: "6",
-          type: "-atjson-parse-token",
-          start: 18,
-          end: 22,
-          attributes: {},
-        },
-      ],
-    });
+  test("continued bold with trailing space", () => {
+    let document = deserialize(
+      {
+        text: "\uFFFCbold bold",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..6]", attributes: {} },
+          { id: "M00000001", type: "bold", range: "(6..10]", attributes: {} },
+        ],
+      },
+      OffsetSource
+    );
 
-    expect(CommonmarkRenderer.render(document)).toBe("**bold**__bold__");
+    expect(CommonmarkRenderer.render(document)).toBe("**bold** **bold**");
   });
 
   test("continued bold and italic", () => {
-    let document = new OffsetSource({
-      content: "Bold bold and italic",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 5,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-offset-bold",
-          start: 5,
-          end: 20,
-          attributes: {},
-        },
-        {
-          id: "3",
-          type: "-offset-italic",
-          start: 5,
-          end: 20,
-          attributes: {},
-        },
-      ],
-    });
+    let document = deserialize(
+      {
+        text: "￼Bold bold and italic",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..6]", attributes: {} },
+          { id: "M00000001", type: "bold", range: "(6..21]", attributes: {} },
+          {
+            id: "M00000002",
+            type: "italic",
+            range: "(6..21]",
+            attributes: {},
+          },
+        ],
+      },
+      OffsetSource
+    );
 
     expect(CommonmarkRenderer.render(document)).toBe(
       "**Bold** ***bold and italic***"
@@ -160,74 +137,31 @@ describe("adjacent inline annotations", () => {
   });
 
   test("continued bold and italic with parse annotations", () => {
-    let document = new OffsetSource({
-      content: "<b>Bold</b><i><b> bold and italic</b></i>",
-      annotations: [
-        {
-          id: "1",
-          type: "-offset-bold",
-          start: 0,
-          end: 11,
-          attributes: {},
-        },
-        {
-          id: "2",
-          type: "-atjson-parse-token",
-          start: 0,
-          end: 3,
-          attributes: {},
-        },
-        {
-          id: "3",
-          type: "-atjson-parse-token",
-          start: 7,
-          end: 11,
-          attributes: {},
-        },
-        {
-          id: "4",
-          type: "-offset-italic",
-          start: 11,
-          end: 41,
-          attributes: {},
-        },
-        {
-          id: "5",
-          type: "-atjson-parse-token",
-          start: 11,
-          end: 14,
-          attributes: {},
-        },
-        {
-          id: "6",
-          type: "-atjson-parse-token",
-          start: 37,
-          end: 41,
-          attributes: {},
-        },
-        {
-          id: "7",
-          type: "-offset-bold",
-          start: 14,
-          end: 37,
-          attributes: {},
-        },
-        {
-          id: "8",
-          type: "-atjson-parse-token",
-          start: 14,
-          end: 17,
-          attributes: {},
-        },
-        {
-          id: "9",
-          type: "-atjson-parse-token",
-          start: 33,
-          end: 37,
-          attributes: {},
-        },
-      ],
-    });
+    let document = deserialize(
+      {
+        text: "￼Bold bold and italic",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          { id: "M00000000", type: "bold", range: "(1..5]", attributes: {} },
+          { id: "M00000001", type: "bold", range: "(5..21]", attributes: {} },
+          {
+            id: "M00000002",
+            type: "italic",
+            range: "(5..21]",
+            attributes: {},
+          },
+        ],
+      },
+      OffsetSource
+    );
 
     expect(CommonmarkRenderer.render(document)).toBe(
       "**Bold** ***bold and italic***"
