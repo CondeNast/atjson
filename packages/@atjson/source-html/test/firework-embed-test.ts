@@ -30,7 +30,7 @@ describe("Firework embeds", () => {
 
   test("without channel name", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-2" playlist="def" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-2" playlist="def" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -55,7 +55,7 @@ describe("Firework embeds", () => {
 
   test("without channel open_in", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-3" channel="vanity_fair" playlist="hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-3" channel="vanity_fair" playlist="hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -80,7 +80,7 @@ describe("Firework embeds", () => {
 
   test("combined playlist and channel", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-3" channel="undefined" playlist="allure|hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-3" channel="undefined" playlist="allure|hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

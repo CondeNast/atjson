@@ -15,6 +15,7 @@ export class FireworkEmbed extends ObjectAnnotation<
     pip?: boolean;
     player_minimize?: boolean;
     branding?: boolean;
+    captions?: boolean;
   }
 > {
   static vendorPrefix = "html";
