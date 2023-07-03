@@ -2,6 +2,9 @@
 import { ObjectAnnotation } from "@atjson/document";
 import { GlobalAttributes } from "../global-attributes";
 
+// See https://docs.firework.com/home/web/integration-guide/components/embed-feed
+// for documentation on this.
+
 export class FireworkEmbed extends ObjectAnnotation<
   GlobalAttributes & {
     id: string;
