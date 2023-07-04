@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.34.20 (2023-07-04)
+
+**Note:** Version bump only for package @atjson/source-html
+
 ## 0.34.19 (2023-05-30)
 
 ### Bug Fixes
