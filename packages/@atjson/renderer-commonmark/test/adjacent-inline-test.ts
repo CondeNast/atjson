@@ -101,7 +101,7 @@ describe("adjacent inline annotations", () => {
       OffsetSource
     );
 
-    expect(CommonmarkRenderer.render(document)).toBe("**bold** **bold**");
+    expect(CommonmarkRenderer.render(document)).toBe("**bold** __bold__");
   });
 
   test("continued bold and italic", () => {
@@ -132,7 +132,7 @@ describe("adjacent inline annotations", () => {
     );
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**Bold** ***bold and italic***"
+      "**Bold** *__bold and italic__*"
     );
   });
 
