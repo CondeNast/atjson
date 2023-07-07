@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.28.6 (2023-07-07)
+
+### Bug Fixes
+
+- md rendering for adjacent delimiter runs ([#1662](https://github.com/CondeNast/atjson/issues/1662)) ([1af1ef2](https://github.com/CondeNast/atjson/commit/1af1ef22eec4c006eed3ced0657e4e197d65ee4c))
+
 ## 0.28.5 (2023-04-21)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
