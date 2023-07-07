@@ -798,7 +798,7 @@ After all the lists
     );
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "*__Space__***: the final frontier**"
+      "***Space***__: the final frontier__"
     );
   });
 

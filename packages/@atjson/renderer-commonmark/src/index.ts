@@ -26,7 +26,10 @@ export * from "./lib/punctuation";
 
 export function* splitDelimiterRuns(
   context: Context,
-  options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+  options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
+    escapeHtmlEntities: true,
+    ignoreInnerMark: false,
+  }
 ): Generator<void, [string, string, string], string[]> {
   let rawText = yield;
   let text = rawText.map(unescapeEntities).join("");
@@ -39,6 +42,7 @@ export function* splitDelimiterRuns(
     child &&
     typeof child !== "string" &&
     "range" in child &&
+    !options.ignoreInnerMark &&
     (child.type === Bold.type || child.type === Italic.type)
   ) {
     return ["", text, ""] as [string, string, string];
@@ -261,22 +265,30 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Bold(_: Mark, context: Context): Generator<void, string, string[]> {
     // Handle 4 / 5 star cases
-    let needsUnderscoreBold =
-      typeof context.next !== "string" &&
-      context.next?.type === "bold" &&
-      context.children.length === 1 &&
-      typeof context.children[0] !== "string" &&
-      context.children[0].type === "italic";
-
     let state = { ...this.state };
-    if (needsUnderscoreBold) {
-      this.state.suppressItalics = true;
+    let needsUnderscoreBold = false;
+    let suppressItalics = false;
+    if (
+      context.previous &&
+      typeof context.previous !== "string" &&
+      context.previous?.type === "bold"
+    ) {
+      needsUnderscoreBold = true;
+
+      if (
+        context.children.length === 1 &&
+        typeof context.children[0] !== "string" &&
+        context.children[0].type === "italic"
+      ) {
+        suppressItalics = true;
+        this.state.suppressItalics = suppressItalics;
+      }
     }
 
-    let [before, text, after] = yield* splitDelimiterRuns(
-      context,
-      this.options
-    );
+    let [before, text, after] = yield* splitDelimiterRuns(context, {
+      ...this.options,
+      ignoreInnerMark: suppressItalics,
+    });
     this.state = state;
 
     if (text.length === 0) {
@@ -288,9 +300,20 @@ export default class CommonmarkRenderer extends Renderer {
       // over correctness.
       let hasInnerMarkup =
         context.children.length === 1 && before === "" && after === "";
-
       if (needsUnderscoreBold) {
-        return `${before}*__${text}__*${after}`;
+        if (before.length === 0) {
+          if (suppressItalics) {
+            return `${before}*__${text}__*${after}`;
+          } else {
+            return `${before}__${text}__${after}`;
+          }
+        } else {
+          if (suppressItalics) {
+            return `${before}***${text}***${after}`;
+          } else {
+            return `${before}**${text}**${after}`;
+          }
+        }
       } else if (
         !context.previous &&
         !context.next &&
