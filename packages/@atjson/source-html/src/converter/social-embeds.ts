@@ -112,12 +112,6 @@ export default function (doc: Document) {
       }
       if (canonicalURL == null) {
         for (let link of links) {
-          console.log(
-            "Test -------->",
-            identifyURL(link.attributes.href),
-            "blockquote",
-            blockquote
-          );
           canonicalURL = identifyURL(link.attributes.href);
           if (canonicalURL) {
             break;
@@ -145,7 +139,6 @@ export default function (doc: Document) {
             return start <= annotation.start && annotation.end <= end;
           })
           .remove();
-        console.log("attributes --->", canonicalURL);
         doc.addAnnotations(
           new ParseAnnotation({
             start,
