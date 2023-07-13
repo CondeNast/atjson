@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.46.8-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.46.7...@atjson/offset-annotations@0.46.8-dev.0) (2023-07-13)
+
+### Bug Fixes
+
+- modification to handle instagram caption ([41e05bf](https://github.com/CondeNast/atjson/commit/41e05bff68832f0f16c5b8cfafdbd1c36abde6d3))
+
 ## 0.46.7 (2023-04-21)
 
 **Note:** Version bump only for package @atjson/offset-annotations
