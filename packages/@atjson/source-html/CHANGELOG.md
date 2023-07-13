@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.21-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.21-dev.0...@atjson/source-html@0.34.21-dev.1) (2023-07-13)
+
+### Bug Fixes
+
+- removing console log ([bc1d67c](https://github.com/CondeNast/atjson/commit/bc1d67cc9d84f4f0469060f5ca1ac17613d96261))
+
 ## [0.34.21-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.20...@atjson/source-html@0.34.21-dev.0) (2023-07-13)
 
 ### Bug Fixes
