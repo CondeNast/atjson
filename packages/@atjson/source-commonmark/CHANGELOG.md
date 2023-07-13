@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.25.5-ins.0](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.25.5-dev.0...@atjson/source-commonmark@0.25.5-ins.0) (2023-07-13)
+
+### Bug Fixes
+
+- revert package json versions ([61b2445](https://github.com/CondeNast/atjson/commit/61b2445637a3f50333101cc2ca9e70724cd561f2))
+
 ## [0.25.5-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.25.4...@atjson/source-commonmark@0.25.5-dev.0) (2023-07-13)
 
 **Note:** Version bump only for package @atjson/source-commonmark
