@@ -419,6 +419,7 @@ export function identify(url: IUrl): {
     width?: string;
     height?: string;
     sandbox?: string;
+    captioned?: boolean;
   };
   Class: typeof IframeEmbed;
 } | null {

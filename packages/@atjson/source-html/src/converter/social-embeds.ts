@@ -25,6 +25,14 @@ function isBlockquoteEmbed(annotation: Annotation<any>) {
   );
 }
 
+interface attribute {
+  url: string;
+  width?: string;
+  height?: string;
+  sandbox?: string;
+  captioned?: boolean;
+}
+
 function isFacebookDiv(annotation: Annotation<any>) {
   if (annotation.type !== "div") {
     return false;
@@ -46,6 +54,18 @@ function identifyURL(src: string) {
   }
 
   return SocialURLs.identify(url);
+}
+
+function checkInstagramCaption(
+  canonicalURL: attribute,
+  obj: object
+): attribute {
+  for (let dataset in obj) {
+    if (dataset == "instgrm-captioned") {
+      canonicalURL.captioned = true;
+    }
+  }
+  return canonicalURL;
 }
 
 export default function (doc: Document) {
@@ -92,11 +112,28 @@ export default function (doc: Document) {
       }
       if (canonicalURL == null) {
         for (let link of links) {
+          console.log(
+            "Test -------->",
+            identifyURL(link.attributes.href),
+            "blockquote",
+            blockquote
+          );
           canonicalURL = identifyURL(link.attributes.href);
           if (canonicalURL) {
             break;
           }
         }
+      }
+      if (
+        canonicalURL &&
+        canonicalURL.attributes !== null &&
+        blockquote.attributes.dataset
+      ) {
+        const instaAttributes = checkInstagramCaption(
+          canonicalURL?.attributes,
+          blockquote.attributes.dataset
+        );
+        canonicalURL.attributes = instaAttributes;
       }
 
       if (canonicalURL) {
@@ -108,6 +145,7 @@ export default function (doc: Document) {
             return start <= annotation.start && annotation.end <= end;
           })
           .remove();
+        console.log("attributes --->", canonicalURL);
         doc.addAnnotations(
           new ParseAnnotation({
             start,
