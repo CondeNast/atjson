@@ -13,8 +13,8 @@
     "last 2 Chrome versions"
   ],
   "dependencies": {
-    "@atjson/offset-annotations": "file:../offset-annotations",
-    "@atjson/source-html": "file:../source-html",
+    "@atjson/offset-annotations": "0.46.8-dev.0",
+    "@atjson/source-html": "0.34.21-dev.1",
     "@types/sax": "^1.2.3",
     "entities": "^4.3.1",
     "sax": "^1.2.4"
@@ -22,5 +22,5 @@
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
   },
-  "gitHead": "fe2b8e514e5d55c65a63e51e1f24ef8b443916d2"
+  "gitHead": "5e5d515e6bd9f67280740a55a632405f1a491541"
 }

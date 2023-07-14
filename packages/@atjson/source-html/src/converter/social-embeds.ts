@@ -61,6 +61,7 @@ function checkInstagramCaption(
   obj: object
 ): attribute {
   for (let dataset in obj) {
+    canonicalURL.captioned = false;
     if (dataset == "instgrm-captioned") {
       canonicalURL.captioned = true;
     }
