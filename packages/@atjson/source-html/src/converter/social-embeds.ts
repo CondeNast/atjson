@@ -25,6 +25,14 @@ function isBlockquoteEmbed(annotation: Annotation<any>) {
   );
 }
 
+interface attribute {
+  url: string;
+  width?: string;
+  height?: string;
+  sandbox?: string;
+  captioned?: boolean;
+}
+
 function isFacebookDiv(annotation: Annotation<any>) {
   if (annotation.type !== "div") {
     return false;
@@ -46,6 +54,17 @@ function identifyURL(src: string) {
   }
 
   return SocialURLs.identify(url);
+}
+
+function checkInstagramCaption(
+  canonicalURL: attribute,
+  obj: object
+): attribute {
+  canonicalURL.captioned = false;
+  if ("instgrm-captioned" in obj) {
+    canonicalURL.captioned = true;
+  }
+  return canonicalURL;
 }
 
 export default function (doc: Document) {
@@ -97,6 +116,18 @@ export default function (doc: Document) {
             break;
           }
         }
+      }
+
+      if (
+        canonicalURL &&
+        blockquote?.attributes?.dataset &&
+        blockquote?.attributes?.class == "instagram-media"
+      ) {
+        const instaAttributes = checkInstagramCaption(
+          canonicalURL?.attributes,
+          blockquote.attributes.dataset
+        );
+        canonicalURL.attributes = instaAttributes;
       }
 
       if (canonicalURL) {

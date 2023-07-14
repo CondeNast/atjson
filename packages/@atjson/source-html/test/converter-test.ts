@@ -609,6 +609,7 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
+                  "captioned": false,
                   "url": "https://www.instagram.com/p/B37oY9WgHP7",
                 },
                 "id": "B00000000",
@@ -633,6 +634,7 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
+                  "captioned": true,
                   "url": "https://www.instagram.com/tv/B95M4kNhbzz",
                 },
                 "id": "B00000000",
@@ -657,6 +659,7 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
+                  "captioned": true,
                   "url": "https://www.instagram.com/reel/CDt37vzFw3f",
                 },
                 "id": "B00000000",
