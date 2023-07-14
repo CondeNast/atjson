@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.34.21-ins.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.21-dev.1...@atjson/source-html@0.34.21-ins.0) (2023-07-13)
+
+### Bug Fixes
+
+- revert package json versions ([61b2445](https://github.com/CondeNast/atjson/commit/61b2445637a3f50333101cc2ca9e70724cd561f2))
+
 ## [0.34.21-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.34.21-dev.0...@atjson/source-html@0.34.21-dev.1) (2023-07-13)
 
 ### Bug Fixes
