@@ -47,6 +47,29 @@ export function getConverterFor(
 }
 
 /**
+ * Get the function that converts between two documents. Use this to grab a converter
+ * for testing, or for nesting conversions.
+ *
+ * the converter returned from this will in general mutate its argument;
+ * you should probably use convertTo unless you're in the middle of defining a converter
+ */
+export function getConverterClassFor(
+  from: typeof Document | string,
+  to: typeof Document | string
+): never | typeof Document {
+  let exports = (typeof window !== "undefined" ? window : global) as any;
+  let fromType = typeof from === "string" ? from : from.contentType;
+  let toType = typeof to === "string" ? to : to.contentType;
+
+  let converters = exports.__atjson_converter_classes__;
+  return converters
+    ? converters[fromType]
+      ? converters[fromType][toType]
+      : null
+    : null;
+}
+
+/**
  * This function merges and sorts the provided ranges
  *
  * @param ranges list of { start, end } structs to sort and merge
@@ -118,12 +141,15 @@ export class Document {
     let exports = (typeof window !== "undefined" ? window : global) as any;
 
     let converters = exports.__atjson_converters__;
+    let converterClasses = exports.__atjson_converter_classes__;
     if (converters == null) {
       converters = exports.__atjson_converters__ = {};
+      converterClasses = exports.__atjson_converter_classes__ = {};
     }
 
     if (converters[this.contentType] == null) {
       converters[this.contentType] = {};
+      converterClasses[this.contentType] = {};
     }
 
     if (!(to.prototype instanceof Document)) {
@@ -132,6 +158,43 @@ export class Document {
       );
     }
     converters[this.contentType][to.contentType] = converter;
+
+    let DocumentClass = this;
+    class ConversionDocument extends DocumentClass {
+      static schema = [...DocumentClass.schema, ...to.schema];
+
+      /**
+       * overrides Document.slice to return the result in the original source
+       */
+      slice(
+        start: number,
+        end: number,
+        filter?: (annotation: Annotation<any>) => boolean
+      ): Document {
+        let sliceDoc = super.slice(start, end, filter);
+
+        return new DocumentClass({
+          content: sliceDoc.content,
+          annotations: sliceDoc.annotations,
+        });
+      }
+
+      convertTo<Other extends typeof Document>(other: Other): never {
+        throw new Error(
+          `🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${
+            DocumentClass.name
+          }.defineConverterTo(${
+            to.name
+          }, doc => {\n  let convert${other.name.replace(
+            "Source",
+            ""
+          )} = getConverterFor(${other.name}, ${
+            to.name
+          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`
+        );
+      }
+    }
+    converterClasses[this.contentType][to.contentType] = ConversionDocument;
   }
 
   content: string;
@@ -439,41 +502,7 @@ export class Document {
   convertTo<To extends typeof Document>(to: To): InstanceType<To> | never {
     let DocumentClass = this.constructor as typeof Document;
     let converter = getConverterFor(DocumentClass, to);
-
-    class ConversionDocument extends DocumentClass {
-      static schema = DocumentClass.schema.concat(to.schema);
-
-      /**
-       * overrides Document.slice to return the result in the original source
-       */
-      slice(
-        start: number,
-        end: number,
-        filter?: (annotation: Annotation<any>) => boolean
-      ): Document {
-        let sliceDoc = super.slice(start, end, filter);
-
-        return new DocumentClass({
-          content: sliceDoc.content,
-          annotations: sliceDoc.annotations,
-        });
-      }
-
-      convertTo<Other extends typeof Document>(other: Other): never {
-        throw new Error(
-          `🚨 Don't nest converters! Instead, import \`getConverterFor\` and get the converter that way!\n\nimport { getConverterFor } from '@atjson/document';\n\n${
-            DocumentClass.name
-          }.defineConverterTo(${
-            to.name
-          }, doc => {\n  let convert${other.name.replace(
-            "Source",
-            ""
-          )} = getConverterFor(${other.name}, ${
-            to.name
-          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`
-        );
-      }
-    }
+    let ConversionDocument = getConverterClassFor(DocumentClass, to);
 
     let convertedDoc = new ConversionDocument({
       content: this.content,
