@@ -687,11 +687,11 @@ export class Document {
   withStableIds() {
     this.annotations.sort(compareAnnotations);
 
-    let ids: Record<string, string> = {};
+    let ids = new Map<string, string>();
     let counter = 1;
     for (let annotation of this.annotations) {
       let id = (counter++).toString(16);
-      ids[annotation.id] = "00000000".slice(id.length) + id;
+      ids.set(annotation.id, "00000000".slice(id.length) + id);
     }
 
     this.annotations = this.annotations.map((annotation) =>

@@ -91,10 +91,10 @@ export function extractSlices(value: {
     }
   }
 
-  let sliceMap: Record<
+  let sliceMap = new Map<
     string,
     { text: string; marks: InternalMark[]; blocks: Block[] }
-  > = {};
+  >();
 
   let blockBoundaryPositions: number[] = [];
   let blockIndex = value.text.indexOf(BLOCK_MARKER);
@@ -183,11 +183,11 @@ export function extractSlices(value: {
       }
     }
 
-    sliceMap[slice.id] = {
+    sliceMap.set(slice.id, {
       text,
       marks,
       blocks,
-    };
+    });
 
     // After handling the slice map, we'll be handling the
     // remainder of the document that excludes slices.
@@ -327,9 +327,8 @@ export function createTree(value?: {
   let blocks = value?.blocks ?? [];
   let marks = value?.marks ?? [];
 
-  let tree: Record<string, Array<Block | InternalMark | string>> = {
-    [ROOT]: [],
-  };
+  let tree = new Map<string, Array<Block | InternalMark | string>>();
+  tree.set(ROOT, []);
 
   let stack: Block[] = [];
   let blockStart = 1;
@@ -347,13 +346,14 @@ export function createTree(value?: {
     let blockId =
       block.selfClosing || block.type === TEXT ? parentId : block.id;
 
-    tree[parentId] = tree[parentId] ?? [];
+    let parent = tree.get(parentId) ?? [];
+    tree.set(parentId, parent);
     if (block.type !== TEXT) {
-      tree[parentId].push(block);
+      parent.push(block);
     }
 
-    if (tree[blockId] == null) {
-      tree[blockId] = [];
+    if (tree.get(blockId) == null) {
+      tree.set(blockId, []);
     }
 
     // Consume any self-closing tokens inside this block
@@ -387,7 +387,7 @@ export function createTree(value?: {
 
     // If there's no marks, we can return the text as a single chunk
     if (scopedMarks.length === 0) {
-      tree[blockId].push(...text);
+      tree.get(blockId)?.push(...text);
     } else {
       // To chunk the text properly, we need to handle several cases:
       // 1. Overlapping marks
@@ -443,7 +443,7 @@ export function createTree(value?: {
           // into the tree. There's no cases where we'll have
           // marks that are disjoint at the same level of the
           // tree, since marks are all treated the same.
-          let parent = tree[parentId];
+          let parent = tree.get(parentId) ?? [];
           let isInserted = false;
           for (let j = 0, jlen = parent.length; j < jlen; j++) {
             let node = parent[j];
@@ -452,14 +452,14 @@ export function createTree(value?: {
           }
 
           if (!isInserted) {
-            tree[parentId].push({
+            tree.get(parentId)?.push({
               ...mark,
               id,
             });
           }
           parentId = id;
-          if (tree[parentId] == null) {
-            tree[parentId] = [];
+          if (tree.get(parentId) == null) {
+            tree.set(parentId, []);
           }
         }
 
@@ -471,15 +471,17 @@ export function createTree(value?: {
 
           if (typeof part === "string") {
             if (part.length > markEnd - consumedTextLength) {
-              tree[parentId].push(part.slice(0, markEnd - consumedTextLength));
+              tree
+                .get(parentId)
+                ?.push(part.slice(0, markEnd - consumedTextLength));
               text.unshift(part.slice(markEnd - consumedTextLength));
               consumedTextLength = markEnd;
             } else {
-              tree[parentId].push(part);
+              tree.get(parentId)?.push(part);
               consumedTextLength += part.length;
             }
           } else {
-            tree[parentId].push(part);
+            tree.get(parentId)?.push(part);
             consumedTextLength++;
           }
         }
@@ -489,8 +491,8 @@ export function createTree(value?: {
           let index = markStack.indexOf(closingMark);
           // Self-closing mark
           if (index === -1) {
-            tree[parentId].push(closingMark);
-            tree[closingMark.id] = [];
+            tree.get(parentId)?.push(closingMark);
+            tree.set(closingMark.id, []);
           } else {
             markStack.splice(index, 1);
           }
@@ -498,7 +500,7 @@ export function createTree(value?: {
         start = end;
       }
 
-      tree[blockId].push(...text);
+      tree.get(blockId)?.push(...text);
     }
 
     if (!block.selfClosing && block.type !== TEXT) {

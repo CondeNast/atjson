@@ -42,12 +42,9 @@ export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
 const EMPTY_COMPONENT_MAP = {};
 
 const SliceContext = React.createContext<{
-  slices: Record<
-    string,
-    { text: string; blocks: Block[]; marks: InternalMark[] }
-  >;
+  slices: Map<string, { text: string; blocks: Block[]; marks: InternalMark[] }>;
   schema: AnnotationConstructor<any, any>[];
-}>({ slices: {}, schema: [] });
+}>({ slices: new Map(), schema: [] });
 
 export const ReactRendererContext = React.createContext<{
   [key: string]: ComponentType<any>;
@@ -110,11 +107,11 @@ function propsOf(
 
 function renderNode(props: {
   id: string;
-  tree: Record<string, Array<string | InternalMark | Block>>;
+  tree: Map<string, Array<string | InternalMark | Block>>;
   schema: AnnotationConstructor<any, any>[];
 }): ReactNode {
   let { id, tree, schema } = props;
-  let children = tree[id] ?? [];
+  let children = tree.get(id) ?? [];
 
   return createElement(ReactRendererConsumer, {
     key: id,
@@ -133,9 +130,9 @@ function renderNode(props: {
             return createElement(Fragment, { key: index }, child);
           }
 
-          let nodes = tree[child.id] ?? [];
+          let nodes = tree.get(child.id) ?? [];
           let children = nodes.every((node) => typeof node === "string")
-            ? (tree[child.id] ?? []).join("")
+            ? (tree.get(child.id) ?? []).join("")
             : renderNode({ tree, id: child.id, schema });
 
           let AnnotationComponent =
@@ -241,7 +238,7 @@ export function Slice(props: {
   let { value, fallback } = props;
   let slices = useContext(SliceContext);
   let tree = useMemo(
-    () => (value ? createTree(slices.slices[value]) : null),
+    () => (value ? createTree(slices.slices.get(value)) : null),
     [value]
   );
 

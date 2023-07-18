@@ -66,7 +66,7 @@ export interface Context {
 function compile(
   renderer: Renderer,
   value: Block | Mark | null,
-  map: Record<string, Array<Block | Mark | string>>,
+  map: Map<string, Array<Block | Mark | string>>,
   key: string,
   context: Partial<Context> & {
     document: {
@@ -76,7 +76,7 @@ function compile(
     };
   }
 ): any {
-  let children = map[key] ?? [];
+  let children = map.get(key) ?? [];
   let generator: Iterator<void, any, any[]>;
 
   if (value == null) {
@@ -138,14 +138,14 @@ export default class Renderer {
         ? serialize(document, { onUnknown: "throw" })
         : document
     );
-    renderer.slices = slices as Record<
+    renderer.slices = slices as Map<
       string,
       { text: string; marks: Mark[]; blocks: Block[] }
     >;
     return compile(
       renderer,
       null,
-      createTree(remainder) as Record<string, Array<Block | Mark | string>>,
+      createTree(remainder) as Map<string, Array<Block | Mark | string>>,
       ROOT,
       {
         document: remainder as { text: string; marks: Mark[]; blocks: Block[] },
@@ -153,10 +153,7 @@ export default class Renderer {
     );
   }
 
-  private slices: Record<
-    string,
-    { text: string; marks: Mark[]; blocks: Block[] }
-  >;
+  private slices: Map<string, { text: string; marks: Mark[]; blocks: Block[] }>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   constructor(
@@ -166,7 +163,7 @@ export default class Renderer {
       | null,
     ..._args: any[]
   ) {
-    this.slices = {};
+    this.slices = new Map();
   }
 
   *renderBlock(block: Block, context: Context): Iterator<void, any, any> {
@@ -210,7 +207,7 @@ export default class Renderer {
    * @returns The slice document or null if there's no slices that match
    */
   getSlice(sliceId: string) {
-    return this.slices[sliceId] ?? null;
+    return this.slices.get(sliceId) ?? null;
   }
 
   *root(): Iterator<void, any, any> {

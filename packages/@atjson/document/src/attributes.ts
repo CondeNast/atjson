@@ -106,7 +106,7 @@ export function clone(attribute: any): NonNullable<any> {
 
 export function withStableIds(
   attribute: any,
-  ids: Record<string, string>
+  ids: Map<string, string>
 ): NonNullable<any> {
   if (attribute == null) {
     return null;
@@ -126,8 +126,8 @@ export function withStableIds(
       }
     }
     return copy;
-  } else if (typeof attribute === "string" && attribute in ids) {
-    return ids[attribute];
+  } else if (typeof attribute === "string" && ids.has(attribute)) {
+    return ids.get(attribute);
   } else {
     return attribute;
   }

@@ -13,11 +13,11 @@ import { ComponentContext, DEFAULT_CONTEXT } from "../contexts";
  * @returns A React fragment with the subtree of the node with the id provided
  */
 export function Node(props: {
-  map: Record<string, Array<string | Block | InternalMark>>;
+  map: Map<string, Array<string | Block | InternalMark>>;
   id: string;
 }): ReactElement {
   let children = useMemo(
-    () => props.map[props.id] ?? [],
+    () => props.map.get(props.id) ?? [],
     [props.map, props.id]
   );
   let context = useContext(ComponentContext);
@@ -42,9 +42,9 @@ export function Node(props: {
 
       // Reduce number of components by checking if every child
       // is text, and
-      let nodes = props.map[child.id] ?? [];
+      let nodes = props.map.get(child.id) ?? [];
       let children = nodes.every((node) => typeof node === "string")
-        ? (props.map[child.id] ?? []).join("")
+        ? (props.map.get(child.id) ?? []).join("")
         : createElement(Node, { map: props.map, id: child.id });
 
       // @ts-ignore undefined | false is ok here
