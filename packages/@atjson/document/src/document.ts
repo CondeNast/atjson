@@ -159,6 +159,7 @@ export class Document {
     }
     converters[this.contentType][to.contentType] = converter;
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let DocumentClass = this;
     class ConversionDocument extends DocumentClass {
       static schema = [...DocumentClass.schema, ...to.schema];
