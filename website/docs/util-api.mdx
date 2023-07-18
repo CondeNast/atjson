@@ -147,7 +147,7 @@ import { ROOT, createTree } from "@atjson/util";
 import type { Block, Mark } from "@atjson/util";
 
 export function toHTML(
-  map: Record<string, Array<Block | Mark | string>>,
+  map: Map<string, Array<Block | Mark | string>>,
   list: Array<Block | Mark | string>
 ) {
   return list.map((child) => {
@@ -156,7 +156,7 @@ export function toHTML(
     } else if (child.selfClosing) {
       return `<${child.type} />`;
     } else {
-      return `<${child.type}>${toHTML(map, map[child.id])}</${child.type}>`;
+      return `<${child.type}>${toHTML(map, map.get(child.id))}</${child.type}>`;
     }
   });
 }
@@ -173,7 +173,7 @@ export function toHTML(map, list) {
       } else if (child.selfClosing) {
         return `<${child.type} />`;
       } else {
-        return `<${child.type}>${toHTML(map, map[child.id] ?? [])}</${
+        return `<${child.type}>${toHTML(map, map.get(child.id) ?? [])}</${
           child.type
         }>`;
       }
@@ -185,7 +185,7 @@ import CodeBlock from "@theme/CodeBlock";
 
 export function Example({ doc }) {
   let tree = useMemo(() => createTree(doc), []);
-  return <CodeBlock language="html">{toHTML(tree, tree[ROOT])}</CodeBlock>;
+  return <CodeBlock language="html">{toHTML(tree, tree.get(ROOT))}</CodeBlock>;
 }
 
 With the following input, we'd get the

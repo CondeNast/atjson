@@ -21,7 +21,10 @@ export function Slice(props: {
 }): ReactElement {
   let { value, fallback } = props;
   let slices = useContext(SliceContext);
-  let tree = useMemo(() => (value ? createTree(slices[value]) : null), [value]);
+  let tree = useMemo(
+    () => (value ? createTree(slices.get(value)) : null),
+    [value]
+  );
 
   if (tree) {
     return createElement(Node, { map: tree, id: ROOT });

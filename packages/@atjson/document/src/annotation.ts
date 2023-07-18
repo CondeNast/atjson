@@ -307,11 +307,11 @@ export abstract class Annotation<Attributes = {}> {
     });
   }
 
-  withStableIds(ids: Record<string, string>) {
+  withStableIds(ids: Map<string, string>) {
     let AnnotationClass = this.getAnnotationConstructor();
 
     return new AnnotationClass({
-      id: ids[this.id],
+      id: ids.get(this.id),
       start: this.start,
       end: this.end,
       attributes: withStableIds(this.attributes, ids),

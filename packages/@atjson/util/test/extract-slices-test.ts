@@ -17,7 +17,7 @@ describe("extractSlices", () => {
     };
     let [doc, slices] = extractSlices(original);
     expect(doc).toMatchObject(original);
-    expect(slices).toMatchObject({});
+    expect(slices).toMatchInlineSnapshot(`Map {}`);
   });
 
   test("retained slices", () => {
@@ -57,21 +57,23 @@ describe("extractSlices", () => {
       ],
       marks: [],
     });
-    expect(slices).toMatchObject({
-      M0: {
-        text: "\uFFFCHello, world",
-        blocks: [
-          {
-            id: "M0-B0",
-            type: "text",
-            parents: [],
-            selfClosing: false,
-            attributes: {},
-          },
-        ],
-        marks: [],
-      },
-    });
+    expect(slices).toMatchInlineSnapshot(`
+      Map {
+        "M0" => {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "M0-B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "text",
+            },
+          ],
+          "marks": [],
+          "text": "￼Hello, world",
+        },
+      }
+    `);
   });
 
   test("single slice", () => {
@@ -101,21 +103,23 @@ describe("extractSlices", () => {
       blocks: [],
       marks: [],
     });
-    expect(slices).toMatchObject({
-      M0: {
-        text: "\uFFFCHello, world",
-        blocks: [
-          {
-            id: "M0-B0",
-            type: "text",
-            parents: [],
-            selfClosing: false,
-            attributes: {},
-          },
-        ],
-        marks: [],
-      },
-    });
+    expect(slices).toMatchInlineSnapshot(`
+      Map {
+        "M0" => {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "M0-B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "text",
+            },
+          ],
+          "marks": [],
+          "text": "￼Hello, world",
+        },
+      }
+    `);
   });
 
   test("slice without a block", () => {
@@ -153,21 +157,23 @@ describe("extractSlices", () => {
       ],
       marks: [],
     });
-    expect(slices).toMatchObject({
-      M0: {
-        text: "\uFFFCHello, world",
-        blocks: [
-          {
-            id: "text-M0",
-            type: "text",
-            parents: [],
-            selfClosing: false,
-            attributes: {},
-          },
-        ],
-        marks: [],
-      },
-    });
+    expect(slices).toMatchInlineSnapshot(`
+      Map {
+        "M0" => {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "text-M0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "text",
+            },
+          ],
+          "marks": [],
+          "text": "￼Hello, world",
+        },
+      }
+    `);
   });
 
   test("mark in slice", () => {
@@ -203,28 +209,32 @@ describe("extractSlices", () => {
       blocks: [],
       marks: [],
     });
-    expect(slices).toMatchObject({
-      M0: {
-        text: "\uFFFCHello, world",
-        blocks: [
-          {
-            id: "M0-B0",
-            type: "text",
-            parents: [],
-            selfClosing: false,
-            attributes: {},
-          },
-        ],
-        marks: [
-          {
-            id: "M0-M1",
-            type: "bold",
-            range: "[1..13]",
-            attributes: {},
-          },
-        ],
-      },
-    });
+    expect(slices).toMatchInlineSnapshot(`
+      Map {
+        "M0" => {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "M0-B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "text",
+            },
+          ],
+          "marks": [
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "M0-M1",
+              "range": "[1..13]",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "text": "￼Hello, world",
+        },
+      }
+    `);
   });
 
   test("mark crossing slice boundary", () => {
@@ -282,21 +292,23 @@ describe("extractSlices", () => {
         },
       ],
     });
-    expect(slices).toMatchObject({
-      M0: {
-        text: "\uFFFCHello, world",
-        blocks: [
-          {
-            id: "M0-B0",
-            type: "text",
-            parents: [],
-            selfClosing: false,
-            attributes: {},
-          },
-        ],
-        marks: [],
-      },
-    });
+    expect(slices).toMatchInlineSnapshot(`
+      Map {
+        "M0" => {
+          "blocks": [
+            {
+              "attributes": {},
+              "id": "M0-B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "text",
+            },
+          ],
+          "marks": [],
+          "text": "￼Hello, world",
+        },
+      }
+    `);
   });
 
   test("multiple blocks in slice", () => {
@@ -367,8 +379,8 @@ describe("extractSlices", () => {
       ],
     };
     let [, slices] = extractSlices(original);
-    expect(slices.M00000000.blocks.length).toBe(2);
-    expect(slices.M00000000.blocks[0].parents).toStrictEqual([]);
-    expect(slices.M00000000.blocks[1].parents).toStrictEqual([]);
+    expect(slices.get("M00000000")?.blocks.length).toBe(2);
+    expect(slices.get("M00000000")?.blocks[0].parents).toStrictEqual([]);
+    expect(slices.get("M00000000")?.blocks[1].parents).toStrictEqual([]);
   });
 });

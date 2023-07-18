@@ -635,23 +635,29 @@ export function serialize(
   if (options?.withStableIds ?? false) {
     let blockCounter = 0;
     let markCounter = 0;
-    let ids: Record<string, string> = {};
+    let ids = new Map<string, string>();
     for (let block of blocks) {
       let id = (blockCounter++).toString(16);
       id = `B${"00000000".slice(id.length) + id}`;
-      ids[block.id] = id;
+      ids.set(block.id, id);
     }
     for (let mark of marks) {
       let id = (markCounter++).toString(16);
       id = `M${"00000000".slice(id.length) + id}`;
-      ids[mark.id] = id;
+      ids.set(mark.id, id);
     }
     for (let block of blocks) {
-      block.id = ids[block.id];
+      let id = ids.get(block.id);
+      if (id) {
+        block.id = id;
+      }
       block.attributes = withStableIds(block.attributes, ids);
     }
     for (let mark of marks) {
-      mark.id = ids[mark.id];
+      let id = ids.get(mark.id);
+      if (id) {
+        mark.id = id;
+      }
       mark.attributes = withStableIds(mark.attributes, ids);
     }
   }

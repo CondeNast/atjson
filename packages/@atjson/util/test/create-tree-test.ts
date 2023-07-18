@@ -15,11 +15,12 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "root": [
+        Map {
+          "root" => [
             "Hello, world",
           ],
         }
@@ -39,6 +40,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -51,9 +53,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [],
-          "root": [
+        Map {
+          "root" => [
             "a",
             {
               "attributes": {},
@@ -64,6 +65,7 @@ describe("createTree", () => {
               "type": "italic",
             },
           ],
+          "M0" => [],
         }
       `);
     });
@@ -81,6 +83,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -93,9 +96,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "end": 1,
@@ -105,6 +107,7 @@ describe("createTree", () => {
               "type": "italic",
             },
           ],
+          "M0" => [],
         }
       `);
     });
@@ -122,6 +125,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -134,11 +138,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [
-            "Hello",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "end": 6,
@@ -148,6 +149,9 @@ describe("createTree", () => {
               "type": "italic",
             },
             ", world",
+          ],
+          "M0" => [
+            "Hello",
           ],
         }
       `);
@@ -166,6 +170,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -186,8 +191,18 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M1": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "M1",
+              "range": "[1..13)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "M1" => [
             {
               "attributes": {},
               "end": 6,
@@ -198,18 +213,8 @@ describe("createTree", () => {
             },
             ", world",
           ],
-          "M1-M0": [
+          "M1-M0" => [
             "Hello",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "end": 13,
-              "id": "M1",
-              "range": "[1..13)",
-              "start": 1,
-              "type": "bold",
-            },
           ],
         }
       `);
@@ -228,6 +233,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -248,8 +254,18 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M1": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "M1",
+              "range": "[1..13)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "M1" => [
             "Hello, ",
             {
               "attributes": {},
@@ -260,18 +276,8 @@ describe("createTree", () => {
               "type": "italic",
             },
           ],
-          "M1-M0": [
+          "M1-M0" => [
             "world",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "end": 13,
-              "id": "M1",
-              "range": "[1..13)",
-              "start": 1,
-              "type": "bold",
-            },
           ],
         }
       `);
@@ -290,6 +296,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -310,8 +317,18 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M1": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "end": 13,
+              "id": "M1",
+              "range": "[1..13)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "M1" => [
             "Hell",
             {
               "attributes": {},
@@ -323,18 +340,8 @@ describe("createTree", () => {
             },
             ", world",
           ],
-          "M1-M0": [
+          "M1-M0" => [
             "o",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "end": 13,
-              "id": "M1",
-              "range": "[1..13)",
-              "start": 1,
-              "type": "bold",
-            },
           ],
         }
       `);
@@ -353,6 +360,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -373,21 +381,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [
-            {
-              "attributes": {},
-              "end": 6,
-              "id": "M0-M1",
-              "range": "[1..6)",
-              "start": 1,
-              "type": "bold",
-            },
-          ],
-          "M0-M1": [
-            "Hello",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "end": 6,
@@ -397,6 +392,19 @@ describe("createTree", () => {
               "type": "italic",
             },
             ", world",
+          ],
+          "M0" => [
+            {
+              "attributes": {},
+              "end": 6,
+              "id": "M0-M1",
+              "range": "[1..6)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "M0-M1" => [
+            "Hello",
           ],
         }
       `);
@@ -415,6 +423,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -435,14 +444,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [
-            "Hello",
-          ],
-          "M1": [
-            ", world",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "end": 6,
@@ -459,6 +462,12 @@ describe("createTree", () => {
               "start": 6,
               "type": "italic",
             },
+          ],
+          "M0" => [
+            "Hello",
+          ],
+          "M1" => [
+            ", world",
           ],
         }
       `);
@@ -477,6 +486,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -497,25 +507,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [
-            "bold ",
-            {
-              "attributes": {},
-              "end": 16,
-              "id": "M0-M1",
-              "range": "[6..16)",
-              "start": 6,
-              "type": "italic",
-            },
-          ],
-          "M0-M1": [
-            "and",
-          ],
-          "M1": [
-            " italic",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "end": 9,
@@ -532,6 +525,23 @@ describe("createTree", () => {
               "start": 6,
               "type": "italic",
             },
+          ],
+          "M0" => [
+            "bold ",
+            {
+              "attributes": {},
+              "end": 16,
+              "id": "M0-M1",
+              "range": "[6..16)",
+              "start": 6,
+              "type": "italic",
+            },
+          ],
+          "M0-M1" => [
+            "and",
+          ],
+          "M1" => [
+            " italic",
           ],
         }
       `);
@@ -557,6 +567,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -569,8 +580,18 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "M0": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "end": 8,
+              "id": "M0",
+              "range": "[1..8)",
+              "start": 1,
+              "type": "bold",
+            },
+          ],
+          "M0" => [
             "one",
             {
               "attributes": {},
@@ -582,16 +603,6 @@ describe("createTree", () => {
               "type": "line-break",
             },
             "two",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "end": 8,
-              "id": "M0",
-              "range": "[1..8)",
-              "start": 1,
-              "type": "bold",
-            },
           ],
         }
       `);
@@ -619,11 +630,12 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "root": [
+        Map {
+          "root" => [
             "Hello,",
             {
               "attributes": {},
@@ -681,11 +693,21 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "list",
+            },
+          ],
+          "B0" => [
             {
               "attributes": {},
               "id": "B1",
@@ -723,26 +745,17 @@ describe("createTree", () => {
               "type": "list-item",
             },
           ],
-          "B1": [
+          "B1" => [
             "one fish",
           ],
-          "B2": [
+          "B2" => [
             "two fish",
           ],
-          "B3": [
+          "B3" => [
             "red fish",
           ],
-          "B4": [
+          "B4" => [
             "blue fish",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "id": "B0",
-              "parents": [],
-              "selfClosing": false,
-              "type": "list",
-            },
           ],
         }
       `);
@@ -789,6 +802,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M0",
@@ -809,8 +823,17 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "list",
+            },
+          ],
+          "B0" => [
             {
               "attributes": {},
               "id": "B1",
@@ -848,13 +871,13 @@ describe("createTree", () => {
               "type": "list-item",
             },
           ],
-          "B1": [
+          "B1" => [
             "one fish",
           ],
-          "B2": [
+          "B2" => [
             "two fish",
           ],
-          "B3": [
+          "B3" => [
             {
               "attributes": {
                 "color": "red",
@@ -867,10 +890,10 @@ describe("createTree", () => {
             },
             " fish",
           ],
-          "B3-M0": [
+          "B3-M0" => [
             "red",
           ],
-          "B4": [
+          "B4" => [
             {
               "attributes": {
                 "color": "blue",
@@ -883,17 +906,8 @@ describe("createTree", () => {
             },
             " fish",
           ],
-          "B4-M1": [
+          "B4-M1" => [
             "blue",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "id": "B0",
-              "parents": [],
-              "selfClosing": false,
-              "type": "list",
-            },
           ],
         }
       `);
@@ -933,23 +947,12 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
-            "one fish",
-          ],
-          "B1": [
-            "two fish",
-          ],
-          "B2": [
-            "red fish",
-          ],
-          "B3": [
-            "blue fish",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "id": "B0",
@@ -978,6 +981,18 @@ describe("createTree", () => {
               "selfClosing": false,
               "type": "paragraph",
             },
+          ],
+          "B0" => [
+            "one fish",
+          ],
+          "B1" => [
+            "two fish",
+          ],
+          "B2" => [
+            "red fish",
+          ],
+          "B3" => [
+            "blue fish",
           ],
         }
       `);
@@ -1017,11 +1032,22 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "quote",
+            },
+            "four",
+          ],
+          "B0" => [
             "one",
             {
               "attributes": {},
@@ -1034,18 +1060,8 @@ describe("createTree", () => {
             },
             "three",
           ],
-          "B1": [
+          "B1" => [
             "two",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "id": "B0",
-              "parents": [],
-              "selfClosing": false,
-              "type": "quote",
-            },
-            "four",
           ],
         }
       `);
@@ -1078,14 +1094,12 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B1": [
-            "two",
-          ],
-          "root": [
+        Map {
+          "root" => [
             "one",
             {
               "attributes": {},
@@ -1097,6 +1111,9 @@ describe("createTree", () => {
               "type": "paragraph",
             },
             "three",
+          ],
+          "B1" => [
+            "two",
           ],
         }
       `);
@@ -1157,11 +1174,28 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
+        Map {
+          "root" => [
+            {
+              "attributes": {},
+              "id": "B0",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+            {
+              "attributes": {},
+              "id": "B4",
+              "parents": [],
+              "selfClosing": false,
+              "type": "paragraph",
+            },
+          ],
+          "B0" => [
             "one",
             {
               "attributes": {},
@@ -1194,7 +1228,7 @@ describe("createTree", () => {
             },
             "four",
           ],
-          "B4": [
+          "B4" => [
             "five",
             {
               "attributes": {},
@@ -1216,22 +1250,6 @@ describe("createTree", () => {
               "type": "line-break",
             },
             "seven",
-          ],
-          "root": [
-            {
-              "attributes": {},
-              "id": "B0",
-              "parents": [],
-              "selfClosing": false,
-              "type": "paragraph",
-            },
-            {
-              "attributes": {},
-              "id": "B4",
-              "parents": [],
-              "selfClosing": false,
-              "type": "paragraph",
-            },
           ],
         }
       `);
@@ -1257,6 +1275,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
+
           marks: [
             {
               id: "M1",
@@ -1269,36 +1288,8 @@ describe("createTree", () => {
           ],
         })
       ).toMatchInlineSnapshot(`
-        {
-          "B0": [
-            "one ",
-            {
-              "attributes": {},
-              "end": 14,
-              "id": "B0-M1",
-              "range": "[5..14)",
-              "start": 5,
-              "type": "bold",
-            },
-          ],
-          "B0-M1": [
-            "two",
-          ],
-          "B1": [
-            {
-              "attributes": {},
-              "end": 14,
-              "id": "B1-M1",
-              "range": "[5..14)",
-              "start": 5,
-              "type": "bold",
-            },
-            " four",
-          ],
-          "B1-M1": [
-            "three",
-          ],
-          "root": [
+        Map {
+          "root" => [
             {
               "attributes": {},
               "id": "B0",
@@ -1313,6 +1304,34 @@ describe("createTree", () => {
               "selfClosing": false,
               "type": "paragraph",
             },
+          ],
+          "B0" => [
+            "one ",
+            {
+              "attributes": {},
+              "end": 14,
+              "id": "B0-M1",
+              "range": "[5..14)",
+              "start": 5,
+              "type": "bold",
+            },
+          ],
+          "B0-M1" => [
+            "two",
+          ],
+          "B1" => [
+            {
+              "attributes": {},
+              "end": 14,
+              "id": "B1-M1",
+              "range": "[5..14)",
+              "start": 5,
+              "type": "bold",
+            },
+            " four",
+          ],
+          "B1-M1" => [
+            "three",
           ],
         }
       `);
