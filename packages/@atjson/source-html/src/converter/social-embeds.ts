@@ -55,13 +55,18 @@ function identifyURL(src: string) {
 
   return SocialURLs.identify(url);
 }
-
+/**
+ *
+ * @param canonicalURL - embed attributes
+ * @param dataset - dataset from embed attributes
+ * @returns if "instgrm-captioned" exists in dataset then return canonicalURL with captioned property
+ */
 function checkInstagramCaption(
   canonicalURL: InstagramAttribute,
-  obj: object
+  dataset: object
 ): InstagramAttribute {
   canonicalURL.captioned = false;
-  if ("instgrm-captioned" in obj) {
+  if ("instgrm-captioned" in dataset) {
     canonicalURL.captioned = true;
   }
   return canonicalURL;
