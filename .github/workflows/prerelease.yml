@@ -69,7 +69,7 @@ jobs:
       - name: Lerna publish
         id: publish
         run: |
-          $(npm bin)/lerna publish\
+          npx lerna publish\
             --dist-tag "${BRANCH_NAME}"\
             --preid "${BRANCH_NAME}"\
             --canary\
