@@ -25,7 +25,7 @@ function isBlockquoteEmbed(annotation: Annotation<any>) {
   );
 }
 
-interface attribute {
+interface InstagramAttribute {
   url: string;
   width?: string;
   height?: string;
@@ -57,9 +57,9 @@ function identifyURL(src: string) {
 }
 
 function checkInstagramCaption(
-  canonicalURL: attribute,
+  canonicalURL: InstagramAttribute,
   obj: object
-): attribute {
+): InstagramAttribute {
   canonicalURL.captioned = false;
   if ("instgrm-captioned" in obj) {
     canonicalURL.captioned = true;
