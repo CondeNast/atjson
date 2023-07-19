@@ -76,9 +76,6 @@ jobs:
             -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
-          echo 'RESULTS<<EOF' >> $GITHUB_OUTPUT
-          cat ./lerna-publish-summary.json >> $GITHUB_OUTPUT
-          echo 'EOF' >> $GITHUB_OUTPUT
         env:
           BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
@@ -89,7 +86,9 @@ jobs:
           github-token: ${{secrets.ROBOT_GITHUB_TOKEN}}
           script: |
             try {
-              let packageInfo = JSON.parse(process.env.PUBLISH_RESULT);
+              const fs = require("fs/promises");
+              let publishResult = await fs.readFile(`./lerna-publish-summary.json`);
+              let packageInfo = JSON.parse(publishResult.toString());
               const result = await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -100,8 +99,6 @@ jobs:
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
-        env:
-          PUBLISH_RESULT: ${{steps.publish.outputs.RESULT}}
       - uses: actions/github-script@v6
         if: ${{ failure() }}
         with:
