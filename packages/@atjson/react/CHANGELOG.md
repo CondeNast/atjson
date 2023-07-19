@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/CondeNast/atjson/compare/@atjson/react@0.2.0...@atjson/react@0.2.1) (2023-07-19)
+
+**Note:** Version bump only for package @atjson/react
+
 # 0.2.0 (2023-02-28)
 
 ### Features
