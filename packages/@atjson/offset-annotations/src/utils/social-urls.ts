@@ -308,7 +308,7 @@ function normalizeSpotifyUrl(url: IUrl) {
   let { height, width } = spotifyEmbedSizes[type] || spotifyEmbedSizes.default;
 
   return {
-    Class: IframeEmbed<{ captioned?: boolean }>,
+    Class: IframeEmbed,
     attributes: {
       url: `https://open.spotify.com/${embedType}/${type}/${id}`,
       width,
@@ -329,7 +329,7 @@ function isMegaphoneUrl(url: IUrl) {
 function normalizeMegaphoneUrl(url: IUrl) {
   let height = getSearchParam(url.searchParams, "p") ? "485" : "200";
   return {
-    Class: IframeEmbed<{ captioned?: boolean }>,
+    Class: IframeEmbed,
     attributes: {
       url: `https://playlist.megaphone.fm/${getSearchString(url.searchParams)}`,
       height,
@@ -409,19 +409,11 @@ function normalizeRedditURL(url: IUrl) {
       height,
       sandbox,
     },
-    Class: IframeEmbed<{ captioned?: boolean }>,
+    Class: IframeEmbed,
   };
 }
 
-export function identify(url: IUrl): {
-  attributes: {
-    url: string;
-    width?: string;
-    height?: string;
-    sandbox?: string;
-  };
-  Class: typeof IframeEmbed<{ captioned?: boolean }>;
-} | null {
+export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }
