@@ -10,6 +10,7 @@ import {
   Paragraph,
   Section,
   TikTokEmbed,
+  CneAudioEmbed,
 } from "@atjson/offset-annotations";
 import { Mark, Block } from "@atjson/document";
 import Renderer from "@atjson/renderer-hir";
@@ -256,6 +257,11 @@ export default class HTMLRenderer extends Renderer {
     } class="tiktok-embed" cite="${
       embed.attributes.url
     }" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
+  }
+
+  // CNE Audio embed
+  *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
+    return `<script src="${embed.attributes.url}?skin=vf&target=${embed.attributes.targetId}" defer></script><div id="${embed.attributes.targetId}"></div>`;
   }
 
   *Underline() {

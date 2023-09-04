@@ -35,6 +35,7 @@ import {
   TwitterEmbed,
   Underline,
   VideoEmbed,
+  CneAudioEmbed,
 } from "./annotations";
 
 export * from "./annotations";
@@ -78,5 +79,6 @@ export default class OffsetSource extends Document {
     TwitterEmbed,
     Underline,
     VideoEmbed,
+    CneAudioEmbed,
   ];
 }

@@ -20,6 +20,7 @@ import OffsetSource, {
   Superscript,
   TikTokEmbed,
   Underline,
+  CneAudioEmbed,
 } from "@atjson/offset-annotations";
 import { ParseAnnotation } from "@atjson/document";
 import Renderer from "../src";
@@ -555,5 +556,51 @@ describe("renderer-html", () => {
     expect(Renderer.render(doc)).toEqual(
       `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
     );
+  });
+
+  test("cneaudio", () => {
+    let doc = new OffsetSource({
+      content: "\uFFFC",
+      annotations: [
+        new CneAudioEmbed({
+          start: 0,
+          end: 1,
+          attributes: {
+            targetId: "js-audio1",
+            url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
+          },
+        }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
+    });
+
+    // let doc = new OffsetSource({
+    //   content: "\uFFFC",
+    //   annotations: [
+    //     new CerosEmbed({
+    //       id: "test",
+    //       start: 0,
+    //       end: 1,
+    //       attributes: {
+    //         anchorName: "carousel",
+    //         url: "//view.ceros.com/ceros-inspire/carousel-3",
+    //         aspectRatio: 2,
+    //       },
+    //     }),
+    //     new ParseAnnotation({
+    //       start: 0,
+    //       end: 1,
+    //     }),
+    //   ],
+    // });
+
+    console.info(Renderer.render(doc));
+
+    // expect(Renderer.render(doc)).toEqual(
+    //   `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+    // );
   });
 });

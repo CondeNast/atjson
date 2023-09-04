@@ -35,3 +35,4 @@ export * from "./tiktok-embed";
 export * from "./twitter-embed";
 export * from "./underline";
 export * from "./video-embed";
+export * from "./cneaudio-embed";

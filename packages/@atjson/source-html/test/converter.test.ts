@@ -1392,5 +1392,74 @@ describe("@atjson/source-html", () => {
         `);
       });
     });
+    describe("CNE Audio", () => {
+      test("Script", () => {
+        let doc = HTMLSource.fromRaw(
+          `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+        ).convertTo(OffsetSource);
+
+        expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(
+          {
+            blocks: [
+              {
+                attributes: {
+                  targetId: expect.any(String),
+                  url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
+                },
+                id: "B00000000",
+                parents: [],
+                selfClosing: false,
+                type: "cneaudio-embed",
+              },
+            ],
+
+            marks: [
+              {
+                attributes: {
+                  "-html-id": "js-audio1",
+                },
+                id: "M00000000",
+                range: "(1..1]",
+                type: "-html-div",
+              },
+            ],
+
+            text: "￼",
+          },
+          `
+          {
+            "blocks": [
+              {
+                "attributes": {
+                  "targetId": Any<String>,
+                  "url": "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
+                },
+                "id": "B00000000",
+                "parents": [],
+                "selfClosing": false,
+                "type": "cneaudio-embed",
+              },
+            ],
+            "marks": [
+              {
+                "attributes": {
+                  "-html-id": "js-audio1",
+                },
+                "id": "M00000000",
+                "range": "(1..1]",
+                "type": "-html-div",
+              },
+            ],
+            "text": "￼",
+          }
+        `
+        );
+      });
+      // test("Iframe", () => {
+      //   let doc = HTMLSource.fromRaw(
+      //     `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`
+      //   ).convertTo(OffsetSource);
+      // });
+    });
   });
 });

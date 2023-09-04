@@ -1,5 +1,9 @@
 import Document, { Annotation } from "@atjson/document";
-import { CerosEmbed, FireworkEmbed } from "@atjson/offset-annotations";
+import {
+  CerosEmbed,
+  FireworkEmbed,
+  CneAudioEmbed,
+} from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
 function isCerosExperienceFrame(a: Annotation<any>) {
@@ -28,6 +32,13 @@ function isCerosContainer(a: Annotation<any>) {
     a.attributes.id.match(/^experience-.*$/) &&
     a.attributes.dataset &&
     a.attributes.dataset.aspectratio != null
+  );
+}
+
+function isCneAudioScript(a: Annotation<any>) {
+  return (
+    a.attributes.src &&
+    a.attributes.src.match(/embed-audio(-sandbox)?\.cnevids\.com/)
   );
 }
 
@@ -121,6 +132,40 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         doc.deleteText(scripts[0].end, embed.start);
       }
       doc.removeAnnotations(scripts);
+    });
+
+  /**
+   * CNE Audio script code
+   * The script code has this format:
+   *
+   *  <script src="https://{host}/script/{type}/{id}?skin={brand}&target={div_id}" defer></script><div id="{div_id}"></div>
+   *
+   * The Iframe code has this format:
+   *
+   *  <iframe src="https://{host}/iframe/{type}/{id}?skin={brand}" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+   *
+   */
+  doc
+    .where(isCneAudioScript)
+    .as("embed")
+    .update((embed) => {
+      const targetId = `js-audio1-${new Date().getTime()}`;
+      let url = embed.attributes.src;
+      const urlObject = new URL(url);
+      urlObject.searchParams.set("target", targetId);
+
+      doc.replaceAnnotation(
+        embed,
+        new CneAudioEmbed({
+          id: embed.id,
+          start: embed.start,
+          end: embed.end,
+          attributes: {
+            url,
+            targetId,
+          },
+        })
+      );
     });
 
   return doc;
