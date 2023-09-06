@@ -566,7 +566,7 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            targetId: "js-audio1",
+            anchorName: "js-audio1",
             url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
           },
         }),

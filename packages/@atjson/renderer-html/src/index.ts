@@ -261,7 +261,7 @@ export default class HTMLRenderer extends Renderer {
 
   // CNE Audio embed
   *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
-    return `<script src="${embed.attributes.url}?skin=vf&target=${embed.attributes.targetId}" defer></script><div id="${embed.attributes.targetId}"></div>`;
+    return `<script src="${embed.attributes.url}?skin=vf&target=${embed.attributes.anchorName}" defer></script><div id="${embed.attributes.anchorName}"></div>`;
   }
 
   *Underline() {

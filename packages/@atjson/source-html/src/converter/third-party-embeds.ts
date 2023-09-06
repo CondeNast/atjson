@@ -149,10 +149,10 @@ export default function convertThirdPartyEmbeds(doc: Document) {
     .where(isCneAudioScript)
     .as("embed")
     .update((embed) => {
-      const targetId = `js-audio1-${new Date().getTime()}`;
+      const anchorName = `js-audio1-${new Date().getTime()}`;
       let url = embed.attributes.src;
       const urlObject = new URL(url);
-      urlObject.searchParams.set("target", targetId);
+      urlObject.searchParams.set("target", anchorName);
 
       doc.replaceAnnotation(
         embed,
@@ -162,7 +162,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           end: embed.end,
           attributes: {
             url,
-            targetId,
+            anchorName,
           },
         })
       );

@@ -1403,7 +1403,7 @@ describe("@atjson/source-html", () => {
             blocks: [
               {
                 attributes: {
-                  targetId: expect.any(String),
+                  anchorName: expect.any(String),
                   url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
                 },
                 id: "B00000000",
@@ -1431,7 +1431,7 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
-                  "targetId": Any<String>,
+                  "anchorName": Any<String>,
                   "url": "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
                 },
                 "id": "B00000000",
