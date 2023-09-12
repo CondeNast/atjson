@@ -1,6 +1,6 @@
 import Document, { Annotation } from "../src";
 import TestSource, { Bold, Paragraph } from "./test-source";
-import { TextSource } from "./text-source-test";
+import { TextSource } from "./text-source.test";
 
 describe("Document#convert", () => {
   test("sources without conversions throw errors", () => {
