@@ -22,7 +22,7 @@ import OffsetSource, {
   Underline,
   CneAudioEmbed,
 } from "@atjson/offset-annotations";
-import { ParseAnnotation } from "@atjson/document";
+import { ParseAnnotation, serialize } from "@atjson/document";
 import Renderer from "../src";
 
 describe("renderer-html", () => {
@@ -566,7 +566,7 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            anchorName: "js-audio1",
+            anchorName: "podcast",
             url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
           },
         }),
@@ -577,30 +577,10 @@ describe("renderer-html", () => {
       ],
     });
 
-    // let doc = new OffsetSource({
-    //   content: "\uFFFC",
-    //   annotations: [
-    //     new CerosEmbed({
-    //       id: "test",
-    //       start: 0,
-    //       end: 1,
-    //       attributes: {
-    //         anchorName: "carousel",
-    //         url: "//view.ceros.com/ceros-inspire/carousel-3",
-    //         aspectRatio: 2,
-    //       },
-    //     }),
-    //     new ParseAnnotation({
-    //       start: 0,
-    //       end: 1,
-    //     }),
-    //   ],
-    // });
-
-    console.info(Renderer.render(doc));
-
-    // expect(Renderer.render(doc)).toEqual(
-    //   `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
-    // );
+    expect(
+      Renderer.render(serialize(doc, { withStableIds: true }))
+    ).toMatchInlineSnapshot(
+      `"<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=B00000000" defer></script><div id="podcast"><div id="B00000000"></div></div>"`
+    );
   });
 });

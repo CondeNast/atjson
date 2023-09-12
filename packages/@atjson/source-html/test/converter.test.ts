@@ -1409,7 +1409,7 @@ describe("@atjson/source-html", () => {
                 id: "B00000000",
                 parents: [],
                 selfClosing: false,
-                type: "cneaudio-embed",
+                type: "cne-audio-embed",
               },
             ],
 
@@ -1437,7 +1437,7 @@ describe("@atjson/source-html", () => {
                 "id": "B00000000",
                 "parents": [],
                 "selfClosing": false,
-                "type": "cneaudio-embed",
+                "type": "cne-audio-embed",
               },
             ],
             "marks": [

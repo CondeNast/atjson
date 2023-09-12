@@ -261,7 +261,13 @@ export default class HTMLRenderer extends Renderer {
 
   // CNE Audio embed
   *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
-    return `<script src="${embed.attributes.url}?skin=vf&target=${embed.attributes.anchorName}" defer></script><div id="${embed.attributes.anchorName}"></div>`;
+    let slot = `<div id="${embed.id}"></div>`;
+    if (embed.attributes.anchorName) {
+      slot = `<div id="${embed.attributes.anchorName}">${slot}</div>`;
+    }
+    let url = new URL(embed.attributes.url);
+    url.searchParams.set("target", embed.id);
+    return `<script src="${url.toString()}" defer></script>${slot}`;
   }
 
   *Underline() {

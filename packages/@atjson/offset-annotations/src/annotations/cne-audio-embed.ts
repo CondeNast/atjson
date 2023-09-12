@@ -5,5 +5,5 @@ export class CneAudioEmbed extends BlockAnnotation<{
   anchorName: string;
 }> {
   static vendorPrefix = "offset";
-  static type = "cneaudio-embed";
+  static type = "cne-audio-embed";
 }
