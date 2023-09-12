@@ -567,7 +567,8 @@ describe("renderer-html", () => {
           end: 1,
           attributes: {
             anchorName: "podcast",
-            url: "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1",
+            audioType: "episode",
+            audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
           },
         }),
         new ParseAnnotation({
@@ -580,7 +581,7 @@ describe("renderer-html", () => {
     expect(
       Renderer.render(serialize(doc, { withStableIds: true }))
     ).toMatchInlineSnapshot(
-      `"<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=B00000000" defer></script><div id="podcast"><div id="B00000000"></div></div>"`
+      `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
     );
   });
 });

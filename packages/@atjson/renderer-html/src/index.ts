@@ -261,13 +261,13 @@ export default class HTMLRenderer extends Renderer {
 
   // CNE Audio embed
   *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
-    let slot = `<div id="${embed.id}"></div>`;
-    if (embed.attributes.anchorName) {
-      slot = `<div id="${embed.attributes.anchorName}">${slot}</div>`;
-    }
-    let url = new URL(embed.attributes.url);
-    url.searchParams.set("target", embed.id);
-    return `<script src="${url.toString()}" defer></script>${slot}`;
+    return yield* this.$("iframe", {
+      id: embed.attributes.anchorName,
+      src: `https://embed-audio.cnevids.com/iframe/${embed.attributes.audioType}/${embed.attributes.audioId}`,
+      frameborder: "0",
+      height: "244",
+      sandbox: "allow-scripts allow-popups allow-popups-to-escape-sandbox",
+    });
   }
 
   *Underline() {
