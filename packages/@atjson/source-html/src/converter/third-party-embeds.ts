@@ -137,22 +137,34 @@ export default function convertThirdPartyEmbeds(doc: Document) {
   /**
    * CNE Audio script code
    * The script code has this format:
-   *
-   *  <script src="https://{host}/script/{type}/{id}?skin={brand}&target={div_id}" defer></script><div id="{div_id}"></div>
-   *
-   * The Iframe code has this format:
-   *
-   *  <iframe src="https://{host}/iframe/{type}/{id}?skin={brand}" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
-   *
+   * ```html
+   * <script src="https://{host}/script/{type}/{id}?skin={brand}&target={div_id}" defer></script><div id="{div_id}"></div>
+   * ```
    */
   doc
-    .where(isCneAudioScript)
+    .where((a) => a.type === "script" && isCneAudioScript(a))
     .as("embed")
-    .update((embed) => {
-      const anchorName = `js-audio1-${new Date().getTime()}`;
-      let url = embed.attributes.src;
-      const urlObject = new URL(url);
-      urlObject.searchParams.set("target", anchorName);
+    .join(doc.where((a) => a.type === "div").as("targets"), (script, div) => {
+      let target = script.attributes.src.match(/target=([^&]*)/);
+      return div.attributes.id === target[1];
+    })
+    .outerJoin(
+      doc.where((a) => a.type === "div").as("anchors"),
+      ({ targets }, div) => {
+        return (
+          div !== targets[0] &&
+          div.start <= targets[0].start &&
+          div.end >= targets[0].end
+        );
+      }
+    )
+    .update(({ embed, targets, anchors }) => {
+      let anchorName = anchors[0]?.attributes.id;
+      let url = new URL(embed.attributes.src);
+      url.searchParams.delete("target");
+      url.searchParams.delete("skin");
+
+      doc.removeAnnotations([...targets, ...anchors]);
 
       doc.replaceAnnotation(
         embed,
@@ -161,8 +173,35 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: embed.start,
           end: embed.end,
           attributes: {
-            url,
+            url: url.toString(),
             anchorName,
+          },
+        })
+      );
+    });
+  /**
+   * The Iframe code has this format:
+   * ```html
+   * <iframe src="https://{host}/iframe/{type}/{id}?skin={brand}" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+   * ```
+   */
+  doc
+    .where((a) => a.type === "iframe" && isCneAudioScript(a))
+    .as("embed")
+    .update((iframe) => {
+      let url = new URL(iframe.attributes.src);
+      url.searchParams.delete("target");
+      url.searchParams.delete("skin");
+
+      doc.replaceAnnotation(
+        iframe,
+        new CneAudioEmbed({
+          id: iframe.id,
+          start: iframe.start,
+          end: iframe.end,
+          attributes: {
+            url: url.toString(),
+            anchorName: iframe.attributes.id,
           },
         })
       );
