@@ -1404,7 +1404,8 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
-                  "url": "https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+                  "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+                  "audioType": "episode",
                 },
                 "id": "B00000000",
                 "parents": [],
@@ -1428,7 +1429,8 @@ describe("@atjson/source-html", () => {
             "blocks": [
               {
                 "attributes": {
-                  "url": "https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+                  "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+                  "audioType": "episode",
                 },
                 "id": "B00000000",
                 "parents": [],
@@ -1440,6 +1442,24 @@ describe("@atjson/source-html", () => {
             "text": "￼",
           }
         `);
+      });
+
+      test("equality", () => {
+        expect(
+          serialize(
+            HTMLSource.fromRaw(
+              `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`
+            ).convertTo(OffsetSource),
+            { withStableIds: true }
+          )
+        ).toEqual(
+          serialize(
+            HTMLSource.fromRaw(
+              `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+            ).convertTo(OffsetSource),
+            { withStableIds: true }
+          )
+        );
       });
     });
   });

@@ -161,8 +161,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
     .update(({ embed, targets, anchors }) => {
       let anchorName = anchors[0]?.attributes.id;
       let url = new URL(embed.attributes.src);
-      url.searchParams.delete("target");
-      url.searchParams.delete("skin");
+      let [, , audioType, audioId] = url.pathname.split("/");
 
       doc.removeAnnotations([...targets, ...anchors]);
 
@@ -173,7 +172,8 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: embed.start,
           end: embed.end,
           attributes: {
-            url: url.toString(),
+            audioType,
+            audioId,
             anchorName,
           },
         })
@@ -190,8 +190,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
     .as("embed")
     .update((iframe) => {
       let url = new URL(iframe.attributes.src);
-      url.searchParams.delete("target");
-      url.searchParams.delete("skin");
+      let [, , audioType, audioId] = url.pathname.split("/");
 
       doc.replaceAnnotation(
         iframe,
@@ -200,7 +199,8 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: iframe.start,
           end: iframe.end,
           attributes: {
-            url: url.toString(),
+            audioId,
+            audioType,
             anchorName: iframe.attributes.id,
           },
         })

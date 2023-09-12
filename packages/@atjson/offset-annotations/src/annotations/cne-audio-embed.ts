@@ -1,7 +1,8 @@
 import { BlockAnnotation } from "@atjson/document";
 
 export class CneAudioEmbed extends BlockAnnotation<{
-  url: string;
+  audioType: string;
+  audioId: string;
   anchorName: string;
 }> {
   static vendorPrefix = "offset";
