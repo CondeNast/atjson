@@ -104,9 +104,6 @@
     "moduleNameMapper": {
       "^(@atjson/.*)$": "<rootDir>/packages/$1/src/index.ts"
     },
-    "testMatch": [
-      "**/*-test.(ts|tsx|js|jsx)"
-    ],
     "transformIgnorePatterns": [
       "/node_modules/(?!@ckeditor).+\\.js$"
     ]
