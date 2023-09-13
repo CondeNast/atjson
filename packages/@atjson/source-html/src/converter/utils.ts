@@ -1,3 +1,5 @@
+import { TextAlignment } from "@atjson/offset-annotations";
+
 export function parseCSS(css: string | undefined) {
   let rules = (css || "").split(";");
   let styles: Record<string, string> = {};
@@ -11,25 +13,29 @@ export function parseCSS(css: string | undefined) {
 }
 
 const RightToLeftAlignment = {
-  left: "end",
-  right: "start",
-  center: "center",
-  justify: "justify",
-} as { [key: string]: "start" | "end" | "center" | "justify" | undefined };
+  start: TextAlignment.Start,
+  left: TextAlignment.End,
+  right: TextAlignment.Start,
+  end: TextAlignment.End,
+  center: TextAlignment.Center,
+  justify: TextAlignment.Justify,
+} as { [key: string]: TextAlignment | undefined };
 
 const LeftToRightAlignment = {
-  left: "start",
-  right: "end",
-  center: "center",
-  justify: "justify",
-} as { [key: string]: "start" | "end" | "center" | "justify" | undefined };
+  start: TextAlignment.Start,
+  left: TextAlignment.Start,
+  right: TextAlignment.End,
+  end: TextAlignment.End,
+  center: TextAlignment.Center,
+  justify: TextAlignment.Justify,
+} as { [key: string]: TextAlignment | undefined };
 
 /**
  *
  * @param alignment The `text-align` property of the
  * @param language The language code of
  */
-export function toAlignment(
+export function toTextAlignment(
   alignment: string | undefined,
   direction: string | undefined
 ) {

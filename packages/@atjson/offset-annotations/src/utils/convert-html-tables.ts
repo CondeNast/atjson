@@ -6,7 +6,12 @@ import {
   TextAnnotation,
 } from "@atjson/document";
 
-import OffsetSource, { DataSet, Table, ColumnType } from "../index";
+import OffsetSource, {
+  DataSet,
+  Table,
+  ColumnType,
+  TextAlignment,
+} from "../index";
 
 function extractPlainContents(
   doc: OffsetSource,
@@ -72,8 +77,13 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
       /(text-align: ?(?<alignment>left|right|center))/
     );
 
-    if (match?.groups?.alignment) {
-      return match.groups.alignment as "left" | "right" | "center";
+    switch (match?.groups?.alignment) {
+      case "left":
+        return TextAlignment.Start;
+      case "right":
+        return TextAlignment.End;
+      case "center":
+        return TextAlignment.Center;
     }
   }
 
@@ -135,7 +145,7 @@ export function convertHTMLTablesToDataSet(
 
         let alignment = extractAlignment(headCell);
         if (alignment) {
-          columnConfig.textAlign = alignment;
+          columnConfig.textAlignment = alignment;
         }
 
         columnConfigs.push(columnConfig);
@@ -182,7 +192,7 @@ export function convertHTMLTablesToDataSet(
 
             let alignment = extractAlignment(bodyCell);
             if (alignment) {
-              columnConfig.textAlign = alignment;
+              columnConfig.textAlignment = alignment;
             }
 
             columnConfigs[index] = columnConfig;

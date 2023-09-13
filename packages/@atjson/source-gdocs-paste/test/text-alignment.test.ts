@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { TextAlignment } from "@atjson/offset-annotations";
 import * as fs from "fs";
 import * as path from "path";
 import GDocsSource from "../src";
@@ -51,7 +51,10 @@ describe("@atjson/source-gdocs-paste", () => {
             type: "-offset-heading",
             start: 5,
             end: 13,
-            attributes: { "-offset-level": 2, "-offset-alignment": "center" },
+            attributes: {
+              "-offset-level": 2,
+              "-offset-textAlignment": TextAlignment.Center,
+            },
           },
         ]);
       });
@@ -69,7 +72,10 @@ describe("@atjson/source-gdocs-paste", () => {
             type: "-offset-heading",
             start: 14,
             end: 19,
-            attributes: { "-offset-level": 3, "-offset-alignment": "end" },
+            attributes: {
+              "-offset-level": 3,
+              "-offset-textAlignment": TextAlignment.End,
+            },
           },
         ]);
       });
@@ -87,7 +93,10 @@ describe("@atjson/source-gdocs-paste", () => {
             type: "-offset-heading",
             start: 20,
             end: 29,
-            attributes: { "-offset-level": 4, "-offset-alignment": "justify" },
+            attributes: {
+              "-offset-level": 4,
+              "-offset-textAlignment": TextAlignment.Justify,
+            },
           },
         ]);
       });
@@ -126,7 +135,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 5,
         end: 13,
-        attributes: { "-offset-alignment": "center" },
+        attributes: { "-offset-textAlignment": TextAlignment.Center },
       });
     });
 
@@ -136,7 +145,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 14,
         end: 19,
-        attributes: { "-offset-alignment": "end" },
+        attributes: { "-offset-textAlignment": TextAlignment.End },
       });
     });
 
@@ -146,7 +155,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 20,
         end: 29,
-        attributes: { "-offset-alignment": "justify" },
+        attributes: { "-offset-textAlignment": TextAlignment.Justify },
       });
     });
   });
@@ -183,7 +192,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 6,
         end: 10,
-        attributes: { "-offset-alignment": "center" },
+        attributes: { "-offset-textAlignment": TextAlignment.Center },
       });
     });
 
@@ -193,7 +202,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 11,
         end: 18,
-        attributes: { "-offset-alignment": "end" },
+        attributes: { "-offset-textAlignment": TextAlignment.End },
       });
     });
 
@@ -203,7 +212,7 @@ describe("@atjson/source-gdocs-paste", () => {
         type: "-offset-paragraph",
         start: 19,
         end: 21,
-        attributes: { "-offset-alignment": "justify" },
+        attributes: { "-offset-textAlignment": TextAlignment.Justify },
       });
     });
   });

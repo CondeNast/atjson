@@ -6,32 +6,44 @@ export class VideoEmbed extends BlockAnnotation<{
    * The embed URL of the video
    */
   url: string;
+
   /**
    * The provider of the Video
    */
   provider: VideoURLs.Provider;
+
   /**
    * A normalized aspect ratio of the video, constrained to
    * a list of aspect ratios
    */
   aspectRatio?: ReturnType<typeof getClosestAspectRatio>;
+
   /**
    * The natural width of the video, as returned by an
    * oEmbed endpoint.
    * @deprecated
    */
   width?: number;
+
   /**
    * The natural height of the video, as returned by an
    * oEmbed endpoint.
    * @deprecated
    */
   height?: number;
+
   /**
    * Refers to a slice instead of being an
    * embedded document.
    */
   caption?: string;
+
+  /**
+   * Layout information, used to indicate mutually
+   * exclusive layouts, for example sizes, floats, etc.
+   */
+  layout?: string;
+
   /**
    * A named identifier used to quickly jump to this item
    */

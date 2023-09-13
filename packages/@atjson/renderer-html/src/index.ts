@@ -14,6 +14,7 @@ import {
   Paragraph,
   Section,
   Table,
+  TextAlignment,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
 import { Mark, Block } from "@atjson/document";
@@ -40,6 +41,13 @@ const VOID_ELEMENTS = [
 const CneAudioEnvironments = {
   [AudioEnvironments.Production]: `https://embed-audio.cnevids.com`,
   [AudioEnvironments.Sandbox]: `https://embed-audio-sandbox.cnevids.com`,
+};
+
+const TableTextAlign = {
+  [TextAlignment.Start]: "left",
+  [TextAlignment.End]: "right",
+  [TextAlignment.Center]: "center",
+  [TextAlignment.Justify]: "center",
 };
 
 export default class HTMLRenderer extends Renderer {
@@ -181,8 +189,8 @@ export default class HTMLRenderer extends Renderer {
 
   *Heading(heading: Block<Heading>) {
     let style: string | undefined;
-    if (heading.attributes.alignment) {
-      style = this.textAlign(heading.attributes.alignment);
+    if (heading.attributes.textAlignment) {
+      style = this.textAlign(heading.attributes.textAlignment);
     }
     return yield* this.$(`h${heading.attributes.level}`, {
       id: heading.attributes.anchorName,
@@ -239,8 +247,8 @@ export default class HTMLRenderer extends Renderer {
 
   *Paragraph(paragraph: Block<Paragraph>) {
     let style: string | undefined;
-    if (paragraph.attributes.alignment) {
-      style = this.textAlign(paragraph.attributes.alignment);
+    if (paragraph.attributes.textAlignment) {
+      style = this.textAlign(paragraph.attributes.textAlignment);
     }
     return yield* this.$("p", { id: paragraph.attributes.anchorName, style });
   }
@@ -285,7 +293,7 @@ export default class HTMLRenderer extends Renderer {
     let header = "";
     if (table.attributes.showColumnHeaders) {
       header += "<thead><tr>";
-      for (let { name, slice: sliceId, textAlign } of table.attributes
+      for (let { name, slice: sliceId, textAlignment } of table.attributes
         .columns) {
         let headerText = name;
         if (sliceId) {
@@ -300,9 +308,10 @@ export default class HTMLRenderer extends Renderer {
 
           headerText = this.render(slice);
         }
-
         header += `<th${
-          textAlign ? ` style="text-align: ${textAlign};"` : ""
+          textAlignment
+            ? ` style="text-align: ${TableTextAlign[textAlignment]};"`
+            : ""
         }>${headerText}</th>`;
       }
 
@@ -312,7 +321,7 @@ export default class HTMLRenderer extends Renderer {
     let body = "<tbody>";
     for (let record of dataSet.attributes.records) {
       body += "<tr>";
-      for (let { name, textAlign } of table.attributes.columns) {
+      for (let { name, textAlignment } of table.attributes.columns) {
         let cellText = "";
         let sliceId = record[name]?.slice;
         if (sliceId) {
@@ -333,7 +342,9 @@ export default class HTMLRenderer extends Renderer {
         }
 
         body += `<td${
-          textAlign ? ` style="text-align: ${textAlign};"` : ""
+          textAlignment
+            ? ` style="text-align: ${TableTextAlign[textAlignment]};"`
+            : ""
         }>${cellText}</td>`;
       }
 
@@ -372,12 +383,16 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("u");
   }
 
-  protected textAlign(alignment: "start" | "center" | "end" | "justify") {
-    if (alignment === "start") {
-      return `text-align:left;`;
-    } else if (alignment === "end") {
-      return `text-align:right;`;
+  protected textAlign(alignment: TextAlignment) {
+    switch (alignment) {
+      case TextAlignment.Start:
+        return `text-align:start;`;
+      case TextAlignment.End:
+        return `text-align:end;`;
+      case TextAlignment.Center:
+        return `text-align:center;`;
+      case TextAlignment.Justify:
+        return `text-align:justify;`;
     }
-    return `text-align:${alignment};`;
   }
 }
