@@ -1,6 +1,6 @@
 import Document from "@atjson/document";
 import { Paragraph } from "@atjson/offset-annotations";
-import { parseCSS, toAlignment } from "./utils";
+import { parseCSS, toTextAlignment } from "./utils";
 
 export default function (doc: Document) {
   doc
@@ -30,7 +30,7 @@ export default function (doc: Document) {
           end: paragraph.end,
           attributes: {
             anchorName: paragraph.attributes.id,
-            alignment: toAlignment(
+            textAlignment: toTextAlignment(
               parseCSS(paragraph.attributes.style)["text-align"],
               direction?.attributes?.lang
             ),
