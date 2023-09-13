@@ -127,9 +127,14 @@ function normalizeInstagramReelURL(url: IUrl) {
 // Twitter
 // - www.twitter.com/:handle/status/:tweetId
 // - m.twitter.com/:handle/status/:tweetId
+// - www.x.com/:handle/status/:postId
+// - m.x.com/:handle/status/:postId
 function isTwitterURL(url: IUrl) {
   return (
-    (url.host === "twitter.com" || /.*\.twitter\.com$/.test(url.host)) &&
+    (url.host === "x.com" ||
+      /.*\.x\.com$/.test(url.host) ||
+      url.host === "twitter.com" ||
+      /.*\.twitter\.com$/.test(url.host)) &&
     /\/[^\/]+\/status\/[^\/]+/.test(url.pathname)
   );
 }
@@ -413,15 +418,7 @@ function normalizeRedditURL(url: IUrl) {
   };
 }
 
-export function identify(url: IUrl): {
-  attributes: {
-    url: string;
-    width?: string;
-    height?: string;
-    sandbox?: string;
-  };
-  Class: typeof IframeEmbed;
-} | null {
+export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }

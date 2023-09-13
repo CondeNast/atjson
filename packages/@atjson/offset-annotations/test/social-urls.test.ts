@@ -1,4 +1,10 @@
-import { IframeEmbed, TelegramEmbed, SocialURLs, InstagramEmbed } from "../src";
+import {
+  IframeEmbed,
+  TelegramEmbed,
+  SocialURLs,
+  InstagramEmbed,
+  TwitterEmbed,
+} from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -220,6 +226,34 @@ describe("SocialURLs", () => {
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: InstagramEmbed,
+        attributes,
+      });
+    });
+  });
+
+  describe("identify Tweets", () => {
+    test.each([
+      [
+        "https://twitter.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+      [
+        "https://x.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+      [
+        "https://www.twitter.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: TwitterEmbed,
         attributes,
       });
     });
