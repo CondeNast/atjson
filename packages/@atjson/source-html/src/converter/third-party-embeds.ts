@@ -148,22 +148,12 @@ export default function convertThirdPartyEmbeds(doc: Document) {
       let target = script.attributes.src.match(/target=([^&]*)/);
       return div.attributes.id === target[1];
     })
-    .outerJoin(
-      doc.where((a) => a.type === "div").as("anchors"),
-      ({ targets }, div) => {
-        return (
-          div !== targets[0] &&
-          div.start <= targets[0].start &&
-          div.end >= targets[0].end
-        );
-      }
-    )
-    .update(({ embed, targets, anchors }) => {
-      let anchorName = anchors[0]?.attributes.id;
+    .update(({ embed, targets }) => {
+      let anchorName = embed?.attributes.id;
       let url = new URL(embed.attributes.src);
       let [, , audioType, audioId] = url.pathname.split("/");
 
-      doc.removeAnnotations([...targets, ...anchors]);
+      doc.removeAnnotations(targets);
 
       doc.replaceAnnotation(
         embed,
