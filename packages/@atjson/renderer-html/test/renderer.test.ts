@@ -565,6 +565,7 @@ describe("renderer-html", () => {
         new CneAudioEmbed({
           start: 0,
           end: 1,
+          id: "B00000000",
           attributes: {
             anchorName: "podcast",
             audioType: "episode",
@@ -581,7 +582,7 @@ describe("renderer-html", () => {
     expect(
       Renderer.render(serialize(doc, { withStableIds: true }))
     ).toMatchInlineSnapshot(
-      `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
+      `"<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?target=B00000000" defer></script><div id="podcast"><div id="B00000000"></div></div>"`
     );
   });
 });
