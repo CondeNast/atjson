@@ -559,13 +559,34 @@ describe("renderer-html", () => {
   });
 
   test("cneaudio", () => {
-    let doc = new OffsetSource({
+    let docProductionEnv = new OffsetSource({
       content: "\uFFFC",
       annotations: [
         new CneAudioEmbed({
           start: 0,
           end: 1,
           attributes: {
+            audioEnv: "production",
+            anchorName: "podcast",
+            audioType: "episode",
+            audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+          },
+        }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
+    });
+
+    let docSandboxEnv = new OffsetSource({
+      content: "\uFFFC",
+      annotations: [
+        new CneAudioEmbed({
+          start: 0,
+          end: 1,
+          attributes: {
+            audioEnv: "sandbox",
             anchorName: "podcast",
             audioType: "episode",
             audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
@@ -579,9 +600,15 @@ describe("renderer-html", () => {
     });
 
     expect(
-      Renderer.render(serialize(doc, { withStableIds: true }))
+      Renderer.render(serialize(docProductionEnv, { withStableIds: true }))
     ).toMatchInlineSnapshot(
       `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
+    );
+
+    expect(
+      Renderer.render(serialize(docSandboxEnv, { withStableIds: true }))
+    ).toMatchInlineSnapshot(
+      `"<iframe id="podcast" src="https://embed-audio-sandbox.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
     );
   });
 });

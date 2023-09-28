@@ -7,7 +7,6 @@ import {
   TelegramEmbed,
   TikTokEmbed,
   TwitterEmbed,
-  // CneAudioEmbed,
 } from "../annotations";
 
 function without<T>(array: T[], value: T): T[] {
@@ -339,29 +338,6 @@ function normalizeMegaphoneUrl(url: IUrl) {
   };
 }
 
-// /**
-//  * CNE Audio URLs
-//  * Hosts:
-//  *  - Non-prod: embed-audio-sandbox.cnevids.com
-//  *  - Prod:     embed-audio.cnevids.com
-//  * Paths:
-//  *  - /script/episode/<episode-id>?
-//  *  - /script/podcast/<podcast-id>
-//  */
-// function isCneAudioUrl(url: IUrl) {
-//   return /embed-audio(-sandbox)?\.cnevids\.com/.test(url.host);
-// }
-
-// function normalizeCneAudioUrl(url: IUrl) {
-//   let [embed, model, id] = without<string>(url.pathname.split("/"), "");
-//   return {
-//     Class: CneAudioEmbed,
-//     attributes: {
-//       url: `https://${url.host}/${embed}/${model}/${id}`,
-//     },
-//   };
-// }
-
 function isTikTokUrl(url: IUrl) {
   return (
     url.host === "www.tiktok.com" ||
@@ -492,10 +468,6 @@ export function identify(url: IUrl): {
   if (isTelegramUrl(url)) {
     return normalizeTelegramUrl(url);
   }
-
-  // if (isCneAudioUrl(url)) {
-  //   return normalizeCneAudioUrl(url);
-  // }
 
   return null;
 }

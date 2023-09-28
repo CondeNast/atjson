@@ -13,6 +13,7 @@ describe("CNE Audio", () => {
         "blocks": [
           {
             "attributes": {
+              "audioEnv": "production",
               "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
               "audioType": "episode",
             },
@@ -38,6 +39,7 @@ describe("CNE Audio", () => {
         "blocks": [
           {
             "attributes": {
+              "audioEnv": "production",
               "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
               "audioType": "episode",
             },
@@ -64,6 +66,7 @@ describe("CNE Audio", () => {
           {
             "attributes": {
               "anchorName": "isabel-pantoja-y-paquirri",
+              "audioEnv": "production",
               "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
               "audioType": "episode",
             },
@@ -90,6 +93,7 @@ describe("CNE Audio", () => {
           {
             "attributes": {
               "anchorName": "isabel-pantoja-y-paquirri",
+              "audioEnv": "production",
               "audioId": "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
               "audioType": "episode",
             },

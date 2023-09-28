@@ -3,6 +3,8 @@ import {
   CerosEmbed,
   FireworkEmbed,
   CneAudioEmbed,
+  AudioEnvironments,
+  getCneAudioEnvironment,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
@@ -162,6 +164,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: embed.start,
           end: embed.end,
           attributes: {
+            audioEnv: getCneAudioEnvironment(url.hostname),
             audioType,
             audioId,
             anchorName,
@@ -189,6 +192,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           start: iframe.start,
           end: iframe.end,
           attributes: {
+            audioEnv: getCneAudioEnvironment(url.hostname),
             audioId,
             audioType,
             anchorName: iframe.attributes.id,
