@@ -3,7 +3,6 @@ import {
   CerosEmbed,
   FireworkEmbed,
   CneAudioEmbed,
-  AudioEnvironments,
   getCneAudioEnvironment,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
