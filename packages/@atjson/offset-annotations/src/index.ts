@@ -3,6 +3,7 @@ import {
   Blockquote,
   Bold,
   CerosEmbed,
+  CneAudioEmbed,
   Code,
   CodeBlock,
   FacebookEmbed,
@@ -35,7 +36,6 @@ import {
   TwitterEmbed,
   Underline,
   VideoEmbed,
-  CneAudioEmbed,
 } from "./annotations";
 
 export * from "./annotations";
@@ -47,6 +47,7 @@ export default class OffsetSource extends Document {
     Blockquote,
     Bold,
     CerosEmbed,
+    CneAudioEmbed,
     Code,
     CodeBlock,
     FacebookEmbed,
@@ -79,6 +80,5 @@ export default class OffsetSource extends Document {
     TwitterEmbed,
     Underline,
     VideoEmbed,
-    CneAudioEmbed,
   ];
 }

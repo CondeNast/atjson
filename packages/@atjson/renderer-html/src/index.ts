@@ -1,6 +1,8 @@
 import {
+  AudioEnvironments,
   Blockquote,
   CerosEmbed,
+  CneAudioEmbed,
   CodeBlock,
   Heading,
   Image,
@@ -10,8 +12,6 @@ import {
   Paragraph,
   Section,
   TikTokEmbed,
-  CneAudioEmbed,
-  AudioEnvironments,
 } from "@atjson/offset-annotations";
 import { Mark, Block } from "@atjson/document";
 import Renderer from "@atjson/renderer-hir";
@@ -33,6 +33,11 @@ const VOID_ELEMENTS = [
   "track",
   "wbr",
 ];
+
+const CneAudioEnvironments = {
+  [AudioEnvironments.Production]: `https://embed-audio.cnevids.com`,
+  [AudioEnvironments.Sandbox]: `https://embed-audio-sandbox.cnevids.com`,
+};
 
 export default class HTMLRenderer extends Renderer {
   /**
@@ -262,11 +267,6 @@ export default class HTMLRenderer extends Renderer {
 
   // CNE Audio embed
   *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
-    const CneAudioEnvironments = {
-      [AudioEnvironments.Production]: `https://embed-audio.cnevids.com`,
-      [AudioEnvironments.Sandbox]: `https://embed-audio-sandbox.cnevids.com`,
-    };
-
     return yield* this.$("iframe", {
       id: embed.attributes.anchorName,
       src: `${CneAudioEnvironments[embed.attributes.audioEnv]}/iframe/${

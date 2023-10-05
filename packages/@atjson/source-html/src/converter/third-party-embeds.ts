@@ -1,9 +1,9 @@
 import Document, { Annotation } from "@atjson/document";
 import {
-  CerosEmbed,
-  FireworkEmbed,
-  CneAudioEmbed,
   AudioEnvironments,
+  CerosEmbed,
+  CneAudioEmbed,
+  FireworkEmbed,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
