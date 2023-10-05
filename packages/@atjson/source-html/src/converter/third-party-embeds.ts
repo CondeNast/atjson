@@ -3,7 +3,7 @@ import {
   CerosEmbed,
   FireworkEmbed,
   CneAudioEmbed,
-  getCneAudioEnvironment,
+  AudioEnvironments,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
@@ -45,6 +45,21 @@ function isCneAudioScript(a: Annotation<any>) {
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
+}
+
+function getCneAudioEnvironment(hostname: string): AudioEnvironments {
+  const isCneAudioProduction = (hostname: string): boolean => {
+    return /embed-audio\.cnevids\.com/.test(hostname);
+  };
+
+  const isCneAudioSandbox = (hostname: string): boolean => {
+    return /embed-audio-sandbox\.cnevids\.com/.test(hostname);
+  };
+
+  if (isCneAudioProduction(hostname)) return AudioEnvironments.Production;
+  if (isCneAudioSandbox(hostname)) return AudioEnvironments.Sandbox;
+
+  return AudioEnvironments.Production;
 }
 
 export default function convertThirdPartyEmbeds(doc: Document) {

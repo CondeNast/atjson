@@ -262,11 +262,11 @@ export default class HTMLRenderer extends Renderer {
 
   // CNE Audio embed
   *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
-    const mediaHost: string = CneAudioEnvironments[embed.attributes.audioEnv];
-
     return yield* this.$("iframe", {
       id: embed.attributes.anchorName,
-      src: `${mediaHost}/iframe/${embed.attributes.audioType}/${embed.attributes.audioId}`,
+      src: `${CneAudioEnvironments[embed.attributes.audioEnv]}/iframe/${
+        embed.attributes.audioType
+      }/${embed.attributes.audioId}`,
       frameborder: "0",
       height: "244",
       sandbox: "allow-scripts allow-popups allow-popups-to-escape-sandbox",
