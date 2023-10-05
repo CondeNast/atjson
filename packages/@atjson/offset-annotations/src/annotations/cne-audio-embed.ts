@@ -5,11 +5,6 @@ export enum AudioEnvironments {
   Sandbox = "sandbox",
 }
 
-export const CneAudioEnvironments = {
-  [AudioEnvironments.Production]: `https://embed-audio.cnevids.com`,
-  [AudioEnvironments.Sandbox]: `https://embed-audio-sandbox.cnevids.com`,
-};
-
 export class CneAudioEmbed extends BlockAnnotation<{
   audioEnv: AudioEnvironments;
   audioType: string;
