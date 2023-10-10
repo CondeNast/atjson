@@ -1,7 +1,9 @@
 import OffsetSource, {
+  AudioEnvironments,
   Blockquote,
   Bold,
   CerosEmbed,
+  CneAudioEmbed,
   Code,
   CodeBlock,
   Heading,
@@ -20,7 +22,6 @@ import OffsetSource, {
   Superscript,
   TikTokEmbed,
   Underline,
-  CneAudioEmbed,
 } from "@atjson/offset-annotations";
 import { ParseAnnotation, serialize } from "@atjson/document";
 import Renderer from "../src";
@@ -566,7 +567,7 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            audioEnv: "production",
+            audioEnv: AudioEnvironments.Production,
             anchorName: "podcast",
             audioType: "episode",
             audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
@@ -586,7 +587,7 @@ describe("renderer-html", () => {
           start: 0,
           end: 1,
           attributes: {
-            audioEnv: "sandbox",
+            audioEnv: AudioEnvironments.Sandbox,
             anchorName: "podcast",
             audioType: "episode",
             audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
