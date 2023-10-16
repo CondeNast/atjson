@@ -1,7 +1,9 @@
 import OffsetSource, {
+  AudioEnvironments,
   Blockquote,
   Bold,
   CerosEmbed,
+  CneAudioEmbed,
   Code,
   CodeBlock,
   Heading,
@@ -21,7 +23,7 @@ import OffsetSource, {
   TikTokEmbed,
   Underline,
 } from "@atjson/offset-annotations";
-import { ParseAnnotation } from "@atjson/document";
+import { ParseAnnotation, serialize } from "@atjson/document";
 import Renderer from "../src";
 
 describe("renderer-html", () => {
@@ -554,6 +556,60 @@ describe("renderer-html", () => {
 
     expect(Renderer.render(doc)).toEqual(
       `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
+    );
+  });
+
+  test("cneaudio", () => {
+    let docProductionEnv = new OffsetSource({
+      content: "\uFFFC",
+      annotations: [
+        new CneAudioEmbed({
+          start: 0,
+          end: 1,
+          attributes: {
+            audioEnv: AudioEnvironments.Production,
+            anchorName: "podcast",
+            audioType: "episode",
+            audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+          },
+        }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
+    });
+
+    let docSandboxEnv = new OffsetSource({
+      content: "\uFFFC",
+      annotations: [
+        new CneAudioEmbed({
+          start: 0,
+          end: 1,
+          attributes: {
+            audioEnv: AudioEnvironments.Sandbox,
+            anchorName: "podcast",
+            audioType: "episode",
+            audioId: "bb2ef05b-de71-469a-b0a5-829f2a54dac6",
+          },
+        }),
+        new ParseAnnotation({
+          start: 0,
+          end: 1,
+        }),
+      ],
+    });
+
+    expect(
+      Renderer.render(serialize(docProductionEnv, { withStableIds: true }))
+    ).toMatchInlineSnapshot(
+      `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
+    );
+
+    expect(
+      Renderer.render(serialize(docSandboxEnv, { withStableIds: true }))
+    ).toMatchInlineSnapshot(
+      `"<iframe id="podcast" src="https://embed-audio-sandbox.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
     );
   });
 });

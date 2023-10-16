@@ -1,5 +1,10 @@
 import Document, { Annotation } from "@atjson/document";
-import { CerosEmbed, FireworkEmbed } from "@atjson/offset-annotations";
+import {
+  AudioEnvironments,
+  CerosEmbed,
+  CneAudioEmbed,
+  FireworkEmbed,
+} from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
 function isCerosExperienceFrame(a: Annotation<any>) {
@@ -31,8 +36,30 @@ function isCerosContainer(a: Annotation<any>) {
   );
 }
 
+function isCneAudioScript(a: Annotation<any>) {
+  return (
+    a.attributes.src &&
+    a.attributes.src.match(/embed-audio(-sandbox)?\.cnevids\.com/)
+  );
+}
+
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
+}
+
+function getCneAudioEnvironment(hostname: string): AudioEnvironments {
+  const isCneAudioProduction = (hostname: string): boolean => {
+    return /embed-audio\.cnevids\.com/.test(hostname);
+  };
+
+  const isCneAudioSandbox = (hostname: string): boolean => {
+    return /embed-audio-sandbox\.cnevids\.com/.test(hostname);
+  };
+
+  if (isCneAudioProduction(hostname)) return AudioEnvironments.Production;
+  if (isCneAudioSandbox(hostname)) return AudioEnvironments.Sandbox;
+
+  return AudioEnvironments.Production;
 }
 
 export default function convertThirdPartyEmbeds(doc: Document) {
@@ -121,6 +148,71 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         doc.deleteText(scripts[0].end, embed.start);
       }
       doc.removeAnnotations(scripts);
+    });
+
+  /**
+   * CNE Audio script code
+   * The script code has this format:
+   * ```html
+   * <script src="https://{host}/script/{type}/{id}?skin={brand}&target={div_id}" defer></script><div id="{div_id}"></div>
+   * ```
+   */
+  doc
+    .where((a) => a.type === "script" && isCneAudioScript(a))
+    .as("embed")
+    .join(doc.where((a) => a.type === "div").as("targets"), (script, div) => {
+      let target = script.attributes.src.match(/target=([^&]*)/);
+      return div.attributes.id === target[1];
+    })
+    .update(({ embed, targets }) => {
+      let anchorName = embed?.attributes.id;
+      let url = new URL(embed.attributes.src);
+      let [, , audioType, audioId] = url.pathname.split("/");
+
+      doc.removeAnnotations(targets);
+
+      doc.replaceAnnotation(
+        embed,
+        new CneAudioEmbed({
+          id: embed.id,
+          start: embed.start,
+          end: embed.end,
+          attributes: {
+            audioEnv: getCneAudioEnvironment(url.hostname),
+            audioType,
+            audioId,
+            anchorName,
+          },
+        })
+      );
+    });
+  /**
+   * The Iframe code has this format:
+   * ```html
+   * <iframe src="https://{host}/iframe/{type}/{id}?skin={brand}" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>
+   * ```
+   */
+  doc
+    .where((a) => a.type === "iframe" && isCneAudioScript(a))
+    .as("embed")
+    .update((iframe) => {
+      let url = new URL(iframe.attributes.src);
+      let [, , audioType, audioId] = url.pathname.split("/");
+
+      doc.replaceAnnotation(
+        iframe,
+        new CneAudioEmbed({
+          id: iframe.id,
+          start: iframe.start,
+          end: iframe.end,
+          attributes: {
+            audioEnv: getCneAudioEnvironment(url.hostname),
+            audioId,
+            audioType,
+            anchorName: iframe.attributes.id,
+          },
+        })
+      );
     });
 
   return doc;

@@ -1,6 +1,8 @@
 import {
+  AudioEnvironments,
   Blockquote,
   CerosEmbed,
+  CneAudioEmbed,
   CodeBlock,
   Heading,
   Image,
@@ -31,6 +33,11 @@ const VOID_ELEMENTS = [
   "track",
   "wbr",
 ];
+
+const CneAudioEnvironments = {
+  [AudioEnvironments.Production]: `https://embed-audio.cnevids.com`,
+  [AudioEnvironments.Sandbox]: `https://embed-audio-sandbox.cnevids.com`,
+};
 
 export default class HTMLRenderer extends Renderer {
   /**
@@ -256,6 +263,19 @@ export default class HTMLRenderer extends Renderer {
     } class="tiktok-embed" cite="${
       embed.attributes.url
     }" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
+  }
+
+  // CNE Audio embed
+  *CneAudioEmbed(embed: Block<CneAudioEmbed>) {
+    return yield* this.$("iframe", {
+      id: embed.attributes.anchorName,
+      src: `${CneAudioEnvironments[embed.attributes.audioEnv]}/iframe/${
+        embed.attributes.audioType
+      }/${embed.attributes.audioId}`,
+      frameborder: "0",
+      height: "244",
+      sandbox: "allow-scripts allow-popups allow-popups-to-escape-sandbox",
+    });
   }
 
   *Underline() {
