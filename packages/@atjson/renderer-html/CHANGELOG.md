@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.30.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.29.6...@atjson/renderer-html@0.30.0) (2023-10-16)
+
+### Bug Fixes
+
+- **CNE-10643:** update attribute name by a proposed one ([9bea163](https://github.com/CondeNast/atjson/commit/9bea1631bbf877166358a11304b769130cd07b17))
+
+### Features
+
+- add new attribute environment ([590f48a](https://github.com/CondeNast/atjson/commit/590f48aba0d5d8983c70a11ebaf0c589f6f7cc16))
+- alphabetize imports/exports and move to global a function ([9cf994a](https://github.com/CondeNast/atjson/commit/9cf994aab40af875aeac157576408a78c3e36027))
+- **CNE-10643:** add CNE Audio embed ([716cd6f](https://github.com/CondeNast/atjson/commit/716cd6fdfd9b0d6a7425286e2c7e0294fc345fc7))
+- move functions to converter / render ([aad45a0](https://github.com/CondeNast/atjson/commit/aad45a06d0743f28c75845679799e78311edfb17))
+- move functions to render-html ([0b6f143](https://github.com/CondeNast/atjson/commit/0b6f143c3843ef2b2cb2eaf281c1e9298684c958))
+- use enum ([77b4b9e](https://github.com/CondeNast/atjson/commit/77b4b9eee93de4f0a07f6cdf2df8fb6023bb2dc7))
+
 ## [0.29.6](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.29.5...@atjson/renderer-html@0.29.6) (2023-07-19)
 
 **Note:** Version bump only for package @atjson/renderer-html

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.35.0 (2023-10-16)
+
+### Bug Fixes
+
+- **CNE-10643:** update attribute name by a proposed one ([9bea163](https://github.com/CondeNast/atjson/commit/9bea1631bbf877166358a11304b769130cd07b17))
+- declared but never used ([6527411](https://github.com/CondeNast/atjson/commit/6527411d90a90fce12449d2adeafbad3e0c9a2a2))
+
+### Features
+
+- add new attribute environment ([590f48a](https://github.com/CondeNast/atjson/commit/590f48aba0d5d8983c70a11ebaf0c589f6f7cc16))
+- alphabetize imports/exports and move to global a function ([9cf994a](https://github.com/CondeNast/atjson/commit/9cf994aab40af875aeac157576408a78c3e36027))
+- **CNE-10643:** add CNE Audio embed ([716cd6f](https://github.com/CondeNast/atjson/commit/716cd6fdfd9b0d6a7425286e2c7e0294fc345fc7))
+- move functions to converter / render ([aad45a0](https://github.com/CondeNast/atjson/commit/aad45a06d0743f28c75845679799e78311edfb17))
+
 ## 0.34.20 (2023-07-04)
 
 **Note:** Version bump only for package @atjson/source-html
