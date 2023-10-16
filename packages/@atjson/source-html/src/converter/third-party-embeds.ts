@@ -1,5 +1,9 @@
-import Document, { Annotation } from "@atjson/document";
-import { CerosEmbed, FireworkEmbed } from "@atjson/offset-annotations";
+import Document, { Annotation, SliceAnnotation } from "@atjson/document";
+import {
+  CerosEmbed,
+  CneTicketingWidgetEmbed,
+  FireworkEmbed,
+} from "@atjson/offset-annotations";
 import { Script } from "../annotations";
 
 function isCerosExperienceFrame(a: Annotation<any>) {
@@ -121,6 +125,51 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         doc.deleteText(scripts[0].end, embed.start);
       }
       doc.removeAnnotations(scripts);
+    });
+
+  doc
+    .where({ type: "-html-cne-ticketing-widget" })
+    .as("embed")
+    .outerJoin(
+      doc.where({ type: "-html-p" }).as("paragraph"),
+      function findPossibleCTWCaptions(embed, paragraph) {
+        return (
+          paragraph.start === embed.end || paragraph.start === embed.end + 1
+        );
+      }
+    )
+    .update(function updateCneTicketingWidget({ embed, paragraph }) {
+      let caption: SliceAnnotation | undefined = undefined;
+
+      if (paragraph.length === 1) {
+        caption = new SliceAnnotation({
+          start: paragraph[0].start,
+          end: paragraph[0].end,
+          attributes: {
+            refs: [embed.id],
+          },
+        });
+        doc.replaceAnnotation(paragraph[0], caption);
+      }
+
+      doc.replaceAnnotation(
+        embed,
+        new CneTicketingWidgetEmbed({
+          id: embed.id,
+          start: embed.start,
+          end: embed.end,
+          attributes: {
+            urlLoggedOut: embed.attributes.urlloggedout,
+            width: embed.attributes.width,
+            height: embed.attributes.height,
+            caption: caption?.id,
+            sandbox: embed.attributes.sandbox,
+            anchorName: embed.attributes.anchorname,
+            urlLoggedIn: embed.attributes.urlloggedin,
+            privacy: embed.attributes.privacy,
+          },
+        })
+      );
     });
 
   return doc;

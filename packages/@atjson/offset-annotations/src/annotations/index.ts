@@ -2,6 +2,7 @@ export * from "./blockquote";
 export * from "./bold";
 export * from "./caption-source";
 export * from "./ceros-embed";
+export * from "./cneticketingwidget-embed";
 export * from "./code";
 export * from "./code-block";
 export * from "./facebook-embed";

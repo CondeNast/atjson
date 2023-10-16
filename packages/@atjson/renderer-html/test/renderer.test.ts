@@ -2,6 +2,7 @@ import OffsetSource, {
   Blockquote,
   Bold,
   CerosEmbed,
+  CneTicketingWidgetEmbed,
   Code,
   CodeBlock,
   Heading,
@@ -555,5 +556,73 @@ describe("renderer-html", () => {
     expect(Renderer.render(doc)).toEqual(
       `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
     );
+  });
+
+  describe("Cneticketingwidget", () => {
+    test("with logged out url only", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CneTicketingWidgetEmbed({
+            start: 0,
+            end: 1,
+            attributes: {
+              urlLoggedOut: "https://your/logged/out/url",
+            },
+          }),
+          new ParseAnnotation({ start: 0, end: 1 }),
+        ],
+      });
+      expect(Renderer.render(doc)).toEqual(
+        `<cne-ticketing-widget urlloggedout="https://your/logged/out/url" urlloggedin="undefined" privacy="undefined" width="undefined" height="undefined" caption="undefined" sandbox="undefined" anchorname="undefined"></cne-ticketing-widget>`
+      );
+    });
+
+    test("with logged out url, logger in url, privacy", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CneTicketingWidgetEmbed({
+            start: 0,
+            end: 1,
+            attributes: {
+              urlLoggedOut: "https://your/logged/out/url",
+              urlLoggedIn: "https://your/logged/in/url",
+              privacy: "true",
+            },
+          }),
+          new ParseAnnotation({ start: 0, end: 1 }),
+        ],
+      });
+      expect(Renderer.render(doc)).toEqual(
+        `<cne-ticketing-widget urlloggedout="https://your/logged/out/url" urlloggedin="https://your/logged/in/url" privacy="true" width="undefined" height="undefined" caption="undefined" sandbox="undefined" anchorname="undefined"></cne-ticketing-widget>`
+      );
+    });
+
+    test("with full param", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CneTicketingWidgetEmbed({
+            start: 0,
+            end: 1,
+            attributes: {
+              urlLoggedIn: "https://your/logged/in/url",
+              urlLoggedOut: "https://your/logged/out/url",
+              anchorName: "test",
+              caption: "caption-test",
+              height: "200px",
+              sandbox: "allow-scripts allow-same-origin allow-popups",
+              width: "600px",
+              privacy: "false",
+            },
+          }),
+          new ParseAnnotation({ start: 0, end: 1 }),
+        ],
+      });
+      expect(Renderer.render(doc)).toEqual(
+        `<cne-ticketing-widget urlloggedout="https://your/logged/out/url" urlloggedin="https://your/logged/in/url" privacy="false" width="600px" height="200px" caption="caption-test" sandbox="allow-scripts allow-same-origin allow-popups" anchorname="test"></cne-ticketing-widget>`
+      );
+    });
   });
 });

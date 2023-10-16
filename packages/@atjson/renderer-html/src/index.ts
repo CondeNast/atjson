@@ -1,6 +1,7 @@
 import {
   Blockquote,
   CerosEmbed,
+  CneTicketingWidgetEmbed,
   CodeBlock,
   Heading,
   Image,
@@ -143,6 +144,10 @@ export default class HTMLRenderer extends Renderer {
     }).join(
       " "
     )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
+  }
+
+  *CneticketingwidgetEmbed(embed: Block<CneTicketingWidgetEmbed>) {
+    return `<cne-ticketing-widget urlloggedout="${embed.attributes.urlLoggedOut}" urlloggedin="${embed.attributes.urlLoggedIn}" privacy="${embed.attributes.privacy}" width="${embed.attributes.width}" height="${embed.attributes.height}" caption="${embed.attributes.caption}" sandbox="${embed.attributes.sandbox}" anchorname="${embed.attributes.anchorName}"></cne-ticketing-widget>`;
   }
 
   *Code() {
