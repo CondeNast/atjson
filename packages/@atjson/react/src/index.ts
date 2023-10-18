@@ -1,8 +1,8 @@
-import type { Block, Mark } from "@atjson/util";
+import type { Block, InternalMark, Mark } from "@atjson/util";
 import { ROOT, createTree, extractSlices } from "@atjson/util";
 import { ComponentContext, ComponentProvider, SliceContext } from "./contexts";
 import { Node, Slice } from "./components";
-import { useMemo, createElement } from "react";
+import { useMemo, createElement, Fragment } from "react";
 
 export { ComponentContext, ComponentProvider, Slice };
 
@@ -22,10 +22,26 @@ export default function Text(props: {
     return [createTree(doc), slices] as const;
   }, [props.value]);
 
+  let children = useMemo(() => {
+    if (ROOT in tree) {
+      return tree[ROOT] as Array<InternalMark | Block | string>;
+    }
+    return [""];
+  }, [tree]);
+
   return createElement(
     SliceContext.Provider,
     { value: slices },
-    createElement(Node, { map: tree, id: ROOT })
+    createElement(
+      Fragment,
+      {},
+      children.map((child) => {
+        if (typeof child === "string") {
+          return child;
+        }
+        return createElement(Node, { value: child, map: tree });
+      })
+    )
   );
 }
 Text.displayName = "Text";

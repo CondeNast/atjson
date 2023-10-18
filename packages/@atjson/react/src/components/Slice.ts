@@ -1,6 +1,6 @@
 import type { ReactElement, ReactNode } from "react";
 import { createElement, Fragment, useContext, useMemo } from "react";
-import { createTree, ROOT } from "@atjson/util";
+import { Block, createTree, InternalMark, ROOT } from "@atjson/util";
 import { Node } from "./Node";
 import { SliceContext } from "../contexts";
 
@@ -26,8 +26,24 @@ export function Slice(props: {
     [value]
   );
 
+  let children = useMemo(() => {
+    if (tree && ROOT in tree) {
+      return tree[ROOT] as Array<InternalMark | Block | string>;
+    }
+    return [""];
+  }, [tree]);
+
   if (tree) {
-    return createElement(Node, { map: tree, id: ROOT });
+    return createElement(
+      Fragment,
+      {},
+      children.map((child) => {
+        if (typeof child === "string") {
+          return child;
+        }
+        return createElement(Node, { value: child, map: tree! });
+      })
+    );
   } else {
     return createElement(Fragment, {}, fallback);
   }
