@@ -13,59 +13,71 @@ import { ComponentContext, DEFAULT_CONTEXT } from "../contexts";
  * @returns A React fragment with the subtree of the node with the id provided
  */
 export function Node(props: {
+  value: Block | InternalMark;
   map: Map<string, Array<string | Block | InternalMark>>;
-  id: string;
 }): ReactElement {
-  let children = useMemo(
-    () => props.map.get(props.id) ?? [],
-    [props.map, props.id]
-  );
   let context = useContext(ComponentContext);
   if (context === DEFAULT_CONTEXT) {
     throw new Error(
       "Component map is empty. Did you wrap your render call in ComponentProvider?"
     );
   }
-  return createElement(
-    Fragment,
-    {},
-    children.map((child, index) => {
-      if (typeof child == "string") {
-        return createElement(Fragment, { key: index }, child);
-      }
 
-      let key = context.keyOf(child);
-      let Component =
-        ("start" in child ? context.marks[key] : context.blocks[key]) ??
-        Fragment;
-      let attributes = Component ? child.attributes : {};
-
-      // Reduce number of components by checking if every child
-      // is text, and
-      let nodes = props.map.get(child.id) ?? [];
-      let children = nodes.every((node) => typeof node === "string")
-        ? (props.map.get(child.id) ?? []).join("")
-        : createElement(Node, { map: props.map, id: child.id });
-
-      // @ts-ignore undefined | false is ok here
-      if (child.selfClosing) {
-        return createElement(
-          Fragment,
-          { key: child.id },
-          createElement(Component, attributes),
-          children
-        );
-      }
-      if (nodes.length > 0) {
-        return createElement(
-          Component,
-          { key: child.id, ...attributes },
-          children
-        );
-      } else {
-        return createElement(Component, { key: child.id, ...attributes });
-      }
-    })
+  let Component = useMemo(() => {
+    let key = context.keyOf(props.value);
+    return (
+      ("start" in props.value ? context.marks[key] : context.blocks[key]) ??
+      Fragment
+    );
+  }, [props.map, props.value]);
+  let children = useMemo(
+    () => props.map.get(props.value.id) ?? [],
+    [props.map, props.value]
   );
+  let attributes = Component ? props.value.attributes : {};
+
+  // @ts-ignore undefined | false is ok here
+  if (props.value.selfClosing) {
+    return createElement(
+      Fragment,
+      {},
+      createElement(Component, attributes),
+      ...children.map((child) => {
+        if (typeof child === "string") {
+          return child;
+        }
+        return createElement(Node, {
+          value: child,
+          key: child.id,
+          map: props.map,
+        });
+      })
+    );
+  }
+
+  // If every child is text, we will return a single text fragment
+  // with the text joined together.
+  if (children.every((child) => typeof child === "string")) {
+    return createElement(Component, attributes, children.join(""));
+  }
+
+  if (children.length > 0) {
+    return createElement(
+      Component,
+      { key: props.value.id, ...attributes },
+      ...children.map((child) => {
+        if (typeof child === "string") {
+          return child;
+        }
+        return createElement(Node, {
+          value: child,
+          key: child.id,
+          map: props.map,
+        });
+      })
+    );
+  } else {
+    return createElement(Component, { attributes });
+  }
 }
 Node.displayName = "Node";
