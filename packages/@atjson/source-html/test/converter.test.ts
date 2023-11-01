@@ -544,6 +544,33 @@ describe("@atjson/source-html", () => {
       `);
     });
 
+    test("iframe embeds with sandbox", () => {
+      let doc = HTMLSource.fromRaw(
+        `<iframe src="https://example.com"
+            scrolling="no" frameborder="0"
+            allowTransparency="true" allow="encrypted-media" sandbox="allow-same-origin,allow-scripts,allow-popups,allow-popups-to-escape-sandbox,allow-forms"></iframe>`
+      ).convertTo(OffsetSource);
+
+      expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+        {
+          "blocks": [
+            {
+              "attributes": {
+                "sandbox": "allow-same-origin,allow-scripts,allow-popups,allow-popups-to-escape-sandbox,allow-forms",
+                "url": "https://example.com",
+              },
+              "id": "B00000000",
+              "parents": [],
+              "selfClosing": false,
+              "type": "iframe-embed",
+            },
+          ],
+          "marks": [],
+          "text": "￼",
+        }
+      `);
+    });
+
     describe("social embeds", () => {
       test("Facebook iframe embed", () => {
         let doc = HTMLSource.fromRaw(

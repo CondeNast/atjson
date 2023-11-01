@@ -53,6 +53,7 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
           url: iframe.attributes.src,
           height: iframe.attributes.height,
           width: iframe.attributes.width,
+          sandbox: iframe.attributes.sandbox,
           anchorName: iframe.attributes.id,
         },
       })
