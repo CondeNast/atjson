@@ -548,7 +548,7 @@ describe("@atjson/source-html", () => {
       let doc = HTMLSource.fromRaw(
         `<iframe src="https://example.com"
             scrolling="no" frameborder="0"
-            allowTransparency="true" allow="encrypted-media" sandbox="allow-same-origin,allow-scripts,allow-popups,allow-popups-to-escape-sandbox,allow-forms"></iframe>`
+            allowTransparency="true" allow="encrypted-media" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>`
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

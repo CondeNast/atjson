@@ -1,4 +1,4 @@
-import Document, { Annotation } from "@atjson/document";
+import Document, { Annotation, AttributesOf } from "@atjson/document";
 import OffsetSource, {
   CodeBlock,
   List,
@@ -44,18 +44,21 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
   convertVideoEmbeds(doc);
 
   doc.where({ type: "-html-iframe" }).update(function updateIframes(iframe) {
+    const attributes = {
+      url: iframe.attributes.src,
+      height: iframe.attributes.height,
+      width: iframe.attributes.width,
+      anchorName: iframe.attributes.id,
+    } as AttributesOf<IframeEmbed>;
+    if (iframe.attributes.sandbox) {
+      attributes.sandbox = iframe.attributes.sandbox.split(" ").join(",");
+    }
     doc.replaceAnnotation(
       iframe,
       new IframeEmbed({
         start: iframe.start,
         end: iframe.end,
-        attributes: {
-          url: iframe.attributes.src,
-          height: iframe.attributes.height,
-          width: iframe.attributes.width,
-          sandbox: iframe.attributes.sandbox,
-          anchorName: iframe.attributes.id,
-        },
+        attributes,
       })
     );
   });
