@@ -1,4 +1,4 @@
-import type { Block, InternalMark, Mark } from "@atjson/util";
+import type { Block, Mark } from "@atjson/util";
 import { ROOT, createTree, extractSlices } from "@atjson/util";
 import { ComponentContext, ComponentProvider, SliceContext } from "./contexts";
 import { Node, Slice } from "./components";
@@ -23,8 +23,8 @@ export default function Text(props: {
   }, [props.value]);
 
   let children = useMemo(() => {
-    if (ROOT in tree) {
-      return tree[ROOT] as Array<InternalMark | Block | string>;
+    if (tree.has(ROOT)) {
+      return tree.get(ROOT) ?? [""];
     }
     return [""];
   }, [tree]);
@@ -39,7 +39,7 @@ export default function Text(props: {
         if (typeof child === "string") {
           return child;
         }
-        return createElement(Node, { value: child, map: tree });
+        return createElement(Node, { value: child, map: tree, key: child.id });
       })
     )
   );
