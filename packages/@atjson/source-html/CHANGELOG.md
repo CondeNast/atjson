@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.35.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.35.1...@atjson/source-html@0.35.2) (2023-11-01)
+
+### Bug Fixes
+
+- convert space to commas in sandbox attr ([#1698](https://github.com/CondeNast/atjson/issues/1698)) ([a9a8fd5](https://github.com/CondeNast/atjson/commit/a9a8fd59c1d07286f2fe379bbe6587c14e5517f0))
+
 ## [0.35.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.35.0...@atjson/source-html@0.35.1) (2023-11-01)
 
 **Note:** Version bump only for package @atjson/source-html
