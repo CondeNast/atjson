@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.3 (2023-11-02)
+
+### Bug Fixes
+
+- **react:** rearchitect Node so Children.map can be used by consumers ([fff5c44](https://github.com/CondeNast/atjson/commit/fff5c4412acb6e3dd6bd8ff2177d426b3b7a6859))
+
 ## [0.2.2](https://github.com/CondeNast/atjson/compare/@atjson/react@0.2.1...@atjson/react@0.2.2) (2023-10-16)
 
 **Note:** Version bump only for package @atjson/react
