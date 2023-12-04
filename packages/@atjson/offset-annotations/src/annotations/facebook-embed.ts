@@ -7,9 +7,9 @@ export class FacebookEmbed extends BlockAnnotation<{
   url: string;
 
   /**
-   * If set to false, this excludes the text attached to a photo post.
+   * If set to true, this hides the text attached to a photo post.
    */
-  showText?: boolean;
+  hideText?: boolean;
 
   /**
    * Refers to a slice instead of being an embedded document.
