@@ -3,6 +3,7 @@ import {
   AudioEnvironments,
   CerosEmbed,
   CneAudioEmbed,
+  CneTicketingWidgetEmbed,
   FireworkEmbed,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
@@ -214,6 +215,22 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         })
       );
     });
+  /**
+   * CNE Ticketing Widget
+   */
+  doc.where({ type: "-html-cne-ticketing-widget" }).update((embed) => {
+    doc.replaceAnnotation(
+      embed,
+      new CneTicketingWidgetEmbed({
+        id: embed.id,
+        start: embed.start,
+        end: embed.end,
+        attributes: {
+          url: embed.attributes.url,
+        },
+      })
+    );
+  });
 
   return doc;
 }
