@@ -2,10 +2,10 @@ import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("Cne Ticketing Widget embeds", () => {
+describe("CNE Event Registration embed", () => {
   test("only baseurl", () => {
     let doc = HTMLSource.fromRaw(
-      `<cne-ticketing-widget url="https://baseurl"></cne-ticketing-widget>`
+      `<cne-event-registration url="https://baseurl"></cne-event-registration>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -18,7 +18,7 @@ describe("Cne Ticketing Widget embeds", () => {
             "id": "B00000000",
             "parents": [],
             "selfClosing": false,
-            "type": "cne-ticketing-widget-embed",
+            "type": "cne-event-registration-embed",
           },
         ],
         "marks": [],
@@ -29,7 +29,7 @@ describe("Cne Ticketing Widget embeds", () => {
 
   test("full param", () => {
     let doc = HTMLSource.fromRaw(
-      `<cne-ticketing-widget url="https://baseurl?loggedout=loggedouturlslug&loggedin=loggedinslug&privacy=true"></cne-ticketing-widget>`
+      `<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true"></cne-event-registration>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -37,12 +37,12 @@ describe("Cne Ticketing Widget embeds", () => {
         "blocks": [
           {
             "attributes": {
-              "url": "https://baseurl?loggedout=loggedouturlslug&loggedin=loggedinslug&privacy=true",
+              "url": "https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true",
             },
             "id": "B00000000",
             "parents": [],
             "selfClosing": false,
-            "type": "cne-ticketing-widget-embed",
+            "type": "cne-event-registration-embed",
           },
         ],
         "marks": [],

@@ -2,11 +2,11 @@
 import { ObjectAnnotation } from "@atjson/document";
 import { GlobalAttributes } from "../global-attributes";
 
-export class CneTicketingWidgetEmbed extends ObjectAnnotation<
+export class CneEventRegistrationEmbed extends ObjectAnnotation<
   GlobalAttributes & {
     url: string;
   }
 > {
   static vendorPrefix = "html";
-  static type = "cne-ticketing-widget";
+  static type = "cne-event-registration";
 }

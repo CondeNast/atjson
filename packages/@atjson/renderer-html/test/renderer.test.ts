@@ -4,7 +4,7 @@ import OffsetSource, {
   Bold,
   CerosEmbed,
   CneAudioEmbed,
-  CneTicketingWidgetEmbed,
+  CneEventRegistrationEmbed,
   Code,
   CodeBlock,
   Heading,
@@ -614,12 +614,12 @@ describe("renderer-html", () => {
     );
   });
 
-  describe("Cneticketingwidget", () => {
-    test("only baseurl", () => {
+  describe("Cne Event Registration", () => {
+    test("baseurl only", () => {
       let doc = new OffsetSource({
         content: "\uFFFC",
         annotations: [
-          new CneTicketingWidgetEmbed({
+          new CneEventRegistrationEmbed({
             start: 0,
             end: 1,
             attributes: {
@@ -633,18 +633,18 @@ describe("renderer-html", () => {
       expect(
         Renderer.render(serialize(doc, { withStableIds: true }))
       ).toMatchInlineSnapshot(
-        `"<cne-ticketing-widget url="https://baseurl"></cne-ticketing-widget>"`
+        `"<cne-event-registration url="https://baseurl"></cne-event-registration>"`
       );
     });
     test("full param", () => {
       let doc = new OffsetSource({
         content: "\uFFFC",
         annotations: [
-          new CneTicketingWidgetEmbed({
+          new CneEventRegistrationEmbed({
             start: 0,
             end: 1,
             attributes: {
-              url: "https://baseurl?loggedout=loggedouturlslug&loggedin=loggedinslug&privacy=true",
+              url: "https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true",
             },
           }),
           new ParseAnnotation({ start: 0, end: 1 }),
@@ -654,7 +654,7 @@ describe("renderer-html", () => {
       expect(
         Renderer.render(serialize(doc, { withStableIds: true }))
       ).toMatchInlineSnapshot(
-        `"<cne-ticketing-widget url="https://baseurl?loggedout=loggedouturlslug&amp;loggedin=loggedinslug&amp;privacy=true"></cne-ticketing-widget>"`
+        `"<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&amp;loggedin=loggedinslug&amp;privacy=true"></cne-event-registration>"`
       );
     });
   });
