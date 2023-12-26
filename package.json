@@ -23,7 +23,7 @@
     "@types/prettier": "2.7.3",
     "@types/react": "18.0.34",
     "@types/react-dom": "18.0.11",
-    "@types/sax": "1.2.5",
+    "@types/sax": "1.2.7",
     "@types/wordpress__shortcode": "2.3.3",
     "@typescript-eslint/eslint-plugin": "5.58.0",
     "@typescript-eslint/parser": "5.58.0",
