@@ -38,6 +38,6 @@
   ],
   "devDependencies": {
     "@types/react": "18.2.38",
-    "@types/styled-components": "5.1.31"
+    "@types/styled-components": "5.1.34"
   }
 }
