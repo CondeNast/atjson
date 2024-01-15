@@ -3,6 +3,7 @@ export * from "./bold";
 export * from "./caption-source";
 export * from "./ceros-embed";
 export * from "./cne-audio-embed";
+export * from "./cne-event-registration-embed";
 export * from "./code";
 export * from "./code-block";
 export * from "./facebook-embed";

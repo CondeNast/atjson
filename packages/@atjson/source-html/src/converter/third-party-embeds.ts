@@ -3,6 +3,7 @@ import {
   AudioEnvironments,
   CerosEmbed,
   CneAudioEmbed,
+  CneEventRegistrationEmbed,
   FireworkEmbed,
 } from "@atjson/offset-annotations";
 import { Script } from "../annotations";
@@ -214,6 +215,32 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         })
       );
     });
+  /**
+   * CNE Event Registration Embed:
+   * is used to insert an iframe tag into the HTML page with two different URLs based on the user's status. The parameter passed to the embed is a specific URL, with some specific metadata encoded in the URL
+   * https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true
+   *
+   * If the user is not logged in to the site, the iframe URL will be https://baseurl/{loggedout}
+   * If the user is logged in to the site the iframe url will be https://baseurl/{loggedin}
+   *
+   * The (optional) privacy parameter will be used to check the user's choices regarding privacy (default value: true)
+   * if privacy = false --> no control, the iframe with the relative URL is always inserted into the page;
+   * if privacy = true --> user does not accept privacy (profiling) a warning will be shown on the page instead of the iframe (no iframe shown);
+   * if privacy = true --> user accepts privacy (profiling) the iframe with the relative URL will be inserted on the page;
+   */
+  doc.where({ type: "-html-cne-event-registration" }).update((embed) => {
+    doc.replaceAnnotation(
+      embed,
+      new CneEventRegistrationEmbed({
+        id: embed.id,
+        start: embed.start,
+        end: embed.end,
+        attributes: {
+          url: embed.attributes.url,
+        },
+      })
+    );
+  });
 
   return doc;
 }

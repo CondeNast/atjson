@@ -3,6 +3,7 @@ import {
   Blockquote,
   CerosEmbed,
   CneAudioEmbed,
+  CneEventRegistrationEmbed,
   CodeBlock,
   Heading,
   Image,
@@ -150,6 +151,13 @@ export default class HTMLRenderer extends Renderer {
     }).join(
       " "
     )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
+  }
+
+  // CNE Event Registration embed
+  *CneEventRegistrationEmbed(embed: Block<CneEventRegistrationEmbed>) {
+    return yield* this.$("cne-event-registration", {
+      url: embed.attributes.url,
+    });
   }
 
   *Code() {

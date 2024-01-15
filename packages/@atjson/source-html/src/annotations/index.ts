@@ -17,6 +17,7 @@ export * from "./button";
 export * from "./canvas";
 export * from "./caption";
 export * from "./cite";
+export * from "./cne-event-registration-embed";
 export * from "./code";
 export * from "./col";
 export * from "./colgroup";

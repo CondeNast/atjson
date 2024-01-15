@@ -4,6 +4,7 @@ import OffsetSource, {
   Bold,
   CerosEmbed,
   CneAudioEmbed,
+  CneEventRegistrationEmbed,
   Code,
   CodeBlock,
   Heading,
@@ -611,5 +612,50 @@ describe("renderer-html", () => {
     ).toMatchInlineSnapshot(
       `"<iframe id="podcast" src="https://embed-audio-sandbox.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
     );
+  });
+
+  describe("Cne Event Registration", () => {
+    test("baseurl only", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CneEventRegistrationEmbed({
+            start: 0,
+            end: 1,
+            attributes: {
+              url: "https://baseurl",
+            },
+          }),
+          new ParseAnnotation({ start: 0, end: 1 }),
+        ],
+      });
+
+      expect(
+        Renderer.render(serialize(doc, { withStableIds: true }))
+      ).toMatchInlineSnapshot(
+        `"<cne-event-registration url="https://baseurl"></cne-event-registration>"`
+      );
+    });
+    test("full param", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CneEventRegistrationEmbed({
+            start: 0,
+            end: 1,
+            attributes: {
+              url: "https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true",
+            },
+          }),
+          new ParseAnnotation({ start: 0, end: 1 }),
+        ],
+      });
+
+      expect(
+        Renderer.render(serialize(doc, { withStableIds: true }))
+      ).toMatchInlineSnapshot(
+        `"<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&amp;loggedin=loggedinslug&amp;privacy=true"></cne-event-registration>"`
+      );
+    });
   });
 });
