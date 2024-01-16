@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.31.0 (2024-01-16)
+
+### Features
+
+- **CNE-10708:** add CNE Ticketing Widget ([#1705](https://github.com/CondeNast/atjson/issues/1705)) ([0cc6554](https://github.com/CondeNast/atjson/commit/0cc65544f64251350947ec1cc62bce37e8295083))
+
 # [0.30.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.29.6...@atjson/renderer-html@0.30.0) (2023-10-16)
 
 ### Bug Fixes
