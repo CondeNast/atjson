@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           always-auth: true
-          node-version: "18.16.0"
+          node-version: "20.11.1"
           registry-url: https://registry.npmjs.org
       - name: Install Dependencies
         run: npm ci --no-optional
