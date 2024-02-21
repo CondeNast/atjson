@@ -5,6 +5,7 @@ import {
   CneAudioEmbed,
   CneEventRegistrationEmbed,
   CodeBlock,
+  DataSet,
   Heading,
   Image,
   Link,
@@ -12,6 +13,7 @@ import {
   ListItem,
   Paragraph,
   Section,
+  Table,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
 import { Mark, Block } from "@atjson/document";
@@ -259,6 +261,11 @@ export default class HTMLRenderer extends Renderer {
 
   *Superscript() {
     return yield* this.$("sup");
+  }
+
+  *Table() {
+    throw new Error("not implemented");
+    console.log("implement tables");
   }
 
   // This hook is TiktokEmbed instead of TikTokEmbed because of our classify function

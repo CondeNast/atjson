@@ -2,6 +2,7 @@ import Document from "@atjson/document";
 import {
   Bold,
   CodeBlock,
+  DataSet,
   HTML,
   Heading,
   Image,
@@ -9,6 +10,7 @@ import {
   Link,
   List,
   Paragraph,
+  Table,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import type { Block, Mark } from "@atjson/document";
@@ -716,5 +718,69 @@ export default class CommonmarkRenderer extends Renderer {
   *FixedIndent(): Generator<void, string, string[]> {
     let rawText = yield;
     return rawText.join("");
+  }
+
+  *Table(
+    table: Block<Table>,
+    context: Context
+  ): Generator<void, string, string[]> {
+    const dataSetSlice = this.getSlice(table.attributes.dataSet);
+    const dataSetAnnotation = dataSetSlice?.blocks.find(
+      (block) => block.type === "data-set"
+    ) as Block<DataSet> | undefined;
+
+    if (!dataSetAnnotation) {
+      /**
+       * invalid dataset ref
+       */
+      return "";
+    }
+
+    if (
+      !table.attributes.showColumnHeaders &&
+      dataSetAnnotation.attributes.rows.length === 0
+    ) {
+      /**
+       * dataset contains no data; valid, but unrepresentable in
+       */
+      return "";
+    }
+
+    let text = "";
+
+    const columnHeaderIDs = table.attributes.columns
+      ? table.attributes.columns.map((record) => record.id)
+      : dataSetAnnotation.attributes.columnHeaders;
+
+    if (table.attributes.showColumnHeaders) {
+      const columnContents = columnHeaderIDs.map((sliceId) =>
+        this.getSlice(sliceId)
+      );
+
+      /**
+       * TODO render the slices lol
+       */
+      // text += "| " + columnContents.map(slice => renderSomehow(slice)).join(" | ") + " |";
+    } else {
+      text += "|" + columnHeaderIDs.map(() => "     ").join("|") + "|\n";
+    }
+
+    text +=
+      "|" +
+      dataSetAnnotation.attributes.columnHeaders.map(() => " --- ").join("|") +
+      "|\n";
+
+    for (let row of dataSetAnnotation.attributes.rows) {
+      for (let columnId of dataSetAnnotation.attributes.columnHeaders) {
+        text += "| ";
+        /**
+         * TODO render the slices lol
+         */
+        // text += renderSomehow(this.getSlice(row[columnId])) + " ";
+      }
+      text += " |\n";
+    }
+
+    return text + "\n\n";
   }
 }

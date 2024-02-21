@@ -18,6 +18,12 @@ import {
   OrderedList,
   Paragraph,
   Strong,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeadCell,
+  TableHeadSection,
+  TableRow,
 } from "./annotations";
 import Parser from "./parser";
 
@@ -41,6 +47,12 @@ export default class CommonMarkSource extends Document {
     OrderedList,
     Paragraph,
     Strong,
+    Table,
+    TableBody,
+    TableCell,
+    TableHeadCell,
+    TableHeadSection,
+    TableRow,
   ];
 
   static fromRaw(markdown: string) {
