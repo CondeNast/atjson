@@ -1876,7 +1876,7 @@ After all the lists
   });
 
   describe("tables", () => {
-    test.only("with column headings", () => {
+    test("with column headings", () => {
       const [dataSetId, column1id, column2id, cell1_1id, cell1_2id] = [
         uuid(),
         uuid(),
