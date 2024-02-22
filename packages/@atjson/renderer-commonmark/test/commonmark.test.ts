@@ -1,7 +1,8 @@
-import { deserialize } from "@atjson/document";
+import { deserialize, SliceAnnotation } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
+import uuid from "uuid-random";
 
 describe("commonmark", () => {
   test("raw atjson document", () => {
@@ -1871,6 +1872,46 @@ After all the lists
       expect(CommonmarkRenderer.render(document)).toEqual(
         "Normal text, &emsp;Indented text\nMore text, &emsp;&emsp;&emsp;Also indented"
       );
+    });
+  });
+
+  describe("tables", () => {
+    test.only("with column headings", () => {
+      const [dataSetId, column1id, column2id, cell1_1id, cell1_2id] = [
+        uuid(),
+        uuid(),
+        uuid(),
+        uuid(),
+        uuid(),
+      ];
+      let document = new OffsetSource({
+        content: "column 1column 2data 1.1data 1.2",
+        annotations: [
+          {
+            type: "-offset-data-set",
+            start: 0,
+            end: 32,
+            attributes: {
+              columnHeaders: [column1id, column2id],
+              rows: [{ [column1id]: cell1_1id, [column2id]: cell1_2id }],
+            },
+          },
+          new SliceAnnotation({ id: dataSetId, start: 0, end: 32 }),
+          new SliceAnnotation({ id: column1id, start: 0, end: 8 }),
+          new SliceAnnotation({ id: column2id, start: 8, end: 16 }),
+          new SliceAnnotation({ id: cell1_1id, start: 16, end: 24 }),
+          new SliceAnnotation({ id: cell1_2id, start: 24, end: 32 }),
+          {
+            type: "-offset-table",
+            start: 32,
+            end: 32,
+            attributes: { dataSet: dataSetId, showColumnHeaders: true },
+          },
+        ],
+      });
+
+      const markdown = CommonmarkRenderer.render(document);
+      expect(markdown).toMatchSnapshot();
     });
   });
 });

@@ -26,6 +26,10 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
+function isDefined<T>(x: T | undefined | null): x is T {
+  return x != null;
+}
+
 export function* splitDelimiterRuns(
   context: Context,
   options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
@@ -223,28 +227,26 @@ function codify(line: string) {
 }
 
 export default class CommonmarkRenderer extends Renderer {
-  /**
-   * Controls whether HTML entities should be escaped. This
-   * may be desireable if markdown is being generated for humans
-   * and your markdown flavor doesn't support HTML.
-   *
-   * By default, `escapeHtmlEntities` is set to `true` if your
-   * schema has an annotation with the type `html`. You can override
-   * this configuration by passing in another parameter to the constructor.
-   */
-  protected options: {
-    escapeHtmlEntities: boolean;
-  };
-
   protected state: any;
 
   constructor(
     document: Document | { text: string; marks: Mark[]; blocks: Block[] },
-    options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+    /**
+     * Controls whether HTML entities should be escaped. This
+     * may be desireable if markdown is being generated for humans
+     * and your markdown flavor doesn't support HTML.
+     *
+     * By default, `escapeHtmlEntities` is set to `true` if your
+     * schema has an annotation with the type `html`. You can override
+     * this configuration by passing in another parameter to the constructor.
+     */
+    protected options: {
+      escapeHtmlEntities: boolean;
+      allowBlocks: boolean;
+    } = { escapeHtmlEntities: true, allowBlocks: true }
   ) {
     super(document);
     this.state = {};
-    this.options = options;
   }
 
   text(text: string) {
@@ -335,6 +337,9 @@ export default class CommonmarkRenderer extends Renderer {
    * > It can also span multiple lines.
    */
   *Blockquote(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let text = yield;
     let lines: string[] = text.join("").split("\n");
     let endOfQuote = lines.length;
@@ -367,6 +372,9 @@ export default class CommonmarkRenderer extends Renderer {
    * headings of level 1 or 2, so any other level will be broken.
    */
   *Heading(heading: Heading): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let rawText = yield;
     let text = rawText.join("");
     let level = new Array(heading.attributes.level + 1).join("#");
@@ -388,6 +396,9 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     return "***\n";
   }
 
@@ -527,6 +538,9 @@ export default class CommonmarkRenderer extends Renderer {
     code: Block<CodeBlock>,
     context: Context
   ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -556,6 +570,9 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   *Html(html: Block<HTML>): Generator<void, string, string[]> {
+    if (html.attributes.style === "block" && this.state.inlineOnly) {
+      return "";
+    }
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -577,6 +594,9 @@ export default class CommonmarkRenderer extends Renderer {
    * A list item is part of an ordered list or an unordered list.
    */
   *ListItem(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -631,6 +651,9 @@ export default class CommonmarkRenderer extends Renderer {
     list: Block<List>,
     context: Context
   ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -694,6 +717,9 @@ export default class CommonmarkRenderer extends Renderer {
     _paragraph: Block<Paragraph>,
     _context: Context
   ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let rawText = yield;
     let text = rawText.join("");
 
@@ -720,10 +746,14 @@ export default class CommonmarkRenderer extends Renderer {
     return rawText.join("");
   }
 
-  *Table(
-    table: Block<Table>,
-    context: Context
-  ): Generator<void, string, string[]> {
+  *Table(table: Block<Table>): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
+
+    const previousState = this.state;
+    this.state.inlineOnly = true;
+
     const dataSetSlice = this.getSlice(table.attributes.dataSet);
     const dataSetAnnotation = dataSetSlice?.blocks.find(
       (block) => block.type === "data-set"
@@ -741,7 +771,7 @@ export default class CommonmarkRenderer extends Renderer {
       dataSetAnnotation.attributes.rows.length === 0
     ) {
       /**
-       * dataset contains no data; valid, but unrepresentable in
+       * dataset contains no data; valid, but unrepresentable in markdown
        */
       return "";
     }
@@ -753,33 +783,49 @@ export default class CommonmarkRenderer extends Renderer {
       : dataSetAnnotation.attributes.columnHeaders;
 
     if (table.attributes.showColumnHeaders) {
-      const columnContents = columnHeaderIDs.map((sliceId) =>
-        this.getSlice(sliceId)
+      const columnHeaderSlices = columnHeaderIDs
+        .map((sliceId) => {
+          const slice = this.getSlice(sliceId);
+          if (!slice)
+            throw new Error(`column heading slice not found ${sliceId}`);
+          return slice;
+        })
+        // TODO: throw an error if a slice is not found?
+        .filter(isDefined);
+
+      const columnHeaders = columnHeaderSlices.map((slice) =>
+        this.render(slice)
       );
 
-      /**
-       * TODO render the slices lol
-       */
-      // text += "| " + columnContents.map(slice => renderSomehow(slice)).join(" | ") + " |";
+      text += "| " + columnHeaders.join(" | ") + " |\n";
     } else {
-      text += "|" + columnHeaderIDs.map(() => "     ").join("|") + "|\n";
+      text += "| " + columnHeaderIDs.map(() => "   ").join(" | ") + " |\n";
     }
 
     text +=
-      "|" +
-      dataSetAnnotation.attributes.columnHeaders.map(() => " --- ").join("|") +
-      "|\n";
+      "| " +
+      dataSetAnnotation.attributes.columnHeaders.map(() => "---").join(" | ") +
+      " |\n";
 
     for (let row of dataSetAnnotation.attributes.rows) {
+      const cells = [];
       for (let columnId of dataSetAnnotation.attributes.columnHeaders) {
-        text += "| ";
-        /**
-         * TODO render the slices lol
-         */
-        // text += renderSomehow(this.getSlice(row[columnId])) + " ";
+        let cellSlice = this.getSlice(row[columnId]);
+        if (!cellSlice) {
+          throw new Error(
+            `table cell slice not found ${
+              row[columnId]
+            } in row ${JSON.stringify(row, null, 2)}`
+          );
+          cells.push("");
+        } else {
+          cells.push(this.render(cellSlice));
+        }
       }
-      text += " |\n";
+      text += "| " + cells.join(" | ") + " |\n";
     }
+
+    this.state = previousState;
 
     return text + "\n\n";
   }

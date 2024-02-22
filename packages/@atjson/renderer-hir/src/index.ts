@@ -153,6 +153,30 @@ export default class Renderer {
     );
   }
 
+  render(
+    document: Document | { text: string; marks: Mark[]; blocks: Block[] }
+  ) {
+    const [serializedDocument] = extractSlices(
+      document instanceof Document ? serialize(document) : document
+    );
+    return compile(
+      this,
+      null,
+      createTree(serializedDocument) as Map<
+        string,
+        Array<Block | Mark | string>
+      >,
+      ROOT,
+      {
+        document: serializedDocument as {
+          text: string;
+          marks: Mark[];
+          blocks: Block[];
+        },
+      }
+    );
+  }
+
   private slices: Map<string, { text: string; marks: Mark[]; blocks: Block[] }>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function

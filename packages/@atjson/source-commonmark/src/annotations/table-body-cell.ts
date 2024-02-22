@@ -12,7 +12,7 @@ import { BlockAnnotation } from "@atjson/document";
  *
  * https://github.github.com/gfm/#example-199
  */
-export class TableCell extends BlockAnnotation<{ style?: string }> {
+export class TableBodyCell extends BlockAnnotation<{ style?: string }> {
   static type = "td";
   static vendorPrefix = "commonmark";
 }
