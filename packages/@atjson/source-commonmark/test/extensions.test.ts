@@ -1,4 +1,9 @@
-import { InlineAnnotation, getConverterFor, is } from "@atjson/document";
+import {
+  InlineAnnotation,
+  getConverterFor,
+  is,
+  serialize,
+} from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import MarkdownIt from "markdown-it";
 import CommonmarkSource from "../src";
@@ -77,5 +82,27 @@ describe("strikethrough", () => {
         },
       ]
     `);
+  });
+});
+
+describe("tables", () => {
+  const tableExample = `
+| name     | age |
+| -------- | --- |
+| laios    | 20  |
+| marcille | 500 |
+`;
+  test("parsing", () => {
+    expect(
+      serialize(MarkdownItSource.fromRaw(tableExample), { withStableIds: true })
+    ).toMatchSnapshot();
+  });
+
+  test("converting", () => {
+    let doc = MarkdownItSource.fromRaw(tableExample).withStableIds();
+
+    expect(
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+    ).toMatchSnapshot();
   });
 });

@@ -57,10 +57,7 @@ export default class CommonMarkSource extends Document {
 
   static fromRaw(markdown: string) {
     let md = this.markdownParser;
-    let parser = new Parser(
-      md.parse(markdown, { linkify: false }),
-      this.contentHandlers
-    );
+    let parser = new Parser(md.parse(markdown, {}), this.contentHandlers);
 
     return new this({
       content: parser.content,
@@ -69,7 +66,7 @@ export default class CommonMarkSource extends Document {
   }
 
   static get markdownParser() {
-    return MarkdownIt("commonmark");
+    return new MarkdownIt("commonmark", { linkify: false });
   }
 
   static get contentHandlers() {

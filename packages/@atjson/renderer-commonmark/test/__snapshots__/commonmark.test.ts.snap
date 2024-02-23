@@ -5,6 +5,5 @@ exports[`commonmark tables with column headings 1`] = `
 | --- | --- |
 | data 1.1 | data 1.2 |
 
-
 "
 `;

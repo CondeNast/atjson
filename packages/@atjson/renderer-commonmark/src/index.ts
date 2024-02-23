@@ -766,16 +766,6 @@ export default class CommonmarkRenderer extends Renderer {
       return "";
     }
 
-    if (
-      !table.attributes.showColumnHeaders &&
-      dataSetAnnotation.attributes.rows.length === 0
-    ) {
-      /**
-       * dataset contains no data; valid, but unrepresentable in markdown
-       */
-      return "";
-    }
-
     let text = "";
 
     const columnHeaderIDs = table.attributes.columns
@@ -786,8 +776,9 @@ export default class CommonmarkRenderer extends Renderer {
       const columnHeaderSlices = columnHeaderIDs
         .map((sliceId) => {
           const slice = this.getSlice(sliceId);
-          if (!slice)
+          if (!slice) {
             throw new Error(`column heading slice not found ${sliceId}`);
+          }
           return slice;
         })
         // TODO: throw an error if a slice is not found?
@@ -817,7 +808,6 @@ export default class CommonmarkRenderer extends Renderer {
               row[columnId]
             } in row ${JSON.stringify(row, null, 2)}`
           );
-          cells.push("");
         } else {
           cells.push(this.render(cellSlice));
         }
@@ -827,6 +817,6 @@ export default class CommonmarkRenderer extends Renderer {
 
     this.state = previousState;
 
-    return text + "\n\n";
+    return text + "\n";
   }
 }

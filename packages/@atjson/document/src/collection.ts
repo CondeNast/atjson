@@ -1,12 +1,12 @@
 import { Annotation, AnnotationJSON, Document, Join } from "./internals";
 
-/*
-  This is a hierarchical sort, meaning annotations are sorted by their position
-  with wrapping annotations appearing before nested annotations. To determine
-  nestedness, use start/end positions to see which annotations cover others. When
-  these coincide, sort by rank as the annotation with the lower rank would wrap
-  the other. If these are equal, just sort by type.
-*/
+/**
+ * This is a hierarchical sort, meaning annotations are sorted by their position
+ * with wrapping annotations appearing before nested annotations. To determine
+ * nestedness, use start/end positions to see which annotations cover others. When
+ * these coincide, sort by rank as the annotation with the lower rank would wrap
+ * the other. If these are equal, just sort by type.
+ */
 export function compareAnnotations(a: Annotation<any>, b: Annotation<any>) {
   let startDelta = a.start - b.start;
   let endDelta = b.end - a.end;
@@ -55,11 +55,11 @@ export class Collection {
     return this.annotations.length;
   }
 
-  map<T>(mapper: (annotation: Annotation<any>) => T) {
+  map<T>(mapper: (annotation: Annotation<any>, index: number) => T) {
     return this.annotations.map(mapper);
   }
 
-  forEach(callback: (annotation: Annotation<any>) => void) {
+  forEach(callback: (annotation: Annotation<any>, index: number) => void) {
     this.annotations.forEach(callback);
   }
 

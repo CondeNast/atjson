@@ -1,8 +1,102 @@
-import OffsetSource, { CodeBlock, Image } from "@atjson/offset-annotations";
+import OffsetSource, {
+  CodeBlock,
+  DataSet,
+  Table,
+  Image,
+} from "@atjson/offset-annotations";
+import { SliceAnnotation, compareAnnotations } from "@atjson/document";
 import CommonmarkSource from "./source";
 
 function convertTables(doc: OffsetSource): void {
-  throw new Error("remember to implement tables");
+  doc.where({ type: "-commonmark-table" }).forEach((table) => {
+    let dataColumnHeaders: string[] = [];
+    let columnConfigs: Table["attributes"]["columns"] = [];
+    let dataRows: Record<string, string>[] = [];
+
+    doc
+      .where(
+        (annotation) =>
+          annotation.type === "th" &&
+          annotation.start >= table.start &&
+          annotation.end <= table.end
+      )
+      .sort(compareAnnotations)
+      .forEach((headCell) => {
+        let slice = new SliceAnnotation({ ...headCell, id: undefined });
+        doc.replaceAnnotation(headCell, slice);
+        dataColumnHeaders.push(slice.id);
+
+        if (headCell.attributes.style) {
+          let { groups }: RegExpMatchArray = headCell.attributes.style.match(
+            /(text-align: ?(?<alignment>left|right|center))/
+          );
+
+          if (groups?.alignment) {
+            columnConfigs?.push({
+              id: slice.id,
+              textAlign: groups.alignment as "left" | "right" | "center",
+            });
+          }
+        }
+      });
+
+    let tableRows = doc.where(
+      (annotation) =>
+        annotation.type === "tr" &&
+        annotation.start >= table.start &&
+        annotation.end <= table.end
+    );
+
+    tableRows.forEach((row) => {
+      let rowEntries: [string, string][] = [];
+      doc
+        .where(
+          (annotation) =>
+            annotation.type === "td" &&
+            annotation.start >= row.start &&
+            annotation.end <= row.end
+        )
+        .sort(compareAnnotations)
+        .forEach((bodyCell, index) => {
+          let slice = new SliceAnnotation({ ...bodyCell, id: undefined });
+          doc.replaceAnnotation(bodyCell, slice);
+          rowEntries.push([dataColumnHeaders[index], slice.id]);
+        });
+
+      dataRows.push(Object.fromEntries(rowEntries));
+    });
+
+    tableRows.remove();
+
+    let dataSet = new DataSet({
+      ...table,
+      id: undefined,
+      attributes: { columnHeaders: dataColumnHeaders, rows: dataRows },
+    });
+
+    let dataSetSlice = new SliceAnnotation({
+      ...dataSet,
+      id: undefined,
+      attributes: { refs: [] },
+    });
+
+    let offsetTable = new Table({
+      ...table,
+      id: undefined,
+      attributes: { dataSet: dataSetSlice.id },
+    });
+
+    if (columnConfigs?.length) {
+      offsetTable.attributes.columns = columnConfigs;
+    }
+
+    dataSetSlice.attributes.refs.push(offsetTable.id);
+
+    doc.replaceAnnotation(table, dataSet, dataSetSlice, offsetTable);
+  });
+
+  doc.where({ type: "-commonmark-thead" }).remove();
+  doc.where({ type: "-commonmark-tbody" }).remove();
 }
 
 CommonmarkSource.defineConverterTo(

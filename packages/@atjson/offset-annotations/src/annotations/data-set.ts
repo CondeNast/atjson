@@ -29,4 +29,20 @@ export class DataSet extends BlockAnnotation<{
 }> {
   static vendorPrefix = "offset";
   static type = "data-set";
+
+  withStableIds(ids: Map<string, string>) {
+    let newAnnotation = super.withStableIds(ids);
+    let newRows = newAnnotation.attributes.rows.map((row) => {
+      let updatedEntries = Object.entries(row).map(([key, value]) => [
+        ids.has(key) ? (ids.get(key) as string) : key,
+        value,
+      ]);
+
+      return Object.fromEntries(updatedEntries);
+    });
+
+    newAnnotation.attributes.rows = newRows;
+
+    return newAnnotation;
+  }
 }

@@ -1,6 +1,7 @@
 import { serialize } from "@atjson/document";
 import CommonMarkSource from "../src";
 import { render } from "./utils";
+import OffsetSource from "@atjson/offset-annotations";
 
 describe("whitespace", () => {
   test("&nbsp; is translated to a non-breaking space", () => {
