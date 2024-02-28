@@ -4,6 +4,41 @@ exports[`tables converting 1`] = `
 {
   "blocks": [
     {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "name",
+            "textAlign": "left",
+          },
+          {
+            "name": "age",
+            "textAlign": "right",
+          },
+          {
+            "name": "job",
+          },
+          {
+            "name": "notes",
+            "textAlign": "center",
+          },
+        ],
+        "dataSet": "B00000002",
+      },
+      "id": "B00000001",
+      "parents": [
+        "text",
+      ],
+      "selfClosing": false,
+      "type": "table",
+    },
+    {
       "attributes": {
         "columns": [
           {
@@ -22,7 +57,7 @@ exports[`tables converting 1`] = `
             "type": "peritext",
           },
           {
-            "name": "￼￼notes",
+            "name": "notes",
             "slice": "M00000005",
             "type": "peritext",
           },
@@ -41,7 +76,7 @@ exports[`tables converting 1`] = `
               "jsonValue": "￼laios",
               "slice": "M00000006",
             },
-            "￼￼notes": {
+            "notes": {
               "jsonValue": "￼A strange but earnest person. He ￼really ￼really likes monsters",
               "slice": "M00000009",
             },
@@ -59,7 +94,7 @@ exports[`tables converting 1`] = `
               "jsonValue": "￼marcille",
               "slice": "M0000000c",
             },
-            "￼￼notes": {
+            "notes": {
               "jsonValue": "￼Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
@@ -77,7 +112,7 @@ exports[`tables converting 1`] = `
               "jsonValue": "￼falin",
               "slice": "M00000010",
             },
-            "￼￼notes": {
+            "notes": {
               "jsonValue": "￼She ￼seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000013",
             },
@@ -95,73 +130,51 @@ exports[`tables converting 1`] = `
               "jsonValue": "￼chilchuk",
               "slice": "M00000015",
             },
-            "￼￼notes": {
+            "notes": {
               "jsonValue": "￼Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000018",
             },
           },
         ],
       },
-      "id": "B00000000",
-      "parents": [],
-      "selfClosing": false,
-      "type": "data-set",
-    },
-    {
-      "attributes": {
-        "columns": [
-          {
-            "name": "name",
-            "textAlign": "left",
-          },
-          {
-            "name": "age",
-            "textAlign": "right",
-          },
-          {
-            "name": "￼￼notes",
-            "textAlign": "center",
-          },
-        ],
-        "dataSet": "B00000000",
-      },
-      "id": "B00000001",
+      "id": "B00000002",
       "parents": [
-        "data-set",
+        "text",
+        "table",
       ],
       "selfClosing": false,
-      "type": "table",
+      "type": "data-set",
     },
   ],
   "marks": [
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000000",
-      "range": "(3..7]",
+      "range": "(4..8]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000001",
-      "range": "(8..11]",
+      "range": "(9..12]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000002",
-      "range": "(12..15]",
+      "range": "(13..16]",
       "type": "slice",
     },
     {
@@ -169,205 +182,205 @@ exports[`tables converting 1`] = `
         "url": "https://en.wikipedia.org/wiki/Delicious_in_Dungeon",
       },
       "id": "M00000003",
-      "range": "(16..21)",
+      "range": "(17..22)",
       "type": "link",
     },
     {
       "attributes": {},
       "id": "M00000004",
-      "range": "(16..21]",
+      "range": "(17..22]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000005",
-      "range": "(16..21]",
+      "range": "(17..22]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000006",
-      "range": "(22..27]",
+      "range": "(23..28]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000007",
-      "range": "(28..30]",
+      "range": "(29..31]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000008",
-      "range": "(31..38]",
+      "range": "(32..39]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000009",
-      "range": "(39..100]",
+      "range": "(40..101]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000a",
-      "range": "(72..85]",
+      "range": "(73..86]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M0000000b",
-      "range": "(79..85]",
+      "range": "(80..86]",
       "type": "bold",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M0000000c",
-      "range": "(101..109]",
+      "range": "(102..110]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M0000000d",
-      "range": "(110..113]",
+      "range": "(111..114]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M0000000e",
-      "range": "(114..118]",
+      "range": "(115..119]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M0000000f",
-      "range": "(119..240]",
+      "range": "(120..241]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000010",
-      "range": "(241..246]",
+      "range": "(242..247]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000011",
-      "range": "(247..249]",
+      "range": "(248..250]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000012",
-      "range": "(250..256]",
+      "range": "(251..257]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000013",
-      "range": "(257..399]",
+      "range": "(258..400]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000014",
-      "range": "(261..266]",
+      "range": "(262..267]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000015",
-      "range": "(400..408]",
+      "range": "(401..409]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000016",
-      "range": "(409..411]",
+      "range": "(410..412]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000017",
-      "range": "(412..417]",
+      "range": "(413..418]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000002",
         ],
       },
       "id": "M00000018",
-      "range": "(418..559]",
+      "range": "(419..560]",
       "type": "slice",
     },
   ],
-  "text": "￼￼ name age job notes laios 20 fighter A strange but earnest person. He really really likes monsters marcille 500 mage Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic... falin 18 healer She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers chilchuk 29 thief Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
+  "text": "￼￼￼ name age job notes laios 20 fighter A strange but earnest person. He really really likes monsters marcille 500 mage Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic... falin 18 healer She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers chilchuk 29 thief Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
 }
 `;
 

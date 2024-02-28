@@ -1,41 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tables with column headings center alignment 1`] = `
-"| column 1 | column 2 |
-|:--------:| -------- |
-| data 1.1 | data 1.2 |
-
-"
-`;
-
 exports[`tables with column headings mixed alignment 1`] = `
-"| column 1 | column 2 |
-|:-------- | --------:|
-| data 1.1 | data 1.2 |
+"| name     | age | job     | [*notes*](https://en.wikipedia.org/wiki/Delicious_in_Dungeon)                                                                                    |
+|:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|
+| laios    | 20  | fighter | A strange but earnest person. He *really **really*** likes monsters                                                                              |
+| marcille | 500 | mage    | Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...                        |
+| falin    | 18  | healer  | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
+| chilchuk | 29  | thief   | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
 
 "
 `;
 
 exports[`tables with column headings no alignment 1`] = `
-"| column 1 | column 2 |
-| -------- | -------- |
-| data 1.1 | data 1.2 |
+"| name     | age | job     | [*notes*](https://en.wikipedia.org/wiki/Delicious_in_Dungeon)                                                                                    |
+| -------- | --- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| laios    | 20  | fighter | A strange but earnest person. He *really **really*** likes monsters                                                                              |
+| marcille | 500 | mage    | Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...                        |
+| falin    | 18  | healer  | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
+| chilchuk | 29  | thief   | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
 
 "
 `;
 
 exports[`tables with column headings omitting columns 1`] = `
-"| column 2 |
-| -------- |
-| data 1.2 |
+"| name     | job     |
+| -------- | ------- |
+| laios    | fighter |
+| marcille | mage    |
+| falin    | healer  |
+| chilchuk | thief   |
 
 "
 `;
 
 exports[`tables with column headings reordering columns 1`] = `
-"| column 2 | column 1 |
-| -------- | -------- |
-| data 1.2 | data 1.1 |
+"| job     | age | name     | [*notes*](https://en.wikipedia.org/wiki/Delicious_in_Dungeon)                                                                                    |
+| ------- | --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| fighter | 20  | laios    | A strange but earnest person. He *really **really*** likes monsters                                                                              |
+| mage    | 500 | marcille | Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...                        |
+| healer  | 18  | falin    | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
+| thief   | 29  | chilchuk | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
 
 "
 `;
