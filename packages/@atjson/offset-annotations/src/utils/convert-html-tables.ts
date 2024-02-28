@@ -4,14 +4,13 @@ import {
   SliceAnnotation,
   compareAnnotations,
 } from "@atjson/document";
-import OffsetSource, {
-  DataSet,
-  Table,
-  ColumnType,
-} from "@atjson/offset-annotations";
+import OffsetSource, { DataSet, Table, ColumnType } from "../index";
 
-export function convertTables(doc: OffsetSource): void {
-  doc.where({ type: "-commonmark-table" }).forEach((table) => {
+export function convertHTMLTablesToDataSet(
+  doc: OffsetSource,
+  vendor: string
+): void {
+  doc.where({ type: `-${vendor}-table` }).forEach((table) => {
     let dataColumnHeaders: {
       name: string;
       slice: string;
@@ -25,6 +24,7 @@ export function convertTables(doc: OffsetSource): void {
     doc
       .where(
         (annotation) =>
+          annotation.vendorPrefix === vendor &&
           annotation.type === "th" &&
           annotation.start >= table.start &&
           annotation.end <= table.end
@@ -69,6 +69,7 @@ export function convertTables(doc: OffsetSource): void {
 
     let tableRows = doc.where(
       (annotation) =>
+        annotation.vendorPrefix === vendor &&
         annotation.type === "tr" &&
         annotation.start >= table.start &&
         annotation.end <= table.end
@@ -81,6 +82,7 @@ export function convertTables(doc: OffsetSource): void {
       doc
         .where(
           (annotation) =>
+            annotation.vendorPrefix === vendor &&
             annotation.type === "td" &&
             annotation.start >= row.start &&
             annotation.end <= row.end
@@ -148,6 +150,6 @@ export function convertTables(doc: OffsetSource): void {
     doc.replaceAnnotation(table, dataSet, dataSetSlice, offsetTable);
   });
 
-  doc.where({ type: "-commonmark-thead" }).remove();
-  doc.where({ type: "-commonmark-tbody" }).remove();
+  doc.where({ type: `-${vendor}-thead` }).remove();
+  doc.where({ type: `-${vendor}-tbody` }).remove();
 }

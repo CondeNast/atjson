@@ -1,6 +1,9 @@
-import OffsetSource, { CodeBlock, Image } from "@atjson/offset-annotations";
+import OffsetSource, {
+  CodeBlock,
+  Image,
+  convertHTMLTablesToDataSet,
+} from "@atjson/offset-annotations";
 import CommonmarkSource from "../source";
-import { convertTables } from "./tables";
 
 CommonmarkSource.defineConverterTo(
   OffsetSource,
@@ -90,7 +93,7 @@ CommonmarkSource.defineConverterTo(
       .set({ type: "-offset-paragraph" });
     doc.where({ type: "-commonmark-strong" }).set({ type: "-offset-bold" });
 
-    convertTables(doc);
+    convertHTMLTablesToDataSet(doc, "commonmark");
 
     return doc;
   }
