@@ -41,6 +41,6 @@ export class Table extends BlockAnnotation<{
   static type = "table";
 
   get rank() {
-    return 6; // higher than SliceAnnotation's rank of 5
+    return 4; // lower than sliceAnnotation's rank of 5
   }
 }
