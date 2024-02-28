@@ -757,11 +757,11 @@ export default class CommonmarkRenderer extends Renderer {
     const previousState = this.state;
     this.state.inlineOnly = true;
 
-    const dataSetAnnotation = context.document.blocks.find(
+    const dataSet = context.document.blocks.find(
       (block) => block.id === table.attributes.dataSet
     ) as Block<DataSet> | undefined;
 
-    if (!dataSetAnnotation) {
+    if (!dataSet) {
       /**
        * invalid dataset ref
        */
@@ -771,80 +771,106 @@ export default class CommonmarkRenderer extends Renderer {
       );
     }
 
-    let text = "";
+    const columnConfigs: DataSet["attributes"]["columns"] &
+      Table["attributes"]["columns"] = table.attributes.columns
+      ? table.attributes.columns.map(({ name, textAlign }) => {
+          let dataColumn = dataSet.attributes.columns.find(
+            (column) => column.name === name
+          );
 
-    const columnNames = table.attributes.columns
-      ? table.attributes.columns.map(({ name }) => name)
-      : dataSetAnnotation.attributes.columns.map(({ name }) => name);
-
-    if (table.attributes.showColumnHeaders) {
-      const columnHeaderSlices = columnNames
-        .map(
-          (name) =>
-            dataSetAnnotation.attributes.columns.find(
-              (column) => column.name === name
-            )?.slice as string
-        )
-        .map((sliceId) => {
-          const slice = this.getSlice(sliceId);
-          if (slice) {
-            return slice;
+          if (!dataColumn) {
+            throw new Error(
+              `Table ${table.id} ${
+                table.range
+              } has a column configuration for a column "${name}" which doesn't exist on DataSet ${
+                dataSet.attributes.name || dataSet.id
+              }`
+            );
           }
 
-          throw new Error(`column heading slice not found ${sliceId}`);
-        });
+          return { ...dataColumn, textAlign };
+        })
+      : dataSet.attributes.columns;
 
-      const columnHeaders = columnHeaderSlices.map((slice) =>
-        this.render(slice)
-      );
+    const columns: Record<
+      string,
+      {
+        header: string;
+        rows: string[];
+        width: number;
+        textAlign?: "left" | "center" | "right";
+      }
+    > = {};
 
-      text += "| " + columnHeaders.join(" | ") + " |\n";
-    } else {
-      text += "| " + columnNames.map(() => "   ").join(" | ") + " |\n";
+    for (let { name, slice: sliceId, textAlign } of columnConfigs) {
+      const slice = this.getSlice(sliceId);
+      if (!slice) {
+        throw new Error(`column heading slice not found ${sliceId}`);
+      }
+
+      let headerText = table.attributes.showColumnHeaders
+        ? this.render(slice)
+        : "";
+      columns[name] = {
+        header: headerText,
+        rows: [],
+        width: Math.max(headerText.length, 1),
+        textAlign,
+      };
     }
 
-    text +=
-      "| " +
-      columnNames
-        .map((name) => {
-          let textAlign = table.attributes.columns?.find(
-            (column) => column.name === name
-          )?.textAlign;
-          if (textAlign === "center") {
-            return ":-:";
-          }
-          if (textAlign === "left") {
-            return ":--";
-          }
-          if (textAlign === "right") {
-            return "--:";
-          }
-          return "---";
-        })
-        .join(" | ") +
-      " |\n";
-
-    for (let row of dataSetAnnotation.attributes.rows) {
-      const cells = [];
-      for (let columnName of dataSetAnnotation.attributes.columns.map(
-        ({ name }) => name
-      )) {
-        let cellSlice = this.getSlice(row[columnName].slice);
+    for (let row of dataSet.attributes.rows) {
+      for (let { name } of columnConfigs) {
+        let cellSlice = this.getSlice(row[name].slice);
         if (!cellSlice) {
           throw new Error(
-            `table cell slice not found ${
-              row[columnName].slice
-            } in row ${JSON.stringify(row, null, 2)}`
+            `Table ${table.id} ${table.range} with DataSet ${
+              dataSet.attributes.name || dataSet.id
+            }: document slice not found for column ${name} in row ${JSON.stringify(
+              row,
+              null,
+              2
+            )}`
           );
-        } else {
-          cells.push(this.render(cellSlice));
         }
+
+        let cellText = this.render(cellSlice);
+        columns[name].rows.push(cellText);
+        columns[name].width = Math.max(columns[name].width, cellText.length);
       }
-      text += "| " + cells.join(" | ") + " |\n";
     }
 
-    this.state = previousState;
+    let headerRow = "|";
+    let separatorRow = "|";
 
-    return text + "\n";
+    for (let { name, textAlign } of columnConfigs) {
+      let headerText = columns[name].header;
+      let columnWidth = columns[name].width;
+      headerRow +=
+        " " + headerText + " ".repeat(columnWidth - headerText.length) + " |";
+
+      let leftDecoration =
+        textAlign === "left" || textAlign === "center" ? ":" : " ";
+      let rightDecoration =
+        textAlign === "center" || textAlign === "right" ? ":" : " ";
+      separatorRow +=
+        leftDecoration + "-".repeat(columnWidth) + rightDecoration + "|";
+    }
+
+    let body = "";
+
+    dataSet.attributes.rows.forEach((_row, index) => {
+      body += "|";
+      for (let { name } of columnConfigs) {
+        let cellText = columns[name].rows[index];
+        let columnWidth = columns[name].width;
+        body +=
+          " " + cellText + " ".repeat(columnWidth - cellText.length) + " |";
+      }
+      body += "\n";
+    });
+
+    this.state = previousState;
+    return `${headerRow}\n${separatorRow}\n${body}\n`;
   }
 }
