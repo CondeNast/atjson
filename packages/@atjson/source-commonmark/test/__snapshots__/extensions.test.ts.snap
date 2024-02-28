@@ -5,15 +5,6 @@ exports[`tables converting 1`] = `
   "blocks": [
     {
       "attributes": {
-        "dataSet": "M00000000",
-      },
-      "id": "B00000000",
-      "parents": [],
-      "selfClosing": false,
-      "type": "table",
-    },
-    {
-      "attributes": {
         "columns": [
           {
             "name": "￼name",
@@ -49,29 +40,38 @@ exports[`tables converting 1`] = `
           },
         ],
       },
-      "id": "B00000001",
-      "parents": [
-        "table",
-      ],
+      "id": "B00000000",
+      "parents": [],
       "selfClosing": false,
       "type": "data-set",
+    },
+    {
+      "attributes": {
+        "dataSet": "M00000000",
+      },
+      "id": "B00000001",
+      "parents": [
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "table",
     },
   ],
   "marks": [
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000001",
         ],
       },
       "id": "M00000000",
-      "range": "(1..33]",
+      "range": "(0..33]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000001",
@@ -81,7 +81,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000002",
@@ -91,7 +91,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000003",
@@ -101,7 +101,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000004",
@@ -111,7 +111,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000005",
@@ -121,7 +121,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000006",

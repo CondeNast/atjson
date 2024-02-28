@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tables with column headings 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column 1",
+            "slice": "M00000001",
+            "type": "peritext",
+          },
+          {
+            "name": "column 2",
+            "slice": "M00000002",
+            "type": "peritext",
+          },
+        ],
+        "rows": [
+          {
+            "column 1": {
+              "jsonValue": "data 1.1",
+              "slice": "M00000003",
+            },
+            "column 2": {
+              "jsonValue": "data 1.2",
+              "slice": "M00000004",
+            },
+          },
+        ],
+      },
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "data-set",
+    },
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column 1",
+            "textAlign": "left",
+          },
+          {
+            "name": "column 2",
+            "textAlign": "right",
+          },
+        ],
+        "dataSet": "M00000000",
+        "showColumnHeaders": true,
+      },
+      "id": "B00000001",
+      "parents": [],
+      "selfClosing": false,
+      "type": "table",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000000",
+      "range": "(0..36]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "M00000000",
+        ],
+      },
+      "id": "M00000001",
+      "range": "(1..9]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "M00000000",
+        ],
+      },
+      "id": "M00000002",
+      "range": "(10..18]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "M00000000",
+        ],
+      },
+      "id": "M00000003",
+      "range": "(19..27]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "M00000000",
+        ],
+      },
+      "id": "M00000004",
+      "range": "(28..36]",
+      "type": "slice",
+    },
+  ],
+  "text": "￼column 1 column 2 data 1.1 data 1.2￼",
+}
+`;
+
+exports[`tables with column headings 2`] = `
+"| column 1 | column 2 |
+| :-- | --: |
+| data 1.1 | data 1.2 |
+
+"
+`;

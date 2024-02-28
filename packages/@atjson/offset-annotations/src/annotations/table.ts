@@ -39,8 +39,4 @@ export class Table extends BlockAnnotation<{
 }> {
   static vendorPrefix = "offset";
   static type = "table";
-
-  get rank() {
-    return 4; // lower than sliceAnnotation's rank of 5
-  }
 }

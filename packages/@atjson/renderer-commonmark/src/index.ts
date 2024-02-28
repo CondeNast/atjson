@@ -26,10 +26,6 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
-function isDefined<T>(x: T | undefined | null): x is T {
-  return x != null;
-}
-
 export function* splitDelimiterRuns(
   context: Context,
   options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
@@ -782,12 +778,12 @@ export default class CommonmarkRenderer extends Renderer {
         )
         .map((sliceId) => {
           const slice = this.getSlice(sliceId);
-          if (!slice) {
-            throw new Error(`column heading slice not found ${sliceId}`);
+          if (slice) {
+            return slice;
           }
-          return slice;
-        })
-        .filter(isDefined);
+
+          throw new Error(`column heading slice not found ${sliceId}`);
+        });
 
       const columnHeaders = columnHeaderSlices.map((slice) =>
         this.render(slice)
