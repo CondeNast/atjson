@@ -9,6 +9,7 @@ describe("tables", () => {
       annotations: [
         {
           type: "-offset-data-set",
+          id: "dataSetId",
           start: 0,
           end: 35,
           attributes: {
@@ -24,12 +25,6 @@ describe("tables", () => {
             ],
           },
         },
-        new SliceAnnotation({
-          id: "dataSetId",
-          start: 0,
-          end: 35,
-          attributes: { refs: ["tableId"] },
-        }),
         new SliceAnnotation({
           id: "column1id",
           start: 0,

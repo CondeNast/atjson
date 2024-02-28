@@ -8,12 +8,12 @@ exports[`tables converting 1`] = `
         "columns": [
           {
             "name": "￼name",
-            "slice": "M00000001",
+            "slice": "M00000000",
             "type": "peritext",
           },
           {
             "name": "￼age",
-            "slice": "M00000002",
+            "slice": "M00000001",
             "type": "peritext",
           },
         ],
@@ -21,21 +21,21 @@ exports[`tables converting 1`] = `
           {
             "￼age": {
               "jsonValue": "￼20",
-              "slice": "M00000004",
+              "slice": "M00000003",
             },
             "￼name": {
               "jsonValue": "￼laios",
-              "slice": "M00000003",
+              "slice": "M00000002",
             },
           },
           {
             "￼age": {
               "jsonValue": "￼500",
-              "slice": "M00000006",
+              "slice": "M00000005",
             },
             "￼name": {
               "jsonValue": "￼marcille",
-              "slice": "M00000005",
+              "slice": "M00000004",
             },
           },
         ],
@@ -47,7 +47,7 @@ exports[`tables converting 1`] = `
     },
     {
       "attributes": {
-        "dataSet": "M00000000",
+        "dataSet": "B00000000",
       },
       "id": "B00000001",
       "parents": [
@@ -61,20 +61,10 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
-        ],
-      },
-      "id": "M00000000",
-      "range": "(0..33]",
-      "type": "slice",
-    },
-    {
-      "attributes": {
-        "refs": [
           "B00000000",
         ],
       },
-      "id": "M00000001",
+      "id": "M00000000",
       "range": "(3..7]",
       "type": "slice",
     },
@@ -84,7 +74,7 @@ exports[`tables converting 1`] = `
           "B00000000",
         ],
       },
-      "id": "M00000002",
+      "id": "M00000001",
       "range": "(8..11]",
       "type": "slice",
     },
@@ -94,7 +84,7 @@ exports[`tables converting 1`] = `
           "B00000000",
         ],
       },
-      "id": "M00000003",
+      "id": "M00000002",
       "range": "(12..17]",
       "type": "slice",
     },
@@ -104,7 +94,7 @@ exports[`tables converting 1`] = `
           "B00000000",
         ],
       },
-      "id": "M00000004",
+      "id": "M00000003",
       "range": "(18..20]",
       "type": "slice",
     },
@@ -114,7 +104,7 @@ exports[`tables converting 1`] = `
           "B00000000",
         ],
       },
-      "id": "M00000005",
+      "id": "M00000004",
       "range": "(21..29]",
       "type": "slice",
     },
@@ -124,7 +114,7 @@ exports[`tables converting 1`] = `
           "B00000000",
         ],
       },
-      "id": "M00000006",
+      "id": "M00000005",
       "range": "(30..33]",
       "type": "slice",
     },

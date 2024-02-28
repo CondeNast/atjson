@@ -128,16 +128,10 @@ export function convertHTMLTablesToDataSet(
       },
     });
 
-    let dataSetSlice = new SliceAnnotation({
-      ...dataSet,
-      id: undefined,
-      attributes: { refs: [] },
-    });
-
     let offsetTable = new Table({
       ...table,
       id: undefined,
-      attributes: { dataSet: dataSetSlice.id },
+      attributes: { dataSet: dataSet.id },
     });
 
     if (columnConfigs?.length) {
@@ -145,9 +139,8 @@ export function convertHTMLTablesToDataSet(
     }
 
     slices.forEach((slice) => slice.attributes.refs.push(dataSet.id));
-    dataSetSlice.attributes.refs.push(offsetTable.id);
 
-    doc.replaceAnnotation(table, dataSet, dataSetSlice, offsetTable);
+    doc.replaceAnnotation(table, dataSet, offsetTable);
   });
 
   doc.where({ type: `-${vendor}-thead` }).remove();

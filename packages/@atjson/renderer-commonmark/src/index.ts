@@ -742,7 +742,14 @@ export default class CommonmarkRenderer extends Renderer {
     return rawText.join("");
   }
 
-  *Table(table: Block<Table>): Generator<void, string, string[]> {
+  *DataSet(): Generator<void, string, string[]> {
+    return "";
+  }
+
+  *Table(
+    table: Block<Table>,
+    context: Context
+  ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
     }
@@ -750,16 +757,18 @@ export default class CommonmarkRenderer extends Renderer {
     const previousState = this.state;
     this.state.inlineOnly = true;
 
-    const dataSetSlice = this.getSlice(table.attributes.dataSet);
-    const dataSetAnnotation = dataSetSlice?.blocks.find(
-      (block) => block.type === "data-set"
+    const dataSetAnnotation = context.document.blocks.find(
+      (block) => block.id === table.attributes.dataSet
     ) as Block<DataSet> | undefined;
 
     if (!dataSetAnnotation) {
       /**
        * invalid dataset ref
        */
-      return "";
+
+      throw new Error(
+        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`
+      );
     }
 
     let text = "";
