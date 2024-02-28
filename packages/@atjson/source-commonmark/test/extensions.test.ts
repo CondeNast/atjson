@@ -87,10 +87,12 @@ describe("strikethrough", () => {
 
 describe("tables", () => {
   const tableExample = `
-| name     | age |
-| -------- | --- |
-| laios    | 20  |
-| marcille | 500 |
+| name     | age | job     | [*notes*](https://en.wikipedia.org/wiki/Delicious_in_Dungeon)                                                                                    |
+|:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|
+| laios    | 20  | fighter | A strange but earnest person. He *really __really__* likes monsters                                                                              |
+| marcille | 500 | mage    | Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...                        |
+| falin    | 18  | healer  | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
+| chilchuk | 29  | thief   | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
 `;
   test("parsing", () => {
     expect(

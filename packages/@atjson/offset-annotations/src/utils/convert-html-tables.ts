@@ -16,7 +16,7 @@ export function convertHTMLTablesToDataSet(
       slice: string;
       type: ColumnType;
     }[] = [];
-    let columnConfigs: Table["attributes"]["columns"] = [];
+    let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
 
     let slices: SliceAnnotation[] = [];
@@ -45,7 +45,10 @@ export function convertHTMLTablesToDataSet(
           attributes: { refs: [] },
         });
         doc.replaceAnnotation(headCell, slice);
-        let columnName = doc.content.slice(slice.start, slice.end).trim();
+        let columnName = doc.content
+          .slice(slice.start, slice.end)
+          .replace(/[^\p{Letter}\p{White_Space}]/gu, "")
+          .replace(/\s+/, " ");
         dataColumnHeaders.push({
           slice: slice.id,
           name: columnName.length ? columnName : `column ${index + 1}`,
@@ -59,11 +62,15 @@ export function convertHTMLTablesToDataSet(
           );
 
           if (groups?.alignment) {
-            columnConfigs?.push({
+            columnConfigs.push({
               name: columnName,
-              textAlign: groups.alignment as "left" | "right" | "center",
+              textAlign: groups?.alignment as "left" | "right" | "center",
             });
+          } else {
+            columnConfigs.push({ name: columnName });
           }
+        } else {
+          columnConfigs.push({ name: columnName });
         }
       });
 
@@ -134,7 +141,7 @@ export function convertHTMLTablesToDataSet(
       attributes: { dataSet: dataSet.id },
     });
 
-    if (columnConfigs?.length) {
+    if (columnConfigs.length) {
       offsetTable.attributes.columns = columnConfigs;
     }
 

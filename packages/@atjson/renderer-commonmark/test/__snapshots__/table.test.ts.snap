@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tables with column headings center alignment 1`] = `
+"| column 1 | column 2 |
+|:--------:| -------- |
+| data 1.1 | data 1.2 |
+
+"
+`;
+
+exports[`tables with column headings mixed alignment 1`] = `
+"| column 1 | column 2 |
+|:-------- | --------:|
+| data 1.1 | data 1.2 |
+
+"
+`;
+
+exports[`tables with column headings no alignment 1`] = `
+"| column 1 | column 2 |
+| -------- | -------- |
+| data 1.1 | data 1.2 |
+
+"
+`;
+
+exports[`tables with column headings omitting columns 1`] = `
+"| column 2 |
+| -------- |
+| data 1.2 |
+
+"
+`;
+
+exports[`tables with column headings reordering columns 1`] = `
+"| column 2 | column 1 |
+| -------- | -------- |
+| data 1.2 | data 1.1 |
+
+"
+`;
