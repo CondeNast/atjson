@@ -1,9 +1,8 @@
-import { deserialize } from "@atjson/document";
-import OffsetSource from "@atjson/offset-annotations";
-import CommonmarkRenderer from "../src";
+import { serialize, deserialize } from "@atjson/document";
+import OffsetSource from "../src";
 
-describe("tables", () => {
-  test("with column headings", () => {
+describe("DataSet", () => {
+  test("peritext", () => {
     let document = deserialize(
       {
         text: "￼￼column 1 column 2 data 1.1 data 1.2",
@@ -97,7 +96,6 @@ describe("tables", () => {
       OffsetSource
     );
 
-    const markdown = CommonmarkRenderer.render(document);
-    expect(markdown).toMatchSnapshot();
+    expect(serialize(document, { withStableIds: true })).toMatchSnapshot();
   });
 });
