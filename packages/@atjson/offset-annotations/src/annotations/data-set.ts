@@ -1,4 +1,8 @@
-import { BlockAnnotation } from "@atjson/document";
+import { BlockAnnotation, JSON } from "@atjson/document";
+
+export enum ColumnType {
+  PERITEXT = "peritext",
+}
 
 /**
  * A data set is an ordered collection of tabular
@@ -15,34 +19,31 @@ import { BlockAnnotation } from "@atjson/document";
  */
 export class DataSet extends BlockAnnotation<{
   /**
-   * An ordered list of the column names,
-   * referenced by slice ID.
+   * A human-readable way to identify the dataset
    */
-  columnHeaders: string[];
+  name?: string;
 
   /**
-   * An ordered list of rows, using the column
-   * slice IDs as the key and the value referring
-   * to the cell value.
+   * An ordered list of column definitions where:
+   * `name` is a unique, human-readable string
+   * `slice` is an id referring to a slice of the document
+   *   containing the formatted column header text
+   * `type` indicates how the `jsonValue` of corresponding
+   *   fields in the `rows` array should be interpreted
    */
-  rows: Record<string, string>[];
+  columns: { name: string; slice: string; type: ColumnType }[];
+
+  /**
+   * An ordered list of records, using the column
+   * `name`s as the keys. The values are objects referring to
+   * the contents of the cell with a slice id alongside a serialized
+   * representation of the cell in `jsonValue`
+   */
+  rows: Record<string, { slice: string; jsonValue: JSON }>[];
 }> {
   static vendorPrefix = "offset";
   static type = "data-set";
-
-  withStableIds(ids: Map<string, string>) {
-    let newAnnotation = super.withStableIds(ids);
-    let newRows = newAnnotation.attributes.rows.map((row) => {
-      let updatedEntries = Object.entries(row).map(([key, value]) => [
-        ids.has(key) ? (ids.get(key) as string) : key,
-        value,
-      ]);
-
-      return Object.fromEntries(updatedEntries);
-    });
-
-    newAnnotation.attributes.rows = newRows;
-
-    return newAnnotation;
+  get rank() {
+    return 5;
   }
 }

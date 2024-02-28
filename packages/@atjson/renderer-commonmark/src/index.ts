@@ -768,12 +768,18 @@ export default class CommonmarkRenderer extends Renderer {
 
     let text = "";
 
-    const columnHeaderIDs = table.attributes.columns
-      ? table.attributes.columns.map((record) => record.id)
-      : dataSetAnnotation.attributes.columnHeaders;
+    const columnNames = table.attributes.columns
+      ? table.attributes.columns.map(({ name }) => name)
+      : dataSetAnnotation.attributes.columns.map(({ name }) => name);
 
     if (table.attributes.showColumnHeaders) {
-      const columnHeaderSlices = columnHeaderIDs
+      const columnHeaderSlices = columnNames
+        .map(
+          (name) =>
+            dataSetAnnotation.attributes.columns.find(
+              (column) => column.name === name
+            )?.slice as string
+        )
         .map((sliceId) => {
           const slice = this.getSlice(sliceId);
           if (!slice) {
@@ -781,7 +787,6 @@ export default class CommonmarkRenderer extends Renderer {
           }
           return slice;
         })
-        // TODO: throw an error if a slice is not found?
         .filter(isDefined);
 
       const columnHeaders = columnHeaderSlices.map((slice) =>
@@ -790,22 +795,40 @@ export default class CommonmarkRenderer extends Renderer {
 
       text += "| " + columnHeaders.join(" | ") + " |\n";
     } else {
-      text += "| " + columnHeaderIDs.map(() => "   ").join(" | ") + " |\n";
+      text += "| " + columnNames.map(() => "   ").join(" | ") + " |\n";
     }
 
     text +=
       "| " +
-      dataSetAnnotation.attributes.columnHeaders.map(() => "---").join(" | ") +
+      columnNames
+        .map((name) => {
+          let textAlign = table.attributes.columns?.find(
+            (column) => column.name === name
+          )?.textAlign;
+          if (textAlign === "center") {
+            return ":-:";
+          }
+          if (textAlign === "left") {
+            return ":--";
+          }
+          if (textAlign === "right") {
+            return "--:";
+          }
+          return "---";
+        })
+        .join(" | ") +
       " |\n";
 
     for (let row of dataSetAnnotation.attributes.rows) {
       const cells = [];
-      for (let columnId of dataSetAnnotation.attributes.columnHeaders) {
-        let cellSlice = this.getSlice(row[columnId]);
+      for (let columnName of dataSetAnnotation.attributes.columns.map(
+        ({ name }) => name
+      )) {
+        let cellSlice = this.getSlice(row[columnName].slice);
         if (!cellSlice) {
           throw new Error(
             `table cell slice not found ${
-              row[columnId]
+              row[columnName].slice
             } in row ${JSON.stringify(row, null, 2)}`
           );
         } else {

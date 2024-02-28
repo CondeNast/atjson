@@ -1,8 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`commonmark tables with column headings 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column 1",
+            "slice": "M00000001",
+            "type": "peritext",
+          },
+          {
+            "name": "column 2",
+            "slice": "M00000002",
+            "type": "peritext",
+          },
+        ],
+        "rows": [
+          {
+            "column 1": {
+              "jsonValue": "data 1.1",
+              "slice": "M00000003",
+            },
+            "column 2": {
+              "jsonValue": "data 1.2",
+              "slice": "M00000004",
+            },
+          },
+        ],
+      },
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "data-set",
+    },
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column 1",
+            "textAlign": "left",
+          },
+          {
+            "name": "column 2",
+            "textAlign": "right",
+          },
+        ],
+        "dataSet": "M00000000",
+        "showColumnHeaders": true,
+      },
+      "id": "B00000001",
+      "parents": [
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "table",
+    },
+  ],
+  "marks": [],
+  "text": "￼￼column 1 column 2 data 1.1 data 1.2",
+}
+`;
+
+exports[`commonmark tables with column headings 2`] = `
 "| column 1 | column 2 |
-| --- | --- |
+| :-- | --: |
 | data 1.1 | data 1.2 |
 
 "

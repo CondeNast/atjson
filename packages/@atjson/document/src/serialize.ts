@@ -278,8 +278,8 @@ export function serialize(
   // }
   // ```
   let text = "";
-  let blocks: (Block & { annotation?: Annotation<any> })[] = [];
-  let marks: (Mark & { annotation?: Annotation<any> })[] = [];
+  let blocks: Block[] = [];
+  let marks: Mark[] = [];
 
   let root = new Root({
     start: 0,
@@ -549,8 +549,7 @@ export function serialize(
     switch (token.type) {
       case TokenType.BLOCK_START: {
         let annotation = token.annotation;
-        let isUnknown = is(annotation, UnknownAnnotation);
-        let { type, attributes } = isUnknown
+        let { type, attributes } = is(annotation, UnknownAnnotation)
           ? annotation.attributes
           : annotation;
 
@@ -560,7 +559,6 @@ export function serialize(
           parents: [...parents],
           selfClosing: token.selfClosing,
           attributes,
-          annotation: isUnknown ? undefined : annotation,
         });
         parents.push(token.annotation.type);
         token.shared.start = text.length;
@@ -589,8 +587,7 @@ export function serialize(
       }
       case TokenType.MARK_END: {
         let annotation = token.annotation;
-        let isUnknown = is(annotation, UnknownAnnotation);
-        let { type, attributes } = isUnknown
+        let { type, attributes } = is(annotation, UnknownAnnotation)
           ? annotation.attributes
           : annotation;
 
@@ -603,14 +600,12 @@ export function serialize(
             token.edgeBehaviour
           ),
           attributes,
-          annotation: isUnknown ? undefined : annotation,
         });
         break;
       }
       case TokenType.MARK_COLLAPSED: {
         let annotation = token.annotation;
-        let isUnknown = is(annotation, UnknownAnnotation);
-        let { type, attributes } = isUnknown
+        let { type, attributes } = is(annotation, UnknownAnnotation)
           ? annotation.attributes
           : annotation;
 
@@ -619,7 +614,6 @@ export function serialize(
           type,
           range: serializeRange(text.length, text.length, token.edgeBehaviour),
           attributes,
-          annotation: isUnknown ? undefined : annotation,
         });
         break;
       }
@@ -638,7 +632,6 @@ export function serialize(
   // Provide stable ids post-serialization for ids to
   // be truly stable when marks are colinear in a serialized
   // format, but not in atjson due to parse tokens
-  // TODO: allow annotation classes to override withStableIds
   if (options?.withStableIds ?? false) {
     let blockCounter = 0;
     let markCounter = 0;
@@ -658,27 +651,15 @@ export function serialize(
       if (id) {
         block.id = id;
       }
-      block.attributes = block.annotation
-        ? block.annotation.withStableIds(ids).attributes
-        : withStableIds(block.attributes, ids);
+      block.attributes = withStableIds(block.attributes, ids);
     }
     for (let mark of marks) {
       let id = ids.get(mark.id);
       if (id) {
         mark.id = id;
       }
-      mark.attributes = mark.annotation
-        ? mark.annotation.withStableIds(ids).attributes
-        : withStableIds(mark.attributes, ids);
+      mark.attributes = withStableIds(mark.attributes, ids);
     }
-  }
-
-  for (let block of blocks) {
-    delete block.annotation;
-  }
-
-  for (let mark of marks) {
-    delete mark.annotation;
   }
 
   return {

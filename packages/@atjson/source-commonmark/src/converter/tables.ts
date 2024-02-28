@@ -11,8 +11,7 @@ import OffsetSource, {
 } from "@atjson/offset-annotations";
 
 export function convertTables(doc: OffsetSource): void {
-  throw new Error("handle unsupported table structures gracefully");
-  doc.where({ type: "-html-table" }).forEach((table) => {
+  doc.where({ type: "-commonmark-table" }).forEach((table) => {
     let dataColumnHeaders: {
       name: string;
       slice: string;
@@ -43,7 +42,7 @@ export function convertTables(doc: OffsetSource): void {
         let slice = new SliceAnnotation({
           ...headCell,
           id: undefined,
-          attributes: { refs: [], retain: true },
+          attributes: { refs: [] },
         });
         doc.replaceAnnotation(headCell, slice);
         let columnName = doc.content.slice(slice.start, slice.end).trim();
@@ -98,7 +97,7 @@ export function convertTables(doc: OffsetSource): void {
           let slice = new SliceAnnotation({
             ...bodyCell,
             id: undefined,
-            attributes: { refs: [], retain: true },
+            attributes: { refs: [] },
           });
           doc.replaceAnnotation(bodyCell, slice);
           rowEntries.push([
@@ -111,7 +110,9 @@ export function convertTables(doc: OffsetSource): void {
           slices.push(slice);
         });
 
-      dataRows.push(Object.fromEntries(rowEntries));
+      if (rowEntries.length) {
+        dataRows.push(Object.fromEntries(rowEntries));
+      }
     });
 
     tableRows.remove();
@@ -128,7 +129,7 @@ export function convertTables(doc: OffsetSource): void {
     let dataSetSlice = new SliceAnnotation({
       ...dataSet,
       id: undefined,
-      attributes: { refs: [], retain: true },
+      attributes: { refs: [] },
     });
 
     let offsetTable = new Table({
@@ -145,16 +146,8 @@ export function convertTables(doc: OffsetSource): void {
     dataSetSlice.attributes.refs.push(offsetTable.id);
 
     doc.replaceAnnotation(table, dataSet, dataSetSlice, offsetTable);
-
-    doc.insertText(
-      offsetTable.end,
-      "\uFFFC",
-      AdjacentBoundaryBehaviour.preserveBoth
-    );
-
-    offsetTable.end += 1;
   });
 
-  doc.where({ type: "-html-thead" }).remove();
-  doc.where({ type: "-html-tbody" }).remove();
+  doc.where({ type: "-commonmark-thead" }).remove();
+  doc.where({ type: "-commonmark-tbody" }).remove();
 }

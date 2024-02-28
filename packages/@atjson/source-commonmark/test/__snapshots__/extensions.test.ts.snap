@@ -5,88 +5,131 @@ exports[`tables converting 1`] = `
   "blocks": [
     {
       "attributes": {
-        "dataSet": "M00000000",
+        "columns": [
+          {
+            "name": "￼name",
+            "slice": "M00000001",
+            "type": "peritext",
+          },
+          {
+            "name": "￼age",
+            "slice": "M00000002",
+            "type": "peritext",
+          },
+        ],
+        "rows": [
+          {
+            "￼age": {
+              "jsonValue": "￼20",
+              "slice": "M00000004",
+            },
+            "￼name": {
+              "jsonValue": "￼laios",
+              "slice": "M00000003",
+            },
+          },
+          {
+            "￼age": {
+              "jsonValue": "￼500",
+              "slice": "M00000006",
+            },
+            "￼name": {
+              "jsonValue": "￼marcille",
+              "slice": "M00000005",
+            },
+          },
+        ],
       },
       "id": "B00000000",
       "parents": [],
       "selfClosing": false,
-      "type": "table",
+      "type": "data-set",
     },
     {
       "attributes": {
-        "columnHeaders": [
-          "M00000001",
-          "M00000002",
-        ],
-        "rows": [
-          {},
-          {
-            "M00000001": "M00000003",
-            "M00000002": "M00000004",
-          },
-          {
-            "M00000001": "M00000005",
-            "M00000002": "M00000006",
-          },
-        ],
+        "dataSet": "M00000000",
       },
       "id": "B00000001",
       "parents": [
-        "table",
+        "data-set",
       ],
       "selfClosing": false,
-      "type": "data-set",
+      "type": "table",
     },
   ],
   "marks": [
     {
       "attributes": {
         "refs": [
-          "B00000000",
+          "B00000001",
         ],
       },
       "id": "M00000000",
-      "range": "(0..27]",
+      "range": "(0..33]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000001",
-      "range": "(2..6]",
+      "range": "(3..7]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000002",
-      "range": "(6..9]",
+      "range": "(8..11]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000003",
-      "range": "(9..14]",
+      "range": "(12..17]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000004",
-      "range": "(14..16]",
+      "range": "(18..20]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000005",
-      "range": "(16..24]",
+      "range": "(21..29]",
       "type": "slice",
     },
     {
-      "attributes": {},
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
       "id": "M00000006",
-      "range": "(24..27]",
+      "range": "(30..33]",
       "type": "slice",
     },
   ],
-  "text": "￼￼nameagelaios20marcille500",
+  "text": "￼￼ name age laios 20 marcille 500",
 }
 `;
 

@@ -18,7 +18,7 @@ import { BlockAnnotation } from "@atjson/document";
  */
 export class Table extends BlockAnnotation<{
   /**
-   * The slice ID of the DataSet from which the table data comes
+   * The name of the DataSet from which the table data comes
    */
   dataSet: string;
 
@@ -29,7 +29,7 @@ export class Table extends BlockAnnotation<{
    * original dataset, and excluding columns from this array will exclude
    * them from rendering.
    */
-  columns?: Array<{ id: string; textAlign: "left" | "right" | "center" }>;
+  columns?: Array<{ name: string; textAlign?: "left" | "right" | "center" }>;
 
   /**
    * Tables may decide whether or not to display the column headers
@@ -39,4 +39,8 @@ export class Table extends BlockAnnotation<{
 }> {
   static vendorPrefix = "offset";
   static type = "table";
+
+  get rank() {
+    return 6; // higher than SliceAnnotation's rank of 5
+  }
 }
