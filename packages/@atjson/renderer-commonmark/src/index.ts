@@ -771,27 +771,6 @@ export default class CommonmarkRenderer extends Renderer {
       );
     }
 
-    const columnConfigs: DataSet["attributes"]["columns"] &
-      Table["attributes"]["columns"] = table.attributes.columns
-      ? table.attributes.columns.map(({ name, textAlign }) => {
-          let dataColumn = dataSet.attributes.columns.find(
-            (column) => column.name === name
-          );
-
-          if (!dataColumn) {
-            throw new Error(
-              `Table ${table.id} ${
-                table.range
-              } has a column configuration for a column "${name}" which doesn't exist on DataSet ${
-                dataSet.attributes.name || dataSet.id
-              }`
-            );
-          }
-
-          return { ...dataColumn, textAlign };
-        })
-      : dataSet.attributes.columns;
-
     const columns: Record<
       string,
       {
@@ -802,7 +781,7 @@ export default class CommonmarkRenderer extends Renderer {
       }
     > = {};
 
-    for (let { name, slice: sliceId, textAlign } of columnConfigs) {
+    for (let { name, slice: sliceId, textAlign } of table.attributes.columns) {
       const slice = this.getSlice(sliceId);
       if (!slice) {
         throw new Error(`column heading slice not found ${sliceId}`);
@@ -819,8 +798,8 @@ export default class CommonmarkRenderer extends Renderer {
       };
     }
 
-    for (let row of dataSet.attributes.rows) {
-      for (let { name } of columnConfigs) {
+    for (let row of dataSet.attributes.records) {
+      for (let { name } of table.attributes.columns) {
         let cellSlice = this.getSlice(row[name].slice);
         if (!cellSlice) {
           throw new Error(
@@ -843,7 +822,7 @@ export default class CommonmarkRenderer extends Renderer {
     let headerRow = "|";
     let separatorRow = "|";
 
-    for (let { name, textAlign } of columnConfigs) {
+    for (let { name, textAlign } of table.attributes.columns) {
       let headerText = columns[name].header;
       let columnWidth = columns[name].width;
       headerRow +=
@@ -859,9 +838,9 @@ export default class CommonmarkRenderer extends Renderer {
 
     let body = "";
 
-    dataSet.attributes.rows.forEach((_row, index) => {
+    dataSet.attributes.records.forEach((_row, index) => {
       body += "|";
-      for (let { name } of columnConfigs) {
+      for (let { name } of table.attributes.columns) {
         let cellText = columns[name].rows[index];
         let columnWidth = columns[name].width;
         body +=

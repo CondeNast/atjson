@@ -11,29 +11,13 @@ function testTable(
       blocks: [
         {
           attributes: {
-            columns: [
-              {
-                name: "name",
-                slice: "M00000000",
-                type: "peritext",
-              },
-              {
-                name: "age",
-                slice: "M00000001",
-                type: "peritext",
-              },
-              {
-                name: "job",
-                slice: "M00000002",
-                type: "peritext",
-              },
-              {
-                name: "notes",
-                slice: "M00000005",
-                type: "peritext",
-              },
-            ],
-            rows: [
+            schema: {
+              name: "peritext",
+              age: "peritext",
+              job: "peritext",
+              notes: "peritext",
+            },
+            records: [
               {
                 age: {
                   jsonValue: "￼20",
@@ -329,10 +313,10 @@ describe("tables", () => {
     test("no alignment", () => {
       let document = testTable({
         columns: [
-          { name: "name" },
-          { name: "age" },
-          { name: "job" },
-          { name: "notes" },
+          { name: "name", slice: "M00000000" },
+          { name: "age", slice: "M00000001" },
+          { name: "job", slice: "M00000002" },
+          { name: "notes", slice: "M00000005" },
         ],
         showColumnHeaders: true,
       });
@@ -344,10 +328,10 @@ describe("tables", () => {
     test("mixed alignment", () => {
       let document = testTable({
         columns: [
-          { name: "name", textAlign: "left" },
-          { name: "age", textAlign: "right" },
-          { name: "job" },
-          { name: "notes", textAlign: "center" },
+          { name: "name", slice: "M00000000", textAlign: "left" },
+          { name: "age", slice: "M00000001", textAlign: "right" },
+          { name: "job", slice: "M00000002" },
+          { name: "notes", slice: "M00000005", textAlign: "center" },
         ],
         showColumnHeaders: true,
       });
@@ -359,18 +343,10 @@ describe("tables", () => {
     test("reordering columns", () => {
       let document = testTable({
         columns: [
-          {
-            name: "job",
-          },
-          {
-            name: "age",
-          },
-          {
-            name: "name",
-          },
-          {
-            name: "notes",
-          },
+          { name: "notes", slice: "M00000005" },
+          { name: "job", slice: "M00000002" },
+          { name: "age", slice: "M00000001" },
+          { name: "name", slice: "M00000000" },
         ],
         showColumnHeaders: true,
       });
@@ -384,9 +360,11 @@ describe("tables", () => {
         columns: [
           {
             name: "name",
+            slice: "M00000000",
           },
           {
             name: "job",
+            slice: "M00000002",
           },
         ],
         showColumnHeaders: true,

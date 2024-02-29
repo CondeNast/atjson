@@ -31,7 +31,7 @@ export class DataSet extends BlockAnnotation<{
    * `type` indicates how the `jsonValue` of corresponding
    *   fields in the `rows` array should be interpreted
    */
-  columns: { name: string; slice: string; type: ColumnType }[];
+  schema: Record<string, ColumnType>;
 
   /**
    * An ordered list of records, using the column
@@ -39,11 +39,8 @@ export class DataSet extends BlockAnnotation<{
    * the contents of the cell with a slice id alongside a serialized
    * representation of the cell in `jsonValue`
    */
-  rows: Record<string, { slice: string; jsonValue: JSON }>[];
+  records: Record<string, { slice: string; jsonValue: JSON }>[];
 }> {
   static vendorPrefix = "offset";
   static type = "data-set";
-  get rank() {
-    return 5;
-  }
 }

@@ -15,17 +15,21 @@ exports[`tables converting 1`] = `
         "columns": [
           {
             "name": "name",
+            "slice": "M00000000",
             "textAlign": "left",
           },
           {
             "name": "age",
+            "slice": "M00000001",
             "textAlign": "right",
           },
           {
             "name": "job",
+            "slice": "M00000002",
           },
           {
             "name": "notes",
+            "slice": "M00000005",
             "textAlign": "center",
           },
         ],
@@ -40,29 +44,7 @@ exports[`tables converting 1`] = `
     },
     {
       "attributes": {
-        "columns": [
-          {
-            "name": "name",
-            "slice": "M00000000",
-            "type": "peritext",
-          },
-          {
-            "name": "age",
-            "slice": "M00000001",
-            "type": "peritext",
-          },
-          {
-            "name": "job",
-            "slice": "M00000002",
-            "type": "peritext",
-          },
-          {
-            "name": "notes",
-            "slice": "M00000005",
-            "type": "peritext",
-          },
-        ],
-        "rows": [
+        "records": [
           {
             "age": {
               "jsonValue": "￼20",
@@ -136,6 +118,12 @@ exports[`tables converting 1`] = `
             },
           },
         ],
+        "schema": {
+          "age": "peritext",
+          "job": "peritext",
+          "name": "peritext",
+          "notes": "peritext",
+        },
       },
       "id": "B00000002",
       "parents": [

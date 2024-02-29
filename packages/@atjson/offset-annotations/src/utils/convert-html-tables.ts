@@ -6,16 +6,21 @@ import {
 } from "@atjson/document";
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
 
+function extractPlainContents(
+  doc: OffsetSource,
+  annotation: { start: number; end: number }
+): string {
+  return doc.content
+    .slice(annotation.start, annotation.end)
+    .replace(/\uFFFC/gu, "");
+}
+
 export function convertHTMLTablesToDataSet(
   doc: OffsetSource,
   vendor: string
 ): void {
   doc.where({ type: `-${vendor}-table` }).forEach((table) => {
-    let dataColumnHeaders: {
-      name: string;
-      slice: string;
-      type: ColumnType;
-    }[] = [];
+    let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
 
@@ -45,16 +50,19 @@ export function convertHTMLTablesToDataSet(
           attributes: { refs: [] },
         });
         doc.replaceAnnotation(headCell, slice);
-        let columnName = doc.content
-          .slice(slice.start, slice.end)
-          .replace(/[^\p{Letter}\p{White_Space}]/gu, "")
-          .replace(/\s+/, " ");
-        dataColumnHeaders.push({
-          slice: slice.id,
-          name: columnName.length ? columnName : `column ${index + 1}`,
-          type: ColumnType.PERITEXT,
-        });
+        let columnName = extractPlainContents(doc, slice);
+
+        dataSetSchemaEntries.push([
+          columnName.length ? columnName : `column ${index + 1}`,
+          ColumnType.PERITEXT,
+        ]);
+
         slices.push(slice);
+
+        let columnConfig: (typeof columnConfigs)[number] = {
+          name: columnName,
+          slice: slice.id,
+        };
 
         if (headCell.attributes.style) {
           let { groups }: RegExpMatchArray = headCell.attributes.style.match(
@@ -62,16 +70,14 @@ export function convertHTMLTablesToDataSet(
           );
 
           if (groups?.alignment) {
-            columnConfigs.push({
-              name: columnName,
-              textAlign: groups?.alignment as "left" | "right" | "center",
-            });
-          } else {
-            columnConfigs.push({ name: columnName });
+            columnConfig.textAlign = groups?.alignment as
+              | "left"
+              | "right"
+              | "center";
           }
-        } else {
-          columnConfigs.push({ name: columnName });
         }
+
+        columnConfigs.push(columnConfig);
       });
 
     let tableRows = doc.where(
@@ -110,10 +116,10 @@ export function convertHTMLTablesToDataSet(
           });
           doc.replaceAnnotation(bodyCell, slice);
           rowEntries.push([
-            dataColumnHeaders[index].name,
+            dataSetSchemaEntries[index][0],
             {
               slice: slice.id,
-              jsonValue: doc.content.slice(slice.start, slice.end),
+              jsonValue: extractPlainContents(doc, slice),
             },
           ]);
           slices.push(slice);
@@ -132,20 +138,16 @@ export function convertHTMLTablesToDataSet(
       start: table.start,
       end: table.start,
       attributes: {
-        columns: dataColumnHeaders,
-        rows: dataRows,
+        schema: Object.fromEntries(dataSetSchemaEntries),
+        records: dataRows,
       },
     });
 
     let offsetTable = new Table({
       ...table,
       id: undefined,
-      attributes: { dataSet: dataSet.id },
+      attributes: { dataSet: dataSet.id, columns: columnConfigs },
     });
-
-    if (columnConfigs.length) {
-      offsetTable.attributes.columns = columnConfigs;
-    }
 
     slices.forEach((slice) => slice.attributes.refs.push(dataSet.id));
 

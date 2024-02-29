@@ -29,7 +29,11 @@ export class Table extends BlockAnnotation<{
    * original dataset, and excluding columns from this array will exclude
    * them from rendering.
    */
-  columns?: Array<{ name: string; textAlign?: "left" | "right" | "center" }>;
+  columns: Array<{
+    name: string;
+    slice: string;
+    textAlign?: "left" | "right" | "center";
+  }>;
 
   /**
    * Tables may decide whether or not to display the column headers
