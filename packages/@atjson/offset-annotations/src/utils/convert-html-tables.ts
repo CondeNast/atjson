@@ -3,16 +3,81 @@ import {
   JSON,
   SliceAnnotation,
   compareAnnotations,
+  Annotation,
 } from "@atjson/document";
+
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
 
 function extractPlainContents(
   doc: OffsetSource,
   annotation: { start: number; end: number }
 ): string {
-  return doc.content
-    .slice(annotation.start, annotation.end)
-    .replace(/\uFFFC/gu, "");
+  let contentSlice = doc.slice(annotation.start, annotation.end);
+  let parseTokens = Array.from(
+    contentSlice.where({ type: "-atjson-parse-token" })
+  );
+  contentSlice.deleteTextRanges(parseTokens);
+
+  return contentSlice.content.trim();
+}
+
+function isInvalidTable(doc: OffsetSource, table: Table, vendor: string) {
+  let headSections = doc.where(
+    (annotation) =>
+      annotation.vendorPrefix === vendor &&
+      annotation.type === "thead" &&
+      annotation.start >= table.start &&
+      annotation.end <= table.end
+  );
+
+  if (headSections.length === 0) {
+    /**
+     * Currently, all invalid states come from weirdly-shaped head sections
+     * so if there's no head section it's valid by default
+     */
+    return false;
+  }
+
+  if (headSections.length > 1) {
+    /**
+     * If there's more than one head section we don't know how to construct a dataset from this table
+     */
+    return true;
+  }
+
+  let thead = headSections.annotations[0];
+
+  let headRows = doc.where(
+    (annotation) =>
+      annotation.vendorPrefix === vendor &&
+      annotation.type === "tr" &&
+      annotation.start >= thead.start &&
+      annotation.end <= thead.end
+  );
+
+  if (headRows.length > 1) {
+    /**
+     * If there are multiple rows of column headings it's unclear which ones should
+     * be the columns on the dataset
+     */
+    return true;
+  }
+
+  return false;
+}
+
+function extractAlignment(tableCell: Annotation<{ style: string }>) {
+  if (tableCell.attributes.style) {
+    let match = tableCell.attributes.style.match(
+      /(text-align: ?(?<alignment>left|right|center))/
+    );
+
+    if (match?.groups?.alignment) {
+      return match.groups.alignment as "left" | "right" | "center";
+    }
+  }
+
+  return undefined;
 }
 
 export function convertHTMLTablesToDataSet(
@@ -20,22 +85,27 @@ export function convertHTMLTablesToDataSet(
   vendor: string
 ): void {
   doc.where({ type: `-${vendor}-table` }).forEach((table) => {
+    if (isInvalidTable(doc, table, vendor)) {
+      return;
+    }
+
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
+    let hasColumnHeaders = true;
 
     let slices: SliceAnnotation[] = [];
 
-    doc
-      .where(
-        (annotation) =>
-          annotation.vendorPrefix === vendor &&
-          annotation.type === "th" &&
-          annotation.start >= table.start &&
-          annotation.end <= table.end
-      )
-      .sort(compareAnnotations)
-      .forEach((headCell, index) => {
+    let headings = doc.where(
+      (annotation) =>
+        annotation.vendorPrefix === vendor &&
+        annotation.type === "th" &&
+        annotation.start >= table.start &&
+        annotation.end <= table.end
+    );
+
+    if (headings.length) {
+      headings.sort(compareAnnotations).forEach((headCell, index) => {
         if (index !== 0) {
           doc.insertText(
             headCell.start,
@@ -64,21 +134,16 @@ export function convertHTMLTablesToDataSet(
           slice: slice.id,
         };
 
-        if (headCell.attributes.style) {
-          let { groups }: RegExpMatchArray = headCell.attributes.style.match(
-            /(text-align: ?(?<alignment>left|right|center))/
-          );
-
-          if (groups?.alignment) {
-            columnConfig.textAlign = groups?.alignment as
-              | "left"
-              | "right"
-              | "center";
-          }
+        let alignment = extractAlignment(headCell);
+        if (alignment) {
+          columnConfig.textAlign = alignment;
         }
 
         columnConfigs.push(columnConfig);
       });
+    } else {
+      hasColumnHeaders = false;
+    }
 
     let tableRows = doc.where(
       (annotation) =>
@@ -109,6 +174,23 @@ export function convertHTMLTablesToDataSet(
               AdjacentBoundaryBehaviour.preserveBoth
             );
           }
+
+          if (!hasColumnHeaders) {
+            let columnName = `column ${index + 1}`;
+
+            let columnConfig: (typeof columnConfigs)[number] = {
+              name: columnName,
+            };
+
+            let alignment = extractAlignment(bodyCell);
+            if (alignment) {
+              columnConfig.textAlign = alignment;
+            }
+
+            columnConfigs[index] = columnConfig;
+            dataSetSchemaEntries[index] = [columnName, ColumnType.PERITEXT];
+          }
+
           let slice = new SliceAnnotation({
             ...bodyCell,
             id: undefined,
@@ -146,7 +228,11 @@ export function convertHTMLTablesToDataSet(
     let offsetTable = new Table({
       ...table,
       id: undefined,
-      attributes: { dataSet: dataSet.id, columns: columnConfigs },
+      attributes: {
+        dataSet: dataSet.id,
+        columns: columnConfigs,
+        showColumnHeaders: hasColumnHeaders,
+      },
     });
 
     slices.forEach((slice) => slice.attributes.refs.push(dataSet.id));

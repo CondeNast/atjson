@@ -31,7 +31,7 @@ export class Table extends BlockAnnotation<{
    */
   columns: Array<{
     name: string;
-    slice: string;
+    slice?: string;
     textAlign?: "left" | "right" | "center";
   }>;
 

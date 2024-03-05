@@ -321,8 +321,8 @@ describe("tables", () => {
         showColumnHeaders: true,
       });
 
-      const markdown = HtmlRenderer.render(document);
-      expect(markdown).toMatchSnapshot();
+      const html = HtmlRenderer.render(document);
+      expect(html).toMatchSnapshot();
     });
 
     test("mixed alignment", () => {
@@ -336,8 +336,8 @@ describe("tables", () => {
         showColumnHeaders: true,
       });
 
-      const markdown = HtmlRenderer.render(document);
-      expect(markdown).toMatchSnapshot();
+      const html = HtmlRenderer.render(document);
+      expect(html).toMatchSnapshot();
     });
 
     test("reordering columns", () => {
@@ -351,8 +351,8 @@ describe("tables", () => {
         showColumnHeaders: true,
       });
 
-      const markdown = HtmlRenderer.render(document);
-      expect(markdown).toMatchSnapshot();
+      const html = HtmlRenderer.render(document);
+      expect(html).toMatchSnapshot();
     });
 
     test("omitting columns", () => {
@@ -370,8 +370,23 @@ describe("tables", () => {
         showColumnHeaders: true,
       });
 
-      const markdown = HtmlRenderer.render(document);
-      expect(markdown).toMatchSnapshot();
+      const html = HtmlRenderer.render(document);
+      expect(html).toMatchSnapshot();
     });
+  });
+
+  test("no column headings", () => {
+    let document = testTable({
+      columns: [
+        { name: "name", slice: "M00000000" },
+        { name: "age", slice: "M00000001" },
+        { name: "job", slice: "M00000002" },
+        { name: "notes", slice: "M00000005" },
+      ],
+      showColumnHeaders: false,
+    });
+
+    const html = HtmlRenderer.render(document);
+    expect(html).toMatchSnapshot();
   });
 });
