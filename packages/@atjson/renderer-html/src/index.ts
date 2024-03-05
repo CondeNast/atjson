@@ -287,18 +287,23 @@ export default class HTMLRenderer extends Renderer {
       header += "<thead><tr>";
       for (let { name, slice: sliceId, textAlign } of table.attributes
         .columns) {
-        let slice = this.getSlice(sliceId);
+        let headerText = name;
+        if (sliceId) {
+          const slice = this.getSlice(sliceId);
+          if (!slice) {
+            throw new Error(
+              `Table ${table.id} ${
+                table.range || ""
+              } could not find column heading slice for ${name} ${sliceId}`
+            );
+          }
 
-        if (!slice) {
-          throw new Error(
-            `Table ${table.id} ${
-              table.range || ""
-            } could not find column heading slice for ${name} ${sliceId}`
-          );
+          headerText = this.render(slice);
         }
+
         header += `<th${
           textAlign ? ` style="text-align: ${textAlign};"` : ""
-        }>${this.render(slice)}</th>`;
+        }>${headerText}</th>`;
       }
 
       header += "</tr></thead>";

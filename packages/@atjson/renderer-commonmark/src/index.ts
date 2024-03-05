@@ -782,14 +782,18 @@ export default class CommonmarkRenderer extends Renderer {
     > = {};
 
     for (let { name, slice: sliceId, textAlign } of table.attributes.columns) {
-      const slice = this.getSlice(sliceId);
-      if (!slice) {
-        throw new Error(`column heading slice not found ${sliceId}`);
+      let headerText = "";
+      if (table.attributes.showColumnHeaders) {
+        if (sliceId) {
+          const slice = this.getSlice(sliceId);
+          if (!slice) {
+            throw new Error(`column heading slice not found ${sliceId}`);
+          }
+          headerText = this.render(slice);
+        } else {
+          headerText = name;
+        }
       }
-
-      let headerText = table.attributes.showColumnHeaders
-        ? this.render(slice)
-        : "";
       columns[name] = {
         header: headerText,
         rows: [],

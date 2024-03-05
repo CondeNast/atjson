@@ -378,10 +378,10 @@ describe("tables", () => {
   test("no column headings", () => {
     let document = testTable({
       columns: [
-        { name: "name", slice: "M00000000" },
-        { name: "age", slice: "M00000001" },
-        { name: "job", slice: "M00000002" },
-        { name: "notes", slice: "M00000005" },
+        { name: "name" },
+        { name: "age" },
+        { name: "job" },
+        { name: "notes" },
       ],
       showColumnHeaders: false,
     });
