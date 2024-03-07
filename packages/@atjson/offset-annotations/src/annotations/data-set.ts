@@ -24,11 +24,9 @@ export class DataSet extends BlockAnnotation<{
   name?: string;
 
   /**
-   * An ordered list of column definitions where:
-   * `name` is a unique, human-readable string
-   * `slice` is an id referring to a slice of the document
-   *   containing the formatted column header text
-   * `type` indicates how the `jsonValue` of corresponding
+   * An mapping of column names to ColumnType enum values where:
+   *  the key is a unique, human-readable string
+   *  the value indicates how the `jsonValue` of corresponding
    *   fields in the `rows` array should be interpreted
    */
   schema: Record<string, ColumnType>;
