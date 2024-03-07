@@ -669,7 +669,11 @@ export function serialize(
   };
 }
 
-function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
+function offsetsForBlock<A>(
+  blocks: Block<A>[],
+  index: number,
+  positions: number[]
+) {
   let start = index;
   let block = blocks[index];
   if (block.selfClosing) {
@@ -706,8 +710,8 @@ function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
   };
 }
 
-function schemaForItem(
-  item: Mark | Block,
+function schemaForItem<A>(
+  item: Mark<A> | Block<A>,
   DocumentClass: typeof Document
 ): AnnotationConstructor<any, any> | null {
   let schema = DocumentClass.schema;
@@ -722,8 +726,8 @@ function schemaForItem(
   return null;
 }
 
-export function deserialize(
-  json: { text: string; blocks?: Block[]; marks?: Mark[] },
+export function deserialize<A>(
+  json: { text: string; blocks?: Block<A>[]; marks?: Mark<A>[] },
   DocumentClass: typeof Document
 ) {
   let annotations: Annotation<any>[] = [];
@@ -764,7 +768,7 @@ export function deserialize(
           ...position,
           attributes: {
             type: block.type,
-            attributes: block.attributes,
+            attributes: block.attributes as any,
           },
         })
       );
@@ -790,7 +794,7 @@ export function deserialize(
           end,
           attributes: {
             type: mark.type,
-            attributes: mark.attributes,
+            attributes: mark.attributes as any,
           },
         })
       );

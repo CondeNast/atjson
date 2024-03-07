@@ -39,7 +39,7 @@ export class DataSet extends BlockAnnotation<{
    * the contents of the cell with a slice id alongside a serialized
    * representation of the cell in `jsonValue`
    */
-  records: Record<string, { slice: string; jsonValue: JSON }>[];
+  records: Record<string, { slice: string; jsonValue: JSON } | undefined>[];
 }> {
   static vendorPrefix = "offset";
   static type = "data-set";

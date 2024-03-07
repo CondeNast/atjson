@@ -1,9 +1,7 @@
-import { deserialize, serialize, SliceAnnotation } from "@atjson/document";
+import { deserialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
-import uuid from "uuid-random";
-import { createTree, extractSlices } from "@atjson/util";
 
 describe("commonmark", () => {
   test("raw atjson document", () => {

@@ -308,6 +308,232 @@ function testTable(
   );
 }
 
+const JAGGED_TABLE = {
+  blocks: [
+    {
+      attributes: {},
+      id: "B00000000",
+      parents: [],
+      selfClosing: false,
+      type: "text",
+    },
+    {
+      attributes: {
+        columns: [
+          {
+            name: "column 1",
+          },
+          {
+            name: "column 2",
+          },
+          {
+            name: "column 3",
+          },
+          {
+            name: "column 4",
+          },
+        ],
+        dataSet: "B00000003",
+        showColumnHeaders: false,
+      },
+      id: "B00000001",
+      parents: [],
+      selfClosing: false,
+      type: "table",
+    },
+    {
+      attributes: {},
+      id: "B00000002",
+      parents: ["table"],
+      selfClosing: false,
+      type: "text",
+    },
+    {
+      attributes: {
+        records: [
+          {
+            "column 1": {
+              jsonValue: "laios",
+              slice: "M00000000",
+            },
+          },
+          {
+            "column 1": {
+              jsonValue: "marcille",
+              slice: "M00000001",
+            },
+            "column 2": {
+              jsonValue: "500",
+              slice: "M00000002",
+            },
+            "column 3": {
+              jsonValue: "mage",
+              slice: "M00000003",
+            },
+          },
+          {
+            "column 1": {
+              jsonValue: "falin",
+              slice: "M00000004",
+            },
+            "column 2": {
+              jsonValue: "healer",
+              slice: "M00000005",
+            },
+          },
+          {
+            "column 1": {
+              jsonValue: "chilchuk",
+              slice: "M00000006",
+            },
+            "column 2": {
+              jsonValue: "29",
+              slice: "M00000007",
+            },
+            "column 3": {
+              jsonValue: "thief",
+              slice: "M00000008",
+            },
+            "column 4": {
+              jsonValue: `Looks like a child but is actually a divorced father of three. He is
+        serious about his work and isn't interested in getting close with
+        people`,
+              slice: "M00000009",
+            },
+          },
+        ],
+        schema: {
+          "column 1": "peritext",
+          "column 2": "peritext",
+          "column 3": "peritext",
+          "column 4": "peritext",
+        },
+      },
+      id: "B00000003",
+      parents: ["table", "text"],
+      selfClosing: false,
+      type: "data-set",
+    },
+    {
+      attributes: {},
+      id: "B00000004",
+      parents: ["table"],
+      selfClosing: false,
+      type: "text",
+    },
+  ],
+  marks: [
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000000",
+      range: "(21..26]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000001",
+      range: "(44..52]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000002",
+      range: "(60..63]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000003",
+      range: "(71..75]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000004",
+      range: "(93..98]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000005",
+      range: "(106..112]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000006",
+      range: "(130..138]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000007",
+      range: "(146..148]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000008",
+      range: "(156..161]",
+      type: "slice",
+    },
+    {
+      attributes: {
+        refs: ["B00000003"],
+      },
+      id: "M00000009",
+      range: "(169..342]",
+      type: "slice",
+    },
+  ],
+  text: `￼
+￼￼￼
+  
+     
+      laios
+    
+     
+      marcille
+       500
+       mage
+    
+     
+      falin
+       healer
+    
+     
+      chilchuk
+       29
+       thief
+       
+        Looks like a child but is actually a divorced father of three. He is
+        serious about his work and isn't interested in getting close with
+        people
+      
+    
+  
+￼
+    `,
+} as any;
+
 describe("tables", () => {
   describe("with column headings", () => {
     test("no alignment", () => {
@@ -373,5 +599,11 @@ describe("tables", () => {
       const markdown = CommonmarkRenderer.render(document);
       expect(markdown).toMatchSnapshot();
     });
+  });
+
+  test("jagged table", () => {
+    let doc = deserialize(JAGGED_TABLE, OffsetSource);
+
+    expect(CommonmarkRenderer.render(doc)).toMatchSnapshot();
   });
 });

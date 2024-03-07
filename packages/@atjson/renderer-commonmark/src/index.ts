@@ -9,7 +9,6 @@ import {
   Italic,
   Link,
   List,
-  Paragraph,
   Table,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
@@ -709,10 +708,7 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(
-    _paragraph: Block<Paragraph>,
-    _context: Context
-  ): Generator<void, string, string[]> {
+  *Paragraph(): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
     }
@@ -804,20 +800,25 @@ export default class CommonmarkRenderer extends Renderer {
 
     for (let row of dataSet.attributes.records) {
       for (let { name } of table.attributes.columns) {
-        let cellSlice = this.getSlice(row[name].slice);
-        if (!cellSlice) {
-          throw new Error(
-            `Table ${table.id} ${table.range} with DataSet ${
-              dataSet.attributes.name || dataSet.id
-            }: document slice not found for column ${name} in row ${JSON.stringify(
-              row,
-              null,
-              2
-            )}`
-          );
+        let cellText = "";
+        let sliceId = row[name]?.slice;
+
+        if (sliceId) {
+          let cellSlice = this.getSlice(sliceId);
+          if (!cellSlice) {
+            throw new Error(
+              `Table ${table.id} ${table.range} with DataSet ${
+                dataSet.attributes.name || dataSet.id
+              }: document slice not found for column ${name} in row ${JSON.stringify(
+                row,
+                null,
+                2
+              )}`
+            );
+          }
+          cellText = this.render(cellSlice);
         }
 
-        let cellText = this.render(cellSlice);
         columns[name].rows.push(cellText);
         columns[name].width = Math.max(columns[name].width, cellText.length);
       }

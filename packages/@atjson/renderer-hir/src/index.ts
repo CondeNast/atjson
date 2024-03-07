@@ -123,6 +123,11 @@ function compile(
   ).value;
 }
 
+type RendererDocument =
+  | Document
+  | { text: string; marks: Mark[]; blocks: Block[] }
+  | null;
+
 export default class Renderer {
   static render<T extends typeof Renderer>(
     this: T,
@@ -180,13 +185,7 @@ export default class Renderer {
   private slices: Map<string, { text: string; marks: Mark[]; blocks: Block[] }>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  constructor(
-    _document:
-      | Document
-      | { text: string; marks: Mark[]; blocks: Block[] }
-      | null,
-    ..._args: any[]
-  ) {
+  constructor(_document: RendererDocument, ..._args: any[]) {
     this.slices = new Map();
   }
 

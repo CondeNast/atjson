@@ -313,22 +313,28 @@ export default class HTMLRenderer extends Renderer {
     for (let record of dataSet.attributes.records) {
       body += "<tr>";
       for (let { name, textAlign } of table.attributes.columns) {
-        let slice = this.getSlice(record[name].slice);
-        if (!slice) {
-          throw new Error(
-            `Table ${table.id} ${table.range} with DataSet ${
-              dataSet.attributes.name || dataSet.id
-            }: document slice not found for column ${name} in row ${JSON.stringify(
-              record,
-              null,
-              2
-            )}`
-          );
+        let cellText = "";
+        let sliceId = record[name]?.slice;
+        if (sliceId) {
+          let slice = this.getSlice(sliceId);
+          if (slice) {
+            cellText = this.render(slice);
+          } else {
+            throw new Error(
+              `Table ${table.id} ${table.range} with DataSet ${
+                dataSet.attributes.name || dataSet.id
+              }: document slice not found for column ${name} in row ${JSON.stringify(
+                record,
+                null,
+                2
+              )}`
+            );
+          }
         }
 
         body += `<td${
           textAlign ? ` style="text-align: ${textAlign};"` : ""
-        }>${this.render(slice)}</td>`;
+        }>${cellText}</td>`;
       }
 
       body += "</tr>";

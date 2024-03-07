@@ -785,7 +785,7 @@ export class Document {
           end: annotation.end,
           attributes: {
             type: annotation.type,
-            attributes: annotation.attributes,
+            attributes: annotation.attributes as any,
           },
         });
       }

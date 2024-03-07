@@ -1,9 +1,14 @@
-import { serialize, deserialize } from "@atjson/document";
-import OffsetSource from "../src";
+import {
+  serialize,
+  deserialize,
+  Block,
+  SliceAnnotation,
+} from "@atjson/document";
+import OffsetSource, { ColumnType, DataSet, Table } from "../src";
 
 describe("DataSet", () => {
   test("peritext", () => {
-    let document = deserialize(
+    let document = deserialize<Table | DataSet | SliceAnnotation>(
       {
         text: "￼￼column 1 column 2 data 1.1 data 1.2",
         blocks: [
@@ -11,19 +16,11 @@ describe("DataSet", () => {
             type: "data-set",
             id: "dataSetId",
             attributes: {
-              columns: [
-                {
-                  name: "column 1",
-                  slice: "column1Id",
-                  type: "peritext",
-                },
-                {
-                  name: "column 2",
-                  slice: "column2Id",
-                  type: "peritext",
-                },
-              ],
-              rows: [
+              schema: {
+                "column 1": ColumnType.PERITEXT,
+                "column 2": ColumnType.PERITEXT,
+              },
+              records: [
                 {
                   "column 1": {
                     slice: "cell1_1Id",
@@ -45,10 +42,12 @@ describe("DataSet", () => {
               columns: [
                 {
                   name: "column 1",
+                  slice: "column1Id",
                   textAlign: "left",
                 },
                 {
                   name: "column 2",
+                  slice: "column2Id",
                   textAlign: "right",
                 },
               ],
@@ -56,7 +55,7 @@ describe("DataSet", () => {
               showColumnHeaders: true,
             },
             parents: [],
-          },
+          } as Block<Table>,
         ],
         marks: [
           {

@@ -1,8 +1,8 @@
-import { Annotation, clone, JSON } from "../internals";
+import { Annotation, clone, JSONObject } from "../internals";
 
 export class UnknownAnnotation extends Annotation<{
   type: string;
-  attributes: JSON;
+  attributes: JSONObject;
 }> {
   static vendorPrefix = "atjson";
   static type = "unknown";
