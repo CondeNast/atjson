@@ -18,7 +18,7 @@ import { BlockAnnotation } from "@atjson/document";
  */
 export class Table extends BlockAnnotation<{
   /**
-   * The name of the DataSet from which the table data comes
+   * The id of the DataSet from which the table data comes
    */
   dataSet: string;
 
