@@ -1,7 +1,17 @@
 import { BlockAnnotation, JSON } from "@atjson/document";
 
+/**
+ * Information about how to interpret column values.
+ * For instance, values like `1.4e3` or `2.50` are ambiguous
+ * and should be handled differently by consuming code as
+ * numbers, dollar amounts, and plain strings.
+ */
 export enum ColumnType {
-  PERITEXT = "peritext",
+  RICH_TEXT = "rich_text",
+  STRING = "string",
+  NUMBER = "number",
+  CURRENCY = "currency",
+  DATE = "date",
 }
 
 /**

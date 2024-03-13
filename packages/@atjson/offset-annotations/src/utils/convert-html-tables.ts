@@ -124,7 +124,7 @@ export function convertHTMLTablesToDataSet(
 
         dataSetSchemaEntries.push([
           columnName.length ? columnName : `column ${index + 1}`,
-          ColumnType.PERITEXT,
+          ColumnType.RICH_TEXT,
         ]);
 
         slices.push(slice);
@@ -188,7 +188,7 @@ export function convertHTMLTablesToDataSet(
             }
 
             columnConfigs[index] = columnConfig;
-            dataSetSchemaEntries[index] = [columnName, ColumnType.PERITEXT];
+            dataSetSchemaEntries[index] = [columnName, ColumnType.RICH_TEXT];
           }
 
           let slice = new SliceAnnotation({

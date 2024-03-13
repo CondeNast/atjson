@@ -17,8 +17,8 @@ describe("DataSet", () => {
             id: "dataSetId",
             attributes: {
               schema: {
-                "column 1": ColumnType.PERITEXT,
-                "column 2": ColumnType.PERITEXT,
+                "column 1": ColumnType.RICH_TEXT,
+                "column 2": ColumnType.RICH_TEXT,
               },
               records: [
                 {
