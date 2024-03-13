@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
-    "entities": "~3.0.1",
-    "markdown-it": "13.0.1"
+    "entities": "~4.5.0",
+    "markdown-it": "14.0.0"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"

@@ -1098,7 +1098,7 @@ exports[`ATX headings foo
 }
 `;
 
-exports[`Autolinks < http://foo.bar >
+exports[`Autolinks < https://foo.bar >
  1`] = `
 {
   "blocks": [
@@ -1106,17 +1106,17 @@ exports[`Autolinks < http://foo.bar >
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..19]",
+      "range": "(0..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼< http://foo.bar >",
+  "text": "￼< https://foo.bar >",
 }
 `;
 
-exports[`Autolinks < http://foo.bar >
+exports[`Autolinks < https://foo.bar >
  2`] = `
 {
   "blocks": [
@@ -1124,13 +1124,13 @@ exports[`Autolinks < http://foo.bar >
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..19]",
+      "range": "(0..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼< http://foo.bar >",
+  "text": "￼< https://foo.bar >",
 }
 `;
 
@@ -1458,168 +1458,6 @@ exports[`Autolinks <foo\\+@bar.example.com>
 }
 `;
 
-exports[`Autolinks <http://../>
- 1`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..11]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://../",
-      },
-      "id": "M00000000",
-      "range": "(1..11]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://../",
-}
-`;
-
-exports[`Autolinks <http://../>
- 2`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..11]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://../",
-      },
-      "id": "M00000000",
-      "range": "(1..11]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://../",
-}
-`;
-
-exports[`Autolinks <http://example.com/\\[\\>
- 1`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..23]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://example.com/%5C%5B%5C",
-      },
-      "id": "M00000000",
-      "range": "(1..23]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://example.com/\\[\\",
-}
-`;
-
-exports[`Autolinks <http://example.com/\\[\\>
- 2`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..23]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://example.com/%5C%5B%5C",
-      },
-      "id": "M00000000",
-      "range": "(1..23]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://example.com/\\[\\",
-}
-`;
-
-exports[`Autolinks <http://foo.bar.baz/test?q=hello&id=22&boolean>
- 1`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..46]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://foo.bar.baz/test?q=hello&id=22&boolean",
-      },
-      "id": "M00000000",
-      "range": "(1..46]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://foo.bar.baz/test?q=hello&id=22&boolean",
-}
-`;
-
-exports[`Autolinks <http://foo.bar.baz/test?q=hello&id=22&boolean>
- 2`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..46]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {
-        "href": "http://foo.bar.baz/test?q=hello&id=22&boolean",
-      },
-      "id": "M00000000",
-      "range": "(1..46]",
-      "type": "link",
-    },
-  ],
-  "text": "￼http://foo.bar.baz/test?q=hello&id=22&boolean",
-}
-`;
-
 exports[`Autolinks <http://foo.bar.baz>
  1`] = `
 {
@@ -1674,7 +1512,7 @@ exports[`Autolinks <http://foo.bar.baz>
 }
 `;
 
-exports[`Autolinks <http://foo.bar/baz bim>
+exports[`Autolinks <https://../>
  1`] = `
 {
   "blocks": [
@@ -1682,17 +1520,26 @@ exports[`Autolinks <http://foo.bar/baz bim>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..25]",
+      "range": "(0..12]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
-  "marks": [],
-  "text": "￼<http://foo.bar/baz bim>",
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://../",
+      },
+      "id": "M00000000",
+      "range": "(1..12]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://../",
 }
 `;
 
-exports[`Autolinks <http://foo.bar/baz bim>
+exports[`Autolinks <https://../>
  2`] = `
 {
   "blocks": [
@@ -1700,13 +1547,166 @@ exports[`Autolinks <http://foo.bar/baz bim>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..25]",
+      "range": "(0..12]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://../",
+      },
+      "id": "M00000000",
+      "range": "(1..12]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://../",
+}
+`;
+
+exports[`Autolinks <https://example.com/\\[\\>
+ 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..24]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://example.com/%5C%5B%5C",
+      },
+      "id": "M00000000",
+      "range": "(1..24]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://example.com/\\[\\",
+}
+`;
+
+exports[`Autolinks <https://example.com/\\[\\>
+ 2`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..24]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://example.com/%5C%5B%5C",
+      },
+      "id": "M00000000",
+      "range": "(1..24]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://example.com/\\[\\",
+}
+`;
+
+exports[`Autolinks <https://foo.bar.baz/test?q=hello&id=22&boolean>
+ 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..47]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://foo.bar.baz/test?q=hello&id=22&boolean",
+      },
+      "id": "M00000000",
+      "range": "(1..47]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://foo.bar.baz/test?q=hello&id=22&boolean",
+}
+`;
+
+exports[`Autolinks <https://foo.bar.baz/test?q=hello&id=22&boolean>
+ 2`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..47]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "href": "https://foo.bar.baz/test?q=hello&id=22&boolean",
+      },
+      "id": "M00000000",
+      "range": "(1..47]",
+      "type": "link",
+    },
+  ],
+  "text": "￼https://foo.bar.baz/test?q=hello&id=22&boolean",
+}
+`;
+
+exports[`Autolinks <https://foo.bar/baz bim>
+ 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..26]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼<http://foo.bar/baz bim>",
+  "text": "￼<https://foo.bar/baz bim>",
+}
+`;
+
+exports[`Autolinks <https://foo.bar/baz bim>
+ 2`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..26]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [],
+  "text": "￼<https://foo.bar/baz bim>",
 }
 `;
 
@@ -1944,7 +1944,7 @@ exports[`Autolinks foo@bar.example.com
 }
 `;
 
-exports[`Autolinks http://example.com
+exports[`Autolinks https://example.com
  1`] = `
 {
   "blocks": [
@@ -1952,17 +1952,17 @@ exports[`Autolinks http://example.com
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..19]",
+      "range": "(0..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼http://example.com",
+  "text": "￼https://example.com",
 }
 `;
 
-exports[`Autolinks http://example.com
+exports[`Autolinks https://example.com
  2`] = `
 {
   "blocks": [
@@ -1970,13 +1970,13 @@ exports[`Autolinks http://example.com
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..19]",
+      "range": "(0..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼http://example.com",
+  "text": "￼https://example.com",
 }
 `;
 
@@ -2056,7 +2056,7 @@ exports[`Backslash escapes <a href="/bar\\/)">
 }
 `;
 
-exports[`Backslash escapes <http://example.com?find=\\*>
+exports[`Backslash escapes <https://example.com?find=\\*>
  1`] = `
 {
   "blocks": [
@@ -2064,7 +2064,7 @@ exports[`Backslash escapes <http://example.com?find=\\*>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..27]",
+      "range": "(0..28]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -2072,18 +2072,18 @@ exports[`Backslash escapes <http://example.com?find=\\*>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com?find=%5C*",
+        "href": "https://example.com?find=%5C*",
       },
       "id": "M00000000",
-      "range": "(1..27]",
+      "range": "(1..28]",
       "type": "link",
     },
   ],
-  "text": "￼http://example.com?find=\\*",
+  "text": "￼https://example.com?find=\\*",
 }
 `;
 
-exports[`Backslash escapes <http://example.com?find=\\*>
+exports[`Backslash escapes <https://example.com?find=\\*>
  2`] = `
 {
   "blocks": [
@@ -2091,7 +2091,7 @@ exports[`Backslash escapes <http://example.com?find=\\*>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..27]",
+      "range": "(0..28]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -2099,14 +2099,14 @@ exports[`Backslash escapes <http://example.com?find=\\*>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com?find=%5C*",
+        "href": "https://example.com?find=%5C*",
       },
       "id": "M00000000",
-      "range": "(1..27]",
+      "range": "(1..28]",
       "type": "link",
     },
   ],
-  "text": "￼http://example.com?find=\\*",
+  "text": "￼https://example.com?find=\\*",
 }
 `;
 
@@ -4756,7 +4756,7 @@ exports[`Code spans <a href="\`">\`
 }
 `;
 
-exports[`Code spans <http://foo.bar.\`baz>\`
+exports[`Code spans <https://foo.bar.\`baz>\`
  1`] = `
 {
   "blocks": [
@@ -4764,7 +4764,7 @@ exports[`Code spans <http://foo.bar.\`baz>\`
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..21]",
+      "range": "(0..22]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -4772,18 +4772,18 @@ exports[`Code spans <http://foo.bar.\`baz>\`
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar.%60baz",
+        "href": "https://foo.bar.%60baz",
       },
       "id": "M00000000",
-      "range": "(1..20]",
+      "range": "(1..21]",
       "type": "link",
     },
   ],
-  "text": "￼http://foo.bar.\`baz\`",
+  "text": "￼https://foo.bar.\`baz\`",
 }
 `;
 
-exports[`Code spans <http://foo.bar.\`baz>\`
+exports[`Code spans <https://foo.bar.\`baz>\`
  2`] = `
 {
   "blocks": [
@@ -4791,7 +4791,7 @@ exports[`Code spans <http://foo.bar.\`baz>\`
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..21]",
+      "range": "(0..22]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -4799,14 +4799,14 @@ exports[`Code spans <http://foo.bar.\`baz>\`
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar.%60baz",
+        "href": "https://foo.bar.%60baz",
       },
       "id": "M00000000",
-      "range": "(1..20]",
+      "range": "(1..21]",
       "type": "link",
     },
   ],
-  "text": "￼http://foo.bar.\`baz\`",
+  "text": "￼https://foo.bar.\`baz\`",
 }
 `;
 
@@ -5060,7 +5060,7 @@ exports[`Code spans \`<a href="\`">\`
 }
 `;
 
-exports[`Code spans \`<http://foo.bar.\`baz>\`
+exports[`Code spans \`<https://foo.bar.\`baz>\`
  1`] = `
 {
   "blocks": [
@@ -5068,7 +5068,7 @@ exports[`Code spans \`<http://foo.bar.\`baz>\`
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..22]",
+      "range": "(0..23]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -5077,15 +5077,15 @@ exports[`Code spans \`<http://foo.bar.\`baz>\`
     {
       "attributes": {},
       "id": "M00000000",
-      "range": "(1..17]",
+      "range": "(1..18]",
       "type": "code_inline",
     },
   ],
-  "text": "￼<http://foo.bar.baz>\`",
+  "text": "￼<https://foo.bar.baz>\`",
 }
 `;
 
-exports[`Code spans \`<http://foo.bar.\`baz>\`
+exports[`Code spans \`<https://foo.bar.\`baz>\`
  2`] = `
 {
   "blocks": [
@@ -5093,7 +5093,7 @@ exports[`Code spans \`<http://foo.bar.\`baz>\`
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..22]",
+      "range": "(0..23]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -5102,11 +5102,11 @@ exports[`Code spans \`<http://foo.bar.\`baz>\`
     {
       "attributes": {},
       "id": "M00000000",
-      "range": "(1..17]",
+      "range": "(1..18]",
       "type": "code_inline",
     },
   ],
-  "text": "￼<http://foo.bar.baz>\`",
+  "text": "￼<https://foo.bar.baz>\`",
 }
 `;
 
@@ -5709,6 +5709,108 @@ exports[`Code spans \` b \`
     },
   ],
   "text": "￼ b ",
+}
+`;
+
+exports[`Emphasis and strong emphasis *$*alpha.
+
+*£*bravo.
+
+*€*charlie.
+ 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..10]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+    {
+      "attributes": {},
+      "id": "B00000001",
+      "parents": [],
+      "range": "(10..18]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+    {
+      "attributes": {},
+      "id": "B00000002",
+      "parents": [],
+      "range": "(18..28]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(11..12]",
+      "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(19..20]",
+      "type": "em",
+    },
+  ],
+  "text": "￼*$*alpha.￼£bravo.￼€charlie.",
+}
+`;
+
+exports[`Emphasis and strong emphasis *$*alpha.
+
+*£*bravo.
+
+*€*charlie.
+ 2`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "range": "(0..10]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+    {
+      "attributes": {},
+      "id": "B00000001",
+      "parents": [],
+      "range": "(10..18]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+    {
+      "attributes": {},
+      "id": "B00000002",
+      "parents": [],
+      "range": "(18..28]",
+      "selfClosing": false,
+      "type": "paragraph",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(11..12]",
+      "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(19..20]",
+      "type": "em",
+    },
+  ],
+  "text": "￼*$*alpha.￼£bravo.￼€charlie.",
 }
 `;
 
@@ -6566,7 +6668,7 @@ Asclepias physocarpa)",
 }
 `;
 
-exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
+exports[`Emphasis and strong emphasis **a<https://foo.bar/?q=**>
  1`] = `
 {
   "blocks": [
@@ -6574,7 +6676,7 @@ exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..24]",
+      "range": "(0..25]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -6582,18 +6684,18 @@ exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar/?q=**",
+        "href": "https://foo.bar/?q=**",
       },
       "id": "M00000000",
-      "range": "(4..24]",
+      "range": "(4..25]",
       "type": "link",
     },
   ],
-  "text": "￼**ahttp://foo.bar/?q=**",
+  "text": "￼**ahttps://foo.bar/?q=**",
 }
 `;
 
-exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
+exports[`Emphasis and strong emphasis **a<https://foo.bar/?q=**>
  2`] = `
 {
   "blocks": [
@@ -6601,7 +6703,7 @@ exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..24]",
+      "range": "(0..25]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -6609,14 +6711,14 @@ exports[`Emphasis and strong emphasis **a<http://foo.bar/?q=**>
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar/?q=**",
+        "href": "https://foo.bar/?q=**",
       },
       "id": "M00000000",
-      "range": "(4..24]",
+      "range": "(4..25]",
       "type": "link",
     },
   ],
-  "text": "￼**ahttp://foo.bar/?q=**",
+  "text": "￼**ahttps://foo.bar/?q=**",
 }
 `;
 
@@ -9766,7 +9868,7 @@ exports[`Emphasis and strong emphasis ___foo__
 }
 `;
 
-exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
+exports[`Emphasis and strong emphasis __a<https://foo.bar/?q=__>
  1`] = `
 {
   "blocks": [
@@ -9774,7 +9876,7 @@ exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..24]",
+      "range": "(0..25]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -9782,18 +9884,18 @@ exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar/?q=__",
+        "href": "https://foo.bar/?q=__",
       },
       "id": "M00000000",
-      "range": "(4..24]",
+      "range": "(4..25]",
       "type": "link",
     },
   ],
-  "text": "￼__ahttp://foo.bar/?q=__",
+  "text": "￼__ahttps://foo.bar/?q=__",
 }
 `;
 
-exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
+exports[`Emphasis and strong emphasis __a<https://foo.bar/?q=__>
  2`] = `
 {
   "blocks": [
@@ -9801,7 +9903,7 @@ exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..24]",
+      "range": "(0..25]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -9809,14 +9911,14 @@ exports[`Emphasis and strong emphasis __a<http://foo.bar/?q=__>
   "marks": [
     {
       "attributes": {
-        "href": "http://foo.bar/?q=__",
+        "href": "https://foo.bar/?q=__",
       },
       "id": "M00000000",
-      "range": "(4..24]",
+      "range": "(4..25]",
       "type": "link",
     },
   ],
-  "text": "￼__ahttp://foo.bar/?q=__",
+  "text": "￼__ahttps://foo.bar/?q=__",
 }
 `;
 
@@ -24168,7 +24270,7 @@ exports[`Links [foo*]: /url
 }
 `;
 
-exports[`Links [foo<http://example.com/?search=](uri)>
+exports[`Links [foo<https://example.com/?search=](uri)>
  1`] = `
 {
   "blocks": [
@@ -24176,7 +24278,7 @@ exports[`Links [foo<http://example.com/?search=](uri)>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..38]",
+      "range": "(0..39]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -24184,18 +24286,18 @@ exports[`Links [foo<http://example.com/?search=](uri)>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com/?search=%5D(uri)",
+        "href": "https://example.com/?search=%5D(uri)",
       },
       "id": "M00000000",
-      "range": "(5..38]",
+      "range": "(5..39]",
       "type": "link",
     },
   ],
-  "text": "￼[foohttp://example.com/?search=](uri)",
+  "text": "￼[foohttps://example.com/?search=](uri)",
 }
 `;
 
-exports[`Links [foo<http://example.com/?search=](uri)>
+exports[`Links [foo<https://example.com/?search=](uri)>
  2`] = `
 {
   "blocks": [
@@ -24203,7 +24305,7 @@ exports[`Links [foo<http://example.com/?search=](uri)>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..38]",
+      "range": "(0..39]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -24211,18 +24313,18 @@ exports[`Links [foo<http://example.com/?search=](uri)>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com/?search=%5D(uri)",
+        "href": "https://example.com/?search=%5D(uri)",
       },
       "id": "M00000000",
-      "range": "(5..38]",
+      "range": "(5..39]",
       "type": "link",
     },
   ],
-  "text": "￼[foohttp://example.com/?search=](uri)",
+  "text": "￼[foohttps://example.com/?search=](uri)",
 }
 `;
 
-exports[`Links [foo<http://example.com/?search=][ref]>
+exports[`Links [foo<https://example.com/?search=][ref]>
 
 [ref]: /uri
  1`] = `
@@ -24232,7 +24334,7 @@ exports[`Links [foo<http://example.com/?search=][ref]>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..38]",
+      "range": "(0..39]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -24240,18 +24342,18 @@ exports[`Links [foo<http://example.com/?search=][ref]>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com/?search=%5D%5Bref%5D",
+        "href": "https://example.com/?search=%5D%5Bref%5D",
       },
       "id": "M00000000",
-      "range": "(5..38]",
+      "range": "(5..39]",
       "type": "link",
     },
   ],
-  "text": "￼[foohttp://example.com/?search=][ref]",
+  "text": "￼[foohttps://example.com/?search=][ref]",
 }
 `;
 
-exports[`Links [foo<http://example.com/?search=][ref]>
+exports[`Links [foo<https://example.com/?search=][ref]>
 
 [ref]: /uri
  2`] = `
@@ -24261,7 +24363,7 @@ exports[`Links [foo<http://example.com/?search=][ref]>
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..38]",
+      "range": "(0..39]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -24269,14 +24371,14 @@ exports[`Links [foo<http://example.com/?search=][ref]>
   "marks": [
     {
       "attributes": {
-        "href": "http://example.com/?search=%5D%5Bref%5D",
+        "href": "https://example.com/?search=%5D%5Bref%5D",
       },
       "id": "M00000000",
-      "range": "(5..38]",
+      "range": "(5..39]",
       "type": "link",
     },
   ],
-  "text": "￼[foohttp://example.com/?search=][ref]",
+  "text": "￼[foohttps://example.com/?search=][ref]",
 }
 `;
 
@@ -26178,9 +26280,9 @@ exports[`Links [link]("title")
 
 exports[`Links [link](#fragment)
 
-[link](http://example.com#fragment)
+[link](https://example.com#fragment)
 
-[link](http://example.com?foo=3#frag)
+[link](https://example.com?foo=3#frag)
  1`] = `
 {
   "blocks": [
@@ -26220,7 +26322,7 @@ exports[`Links [link](#fragment)
     },
     {
       "attributes": {
-        "href": "http://example.com#fragment",
+        "href": "https://example.com#fragment",
       },
       "id": "M00000001",
       "range": "(6..10]",
@@ -26228,7 +26330,7 @@ exports[`Links [link](#fragment)
     },
     {
       "attributes": {
-        "href": "http://example.com?foo=3#frag",
+        "href": "https://example.com?foo=3#frag",
       },
       "id": "M00000002",
       "range": "(11..15]",
@@ -26241,9 +26343,9 @@ exports[`Links [link](#fragment)
 
 exports[`Links [link](#fragment)
 
-[link](http://example.com#fragment)
+[link](https://example.com#fragment)
 
-[link](http://example.com?foo=3#frag)
+[link](https://example.com?foo=3#frag)
  2`] = `
 {
   "blocks": [
@@ -26283,7 +26385,7 @@ exports[`Links [link](#fragment)
     },
     {
       "attributes": {
-        "href": "http://example.com#fragment",
+        "href": "https://example.com#fragment",
       },
       "id": "M00000001",
       "range": "(6..10]",
@@ -26291,7 +26393,7 @@ exports[`Links [link](#fragment)
     },
     {
       "attributes": {
-        "href": "http://example.com?foo=3#frag",
+        "href": "https://example.com?foo=3#frag",
       },
       "id": "M00000002",
       "range": "(11..15]",
@@ -39704,7 +39806,8 @@ exports[`Raw HTML foo <![CDATA[>&<]]>
 }
 `;
 
-exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
+exports[`Raw HTML foo <!-- this is a --
+comment - with hyphens -->
  1`] = `
 {
   "blocks": [
@@ -39712,17 +39815,19 @@ exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..42]",
+      "range": "(0..49]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼foo <!-- not a comment -- two hyphens -->",
+  "text": "￼foo <!-- this is a --
+comment - with hyphens -->",
 }
 `;
 
-exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
+exports[`Raw HTML foo <!-- this is a --
+comment - with hyphens -->
  2`] = `
 {
   "blocks": [
@@ -39730,73 +39835,20 @@ exports[`Raw HTML foo <!-- not a comment -- two hyphens -->
       "attributes": {},
       "id": "B00000000",
       "parents": [],
-      "range": "(0..42]",
+      "range": "(0..49]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼foo <!-- not a comment -- two hyphens -->",
-}
-`;
-
-exports[`Raw HTML foo <!-- this is a
-comment - with hyphen -->
- 1`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..45]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(5..45]",
-      "type": "html_inline",
-    },
-  ],
-  "text": "￼foo <!-- this is a
-comment - with hyphen -->",
-}
-`;
-
-exports[`Raw HTML foo <!-- this is a
-comment - with hyphen -->
- 2`] = `
-{
-  "blocks": [
-    {
-      "attributes": {},
-      "id": "B00000000",
-      "parents": [],
-      "range": "(0..45]",
-      "selfClosing": false,
-      "type": "paragraph",
-    },
-  ],
-  "marks": [
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(5..45]",
-      "type": "html_inline",
-    },
-  ],
-  "text": "￼foo <!-- this is a
-comment - with hyphen -->",
+  "text": "￼foo <!-- this is a --
+comment - with hyphens -->",
 }
 `;
 
 exports[`Raw HTML foo <!--> foo -->
 
-foo <!-- foo--->
+foo <!---> foo -->
  1`] = `
 {
   "blocks": [
@@ -39812,19 +39864,19 @@ foo <!-- foo--->
       "attributes": {},
       "id": "B00000001",
       "parents": [],
-      "range": "(18..35]",
+      "range": "(18..37]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼foo <!--> foo -->￼foo <!-- foo--->",
+  "text": "￼foo <!--> foo -->￼foo <!---> foo -->",
 }
 `;
 
 exports[`Raw HTML foo <!--> foo -->
 
-foo <!-- foo--->
+foo <!---> foo -->
  2`] = `
 {
   "blocks": [
@@ -39840,13 +39892,13 @@ foo <!-- foo--->
       "attributes": {},
       "id": "B00000001",
       "parents": [],
-      "range": "(18..35]",
+      "range": "(18..37]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
   "marks": [],
-  "text": "￼foo <!--> foo -->￼foo <!-- foo--->",
+  "text": "￼foo <!--> foo -->￼foo <!---> foo -->",
 }
 `;
 
