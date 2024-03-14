@@ -1,5 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`tables jagged table 1`] = `
+"
+|          |        |       |                                                                                                                                                                               |
+| -------- | ------ | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| laios    |        |       |                                                                                                                                                                               |
+| marcille | 500    | mage  |                                                                                                                                                                               |
+| falin    | healer |       |                                                                                                                                                                               |
+| chilchuk | 29     | thief | 
+        Looks like a child but is actually a divorced father of three. He is
+        serious about his work and isn't interested in getting close with
+        people
+       |
+
+"
+`;
+
 exports[`tables with column headings mixed alignment 1`] = `
 "| name     | age | job     | [*notes*](https://en.wikipedia.org/wiki/Delicious_in_Dungeon)                                                                                    |
 |:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|

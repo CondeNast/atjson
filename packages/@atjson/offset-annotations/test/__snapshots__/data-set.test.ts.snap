@@ -5,19 +5,7 @@ exports[`DataSet peritext 1`] = `
   "blocks": [
     {
       "attributes": {
-        "columns": [
-          {
-            "name": "column 1",
-            "slice": "M00000000",
-            "type": "peritext",
-          },
-          {
-            "name": "column 2",
-            "slice": "M00000001",
-            "type": "peritext",
-          },
-        ],
-        "rows": [
+        "records": [
           {
             "column 1": {
               "jsonValue": "data 1.1",
@@ -29,6 +17,10 @@ exports[`DataSet peritext 1`] = `
             },
           },
         ],
+        "schema": {
+          "column 1": "rich_text",
+          "column 2": "rich_text",
+        },
       },
       "id": "B00000000",
       "parents": [],
@@ -40,10 +32,12 @@ exports[`DataSet peritext 1`] = `
         "columns": [
           {
             "name": "column 1",
+            "slice": "M00000000",
             "textAlign": "left",
           },
           {
             "name": "column 2",
+            "slice": "M00000001",
             "textAlign": "right",
           },
         ],
