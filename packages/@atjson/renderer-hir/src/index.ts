@@ -1,5 +1,5 @@
 import Document, { serialize, Block, Mark } from "@atjson/document";
-import { createTree, extractSlices, ROOT } from "@atjson/util";
+import { createTree, extractSlices, InternalMark, ROOT } from "@atjson/util";
 
 interface Mapping {
   [key: string]: string;
@@ -143,10 +143,7 @@ export default class Renderer {
         ? serialize(document, { onUnknown: "throw" })
         : document
     );
-    renderer.slices = slices as Map<
-      string,
-      { text: string; marks: Mark[]; blocks: Block[] }
-    >;
+    renderer.slices = slices;
     return compile(
       renderer,
       null,
@@ -158,12 +155,11 @@ export default class Renderer {
     );
   }
 
-  render(
-    document: Document | { text: string; marks: Mark[]; blocks: Block[] }
-  ) {
-    const [serializedDocument] = extractSlices(
-      document instanceof Document ? serialize(document) : document
-    );
+  protected render(serializedDocument: {
+    text: string;
+    marks: InternalMark[];
+    blocks: Block[];
+  }) {
     return compile(
       this,
       null,
@@ -182,7 +178,10 @@ export default class Renderer {
     );
   }
 
-  private slices: Map<string, { text: string; marks: Mark[]; blocks: Block[] }>;
+  private slices: Map<
+    string,
+    { text: string; marks: InternalMark[]; blocks: Block[] }
+  >;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   constructor(_document: RendererDocument, ..._args: any[]) {
