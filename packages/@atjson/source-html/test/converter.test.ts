@@ -1419,10 +1419,5 @@ describe("@atjson/source-html", () => {
         `);
       });
     });
-
-    describe("tables", () => {
-      test.todo("commonmark-like tables convert correctly");
-      test.todo("non-commonmark tables are correctly dropped");
-    });
   });
 });
