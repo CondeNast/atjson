@@ -3,6 +3,7 @@ import {
   BlockAnnotation,
   InlineAnnotation,
   ParseAnnotation,
+  SliceAnnotation,
   compareAnnotations,
   is,
 } from "@atjson/document";
@@ -12,12 +13,19 @@ import OffsetSource, {
   ListItem,
   List,
   Paragraph,
+  DataSet,
+  ColumnType,
+  Table,
 } from "@atjson/offset-annotations";
 import GDocsSource from "./source";
 import { Heading as GDocsHeading } from "./annotations";
+import uuid from "uuid-random";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
+const TABLE = /\u0010(\u0012(\u001c.*\n)+)+\u0011/g;
+const TABLE_ROW = /\u0012(\u001c.*\n)+/gmu;
+const TABLE_CELL = /\u001c(.*)\n/gmu;
 const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
 
 const ALIGNMENT = {
@@ -145,6 +153,99 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
         attributes: {
           reason: "vertical tab",
         },
+      })
+    );
+  }
+
+  // Convert vertical tabs to line breaks
+  for (let table of doc.match(TABLE)) {
+    let id = uuid();
+    let rows: Array<Array<{ slice: string; jsonValue: string }>> = [];
+
+    // Gather the dataset info first
+    for (let tableRow of doc.match(TABLE_ROW, table.start, table.end)) {
+      let row: Array<{ slice: string; jsonValue: string }> = [];
+      doc.addAnnotations(
+        new ParseAnnotation({
+          start: tableRow.start,
+          end: tableRow.start + 1,
+        })
+      );
+
+      for (let tableCell of doc.match(
+        TABLE_CELL,
+        tableRow.start + 1,
+        tableRow.end
+      )) {
+        let slice = new SliceAnnotation({
+          start: tableCell.start,
+          end: tableCell.end,
+          attributes: {
+            refs: [id],
+          },
+        });
+        row.push({
+          slice: slice.id,
+          jsonValue: tableCell.matches[1],
+        });
+        doc.addAnnotations(
+          new ParseAnnotation({
+            start: tableCell.start,
+            end: tableCell.start + 1,
+          }),
+          slice,
+          new ParseAnnotation({
+            start: tableCell.end - 1,
+            end: tableCell.end,
+          })
+        );
+      }
+      rows.push(row);
+    }
+    let [header, ...body] = rows;
+    let columnNames = header.map((header) => header.jsonValue);
+    let records = body.map((row) => {
+      return row.reduce((E, cell, index) => {
+        E[columnNames[index]] = cell;
+        return E;
+      }, {} as Record<string, { slice: string; jsonValue: string }>);
+    });
+    let schema = columnNames.reduce((E, columnName) => {
+      E[columnName] = ColumnType.RICH_TEXT;
+      return E;
+    }, {} as Record<string, ColumnType>);
+
+    let dataset = new DataSet({
+      id,
+      start: table.start + 1,
+      end: table.end + 1,
+      attributes: {
+        schema,
+        records,
+      },
+    });
+    doc.addAnnotations(dataset);
+    doc.addAnnotations(
+      new ParseAnnotation({
+        start: table.start,
+        end: table.start + 1,
+      }),
+      new Table({
+        start: table.end - 1,
+        end: table.end,
+        attributes: {
+          dataSet: dataset.id,
+          columns: columnNames.map((columnName, index) => {
+            return {
+              name: columnName,
+              slice: header[index].slice,
+            };
+          }),
+        },
+      }),
+      new ParseAnnotation({
+        start: table.end - 1,
+        end: table.end,
       })
     );
   }
