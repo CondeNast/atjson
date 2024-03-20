@@ -791,7 +791,7 @@ export default class CommonmarkRenderer extends Renderer {
         }
       }
       columns[name] = {
-        header: headerText.replace("\n", " "),
+        header: headerText.replace(/\n/g, " "),
         rows: [],
         width: Math.max(headerText.length, 1),
         textAlign,
@@ -819,7 +819,7 @@ export default class CommonmarkRenderer extends Renderer {
           cellText = this.render(cellSlice);
         }
 
-        columns[name].rows.push(cellText.replace("\n", " "));
+        columns[name].rows.push(cellText.replace(/\n/g, " "));
         columns[name].width = Math.max(columns[name].width, cellText.length);
       }
     }

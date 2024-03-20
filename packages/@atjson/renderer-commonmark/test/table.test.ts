@@ -376,7 +376,7 @@ const JAGGED_TABLE = {
               jsonValue: "falin",
               slice: "M00000004",
             },
-            "column 2": {
+            "column 3": {
               jsonValue: "healer",
               slice: "M00000005",
             },
