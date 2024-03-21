@@ -68,6 +68,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   doc.where({ type: "-gdocs-ts_it" }).set({ type: "-offset-italic" });
   doc.where({ type: "-gdocs-ts_un" }).set({ type: "-offset-underline" });
   doc.where({ type: "-gdocs-ts_st" }).set({ type: "-offset-strikethrough" });
+  doc.where({ type: "-gdocs-ts_sc" }).set({ type: "-offset-small-caps" });
   doc
     .where({ type: "-gdocs-ts_va", attributes: { "-gdocs-va": "sub" } })
     .set({ type: "-offset-subscript" })
