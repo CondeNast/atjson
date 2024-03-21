@@ -6,6 +6,7 @@ export * from "./italic";
 export * from "./link";
 export * from "./list-item";
 export * from "./list";
+export * from "./small-caps";
 export * from "./strikethrough";
 export * from "./underline";
 export * from "./vertical-adjust";

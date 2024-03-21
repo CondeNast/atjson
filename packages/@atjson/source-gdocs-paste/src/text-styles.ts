@@ -36,7 +36,7 @@ export default function extractTextStyles(
       delete state.ts_va;
     }
 
-    for (let styleType of ["ts_bd", "ts_it", "ts_un", "ts_st"]) {
+    for (let styleType of ["ts_bd", "ts_it", "ts_un", "ts_st", "ts_sc"]) {
       if (style[styleType] === true && !state[styleType]) {
         state[styleType] = {
           type: "-gdocs-" + styleType,
