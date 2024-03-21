@@ -3,5 +3,4 @@ export * from "./inline";
 export * from "./object";
 export * from "./parse";
 export * from "./slice";
-export * from "./text";
 export * from "./unknown";
