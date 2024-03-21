@@ -8,6 +8,7 @@ import {
   JSONObject,
   Annotation,
   SliceAnnotation,
+  TextAnnotation,
   UnknownAnnotation,
   is,
   withStableIds,
@@ -127,11 +128,6 @@ const START_TOKENS = [
   TokenType.MARK_START,
   TokenType.PARSE_START,
 ];
-
-class Text extends BlockAnnotation {
-  static vendorPrefix = "atjson";
-  static type = "text";
-}
 
 class Root extends BlockAnnotation {
   static vendorPrefix = "atjson";
@@ -466,7 +462,7 @@ export function serialize(
           }
 
           // Insert text block
-          let text = new Text({
+          let text = new TextAnnotation({
             start,
             end,
           });
@@ -477,7 +473,7 @@ export function serialize(
             annotation: text,
             selfClosing: false,
             shared,
-            edgeBehaviour: Text.edgeBehaviour,
+            edgeBehaviour: TextAnnotation.edgeBehaviour,
           });
           tokens.splice(startIndex + 1, 0, {
             type: TokenType.BLOCK_START,
@@ -485,7 +481,7 @@ export function serialize(
             annotation: text,
             selfClosing: false,
             shared,
-            edgeBehaviour: Text.edgeBehaviour,
+            edgeBehaviour: TextAnnotation.edgeBehaviour,
           });
         }
         textLength = 0;
@@ -669,7 +665,11 @@ export function serialize(
   };
 }
 
-function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
+function offsetsForBlock<A>(
+  blocks: Block<A>[],
+  index: number,
+  positions: number[]
+) {
   let start = index;
   let block = blocks[index];
   if (block.selfClosing) {
@@ -706,8 +706,8 @@ function offsetsForBlock(blocks: Block[], index: number, positions: number[]) {
   };
 }
 
-function schemaForItem(
-  item: Mark | Block,
+function schemaForItem<A>(
+  item: Mark<A> | Block<A>,
   DocumentClass: typeof Document
 ): AnnotationConstructor<any, any> | null {
   let schema = DocumentClass.schema;
@@ -722,8 +722,8 @@ function schemaForItem(
   return null;
 }
 
-export function deserialize(
-  json: { text: string; blocks?: Block[]; marks?: Mark[] },
+export function deserialize<A>(
+  json: { text: string; blocks?: Block<A>[]; marks?: Mark<A>[] },
   DocumentClass: typeof Document
 ) {
   let annotations: Annotation<any>[] = [];
@@ -764,7 +764,7 @@ export function deserialize(
           ...position,
           attributes: {
             type: block.type,
-            attributes: block.attributes,
+            attributes: block.attributes as any,
           },
         })
       );
@@ -790,7 +790,7 @@ export function deserialize(
           end,
           attributes: {
             type: mark.type,
-            attributes: mark.attributes,
+            attributes: mark.attributes as any,
           },
         })
       );

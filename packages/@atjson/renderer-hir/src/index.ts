@@ -1,5 +1,5 @@
 import Document, { serialize, Block, Mark } from "@atjson/document";
-import { createTree, extractSlices, ROOT } from "@atjson/util";
+import { createTree, extractSlices, InternalMark, ROOT } from "@atjson/util";
 
 interface Mapping {
   [key: string]: string;
@@ -123,6 +123,11 @@ function compile(
   ).value;
 }
 
+type RendererDocument =
+  | Document
+  | { text: string; marks: Mark[]; blocks: Block[] }
+  | null;
+
 export default class Renderer {
   static render<T extends typeof Renderer>(
     this: T,
@@ -138,10 +143,7 @@ export default class Renderer {
         ? serialize(document, { onUnknown: "throw" })
         : document
     );
-    renderer.slices = slices as Map<
-      string,
-      { text: string; marks: Mark[]; blocks: Block[] }
-    >;
+    renderer.slices = slices;
     return compile(
       renderer,
       null,
@@ -153,16 +155,36 @@ export default class Renderer {
     );
   }
 
-  private slices: Map<string, { text: string; marks: Mark[]; blocks: Block[] }>;
+  protected render(serializedDocument: {
+    text: string;
+    marks: InternalMark[];
+    blocks: Block[];
+  }) {
+    return compile(
+      this,
+      null,
+      createTree(serializedDocument) as Map<
+        string,
+        Array<Block | Mark | string>
+      >,
+      ROOT,
+      {
+        document: serializedDocument as {
+          text: string;
+          marks: Mark[];
+          blocks: Block[];
+        },
+      }
+    );
+  }
+
+  private slices: Map<
+    string,
+    { text: string; marks: InternalMark[]; blocks: Block[] }
+  >;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  constructor(
-    _document:
-      | Document
-      | { text: string; marks: Mark[]; blocks: Block[] }
-      | null,
-    ..._args: any[]
-  ) {
+  constructor(_document: RendererDocument, ..._args: any[]) {
     this.slices = new Map();
   }
 

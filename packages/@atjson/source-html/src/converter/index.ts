@@ -3,6 +3,7 @@ import OffsetSource, {
   CodeBlock,
   List,
   IframeEmbed,
+  convertHTMLTablesToDataSet,
 } from "@atjson/offset-annotations";
 import { OrderedList } from "../annotations";
 import HTMLSource from "../source";
@@ -173,6 +174,8 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
   doc.where({ type: "-html-section" }).set({ type: "-offset-section" });
 
   doc.where(isSmallCaps).set({ type: "-offset-small-caps", attributes: {} });
+
+  convertHTMLTablesToDataSet(doc, "html");
 
   return doc;
 });

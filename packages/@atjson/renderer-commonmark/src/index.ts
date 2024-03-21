@@ -2,13 +2,14 @@ import Document from "@atjson/document";
 import {
   Bold,
   CodeBlock,
+  DataSet,
   HTML,
   Heading,
   Image,
   Italic,
   Link,
   List,
-  Paragraph,
+  Table,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import type { Block, Mark } from "@atjson/document";
@@ -221,28 +222,26 @@ function codify(line: string) {
 }
 
 export default class CommonmarkRenderer extends Renderer {
-  /**
-   * Controls whether HTML entities should be escaped. This
-   * may be desireable if markdown is being generated for humans
-   * and your markdown flavor doesn't support HTML.
-   *
-   * By default, `escapeHtmlEntities` is set to `true` if your
-   * schema has an annotation with the type `html`. You can override
-   * this configuration by passing in another parameter to the constructor.
-   */
-  protected options: {
-    escapeHtmlEntities: boolean;
-  };
-
   protected state: any;
 
   constructor(
     document: Document | { text: string; marks: Mark[]; blocks: Block[] },
-    options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+    /**
+     * Controls whether HTML entities should be escaped. This
+     * may be desireable if markdown is being generated for humans
+     * and your markdown flavor doesn't support HTML.
+     *
+     * By default, `escapeHtmlEntities` is set to `true` if your
+     * schema has an annotation with the type `html`. You can override
+     * this configuration by passing in another parameter to the constructor.
+     */
+    protected options: {
+      escapeHtmlEntities: boolean;
+      allowBlocks: boolean;
+    } = { escapeHtmlEntities: true, allowBlocks: true }
   ) {
     super(document);
     this.state = {};
-    this.options = options;
   }
 
   text(text: string) {
@@ -333,6 +332,9 @@ export default class CommonmarkRenderer extends Renderer {
    * > It can also span multiple lines.
    */
   *Blockquote(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let text = yield;
     let lines: string[] = text.join("").split("\n");
     let endOfQuote = lines.length;
@@ -365,6 +367,9 @@ export default class CommonmarkRenderer extends Renderer {
    * headings of level 1 or 2, so any other level will be broken.
    */
   *Heading(heading: Heading): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let rawText = yield;
     let text = rawText.join("");
     let level = new Array(heading.attributes.level + 1).join("#");
@@ -386,6 +391,9 @@ export default class CommonmarkRenderer extends Renderer {
    * Into multiple sections.
    */
   *HorizontalRule(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     return "***\n";
   }
 
@@ -525,6 +533,9 @@ export default class CommonmarkRenderer extends Renderer {
     code: Block<CodeBlock>,
     context: Context
   ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -554,6 +565,9 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   *Html(html: Block<HTML>): Generator<void, string, string[]> {
+    if (html.attributes.style === "block" && this.state.inlineOnly) {
+      return "";
+    }
     let state = Object.assign({}, this.state);
     Object.assign(this.state, {
       isPreformatted: true,
@@ -575,6 +589,9 @@ export default class CommonmarkRenderer extends Renderer {
    * A list item is part of an ordered list or an unordered list.
    */
   *ListItem(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let digit: number = this.state.digit;
     let delimiter = this.state.delimiter;
     let marker: string = delimiter;
@@ -629,6 +646,9 @@ export default class CommonmarkRenderer extends Renderer {
     list: Block<List>,
     context: Context
   ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let start = 1;
 
     if (list.attributes.startsAt != null) {
@@ -688,10 +708,10 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(
-    _paragraph: Block<Paragraph>,
-    _context: Context
-  ): Generator<void, string, string[]> {
+  *Paragraph(): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
     let rawText = yield;
     let text = rawText.join("");
 
@@ -716,5 +736,125 @@ export default class CommonmarkRenderer extends Renderer {
   *FixedIndent(): Generator<void, string, string[]> {
     let rawText = yield;
     return rawText.join("");
+  }
+
+  *DataSet(): Generator<void, string, string[]> {
+    return (yield).join("");
+  }
+
+  *Table(
+    table: Block<Table>,
+    context: Context
+  ): Generator<void, string, string[]> {
+    if (this.state.inlineOnly) {
+      return "";
+    }
+
+    const previousState = { ...this.state };
+    this.state.inlineOnly = true;
+
+    const dataSet = context.document.blocks.find(
+      (block) => block.id === table.attributes.dataSet
+    ) as Block<DataSet> | undefined;
+
+    if (!dataSet) {
+      /**
+       * invalid dataset ref
+       */
+
+      throw new Error(
+        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`
+      );
+    }
+
+    const columns: Record<
+      string,
+      {
+        header: string;
+        rows: string[];
+        width: number;
+        textAlign?: "left" | "center" | "right";
+      }
+    > = {};
+
+    for (let { name, slice: sliceId, textAlign } of table.attributes.columns) {
+      let headerText = "";
+      if (table.attributes.showColumnHeaders) {
+        if (sliceId) {
+          const slice = this.getSlice(sliceId);
+          if (!slice) {
+            throw new Error(`column heading slice not found ${sliceId}`);
+          }
+          headerText = this.render(slice);
+        } else {
+          headerText = name;
+        }
+      }
+      columns[name] = {
+        header: headerText.replace(/\n/g, " "),
+        rows: [],
+        width: Math.max(headerText.length, 1),
+        textAlign,
+      };
+    }
+
+    for (let row of dataSet.attributes.records) {
+      for (let { name } of table.attributes.columns) {
+        let cellText = "";
+        let sliceId = row[name]?.slice;
+
+        if (sliceId) {
+          let cellSlice = this.getSlice(sliceId);
+          if (!cellSlice) {
+            throw new Error(
+              `Table ${table.id} ${table.range} with DataSet ${
+                dataSet.attributes.name || dataSet.id
+              }: document slice not found for column ${name} in row ${JSON.stringify(
+                row,
+                null,
+                2
+              )}`
+            );
+          }
+          cellText = this.render(cellSlice);
+        }
+
+        columns[name].rows.push(cellText.replace(/\n/g, " "));
+        columns[name].width = Math.max(columns[name].width, cellText.length);
+      }
+    }
+
+    let headerRow = "|";
+    let separatorRow = "|";
+
+    for (let { name, textAlign } of table.attributes.columns) {
+      let headerText = columns[name].header;
+      let columnWidth = columns[name].width;
+      headerRow +=
+        " " + headerText + " ".repeat(columnWidth - headerText.length) + " |";
+
+      let leftDecoration =
+        textAlign === "left" || textAlign === "center" ? ":" : " ";
+      let rightDecoration =
+        textAlign === "center" || textAlign === "right" ? ":" : " ";
+      separatorRow +=
+        leftDecoration + "-".repeat(columnWidth) + rightDecoration + "|";
+    }
+
+    let body = "";
+
+    dataSet.attributes.records.forEach((_row, index) => {
+      body += "|";
+      for (let { name } of table.attributes.columns) {
+        let cellText = columns[name].rows[index];
+        let columnWidth = columns[name].width;
+        body +=
+          " " + cellText + " ".repeat(columnWidth - cellText.length) + " |";
+      }
+      body += "\n";
+    });
+
+    this.state = previousState;
+    return `${headerRow}\n${separatorRow}\n${body}\n`;
   }
 }

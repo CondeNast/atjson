@@ -5,6 +5,7 @@ import {
   CneAudioEmbed,
   CneEventRegistrationEmbed,
   CodeBlock,
+  DataSet,
   Heading,
   Image,
   Link,
@@ -12,10 +13,11 @@ import {
   ListItem,
   Paragraph,
   Section,
+  Table,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
 import { Mark, Block } from "@atjson/document";
-import Renderer from "@atjson/renderer-hir";
+import Renderer, { Context } from "@atjson/renderer-hir";
 import * as entities from "entities";
 
 const VOID_ELEMENTS = [
@@ -173,6 +175,10 @@ export default class HTMLRenderer extends Renderer {
     return `<pre>${codeSnippet}</pre>`;
   }
 
+  *DataSet(): Iterator<void, string, string[]> {
+    return (yield).join("");
+  }
+
   *Heading(heading: Block<Heading>) {
     let style: string | undefined;
     if (heading.attributes.alignment) {
@@ -259,6 +265,82 @@ export default class HTMLRenderer extends Renderer {
 
   *Superscript() {
     return yield* this.$("sup");
+  }
+
+  *Table(table: Block<Table>, context: Context) {
+    const dataSet = context.document.blocks.find(
+      (block) => block.id === table.attributes.dataSet
+    ) as Block<DataSet> | undefined;
+
+    if (!dataSet) {
+      /**
+       * invalid dataset ref
+       */
+
+      throw new Error(
+        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`
+      );
+    }
+
+    let header = "";
+    if (table.attributes.showColumnHeaders) {
+      header += "<thead><tr>";
+      for (let { name, slice: sliceId, textAlign } of table.attributes
+        .columns) {
+        let headerText = name;
+        if (sliceId) {
+          const slice = this.getSlice(sliceId);
+          if (!slice) {
+            throw new Error(
+              `Table ${table.id} ${
+                table.range || ""
+              } could not find column heading slice for ${name} ${sliceId}`
+            );
+          }
+
+          headerText = this.render(slice);
+        }
+
+        header += `<th${
+          textAlign ? ` style="text-align: ${textAlign};"` : ""
+        }>${headerText}</th>`;
+      }
+
+      header += "</tr></thead>";
+    }
+
+    let body = "<tbody>";
+    for (let record of dataSet.attributes.records) {
+      body += "<tr>";
+      for (let { name, textAlign } of table.attributes.columns) {
+        let cellText = "";
+        let sliceId = record[name]?.slice;
+        if (sliceId) {
+          let slice = this.getSlice(sliceId);
+          if (slice) {
+            cellText = this.render(slice);
+          } else {
+            throw new Error(
+              `Table ${table.id} ${table.range} with DataSet ${
+                dataSet.attributes.name || dataSet.id
+              }: document slice not found for column ${name} in row ${JSON.stringify(
+                record,
+                null,
+                2
+              )}`
+            );
+          }
+        }
+
+        body += `<td${
+          textAlign ? ` style="text-align: ${textAlign};"` : ""
+        }>${cellText}</td>`;
+      }
+
+      body += "</tr>";
+    }
+
+    return `<table>${header}${body}</table>`;
   }
 
   // This hook is TiktokEmbed instead of TikTokEmbed because of our classify function

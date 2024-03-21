@@ -1,0 +1,911 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tables converting 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "name",
+            "slice": "M00000000",
+            "textAlign": "left",
+          },
+          {
+            "name": "age",
+            "slice": "M00000001",
+            "textAlign": "right",
+          },
+          {
+            "name": "job",
+            "slice": "M00000002",
+          },
+          {
+            "name": "notes",
+            "slice": "M00000003",
+            "textAlign": "center",
+          },
+        ],
+        "dataSet": "B00000001",
+        "showColumnHeaders": true,
+      },
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "table",
+    },
+    {
+      "attributes": {
+        "records": [
+          {
+            "age": {
+              "jsonValue": "20",
+              "slice": "M00000007",
+            },
+            "job": {
+              "jsonValue": "fighter",
+              "slice": "M00000008",
+            },
+            "name": {
+              "jsonValue": "laios",
+              "slice": "M00000006",
+            },
+            "notes": {
+              "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
+              "slice": "M00000009",
+            },
+          },
+          {
+            "age": {
+              "jsonValue": "500",
+              "slice": "M0000000d",
+            },
+            "job": {
+              "jsonValue": "mage",
+              "slice": "M0000000e",
+            },
+            "name": {
+              "jsonValue": "marcille",
+              "slice": "M0000000c",
+            },
+            "notes": {
+              "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
+              "slice": "M0000000f",
+            },
+          },
+          {
+            "age": {
+              "jsonValue": "18",
+              "slice": "M00000011",
+            },
+            "job": {
+              "jsonValue": "healer",
+              "slice": "M00000012",
+            },
+            "name": {
+              "jsonValue": "falin",
+              "slice": "M00000010",
+            },
+            "notes": {
+              "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
+              "slice": "M00000013",
+            },
+          },
+          {
+            "age": {
+              "jsonValue": "29",
+              "slice": "M00000016",
+            },
+            "job": {
+              "jsonValue": "thief",
+              "slice": "M00000017",
+            },
+            "name": {
+              "jsonValue": "chilchuk",
+              "slice": "M00000015",
+            },
+            "notes": {
+              "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
+              "slice": "M00000018",
+            },
+          },
+        ],
+        "schema": {
+          "age": "rich_text",
+          "job": "rich_text",
+          "name": "rich_text",
+          "notes": "rich_text",
+        },
+      },
+      "id": "B00000001",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "data-set",
+    },
+    {
+      "attributes": {},
+      "id": "B00000002",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000003",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000004",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000005",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000006",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000007",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000008",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000009",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000a",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000b",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000c",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000d",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000e",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000f",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000010",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000011",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000012",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000013",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000014",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
+      "id": "B00000015",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000000",
+      "range": "(2..7]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000001",
+      "range": "(7..11]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000002",
+      "range": "(11..15]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000003",
+      "range": "(15..21]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "url": "https://ja.wikipedia.org/wiki/%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3%E9%A3%AF",
+      },
+      "id": "M00000004",
+      "range": "(16..21)",
+      "type": "link",
+    },
+    {
+      "attributes": {},
+      "id": "M00000005",
+      "range": "(16..21]",
+      "type": "italic",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000006",
+      "range": "(22..27]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000007",
+      "range": "(27..30]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000008",
+      "range": "(30..38]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000009",
+      "range": "(38..97]",
+      "type": "slice",
+    },
+    {
+      "attributes": {},
+      "id": "M0000000a",
+      "range": "(69..82]",
+      "type": "italic",
+    },
+    {
+      "attributes": {},
+      "id": "M0000000b",
+      "range": "(76..82]",
+      "type": "bold",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M0000000c",
+      "range": "(98..106]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M0000000d",
+      "range": "(106..110]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M0000000e",
+      "range": "(110..115]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M0000000f",
+      "range": "(115..237]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000010",
+      "range": "(238..243]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000011",
+      "range": "(243..246]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000012",
+      "range": "(246..253]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000013",
+      "range": "(253..396]",
+      "type": "slice",
+    },
+    {
+      "attributes": {},
+      "id": "M00000014",
+      "range": "(258..263]",
+      "type": "italic",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000015",
+      "range": "(397..405]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000016",
+      "range": "(405..408]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000017",
+      "range": "(408..414]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000001",
+        ],
+      },
+      "id": "M00000018",
+      "range": "(414..556]",
+      "type": "slice",
+    },
+  ],
+  "text": "￼￼￼name￼age￼job￼notes￼laios￼20￼fighter￼ちょっと変な but earnest person. He really really likes monsters￼marcille￼500￼mage￼Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...￼falin￼18￼healer￼She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers￼chilchuk￼29￼thief￼Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
+}
+`;
+
+exports[`tables parsing 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {},
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "table",
+    },
+    {
+      "attributes": {},
+      "id": "B00000001",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "thead",
+    },
+    {
+      "attributes": {},
+      "id": "B00000002",
+      "parents": [
+        "table",
+        "thead",
+      ],
+      "selfClosing": false,
+      "type": "tr",
+    },
+    {
+      "attributes": {
+        "style": "text-align:left",
+      },
+      "id": "B00000003",
+      "parents": [
+        "table",
+        "thead",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "th",
+    },
+    {
+      "attributes": {
+        "style": "text-align:right",
+      },
+      "id": "B00000004",
+      "parents": [
+        "table",
+        "thead",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "th",
+    },
+    {
+      "attributes": {},
+      "id": "B00000005",
+      "parents": [
+        "table",
+        "thead",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "th",
+    },
+    {
+      "attributes": {
+        "style": "text-align:center",
+      },
+      "id": "B00000006",
+      "parents": [
+        "table",
+        "thead",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "th",
+    },
+    {
+      "attributes": {},
+      "id": "B00000007",
+      "parents": [
+        "table",
+      ],
+      "selfClosing": false,
+      "type": "tbody",
+    },
+    {
+      "attributes": {},
+      "id": "B00000008",
+      "parents": [
+        "table",
+        "tbody",
+      ],
+      "selfClosing": false,
+      "type": "tr",
+    },
+    {
+      "attributes": {
+        "style": "text-align:left",
+      },
+      "id": "B00000009",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:right",
+      },
+      "id": "B0000000a",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000b",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:center",
+      },
+      "id": "B0000000c",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B0000000d",
+      "parents": [
+        "table",
+        "tbody",
+      ],
+      "selfClosing": false,
+      "type": "tr",
+    },
+    {
+      "attributes": {
+        "style": "text-align:left",
+      },
+      "id": "B0000000e",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:right",
+      },
+      "id": "B0000000f",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B00000010",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:center",
+      },
+      "id": "B00000011",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B00000012",
+      "parents": [
+        "table",
+        "tbody",
+      ],
+      "selfClosing": false,
+      "type": "tr",
+    },
+    {
+      "attributes": {
+        "style": "text-align:left",
+      },
+      "id": "B00000013",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:right",
+      },
+      "id": "B00000014",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B00000015",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:center",
+      },
+      "id": "B00000016",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B00000017",
+      "parents": [
+        "table",
+        "tbody",
+      ],
+      "selfClosing": false,
+      "type": "tr",
+    },
+    {
+      "attributes": {
+        "style": "text-align:left",
+      },
+      "id": "B00000018",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:right",
+      },
+      "id": "B00000019",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {},
+      "id": "B0000001a",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+    {
+      "attributes": {
+        "style": "text-align:center",
+      },
+      "id": "B0000001b",
+      "parents": [
+        "table",
+        "tbody",
+        "tr",
+      ],
+      "selfClosing": false,
+      "type": "td",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(17..22]",
+      "type": "em",
+    },
+    {
+      "attributes": {
+        "href": "https://ja.wikipedia.org/wiki/%E3%83%80%E3%83%B3%E3%82%B8%E3%83%A7%E3%83%B3%E9%A3%AF",
+      },
+      "id": "M00000001",
+      "range": "(17..22]",
+      "type": "link",
+    },
+    {
+      "attributes": {},
+      "id": "M00000002",
+      "range": "(72..85]",
+      "type": "em",
+    },
+    {
+      "attributes": {},
+      "id": "M00000003",
+      "range": "(79..85]",
+      "type": "strong",
+    },
+    {
+      "attributes": {},
+      "id": "M00000004",
+      "range": "(263..268]",
+      "type": "em",
+    },
+  ],
+  "text": "￼￼￼￼name￼age￼job￼notes￼￼￼laios￼20￼fighter￼ちょっと変な but earnest person. He really really likes monsters￼￼marcille￼500￼mage￼Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...￼￼falin￼18￼healer￼She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers￼￼chilchuk￼29￼thief￼Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
+}
+`;

@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataSet peritext 1`] = `
+{
+  "blocks": [
+    {
+      "attributes": {
+        "records": [
+          {
+            "column 1": {
+              "jsonValue": "data 1.1",
+              "slice": "M00000002",
+            },
+            "column 2": {
+              "jsonValue": "data 1.2",
+              "slice": "M00000003",
+            },
+          },
+        ],
+        "schema": {
+          "column 1": "rich_text",
+          "column 2": "rich_text",
+        },
+      },
+      "id": "B00000000",
+      "parents": [],
+      "selfClosing": false,
+      "type": "data-set",
+    },
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "column 1",
+            "slice": "M00000000",
+            "textAlign": "left",
+          },
+          {
+            "name": "column 2",
+            "slice": "M00000001",
+            "textAlign": "right",
+          },
+        ],
+        "dataSet": "B00000000",
+        "showColumnHeaders": true,
+      },
+      "id": "B00000001",
+      "parents": [],
+      "selfClosing": false,
+      "type": "table",
+    },
+  ],
+  "marks": [
+    {
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
+      "id": "M00000000",
+      "range": "(2..10]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
+      "id": "M00000001",
+      "range": "(11..19]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
+      "id": "M00000002",
+      "range": "(20..28]",
+      "type": "slice",
+    },
+    {
+      "attributes": {
+        "refs": [
+          "B00000000",
+        ],
+      },
+      "id": "M00000003",
+      "range": "(29..37]",
+      "type": "slice",
+    },
+  ],
+  "text": "￼￼column 1 column 2 data 1.1 data 1.2",
+}
+`;
