@@ -8,6 +8,7 @@ import {
   JSONObject,
   Annotation,
   SliceAnnotation,
+  TextAnnotation,
   UnknownAnnotation,
   is,
   withStableIds,
@@ -127,11 +128,6 @@ const START_TOKENS = [
   TokenType.MARK_START,
   TokenType.PARSE_START,
 ];
-
-class Text extends BlockAnnotation {
-  static vendorPrefix = "atjson";
-  static type = "text";
-}
 
 class Root extends BlockAnnotation {
   static vendorPrefix = "atjson";
@@ -466,7 +462,7 @@ export function serialize(
           }
 
           // Insert text block
-          let text = new Text({
+          let text = new TextAnnotation({
             start,
             end,
           });
@@ -477,7 +473,7 @@ export function serialize(
             annotation: text,
             selfClosing: false,
             shared,
-            edgeBehaviour: Text.edgeBehaviour,
+            edgeBehaviour: TextAnnotation.edgeBehaviour,
           });
           tokens.splice(startIndex + 1, 0, {
             type: TokenType.BLOCK_START,
@@ -485,7 +481,7 @@ export function serialize(
             annotation: text,
             selfClosing: false,
             shared,
-            edgeBehaviour: Text.edgeBehaviour,
+            edgeBehaviour: TextAnnotation.edgeBehaviour,
           });
         }
         textLength = 0;
