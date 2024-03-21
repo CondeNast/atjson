@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.49.0 (2024-03-21)
+
+### Bug Fixes
+
+- address comments ([6a69702](https://github.com/CondeNast/atjson/commit/6a697021916e3544b2b0252ab787f054b15b0c68))
+- address lint comments and test issues ([8a5d58e](https://github.com/CondeNast/atjson/commit/8a5d58ec391960d1d7cf300aba9605a531b670d9))
+- addressing meeting comments ([ecec328](https://github.com/CondeNast/atjson/commit/ecec328a83e85568ef0d6b22d0a56ec59df24ada))
+- change dataset format per slack comments ([37bdd19](https://github.com/CondeNast/atjson/commit/37bdd1999594c1173cb8b856c2aed13262ea2a1f))
+- comment for ColumnType enum ([661f480](https://github.com/CondeNast/atjson/commit/661f48051db335419c91d7d421b9a53d91db062b))
+- converting tables and withStableIds support ([7280fcc](https://github.com/CondeNast/atjson/commit/7280fcc665becff6f9a46383dc00a3b555722d55))
+- converting text alignment caused columns to disappear ([dfecfb6](https://github.com/CondeNast/atjson/commit/dfecfb6f53f3c77d68277debbeb9d213fd411f18))
+- packages/@atjson/offset-annotations/src/annotations/data-set.ts ([b51c289](https://github.com/CondeNast/atjson/commit/b51c2894583e19537d7b34fece4767c8b188c0c5))
+- packages/@atjson/offset-annotations/src/annotations/table.ts ([07a6427](https://github.com/CondeNast/atjson/commit/07a64275a52f5ead4131cb78764a54694a45e7a5))
+- refactor conversion logic ([7942c8a](https://github.com/CondeNast/atjson/commit/7942c8a3a9130d2dcd29a2a8f29265886d6103ce))
+- remove extra slice covering the dataset ([abb7bb9](https://github.com/CondeNast/atjson/commit/abb7bb94f366f5dba643ac746fa1141e12b0349e))
+- table annotation rank ([3842da6](https://github.com/CondeNast/atjson/commit/3842da6e69cd89f0aa8c805731cd4cd94d45e7e9))
+- update snapshots ([f299eec](https://github.com/CondeNast/atjson/commit/f299eec7e1dbab5a9d44cad035bb1cf095effa62))
+- use peritext in tests ([480ce53](https://github.com/CondeNast/atjson/commit/480ce53163d60131da69762d7572f6a7778dbdfc))
+
+### Features
+
+- correctly exclude invalid html tables ([06d968a](https://github.com/CondeNast/atjson/commit/06d968a2e14bd623b6846d62a172762f422b64ca))
+- offset table and dataset annotations ([7163277](https://github.com/CondeNast/atjson/commit/716327711bf33dcaf46001cd3bf1f72581c5cdd7))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 # 0.48.0 (2024-01-16)
 
 ### Features

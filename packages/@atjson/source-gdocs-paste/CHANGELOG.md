@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.26.0 (2024-03-21)
+
+### Features
+
+- complete work on gdocs paste conversion ([745069e](https://github.com/CondeNast/atjson/commit/745069e4f8311c33bfee0d08319515223dd10d54))
+- **table:** add support for converting tables from gdocs to peritext ([d923618](https://github.com/CondeNast/atjson/commit/d92361895347981c1ef0d5ca488a2cd2dcc40f34))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 ## 0.25.28 (2024-01-16)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste

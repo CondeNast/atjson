@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.26.0 (2024-03-21)
+
+### Bug Fixes
+
+- address lint comments and test issues ([8a5d58e](https://github.com/CondeNast/atjson/commit/8a5d58ec391960d1d7cf300aba9605a531b670d9))
+- renderer instance render method should only accept precompiled documents ([3768258](https://github.com/CondeNast/atjson/commit/37682587ca0bdb4117e5286aadf6cf41cb9ec944))
+
+### Features
+
+- markdown rendering for offset tables and datasets ([3198caf](https://github.com/CondeNast/atjson/commit/3198cafb6afb5c4e577b5ae92bc800e8ed111d78))
+
 ## [0.25.7](https://github.com/CondeNast/atjson/compare/@atjson/renderer-hir@0.25.6...@atjson/renderer-hir@0.25.7) (2023-10-16)
 
 **Note:** Version bump only for package @atjson/renderer-hir

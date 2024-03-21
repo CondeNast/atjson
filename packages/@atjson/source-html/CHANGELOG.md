@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.37.0 (2024-03-21)
+
+### Bug Fixes
+
+- address comments ([6a69702](https://github.com/CondeNast/atjson/commit/6a697021916e3544b2b0252ab787f054b15b0c68))
+- change dataset format per slack comments ([37bdd19](https://github.com/CondeNast/atjson/commit/37bdd1999594c1173cb8b856c2aed13262ea2a1f))
+- cleanup unused tests ([2d64a00](https://github.com/CondeNast/atjson/commit/2d64a0007df6ce93dda852aef3c796197ce1c7af))
+- converting tables and withStableIds support ([7280fcc](https://github.com/CondeNast/atjson/commit/7280fcc665becff6f9a46383dc00a3b555722d55))
+- refactor conversion logic ([7942c8a](https://github.com/CondeNast/atjson/commit/7942c8a3a9130d2dcd29a2a8f29265886d6103ce))
+- update snapshots ([f299eec](https://github.com/CondeNast/atjson/commit/f299eec7e1dbab5a9d44cad035bb1cf095effa62))
+
+### Features
+
+- correctly exclude invalid html tables ([06d968a](https://github.com/CondeNast/atjson/commit/06d968a2e14bd623b6846d62a172762f422b64ca))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 # 0.36.0 (2024-01-16)
 
 ### Features

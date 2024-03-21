@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.25.7...@atjson/source-commonmark@0.26.0) (2024-03-21)
+
+### Bug Fixes
+
+- address comments ([6a69702](https://github.com/CondeNast/atjson/commit/6a697021916e3544b2b0252ab787f054b15b0c68))
+- addressing meeting comments ([ecec328](https://github.com/CondeNast/atjson/commit/ecec328a83e85568ef0d6b22d0a56ec59df24ada))
+- change dataset format per slack comments ([37bdd19](https://github.com/CondeNast/atjson/commit/37bdd1999594c1173cb8b856c2aed13262ea2a1f))
+- converting tables and withStableIds support ([7280fcc](https://github.com/CondeNast/atjson/commit/7280fcc665becff6f9a46383dc00a3b555722d55))
+- converting text alignment caused columns to disappear ([dfecfb6](https://github.com/CondeNast/atjson/commit/dfecfb6f53f3c77d68277debbeb9d213fd411f18))
+- packages/@atjson/source-commonmark/test/commonmark.test.ts ([2aff51b](https://github.com/CondeNast/atjson/commit/2aff51b790fbfe4e87b84968d9e799f79b5fb8fa))
+- refactor conversion logic ([7942c8a](https://github.com/CondeNast/atjson/commit/7942c8a3a9130d2dcd29a2a8f29265886d6103ce))
+- remove extra slice covering the dataset ([abb7bb9](https://github.com/CondeNast/atjson/commit/abb7bb94f366f5dba643ac746fa1141e12b0349e))
+- table annotation rank ([3842da6](https://github.com/CondeNast/atjson/commit/3842da6e69cd89f0aa8c805731cd4cd94d45e7e9))
+- update snapshots ([f299eec](https://github.com/CondeNast/atjson/commit/f299eec7e1dbab5a9d44cad035bb1cf095effa62))
+
+### Features
+
+- correctly exclude invalid html tables ([06d968a](https://github.com/CondeNast/atjson/commit/06d968a2e14bd623b6846d62a172762f422b64ca))
+- markdown rendering for offset tables and datasets ([3198caf](https://github.com/CondeNast/atjson/commit/3198cafb6afb5c4e577b5ae92bc800e8ed111d78))
+- offset table and dataset annotations ([7163277](https://github.com/CondeNast/atjson/commit/716327711bf33dcaf46001cd3bf1f72581c5cdd7))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 ## [0.25.7](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.25.6...@atjson/source-commonmark@0.25.7) (2024-03-14)
 
 **Note:** Version bump only for package @atjson/source-commonmark

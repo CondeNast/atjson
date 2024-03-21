@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.30.0 (2024-03-21)
+
+### Bug Fixes
+
+- address comments ([6a69702](https://github.com/CondeNast/atjson/commit/6a697021916e3544b2b0252ab787f054b15b0c68))
+- address lint comments and test issues ([8a5d58e](https://github.com/CondeNast/atjson/commit/8a5d58ec391960d1d7cf300aba9605a531b670d9))
+- converting tables and withStableIds support ([7280fcc](https://github.com/CondeNast/atjson/commit/7280fcc665becff6f9a46383dc00a3b555722d55))
+
+### Features
+
+- add TextAnnotation and export it ([a848b44](https://github.com/CondeNast/atjson/commit/a848b44230a37593d09f5f432e919f1fd89519aa))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 ## [0.29.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.29.4...@atjson/document@0.29.5) (2023-10-16)
 
 **Note:** Version bump only for package @atjson/document

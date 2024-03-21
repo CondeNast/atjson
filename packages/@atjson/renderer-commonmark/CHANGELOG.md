@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.28.10...@atjson/renderer-commonmark@0.29.0) (2024-03-21)
+
+### Bug Fixes
+
+- address comments ([6a69702](https://github.com/CondeNast/atjson/commit/6a697021916e3544b2b0252ab787f054b15b0c68))
+- address lint comments and test issues ([8a5d58e](https://github.com/CondeNast/atjson/commit/8a5d58ec391960d1d7cf300aba9605a531b670d9))
+- addressing meeting comments ([ecec328](https://github.com/CondeNast/atjson/commit/ecec328a83e85568ef0d6b22d0a56ec59df24ada))
+- allow tables with no columns[number]['slice'] values ([eb2019e](https://github.com/CondeNast/atjson/commit/eb2019e9f0c6ed5655790e3a462d9306421d7bcc))
+- change dataset format per slack comments ([37bdd19](https://github.com/CondeNast/atjson/commit/37bdd1999594c1173cb8b856c2aed13262ea2a1f))
+- converting tables and withStableIds support ([7280fcc](https://github.com/CondeNast/atjson/commit/7280fcc665becff6f9a46383dc00a3b555722d55))
+- converting text alignment caused columns to disappear ([dfecfb6](https://github.com/CondeNast/atjson/commit/dfecfb6f53f3c77d68277debbeb9d213fd411f18))
+- don't render newlines in markdown table cells ([2208f48](https://github.com/CondeNast/atjson/commit/2208f48bd20992d865a55ab438a012423ab3593a))
+- remove extra slice covering the dataset ([abb7bb9](https://github.com/CondeNast/atjson/commit/abb7bb94f366f5dba643ac746fa1141e12b0349e))
+- remove test.only ([4da3729](https://github.com/CondeNast/atjson/commit/4da372981abad5a9873ee51eee2fc959ab03ae75))
+- strip newlines from the contents of table cells ([071fcc5](https://github.com/CondeNast/atjson/commit/071fcc52173ef46a8d48dfdee9a33ff9f31a9d60))
+- table annotation rank ([3842da6](https://github.com/CondeNast/atjson/commit/3842da6e69cd89f0aa8c805731cd4cd94d45e7e9))
+- test snapshot ([6f3718c](https://github.com/CondeNast/atjson/commit/6f3718c6b195161f0c010c47e4ea08b6ed152f9b))
+- update snapshots ([f299eec](https://github.com/CondeNast/atjson/commit/f299eec7e1dbab5a9d44cad035bb1cf095effa62))
+- use peritext in tests ([480ce53](https://github.com/CondeNast/atjson/commit/480ce53163d60131da69762d7572f6a7778dbdfc))
+
+### Features
+
+- markdown rendering for offset tables and datasets ([3198caf](https://github.com/CondeNast/atjson/commit/3198cafb6afb5c4e577b5ae92bc800e8ed111d78))
+- offset table and dataset annotations ([7163277](https://github.com/CondeNast/atjson/commit/716327711bf33dcaf46001cd3bf1f72581c5cdd7))
+- pretty-print markdon tables ([24d996e](https://github.com/CondeNast/atjson/commit/24d996e271c6c712d46ac8b2bd5c493619601ace))
+
+### Reverts
+
+- Revert "Gdocs tables (#1726)" (#1727) ([ef419b8](https://github.com/CondeNast/atjson/commit/ef419b8d06bb3b3f73ed817b1f66b7cf76098ef8)), closes [#1726](https://github.com/CondeNast/atjson/issues/1726) [#1727](https://github.com/CondeNast/atjson/issues/1727)
+
 ## [0.28.10](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.28.9...@atjson/renderer-commonmark@0.28.10) (2024-03-14)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

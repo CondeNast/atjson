@@ -1,6 +1,6 @@
 {
   "name": "@atjson/renderer-hir",
-  "version": "0.25.7",
+  "version": "0.26.0",
   "description": "Generalized tools for generating documents in a hierarchical fashion",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
