@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.29.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.29.0...@atjson/renderer-commonmark@0.29.1) (2024-03-21)
+
+### Bug Fixes
+
+- bugs in previous release ([1e59624](https://github.com/CondeNast/atjson/commit/1e5962427a34c3e35644b844a9cfbb965e66e1cb))
+
 # [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.28.10...@atjson/renderer-commonmark@0.29.0) (2024-03-21)
 
 ### Bug Fixes

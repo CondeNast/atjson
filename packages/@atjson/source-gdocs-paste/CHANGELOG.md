@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.26.0...@atjson/source-gdocs-paste@0.27.0) (2024-03-21)
+
+### Features
+
+- add support for small-caps from google docs paste ([0fee1a1](https://github.com/CondeNast/atjson/commit/0fee1a107d22068cd6adebe443bea61a3eff5da4))
+
 # 0.26.0 (2024-03-21)
 
 ### Features
