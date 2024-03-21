@@ -10,6 +10,7 @@ import {
   Insertion,
   ParseAnnotation,
   SliceAnnotation,
+  TextAnnotation,
   UnknownAnnotation,
 } from "./internals";
 
@@ -735,7 +736,12 @@ export class Document {
     annotation: Annotation<any> | AnnotationJSON
   ): Annotation<any> {
     let DocumentClass = this.constructor as typeof Document;
-    let schema = [...DocumentClass.schema, ParseAnnotation, SliceAnnotation];
+    let schema = [
+      ...DocumentClass.schema,
+      ParseAnnotation,
+      SliceAnnotation,
+      TextAnnotation,
+    ];
 
     if (annotation instanceof UnknownAnnotation) {
       let KnownAnnotation = schema.find(function annotationMatchesClass(
