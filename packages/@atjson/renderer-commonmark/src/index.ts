@@ -739,7 +739,7 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   *DataSet(): Generator<void, string, string[]> {
-    return (yield).join("");
+    return "";
   }
 
   *Table(
@@ -750,7 +750,7 @@ export default class CommonmarkRenderer extends Renderer {
       return "";
     }
 
-    const previousState = { ...this.state };
+    const previousState = this.state;
     this.state.inlineOnly = true;
 
     const dataSet = context.document.blocks.find(

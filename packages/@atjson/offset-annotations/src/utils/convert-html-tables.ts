@@ -1,9 +1,9 @@
 import {
+  AdjacentBoundaryBehaviour,
   JSON,
   SliceAnnotation,
   compareAnnotations,
   Annotation,
-  TextAnnotation,
 } from "@atjson/document";
 
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
@@ -106,12 +106,13 @@ export function convertHTMLTablesToDataSet(
 
     if (headings.length) {
       headings.sort(compareAnnotations).forEach((headCell, index) => {
-        doc.addAnnotations(
-          new TextAnnotation({
-            start: headCell.start,
-            end: headCell.end,
-          })
-        );
+        if (index !== 0) {
+          doc.insertText(
+            headCell.start,
+            " ",
+            AdjacentBoundaryBehaviour.preserveBoth
+          );
+        }
 
         let slice = new SliceAnnotation({
           ...headCell,
@@ -153,6 +154,8 @@ export function convertHTMLTablesToDataSet(
     );
 
     tableRows.forEach((row) => {
+      doc.insertText(row.start, " ", AdjacentBoundaryBehaviour.preserveBoth);
+
       let rowEntries: [string, { slice: string; jsonValue: JSON }][] = [];
       doc
         .where(
@@ -165,11 +168,10 @@ export function convertHTMLTablesToDataSet(
         .sort(compareAnnotations)
         .forEach((bodyCell, index) => {
           if (index !== 0) {
-            doc.addAnnotations(
-              new TextAnnotation({
-                start: bodyCell.start,
-                end: bodyCell.end,
-              })
+            doc.insertText(
+              bodyCell.start,
+              " ",
+              AdjacentBoundaryBehaviour.preserveBoth
             );
           }
 

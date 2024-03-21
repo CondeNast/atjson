@@ -781,326 +781,6 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000005",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000006",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000007",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000008",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000009",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000010",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000011",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000012",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000013",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000014",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000015",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000016",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000017",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000018",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000019",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000020",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000021",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000022",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000023",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000024",
-      "parents": [
-        "table",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1114,7 +794,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(21..25]",
       "type": "slice",
     },
     {
@@ -1124,7 +804,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000001",
-      "range": "(33..37]",
+      "range": "(33..36]",
       "type": "slice",
     },
     {
@@ -1134,7 +814,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000002",
-      "range": "(45..49]",
+      "range": "(44..47]",
       "type": "slice",
     },
     {
@@ -1144,7 +824,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000003",
-      "range": "(57..99]",
+      "range": "(55..96]",
       "type": "slice",
     },
     {
@@ -1152,13 +832,13 @@ exports[`tables valid tables converts column alignments 1`] = `
         "url": "https://en.wikipedia.org/wiki/Delicious_in_Dungeon",
       },
       "id": "M00000004",
-      "range": "(67..92)",
+      "range": "(64..89)",
       "type": "link",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(78..83]",
+      "range": "(75..80]",
       "type": "italic",
     },
     {
@@ -1168,7 +848,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000006",
-      "range": "(123..128]",
+      "range": "(120..125]",
       "type": "slice",
     },
     {
@@ -1178,7 +858,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000007",
-      "range": "(135..138]",
+      "range": "(133..135]",
       "type": "slice",
     },
     {
@@ -1188,7 +868,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000008",
-      "range": "(146..154]",
+      "range": "(143..150]",
       "type": "slice",
     },
     {
@@ -1198,19 +878,19 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000009",
-      "range": "(162..248]",
+      "range": "(158..243]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000a",
-      "range": "(213..226]",
+      "range": "(208..221]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M0000000b",
-      "range": "(220..226]",
+      "range": "(215..221]",
       "type": "bold",
     },
     {
@@ -1220,7 +900,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M0000000c",
-      "range": "(266..274]",
+      "range": "(261..269]",
       "type": "slice",
     },
     {
@@ -1230,7 +910,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M0000000d",
-      "range": "(281..285]",
+      "range": "(277..280]",
       "type": "slice",
     },
     {
@@ -1240,7 +920,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M0000000e",
-      "range": "(293..298]",
+      "range": "(288..292]",
       "type": "slice",
     },
     {
@@ -1250,7 +930,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M0000000f",
-      "range": "(306..452]",
+      "range": "(300..445]",
       "type": "slice",
     },
     {
@@ -1260,7 +940,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000010",
-      "range": "(470..475]",
+      "range": "(463..468]",
       "type": "slice",
     },
     {
@@ -1270,7 +950,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000011",
-      "range": "(482..485]",
+      "range": "(476..478]",
       "type": "slice",
     },
     {
@@ -1280,7 +960,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000012",
-      "range": "(493..500]",
+      "range": "(486..492]",
       "type": "slice",
     },
     {
@@ -1290,13 +970,13 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000013",
-      "range": "(508..683]",
+      "range": "(500..674]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000014",
-      "range": "(522..527]",
+      "range": "(513..518]",
       "type": "italic",
     },
     {
@@ -1306,7 +986,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000015",
-      "range": "(701..709]",
+      "range": "(692..700]",
       "type": "slice",
     },
     {
@@ -1316,7 +996,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000016",
-      "range": "(716..719]",
+      "range": "(708..710]",
       "type": "slice",
     },
     {
@@ -1326,7 +1006,7 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000017",
-      "range": "(727..733]",
+      "range": "(718..723]",
       "type": "slice",
     },
     {
@@ -1336,62 +1016,62 @@ exports[`tables valid tables converts column alignments 1`] = `
         ],
       },
       "id": "M00000018",
-      "range": "(741..915]",
+      "range": "(731..904]",
       "type": "slice",
     },
   ],
   "text": "￼
 ￼￼￼
   
-    
-      ￼name￼
-      ￼age￼
-      ￼job￼
-      ￼
+     
+      name
+       age
+       job
+       
         
           notes
         
-      ￼
+      
     
   
   
-    
+     
       laios
-      ￼20￼
-      ￼fighter￼
-      ￼
+       20
+       fighter
+       
         A strange but earnest person. He
         really really likes monsters
-      ￼
+      
     
-    
+     
       marcille
-      ￼500￼
-      ￼mage￼
-      ￼
+       500
+       mage
+       
         Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...
-      ￼
+      
     
-    
+     
       falin
-      ￼18￼
-      ￼healer￼
-      ￼
+       18
+       healer
+       
         She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers
-      ￼
+      
     
-    
+     
       chilchuk
-      ￼29￼
-      ￼thief￼
-      ￼
+       29
+       thief
+       
         Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people
-      ￼
+      
     
   
 ￼
@@ -1516,126 +1196,6 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000005",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000006",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000007",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000008",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000009",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000010",
-      "parents": [
-        "table",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1649,7 +1209,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(21..26]",
       "type": "slice",
     },
     {
@@ -1659,7 +1219,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000001",
-      "range": "(42..50]",
+      "range": "(44..52]",
       "type": "slice",
     },
     {
@@ -1669,7 +1229,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000002",
-      "range": "(57..61]",
+      "range": "(60..63]",
       "type": "slice",
     },
     {
@@ -1679,7 +1239,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000003",
-      "range": "(69..74]",
+      "range": "(71..75]",
       "type": "slice",
     },
     {
@@ -1689,7 +1249,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000004",
-      "range": "(92..97]",
+      "range": "(93..98]",
       "type": "slice",
     },
     {
@@ -1699,7 +1259,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000005",
-      "range": "(104..111]",
+      "range": "(106..112]",
       "type": "slice",
     },
     {
@@ -1709,7 +1269,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000006",
-      "range": "(129..137]",
+      "range": "(130..138]",
       "type": "slice",
     },
     {
@@ -1719,7 +1279,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000007",
-      "range": "(144..147]",
+      "range": "(146..148]",
       "type": "slice",
     },
     {
@@ -1729,7 +1289,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000008",
-      "range": "(155..161]",
+      "range": "(156..161]",
       "type": "slice",
     },
     {
@@ -1739,34 +1299,34 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
         ],
       },
       "id": "M00000009",
-      "range": "(169..343]",
+      "range": "(169..342]",
       "type": "slice",
     },
   ],
   "text": "￼
 ￼￼￼
   
-    
+     
       laios
     
-    
+     
       marcille
-      ￼500￼
-      ￼mage￼
+       500
+       mage
     
-    
+     
       falin
-      ￼healer￼
+       healer
     
-    
+     
       chilchuk
-      ￼29￼
-      ￼thief￼
-      ￼
+       29
+       thief
+       
         Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people
-      ￼
+      
     
   
 ￼
@@ -1923,326 +1483,6 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000005",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000006",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000007",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000008",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000009",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000010",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000011",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000012",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000013",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000014",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000015",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000016",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000017",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000018",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000019",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000020",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000021",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000022",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000023",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000024",
-      "parents": [
-        "table",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2256,7 +1496,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(21..25]",
       "type": "slice",
     },
     {
@@ -2266,7 +1506,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000001",
-      "range": "(33..37]",
+      "range": "(33..36]",
       "type": "slice",
     },
     {
@@ -2276,7 +1516,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000002",
-      "range": "(45..49]",
+      "range": "(44..47]",
       "type": "slice",
     },
     {
@@ -2286,7 +1526,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000003",
-      "range": "(57..99]",
+      "range": "(55..96]",
       "type": "slice",
     },
     {
@@ -2294,13 +1534,13 @@ exports[`tables valid tables converts simple tables 1`] = `
         "url": "https://en.wikipedia.org/wiki/Delicious_in_Dungeon",
       },
       "id": "M00000004",
-      "range": "(67..92)",
+      "range": "(64..89)",
       "type": "link",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(78..83]",
+      "range": "(75..80]",
       "type": "italic",
     },
     {
@@ -2310,7 +1550,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000006",
-      "range": "(123..128]",
+      "range": "(120..125]",
       "type": "slice",
     },
     {
@@ -2320,7 +1560,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000007",
-      "range": "(135..138]",
+      "range": "(133..135]",
       "type": "slice",
     },
     {
@@ -2330,7 +1570,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000008",
-      "range": "(146..154]",
+      "range": "(143..150]",
       "type": "slice",
     },
     {
@@ -2340,19 +1580,19 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000009",
-      "range": "(162..248]",
+      "range": "(158..243]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000a",
-      "range": "(213..226]",
+      "range": "(208..221]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M0000000b",
-      "range": "(220..226]",
+      "range": "(215..221]",
       "type": "bold",
     },
     {
@@ -2362,7 +1602,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M0000000c",
-      "range": "(266..274]",
+      "range": "(261..269]",
       "type": "slice",
     },
     {
@@ -2372,7 +1612,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M0000000d",
-      "range": "(281..285]",
+      "range": "(277..280]",
       "type": "slice",
     },
     {
@@ -2382,7 +1622,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M0000000e",
-      "range": "(293..298]",
+      "range": "(288..292]",
       "type": "slice",
     },
     {
@@ -2392,7 +1632,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M0000000f",
-      "range": "(306..452]",
+      "range": "(300..445]",
       "type": "slice",
     },
     {
@@ -2402,7 +1642,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000010",
-      "range": "(470..475]",
+      "range": "(463..468]",
       "type": "slice",
     },
     {
@@ -2412,7 +1652,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000011",
-      "range": "(482..485]",
+      "range": "(476..478]",
       "type": "slice",
     },
     {
@@ -2422,7 +1662,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000012",
-      "range": "(493..500]",
+      "range": "(486..492]",
       "type": "slice",
     },
     {
@@ -2432,13 +1672,13 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000013",
-      "range": "(508..683]",
+      "range": "(500..674]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000014",
-      "range": "(522..527]",
+      "range": "(513..518]",
       "type": "italic",
     },
     {
@@ -2448,7 +1688,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000015",
-      "range": "(701..709]",
+      "range": "(692..700]",
       "type": "slice",
     },
     {
@@ -2458,7 +1698,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000016",
-      "range": "(716..719]",
+      "range": "(708..710]",
       "type": "slice",
     },
     {
@@ -2468,7 +1708,7 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000017",
-      "range": "(727..733]",
+      "range": "(718..723]",
       "type": "slice",
     },
     {
@@ -2478,62 +1718,62 @@ exports[`tables valid tables converts simple tables 1`] = `
         ],
       },
       "id": "M00000018",
-      "range": "(741..915]",
+      "range": "(731..904]",
       "type": "slice",
     },
   ],
   "text": "￼
 ￼￼￼
   
-    
-      ￼name￼
-      ￼age￼
-      ￼job￼
-      ￼
+     
+      name
+       age
+       job
+       
         
           notes
         
-      ￼
+      
     
   
   
-    
+     
       laios
-      ￼20￼
-      ￼fighter￼
-      ￼
+       20
+       fighter
+       
         A strange but earnest person. He
         really really likes monsters
-      ￼
+      
     
-    
+     
       marcille
-      ￼500￼
-      ￼mage￼
-      ￼
+       500
+       mage
+       
         Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...
-      ￼
+      
     
-    
+     
       falin
-      ￼18￼
-      ￼healer￼
-      ￼
+       18
+       healer
+       
         She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers
-      ￼
+      
     
-    
+     
       chilchuk
-      ￼29￼
-      ￼thief￼
-      ￼
+       29
+       thief
+       
         Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people
-      ￼
+      
     
   
 ￼
@@ -2686,246 +1926,6 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000005",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000006",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000007",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000008",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000009",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000c",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000d",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000e",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000000f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000010",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000011",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000012",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000013",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000014",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000015",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000016",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000017",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000018",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000019",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001a",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001c",
-      "parents": [
-        "table",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2939,7 +1939,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(21..26]",
       "type": "slice",
     },
     {
@@ -2949,7 +1949,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000001",
-      "range": "(32..35]",
+      "range": "(34..36]",
       "type": "slice",
     },
     {
@@ -2959,7 +1959,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000002",
-      "range": "(43..51]",
+      "range": "(44..51]",
       "type": "slice",
     },
     {
@@ -2969,19 +1969,19 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000003",
-      "range": "(59..145]",
+      "range": "(59..144]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000004",
-      "range": "(110..123]",
+      "range": "(109..122]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(117..123]",
+      "range": "(116..122]",
       "type": "bold",
     },
     {
@@ -2991,7 +1991,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000006",
-      "range": "(163..171]",
+      "range": "(162..170]",
       "type": "slice",
     },
     {
@@ -3001,7 +2001,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000007",
-      "range": "(178..182]",
+      "range": "(178..181]",
       "type": "slice",
     },
     {
@@ -3011,7 +2011,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000008",
-      "range": "(190..195]",
+      "range": "(189..193]",
       "type": "slice",
     },
     {
@@ -3021,7 +2021,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000009",
-      "range": "(203..349]",
+      "range": "(201..346]",
       "type": "slice",
     },
     {
@@ -3031,7 +2031,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M0000000a",
-      "range": "(367..372]",
+      "range": "(364..369]",
       "type": "slice",
     },
     {
@@ -3041,7 +2041,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M0000000b",
-      "range": "(379..382]",
+      "range": "(377..379]",
       "type": "slice",
     },
     {
@@ -3051,7 +2051,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M0000000c",
-      "range": "(390..397]",
+      "range": "(387..393]",
       "type": "slice",
     },
     {
@@ -3061,13 +2061,13 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M0000000d",
-      "range": "(405..580]",
+      "range": "(401..575]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000e",
-      "range": "(419..424]",
+      "range": "(414..419]",
       "type": "italic",
     },
     {
@@ -3077,7 +2077,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M0000000f",
-      "range": "(598..606]",
+      "range": "(593..601]",
       "type": "slice",
     },
     {
@@ -3087,7 +2087,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000010",
-      "range": "(613..616]",
+      "range": "(609..611]",
       "type": "slice",
     },
     {
@@ -3097,7 +2097,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000011",
-      "range": "(624..630]",
+      "range": "(619..624]",
       "type": "slice",
     },
     {
@@ -3107,50 +2107,50 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
         ],
       },
       "id": "M00000012",
-      "range": "(638..812]",
+      "range": "(632..805]",
       "type": "slice",
     },
   ],
   "text": "￼
 ￼￼￼
   
-    
+     
       laios
-      ￼20￼
-      ￼fighter￼
-      ￼
+       20
+       fighter
+       
         A strange but earnest person. He
         really really likes monsters
-      ￼
+      
     
-    
+     
       marcille
-      ￼500￼
-      ￼mage￼
-      ￼
+       500
+       mage
+       
         Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...
-      ￼
+      
     
-    
+     
       falin
-      ￼18￼
-      ￼healer￼
-      ￼
+       18
+       healer
+       
         She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers
-      ￼
+      
     
-    
+     
       chilchuk
-      ￼29￼
-      ￼thief￼
-      ￼
+       29
+       thief
+       
         Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people
-      ￼
+      
     
   
 ￼

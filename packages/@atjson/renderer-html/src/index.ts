@@ -175,8 +175,8 @@ export default class HTMLRenderer extends Renderer {
     return `<pre>${codeSnippet}</pre>`;
   }
 
-  *DataSet(): Iterator<void, string, string[]> {
-    return (yield).join("");
+  *DataSet() {
+    return "";
   }
 
   *Heading(heading: Block<Heading>) {
