@@ -9,6 +9,7 @@ import {
   Italic,
   Link,
   List,
+  Paragraph,
   Table,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
@@ -237,8 +238,7 @@ export default class CommonmarkRenderer extends Renderer {
      */
     protected options: {
       escapeHtmlEntities: boolean;
-      allowBlocks: boolean;
-    } = { escapeHtmlEntities: true, allowBlocks: true }
+    } = { escapeHtmlEntities: true }
   ) {
     super(document);
     this.state = {};
@@ -708,7 +708,10 @@ export default class CommonmarkRenderer extends Renderer {
   /**
    * Paragraphs are delimited by two or more newlines in markdown.
    */
-  *Paragraph(): Generator<void, string, string[]> {
+  *Paragraph(
+    _paragraph: Block<Paragraph>,
+    _context: Context
+  ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
     }
