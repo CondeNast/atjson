@@ -23,6 +23,7 @@ import OffsetSource, {
   Superscript,
   TikTokEmbed,
   Underline,
+  TextAlignment,
 } from "@atjson/offset-annotations";
 import { ParseAnnotation, serialize } from "@atjson/document";
 import Renderer from "../src";
@@ -103,11 +104,11 @@ describe("renderer-html", () => {
 
     describe("alignment", () => {
       describe.each([
-        ["left", "start"],
-        ["center", "center"],
-        ["right", "end"],
-        ["justify", "justify"],
-      ] as const)("%s", (textAlign, alignment) => {
+        ["start", TextAlignment.Start],
+        ["center", TextAlignment.Center],
+        ["end", TextAlignment.End],
+        ["justify", TextAlignment.Justify],
+      ] as const)("%s", (textAlign, textAlignment) => {
         test.each([1, 2, 3, 4, 5, 6] as const)("level %s", (level) => {
           let doc = new OffsetSource({
             content: "Hello",
@@ -117,7 +118,7 @@ describe("renderer-html", () => {
                 end: 5,
                 attributes: {
                   level,
-                  alignment,
+                  textAlignment,
                 },
               }),
             ],
@@ -399,18 +400,18 @@ describe("renderer-html", () => {
 
     describe("alignment", () => {
       describe.each([
-        ["left", "start"],
-        ["center", "center"],
-        ["right", "end"],
-        ["justify", "justify"],
-      ] as const)("%s", (textAlign, alignment) => {
+        ["start", TextAlignment.Start],
+        ["center", TextAlignment.Center],
+        ["end", TextAlignment.End],
+        ["justify", TextAlignment.Justify],
+      ] as const)("%s", (textAlign, textAlignment) => {
         let doc = new OffsetSource({
           content: "Hello",
           annotations: [
             new Paragraph({
               start: 0,
               end: 5,
-              attributes: { alignment },
+              attributes: { textAlignment },
             }),
           ],
         });

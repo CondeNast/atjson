@@ -77,7 +77,8 @@ export default function (doc: Document) {
           (!src ||
             src.includes("instagram.com") ||
             src.includes("twitter.com") ||
-            src.includes("tiktok.com"))
+            src.includes("tiktok.com") ||
+            src.includes("x.com"))
         );
       }
     )

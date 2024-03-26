@@ -1,5 +1,5 @@
 import { Block, deserialize } from "@atjson/document";
-import OffsetSource, { Table } from "@atjson/offset-annotations";
+import OffsetSource, { Table, TextAlignment } from "@atjson/offset-annotations";
 import HtmlRenderer from "../src";
 
 function testTable(
@@ -328,10 +328,18 @@ describe("tables", () => {
     test("mixed alignment", () => {
       let document = testTable({
         columns: [
-          { name: "name", slice: "M00000000", textAlign: "left" },
-          { name: "age", slice: "M00000001", textAlign: "right" },
+          {
+            name: "name",
+            slice: "M00000000",
+            textAlignment: TextAlignment.Start,
+          },
+          { name: "age", slice: "M00000001", textAlignment: TextAlignment.End },
           { name: "job", slice: "M00000002" },
-          { name: "notes", slice: "M00000005", textAlign: "center" },
+          {
+            name: "notes",
+            slice: "M00000005",
+            textAlignment: TextAlignment.Center,
+          },
         ],
         showColumnHeaders: true,
       });

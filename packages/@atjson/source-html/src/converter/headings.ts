@@ -1,6 +1,6 @@
 import Document, { is, AnnotationConstructor } from "@atjson/document";
 import { Heading } from "@atjson/offset-annotations";
-import { parseCSS, toAlignment } from "./utils";
+import { parseCSS, toTextAlignment } from "./utils";
 import { H1, H2, H3, H4, H5, H6 } from "../annotations";
 
 function convert(
@@ -27,7 +27,7 @@ function convert(
           "Right to left languages are currently not supported in atjson."
         );
       }
-      let alignment = toAlignment(
+      let textAlignment = toTextAlignment(
         parseCSS(heading.attributes.style)["text-align"],
         direction?.attributes?.dir
       );
@@ -41,7 +41,7 @@ function convert(
           attributes: {
             anchorName: heading.attributes.id,
             level,
-            alignment,
+            textAlignment,
           },
         })
       );

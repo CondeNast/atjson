@@ -9,12 +9,12 @@ exports[`tables converting 1`] = `
           {
             "name": "name",
             "slice": "M00000000",
-            "textAlign": "left",
+            "textAlignment": "start",
           },
           {
             "name": "age",
             "slice": "M00000001",
-            "textAlign": "right",
+            "textAlignment": "end",
           },
           {
             "name": "job",
@@ -23,7 +23,7 @@ exports[`tables converting 1`] = `
           {
             "name": "notes",
             "slice": "M00000003",
-            "textAlign": "center",
+            "textAlignment": "center",
           },
         ],
         "dataSet": "B00000001",
