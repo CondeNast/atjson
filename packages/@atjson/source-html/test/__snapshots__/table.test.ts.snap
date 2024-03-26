@@ -646,7 +646,7 @@ exports[`tables valid tables converts column alignments 1`] = `
           {
             "name": "name",
             "slice": "M00000000",
-            "textAlign": "left",
+            "textAlignment": "start",
           },
           {
             "name": "age",
@@ -659,7 +659,7 @@ exports[`tables valid tables converts column alignments 1`] = `
           {
             "name": "notes",
             "slice": "M00000003",
-            "textAlign": "right",
+            "textAlignment": "end",
           },
         ],
         "dataSet": "B00000002",
