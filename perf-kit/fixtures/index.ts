@@ -4,3 +4,9 @@ import { join } from "path";
 export const md = readdirSync(__dirname)
   .filter((filename) => filename.endsWith(".md"))
   .map((filename) => readFileSync(join(__dirname, filename)).toString());
+
+export const html = readdirSync(join(__dirname, "html"))
+  .filter((filename) => filename.endsWith(".html"))
+  .map((filename) =>
+    readFileSync(join(__dirname, "html", filename)).toString()
+  );
