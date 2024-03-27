@@ -47,6 +47,55 @@ export const ROOT = "root";
  */
 export const TEXT = "text";
 
+enum TokenType {
+  SLICE_START,
+  SLICE_END,
+}
+
+type Token = {
+  type: TokenType;
+  id: string;
+  index: number;
+  mark: InternalMark;
+  ranges: [number, number][];
+};
+
+function sortSliceTokens(a: Token, b: Token) {
+  let indexDelta = a.index - b.index;
+  if (indexDelta !== 0) {
+    return indexDelta;
+  }
+
+  // Handle start before end for a 0 length mark:
+  // We're assuming that one of `a` or `b` is a start
+  // token and the other is the end token. Sort the start
+  // token first
+  if (a.id === b.id) {
+    return a.type === TokenType.SLICE_START ? -1 : 1;
+  }
+
+  // Sort end tokens before start tokens
+  if (a.type !== TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
+    return 1;
+  } else if (
+    a.type === TokenType.SLICE_START &&
+    b.type !== TokenType.SLICE_START
+  ) {
+    return -1;
+  }
+  let multiplier = a.type === TokenType.SLICE_START ? -1 : 1;
+
+  let startDelta = b.mark.start - a.mark.start;
+  if (startDelta !== 0) {
+    return startDelta * multiplier;
+  }
+  let endDelta = a.mark.end - b.mark.end;
+  if (endDelta !== 0) {
+    return endDelta * multiplier;
+  }
+  return 0;
+}
+
 /**
  * Extracts slices from a document for the special `slice`
  * type provided by atjson. This function removes slices
@@ -69,27 +118,56 @@ export function extractSlices(value: {
   text: string;
 }) {
   let marksWithoutSlices: InternalMark[] = [];
-  let slices: InternalMark[] = [];
+
+  // Slices may overlap, which we need to take into account.
+  // Currently, the only use case that I can currently imagine
+  // is a slice overlapping another slice for the case of a
+  // footnote with a block inside of it that has a caption / credit
+  // or some other metadata. Overlapping or colinear slices
+  // don't make a _ton_ of sense, but should be handled neatly
+  // enough by chunking up slices so the portions of the document
+  // get collected into appropriate chunks.
+  let tokens: Token[] = [];
   for (let i = 0, len = value.marks.length; i < len; i++) {
     let mark = value.marks[i];
     let match = mark.range.match(/([[|(])(\d+)\.\.(\d+)([\]|)])/);
     if (match == null) {
       throw new Error(`Malformed range ${mark.range}`);
     }
+    let start = parseInt(match[2]);
+    let end = parseInt(match[3]);
     if (mark.type === "slice") {
-      slices.push({
-        start: parseInt(match[2]),
-        end: parseInt(match[3]),
+      let slice = {
+        start,
+        end,
         ...mark,
-      });
+      };
+      let ranges: [number, number][] = [[start, end]];
+      tokens.push(
+        {
+          type: TokenType.SLICE_START,
+          id: mark.id,
+          index: start,
+          mark: slice,
+          ranges,
+        },
+        {
+          type: TokenType.SLICE_END,
+          id: slice.id,
+          index: end,
+          mark: slice,
+          ranges,
+        }
+      );
     } else {
       marksWithoutSlices.push({
-        start: parseInt(match[2]),
-        end: parseInt(match[3]),
+        start,
+        end,
         ...mark,
       });
     }
   }
+  tokens.sort(sortSliceTokens);
 
   let sliceMap = new Map<
     string,
@@ -109,118 +187,153 @@ export function extractSlices(value: {
   // slices are extracted so we don't have duplicated text.
   let rangesToDelete: [number, number][] = [];
 
-  for (let i = 0, len = slices.length; i < len; i++) {
-    let slice = slices[i];
-    let { start, end } = slice;
-
-    let text = value.text.slice(start, end);
-
-    let blocks: Block[] = [];
-    let parentIndex = 0;
-    for (let j = 0, jlen = blockBoundaryPositions.length; j < jlen; j++) {
-      let position = blockBoundaryPositions[j];
-      if (position < start) {
-        // Keep searching forward
-        continue;
-      } else if (position + 1 <= end) {
-        // Add the block to the slice blocks list
-        let block = value.blocks[j];
-        if (blocks.length === 0) {
-          parentIndex = block.parents.length;
+  let stack: Token[] = [];
+  for (let i = 0, len = tokens.length; i < len; i++) {
+    let token = tokens[i];
+    switch (token.type) {
+      case TokenType.SLICE_START: {
+        let currentSlice = stack[stack.length - 1];
+        // If there is another slice on the stack,
+        // we will need to split the range
+        if (currentSlice) {
+          let currentSliceRanges = currentSlice.ranges;
+          let [start, end] = currentSliceRanges.pop() as [number, number];
+          currentSliceRanges.push([start, token.index], [token.index, end]);
         }
-        blocks.push({
-          ...block,
-          id: `${slice.id}-${block.id}`,
-          parents: block.parents.slice(parentIndex),
-        });
-      } else {
-        // If the block index is after the slice, we can safely break
-        // from the loop, saving some extra work.
-        break;
+        stack.push(token);
+        continue;
+      }
+      case TokenType.SLICE_END: {
+        stack.pop();
+        let currentSlice = stack[stack.length - 1];
+        if (currentSlice && currentSlice.id !== token.id) {
+          let currentSliceRanges = currentSlice.ranges;
+          let [, end] = currentSliceRanges.pop() as [number, number];
+          currentSliceRanges.push([token.index, end]);
+        }
+        continue;
       }
     }
+  }
 
-    let offset = 0;
-    // After collecting blocks, we'll need to do a pass
-    // over the text and blocks to ensure that it's well
-    // formed and there's a block parent for all text.
-    if (blocks.length === 0) {
-      offset = 1;
-      text = `${BLOCK_MARKER}${text}`;
-      blocks.push({
-        id: `${TEXT}-${slice.id}`,
-        type: TEXT,
-        parents: [],
-        selfClosing: false,
-        attributes: {},
-      });
-    }
+  tokens = tokens.filter((token) => token.type === TokenType.SLICE_START);
 
+  for (let i = 0, len = tokens.length; i < len; i++) {
+    let token = tokens[i];
+
+    let text = "";
+    let blocks: Block[] = [];
     let marks: InternalMark[] = [];
-    for (let j = 0, jlen = marksWithoutSlices.length; j < jlen; j++) {
-      let mark = marksWithoutSlices[j];
 
-      // For slicing purposes, we only consider marks whose
-      // boundaries are within the slice to be represented.
-      if (
-        mark.start >= start &&
-        mark.start <= end &&
-        mark.end >= start &&
-        mark.end <= end
-      ) {
-        let adjustedStart = Math.max(mark.start - start, 0) + offset;
-        let adjustedEnd = Math.min(mark.end - start, end - start) + offset;
-        let range = `${mark.range[0]}${adjustedStart}..${adjustedEnd}${
-          mark.range[mark.range.length - 1]
-        }`;
-        marks.push({
-          ...mark,
-          id: `${slice.id}-${mark.id}`,
-          range,
-          start: adjustedStart,
-          end: adjustedEnd,
+    for (let t = 0, tlen = token.ranges.length; t < tlen; t++) {
+      let [start, end] = token.ranges[t];
+      text += value.text.slice(start, end);
+
+      let parentIndex = 0;
+      for (let j = 0, jlen = blockBoundaryPositions.length; j < jlen; j++) {
+        let position = blockBoundaryPositions[j];
+        if (position < start) {
+          // Keep searching forward
+          continue;
+        } else if (position + 1 <= end) {
+          // Add the block to the slice blocks list
+          let block = value.blocks[j];
+          if (blocks.length === 0) {
+            parentIndex = block.parents.length;
+          }
+          blocks.push({
+            ...block,
+            id: `${token.id}-${block.id}`,
+            parents: block.parents.slice(parentIndex),
+          });
+        } else {
+          // If the block index is after the slice, we can safely break
+          // from the loop, saving some extra work.
+          break;
+        }
+      }
+
+      let offset = 0;
+      // After collecting blocks, we'll need to do a pass
+      // over the text and blocks to ensure that it's well
+      // formed and there's a block parent for all text.
+      if (blocks.length === 0 && t === 0) {
+        offset = 1;
+        text = `${BLOCK_MARKER}${text}`;
+        blocks.push({
+          id: `${TEXT}-${token.id}`,
+          type: TEXT,
+          parents: [],
+          selfClosing: false,
+          attributes: {},
         });
+      }
+
+      for (let j = 0, jlen = marksWithoutSlices.length; j < jlen; j++) {
+        let mark = marksWithoutSlices[j];
+
+        // For slicing purposes, we only consider marks whose
+        // boundaries are within the slice to be represented.
+        if (
+          mark.start >= start &&
+          mark.start <= end &&
+          mark.end >= start &&
+          mark.end <= end
+        ) {
+          let adjustedStart = Math.max(mark.start - start, 0) + offset;
+          let adjustedEnd = Math.min(mark.end - start, end - start) + offset;
+          let range = `${mark.range[0]}${adjustedStart}..${adjustedEnd}${
+            mark.range[mark.range.length - 1]
+          }`;
+          marks.push({
+            ...mark,
+            id: `${token.id}-${mark.id}`,
+            range,
+            start: adjustedStart,
+            end: adjustedEnd,
+          });
+        }
+      }
+
+      // After handling the slice map, we'll be handling the
+      // remainder of the document that excludes slices.
+      // For cases where the underlying range is retained,
+      // the content will be kept.
+      if (token.mark.attributes.retain) {
+        // If the slice is retained, we get to skip this
+        // step since we want marks to be kept intact
+        continue;
+      }
+
+      let isRangeInserted = false;
+      // Add the slice to the ranges to delete
+      for (let j = 0, jlen = rangesToDelete.length; j < jlen; j++) {
+        let rangeToDelete = rangesToDelete[j];
+
+        if (start >= rangeToDelete[0] && start <= rangeToDelete[1]) {
+          // Extend the end of the range if the start is
+          // within the current range
+          rangeToDelete[1] = Math.max(rangeToDelete[1], end);
+          isRangeInserted = true;
+        } else if (end >= rangeToDelete[0] && end <= rangeToDelete[1]) {
+          // Extend the start of the range if the end is
+          // within the current range
+          rangeToDelete[0] = Math.min(rangeToDelete[0], start);
+          isRangeInserted = true;
+        }
+      }
+      // If the slice wasn't within a range or extended a range,
+      // append it to the list of ranges to remove
+      if (!isRangeInserted) {
+        rangesToDelete.push([start, end]);
       }
     }
 
-    sliceMap.set(slice.id, {
+    sliceMap.set(token.id, {
       text,
       marks,
       blocks,
     });
-
-    // After handling the slice map, we'll be handling the
-    // remainder of the document that excludes slices.
-    // For cases where the underlying range is retained,
-    // the content will be kept.
-    if (slice.attributes.retain) {
-      // If the slice is retained, we get to skip this
-      // step since we want marks to be kept intact
-      continue;
-    }
-
-    let isRangeInserted = false;
-    // Add the slice to the ranges to delete
-    for (let j = 0, jlen = rangesToDelete.length; j < jlen; j++) {
-      let rangeToDelete = rangesToDelete[j];
-
-      if (start >= rangeToDelete[0] && start <= rangeToDelete[1]) {
-        // Extend the end of the range if the start is
-        // within the current range
-        rangeToDelete[1] = Math.max(rangeToDelete[1], end);
-        isRangeInserted = true;
-      } else if (end >= rangeToDelete[0] && end <= rangeToDelete[1]) {
-        // Extend the start of the range if the end is
-        // within the current range
-        rangeToDelete[0] = Math.min(rangeToDelete[0], start);
-        isRangeInserted = true;
-      }
-    }
-    // If the slice wasn't within a range or extended a range,
-    // append it to the list of ranges to remove
-    if (!isRangeInserted) {
-      rangesToDelete.push([start, end]);
-    }
   }
 
   let firstRange = rangesToDelete[0];
