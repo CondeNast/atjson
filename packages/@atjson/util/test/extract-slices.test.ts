@@ -383,4 +383,497 @@ describe("extractSlices", () => {
     expect(slices.get("M00000000")?.blocks[0].parents).toStrictEqual([]);
     expect(slices.get("M00000000")?.blocks[1].parents).toStrictEqual([]);
   });
+
+  describe("overlapping slices", () => {
+    test("multiple in sequence", () => {
+      const original = {
+        text: "￼ABACAD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..6]",
+            attributes: {
+              refs: ["M00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..3]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000002",
+            type: "slice",
+            range: "(4..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+        ],
+      };
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼AAA");
+      expect(slices.get("M00000001")?.text).toEqual("￼B");
+      expect(slices.get("M00000002")?.text).toEqual("￼C");
+      expect(doc.text).toEqual("￼D");
+    });
+
+    test("start slice position matches", () => {
+      const original = {
+        text: "￼BAD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..3]",
+            attributes: {
+              refs: ["M00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(1..2]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+        ],
+      };
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000001")?.text).toEqual("￼B");
+      expect(doc.text).toEqual("￼D");
+    });
+
+    test("end slice position matches", () => {
+      const original = {
+        text: "￼ABD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..3]",
+            attributes: {
+              refs: ["M00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..3]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+        ],
+      };
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000001")?.text).toEqual("￼B");
+      expect(doc.text).toEqual("￼D");
+    });
+
+    test("multiple overlapping", () => {
+      const original = {
+        text: "￼ABCBD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..5]",
+            attributes: {
+              refs: ["M00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000002",
+            type: "slice",
+            range: "(3..4]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+        ],
+      };
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000001")?.text).toEqual("￼BB");
+      expect(slices.get("M00000002")?.text).toEqual("￼C");
+      expect(doc.text).toEqual("￼D");
+    });
+
+    test("hanging overlapping slices", () => {
+      const original = {
+        text: "￼ABCD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..3]",
+            attributes: {
+              refs: ["M00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..4]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+        ],
+      };
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼AB");
+      expect(slices.get("M00000001")?.text).toEqual("￼BC");
+      expect(doc.text).toEqual("￼D");
+    });
+
+    describe("retain", () => {
+      test("multiple in sequence", () => {
+        const original = {
+          text: "￼ABACAD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..6]",
+              attributes: {
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..3]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+            {
+              id: "M00000002",
+              type: "slice",
+              range: "(4..5]",
+              attributes: {
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼ABAA");
+        expect(slices.get("M00000001")?.text).toEqual("￼B");
+        expect(slices.get("M00000002")?.text).toEqual("￼C");
+        expect(doc.text).toEqual("￼D");
+      });
+
+      test("start slice position matches", () => {
+        const original = {
+          text: "￼BAD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..3]",
+              attributes: {
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(1..2]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼BA");
+        expect(slices.get("M00000001")?.text).toEqual("￼B");
+        expect(doc.text).toEqual("￼D");
+      });
+
+      test("end slice position matches", () => {
+        const original = {
+          text: "￼ABD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..3]",
+              attributes: {
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..3]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼AB");
+        expect(slices.get("M00000001")?.text).toEqual("￼B");
+        expect(doc.text).toEqual("￼D");
+      });
+
+      test("multiple overlapping", () => {
+        const original = {
+          text: "￼ABCBD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..5]",
+              attributes: {
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..5]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+            {
+              id: "M00000002",
+              type: "slice",
+              range: "(3..4]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼ABCB");
+        expect(slices.get("M00000001")?.text).toEqual("￼BCB");
+        expect(slices.get("M00000002")?.text).toEqual("￼C");
+        expect(doc.text).toEqual("￼D");
+      });
+
+      test("hanging overlapping slices (retain both)", () => {
+        const original = {
+          text: "￼ABCD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..3]",
+              attributes: {
+                retain: true,
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..4]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼AB");
+        expect(slices.get("M00000001")?.text).toEqual("￼BC");
+        expect(doc.text).toEqual("￼ABCD");
+      });
+
+      test("hanging overlapping slices (retain first)", () => {
+        const original = {
+          text: "￼ABCD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..3]",
+              attributes: {
+                retain: true,
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..4]",
+              attributes: {
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼AB");
+        expect(slices.get("M00000001")?.text).toEqual("￼BC");
+        expect(doc.text).toEqual("￼AD");
+      });
+
+      test("hanging overlapping slices (retain last)", () => {
+        const original = {
+          text: "￼ABCD",
+          blocks: [
+            {
+              id: "B00000000",
+              type: "paragraph",
+              parents: [],
+              selfClosing: false,
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "M00000000",
+              type: "slice",
+              range: "(1..3]",
+              attributes: {
+                refs: ["M00000000"],
+              },
+            },
+            {
+              id: "M00000001",
+              type: "slice",
+              range: "(2..4]",
+              attributes: {
+                retain: true,
+                refs: ["B00000000"],
+              },
+            },
+          ],
+        };
+        let [doc, slices] = extractSlices(original);
+        expect(slices.get("M00000000")?.text).toEqual("￼AB");
+        expect(slices.get("M00000001")?.text).toEqual("￼BC");
+        expect(doc.text).toEqual("￼CD");
+      });
+    });
+  });
 });
