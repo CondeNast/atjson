@@ -195,7 +195,7 @@ export function extractSlices(value: {
         let currentSlice = stack[stack.length - 1];
         // If there is another slice on the stack,
         // we will need to split the range
-        if (currentSlice) {
+        if (currentSlice && !token.mark.attributes.retain) {
           let currentSliceRanges = currentSlice.ranges;
           let [start, end] = currentSliceRanges.pop() as [number, number];
           currentSliceRanges.push([start, token.index], [token.index, end]);
@@ -205,8 +205,13 @@ export function extractSlices(value: {
       }
       case TokenType.SLICE_END: {
         stack.pop();
+
         let currentSlice = stack[stack.length - 1];
-        if (currentSlice && currentSlice.id !== token.id) {
+        if (
+          currentSlice &&
+          currentSlice.id !== token.id &&
+          !token.mark.attributes.retain
+        ) {
           let currentSliceRanges = currentSlice.ranges;
           let [, end] = currentSliceRanges.pop() as [number, number];
           currentSliceRanges.push([token.index, end]);
