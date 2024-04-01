@@ -5732,7 +5732,7 @@ exports[`Emphasis and strong emphasis *$*alpha.
       "attributes": {},
       "id": "B00000001",
       "parents": [],
-      "range": "(10..18]",
+      "range": "(10..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -5740,26 +5740,13 @@ exports[`Emphasis and strong emphasis *$*alpha.
       "attributes": {},
       "id": "B00000002",
       "parents": [],
-      "range": "(18..28]",
+      "range": "(20..32]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
-  "marks": [
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(11..12]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
-      "id": "M00000001",
-      "range": "(19..20]",
-      "type": "em",
-    },
-  ],
-  "text": "￼*$*alpha.￼£bravo.￼€charlie.",
+  "marks": [],
+  "text": "￼*$*alpha.￼*£*bravo.￼*€*charlie.",
 }
 `;
 
@@ -5783,7 +5770,7 @@ exports[`Emphasis and strong emphasis *$*alpha.
       "attributes": {},
       "id": "B00000001",
       "parents": [],
-      "range": "(10..18]",
+      "range": "(10..20]",
       "selfClosing": false,
       "type": "paragraph",
     },
@@ -5791,26 +5778,13 @@ exports[`Emphasis and strong emphasis *$*alpha.
       "attributes": {},
       "id": "B00000002",
       "parents": [],
-      "range": "(18..28]",
+      "range": "(20..32]",
       "selfClosing": false,
       "type": "paragraph",
     },
   ],
-  "marks": [
-    {
-      "attributes": {},
-      "id": "M00000000",
-      "range": "(11..12]",
-      "type": "em",
-    },
-    {
-      "attributes": {},
-      "id": "M00000001",
-      "range": "(19..20]",
-      "type": "em",
-    },
-  ],
-  "text": "￼*$*alpha.￼£bravo.￼€charlie.",
+  "marks": [],
+  "text": "￼*$*alpha.￼*£*bravo.￼*€*charlie.",
 }
 `;
 
@@ -39820,7 +39794,14 @@ comment - with hyphens -->
       "type": "paragraph",
     },
   ],
-  "marks": [],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(5..49]",
+      "type": "html_inline",
+    },
+  ],
   "text": "￼foo <!-- this is a --
 comment - with hyphens -->",
 }
@@ -39840,7 +39821,14 @@ comment - with hyphens -->
       "type": "paragraph",
     },
   ],
-  "marks": [],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(5..49]",
+      "type": "html_inline",
+    },
+  ],
   "text": "￼foo <!-- this is a --
 comment - with hyphens -->",
 }
@@ -39869,7 +39857,20 @@ foo <!---> foo -->
       "type": "paragraph",
     },
   ],
-  "marks": [],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(5..10]",
+      "type": "html_inline",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(23..29]",
+      "type": "html_inline",
+    },
+  ],
   "text": "￼foo <!--> foo -->￼foo <!---> foo -->",
 }
 `;
@@ -39897,7 +39898,20 @@ foo <!---> foo -->
       "type": "paragraph",
     },
   ],
-  "marks": [],
+  "marks": [
+    {
+      "attributes": {},
+      "id": "M00000000",
+      "range": "(5..10]",
+      "type": "html_inline",
+    },
+    {
+      "attributes": {},
+      "id": "M00000001",
+      "range": "(23..29]",
+      "type": "html_inline",
+    },
+  ],
   "text": "￼foo <!--> foo -->￼foo <!---> foo -->",
 }
 `;
