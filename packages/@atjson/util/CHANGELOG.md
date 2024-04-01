@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.4 (2024-04-01)
+
+### Bug Fixes
+
+- handle nested and overlapping slices ([9ce01af](https://github.com/CondeNast/atjson/commit/9ce01af3ec028c42a0677102479bb3d0873634ee))
+
 ## [0.2.3](https://github.com/CondeNast/atjson/compare/@atjson/util@0.2.2...@atjson/util@0.2.3) (2023-10-16)
 
 **Note:** Version bump only for package @atjson/util
