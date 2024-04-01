@@ -12,7 +12,7 @@
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
     "entities": "~4.5.0",
-    "markdown-it": "14.0.0"
+    "markdown-it": "14.1.0"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
