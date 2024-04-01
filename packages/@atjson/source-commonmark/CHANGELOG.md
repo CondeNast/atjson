@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.26.1 (2024-04-01)
+
+### Bug Fixes
+
+- **deps:** update dependency markdown-it to v14.1.0 ([3386768](https://github.com/CondeNast/atjson/commit/3386768f5e0fb53822f194d07387fd95dcf2f35e))
+
 # [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.25.7...@atjson/source-commonmark@0.26.0) (2024-03-21)
 
 ### Bug Fixes
