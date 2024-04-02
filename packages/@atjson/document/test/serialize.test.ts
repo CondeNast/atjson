@@ -871,6 +871,148 @@ describe("serialize", () => {
         });
       });
 
+      test("includeParseTokens = true", () => {
+        expect(
+          serialize(
+            new TestSource({
+              content: "<p>hello, <em>world</em></p>",
+              annotations: [
+                new Paragraph({
+                  start: 0,
+                  end: 28,
+                }),
+                new ParseAnnotation({
+                  start: 0,
+                  end: 3,
+                }),
+                new Italic({
+                  start: 10,
+                  end: 24,
+                  attributes: {},
+                }),
+                new ParseAnnotation({
+                  start: 10,
+                  end: 14,
+                }),
+                new ParseAnnotation({
+                  start: 19,
+                  end: 24,
+                }),
+                new ParseAnnotation({
+                  start: 24,
+                  end: 28,
+                }),
+              ],
+            }),
+            { includeParseTokens: true, withStableIds: true }
+          )
+        ).toMatchInlineSnapshot(`
+          {
+            "blocks": [
+              {
+                "attributes": {},
+                "id": "B00000000",
+                "parents": [],
+                "selfClosing": false,
+                "type": "paragraph",
+              },
+            ],
+            "marks": [
+              {
+                "attributes": {},
+                "id": "M00000000",
+                "range": "(1..4]",
+                "type": "parse-token",
+              },
+              {
+                "attributes": {},
+                "id": "M00000001",
+                "range": "(11..15]",
+                "type": "parse-token",
+              },
+              {
+                "attributes": {},
+                "id": "M00000002",
+                "range": "(11..25]",
+                "type": "italic",
+              },
+              {
+                "attributes": {},
+                "id": "M00000003",
+                "range": "(20..25]",
+                "type": "parse-token",
+              },
+              {
+                "attributes": {},
+                "id": "M00000004",
+                "range": "(25..29]",
+                "type": "parse-token",
+              },
+            ],
+            "text": "￼<p>hello, <em>world</em></p>",
+          }
+        `);
+      });
+
+      test("includeParseTokens = false", () => {
+        expect(
+          serialize(
+            new TestSource({
+              content: "<p>hello, <em>world</em></p>",
+              annotations: [
+                new Paragraph({
+                  start: 0,
+                  end: 28,
+                }),
+                new ParseAnnotation({
+                  start: 0,
+                  end: 3,
+                }),
+                new Italic({
+                  start: 10,
+                  end: 24,
+                  attributes: {},
+                }),
+                new ParseAnnotation({
+                  start: 10,
+                  end: 14,
+                }),
+                new ParseAnnotation({
+                  start: 19,
+                  end: 24,
+                }),
+                new ParseAnnotation({
+                  start: 24,
+                  end: 28,
+                }),
+              ],
+            }),
+            { includeParseTokens: false, withStableIds: true }
+          )
+        ).toMatchInlineSnapshot(`
+          {
+            "blocks": [
+              {
+                "attributes": {},
+                "id": "B00000000",
+                "parents": [],
+                "selfClosing": false,
+                "type": "paragraph",
+              },
+            ],
+            "marks": [
+              {
+                "attributes": {},
+                "id": "M00000000",
+                "range": "(8..13]",
+                "type": "italic",
+              },
+            ],
+            "text": "￼hello, world",
+          }
+        `);
+      });
+
       test("text block insertion", () => {
         expect(
           serialize(
