@@ -1,4 +1,4 @@
-# AtJSON [![CI](https://github.com/CondeNast/atjson/actions/workflows/ci.yml/badge.svg)](https://github.com/CondeNast/atjson/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
+# atjson [![CI](https://github.com/CondeNast/atjson/actions/workflows/ci.yml/badge.svg)](https://github.com/CondeNast/atjson/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
 ## Maintainers
 
@@ -7,7 +7,7 @@
 
 ---
 
-AtJSON is a collection of repositories that together make up a fully-realized content format.
+atjson is a collection of repositories that together make up a fully-realized content format.
 
 | Quick Links                                                            |
 | ---------------------------------------------------------------------- |
@@ -19,18 +19,18 @@ The breakdown of modules in this repository are:
 
 | Modules                                                             | Description                                                                                             |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| [@atjson/document](packages/@atjson/document)                       | AtJSON document and annotation code                                                                     |
+| [@atjson/document](packages/@atjson/document)                       | atjson document and annotation code                                                                     |
 | [@atjson/hir](packages/@atjson/hir)                                 | HIR (Hierarchical Intermediate Representation)                                                          |
 | [@atjson/renderer-hir](packages/@atjson/renderer-hir)               | Abstract base class for text-based output                                                               |
 | [@atjson/renderer-graphviz](packages/@atjson/renderer-graphviz)     | Used to visualise the HIR of a document                                                                 |
 | [@atjson/renderer-plain-text](packages/@atjson/renderer-plain-text) | Plain text output                                                                                       |
 | [@atjson/renderer-react](packages/@atjson/renderer-react)           | React output                                                                                            |
 | [@atjson/renderer-commonmark](packages/@atjson/renderer-commonmark) | CommonMark output                                                                                       |
-| [@atjson/source-commonmark](packages/@atjson/source-commonmark)     | Conversion of CommonMark sources to AtJSON                                                              |
-| [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste)   | A source used to transform Google Docs Paste buffers into AtJSON                                        |
-| [@atjson/source-html](packages/@atjson/source-html)                 | Conversion of HTML sources to AtJSON                                                                    |
-| [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc)       | A source used to transform Mobiledoc into AtJSON                                                        |
-| [@atjson/source-prism](packages/@atjson/source-prism)               | Conversion of [PRISM](http://www.prismstandard.org/specifications/)-compliant XML documents into AtJSON |
+| [@atjson/source-commonmark](packages/@atjson/source-commonmark)     | Conversion of CommonMark sources to atjson                                                              |
+| [@atjson/source-gdocs-paste](packages/@atjson/source-gdocs-paste)   | A source used to transform Google Docs Paste buffers into atjson                                        |
+| [@atjson/source-html](packages/@atjson/source-html)                 | Conversion of HTML sources to atjson                                                                    |
+| [@atjson/source-mobiledoc](packages/@atjson/source-mobiledoc)       | A source used to transform Mobiledoc into atjson                                                        |
+| [@atjson/source-prism](packages/@atjson/source-prism)               | Conversion of [PRISM](http://www.prismstandard.org/specifications/)-compliant XML documents into atjson |
 | [@atjson/source-url](packages/@atjson/source-url)                   | Turn URLs into rich embeds                                                                              |
 
 #### Why another content format?
@@ -265,13 +265,13 @@ export default class HTMLOutput extends Renderer {
 
 The `renderText` method is called for every chunk of text in the document, to provide the ability to escape HTML or in the case above, create DOM text nodes from the text. `renderAnnotation` is a generator method that is called for each annotation in the document. When implementing this function, you must `yield` so annotations that are nested under the current one you're working on are surfaced.
 
-We provide some libraries for generating markdown from an AtJSON document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
+We provide some libraries for generating markdown from an atjson document, with handlers for each of the types. It provides a way to extend markdown output for more sophisticated use cases, and generating blobs of markdown from a specific annotation.
 
 ## How do I use existing documents?
 
-AtJSON documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized AtJSON document.
+atjson documents can be constructed from other sources. A source document is parsed and has annotations added to it, resulting in a normalized atjson document.
 
-A markdown document, much like the one being written here, can be represented in AtJSON by annotating the document with the markup.
+A markdown document, much like the one being written here, can be represented in atjson by annotating the document with the markup.
 
 This can be done using our built-in parser:
 
@@ -304,7 +304,7 @@ This will result in the following document:
 }
 ```
 
-The resulting document in AtJSON is the same as the source document— we take advantage of an internal annotation called a `ParseToken`, which we remove from the document during the output phase.
+The resulting document in atjson is the same as the source document— we take advantage of an internal annotation called a `ParseToken`, which we remove from the document during the output phase.
 
 When rendering the document, text covered by parse tokens will be removed:
 
