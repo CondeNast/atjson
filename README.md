@@ -3,7 +3,10 @@
 ## Maintainers
 
 - Tim Evans (@tim-evans tim_evans@condenast.com)
-- Blaine Cook (@blaine blaine_cook@condenast.com)
+
+## Former Maintainers
+
+- Blaine Cook (@blaine)
 
 ---
 
