@@ -383,7 +383,7 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("u");
   }
 
-  protected textAlign(alignment: TextAlignment) {
+  protected textAlign(alignment: TextAlignment): string {
     switch (alignment) {
       case TextAlignment.Start:
         return `text-align:start;`;
