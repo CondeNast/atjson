@@ -876,4 +876,439 @@ describe("extractSlices", () => {
       });
     });
   });
+
+  describe("weird ck bug", () => {
+    const example1 = {
+      text: "￼￼￼Name￼Age￼Job￼Laios￼19￼Fighter￼Marcille￼50￼Mage￼Chilchuck￼29￼Trapsmith￼Senshi￼112￼Cook",
+      blocks: [
+        {
+          id: "22d9c97b-ff4a-4eed-bbc7-d2555970bb2d",
+          type: "table",
+          parents: [],
+          selfClosing: false,
+          attributes: {
+            dataSet: "64e70965-f06d-4bbe-b917-2a5fe50c6bf8",
+            columns: [
+              {
+                name: "Name",
+                slice: "e1458d1e-da47-4b78-b001-69b289708e75",
+              },
+              {
+                name: "Age",
+                slice: "b6a5f50f-7857-4c2f-a756-50e6fff60d02",
+              },
+              {
+                name: "Job",
+                slice: "545e74b6-1024-4554-8eb6-30ab7c456157",
+              },
+            ],
+            showColumnHeaders: true,
+          },
+        },
+        {
+          id: "64e70965-f06d-4bbe-b917-2a5fe50c6bf8",
+          type: "data-set",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {
+            schema: {
+              Name: "rich_text",
+              Age: "rich_text",
+              Job: "rich_text",
+            },
+            records: [
+              {
+                Name: {
+                  slice: "2c7b4ad9-0780-46b1-bcdd-b571f78eccd4",
+                  jsonValue: "Laios",
+                },
+                Age: {
+                  slice: "c79644a5-6633-42e4-b0ca-238284cfb8bd",
+                  jsonValue: "19",
+                },
+                Job: {
+                  slice: "2aa60e32-7a25-474b-bfb2-c17a1f5ff547",
+                  jsonValue: "Fighter",
+                },
+              },
+              {
+                Name: {
+                  slice: "ffccbc61-d64a-4db4-b335-c42721b33406",
+                  jsonValue: "Marcille",
+                },
+                Age: {
+                  slice: "dd72e1af-b133-4a0d-9611-93a1bbc14c5a",
+                  jsonValue: "50",
+                },
+                Job: {
+                  slice: "68939eac-5330-4d5e-92fc-c8704a92f4b1",
+                  jsonValue: "Mage",
+                },
+              },
+              {
+                Name: {
+                  slice: "d4ddfaf7-963c-4b46-9b0d-96525336ff0c",
+                  jsonValue: "Chilchuck",
+                },
+                Age: {
+                  slice: "272ee2c9-d445-4ce0-ada7-9e357896d383",
+                  jsonValue: "29",
+                },
+                Job: {
+                  slice: "d293ed7e-738f-41f1-b827-f31af79562ce",
+                  jsonValue: "Trapsmith",
+                },
+              },
+              {
+                Name: {
+                  slice: "15e93cd3-5007-4519-9bf7-48e8a209f1c1",
+                  jsonValue: "Senshi",
+                },
+                Age: {
+                  slice: "1912fe3e-3c09-4c02-8a57-5d6ef8448e43",
+                  jsonValue: "112",
+                },
+                Job: {
+                  slice: "13f25a6f-c009-492c-9d13-43696fdc2741",
+                  jsonValue: "Cook",
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "43760116-7d37-47d6-9e85-72bde766683d",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "ffb764fd-a73e-4e9a-ba8d-494ae95428fa",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "0691b6ce-888d-4c60-b8d7-215a5af84c9d",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "bfe818ad-a78c-4562-9ed8-cdf57b4ca782",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "04330eef-d24e-4417-865b-f13bdea44bef",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "f235f2fb-c299-41c6-87aa-033f02d96d52",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "9106b2f1-0590-4e09-a39e-649ad4b9b7ca",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "53c7f318-6b8f-4060-a976-3e6c4d8a5838",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "fb5c6608-188c-4711-9ad7-aafc985f4525",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "57c737a5-c86c-4d58-9408-2d31bfa23e93",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "e43cfe7d-c594-45e1-b2ab-9e8da463be31",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "86de8916-0655-4eb7-80f5-b91409558966",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "9423c530-a801-4c3c-be33-3c290fa1e2c6",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "a6e9a738-2a81-4547-960d-dc306a2b94da",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "a8f597ce-3bb8-450b-acd2-a753cf97feb9",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "e1458d1e-da47-4b78-b001-69b289708e75",
+          type: "slice",
+          range: "(2..7]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "b6a5f50f-7857-4c2f-a756-50e6fff60d02",
+          type: "slice",
+          range: "(7..11]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "545e74b6-1024-4554-8eb6-30ab7c456157",
+          type: "slice",
+          range: "(11..15]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "2c7b4ad9-0780-46b1-bcdd-b571f78eccd4",
+          type: "slice",
+          range: "(16..21]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "c79644a5-6633-42e4-b0ca-238284cfb8bd",
+          type: "slice",
+          range: "(21..24]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "2aa60e32-7a25-474b-bfb2-c17a1f5ff547",
+          type: "slice",
+          range: "(24..32]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "ffccbc61-d64a-4db4-b335-c42721b33406",
+          type: "slice",
+          range: "(33..41]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "dd72e1af-b133-4a0d-9611-93a1bbc14c5a",
+          type: "slice",
+          range: "(41..44]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "68939eac-5330-4d5e-92fc-c8704a92f4b1",
+          type: "slice",
+          range: "(44..49]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "d4ddfaf7-963c-4b46-9b0d-96525336ff0c",
+          type: "slice",
+          range: "(50..59]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "272ee2c9-d445-4ce0-ada7-9e357896d383",
+          type: "slice",
+          range: "(59..62]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "d293ed7e-738f-41f1-b827-f31af79562ce",
+          type: "slice",
+          range: "(62..72]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "15e93cd3-5007-4519-9bf7-48e8a209f1c1",
+          type: "slice",
+          range: "(73..79]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "1912fe3e-3c09-4c02-8a57-5d6ef8448e43",
+          type: "slice",
+          range: "(79..83]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "13f25a6f-c009-492c-9d13-43696fdc2741",
+          type: "slice",
+          range: "(83..88]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+      ],
+    };
+
+    const example2 = {
+      text: "￼￼￼Name￼Age￼Job",
+      blocks: [
+        {
+          id: "22d9c97b-ff4a-4eed-bbc7-d2555970bb2d",
+          type: "table",
+          parents: [],
+          selfClosing: false,
+          attributes: {
+            dataSet: "64e70965-f06d-4bbe-b917-2a5fe50c6bf8",
+            columns: [
+              {
+                name: "Name",
+                slice: "e1458d1e-da47-4b78-b001-69b289708e75",
+              },
+              {
+                name: "Age",
+                slice: "b6a5f50f-7857-4c2f-a756-50e6fff60d02",
+              },
+              {
+                name: "Job",
+                slice: "545e74b6-1024-4554-8eb6-30ab7c456157",
+              },
+            ],
+            showColumnHeaders: true,
+          },
+        },
+        {
+          id: "64e70965-f06d-4bbe-b917-2a5fe50c6bf8",
+          type: "data-set",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {
+            schema: {
+              Name: "rich_text",
+              Age: "rich_text",
+              Job: "rich_text",
+            },
+            records: [],
+          },
+        },
+        {
+          id: "43760116-7d37-47d6-9e85-72bde766683d",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "ffb764fd-a73e-4e9a-ba8d-494ae95428fa",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "0691b6ce-888d-4c60-b8d7-215a5af84c9d",
+          type: "text",
+          parents: ["table", "data-set"],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "e1458d1e-da47-4b78-b001-69b289708e75",
+          type: "slice",
+          range: "(2..7]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "b6a5f50f-7857-4c2f-a756-50e6fff60d02",
+          type: "slice",
+          range: "(7..11]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+        {
+          id: "545e74b6-1024-4554-8eb6-30ab7c456157",
+          type: "slice",
+          range: "(11..15]",
+          attributes: {
+            refs: ["64e70965-f06d-4bbe-b917-2a5fe50c6bf8"],
+          },
+        },
+      ],
+    };
+    test("example1", () => {
+      let [, slices] = extractSlices(example1);
+      expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
+        "￼Name"
+      );
+    });
+
+    test("example2", () => {
+      let [, slices] = extractSlices(example2);
+
+      expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
+        "￼Name"
+      );
+    });
+  });
 });
