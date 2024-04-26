@@ -1298,34 +1298,34 @@ describe("extractSlices", () => {
     };
 
     const example3 = {
-      text: "￼￼￼a￼b￼c￼d￼e￼f￼g￼h￼i",
+      text: "￼￼￼abcdefghi",
       blocks: [
         {
-          id: "9f5a80b5-6ca1-4a44-82fb-88503b87a56e",
+          id: "736fd0ca-eff5-4690-b587-563010dbc989",
           type: "table",
           parents: [],
           selfClosing: false,
           attributes: {
-            dataSet: "0bb17fff-f655-4143-b1ef-2e55a3bee452",
+            dataSet: "11989adb-858e-4861-8330-59e10b612fd9",
             columns: [
               {
                 name: "a",
-                slice: "e789303b-6e43-49b2-8085-fb3d0b92b205",
+                slice: "a6e8a1a8-537e-469c-9c7c-2eb7a43f1994",
               },
               {
                 name: "b",
-                slice: "82691fbd-810c-4d07-806f-7a93b9f24ddf",
+                slice: "b2023136-2a9a-4cf3-97d4-2270c33b5de6",
               },
               {
                 name: "c",
-                slice: "49ef4f9f-10ad-44a0-8bd6-33ff918e24e5",
+                slice: "53eda282-ea66-443d-a894-cbcd0f887f4a",
               },
             ],
             showColumnHeaders: true,
           },
         },
         {
-          id: "0bb17fff-f655-4143-b1ef-2e55a3bee452",
+          id: "11989adb-858e-4861-8330-59e10b612fd9",
           type: "data-set",
           parents: ["table"],
           selfClosing: false,
@@ -1338,29 +1338,29 @@ describe("extractSlices", () => {
             records: [
               {
                 a: {
-                  slice: "d1922e94-4ac8-4b11-8018-15eb9b92f800",
+                  slice: "ad56e97f-4c1a-43e6-a6f2-e3f9081e80cd",
                   jsonValue: "d",
                 },
                 b: {
-                  slice: "ff4cba8c-5711-4445-8c79-21c943d74035",
+                  slice: "d1ce8735-8b83-41b4-b254-9172ca2610c5",
                   jsonValue: "e",
                 },
                 c: {
-                  slice: "5c0bf563-6cf4-4ea3-8491-7303829fb0cb",
+                  slice: "052d1352-8659-4ca2-8fc3-caafa0be0eaa",
                   jsonValue: "f",
                 },
               },
               {
                 a: {
-                  slice: "0ff6f5c2-7caa-4f2c-8f1e-0cb41e2b75e9",
+                  slice: "e18aedd9-8978-4f18-80f2-461d8aae25de",
                   jsonValue: "g",
                 },
                 b: {
-                  slice: "980f58bf-8551-41c7-953c-7d8762d857b6",
+                  slice: "8695d332-1cc1-4f9c-b9af-0abde2f68bb7",
                   jsonValue: "h",
                 },
                 c: {
-                  slice: "60cbc077-2eb4-4e29-a473-b91d57802f65",
+                  slice: "252a6926-368a-439b-9c21-be3fd5e9dd46",
                   jsonValue: "i",
                 },
               },
@@ -1368,63 +1368,7 @@ describe("extractSlices", () => {
           },
         },
         {
-          id: "22a3dcdb-fc08-4aef-a959-f76b73bf61d6",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "b0b6665e-5540-4187-8c61-ef8e773dbd83",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "718a148a-2ac1-46de-8093-d597810d8631",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "7d85d645-183f-46d2-8561-8db045637518",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "4b017f7d-4fc5-4f64-b9fc-67cb941f948f",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "c4aa0815-19eb-4e60-ac84-24df48377e6d",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "cfca0b62-c398-4568-85d0-b5ecb5c327fb",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "0c3a7841-c0d0-4157-8c40-485a5896be64",
-          type: "text",
-          parents: ["table"],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "82307468-d844-48c6-a5fc-8e62e2f992a1",
+          id: "9a720f35-1a23-4bf4-8c9d-bae9b4dac928",
           type: "text",
           parents: ["table"],
           selfClosing: false,
@@ -1433,75 +1377,75 @@ describe("extractSlices", () => {
       ],
       marks: [
         {
-          id: "e789303b-6e43-49b2-8085-fb3d0b92b205",
+          id: "a6e8a1a8-537e-469c-9c7c-2eb7a43f1994",
           type: "slice",
-          range: "(2..4]",
+          range: "(3..4]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
         {
-          id: "82691fbd-810c-4d07-806f-7a93b9f24ddf",
+          id: "b2023136-2a9a-4cf3-97d4-2270c33b5de6",
           type: "slice",
-          range: "(4..6]",
+          range: "(4..5]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
         {
-          id: "49ef4f9f-10ad-44a0-8bd6-33ff918e24e5",
+          id: "53eda282-ea66-443d-a894-cbcd0f887f4a",
           type: "slice",
-          range: "(6..8]",
+          range: "(5..6]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
         {
-          id: "d1922e94-4ac8-4b11-8018-15eb9b92f800",
+          id: "ad56e97f-4c1a-43e6-a6f2-e3f9081e80cd",
+          type: "slice",
+          range: "(6..7]",
+          attributes: {
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
+          },
+        },
+        {
+          id: "d1ce8735-8b83-41b4-b254-9172ca2610c5",
+          type: "slice",
+          range: "(7..8]",
+          attributes: {
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
+          },
+        },
+        {
+          id: "052d1352-8659-4ca2-8fc3-caafa0be0eaa",
+          type: "slice",
+          range: "(8..9]",
+          attributes: {
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
+          },
+        },
+        {
+          id: "e18aedd9-8978-4f18-80f2-461d8aae25de",
           type: "slice",
           range: "(9..10]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
         {
-          id: "ff4cba8c-5711-4445-8c79-21c943d74035",
+          id: "8695d332-1cc1-4f9c-b9af-0abde2f68bb7",
           type: "slice",
-          range: "(10..12]",
+          range: "(10..11]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
         {
-          id: "5c0bf563-6cf4-4ea3-8491-7303829fb0cb",
+          id: "252a6926-368a-439b-9c21-be3fd5e9dd46",
           type: "slice",
-          range: "(12..14]",
+          range: "(11..12]",
           attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
-          },
-        },
-        {
-          id: "0ff6f5c2-7caa-4f2c-8f1e-0cb41e2b75e9",
-          type: "slice",
-          range: "(15..16]",
-          attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
-          },
-        },
-        {
-          id: "980f58bf-8551-41c7-953c-7d8762d857b6",
-          type: "slice",
-          range: "(16..18]",
-          attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
-          },
-        },
-        {
-          id: "60cbc077-2eb4-4e29-a473-b91d57802f65",
-          type: "slice",
-          range: "(18..20]",
-          attributes: {
-            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+            refs: ["11989adb-858e-4861-8330-59e10b612fd9"],
           },
         },
       ],
@@ -1525,7 +1469,7 @@ describe("extractSlices", () => {
     test("example3", () => {
       let [, slices] = extractSlices(example3);
 
-      expect(slices.get("e789303b-6e43-49b2-8085-fb3d0b92b205")?.text).toBe(
+      expect(slices.get("a6e8a1a8-537e-469c-9c7c-2eb7a43f1994")?.text).toBe(
         "￼a"
       );
     });
