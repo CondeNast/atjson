@@ -67,6 +67,12 @@ type SortableSlice = {
   mark: { start: number; end: number };
 };
 
+function compareIds(a: SortableSlice, b: SortableSlice) {
+  if (a.id === b.id) return 0;
+  if (a.id < b.id) return -1;
+  return 1;
+}
+
 export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
   let indexDelta = a.index - b.index;
   if (indexDelta !== 0) {
@@ -104,11 +110,35 @@ export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
    *   in this case B comes first
    */
   if (a.type === TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
-    return -(a.mark.end - b.mark.end);
+    let endDelta = a.mark.end - b.mark.end;
+
+    if (endDelta === 0) {
+      /**
+       * if we're here, the starts are equal and the ends are equal but the IDs are different
+       * in other words, we have two distinct but exactly coinciding slices. this is probably
+       * a programming error somewhere else, but we should handle it as gracefully as possible
+       *
+       * We will compare the IDs of the two marks, and sort the tokens such that the mark with
+       * the "lower" ID always wraps the mark with the "higher" ID. This is arbitrary, but
+       * prevents us from constructing weirdly-staggered token ranges.
+       */
+      return compareIds(a, b);
+    }
+
+    return -endDelta;
   }
 
   if (a.type === TokenType.SLICE_END && b.type === TokenType.SLICE_END) {
-    return -(a.mark.start - b.mark.start);
+    let startDelta = a.mark.start - b.mark.start;
+
+    if (startDelta === 0) {
+      /**
+       * See above comment. Here we do the reverse of the earlier case, so that
+       * whichever mark had its START token sorted *first*, gets its END token sorted *last*
+       */
+      return -compareIds(a, b);
+    }
+    return -startDelta;
   }
 
   // unreachable, the if statements above should be exhaustive

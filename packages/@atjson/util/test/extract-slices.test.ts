@@ -1296,6 +1296,217 @@ describe("extractSlices", () => {
         },
       ],
     };
+
+    const example3 = {
+      text: "￼￼￼a￼b￼c￼d￼e￼f￼g￼h￼i",
+      blocks: [
+        {
+          id: "9f5a80b5-6ca1-4a44-82fb-88503b87a56e",
+          type: "table",
+          parents: [],
+          selfClosing: false,
+          attributes: {
+            dataSet: "0bb17fff-f655-4143-b1ef-2e55a3bee452",
+            columns: [
+              {
+                name: "a",
+                slice: "e789303b-6e43-49b2-8085-fb3d0b92b205",
+              },
+              {
+                name: "b",
+                slice: "82691fbd-810c-4d07-806f-7a93b9f24ddf",
+              },
+              {
+                name: "c",
+                slice: "49ef4f9f-10ad-44a0-8bd6-33ff918e24e5",
+              },
+            ],
+            showColumnHeaders: true,
+          },
+        },
+        {
+          id: "0bb17fff-f655-4143-b1ef-2e55a3bee452",
+          type: "data-set",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {
+            schema: {
+              a: "rich_text",
+              b: "rich_text",
+              c: "rich_text",
+            },
+            records: [
+              {
+                a: {
+                  slice: "d1922e94-4ac8-4b11-8018-15eb9b92f800",
+                  jsonValue: "d",
+                },
+                b: {
+                  slice: "ff4cba8c-5711-4445-8c79-21c943d74035",
+                  jsonValue: "e",
+                },
+                c: {
+                  slice: "5c0bf563-6cf4-4ea3-8491-7303829fb0cb",
+                  jsonValue: "f",
+                },
+              },
+              {
+                a: {
+                  slice: "0ff6f5c2-7caa-4f2c-8f1e-0cb41e2b75e9",
+                  jsonValue: "g",
+                },
+                b: {
+                  slice: "980f58bf-8551-41c7-953c-7d8762d857b6",
+                  jsonValue: "h",
+                },
+                c: {
+                  slice: "60cbc077-2eb4-4e29-a473-b91d57802f65",
+                  jsonValue: "i",
+                },
+              },
+            ],
+          },
+        },
+        {
+          id: "22a3dcdb-fc08-4aef-a959-f76b73bf61d6",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "b0b6665e-5540-4187-8c61-ef8e773dbd83",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "718a148a-2ac1-46de-8093-d597810d8631",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "7d85d645-183f-46d2-8561-8db045637518",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "4b017f7d-4fc5-4f64-b9fc-67cb941f948f",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "c4aa0815-19eb-4e60-ac84-24df48377e6d",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "cfca0b62-c398-4568-85d0-b5ecb5c327fb",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "0c3a7841-c0d0-4157-8c40-485a5896be64",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+        {
+          id: "82307468-d844-48c6-a5fc-8e62e2f992a1",
+          type: "text",
+          parents: ["table"],
+          selfClosing: false,
+          attributes: {},
+        },
+      ],
+      marks: [
+        {
+          id: "e789303b-6e43-49b2-8085-fb3d0b92b205",
+          type: "slice",
+          range: "(2..4]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "82691fbd-810c-4d07-806f-7a93b9f24ddf",
+          type: "slice",
+          range: "(4..6]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "49ef4f9f-10ad-44a0-8bd6-33ff918e24e5",
+          type: "slice",
+          range: "(6..8]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "d1922e94-4ac8-4b11-8018-15eb9b92f800",
+          type: "slice",
+          range: "(9..10]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "ff4cba8c-5711-4445-8c79-21c943d74035",
+          type: "slice",
+          range: "(10..12]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "5c0bf563-6cf4-4ea3-8491-7303829fb0cb",
+          type: "slice",
+          range: "(12..14]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "0ff6f5c2-7caa-4f2c-8f1e-0cb41e2b75e9",
+          type: "slice",
+          range: "(15..16]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "980f58bf-8551-41c7-953c-7d8762d857b6",
+          type: "slice",
+          range: "(16..18]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+        {
+          id: "60cbc077-2eb4-4e29-a473-b91d57802f65",
+          type: "slice",
+          range: "(18..20]",
+          attributes: {
+            refs: ["0bb17fff-f655-4143-b1ef-2e55a3bee452"],
+          },
+        },
+      ],
+    };
+
     test("example1", () => {
       let [, slices] = extractSlices(example1);
       expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
@@ -1308,6 +1519,14 @@ describe("extractSlices", () => {
 
       expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
         "￼Name"
+      );
+    });
+
+    test("example3", () => {
+      let [, slices] = extractSlices(example3);
+
+      expect(slices.get("e789303b-6e43-49b2-8085-fb3d0b92b205")?.text).toBe(
+        "￼a"
       );
     });
   });
@@ -1390,6 +1609,88 @@ describe("extractSlices", () => {
           index: 6,
           type: TokenType.SLICE_END,
           mark: { start: 2, end: 6 },
+        },
+      ]);
+    });
+
+    test("nests coinciding ranges", () => {
+      const sliceTokens = [
+        {
+          id: "abc",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "def",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "abc",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "def",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "ghi",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "ghi",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+      ];
+
+      let expected = [...sliceTokens].sort(compareSliceTokens);
+
+      expect(expected).toMatchObject([
+        {
+          id: "abc",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "def",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "ghi",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "ghi",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "def",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "abc",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
         },
       ]);
     });
