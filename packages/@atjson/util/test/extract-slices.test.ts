@@ -1,4 +1,4 @@
-import { extractSlices } from "../src";
+import { TokenType, compareSliceTokens, extractSlices } from "../src";
 
 describe("extractSlices", () => {
   test("no slices", () => {
@@ -877,7 +877,7 @@ describe("extractSlices", () => {
     });
   });
 
-  describe("weird ck bug", () => {
+  describe("ck table data", () => {
     const example1 = {
       text: "￼￼￼Name￼Age￼Job￼Laios￼19￼Fighter￼Marcille￼50￼Mage￼Chilchuck￼29￼Trapsmith￼Senshi￼112￼Cook",
       blocks: [
@@ -1309,6 +1309,89 @@ describe("extractSlices", () => {
       expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
         "￼Name"
       );
+    });
+  });
+
+  describe("compareSliceTokens", () => {
+    test("sorts slices", () => {
+      const sliceTokens = [
+        {
+          id: "1",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "3",
+          index: 2,
+          type: TokenType.SLICE_START,
+          mark: { start: 2, end: 4 },
+        },
+        {
+          id: "3",
+          index: 4,
+          type: TokenType.SLICE_END,
+          mark: { start: 2, end: 4 },
+        },
+        {
+          id: "2",
+          index: 6,
+          type: TokenType.SLICE_END,
+          mark: { start: 2, end: 6 },
+        },
+        {
+          id: "2",
+          index: 2,
+          type: TokenType.SLICE_START,
+          mark: { start: 2, end: 6 },
+        },
+        {
+          id: "1",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+      ];
+
+      let expected = [...sliceTokens].sort(compareSliceTokens);
+      expect(expected).toMatchObject([
+        {
+          id: "1",
+          index: 0,
+          type: TokenType.SLICE_START,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "1",
+          index: 2,
+          type: TokenType.SLICE_END,
+          mark: { start: 0, end: 2 },
+        },
+        {
+          id: "2",
+          index: 2,
+          type: TokenType.SLICE_START,
+          mark: { start: 2, end: 6 },
+        },
+        {
+          id: "3",
+          index: 2,
+          type: TokenType.SLICE_START,
+          mark: { start: 2, end: 4 },
+        },
+        {
+          id: "3",
+          index: 4,
+          type: TokenType.SLICE_END,
+          mark: { start: 2, end: 4 },
+        },
+        {
+          id: "2",
+          index: 6,
+          type: TokenType.SLICE_END,
+          mark: { start: 2, end: 6 },
+        },
+      ]);
     });
   });
 });

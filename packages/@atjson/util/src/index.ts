@@ -47,9 +47,9 @@ export const ROOT = "root";
  */
 export const TEXT = "text";
 
-enum TokenType {
-  SLICE_START,
-  SLICE_END,
+export enum TokenType {
+  SLICE_START = "start",
+  SLICE_END = "end",
 }
 
 type Token = {
@@ -60,7 +60,14 @@ type Token = {
   ranges: [number, number][];
 };
 
-function sortSliceTokens(a: Token, b: Token) {
+type SortableSlice = {
+  id: string;
+  type: TokenType;
+  index: number;
+  mark: { start: number; end: number };
+};
+
+export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
   let indexDelta = a.index - b.index;
   if (indexDelta !== 0) {
     return indexDelta;
@@ -75,24 +82,36 @@ function sortSliceTokens(a: Token, b: Token) {
   }
 
   // Sort end tokens before start tokens
-  if (a.type !== TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
-    return 1;
+  if (a.type === TokenType.SLICE_END && b.type === TokenType.SLICE_START) {
+    return -1;
   } else if (
     a.type === TokenType.SLICE_START &&
-    b.type !== TokenType.SLICE_START
+    b.type === TokenType.SLICE_END
   ) {
-    return -1;
+    return 1;
   }
-  let multiplier = a.type === TokenType.SLICE_START ? -1 : 1;
 
-  let startDelta = b.mark.start - a.mark.start;
-  if (startDelta !== 0) {
-    return startDelta * multiplier;
+  /**
+   * A and B are at the same location and are of the same type (ie both START or both END)
+   * if A and B are both START, the one whose mark *ends* last should come first
+   *  A----------|
+   *  B-----|
+   *   in this case A comes first
+   *
+   * if A and B are both END, the one whose mark *started* last should come first
+   *  |----------A
+   *     |-------B
+   *   in this case B comes first
+   */
+  if (a.type === TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
+    return -(a.mark.end - b.mark.end);
   }
-  let endDelta = a.mark.end - b.mark.end;
-  if (endDelta !== 0) {
-    return endDelta * multiplier;
+
+  if (a.type === TokenType.SLICE_END && b.type === TokenType.SLICE_END) {
+    return -(a.mark.start - b.mark.start);
   }
+
+  // unreachable, the if statements above should be exhaustive
   return 0;
 }
 
@@ -167,7 +186,7 @@ export function extractSlices(value: {
       });
     }
   }
-  tokens.sort(sortSliceTokens);
+  tokens.sort(compareSliceTokens);
 
   let sliceMap = new Map<
     string,
