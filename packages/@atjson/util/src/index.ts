@@ -47,9 +47,9 @@ export const ROOT = "root";
  */
 export const TEXT = "text";
 
-enum TokenType {
-  SLICE_START,
-  SLICE_END,
+export enum TokenType {
+  SLICE_START = "start",
+  SLICE_END = "end",
 }
 
 type Token = {
@@ -60,7 +60,20 @@ type Token = {
   ranges: [number, number][];
 };
 
-function sortSliceTokens(a: Token, b: Token) {
+type SortableSlice = {
+  id: string;
+  type: TokenType;
+  index: number;
+  mark: { start: number; end: number };
+};
+
+function compareIds(a: SortableSlice, b: SortableSlice) {
+  if (a.id === b.id) return 0;
+  if (a.id < b.id) return -1;
+  return 1;
+}
+
+export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
   let indexDelta = a.index - b.index;
   if (indexDelta !== 0) {
     return indexDelta;
@@ -75,24 +88,60 @@ function sortSliceTokens(a: Token, b: Token) {
   }
 
   // Sort end tokens before start tokens
-  if (a.type !== TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
-    return 1;
+  if (a.type === TokenType.SLICE_END && b.type === TokenType.SLICE_START) {
+    return -1;
   } else if (
     a.type === TokenType.SLICE_START &&
-    b.type !== TokenType.SLICE_START
+    b.type === TokenType.SLICE_END
   ) {
-    return -1;
+    return 1;
   }
-  let multiplier = a.type === TokenType.SLICE_START ? -1 : 1;
 
-  let startDelta = b.mark.start - a.mark.start;
-  if (startDelta !== 0) {
-    return startDelta * multiplier;
+  /**
+   * A and B are at the same location and are of the same type (ie both START or both END)
+   * if A and B are both START, the one whose mark *ends* last should come first
+   *  A----------|
+   *  B-----|
+   *   in this case A comes first
+   *
+   * if A and B are both END, the one whose mark *started* last should come first
+   *  |----------A
+   *     |-------B
+   *   in this case B comes first
+   */
+  if (a.type === TokenType.SLICE_START && b.type === TokenType.SLICE_START) {
+    let endDelta = a.mark.end - b.mark.end;
+
+    if (endDelta === 0) {
+      /**
+       * if we're here, the starts are equal and the ends are equal but the IDs are different
+       * in other words, we have two distinct but exactly coinciding slices. this is probably
+       * a programming error somewhere else, but we should handle it as gracefully as possible
+       *
+       * We will compare the IDs of the two marks, and sort the tokens such that the mark with
+       * the "lower" ID always wraps the mark with the "higher" ID. This is arbitrary, but
+       * prevents us from constructing weirdly-staggered token ranges.
+       */
+      return compareIds(a, b);
+    }
+
+    return -endDelta;
   }
-  let endDelta = a.mark.end - b.mark.end;
-  if (endDelta !== 0) {
-    return endDelta * multiplier;
+
+  if (a.type === TokenType.SLICE_END && b.type === TokenType.SLICE_END) {
+    let startDelta = a.mark.start - b.mark.start;
+
+    if (startDelta === 0) {
+      /**
+       * See above comment. Here we do the reverse of the earlier case, so that
+       * whichever mark had its START token sorted *first*, gets its END token sorted *last*
+       */
+      return -compareIds(a, b);
+    }
+    return -startDelta;
   }
+
+  // unreachable, the if statements above should be exhaustive
   return 0;
 }
 
@@ -167,7 +216,7 @@ export function extractSlices(value: {
       });
     }
   }
-  tokens.sort(sortSliceTokens);
+  tokens.sort(compareSliceTokens);
 
   let sliceMap = new Map<
     string,
