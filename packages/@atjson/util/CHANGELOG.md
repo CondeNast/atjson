@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.5 (2024-04-29)
+
+### Bug Fixes
+
+- add test for ck bug ([8e8b12e](https://github.com/CondeNast/atjson/commit/8e8b12e919a7a64b83b2d99a4a31bb105bcdcdbe))
+- additional sorting logic for slices ([fdea946](https://github.com/CondeNast/atjson/commit/fdea9469a322f3c398983759c0698e4ccaaa3947))
+- bug in extractSlices sort function ([2548292](https://github.com/CondeNast/atjson/commit/25482929c319f7ecf95931d48d9e1bd3eabe25f7))
+
 ## 0.2.4 (2024-04-01)
 
 ### Bug Fixes
