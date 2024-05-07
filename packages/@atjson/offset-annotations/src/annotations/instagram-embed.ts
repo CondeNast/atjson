@@ -13,11 +13,6 @@ export class InstagramEmbed extends BlockAnnotation<{
   excludePostCaption?: boolean;
 
   /**
-   * Refers to a slice instead of being an embedded document.
-   */
-  caption?: string;
-
-  /**
    * Layout information, used to indicate mutually
    * exclusive layouts, for example sizes, floats, etc.
    */
@@ -27,6 +22,12 @@ export class InstagramEmbed extends BlockAnnotation<{
    * A named identifier used to quickly jump to this item
    */
   anchorName?: string;
+
+  /**
+   * The post content at the time of embedding, ususally
+   * a textual representation of the content with some links.
+   */
+  content?: string;
 }> {
   static type = "instagram-embed";
   static vendorPrefix = "offset";

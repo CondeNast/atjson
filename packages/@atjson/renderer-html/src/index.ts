@@ -359,11 +359,17 @@ export default class HTMLRenderer extends Renderer {
     let parts = embed.attributes.url.split("/");
     let username = parts[parts.length - 3];
     let videoId = parts[parts.length - 1];
+    let slice =
+      embed.attributes.content != null &&
+      this.getSlice(embed.attributes.content);
+    let content = slice
+      ? this.render(slice)
+      : `<a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/${username}">${username}</a>`;
     return `<blockquote${
       embed.attributes.anchorName ? ` id=${embed.attributes.anchorName}` : ""
     } class="tiktok-embed" cite="${
       embed.attributes.url
-    }" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="${username}" href="https://www.tiktok.com/${username}">${username}</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
+    }" data-video-id="${videoId}" style="max-width: 605px;min-width: 325px;"><section>${content}</section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`;
   }
 
   // CNE Audio embed
