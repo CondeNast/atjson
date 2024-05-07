@@ -21,7 +21,8 @@ function isBlockquoteEmbed(annotation: Annotation<any>) {
   return (
     classList.includes("instagram-media") ||
     classList.includes("twitter-tweet") ||
-    classList.includes("tiktok-embed")
+    classList.includes("tiktok-embed") ||
+    classList.includes("threads-embed")
   );
 }
 
@@ -78,7 +79,8 @@ export default function (doc: Document) {
             src.includes("instagram.com") ||
             src.includes("twitter.com") ||
             src.includes("tiktok.com") ||
-            src.includes("x.com"))
+            src.includes("x.com") ||
+            src.includes("threads.net"))
         );
       }
     )
