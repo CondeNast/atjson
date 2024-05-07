@@ -5,6 +5,7 @@ import {
   InstagramEmbed,
   PinterestEmbed,
   TelegramEmbed,
+  ThreadsEmbed,
   TikTokEmbed,
   TwitterEmbed,
 } from "../annotations";
@@ -117,6 +118,25 @@ function normalizeTwitterURL(url: IUrl) {
       url: `https://twitter.com/${username}/status/${tweetId}`,
     },
     Class: TwitterEmbed,
+  };
+}
+
+// Threads
+// - www.threads.net/:handle/post/:id
+function isThreadsURL(url: IUrl) {
+  return (
+    url.host === "threads.net" &&
+    !!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+/)
+  );
+}
+
+function normalizeThreadsURL(url: IUrl) {
+  let [username, , id] = without<string>(url.pathname.split("/"), "");
+  return {
+    attributes: {
+      url: `https://threads.net/@${username}/post/${id}`,
+    },
+    Class: ThreadsEmbed,
   };
 }
 
@@ -431,6 +451,10 @@ export function identify(url: IUrl): {
 
   if (isMegaphoneUrl(url)) {
     return normalizeMegaphoneUrl(url);
+  }
+
+  if (isThreadsURL(url)) {
+    return normalizeThreadsURL(url);
   }
 
   if (isTikTokUrl(url)) {

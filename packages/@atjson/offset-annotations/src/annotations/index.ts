@@ -29,6 +29,7 @@ export * from "./strikethrough";
 export * from "./subscript";
 export * from "./superscript";
 export * from "./telegram-embed";
+export * from "./threads-embed";
 export * from "./tiktok-embed";
 export * from "./twitter-embed";
 export * from "./underline";
