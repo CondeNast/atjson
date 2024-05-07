@@ -1,10 +1,4 @@
-import {
-  IframeEmbed,
-  TelegramEmbed,
-  SocialURLs,
-  InstagramEmbed,
-  TwitterEmbed,
-} from "../src";
+import { IframeEmbed, SocialURLs, InstagramEmbed, TwitterEmbed } from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -142,28 +136,6 @@ describe("SocialURLs", () => {
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: IframeEmbed,
-        attributes,
-      });
-    });
-  });
-
-  describe("identify Telegram", () => {
-    test.each([
-      [
-        "https://t.me/voguerussia/8714/",
-        {
-          url: "voguerussia/8714",
-        },
-      ],
-      [
-        "http://t.me/tatlerbutler/3416",
-        {
-          url: "tatlerbutler/3416",
-        },
-      ],
-    ])("%s", (url, attributes) => {
-      expect(SocialURLs.identify(new URL(url))).toMatchObject({
-        Class: TelegramEmbed,
         attributes,
       });
     });

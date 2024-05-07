@@ -4,7 +4,6 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  TelegramEmbed,
   TikTokEmbed,
   TwitterEmbed,
 } from "../annotations";
@@ -361,23 +360,6 @@ function normalizeTikTokUrl(url: IUrl) {
   };
 }
 
-// Telegram URLs
-// Needs to covert post URL (https://t.me/:channelSlug/:postId) to post slug (:channelSlug/:postId)
-// Docs here https://core.telegram.org/widgets/post
-
-function isTelegramUrl(url: IUrl) {
-  return url.host === "t.me";
-}
-
-function normalizeTelegramUrl(url: IUrl) {
-  let [cahnnelSlug, postId] = without<string>(url.pathname.split("/"), "");
-  return {
-    Class: TelegramEmbed,
-    attributes: {
-      url: `${cahnnelSlug}/${postId}`,
-    },
-  };
-}
 function isRedditURL(url: IUrl) {
   return (
     (url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/")) ||
@@ -460,10 +442,6 @@ export function identify(url: IUrl) {
 
   if (isTikTokUrl(url)) {
     return normalizeTikTokUrl(url);
-  }
-
-  if (isTelegramUrl(url)) {
-    return normalizeTelegramUrl(url);
   }
 
   return null;
