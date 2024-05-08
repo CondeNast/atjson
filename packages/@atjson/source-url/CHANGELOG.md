@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.28.25 (2024-05-08)
+
+**Note:** Version bump only for package @atjson/source-url
+
 ## 0.28.24 (2024-03-21)
 
 **Note:** Version bump only for package @atjson/source-url

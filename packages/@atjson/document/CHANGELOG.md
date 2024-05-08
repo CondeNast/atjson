@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.30.1 (2024-05-08)
+
+### Bug Fixes
+
+- add dataset annotation wrapped around object replacement character ([e3f0069](https://github.com/CondeNast/atjson/commit/e3f0069f3df77b86342838c192afd817e2f34de0))
+- don't produce collapsed dataset annotations in converter ([e9fe5b1](https://github.com/CondeNast/atjson/commit/e9fe5b10d58a714b8430f384df5886bdfc4db396))
+- lint ([38550a7](https://github.com/CondeNast/atjson/commit/38550a7f9d4f9c96ca2bc501d5865ff9dd65b685))
+
 # 0.30.0 (2024-03-21)
 
 ### Bug Fixes
