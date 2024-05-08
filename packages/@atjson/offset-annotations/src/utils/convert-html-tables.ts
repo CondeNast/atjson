@@ -4,6 +4,8 @@ import {
   compareAnnotations,
   Annotation,
   TextAnnotation,
+  ParseAnnotation,
+  AdjacentBoundaryBehaviour,
 } from "@atjson/document";
 
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
@@ -88,6 +90,24 @@ export function convertHTMLTablesToDataSet(
     if (isInvalidTable(doc, table, vendor)) {
       return;
     }
+
+    doc.insertText(
+      table.start,
+      "\uFFFC",
+      AdjacentBoundaryBehaviour.preserveLeading
+    );
+    doc.annotations.push(
+      new ParseAnnotation({ start: table.start - 1, end: table.start })
+    );
+
+    let dataSet = new DataSet({
+      start: table.start - 1,
+      end: table.start,
+      attributes: {
+        schema: {},
+        records: [],
+      },
+    });
 
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
@@ -212,14 +232,10 @@ export function convertHTMLTablesToDataSet(
 
     tableRows.remove();
 
-    let dataSet = new DataSet({
-      ...table,
-      id: undefined,
-      attributes: {
-        schema: Object.fromEntries(dataSetSchemaEntries),
-        records: dataRows,
-      },
-    });
+    dataSet.attributes = {
+      schema: Object.fromEntries(dataSetSchemaEntries),
+      records: dataRows,
+    };
 
     let offsetTable = new Table({
       ...table,
