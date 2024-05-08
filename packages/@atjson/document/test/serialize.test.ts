@@ -5,7 +5,6 @@ import {
   UnknownAnnotation,
   is,
   SliceAnnotation,
-  TextAnnotation,
 } from "../src";
 import TestSource, {
   Anchor,
@@ -17,8 +16,6 @@ import TestSource, {
   LineBreak,
   Quote,
   Instagram,
-  Locale,
-  Code,
 } from "./test-source";
 import { sortTokens, TokenType, Token, SortableToken } from "../src/serialize";
 
