@@ -7,16 +7,27 @@ export enum EdgeBehaviour {
   modify,
 }
 
-// the "public" API for behaviour
+/**
+ * the "public" API for behaviour
+ */
 export enum AdjacentBoundaryBehaviour {
-  // default is an alias for modify / preserveLeading
-  // modify and preserve are targeted for deprecation
+  /**
+   * alias for modify / preserveLeading
+   */
   default,
+
+  /**
+   * @deprecated use preserveLeading
+   */
   modify,
   preserveLeading,
+
+  /**
+   * @deprecated use preserveBoth
+   */
   preserve,
-  preserveTrailing,
   preserveBoth,
+  preserveTrailing,
 }
 
 export class Deletion extends Change {

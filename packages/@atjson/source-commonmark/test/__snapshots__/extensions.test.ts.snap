@@ -5,37 +5,6 @@ exports[`tables converting 1`] = `
   "blocks": [
     {
       "attributes": {
-        "columns": [
-          {
-            "name": "name",
-            "slice": "M00000000",
-            "textAlign": "left",
-          },
-          {
-            "name": "age",
-            "slice": "M00000001",
-            "textAlign": "right",
-          },
-          {
-            "name": "job",
-            "slice": "M00000002",
-          },
-          {
-            "name": "notes",
-            "slice": "M00000003",
-            "textAlign": "center",
-          },
-        ],
-        "dataSet": "B00000001",
-        "showColumnHeaders": true,
-      },
-      "id": "B00000000",
-      "parents": [],
-      "selfClosing": false,
-      "type": "table",
-    },
-    {
-      "attributes": {
         "records": [
           {
             "age": {
@@ -117,12 +86,41 @@ exports[`tables converting 1`] = `
           "notes": "rich_text",
         },
       },
-      "id": "B00000001",
-      "parents": [
-        "table",
-      ],
+      "id": "B00000000",
+      "parents": [],
       "selfClosing": false,
       "type": "data-set",
+    },
+    {
+      "attributes": {
+        "columns": [
+          {
+            "name": "name",
+            "slice": "M00000000",
+            "textAlign": "left",
+          },
+          {
+            "name": "age",
+            "slice": "M00000001",
+            "textAlign": "right",
+          },
+          {
+            "name": "job",
+            "slice": "M00000002",
+          },
+          {
+            "name": "notes",
+            "slice": "M00000003",
+            "textAlign": "center",
+          },
+        ],
+        "dataSet": "B00000000",
+        "showColumnHeaders": true,
+      },
+      "id": "B00000001",
+      "parents": [],
+      "selfClosing": false,
+      "type": "table",
     },
     {
       "attributes": {},
@@ -309,7 +307,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000000",
@@ -319,7 +317,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000001",
@@ -329,7 +327,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000002",
@@ -339,7 +337,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000003",
@@ -363,7 +361,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000006",
@@ -373,7 +371,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000007",
@@ -383,7 +381,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000008",
@@ -393,7 +391,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000009",
@@ -415,7 +413,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M0000000c",
@@ -425,7 +423,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M0000000d",
@@ -435,7 +433,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M0000000e",
@@ -445,7 +443,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M0000000f",
@@ -455,7 +453,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000010",
@@ -465,7 +463,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000011",
@@ -475,7 +473,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000012",
@@ -485,7 +483,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000013",
@@ -501,7 +499,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000015",
@@ -511,7 +509,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000016",
@@ -521,7 +519,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000017",
@@ -531,7 +529,7 @@ exports[`tables converting 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000001",
+          "B00000000",
         ],
       },
       "id": "M00000018",
