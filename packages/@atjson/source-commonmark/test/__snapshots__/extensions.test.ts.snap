@@ -129,6 +129,7 @@ exports[`tables converting 1`] = `
       "id": "B00000002",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -138,6 +139,7 @@ exports[`tables converting 1`] = `
       "id": "B00000003",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -147,6 +149,7 @@ exports[`tables converting 1`] = `
       "id": "B00000004",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -156,6 +159,7 @@ exports[`tables converting 1`] = `
       "id": "B00000005",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -165,6 +169,7 @@ exports[`tables converting 1`] = `
       "id": "B00000006",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -174,6 +179,7 @@ exports[`tables converting 1`] = `
       "id": "B00000007",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -183,6 +189,7 @@ exports[`tables converting 1`] = `
       "id": "B00000008",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -192,6 +199,7 @@ exports[`tables converting 1`] = `
       "id": "B00000009",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -201,6 +209,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000a",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -210,6 +219,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000b",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -219,6 +229,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000c",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -228,6 +239,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000d",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -237,6 +249,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000e",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -246,6 +259,7 @@ exports[`tables converting 1`] = `
       "id": "B0000000f",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -255,6 +269,7 @@ exports[`tables converting 1`] = `
       "id": "B00000010",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -264,6 +279,7 @@ exports[`tables converting 1`] = `
       "id": "B00000011",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -273,6 +289,7 @@ exports[`tables converting 1`] = `
       "id": "B00000012",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -282,6 +299,7 @@ exports[`tables converting 1`] = `
       "id": "B00000013",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -291,6 +309,7 @@ exports[`tables converting 1`] = `
       "id": "B00000014",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -300,6 +319,7 @@ exports[`tables converting 1`] = `
       "id": "B00000015",
       "parents": [
         "table",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",

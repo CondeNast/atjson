@@ -143,7 +143,19 @@ export type Token = {
   edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour };
 };
 
-export function sortTokens(a: Token, b: Token) {
+export type SortableToken = {
+  index: number;
+  type: TokenType;
+  annotation: {
+    id: string;
+    type: string;
+    start: number;
+    end: number;
+    rank: number;
+  };
+};
+
+export function sortTokens(a: SortableToken, b: SortableToken) {
   let indexDelta = a.index - b.index;
   if (indexDelta !== 0) {
     return indexDelta;

@@ -662,22 +662,13 @@ exports[`tables valid tables converts column alignments 1`] = `
             "textAlign": "right",
           },
         ],
-        "dataSet": "B00000003",
+        "dataSet": "B00000002",
         "showColumnHeaders": true,
       },
       "id": "B00000001",
       "parents": [],
       "selfClosing": false,
       "type": "table",
-    },
-    {
-      "attributes": {},
-      "id": "B00000002",
-      "parents": [
-        "table",
-      ],
-      "selfClosing": false,
-      "type": "text",
     },
     {
       "attributes": {
@@ -768,20 +759,29 @@ exports[`tables valid tables converts column alignments 1`] = `
           "notes": "rich_text",
         },
       },
-      "id": "B00000003",
+      "id": "B00000002",
       "parents": [
         "table",
-        "text",
       ],
       "selfClosing": false,
       "type": "data-set",
     },
     {
       "attributes": {},
+      "id": "B00000003",
+      "parents": [
+        "table",
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -791,7 +791,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000005",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -801,7 +801,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000006",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -811,7 +811,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000007",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -821,7 +821,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000008",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -831,7 +831,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000009",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -841,7 +841,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -851,7 +851,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -861,7 +861,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -871,7 +871,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -881,7 +881,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -891,7 +891,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000000f",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -901,7 +901,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000010",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -911,7 +911,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000011",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -921,7 +921,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000012",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -931,7 +931,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000013",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -941,7 +941,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000014",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -951,7 +951,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000015",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -961,7 +961,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000016",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -971,7 +971,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000017",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -981,7 +981,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000018",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -991,7 +991,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000019",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1001,7 +1001,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1011,7 +1011,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1021,7 +1021,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1031,7 +1031,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1041,7 +1041,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1051,7 +1051,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B0000001f",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1061,7 +1061,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000020",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1071,7 +1071,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000021",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1081,7 +1081,7 @@ exports[`tables valid tables converts column alignments 1`] = `
       "id": "B00000022",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1089,19 +1089,7 @@ exports[`tables valid tables converts column alignments 1`] = `
     {
       "attributes": {},
       "id": "B00000023",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000024",
-      "parents": [
-        "table",
-      ],
+      "parents": [],
       "selfClosing": false,
       "type": "text",
     },
@@ -1110,41 +1098,41 @@ exports[`tables valid tables converts column alignments 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(19..24]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000001",
-      "range": "(33..37]",
+      "range": "(32..36]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000002",
-      "range": "(45..49]",
+      "range": "(44..48]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000003",
-      "range": "(57..99]",
+      "range": "(56..98]",
       "type": "slice",
     },
     {
@@ -1152,196 +1140,196 @@ exports[`tables valid tables converts column alignments 1`] = `
         "url": "https://en.wikipedia.org/wiki/Delicious_in_Dungeon",
       },
       "id": "M00000004",
-      "range": "(67..92)",
+      "range": "(66..91)",
       "type": "link",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(78..83]",
+      "range": "(77..82]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000006",
-      "range": "(123..128]",
+      "range": "(122..127]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000007",
-      "range": "(135..138]",
+      "range": "(134..137]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000008",
-      "range": "(146..154]",
+      "range": "(145..153]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000009",
-      "range": "(162..248]",
+      "range": "(161..247]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000a",
-      "range": "(213..226]",
+      "range": "(212..225]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M0000000b",
-      "range": "(220..226]",
+      "range": "(219..225]",
       "type": "bold",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000c",
-      "range": "(266..274]",
+      "range": "(265..273]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000d",
-      "range": "(281..285]",
+      "range": "(280..284]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000e",
-      "range": "(293..298]",
+      "range": "(292..297]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000f",
-      "range": "(306..452]",
+      "range": "(305..451]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000010",
-      "range": "(470..475]",
+      "range": "(469..474]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000011",
-      "range": "(482..485]",
+      "range": "(481..484]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000012",
-      "range": "(493..500]",
+      "range": "(492..499]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000013",
-      "range": "(508..683]",
+      "range": "(507..682]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000014",
-      "range": "(522..527]",
+      "range": "(521..526]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000015",
-      "range": "(701..709]",
+      "range": "(700..708]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000016",
-      "range": "(716..719]",
+      "range": "(715..718]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000017",
-      "range": "(727..733]",
+      "range": "(726..732]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000018",
-      "range": "(741..915]",
+      "range": "(740..914]",
       "type": "slice",
     },
   ],
   "text": "￼
-￼￼￼
+￼￼
   
     
       ￼name￼
@@ -1425,22 +1413,13 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
             "name": "column 4",
           },
         ],
-        "dataSet": "B00000003",
+        "dataSet": "B00000002",
         "showColumnHeaders": false,
       },
       "id": "B00000001",
       "parents": [],
       "selfClosing": false,
       "type": "table",
-    },
-    {
-      "attributes": {},
-      "id": "B00000002",
-      "parents": [
-        "table",
-      ],
-      "selfClosing": false,
-      "type": "text",
     },
     {
       "attributes": {
@@ -1503,20 +1482,29 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
           "column 4": "rich_text",
         },
       },
-      "id": "B00000003",
+      "id": "B00000002",
       "parents": [
         "table",
-        "text",
       ],
       "selfClosing": false,
       "type": "data-set",
     },
     {
       "attributes": {},
+      "id": "B00000003",
+      "parents": [
+        "table",
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1526,7 +1514,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000005",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1536,7 +1524,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000006",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1546,7 +1534,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000007",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1556,7 +1544,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000008",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1566,7 +1554,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B00000009",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1576,7 +1564,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B0000000a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1586,7 +1574,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B0000000b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1596,7 +1584,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B0000000c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1606,7 +1594,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B0000000d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1616,7 +1604,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
       "id": "B0000000e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1624,19 +1612,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
     {
       "attributes": {},
       "id": "B0000000f",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000010",
-      "parents": [
-        "table",
-      ],
+      "parents": [],
       "selfClosing": false,
       "type": "text",
     },
@@ -1645,106 +1621,106 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(19..24]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000001",
-      "range": "(42..50]",
+      "range": "(41..49]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000002",
-      "range": "(57..61]",
+      "range": "(56..60]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000003",
-      "range": "(69..74]",
+      "range": "(68..73]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000004",
-      "range": "(92..97]",
+      "range": "(91..96]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000005",
-      "range": "(104..111]",
+      "range": "(103..110]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000006",
-      "range": "(129..137]",
+      "range": "(128..136]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000007",
-      "range": "(144..147]",
+      "range": "(143..146]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000008",
-      "range": "(155..161]",
+      "range": "(154..160]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000009",
-      "range": "(169..343]",
+      "range": "(168..342]",
       "type": "slice",
     },
   ],
   "text": "￼
-￼￼￼
+￼￼
   
     
       laios
@@ -1804,22 +1780,13 @@ exports[`tables valid tables converts simple tables 1`] = `
             "slice": "M00000003",
           },
         ],
-        "dataSet": "B00000003",
+        "dataSet": "B00000002",
         "showColumnHeaders": true,
       },
       "id": "B00000001",
       "parents": [],
       "selfClosing": false,
       "type": "table",
-    },
-    {
-      "attributes": {},
-      "id": "B00000002",
-      "parents": [
-        "table",
-      ],
-      "selfClosing": false,
-      "type": "text",
     },
     {
       "attributes": {
@@ -1910,20 +1877,29 @@ exports[`tables valid tables converts simple tables 1`] = `
           "notes": "rich_text",
         },
       },
-      "id": "B00000003",
+      "id": "B00000002",
       "parents": [
         "table",
-        "text",
       ],
       "selfClosing": false,
       "type": "data-set",
     },
     {
       "attributes": {},
+      "id": "B00000003",
+      "parents": [
+        "table",
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1933,7 +1909,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000005",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1943,7 +1919,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000006",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1953,7 +1929,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000007",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1963,7 +1939,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000008",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1973,7 +1949,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000009",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1983,7 +1959,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -1993,7 +1969,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2003,7 +1979,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2013,7 +1989,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2023,7 +1999,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2033,7 +2009,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000000f",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2043,7 +2019,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000010",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2053,7 +2029,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000011",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2063,7 +2039,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000012",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2073,7 +2049,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000013",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2083,7 +2059,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000014",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2093,7 +2069,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000015",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2103,7 +2079,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000016",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2113,7 +2089,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000017",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2123,7 +2099,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000018",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2133,7 +2109,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000019",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2143,7 +2119,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2153,7 +2129,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2163,7 +2139,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2173,7 +2149,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2183,7 +2159,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2193,7 +2169,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B0000001f",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2203,7 +2179,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000020",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2213,7 +2189,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000021",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2223,7 +2199,7 @@ exports[`tables valid tables converts simple tables 1`] = `
       "id": "B00000022",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2231,19 +2207,7 @@ exports[`tables valid tables converts simple tables 1`] = `
     {
       "attributes": {},
       "id": "B00000023",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B00000024",
-      "parents": [
-        "table",
-      ],
+      "parents": [],
       "selfClosing": false,
       "type": "text",
     },
@@ -2252,41 +2216,41 @@ exports[`tables valid tables converts simple tables 1`] = `
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(19..24]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000001",
-      "range": "(33..37]",
+      "range": "(32..36]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000002",
-      "range": "(45..49]",
+      "range": "(44..48]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000003",
-      "range": "(57..99]",
+      "range": "(56..98]",
       "type": "slice",
     },
     {
@@ -2294,196 +2258,196 @@ exports[`tables valid tables converts simple tables 1`] = `
         "url": "https://en.wikipedia.org/wiki/Delicious_in_Dungeon",
       },
       "id": "M00000004",
-      "range": "(67..92)",
+      "range": "(66..91)",
       "type": "link",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(78..83]",
+      "range": "(77..82]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000006",
-      "range": "(123..128]",
+      "range": "(122..127]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000007",
-      "range": "(135..138]",
+      "range": "(134..137]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000008",
-      "range": "(146..154]",
+      "range": "(145..153]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000009",
-      "range": "(162..248]",
+      "range": "(161..247]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000a",
-      "range": "(213..226]",
+      "range": "(212..225]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M0000000b",
-      "range": "(220..226]",
+      "range": "(219..225]",
       "type": "bold",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000c",
-      "range": "(266..274]",
+      "range": "(265..273]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000d",
-      "range": "(281..285]",
+      "range": "(280..284]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000e",
-      "range": "(293..298]",
+      "range": "(292..297]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000f",
-      "range": "(306..452]",
+      "range": "(305..451]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000010",
-      "range": "(470..475]",
+      "range": "(469..474]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000011",
-      "range": "(482..485]",
+      "range": "(481..484]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000012",
-      "range": "(493..500]",
+      "range": "(492..499]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000013",
-      "range": "(508..683]",
+      "range": "(507..682]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000014",
-      "range": "(522..527]",
+      "range": "(521..526]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000015",
-      "range": "(701..709]",
+      "range": "(700..708]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000016",
-      "range": "(716..719]",
+      "range": "(715..718]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000017",
-      "range": "(727..733]",
+      "range": "(726..732]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000018",
-      "range": "(741..915]",
+      "range": "(740..914]",
       "type": "slice",
     },
   ],
   "text": "￼
-￼￼￼
+￼￼
   
     
       ￼name￼
@@ -2567,22 +2531,13 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
             "name": "column 4",
           },
         ],
-        "dataSet": "B00000003",
+        "dataSet": "B00000002",
         "showColumnHeaders": false,
       },
       "id": "B00000001",
       "parents": [],
       "selfClosing": false,
       "type": "table",
-    },
-    {
-      "attributes": {},
-      "id": "B00000002",
-      "parents": [
-        "table",
-      ],
-      "selfClosing": false,
-      "type": "text",
     },
     {
       "attributes": {
@@ -2673,20 +2628,29 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
           "column 4": "rich_text",
         },
       },
-      "id": "B00000003",
+      "id": "B00000002",
       "parents": [
         "table",
-        "text",
       ],
       "selfClosing": false,
       "type": "data-set",
     },
     {
       "attributes": {},
+      "id": "B00000003",
+      "parents": [
+        "table",
+        "data-set",
+      ],
+      "selfClosing": false,
+      "type": "text",
+    },
+    {
+      "attributes": {},
       "id": "B00000004",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2696,7 +2660,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000005",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2706,7 +2670,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000006",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2716,7 +2680,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000007",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2726,7 +2690,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000008",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2736,7 +2700,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000009",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2746,7 +2710,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2756,7 +2720,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000b",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2766,7 +2730,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000c",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2776,7 +2740,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000d",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2786,7 +2750,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000e",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2796,7 +2760,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000000f",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2806,7 +2770,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000010",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2816,7 +2780,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000011",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2826,7 +2790,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000012",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2836,7 +2800,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000013",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2846,7 +2810,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000014",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2856,7 +2820,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000015",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2866,7 +2830,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000016",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2876,7 +2840,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000017",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2886,7 +2850,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000018",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2896,7 +2860,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B00000019",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2906,7 +2870,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
       "id": "B0000001a",
       "parents": [
         "table",
-        "text",
+        "data-set",
       ],
       "selfClosing": false,
       "type": "text",
@@ -2914,19 +2878,7 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
     {
       "attributes": {},
       "id": "B0000001b",
-      "parents": [
-        "table",
-        "text",
-      ],
-      "selfClosing": false,
-      "type": "text",
-    },
-    {
-      "attributes": {},
-      "id": "B0000001c",
-      "parents": [
-        "table",
-      ],
+      "parents": [],
       "selfClosing": false,
       "type": "text",
     },
@@ -2935,184 +2887,184 @@ exports[`tables valid tables converts uniform tables with no head section 1`] = 
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000000",
-      "range": "(20..25]",
+      "range": "(19..24]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000001",
-      "range": "(32..35]",
+      "range": "(31..34]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000002",
-      "range": "(43..51]",
+      "range": "(42..50]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000003",
-      "range": "(59..145]",
+      "range": "(58..144]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M00000004",
-      "range": "(110..123]",
+      "range": "(109..122]",
       "type": "italic",
     },
     {
       "attributes": {},
       "id": "M00000005",
-      "range": "(117..123]",
+      "range": "(116..122]",
       "type": "bold",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000006",
-      "range": "(163..171]",
+      "range": "(162..170]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000007",
-      "range": "(178..182]",
+      "range": "(177..181]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000008",
-      "range": "(190..195]",
+      "range": "(189..194]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000009",
-      "range": "(203..349]",
+      "range": "(202..348]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000a",
-      "range": "(367..372]",
+      "range": "(366..371]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000b",
-      "range": "(379..382]",
+      "range": "(378..381]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000c",
-      "range": "(390..397]",
+      "range": "(389..396]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000d",
-      "range": "(405..580]",
+      "range": "(404..579]",
       "type": "slice",
     },
     {
       "attributes": {},
       "id": "M0000000e",
-      "range": "(419..424]",
+      "range": "(418..423]",
       "type": "italic",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M0000000f",
-      "range": "(598..606]",
+      "range": "(597..605]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000010",
-      "range": "(613..616]",
+      "range": "(612..615]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000011",
-      "range": "(624..630]",
+      "range": "(623..629]",
       "type": "slice",
     },
     {
       "attributes": {
         "refs": [
-          "B00000003",
+          "B00000002",
         ],
       },
       "id": "M00000012",
-      "range": "(638..812]",
+      "range": "(637..811]",
       "type": "slice",
     },
   ],
   "text": "￼
-￼￼￼
+￼￼
   
     
       laios

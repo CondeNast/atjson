@@ -5,6 +5,7 @@ import {
   UnknownAnnotation,
   is,
   SliceAnnotation,
+  TextAnnotation,
 } from "../src";
 import TestSource, {
   Anchor,
@@ -16,8 +17,10 @@ import TestSource, {
   LineBreak,
   Quote,
   Instagram,
+  Locale,
+  Code,
 } from "./test-source";
-import { sortTokens, TokenType, Token } from "../src/serialize";
+import { sortTokens, TokenType, Token, SortableToken } from "../src/serialize";
 
 describe("serialize", () => {
   test("errors are thrown if uFFFC is included in text", () => {
@@ -1817,5 +1820,178 @@ describe("deserialize", () => {
 
       tokens.sort(sortTokens);
     });
+  });
+});
+
+describe.skip("sorting tokens", () => {
+  /**
+   * these tests reveal an issue in the serialize function where zero-length blocks
+   * have their starts and ends sorted in an arbitrary order--and may be separated by
+   * other blocks' starts and ends at the same position.
+   *
+   * If these tests are being skipped, the bug is probably still present
+   */
+  test("sorts 0 length blocks test 1", () => {
+    let tokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+      {
+        index: 10,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "3", start: 0, end: 10, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "3", start: 0, end: 10, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 5,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+    ];
+
+    let sortedTokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "3", start: 0, end: 10, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+      {
+        index: 5,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+      {
+        index: 10,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "3", start: 0, end: 10, rank: 5, type: "div" },
+      },
+    ];
+
+    tokens.sort(sortTokens);
+
+    expect(tokens).toMatchObject(sortedTokens);
+  });
+  test("sorts 0 length blocks test 2", () => {
+    let tokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 5,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+    ];
+
+    let sortedTokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+      {
+        index: 5,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "2", start: 0, end: 5, rank: 5, type: "div" },
+      },
+    ];
+
+    tokens.sort(sortTokens);
+
+    expect(tokens).toMatchObject(sortedTokens);
+  });
+  test("sorts 0 length blocks test 3", () => {
+    let tokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 100, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+    ];
+
+    let sortedTokens: SortableToken[] = [
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_END,
+        annotation: { id: "1", start: 0, end: 0, rank: 5, type: "div" },
+      },
+      {
+        index: 0,
+        type: TokenType.BLOCK_START,
+        annotation: { id: "2", start: 0, end: 100, rank: 5, type: "div" },
+      },
+    ];
+
+    tokens.sort(sortTokens);
+
+    expect(tokens).toMatchObject(sortedTokens);
   });
 });

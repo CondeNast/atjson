@@ -215,8 +215,6 @@ export function convertHTMLTablesToDataSet(
     let dataSet = new DataSet({
       ...table,
       id: undefined,
-      start: table.start,
-      end: table.start,
       attributes: {
         schema: Object.fromEntries(dataSetSchemaEntries),
         records: dataRows,
