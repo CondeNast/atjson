@@ -1,4 +1,10 @@
-import { IframeEmbed, SocialURLs, InstagramEmbed, TwitterEmbed } from "../src";
+import {
+  IframeEmbed,
+  SocialURLs,
+  InstagramEmbed,
+  ThreadsEmbed,
+  TwitterEmbed,
+} from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -226,6 +232,22 @@ describe("SocialURLs", () => {
     ])("%s", (url, attributes) => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: TwitterEmbed,
+        attributes,
+      });
+    });
+  });
+
+  describe("identify Threads", () => {
+    test.each([
+      [
+        "https://www.threads.net/@bbc/post/CuZrQ2osUpi",
+        {
+          url: "https://www.threads.net/@bbc/post/CuZrQ2osUpi",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: ThreadsEmbed,
         attributes,
       });
     });
