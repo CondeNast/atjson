@@ -1,8 +1,8 @@
 import OffsetSource, { TextAlignment } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("paragraphs", () => {
-  describe("alignment", () => {
+describe("Paragraph", () => {
+  describe("textAlignment", () => {
     describe("left to right", () => {
       describe.each([
         ["with direction attribute", `dir="ltr"`],

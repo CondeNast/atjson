@@ -2,7 +2,7 @@ import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 import { serialize } from "@atjson/document";
 
-describe("tables", () => {
+describe("Table", () => {
   describe("valid tables", () => {
     test("converts simple tables", () => {
       let tableMarkup = `

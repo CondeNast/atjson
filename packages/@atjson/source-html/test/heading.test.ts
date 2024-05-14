@@ -1,7 +1,7 @@
 import OffsetSource, { TextAlignment } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("headings", () => {
+describe("Heading", () => {
   test.each([
     ["h1", 1],
     ["h2", 2],

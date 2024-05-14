@@ -2,7 +2,7 @@ import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("Firework embeds", () => {
+describe("FireworkEmbed", () => {
   test("with channel name and playlist", () => {
     let doc = HTMLSource.fromRaw(
       `<fw-embed-feed channel="awesome-channel" playlist="kj43j2" ui_border_style = "hard"></fw-embed-feed>`
