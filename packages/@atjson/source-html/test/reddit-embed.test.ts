@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("RedditEmbed", () => {
   test("uncustomized", () => {
     let doc = HTMLSource.fromRaw(
-      `<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/">dude just slap me and left</a><br> by<a href="https://www.reddit.com/user/the_ginger_one367/">u/the_ginger_one367</a> in<a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>`
+      `<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="740"><a href="https://www.reddit.com/r/cats/comments/1cretsi/made_this_mistake_need_help_with_names/">Made this mistake. Need help with names.</a><br> by<a href="https://www.reddit.com/user/niccia/">u/niccia</a> in<a href="https://www.reddit.com/r/cats/">cats</a></blockquote><script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -14,10 +14,10 @@ describe("RedditEmbed", () => {
           {
             "attributes": {
               "content": "B00000000",
-              "height": 546,
+              "height": 740,
               "hidePostContent": false,
               "hideUsername": false,
-              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+              "url": "https://www.reddit.com/r/cats/comments/1cretsi/made_this_mistake_need_help_with_names/",
             },
             "id": "B00000000",
             "parents": [],
@@ -37,10 +37,10 @@ describe("RedditEmbed", () => {
         "marks": [
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+              "url": "https://www.reddit.com/r/cats/comments/1cretsi/made_this_mistake_need_help_with_names/",
             },
             "id": "M00000000",
-            "range": "(1..27)",
+            "range": "(1..41)",
             "type": "link",
           },
           {
@@ -55,22 +55,22 @@ describe("RedditEmbed", () => {
           },
           {
             "attributes": {
-              "url": "https://www.reddit.com/user/the_ginger_one367/",
+              "url": "https://www.reddit.com/user/niccia/",
             },
             "id": "M00000002",
-            "range": "(31..50)",
+            "range": "(46..54)",
             "type": "link",
           },
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/Eldenring/",
+              "url": "https://www.reddit.com/r/cats/",
             },
             "id": "M00000003",
-            "range": "(53..62)",
+            "range": "(58..62)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ byu/the_ginger_one367 inEldenring",
+        "text": "￼Made this mistake. Need help with names.￼ by u/niccia in cats",
       }
     `);
   });
@@ -122,7 +122,7 @@ describe("RedditEmbed", () => {
               ],
             },
             "id": "M00000001",
-            "range": "(1..62]",
+            "range": "(1..64]",
             "type": "slice",
           },
           {
@@ -130,7 +130,7 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(31..50)",
+            "range": "(32..51)",
             "type": "link",
           },
           {
@@ -138,11 +138,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(53..62)",
+            "range": "(55..64)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ byu/the_ginger_one367 inEldenring",
+        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });
@@ -194,7 +194,7 @@ describe("RedditEmbed", () => {
               ],
             },
             "id": "M00000001",
-            "range": "(1..62]",
+            "range": "(1..64]",
             "type": "slice",
           },
           {
@@ -202,7 +202,7 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(31..50)",
+            "range": "(32..51)",
             "type": "link",
           },
           {
@@ -210,11 +210,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(53..62)",
+            "range": "(55..64)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ byu/the_ginger_one367 inEldenring",
+        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });
@@ -267,7 +267,7 @@ describe("RedditEmbed", () => {
               ],
             },
             "id": "M00000001",
-            "range": "(1..62]",
+            "range": "(1..64]",
             "type": "slice",
           },
           {
@@ -275,7 +275,7 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(31..50)",
+            "range": "(32..51)",
             "type": "link",
           },
           {
@@ -283,11 +283,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(53..62)",
+            "range": "(55..64)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ byu/the_ginger_one367 inEldenring",
+        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });

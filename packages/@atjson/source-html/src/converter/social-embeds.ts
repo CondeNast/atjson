@@ -421,6 +421,15 @@ export default function (doc: Document) {
         throw new Error("Incorrectly formatted Reddit embed code");
       }
 
+      // For some reason, there is no space before the
+      // user info and the subreddit in the embed code
+      for (let i = links.length - 1; i > 0; i--) {
+        let link = links[i];
+        if (doc.content[link.start - 1] !== " ") {
+          doc.insertText(link.start, " ");
+        }
+      }
+
       doc.replaceAnnotation(
         blockquote,
         new RedditEmbed({
