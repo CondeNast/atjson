@@ -392,10 +392,7 @@ function normalizeMastodonUrl(url: IUrl) {
 }
 
 function isRedditURL(url: IUrl) {
-  return (
-    (url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/")) ||
-    (url.host === "www.reddit.com" && url.pathname.startsWith("/r/"))
-  );
+  return url.host === "www.reddit.com" && url.pathname.startsWith("/r/");
 }
 
 function normalizeRedditURL(url: IUrl) {

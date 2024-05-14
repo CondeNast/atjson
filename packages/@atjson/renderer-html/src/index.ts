@@ -16,6 +16,7 @@ import {
   ListItem,
   MastodonEmbed,
   Paragraph,
+  RedditEmbed,
   Section,
   Table,
   TextAlignment,
@@ -286,6 +287,30 @@ export default class HTMLRenderer extends Renderer {
     }).join(" ")}>${THREADS_SCAFFOLD}${
       content ? this.render(content) : `Post by ${handle}`
     }</div> <div style=" font-size: 15px; line-height: 21px; color: #000000; font-weight: 600; "> View on Threads</div></div></a></blockquote><script async src="https://www.threads.net/embed.js"></script>`;
+  }
+
+  *RedditEmbed(embed: Block<RedditEmbed>) {
+    let content = this.getSlice(embed.attributes.content);
+    let attrs = this.htmlAttributes({
+      class: "reddit-embed-bq",
+      style: "height:500px",
+      id: embed.attributes.anchorName,
+      "data-embed-height": embed.attributes.height.toString(),
+      "data-embed-showusername": embed.attributes.hideUsername
+        ? "false"
+        : undefined,
+      "data-embed-showmedia": embed.attributes.hidePostContent
+        ? "false"
+        : undefined,
+      "data-embed-showedits": embed.attributes.hidePostContentIfEditedAfter
+        ? "false"
+        : undefined,
+      "data-embed-created": embed.attributes.hidePostContentIfEditedAfter,
+    });
+
+    return `<blockquote ${attrs.join(" ")}>${
+      content ? this.render(content) : ""
+    }</blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>`;
   }
 
   *InstagramEmbed(embed: Block<InstagramEmbed>) {

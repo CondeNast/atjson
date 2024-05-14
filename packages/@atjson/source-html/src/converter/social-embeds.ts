@@ -11,6 +11,7 @@ import {
   BlueskyEmbed,
   LineBreak,
   MastodonEmbed,
+  RedditEmbed,
   SocialURLs,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
@@ -376,6 +377,73 @@ export default function (doc: Document) {
 
         doc.removeAnnotation(div);
       }
+    });
+
+  /**
+   * Reddit embeds structure:
+   *   <blockquote class="reddit-embed-bq" ...>
+   *     ...
+   *   </blockquote>
+   *   <script async="" src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>
+   */
+  doc
+    .where(function isRedditBlockquote(a) {
+      return is(a, Blockquote) && a.attributes.class === "reddit-embed-bq";
+    })
+    .as("blockquote")
+    .join(doc.where({ type: "-html-a" }).as("links"), aCoversB)
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterBlockquote({ blockquote }, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          src != null &&
+          src.includes("embed.reddit.com")
+        );
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      links,
+      scripts,
+    }) {
+      let content = new SliceAnnotation({
+        start: blockquote.start + 1,
+        end: blockquote.end,
+        attributes: {
+          refs: [blockquote.id],
+        },
+      });
+      let url = (links[0] as Anchor).attributes.href;
+      if (url == null) {
+        throw new Error("Incorrectly formatted Reddit embed code");
+      }
+
+      doc.replaceAnnotation(
+        blockquote,
+        new RedditEmbed({
+          id: blockquote.id,
+          start: blockquote.start,
+          end: blockquote.end,
+          attributes: {
+            url,
+            content: blockquote.id,
+            height: parseInt(blockquote.attributes.dataset["embed-height"], 10),
+            hideUsername:
+              blockquote.attributes.dataset["embed-showusername"] === "false",
+            hidePostContent:
+              blockquote.attributes.dataset["embed-showmedia"] === "false",
+            hidePostContentIfEditedAfter:
+              blockquote.attributes.dataset["embed-showedits"] === "false"
+                ? blockquote.attributes.dataset["embed-created"]
+                : undefined,
+          },
+        }),
+        content
+      );
+      doc.removeAnnotations(scripts);
     });
 
   /**
