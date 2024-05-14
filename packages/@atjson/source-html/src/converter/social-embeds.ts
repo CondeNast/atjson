@@ -10,10 +10,11 @@ import Document, {
 import {
   BlueskyEmbed,
   LineBreak,
+  MastodonEmbed,
   SocialURLs,
   TikTokEmbed,
 } from "@atjson/offset-annotations";
-import { Script, Anchor, Blockquote } from "../annotations";
+import { Script, Anchor, Blockquote, Iframe } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
@@ -650,6 +651,42 @@ export default function (doc: Document) {
         );
         doc.removeAnnotations(paragraphs);
       }
+      doc.removeAnnotations(scripts);
+    });
+
+  /**
+   * Mastodon embed structure:
+   *   <iframe class="mastodon-embed" ...></iframe>
+   *   <script src=".../embed.js" async="async"></script>
+   */
+  doc
+    .where(function isMastodonIframe(a) {
+      return is(a, Iframe) && a.attributes.class === "mastodon-embed";
+    })
+    .as("iframe")
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterIframe(iframe, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === iframe.end || script.start === iframe.end + 1) &&
+          src != null
+        );
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({ iframe, scripts }) {
+      let url = iframe.attributes.src.replace(/\/embed*/, "");
+      doc.replaceAnnotation(
+        iframe,
+        new MastodonEmbed({
+          id: iframe.id,
+          start: iframe.start,
+          end: iframe.end,
+          attributes: {
+            url,
+          },
+        })
+      );
 
       doc.removeAnnotations(scripts);
     });

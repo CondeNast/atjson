@@ -24,6 +24,7 @@ export * from "./line-break";
 export * from "./link";
 export * from "./list";
 export * from "./list-item";
+export * from "./mastodon-embed";
 export * from "./paragraph";
 export * from "./pinterest-embed";
 export * from "./pullquote";
