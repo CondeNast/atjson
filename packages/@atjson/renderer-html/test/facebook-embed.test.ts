@@ -49,7 +49,6 @@ describe("FacebookEmbed", () => {
             type: "line-break",
           },
         ],
-
         marks: [
           {
             attributes: {
@@ -76,8 +75,7 @@ describe("FacebookEmbed", () => {
             type: "link",
           },
         ],
-
-        text: `￼Next stop of the exhibition "BTHVN on Tour" is in Boston!￼Posted by Ludwig van Beethoven on Thursday, October 24, 2019`,
+        text: `\uFFFCNext stop of the exhibition "BTHVN on Tour" is in Boston!\uFFFCPosted by Ludwig van Beethoven on\u00a0Thursday, October 24, 2019`,
       })
     ).toMatchInlineSnapshot(
       `"<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text><blockquote class="fb-xfbml-parse-ignore" cite="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743"><br />Posted by Ludwig van Beethoven on&#xa0;Thursday, October 24, 2019</blockquote></div>"`

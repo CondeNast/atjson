@@ -90,7 +90,7 @@ describe("FacebookEmbed", () => {
             "type": "link",
           },
         ],
-        "text": "￼Next stop of the exhibition "BTHVN on Tour" is in Boston!￼Posted by Ludwig van Beethoven on Thursday, October 24, 2019",
+        "text": "￼Next stop of the exhibition "BTHVN on Tour" is in Boston!￼Posted by Ludwig van Beethoven on\u00a0Thursday, October 24, 2019",
       }
     `);
   });
