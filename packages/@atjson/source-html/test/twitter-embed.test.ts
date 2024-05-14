@@ -5,7 +5,7 @@ import { serialize } from "@atjson/document";
 describe("TwitterEmbed (x.com / twitter.com)", () => {
   test("embed", () => {
     let doc = HTMLSource.fromRaw(
-      `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Hope you had a great start to your week, New York City! <a href="https://t.co/9skas4Bady">pic.twitter.com/9skas4Bady</a></p>&mdash; City of New York (@nycgov) <a href="https://twitter.com/nycgov/status/1191528054608334848?ref_src=twsrc%5Etfw">November 5, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`
+      `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Respect the drip, twerp. <a href="https://t.co/f5OF4ikSFj">pic.twitter.com/f5OF4ikSFj</a></p>&mdash; Pokémon (@Pokemon) <a href="https://twitter.com/Pokemon/status/1227294189185949696?ref_src=twsrc%5Etfw">February 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -14,7 +14,7 @@ describe("TwitterEmbed (x.com / twitter.com)", () => {
           {
             "attributes": {
               "content": "M00000000",
-              "url": "https://twitter.com/nycgov/status/1191528054608334848",
+              "url": "https://twitter.com/Pokemon/status/1227294189185949696",
             },
             "id": "B00000000",
             "parents": [],
@@ -28,23 +28,17 @@ describe("TwitterEmbed (x.com / twitter.com)", () => {
               "twitter-embed",
             ],
             "selfClosing": false,
-            "type": "paragraph",
+            "type": "text",
           },
           {
             "attributes": {},
             "id": "B00000002",
             "parents": [
               "twitter-embed",
+              "text",
             ],
-            "selfClosing": false,
-            "type": "text",
-          },
-          {
-            "attributes": {},
-            "id": "B00000003",
-            "parents": [],
-            "selfClosing": false,
-            "type": "text",
+            "selfClosing": true,
+            "type": "line-break",
           },
         ],
         "marks": [
@@ -55,27 +49,27 @@ describe("TwitterEmbed (x.com / twitter.com)", () => {
               ],
             },
             "id": "M00000000",
-            "range": "(1..130]",
+            "range": "(1..92]",
             "type": "slice",
           },
           {
             "attributes": {
-              "url": "https://t.co/9skas4Bady",
+              "url": "https://t.co/f5OF4ikSFj",
             },
             "id": "M00000001",
-            "range": "(58..84)",
+            "range": "(27..53)",
             "type": "link",
           },
           {
             "attributes": {
-              "url": "https://twitter.com/nycgov/status/1191528054608334848?ref_src=twsrc^tfw",
+              "url": "https://twitter.com/Pokemon/status/1227294189185949696?ref_src=twsrc^tfw",
             },
             "id": "M00000002",
-            "range": "(114..130)",
+            "range": "(75..92)",
             "type": "link",
           },
         ],
-        "text": "￼￼Hope you had a great start to your week, New York City! pic.twitter.com/9skas4Bady￼— City of New York (@nycgov) November 5, 2019￼ ",
+        "text": "￼￼Respect the drip, twerp. pic.twitter.com/f5OF4ikSFj￼— Pokémon (@Pokemon) February 11, 2020",
       }
     `);
   });

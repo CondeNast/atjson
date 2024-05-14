@@ -88,6 +88,12 @@ export default function (doc: Document) {
     .where(isTwitterEmbed)
     .as("blockquote")
     .join(doc.where({ type: "-html-a" }).as("links"), aCoversB)
+    .join(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      ({ blockquote }, p) => {
+        return aCoversB(blockquote, p);
+      }
+    )
     .outerJoin(
       doc.where({ type: "-html-script" }).as("scripts"),
       function scriptRightAfterBlockquote({ blockquote }, script: Script) {
@@ -101,6 +107,7 @@ export default function (doc: Document) {
     )
     .update(function joinBlockQuoteWithLinksAndScripts({
       blockquote,
+      paragraphs,
       links,
       scripts,
     }) {
@@ -127,6 +134,17 @@ export default function (doc: Document) {
           },
         });
 
+        let paragraph = paragraphs[0];
+        if (paragraph) {
+          doc.replaceAnnotation(
+            paragraphs[0],
+            new LineBreak({
+              start: paragraph.end,
+              end: paragraph.end,
+            })
+          );
+        }
+
         doc.replaceAnnotation(
           blockquote,
           new Class({
@@ -138,10 +156,15 @@ export default function (doc: Document) {
               content: content.id,
             },
           }),
-          content
+          content,
+          new TextAnnotation({
+            start: paragraph.start,
+            end: blockquote.end,
+          })
         );
 
         doc.removeAnnotations(scripts);
+        doc.deleteText(blockquote.end, scripts[0].start);
       }
     });
 
