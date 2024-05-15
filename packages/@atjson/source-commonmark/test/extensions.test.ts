@@ -107,4 +107,14 @@ describe("tables", () => {
       serialize(doc.convertTo(OffsetSource), { withStableIds: true })
     ).toMatchSnapshot();
   });
+
+  test("adjacent tables", () => {
+    let doc = MarkdownItSource.fromRaw(
+      tableExample + "\n" + tableExample
+    ).withStableIds();
+
+    expect(
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+    ).toMatchSnapshot();
+  });
 });
