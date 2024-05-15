@@ -128,14 +128,13 @@ function normalizeInstagramReelURL(url: IUrl) {
 // Threads
 // - www.threads.net/:handle/post/:id
 function isThreadsURL(url: IUrl) {
-  return (
-    url.host === "threads.net" &&
-    !!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+/)
-  );
+  return url.host === "threads.net";
 }
 
 function normalizeThreadsURL(url: IUrl) {
-  let [username, , id] = without<string>(url.pathname.split("/"), "");
+  const parts = url.pathname.split("/");
+  const username = parts[1];
+  const id = parts[3];
   return {
     attributes: {
       url: `https://threads.net/@${username}/post/${id}`,
