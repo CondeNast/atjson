@@ -4,8 +4,6 @@ import {
   compareAnnotations,
   Annotation,
   TextAnnotation,
-  ParseAnnotation,
-  AdjacentBoundaryBehaviour,
 } from "@atjson/document";
 
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
