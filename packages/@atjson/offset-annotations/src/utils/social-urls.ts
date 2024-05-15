@@ -433,15 +433,7 @@ function normalizeRedditURL(url: IUrl) {
   };
 }
 
-export function identify(url: IUrl): {
-  attributes: {
-    url: string;
-    width?: string;
-    height?: string;
-    sandbox?: string;
-  };
-  Class: typeof IframeEmbed;
-} | null {
+export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }
