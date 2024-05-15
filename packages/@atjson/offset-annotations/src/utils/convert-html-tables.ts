@@ -91,24 +91,6 @@ export function convertHTMLTablesToDataSet(
       return;
     }
 
-    doc.insertText(
-      table.start,
-      "\uFFFC",
-      AdjacentBoundaryBehaviour.preserveLeading
-    );
-    doc.annotations.push(
-      new ParseAnnotation({ start: table.start - 1, end: table.start })
-    );
-
-    let dataSet = new DataSet({
-      start: table.start - 1,
-      end: table.start,
-      attributes: {
-        schema: {},
-        records: [],
-      },
-    });
-
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
@@ -232,10 +214,14 @@ export function convertHTMLTablesToDataSet(
 
     tableRows.remove();
 
-    dataSet.attributes = {
-      schema: Object.fromEntries(dataSetSchemaEntries),
-      records: dataRows,
-    };
+    let dataSet = new DataSet({
+      start: table.start,
+      end: table.end,
+      attributes: {
+        schema: Object.fromEntries(dataSetSchemaEntries),
+        records: dataRows,
+      },
+    });
 
     let offsetTable = new Table({
       ...table,
