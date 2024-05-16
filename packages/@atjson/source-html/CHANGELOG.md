@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.37.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.37.1...@atjson/source-html@0.37.2) (2024-05-16)
+
+### Bug Fixes
+
+- update snapshots ([9319e6a](https://github.com/CondeNast/atjson/commit/9319e6a24e452a4497a261ed6a6573115ae9c15f))
+
 ## 0.37.1 (2024-05-08)
 
 ### Bug Fixes

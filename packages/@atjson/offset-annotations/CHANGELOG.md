@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.49.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.1...@atjson/offset-annotations@0.49.2) (2024-05-16)
+
+### Bug Fixes
+
+- lint ([a140da0](https://github.com/CondeNast/atjson/commit/a140da02d5849848b4775710d6397efdf6f46495))
+- wrap dataset around table ([c0373c8](https://github.com/CondeNast/atjson/commit/c0373c8780ffd62466e3c1822191fa23c2ab5d0d))
+
 ## 0.49.1 (2024-05-08)
 
 ### Bug Fixes
