@@ -240,9 +240,9 @@ describe("SocialURLs", () => {
   describe("identify Threads", () => {
     test.each([
       [
-        "https://www.threads.net/@bbc/post/CuZrQ2osUpi",
+        "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
         {
-          url: "https://www.threads.net/@bbc/post/CuZrQ2osUpi",
+          url: "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
         },
       ],
     ])("%s", (url, attributes) => {
