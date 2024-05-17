@@ -737,7 +737,7 @@ describe("@atjson/source-html", () => {
                 "id": "B00000000",
                 "parents": [],
                 "selfClosing": false,
-                "type": "twitter-embed",
+                "type": "threads-embed",
               },
             ],
             "marks": [],
