@@ -10,7 +10,7 @@ function getEmbed(
       blocks: [
         {
           attributes: {
-            content: "B00000000",
+            content: "M00000000",
             ...attributes,
             url: "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
           },
@@ -23,6 +23,13 @@ function getEmbed(
           attributes: {},
           id: "B00000001",
           parents: ["reddit-embed"],
+          selfClosing: false,
+          type: "text",
+        },
+        {
+          attributes: {},
+          id: "B00000002",
+          parents: ["reddit-embed", "text"],
           selfClosing: true,
           type: "line-break",
         },
@@ -30,26 +37,26 @@ function getEmbed(
       marks: [
         {
           attributes: {
-            url: "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+            refs: ["B00000000"],
           },
           id: "M00000000",
-          range: "(1..27)",
-          type: "link",
+          range: "(1..65]",
+          type: "slice",
         },
         {
           attributes: {
-            refs: ["B00000000"],
+            url: "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
           },
           id: "M00000001",
-          range: "(1..62]",
-          type: "slice",
+          range: "(2..28)",
+          type: "link",
         },
         {
           attributes: {
             url: "https://www.reddit.com/user/the_ginger_one367/",
           },
           id: "M00000002",
-          range: "(31..50)",
+          range: "(33..52)",
           type: "link",
         },
         {
@@ -57,11 +64,11 @@ function getEmbed(
             url: "https://www.reddit.com/r/Eldenring/",
           },
           id: "M00000003",
-          range: "(53..62)",
+          range: "(56..65)",
           type: "link",
         },
       ],
-      text: "￼dude just slap me and left￼ byu/the_ginger_one367 inEldenring",
+      text: "￼￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
     },
     OffsetSource
   );
@@ -76,7 +83,7 @@ describe("RedditEmbed", () => {
         })
       )
     ).toMatchInlineSnapshot(
-      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
+      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546"><a href="https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/">dude just slap me and left</a><br /> by <a href="https://www.reddit.com/user/the_ginger_one367/">u/the_ginger_one367</a> in <a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
     );
   });
 
@@ -89,7 +96,7 @@ describe("RedditEmbed", () => {
         })
       )
     ).toMatchInlineSnapshot(
-      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546" data-embed-showusername="false"></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
+      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546" data-embed-showusername="false"><a href="https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/">dude just slap me and left</a><br /> by <a href="https://www.reddit.com/user/the_ginger_one367/">u/the_ginger_one367</a> in <a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
     );
   });
 
@@ -102,7 +109,7 @@ describe("RedditEmbed", () => {
         })
       )
     ).toMatchInlineSnapshot(
-      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="240" data-embed-showmedia="false"></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
+      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="240" data-embed-showmedia="false"><a href="https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/">dude just slap me and left</a><br /> by <a href="https://www.reddit.com/user/the_ginger_one367/">u/the_ginger_one367</a> in <a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
     );
   });
 
@@ -115,7 +122,7 @@ describe("RedditEmbed", () => {
         })
       )
     ).toMatchInlineSnapshot(
-      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546" data-embed-showedits="false" data-embed-created="2024-05-01T19:46:02.207Z"></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
+      `"<blockquote class="reddit-embed-bq" style="height:500px" data-embed-height="546" data-embed-showedits="false" data-embed-created="2024-05-01T19:46:02.207Z"><a href="https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/">dude just slap me and left</a><br /> by <a href="https://www.reddit.com/user/the_ginger_one367/">u/the_ginger_one367</a> in <a href="https://www.reddit.com/r/Eldenring/">Eldenring</a></blockquote><script async src="https://embed.reddit.com/widgets.js" charset="UTF-8"></script>"`
     );
   });
 });

@@ -409,13 +409,6 @@ export default function (doc: Document) {
       links,
       scripts,
     }) {
-      let content = new SliceAnnotation({
-        start: blockquote.start + 1,
-        end: blockquote.end,
-        attributes: {
-          refs: [blockquote.id],
-        },
-      });
       let url = (links[0] as Anchor).attributes.href;
       if (url == null) {
         throw new Error("Incorrectly formatted Reddit embed code");
@@ -429,6 +422,15 @@ export default function (doc: Document) {
           doc.insertText(link.start, " ");
         }
       }
+      doc.insertText(blockquote.start, "\uFFFC");
+
+      let content = new SliceAnnotation({
+        start: blockquote.start + 1,
+        end: blockquote.end,
+        attributes: {
+          refs: [blockquote.id],
+        },
+      });
 
       doc.replaceAnnotation(
         blockquote,
@@ -438,7 +440,7 @@ export default function (doc: Document) {
           end: blockquote.end,
           attributes: {
             url,
-            content: blockquote.id,
+            content: content?.id,
             height: parseInt(blockquote.attributes.dataset["embed-height"], 10),
             hideUsername:
               blockquote.attributes.dataset["embed-showusername"] === "false",
@@ -450,7 +452,15 @@ export default function (doc: Document) {
                 : undefined,
           },
         }),
-        content
+        content,
+        new ParseAnnotation({
+          start: blockquote.start - 1,
+          end: blockquote.start,
+        }),
+        new TextAnnotation({
+          start: blockquote.start + 1,
+          end: blockquote.end,
+        })
       );
       doc.removeAnnotations(scripts);
     });

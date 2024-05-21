@@ -13,7 +13,7 @@ describe("RedditEmbed", () => {
         "blocks": [
           {
             "attributes": {
-              "content": "B00000000",
+              "content": "M00000000",
               "height": 740,
               "hidePostContent": false,
               "hideUsername": false,
@@ -30,6 +30,16 @@ describe("RedditEmbed", () => {
             "parents": [
               "reddit-embed",
             ],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000002",
+            "parents": [
+              "reddit-embed",
+              "text",
+            ],
             "selfClosing": true,
             "type": "line-break",
           },
@@ -37,28 +47,28 @@ describe("RedditEmbed", () => {
         "marks": [
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/cats/comments/1cretsi/made_this_mistake_need_help_with_names/",
-            },
-            "id": "M00000000",
-            "range": "(1..41)",
-            "type": "link",
-          },
-          {
-            "attributes": {
               "refs": [
                 "B00000000",
               ],
             },
-            "id": "M00000001",
-            "range": "(1..62]",
+            "id": "M00000000",
+            "range": "(1..63]",
             "type": "slice",
+          },
+          {
+            "attributes": {
+              "url": "https://www.reddit.com/r/cats/comments/1cretsi/made_this_mistake_need_help_with_names/",
+            },
+            "id": "M00000001",
+            "range": "(2..42)",
+            "type": "link",
           },
           {
             "attributes": {
               "url": "https://www.reddit.com/user/niccia/",
             },
             "id": "M00000002",
-            "range": "(46..54)",
+            "range": "(47..55)",
             "type": "link",
           },
           {
@@ -66,11 +76,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/cats/",
             },
             "id": "M00000003",
-            "range": "(58..62)",
+            "range": "(59..63)",
             "type": "link",
           },
         ],
-        "text": "￼Made this mistake. Need help with names.￼ by u/niccia in cats",
+        "text": "￼￼Made this mistake. Need help with names.￼ by u/niccia in cats",
       }
     `);
   });
@@ -85,7 +95,7 @@ describe("RedditEmbed", () => {
         "blocks": [
           {
             "attributes": {
-              "content": "B00000000",
+              "content": "M00000000",
               "height": 240,
               "hidePostContent": true,
               "hideUsername": false,
@@ -102,6 +112,16 @@ describe("RedditEmbed", () => {
             "parents": [
               "reddit-embed",
             ],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000002",
+            "parents": [
+              "reddit-embed",
+              "text",
+            ],
             "selfClosing": true,
             "type": "line-break",
           },
@@ -109,28 +129,28 @@ describe("RedditEmbed", () => {
         "marks": [
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
-            },
-            "id": "M00000000",
-            "range": "(1..27)",
-            "type": "link",
-          },
-          {
-            "attributes": {
               "refs": [
                 "B00000000",
               ],
             },
-            "id": "M00000001",
-            "range": "(1..64]",
+            "id": "M00000000",
+            "range": "(1..65]",
             "type": "slice",
+          },
+          {
+            "attributes": {
+              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+            },
+            "id": "M00000001",
+            "range": "(2..28)",
+            "type": "link",
           },
           {
             "attributes": {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(32..51)",
+            "range": "(33..52)",
             "type": "link",
           },
           {
@@ -138,11 +158,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(55..64)",
+            "range": "(56..65)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
+        "text": "￼￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });
@@ -157,7 +177,7 @@ describe("RedditEmbed", () => {
         "blocks": [
           {
             "attributes": {
-              "content": "B00000000",
+              "content": "M00000000",
               "height": 546,
               "hidePostContent": false,
               "hideUsername": true,
@@ -174,6 +194,16 @@ describe("RedditEmbed", () => {
             "parents": [
               "reddit-embed",
             ],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000002",
+            "parents": [
+              "reddit-embed",
+              "text",
+            ],
             "selfClosing": true,
             "type": "line-break",
           },
@@ -181,28 +211,28 @@ describe("RedditEmbed", () => {
         "marks": [
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
-            },
-            "id": "M00000000",
-            "range": "(1..27)",
-            "type": "link",
-          },
-          {
-            "attributes": {
               "refs": [
                 "B00000000",
               ],
             },
-            "id": "M00000001",
-            "range": "(1..64]",
+            "id": "M00000000",
+            "range": "(1..65]",
             "type": "slice",
+          },
+          {
+            "attributes": {
+              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+            },
+            "id": "M00000001",
+            "range": "(2..28)",
+            "type": "link",
           },
           {
             "attributes": {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(32..51)",
+            "range": "(33..52)",
             "type": "link",
           },
           {
@@ -210,11 +240,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(55..64)",
+            "range": "(56..65)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
+        "text": "￼￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });
@@ -229,7 +259,7 @@ describe("RedditEmbed", () => {
         "blocks": [
           {
             "attributes": {
-              "content": "B00000000",
+              "content": "M00000000",
               "height": 546,
               "hidePostContent": false,
               "hidePostContentIfEditedAfter": "2024-05-01T19:46:02.207Z",
@@ -247,6 +277,16 @@ describe("RedditEmbed", () => {
             "parents": [
               "reddit-embed",
             ],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000002",
+            "parents": [
+              "reddit-embed",
+              "text",
+            ],
             "selfClosing": true,
             "type": "line-break",
           },
@@ -254,28 +294,28 @@ describe("RedditEmbed", () => {
         "marks": [
           {
             "attributes": {
-              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
-            },
-            "id": "M00000000",
-            "range": "(1..27)",
-            "type": "link",
-          },
-          {
-            "attributes": {
               "refs": [
                 "B00000000",
               ],
             },
-            "id": "M00000001",
-            "range": "(1..64]",
+            "id": "M00000000",
+            "range": "(1..65]",
             "type": "slice",
+          },
+          {
+            "attributes": {
+              "url": "https://www.reddit.com/r/Eldenring/comments/tusanf/dude_just_slap_me_and_left/",
+            },
+            "id": "M00000001",
+            "range": "(2..28)",
+            "type": "link",
           },
           {
             "attributes": {
               "url": "https://www.reddit.com/user/the_ginger_one367/",
             },
             "id": "M00000002",
-            "range": "(32..51)",
+            "range": "(33..52)",
             "type": "link",
           },
           {
@@ -283,11 +323,11 @@ describe("RedditEmbed", () => {
               "url": "https://www.reddit.com/r/Eldenring/",
             },
             "id": "M00000003",
-            "range": "(55..64)",
+            "range": "(56..65)",
             "type": "link",
           },
         ],
-        "text": "￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
+        "text": "￼￼dude just slap me and left￼ by u/the_ginger_one367 in Eldenring",
       }
     `);
   });
