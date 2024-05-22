@@ -1,8 +1,9 @@
 import {
-  IframeEmbed,
   FacebookEmbed,
   GiphyEmbed,
+  IframeEmbed,
   InstagramEmbed,
+  MastodonEmbed,
   PinterestEmbed,
   ThreadsEmbed,
   TikTokEmbed,
@@ -376,6 +377,20 @@ function normalizeTikTokUrl(url: IUrl) {
   };
 }
 
+// For now, we'll support the mastodon.social server
+function isMastodonUrl(url: IUrl) {
+  return url.host === "mastodon.social";
+}
+
+function normalizeMastodonUrl(url: IUrl) {
+  return {
+    Class: MastodonEmbed,
+    attributes: {
+      url: `${url.protocol}//${url.host}${url.pathname}`,
+    },
+  };
+}
+
 function isRedditURL(url: IUrl) {
   return (
     (url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/")) ||
@@ -463,6 +478,10 @@ export function identify(url: IUrl) {
 
   if (isTikTokUrl(url)) {
     return normalizeTikTokUrl(url);
+  }
+
+  if (isMastodonUrl(url)) {
+    return normalizeMastodonUrl(url);
   }
 
   return null;
