@@ -1,22 +1,15 @@
 import { BlockAnnotation } from "@atjson/document";
-/**
- * An Accordion contains a collection of accordion items that
- * are arranged vertically.
- * Each accordion item contains a header and a panel
- * The header contains the title of the content in the panel
- * The panel could contain text, pictures, embeds, videos
- *
- */
+
 export class Accordion extends BlockAnnotation<{
   /**
-   * A named identifier used to represent the layout
-   * like full page width or half
+   * A named identifier used to store the title of the
+   * content in the panel
    */
-  layout?: string;
+  header: string;
   /**
-   * A named identifier used to quickly jump to this item
+   * A named identifier used to store the content
    */
-  anchorName?: string;
+  panel: string;
 }> {
   static type = "accordion";
   static vendorPrefix = "offset";

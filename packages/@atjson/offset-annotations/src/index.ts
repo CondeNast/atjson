@@ -39,8 +39,8 @@ import {
   TwitterEmbed,
   Underline,
   VideoEmbed,
+  AccordionGroup,
   Accordion,
-  AccordionItem,
 } from "./annotations";
 
 export * from "./annotations";
@@ -88,7 +88,7 @@ export default class OffsetSource extends Document {
     TwitterEmbed,
     Underline,
     VideoEmbed,
+    AccordionGroup,
     Accordion,
-    AccordionItem,
   ];
 }
