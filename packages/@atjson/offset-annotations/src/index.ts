@@ -1,5 +1,7 @@
 import Document from "@atjson/document";
 import {
+  Accordion,
+  AccordionGroup,
   Blockquote,
   Bold,
   CerosEmbed,
@@ -39,8 +41,6 @@ import {
   TwitterEmbed,
   Underline,
   VideoEmbed,
-  AccordionGroup,
-  Accordion,
 } from "./annotations";
 
 export * from "./annotations";
