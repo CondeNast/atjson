@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.50.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.2...@atjson/offset-annotations@0.50.0-dev.0) (2024-05-27)
+
+### Features
+
+- accordion and accordion item ([a219e02](https://github.com/CondeNast/atjson/commit/a219e0222f3928090e34a848550b44477adcf620))
+- accordion and accordion item ([3b7d865](https://github.com/CondeNast/atjson/commit/3b7d8651101f66b410d168ab42688d60f6c6bb09))
+- change annotation names ([ec2b12b](https://github.com/CondeNast/atjson/commit/ec2b12bb2d2eed6f0e41a11ee3ffa5c524e42ba8))
+- change annotation names ([e24d1de](https://github.com/CondeNast/atjson/commit/e24d1def5629128197e8f785d83687050b530d13))
+- reorder annotation names ([5323bc6](https://github.com/CondeNast/atjson/commit/5323bc682807672e663c806a5be59beb70f5e6e7))
+
 ## [0.49.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.1...@atjson/offset-annotations@0.49.2) (2024-05-16)
 
 ### Bug Fixes
