@@ -131,12 +131,13 @@ function isThreadsURL(url: IUrl) {
 }
 
 function normalizeThreadsURL(url: IUrl) {
-  let [username, , id] = without<string>(url.pathname.split("/"), "");
+  let [username, , postId] = without<string>(url.pathname.split("/"), "");
 
   return {
     attributes: {
-      url: `https://www.threads.net/${username}/post/${id}`,
-      username: `${username}`,
+      url: `https://www.threads.net/${username}/post/${postId}`,
+      username,
+      postId,
     },
     Class: ThreadsEmbed,
   };

@@ -243,6 +243,8 @@ describe("SocialURLs", () => {
         "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
         {
           url: "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
+          username: "@voguemagazine",
+          postId: "C6v2RQfMvKS",
         },
       ],
     ])("%s", (url, attributes) => {

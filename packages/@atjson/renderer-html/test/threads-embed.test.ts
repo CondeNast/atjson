@@ -12,6 +12,8 @@ describe("ThreadsEmbed", () => {
           end: 1,
           attributes: {
             url: "https://www.threads.net/@vogueindia/post/CylPJw5r3s8",
+            username: "@vogueindia",
+            postId: "CylPJw5r3s8",
           },
         }),
         new ParseAnnotation({
