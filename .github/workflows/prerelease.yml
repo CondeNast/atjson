@@ -2,7 +2,7 @@ name: Pre-release
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 jobs:
   lerna_publish:
