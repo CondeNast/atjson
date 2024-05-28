@@ -16,7 +16,7 @@ export class AccordionGroup extends BlockAnnotation<{
   /**
    * A named identifier used to quickly jump to this item
    */
-  anchorName?: string;
+  anchorName2?: string;
 }> {
   static type = "accordion-group";
   static vendorPrefix = "offset";
