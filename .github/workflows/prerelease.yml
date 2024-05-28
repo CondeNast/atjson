@@ -1,9 +1,8 @@
 name: Pre-release
-on: [push]
 
-# on:
-#   issue_comment:
-#     types: [created]
+on:
+  issue_comment:
+    types: [created, edited]
 
 jobs:
   lerna_publish:
