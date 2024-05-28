@@ -9,14 +9,14 @@ export class ThreadsEmbed extends BlockAnnotation<{
   content?: string;
 
   /**
-   * A named identifier used to quickly jump to this item
-   */
-  anchorName?: string;
-
-  /**
    * Name of the account
    */
   username?: string;
+
+  /**
+   * Id of the Threads post
+   */
+  postId?: string;
 }> {
   static type = "threads-embed";
   static vendorPrefix = "offset";
