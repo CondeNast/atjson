@@ -14,7 +14,7 @@ export class AccordionGroup extends BlockAnnotation<{
    */
   layout?: string;
   /**
-   * A named identifier used to quickly jump to this item
+   * A named identifier used to jump to this item
    */
   anchorName?: string;
 }> {
