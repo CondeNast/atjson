@@ -1,5 +1,4 @@
 name: Pre-release
-
 on:
   issue_comment:
     types: [created]
