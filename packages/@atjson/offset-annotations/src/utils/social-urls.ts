@@ -136,6 +136,7 @@ function normalizeThreadsURL(url: IUrl) {
   return {
     attributes: {
       url: `https://www.threads.net/${username}/post/${id}`,
+      username: `${username}`,
     },
     Class: ThreadsEmbed,
   };
