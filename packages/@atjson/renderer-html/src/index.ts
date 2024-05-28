@@ -263,33 +263,6 @@ export default class HTMLRenderer extends Renderer {
     return yield* this.$("p", { id: paragraph.attributes.anchorName, style });
   }
 
-  // *ThreadsEmbed(embed: Block<ThreadsEmbed>) {
-  //   let slice =
-  //     embed.attributes.content != null &&
-  //     this.getSlice(embed.attributes.content);
-
-  //   return `<blockquote ${this.htmlAttributes({
-  //     id: embed.attributes.anchorName,
-  //     class: "text-post-media",
-  //     "data-text-post-permalink": embed.attributes.url,
-  //     "data-text-post-version": "0",
-  //     style:
-  //       "background:#FFF; border-width: 1px; border-style: solid; border-color: #00000026; border-radius: 16px; max-width:540px; margin: 1px; min-width:270px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);",
-  //   }).join(" ")}><a ${this.htmlAttributes({
-  //     href: embed.attributes.url,
-  //     style:
-  //       "background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%; font-family: -apple-system, BlinkMacSystemFont, sans-serif;",
-  //     target: "_blank",
-  //   }).join(" ")}>${THREADS_SCAFFOLD}</a> <div ${this.htmlAttributes({
-  //     style:
-  //       "font-size: 15px; line-height: 21px; color: #999999; font-weight: 400; padding-bottom: 4px;",
-  //   }).join(" ")}> <a ${this.htmlAttributes({
-  //     href: embed.attributes.username,
-  //   }).join(" ")}>${slice ? this.render(slice) : `A post by `}</a></div> ${
-  //     slice ? this.render(slice) : `View on Threads`
-  //   } </blockquote><script async src="https://www.threads.net/embed.js"></script>`;
-  // }
-
   *ThreadsEmbed(embed: Block<ThreadsEmbed>) {
     return `<blockquote ${this.htmlAttributes({
       class: "text-post-media",
