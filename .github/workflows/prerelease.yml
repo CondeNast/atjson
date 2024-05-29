@@ -70,8 +70,8 @@ jobs:
         id: publish
         run: |
           npx lerna publish\
-            --dist-tag "${BRANCH_NAME}"\
-            --preid "${BRANCH_NAME}"\
+            --dist-tag "echo ${BRANCH_NAME//\//_}"\
+            --preid "echo ${BRANCH_NAME//\//_}"\
             --canary\
             -m 'chore(prerelease): publish'\
             --yes\
