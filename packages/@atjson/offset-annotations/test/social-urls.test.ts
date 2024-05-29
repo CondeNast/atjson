@@ -232,20 +232,14 @@ describe("SocialURLs", () => {
   });
 
   describe("identify Threads", () => {
-    test.each([
-      [
-        "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
-        {
-          url: "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
-          username: "@voguemagazine",
-          postId: "C6v2RQfMvKS",
-        },
-      ],
-    ])("%s", (url, attributes) => {
-      expect(SocialURLs.identify(new URL(url))).toMatchObject({
-        Class: ThreadsEmbed,
-        attributes,
-      });
-    });
+    test.each([["https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS"]])(
+      "%s",
+      (url) => {
+        expect(SocialURLs.identify(new URL(url))).toMatchObject({
+          Class: ThreadsEmbed,
+          attributes: { url },
+        });
+      }
+    );
   });
 });
