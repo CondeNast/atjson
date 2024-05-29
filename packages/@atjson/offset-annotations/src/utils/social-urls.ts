@@ -131,15 +131,11 @@ function isThreadsURL(url: IUrl) {
 }
 
 function normalizeThreadsURL(url: IUrl) {
-  let [username, , postId] = without<string>(url.pathname.split("/"), "");
-
   return {
-    attributes: {
-      url: `https://www.threads.net/${username}/post/${postId}`,
-      username,
-      postId,
-    },
     Class: ThreadsEmbed,
+    attributes: {
+      url: `${url.protocol}//${url.host}${url.pathname}`,
+    },
   };
 }
 
@@ -424,6 +420,7 @@ export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }
+
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }

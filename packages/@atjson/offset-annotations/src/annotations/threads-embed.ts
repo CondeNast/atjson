@@ -2,21 +2,20 @@ import { BlockAnnotation } from "@atjson/document";
 
 export class ThreadsEmbed extends BlockAnnotation<{
   /**
-   * The URL to the Thread experience.
+   * The URL to the Threads post
    */
   url: string;
 
+  /**
+   * Content of the Threads post, which allows to store
+   * text of the post content if that is wanted.
+   */
   content?: string;
 
   /**
-   * Name of the account
+   * A named identifier used to quickly jump to this item
    */
-  username?: string;
-
-  /**
-   * Id of the Threads post
-   */
-  postId?: string;
+  anchorName?: string;
 }> {
   static type = "threads-embed";
   static vendorPrefix = "offset";
