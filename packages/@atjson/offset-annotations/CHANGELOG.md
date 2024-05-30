@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.50.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.2...@atjson/offset-annotations@0.50.0) (2024-05-30)
+
+### Features
+
+- attribute standardization ([#1685](https://github.com/CondeNast/atjson/issues/1685)) ([36f709f](https://github.com/CondeNast/atjson/commit/36f709f3bcf0e68dd09afd17c69e35b76ea7c7a8))
+
 ## [0.49.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.1...@atjson/offset-annotations@0.49.2) (2024-05-16)
 
 ### Bug Fixes
