@@ -1,4 +1,5 @@
 import { BlockAnnotation } from "@atjson/document";
+import { TextAlignment } from "../utils/enums";
 
 /**
  * A table is a way of displaying tabular or database-like data.
@@ -32,7 +33,7 @@ export class Table extends BlockAnnotation<{
   columns: Array<{
     name: string;
     slice?: string;
-    textAlign?: "left" | "right" | "center";
+    textAlignment?: TextAlignment;
   }>;
 
   /**

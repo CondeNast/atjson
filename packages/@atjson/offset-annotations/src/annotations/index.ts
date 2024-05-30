@@ -1,6 +1,5 @@
 export * from "./blockquote";
 export * from "./bold";
-export * from "./caption-source";
 export * from "./ceros-embed";
 export * from "./cne-audio-embed";
 export * from "./cne-event-registration-embed";
@@ -34,7 +33,6 @@ export * from "./strikethrough";
 export * from "./subscript";
 export * from "./superscript";
 export * from "./table";
-export * from "./telegram-embed";
 export * from "./tiktok-embed";
 export * from "./twitter-embed";
 export * from "./underline";
