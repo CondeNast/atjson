@@ -34,6 +34,7 @@ export * from "./subscript";
 export * from "./superscript";
 export * from "./table";
 export * from "./threads-embed";
+export * from "./tiktok-embed";
 export * from "./twitter-embed";
 export * from "./underline";
 export * from "./video-embed";
