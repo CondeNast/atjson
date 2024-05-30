@@ -4,6 +4,7 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
+  ThreadsEmbed,
   TikTokEmbed,
   TwitterEmbed,
 } from "../annotations";
@@ -120,6 +121,21 @@ function normalizeInstagramReelURL(url: IUrl) {
   return {
     attributes: { url: `https://www.instagram.com/reel/${id}` },
     Class: InstagramEmbed,
+  };
+}
+
+// Threads
+// - www.threads.net/:handle/post/:id
+function isThreadsURL(url: IUrl) {
+  return url.host === "www.threads.net";
+}
+
+function normalizeThreadsURL(url: IUrl) {
+  return {
+    Class: ThreadsEmbed,
+    attributes: {
+      url: `https://${url.host}${url.pathname}`,
+    },
   };
 }
 
@@ -404,12 +420,17 @@ export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }
+
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }
 
   if (isGiphyURL(url)) {
     return normalizeGiphyURL(url);
+  }
+
+  if (isThreadsURL(url)) {
+    return normalizeThreadsURL(url);
   }
 
   if (isInstagramPhotoURL(url)) {

@@ -1,4 +1,10 @@
-import { IframeEmbed, SocialURLs, InstagramEmbed, TwitterEmbed } from "../src";
+import {
+  IframeEmbed,
+  SocialURLs,
+  InstagramEmbed,
+  ThreadsEmbed,
+  TwitterEmbed,
+} from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -229,5 +235,17 @@ describe("SocialURLs", () => {
         attributes,
       });
     });
+  });
+
+  describe("identify Threads", () => {
+    test.each([["https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS"]])(
+      "%s",
+      (url) => {
+        expect(SocialURLs.identify(new URL(url))).toMatchObject({
+          Class: ThreadsEmbed,
+          attributes: { url },
+        });
+      }
+    );
   });
 });
