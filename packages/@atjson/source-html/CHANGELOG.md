@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.39.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.38.0...@atjson/source-html@0.39.0) (2024-05-30)
+
+### Features
+
+- add Threads embed ([#1749](https://github.com/CondeNast/atjson/issues/1749)) ([3c99aa8](https://github.com/CondeNast/atjson/commit/3c99aa863a1b77b3c4c86ad82d889d60e376fa07))
+
 # [0.38.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.37.2...@atjson/source-html@0.38.0) (2024-05-30)
 
 ### Features

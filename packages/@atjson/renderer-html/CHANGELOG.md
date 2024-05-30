@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.34.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.33.0...@atjson/renderer-html@0.34.0) (2024-05-30)
+
+### Features
+
+- add Threads embed ([#1749](https://github.com/CondeNast/atjson/issues/1749)) ([3c99aa8](https://github.com/CondeNast/atjson/commit/3c99aa863a1b77b3c4c86ad82d889d60e376fa07))
+
 # 0.33.0 (2024-05-30)
 
 ### Features
