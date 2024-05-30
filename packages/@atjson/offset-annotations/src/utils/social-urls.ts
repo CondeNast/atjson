@@ -134,7 +134,7 @@ function normalizeThreadsURL(url: IUrl) {
   return {
     Class: ThreadsEmbed,
     attributes: {
-      url: `${url.protocol}//${url.host}${url.pathname}`,
+      url: `https://${url.host}${url.pathname}`,
     },
   };
 }
