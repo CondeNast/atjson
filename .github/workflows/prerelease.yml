@@ -66,17 +66,12 @@ jobs:
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-      - name: Sets MODIFIED_BRANCH_NAME
-        run: |
-          echo "MODIFIED_BRANCH_NAME=${BRANCH_NAME/\//-}" >> $GITHUB_ENV
-        env:
-          BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
       - name: Lerna publish
         id: publish
         run: |
           npx lerna publish\
-            --dist-tag "${MODIFIED_BRANCH_NAME}"\
-            --preid "${MODIFIED_BRANCH_NAME}\
+            --dist-tag "${BRANCH_NAME}"\
+            --preid "${BRANCH_NAME}\
             --canary\
             -m 'chore(prerelease): publish'\
             --yes\
