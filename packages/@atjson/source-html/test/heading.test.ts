@@ -1,4 +1,4 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { TextAlignment } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
 describe("headings", () => {
@@ -25,11 +25,13 @@ describe("headings", () => {
         ["without direction attribute", ""],
       ])("%s", (dir) => {
         describe.each([
-          ["left", "start"],
-          ["center", "center"],
-          ["right", "end"],
-          ["justify", "justify"],
-        ] as const)("%s", (textAlign, alignment) => {
+          ["left", TextAlignment.Start],
+          ["start", TextAlignment.Start],
+          ["center", TextAlignment.Center],
+          ["right", TextAlignment.End],
+          ["end", TextAlignment.End],
+          ["justify", TextAlignment.Justify],
+        ] as const)("%s", (textAlign, textAlignment) => {
           test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
             "%s",
             (tagname) => {
@@ -38,7 +40,7 @@ describe("headings", () => {
               ).convertTo(OffsetSource);
               expect(
                 doc.where({ type: `-offset-heading` }).annotations
-              ).toMatchObject([{ attributes: { alignment } }]);
+              ).toMatchObject([{ attributes: { textAlignment } }]);
             }
           );
         });
@@ -47,10 +49,12 @@ describe("headings", () => {
 
     describe("right to left", () => {
       describe.each([
-        ["left", "end"],
-        ["center", "center"],
-        ["right", "start"],
-        ["justify", "justify"],
+        ["left", TextAlignment.End],
+        ["start", TextAlignment.Start],
+        ["center", TextAlignment.Center],
+        ["right", TextAlignment.Start],
+        ["end", TextAlignment.End],
+        ["justify", TextAlignment.Justify],
       ] as const)("%s", (textAlign) => {
         test.each([["h1"], ["h2"], ["h3"], ["h4"], ["h5"], ["h6"]])(
           "%s",

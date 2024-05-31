@@ -17,9 +17,10 @@ import OffsetSource, {
   DataSet,
   ColumnType,
   Table,
+  TextAlignment,
 } from "@atjson/offset-annotations";
 import GDocsSource from "./source";
-import { Heading as GDocsHeading } from "./annotations";
+import { Alignment, Heading as GDocsHeading } from "./annotations";
 import uuid from "uuid-random";
 
 // eslint-disable-next-line no-control-regex
@@ -34,9 +35,9 @@ const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
 
 const ALIGNMENT = {
   0: undefined,
-  1: "center",
-  2: "end",
-  3: "justify",
+  1: TextAlignment.Center,
+  2: TextAlignment.End,
+  3: TextAlignment.Justify,
 } as const;
 
 function snakecase(text: string) {
@@ -98,7 +99,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
           end: heading.end,
           attributes: {
             level: level as 1 | 2 | 3 | 4 | 5 | 6,
-            alignment: ALIGNMENT[heading.attributes.align],
+            textAlignment: ALIGNMENT[heading.attributes.align],
           },
         })
       );
@@ -224,29 +225,14 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       }
     });
 
-  doc.where({ type: "-gdocs-ps_al" }).update((align) => {
-    let alignment: "start" | "center" | "end" | "justify" | undefined;
-    switch (align.attributes.align) {
-      case 0:
-        alignment = "start";
-        break;
-      case 1:
-        alignment = "center";
-        break;
-      case 2:
-        alignment = "end";
-        break;
-      case 3:
-        alignment = "justify";
-        break;
-    }
+  doc.where({ type: "-gdocs-ps_al" }).update((align: Alignment) => {
     doc.replaceAnnotation(
       align,
       new Paragraph({
         start: align.start,
         end: align.end,
         attributes: {
-          alignment,
+          textAlignment: ALIGNMENT[align.attributes.align],
         },
       })
     );

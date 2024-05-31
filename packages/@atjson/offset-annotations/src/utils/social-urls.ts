@@ -4,7 +4,7 @@ import {
   GiphyEmbed,
   InstagramEmbed,
   PinterestEmbed,
-  TelegramEmbed,
+  ThreadsEmbed,
   TikTokEmbed,
   TwitterEmbed,
 } from "../annotations";
@@ -124,12 +124,32 @@ function normalizeInstagramReelURL(url: IUrl) {
   };
 }
 
+// Threads
+// - www.threads.net/:handle/post/:id
+function isThreadsURL(url: IUrl) {
+  return url.host === "www.threads.net";
+}
+
+function normalizeThreadsURL(url: IUrl) {
+  return {
+    Class: ThreadsEmbed,
+    attributes: {
+      url: `https://${url.host}${url.pathname}`,
+    },
+  };
+}
+
 // Twitter
 // - www.twitter.com/:handle/status/:tweetId
 // - m.twitter.com/:handle/status/:tweetId
+// - www.x.com/:handle/status/:postId
+// - m.x.com/:handle/status/:postId
 function isTwitterURL(url: IUrl) {
   return (
-    (url.host === "twitter.com" || /.*\.twitter\.com$/.test(url.host)) &&
+    (url.host === "x.com" ||
+      /.*\.x\.com$/.test(url.host) ||
+      url.host === "twitter.com" ||
+      /.*\.twitter\.com$/.test(url.host)) &&
     /\/[^\/]+\/status\/[^\/]+/.test(url.pathname)
   );
 }
@@ -356,23 +376,6 @@ function normalizeTikTokUrl(url: IUrl) {
   };
 }
 
-// Telegram URLs
-// Needs to covert post URL (https://t.me/:channelSlug/:postId) to post slug (:channelSlug/:postId)
-// Docs here https://core.telegram.org/widgets/post
-
-function isTelegramUrl(url: IUrl) {
-  return url.host === "t.me";
-}
-
-function normalizeTelegramUrl(url: IUrl) {
-  let [cahnnelSlug, postId] = without<string>(url.pathname.split("/"), "");
-  return {
-    Class: TelegramEmbed,
-    attributes: {
-      url: `${cahnnelSlug}/${postId}`,
-    },
-  };
-}
 function isRedditURL(url: IUrl) {
   return (
     (url.host === "www.redditmedia.com" && url.pathname.startsWith("/r/")) ||
@@ -413,24 +416,21 @@ function normalizeRedditURL(url: IUrl) {
   };
 }
 
-export function identify(url: IUrl): {
-  attributes: {
-    url: string;
-    width?: string;
-    height?: string;
-    sandbox?: string;
-  };
-  Class: typeof IframeEmbed;
-} | null {
+export function identify(url: IUrl) {
   if (isRedditURL(url)) {
     return normalizeRedditURL(url);
   }
+
   if (isFacebookURL(url)) {
     return normalizeFacebookURL(url);
   }
 
   if (isGiphyURL(url)) {
     return normalizeGiphyURL(url);
+  }
+
+  if (isThreadsURL(url)) {
+    return normalizeThreadsURL(url);
   }
 
   if (isInstagramPhotoURL(url)) {
@@ -463,10 +463,6 @@ export function identify(url: IUrl): {
 
   if (isTikTokUrl(url)) {
     return normalizeTikTokUrl(url);
-  }
-
-  if (isTelegramUrl(url)) {
-    return normalizeTelegramUrl(url);
   }
 
   return null;

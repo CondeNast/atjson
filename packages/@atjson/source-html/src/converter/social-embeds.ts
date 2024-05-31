@@ -1,4 +1,10 @@
-import Document, { Annotation, ParseAnnotation } from "@atjson/document";
+import Document, {
+  Annotation,
+  ParseAnnotation,
+  SliceAnnotation,
+  UnknownAnnotation,
+  is,
+} from "@atjson/document";
 import { SocialURLs } from "@atjson/offset-annotations";
 import { Script, Anchor } from "../annotations";
 
@@ -34,6 +40,15 @@ function isFacebookDiv(annotation: Annotation<any>) {
     annotation.attributes.dataset &&
     annotation.attributes.dataset.href &&
     new URL(annotation.attributes.dataset.href).host === "www.facebook.com"
+  );
+}
+
+function isThreadsEmbed(annotation: Annotation<any>) {
+  return (
+    annotation.type === "blockquote" &&
+    annotation.attributes.dataset?.["text-post-permalink"] &&
+    new URL(annotation.attributes.dataset["text-post-permalink"]).host ===
+      "www.threads.net"
   );
 }
 
@@ -77,6 +92,8 @@ export default function (doc: Document) {
           (!src ||
             src.includes("instagram.com") ||
             src.includes("twitter.com") ||
+            src.includes("tiktok.com") ||
+            src.includes("x.com") ||
             src.includes("tiktok.com"))
         );
       }
@@ -162,6 +179,111 @@ export default function (doc: Document) {
       );
     }
   }
+
+  let divs = doc.where({ type: "-html-div" }).as("divs");
+
+  /**
+   * Threads embeds in blockquotes:
+   *   <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.net/{handle}/post/{id}">
+   *     ...
+   *   </blockquote>
+   */
+  doc
+    .where(isThreadsEmbed)
+    .as("blockquote")
+    .join(divs, aCoversB)
+    .outerJoin(
+      doc.where((a) => is(a, UnknownAnnotation)).as("unknown"),
+      ({ blockquote }, unknown) => {
+        return aCoversB(blockquote, unknown);
+      }
+    )
+    .join(
+      doc.where({ type: "-html-a" }).as("links"),
+      ({ blockquote }, link: Anchor) => {
+        return (
+          blockquote.attributes.dataset["text-post-permalink"] ===
+            link.attributes.href && aCoversB(blockquote, link)
+        );
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterBlockquote({ blockquote }, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          (!src || src.includes("www.threads.net"))
+        );
+      }
+    )
+    .outerJoin(
+      doc.where((a) => is(a, ParseAnnotation)).as("parseTokens"),
+      function divParseTokens({ divs }, parseToken) {
+        return divs[divs.length - 2].start === parseToken.start;
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      divs,
+      links,
+      parseTokens,
+      scripts,
+      unknown,
+    }) {
+      let canonicalURL = identifyURL(
+        blockquote.attributes.dataset["text-post-permalink"]
+      );
+
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
+        let contentDiv = divs[divs.length - 2];
+        let start = contentDiv.start;
+        let end = contentDiv.end;
+
+        let content = new SliceAnnotation({
+          start,
+          end,
+          attributes: {
+            refs: [blockquote.id],
+          },
+        });
+
+        doc.replaceAnnotation(
+          blockquote,
+          new Class({
+            id: blockquote.id,
+            start: blockquote.start,
+            end: blockquote.end,
+            attributes: {
+              ...attributes,
+              content: content.id,
+            },
+          }),
+          content
+        );
+
+        for (let parseToken of parseTokens) {
+          if (doc.content[parseToken.end] === " ") {
+            doc.deleteText(parseToken.end, parseToken.end + 1);
+          }
+        }
+        if (doc.content[contentDiv.end] === " ") {
+          doc.deleteText(contentDiv.end, contentDiv.end + 1);
+        }
+
+        doc.removeAnnotations(links);
+        doc.removeAnnotations(unknown);
+        doc.removeAnnotations(divs);
+        doc.removeAnnotations(scripts);
+
+        doc.deleteText(end, scripts[0].end);
+        doc.deleteText(blockquote.start, start);
+      }
+    });
+
+  doc.where((a) => is(a, ParseAnnotation) && a.start === a.end).remove();
 
   // Handle Giphy embeds; they have
   //   <iframe></iframe><p><a>via Giphy</a></p>

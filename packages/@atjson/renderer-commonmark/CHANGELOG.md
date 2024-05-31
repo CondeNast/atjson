@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.2](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.1...@atjson/renderer-commonmark@0.30.2) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/renderer-commonmark
+
+## [0.30.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.0...@atjson/renderer-commonmark@0.30.1) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/renderer-commonmark
+
+# [0.30.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.29.6...@atjson/renderer-commonmark@0.30.0) (2024-05-30)
+
+### Features
+
+- attribute standardization ([#1685](https://github.com/CondeNast/atjson/issues/1685)) ([36f709f](https://github.com/CondeNast/atjson/commit/36f709f3bcf0e68dd09afd17c69e35b76ea7c7a8))
+
 ## [0.29.6](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.29.5...@atjson/renderer-commonmark@0.29.6) (2024-05-16)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
