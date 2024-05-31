@@ -575,12 +575,19 @@ export default function (doc: Document) {
     )
     .outerJoin(
       doc.where({ type: "-html-p" }).as("paragraphs"),
-      function scriptRightAfterIframe({ blockquote }, p) {
+      function paragraphsInBlockquote({ blockquote }, p) {
         return aCoversB(blockquote, p);
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-a" }).as("links"),
+      function linksInBlockquote({ blockquote }, a) {
+        return aCoversB(blockquote, a);
       }
     )
     .update(function joinBlockQuoteWithLinksAndScripts({
       blockquote,
+      links,
       paragraphs,
       scripts,
     }) {
@@ -592,6 +599,13 @@ export default function (doc: Document) {
           refs: [blockquote.id],
         },
       });
+      let postLink = links.find(
+        (link) => link.attributes.href.indexOf("/post/") != -1
+      );
+      let url = postLink?.attributes.href.slice(
+        0,
+        postLink?.attributes.href.indexOf("?")
+      );
 
       doc.replaceAnnotation(
         blockquote,
@@ -602,6 +616,7 @@ export default function (doc: Document) {
           attributes: {
             uri: blockquote.attributes.dataset["bluesky-uri"],
             cid: blockquote.attributes.dataset["bluesky-cid"],
+            url,
             content: content?.id,
           },
         }),

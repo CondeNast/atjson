@@ -16,6 +16,7 @@ describe("BlueskyEmbed", () => {
               "cid": "bafyreicg7axsdp6b7f4uj75ggdfhrdl52cqpjah45scox3prmqflwg557i",
               "content": "M00000000",
               "uri": "at://did:plc:xrr5j2okn7ew2zvcwsxus3gb/app.bsky.feed.post/3kshwuxmy5o2y",
+              "url": "https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb/post/3kshwuxmy5o2y",
             },
             "id": "B00000000",
             "parents": [],

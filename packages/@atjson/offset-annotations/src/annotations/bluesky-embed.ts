@@ -12,6 +12,11 @@ export class BlueskyEmbed extends BlockAnnotation<{
   cid: string;
 
   /**
+   * The web URL to the post.
+   */
+  url: string;
+
+  /**
    * Layout information, used to indicate mutually
    * exclusive layouts, for example sizes, floats, etc.
    */
