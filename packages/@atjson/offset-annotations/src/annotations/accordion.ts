@@ -19,11 +19,6 @@ export class Accordion extends BlockAnnotation<{
    */
   opened?: boolean;
   /**
-   * A named identifier used to represent the layout
-   * like full page width or half
-   */
-  layout?: string;
-  /**
    * A named identifier used to quickly jump to this item
    */
   anchorName?: string;
