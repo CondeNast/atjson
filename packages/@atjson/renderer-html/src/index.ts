@@ -436,6 +436,7 @@ export default class HTMLRenderer extends Renderer {
   layoutStyle(layout: {
     size?: "small" | "medium" | "large";
     inset?: "left" | "right" | "center";
+    anchorName?: string;
   }) {
     if (layout.inset === "left") {
       return "position-left";
