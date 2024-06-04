@@ -1,6 +1,8 @@
 import {
   AudioEnvironments,
   Blockquote,
+  Accordion,
+  AccordionGroup,
   CerosEmbed,
   CneAudioEmbed,
   CneEventRegistrationEmbed,
@@ -429,5 +431,53 @@ export default class HTMLRenderer extends Renderer {
       case TextAlignment.Justify:
         return `text-align:justify;`;
     }
+  }
+
+  layoutStyle(layout: {
+    size?: "small" | "medium" | "large";
+    inset?: "left" | "right" | "center";
+  }) {
+    if (layout.inset === "left") {
+      return "position-left";
+    } else if (layout.inset === "right") {
+      return "position-right";
+    } else if (layout.size === "small") {
+      return "size-small";
+    } else if (layout.size === "medium") {
+      return "size-medium";
+    } else if (layout.size === "large") {
+      return "size-large";
+    }
+    return undefined;
+  }
+
+  accordionSlicer(sliceId?: string) {
+    if (sliceId) {
+      let slice = this.getSlice(sliceId);
+      if (!slice) {
+        throw new Error(
+          `Accordion Header slice ${sliceId} not found in document`
+        );
+      }
+      let children = this.render(slice);
+      return `<accordion-${sliceId}>${children}</accordion-${sliceId}>`;
+    }
+    return "";
+  }
+
+  *AccordionGroup(accordionGroup: AccordionGroup) {
+    return yield* this.$("accordion-group", {
+      accordionGroupStyle: this.layoutStyle(accordionGroup.attributes),
+    });
+  }
+
+  *Accordion(accordion: Accordion) {
+    let attributes = this.htmlAttributes({
+      accordionStyle: this.layoutStyle(accordion.attributes),
+    }).join(" ");
+    return `<accordion ${attributes}>
+      ${this.accordionSlicer(accordion.attributes.header)}
+      ${this.accordionSlicer(accordion.attributes.panel)}
+    </accordion>`;
   }
 }
