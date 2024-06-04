@@ -12,7 +12,10 @@ export class AccordionGroup extends BlockAnnotation<{
    * A named identifier used to represent the layout
    * like full page width or half
    */
-  layout?: string;
+  layout?: {
+    size?: "small" | "medium" | "large";
+    inset?: "left" | "right" | "center";
+  };
   /**
    * A named identifier used to quickly jump to this item
    */
