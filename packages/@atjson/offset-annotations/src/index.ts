@@ -1,5 +1,7 @@
 import Document from "@atjson/document";
 import {
+  Accordion,
+  AccordionGroup,
   Blockquote,
   Bold,
   CerosEmbed,
@@ -88,5 +90,7 @@ export default class OffsetSource extends Document {
     TwitterEmbed,
     Underline,
     VideoEmbed,
+    Accordion,
+    AccordionGroup,
   ];
 }

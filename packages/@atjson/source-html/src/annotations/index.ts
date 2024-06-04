@@ -1,5 +1,7 @@
 // ⚠️ Generated via script; modifications may be overridden
 export * from "./a";
+export * from "./accordion";
+export * from "./accordion-group";
 export * from "./abbr";
 export * from "./address";
 export * from "./area";
