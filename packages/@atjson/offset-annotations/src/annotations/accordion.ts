@@ -1,5 +1,15 @@
 import { BlockAnnotation } from "@atjson/document";
-
+/**
+ *
+ * Each accordion item contains the following attributes
+ * header: contains the title of the content in the panel
+ * panel: could contain text, pictures, embeds, videos
+ * opened: determines whether the panel is hidden or shown
+ * anchorName: helps as hyperlinks on the web page
+ * Web Accessibility Initiative – Accessible Rich Internet Applications
+ * WAI/ARIA
+ * https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/
+ */
 export class Accordion extends BlockAnnotation<{
   /**
    * Slice referring to the header of the accordion,

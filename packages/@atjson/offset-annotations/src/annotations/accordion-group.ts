@@ -1,10 +1,9 @@
 import { BlockAnnotation } from "@atjson/document";
 /**
- * An Accordion contains a collection of accordion items that
- * are arranged vertically.
- * Each accordion item contains a header and a panel
- * The header contains the title of the content in the panel
- * The panel could contain text, pictures, embeds, videos
+ * An Accordion group can hold multiple accordions. It has
+ * the following attributes
+ * layout: used to set accordion to full page width or half page width
+ * anchorName: helps as hyperlinks on the web page
  *
  */
 export class AccordionGroup extends BlockAnnotation<{

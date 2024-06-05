@@ -50,6 +50,8 @@ export * from "./utils";
 export default class OffsetSource extends Document {
   static contentType = "application/vnd.atjson+offset";
   static schema = [
+    Accordion,
+    AccordionGroup,
     Blockquote,
     Bold,
     CerosEmbed,
@@ -90,7 +92,5 @@ export default class OffsetSource extends Document {
     TwitterEmbed,
     Underline,
     VideoEmbed,
-    Accordion,
-    AccordionGroup,
   ];
 }
