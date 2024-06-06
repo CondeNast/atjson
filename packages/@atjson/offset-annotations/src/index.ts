@@ -51,7 +51,6 @@ export default class OffsetSource extends Document {
   static contentType = "application/vnd.atjson+offset";
   static schema = [
     Accordion,
-    AccordionGroup,
     Blockquote,
     Bold,
     CerosEmbed,
