@@ -1,5 +1,4 @@
 export * from "./accordion";
-export * from "./accordion-group";
 export * from "./blockquote";
 export * from "./bold";
 export * from "./ceros-embed";
