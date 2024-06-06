@@ -34,7 +34,7 @@ describe("InstagramEmbed", () => {
             attributes: {
               content: "M00000000",
               url: "https://www.instagram.com/p/B37oY9WgHP7/",
-              excludePostCaption: true,
+              hidePostCaption: true,
             },
             id: "B00000000",
             parents: [],
