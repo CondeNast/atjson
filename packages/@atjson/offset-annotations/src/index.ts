@@ -1,7 +1,6 @@
 import Document from "@atjson/document";
 import {
   Accordion,
-  AccordionGroup,
   Blockquote,
   Bold,
   CerosEmbed,
