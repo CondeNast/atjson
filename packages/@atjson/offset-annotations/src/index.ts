@@ -1,6 +1,7 @@
 import Document from "@atjson/document";
 import {
   Blockquote,
+  BlueskyEmbed,
   Bold,
   CerosEmbed,
   CneAudioEmbed,
@@ -12,11 +13,11 @@ import {
   FireworkEmbed,
   FixedIndent,
   GiphyEmbed,
-  GroupItem,
   Group,
-  HTML,
+  GroupItem,
   Heading,
   HorizontalRule,
+  HTML,
   IframeEmbed,
   Image,
   InstagramEmbed,
@@ -49,6 +50,7 @@ export default class OffsetSource extends Document {
   static contentType = "application/vnd.atjson+offset";
   static schema = [
     Blockquote,
+    BlueskyEmbed,
     Bold,
     CerosEmbed,
     CneAudioEmbed,

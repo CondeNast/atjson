@@ -1,4 +1,5 @@
 import Document, {
+  AdjacentBoundaryBehaviour,
   Annotation,
   ParseAnnotation,
   SliceAnnotation,
@@ -6,7 +7,12 @@ import Document, {
   UnknownAnnotation,
   is,
 } from "@atjson/document";
-import { LineBreak, SocialURLs, TikTokEmbed } from "@atjson/offset-annotations";
+import {
+  BlueskyEmbed,
+  LineBreak,
+  SocialURLs,
+  TikTokEmbed,
+} from "@atjson/offset-annotations";
 import { Script, Anchor, Blockquote } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
@@ -487,7 +493,7 @@ export default function (doc: Document) {
         return divs[divs.length - 2].start === parseToken.start;
       }
     )
-    .update(function joinBlockQuoteWithLinksAndScripts({
+    .update(function updateThreadsEmbeds({
       blockquote,
       divs,
       links,
@@ -544,6 +550,108 @@ export default function (doc: Document) {
         doc.deleteText(end, scripts[0].end);
         doc.deleteText(blockquote.start, start);
       }
+    });
+
+  /**
+   * Bluesky embed structure:
+   *   <blockquote class="bluesky-embed" ...></blockquote>
+   *   <script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+   */
+  doc
+    .where(function isBlueskyBlockquote(a) {
+      return is(a, Blockquote) && a.attributes.class === "bluesky-embed";
+    })
+    .as("blockquote")
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterIframe(blockquote, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          src != null
+        );
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      function paragraphsInBlockquote({ blockquote }, p) {
+        return aCoversB(blockquote, p);
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-a" }).as("links"),
+      function linksInBlockquote({ blockquote }, a) {
+        return aCoversB(blockquote, a);
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      links,
+      paragraphs,
+      scripts,
+    }) {
+      doc.insertText(blockquote.start, "\uFFFC");
+      let content = new SliceAnnotation({
+        start: blockquote.start + 1,
+        end: blockquote.end,
+        attributes: {
+          refs: [blockquote.id],
+        },
+      });
+      let postLink = links.find(
+        (link) => link.attributes.href.indexOf("/post/") != -1
+      );
+      let url = postLink?.attributes.href.slice(
+        0,
+        postLink?.attributes.href.indexOf("?")
+      );
+
+      doc.replaceAnnotation(
+        blockquote,
+        new BlueskyEmbed({
+          id: blockquote.id,
+          start: blockquote.start,
+          end: blockquote.end,
+          attributes: {
+            uri: blockquote.attributes.dataset["bluesky-uri"],
+            cid: blockquote.attributes.dataset["bluesky-cid"],
+            url,
+            content: content?.id,
+          },
+        }),
+        content,
+        new ParseAnnotation({
+          start: blockquote.start - 1,
+          end: blockquote.start,
+        }),
+        new TextAnnotation({
+          start: blockquote.start + 1,
+          end: blockquote.end,
+        })
+      );
+
+      let paragraph = paragraphs[0];
+      if (paragraph) {
+        doc.insertText(
+          paragraph.end,
+          "\uFFFC",
+          AdjacentBoundaryBehaviour.preserveTrailing
+        );
+        doc.addAnnotations(
+          new LineBreak({
+            start: paragraph.end,
+            end: paragraph.end + 1,
+          }),
+          new ParseAnnotation({
+            start: paragraph.end,
+            end: paragraph.end + 1,
+          })
+        );
+        doc.removeAnnotations(paragraphs);
+      }
+
+      doc.removeAnnotations(scripts);
     });
 
   doc.where((a) => is(a, ParseAnnotation) && a.start === a.end).remove();

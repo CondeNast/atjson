@@ -1,6 +1,7 @@
 import {
   AudioEnvironments,
   Blockquote,
+  BlueskyEmbed,
   CerosEmbed,
   CneAudioEmbed,
   CneEventRegistrationEmbed,
@@ -315,6 +316,21 @@ export default class HTMLRenderer extends Renderer {
     }).join(" ")}>${
       slice ? this.render(slice) : `A post shared on Instagram`
     }</a></p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script>`;
+  }
+
+  *BlueskyEmbed(embed: Block<BlueskyEmbed>) {
+    let slice =
+      embed.attributes.content != null &&
+      this.getSlice(embed.attributes.content);
+
+    return `<blockquote ${this.htmlAttributes({
+      id: embed.attributes.anchorName,
+      class: "bluesky-embed",
+      "data-bluesky-uri": embed.attributes.uri,
+      "data-bluesky-cid": embed.attributes.cid,
+    }).join(" ")}>${
+      slice ? this.render(slice) : ""
+    }</blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>`;
   }
 
   *FacebookEmbed(embed: Block<FacebookEmbed>) {
