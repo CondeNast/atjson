@@ -2,7 +2,7 @@ import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("CNE Event Registration embed", () => {
+describe("CNEEventRegistrationEmbed", () => {
   test("only baseurl", () => {
     let doc = HTMLSource.fromRaw(
       `<cne-event-registration url="https://baseurl"></cne-event-registration>`

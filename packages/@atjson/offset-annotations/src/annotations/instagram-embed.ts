@@ -10,7 +10,7 @@ export class InstagramEmbed extends BlockAnnotation<{
    * If set to false, this excludes the caption attached to the post.
    * This maps to the `captioned` option on the embed.
    */
-  excludePostCaption?: boolean;
+  hidePostCaption?: boolean;
 
   /**
    * Layout information, used to indicate mutually
