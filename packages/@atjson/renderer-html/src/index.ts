@@ -14,6 +14,7 @@ import {
   Link,
   List,
   ListItem,
+  MastodonEmbed,
   Paragraph,
   Section,
   Table,
@@ -331,6 +332,21 @@ export default class HTMLRenderer extends Renderer {
     }).join(" ")}>${
       slice ? this.render(slice) : ""
     }</blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>`;
+  }
+
+  *MastodonEmbed(embed: Block<MastodonEmbed>) {
+    let domain = new URL(embed.attributes.url).hostname;
+
+    return `<iframe ${this.htmlAttributes({
+      id: embed.attributes.anchorName,
+      src: `${embed.attributes.url}/embed`,
+      class: "mastodon-embed",
+      style: "max-width: 100%; border: 0",
+      width: "400",
+      allowfullscreen: "allowfullscreen",
+    }).join(
+      " "
+    )}></iframe><script src="https://${domain}/embed.js" async="async"></script>`;
   }
 
   *FacebookEmbed(embed: Block<FacebookEmbed>) {
