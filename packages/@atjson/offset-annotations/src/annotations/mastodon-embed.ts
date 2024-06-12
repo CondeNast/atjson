@@ -1,16 +1,13 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export class InstagramEmbed extends BlockAnnotation<{
+/**
+ * Fediverse embeds from Mastodon federated networks.
+ */
+export class MastodonEmbed extends BlockAnnotation<{
   /**
-   * The URL to the post on www.instagram.com
+   * The URL of the mastodon toot.
    */
   url: string;
-
-  /**
-   * If set to false, this excludes the caption attached to the post.
-   * This maps to the `captioned` option on the embed.
-   */
-  hidePostCaption?: boolean;
 
   /**
    * Layout information, used to indicate mutually
@@ -29,6 +26,6 @@ export class InstagramEmbed extends BlockAnnotation<{
    */
   content?: string;
 }> {
-  static type = "instagram-embed";
   static vendorPrefix = "offset";
+  static type = "mastodon-embed";
 }

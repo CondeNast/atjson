@@ -1,16 +1,20 @@
 import { BlockAnnotation } from "@atjson/document";
 
-export class InstagramEmbed extends BlockAnnotation<{
+export class BlueskyEmbed extends BlockAnnotation<{
   /**
-   * The URL to the post on www.instagram.com
+   * The at protocol uri of the Bluesky embed
    */
-  url: string;
+  uri: string;
 
   /**
-   * If set to false, this excludes the caption attached to the post.
-   * This maps to the `captioned` option on the embed.
+   * The IPFS content id of the post.
    */
-  hidePostCaption?: boolean;
+  cid: string;
+
+  /**
+   * The web URL to the post.
+   */
+  url: string;
 
   /**
    * Layout information, used to indicate mutually
@@ -29,6 +33,6 @@ export class InstagramEmbed extends BlockAnnotation<{
    */
   content?: string;
 }> {
-  static type = "instagram-embed";
   static vendorPrefix = "offset";
+  static type = "bluesky-embed";
 }

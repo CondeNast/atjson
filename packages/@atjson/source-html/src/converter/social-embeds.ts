@@ -1,18 +1,26 @@
 import Document, {
+  AdjacentBoundaryBehaviour,
   Annotation,
   ParseAnnotation,
   SliceAnnotation,
+  TextAnnotation,
   UnknownAnnotation,
   is,
 } from "@atjson/document";
-import { SocialURLs } from "@atjson/offset-annotations";
-import { Script, Anchor } from "../annotations";
+import {
+  BlueskyEmbed,
+  LineBreak,
+  MastodonEmbed,
+  SocialURLs,
+  TikTokEmbed,
+} from "@atjson/offset-annotations";
+import { Script, Anchor, Blockquote, Iframe } from "../annotations";
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
 }
 
-function isBlockquoteEmbed(annotation: Annotation<any>) {
+function isInstagramEmbed(annotation: Annotation<any>) {
   if (annotation.type !== "blockquote") {
     return false;
   }
@@ -24,11 +32,22 @@ function isBlockquoteEmbed(annotation: Annotation<any>) {
   }
 
   let classList = classes.split(" ");
-  return (
-    classList.includes("instagram-media") ||
-    classList.includes("twitter-tweet") ||
-    classList.includes("tiktok-embed")
-  );
+  return classList.includes("instagram-media");
+}
+
+function isTwitterEmbed(annotation: Annotation<any>) {
+  if (annotation.type !== "blockquote") {
+    return false;
+  }
+
+  let classes = annotation.attributes.class;
+
+  if (!classes) {
+    return false;
+  }
+
+  let classList = classes.split(" ");
+  return classList.includes("twitter-tweet");
 }
 
 function isFacebookDiv(annotation: Annotation<any>) {
@@ -65,13 +84,7 @@ function identifyURL(src: string) {
 
 export default function (doc: Document) {
   /**
-   * Instagram/Twitter embeds in blockquotes:
-   *   <blockquote class="instagram-media" data-instgrm-permalink="url">
-   *     ...
-   *     <a href="https://www.instagram.com/p/{id}">
-   *     ...
-   *   </blockquote>
-   *
+   * Twitter embeds in blockquotes:
    *   <blockquote class="twitter-tweet">
    *     ...
    *     <a href="https://www.twitter.com/{user}/status/{id}">
@@ -79,9 +92,15 @@ export default function (doc: Document) {
    *   </blockquote>
    */
   doc
-    .where(isBlockquoteEmbed)
+    .where(isTwitterEmbed)
     .as("blockquote")
     .join(doc.where({ type: "-html-a" }).as("links"), aCoversB)
+    .join(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      ({ blockquote }, p) => {
+        return aCoversB(blockquote, p);
+      }
+    )
     .outerJoin(
       doc.where({ type: "-html-script" }).as("scripts"),
       function scriptRightAfterBlockquote({ blockquote }, script: Script) {
@@ -89,17 +108,13 @@ export default function (doc: Document) {
         return (
           (script.start === blockquote.end ||
             script.start === blockquote.end + 1) &&
-          (!src ||
-            src.includes("instagram.com") ||
-            src.includes("twitter.com") ||
-            src.includes("tiktok.com") ||
-            src.includes("x.com") ||
-            src.includes("tiktok.com"))
+          (!src || src.includes("twitter.com") || src.includes("x.com"))
         );
       }
     )
     .update(function joinBlockQuoteWithLinksAndScripts({
       blockquote,
+      paragraphs,
       links,
       scripts,
     }) {
@@ -118,29 +133,189 @@ export default function (doc: Document) {
 
       if (canonicalURL) {
         let { attributes, Class } = canonicalURL;
-        let start = blockquote.start;
-        let end = scripts.length ? scripts[0].end : blockquote.end;
-        doc
-          .where(function isAnnotationInEmbed(annotation) {
-            return start <= annotation.start && annotation.end <= end;
-          })
-          .remove();
-        doc.addAnnotations(
-          new ParseAnnotation({
-            start,
-            end,
+        let content = new SliceAnnotation({
+          start: blockquote.start + 1,
+          end: blockquote.end,
+          attributes: {
+            refs: [blockquote.id],
+          },
+        });
+
+        let paragraph = paragraphs[0];
+        if (paragraph) {
+          doc.replaceAnnotation(
+            paragraphs[0],
+            new LineBreak({
+              start: paragraph.end,
+              end: paragraph.end,
+            })
+          );
+        }
+
+        doc.replaceAnnotation(
+          blockquote,
+          new Class({
+            id: blockquote.id,
+            start: blockquote.start,
+            end: blockquote.end,
             attributes: {
-              reason: Class.type + "-embed",
+              ...attributes,
+              content: content.id,
             },
           }),
-          new Class({
-            start,
-            end,
-            attributes,
+          content,
+          new TextAnnotation({
+            start: paragraph.start,
+            end: blockquote.end,
           })
         );
+
+        doc.removeAnnotations(scripts);
+        doc.deleteText(blockquote.end, scripts[0].start);
       }
     });
+
+  let divs = doc.where({ type: "-html-div" }).as("divs");
+
+  /**
+   * Instagram embeds in blockquotes:
+   *   <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/{id}">
+   *     ...
+   *   </blockquote>
+   */
+  doc
+    .where(isInstagramEmbed)
+    .as("blockquote")
+    .join(divs, aCoversB)
+    .outerJoin(
+      doc.where((a) => is(a, UnknownAnnotation)).as("unknown"),
+      ({ blockquote }, unknown) => {
+        return aCoversB(blockquote, unknown);
+      }
+    )
+    .join(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      ({ blockquote }, paragraph) => {
+        return aCoversB(blockquote, paragraph);
+      }
+    )
+    .join(
+      doc.where({ type: "-html-time" }).as("time"),
+      ({ blockquote }, time) => {
+        return aCoversB(blockquote, time);
+      }
+    )
+    .join(
+      doc.where({ type: "-html-a" }).as("links"),
+      ({ blockquote }, link: Anchor) => {
+        return (
+          blockquote.attributes.dataset["instgrm-permalink"] ===
+            link.attributes.href && aCoversB(blockquote, link)
+        );
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterBlockquote({ blockquote }, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          (!src || src.includes("instagram.com"))
+        );
+      }
+    )
+    .outerJoin(
+      doc.where((a) => is(a, ParseAnnotation)).as("parseTokens"),
+      function paragraphParseTokens({ paragraphs }, parseToken) {
+        return paragraphs.some((p) => p.start === parseToken.start);
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      divs,
+      links,
+      paragraphs,
+      scripts,
+      parseTokens,
+      time,
+      unknown,
+    }) {
+      let canonicalURL = identifyURL(
+        blockquote.attributes.dataset["instgrm-permalink"]
+      );
+
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
+        let start = Math.min(...paragraphs.map((paragraph) => paragraph.start));
+        let end = Math.max(...paragraphs.map((paragraph) => paragraph.end));
+
+        let content = new SliceAnnotation({
+          start,
+          end,
+          attributes: {
+            refs: [blockquote.id],
+          },
+        });
+
+        doc.insertText(start, "\uFFFC");
+
+        doc.replaceAnnotation(
+          blockquote,
+          new Class({
+            id: blockquote.id,
+            start: blockquote.start,
+            end: blockquote.end,
+            attributes: {
+              ...attributes,
+              content: content.id,
+            },
+          }),
+          content,
+          new ParseAnnotation({
+            start,
+            end: start + 1,
+          }),
+          new TextAnnotation({
+            start: start + 1,
+            end,
+          })
+        );
+
+        for (let i = 0, len = paragraphs.length; i < len - 1; i++) {
+          let index = paragraphs[i].end;
+          doc.insertText(index, "\uFFFC");
+          doc.addAnnotations(
+            new LineBreak({
+              start: index,
+              end: index + 1,
+            }),
+            new ParseAnnotation({
+              start: index,
+              end: index + 1,
+            })
+          );
+        }
+
+        for (let parseToken of parseTokens) {
+          if (doc.content[parseToken.end] === " ") {
+            doc.deleteText(parseToken.end, parseToken.end + 1);
+          }
+        }
+
+        doc.removeAnnotations(links);
+        doc.removeAnnotations(unknown);
+        doc.removeAnnotations(divs);
+        doc.removeAnnotations(time);
+        doc.removeAnnotations(scripts);
+        doc.removeAnnotations(paragraphs);
+
+        doc.deleteText(end, scripts[0].end);
+        doc.deleteText(blockquote.start, start);
+      }
+    });
+
+  doc.where((a) => is(a, ParseAnnotation) && a.start === a.end).remove();
 
   /**
    * Facebook embeds in divs:
@@ -150,37 +325,132 @@ export default function (doc: Document) {
    *     </blockquote>
    *   </div>
    */
-  for (let div of doc.annotations) {
-    if (!isFacebookDiv(div)) continue;
+  doc
+    .where(isFacebookDiv)
+    .as("div")
+    .join(doc.where({ type: "-html-blockquote" }).as("blockquotes"), aCoversB)
+    .join(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      ({ div }, paragraph) => {
+        return aCoversB(div, paragraph);
+      }
+    )
+    .update(({ div, blockquotes, paragraphs }) => {
+      let canonicalURL = identifyURL(div.attributes.dataset.href);
 
-    let canonicalURL = identifyURL(div.attributes.dataset.href);
-
-    if (canonicalURL) {
-      let { attributes, Class } = canonicalURL;
-      let { start, end } = div;
-      doc
-        .where(function isAnnotationInFBDiv(annotation) {
-          return start <= annotation.start && annotation.end <= end;
-        })
-        .remove();
-      doc.addAnnotations(
-        new ParseAnnotation({
-          start,
-          end,
+      if (canonicalURL) {
+        let { attributes, Class } = canonicalURL;
+        let blockquote = blockquotes[0] as Blockquote;
+        let content = new SliceAnnotation({
+          start: blockquote.start + 1,
+          end: blockquote.end,
           attributes: {
-            reason: "facebook-embed",
+            refs: [blockquote.id],
+          },
+        });
+
+        doc.replaceAnnotation(
+          blockquote,
+          new Class({
+            id: blockquote.id,
+            start: blockquote.start,
+            end: blockquote.end,
+            attributes: {
+              ...attributes,
+              hideText: div.attributes.dataset["show-text"] === "false",
+              content: content.id,
+            },
+          }),
+          content
+        );
+        let paragraph = paragraphs[0];
+        if (paragraph) {
+          doc.addAnnotations(
+            new LineBreak({
+              start: paragraph.end,
+              end: paragraph.end,
+            })
+          );
+          doc.removeAnnotations(paragraphs);
+        }
+
+        doc.removeAnnotation(div);
+      }
+    });
+
+  /**
+   * TikTok embed structure:
+   *   <blockquote class="tiktok-embed" ...>
+   *     ...
+   *   </blockquote>
+   *   <script async src="https://www.tiktok.com/embed.js"></script>
+   */
+  doc
+    .where(function isTikTokBlockquote(a) {
+      return is(a, Blockquote) && a.attributes.class === "tiktok-embed";
+    })
+    .as("blockquote")
+    .outerJoin(doc.where({ type: "-html-section" }).as("sections"), aCoversB)
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterBlockquote({ blockquote }, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          src != null &&
+          src.includes("www.tiktok.com")
+        );
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      sections,
+      scripts,
+    }) {
+      let content = new SliceAnnotation({
+        start: blockquote.start + 1,
+        end: blockquote.end,
+        attributes: {
+          refs: [blockquote.id],
+        },
+      });
+
+      let script = scripts[0];
+      if (script && script.start === blockquote.end + 1) {
+        doc.deleteText(blockquote.end, script.start);
+      }
+
+      if (doc.content[blockquote.end - 1] === " ") {
+        doc.deleteText(blockquote.end - 1, blockquote.end);
+      }
+
+      let section = sections[0];
+      if (section && doc.content[section.start - 1] === " ") {
+        doc.deleteText(section.start - 1, section.start);
+      }
+
+      doc.replaceAnnotation(
+        blockquote,
+        new TikTokEmbed({
+          id: blockquote.id,
+          start: blockquote.start,
+          end: blockquote.end,
+          attributes: {
+            url: blockquote.attributes.cite,
+            content: content.id,
           },
         }),
-        new Class({
-          start,
-          end,
-          attributes,
+        content,
+        new TextAnnotation({
+          start: blockquote.start,
+          end: blockquote.end,
         })
       );
-    }
-  }
 
-  let divs = doc.where({ type: "-html-div" }).as("divs");
+      doc.removeAnnotations(scripts);
+      doc.removeAnnotations(sections);
+    });
 
   /**
    * Threads embeds in blockquotes:
@@ -224,7 +494,7 @@ export default function (doc: Document) {
         return divs[divs.length - 2].start === parseToken.start;
       }
     )
-    .update(function joinBlockQuoteWithLinksAndScripts({
+    .update(function updateThreadsEmbeds({
       blockquote,
       divs,
       links,
@@ -281,6 +551,144 @@ export default function (doc: Document) {
         doc.deleteText(end, scripts[0].end);
         doc.deleteText(blockquote.start, start);
       }
+    });
+
+  /**
+   * Bluesky embed structure:
+   *   <blockquote class="bluesky-embed" ...></blockquote>
+   *   <script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
+   */
+  doc
+    .where(function isBlueskyBlockquote(a) {
+      return is(a, Blockquote) && a.attributes.class === "bluesky-embed";
+    })
+    .as("blockquote")
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterIframe(blockquote, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === blockquote.end ||
+            script.start === blockquote.end + 1) &&
+          src != null
+        );
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-p" }).as("paragraphs"),
+      function paragraphsInBlockquote({ blockquote }, p) {
+        return aCoversB(blockquote, p);
+      }
+    )
+    .outerJoin(
+      doc.where({ type: "-html-a" }).as("links"),
+      function linksInBlockquote({ blockquote }, a) {
+        return aCoversB(blockquote, a);
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({
+      blockquote,
+      links,
+      paragraphs,
+      scripts,
+    }) {
+      doc.insertText(blockquote.start, "\uFFFC");
+      let content = new SliceAnnotation({
+        start: blockquote.start + 1,
+        end: blockquote.end,
+        attributes: {
+          refs: [blockquote.id],
+        },
+      });
+      let postLink = links.find(
+        (link) => link.attributes.href.indexOf("/post/") != -1
+      );
+      let url = postLink?.attributes.href.slice(
+        0,
+        postLink?.attributes.href.indexOf("?")
+      );
+
+      doc.replaceAnnotation(
+        blockquote,
+        new BlueskyEmbed({
+          id: blockquote.id,
+          start: blockquote.start,
+          end: blockquote.end,
+          attributes: {
+            uri: blockquote.attributes.dataset["bluesky-uri"],
+            cid: blockquote.attributes.dataset["bluesky-cid"],
+            url,
+            content: content?.id,
+          },
+        }),
+        content,
+        new ParseAnnotation({
+          start: blockquote.start - 1,
+          end: blockquote.start,
+        }),
+        new TextAnnotation({
+          start: blockquote.start + 1,
+          end: blockquote.end,
+        })
+      );
+
+      let paragraph = paragraphs[0];
+      if (paragraph) {
+        doc.insertText(
+          paragraph.end,
+          "\uFFFC",
+          AdjacentBoundaryBehaviour.preserveTrailing
+        );
+        doc.addAnnotations(
+          new LineBreak({
+            start: paragraph.end,
+            end: paragraph.end + 1,
+          }),
+          new ParseAnnotation({
+            start: paragraph.end,
+            end: paragraph.end + 1,
+          })
+        );
+        doc.removeAnnotations(paragraphs);
+      }
+      doc.removeAnnotations(scripts);
+    });
+
+  /**
+   * Mastodon embed structure:
+   *   <iframe class="mastodon-embed" ...></iframe>
+   *   <script src=".../embed.js" async="async"></script>
+   */
+  doc
+    .where(function isMastodonIframe(a) {
+      return is(a, Iframe) && a.attributes.class === "mastodon-embed";
+    })
+    .as("iframe")
+    .outerJoin(
+      doc.where({ type: "-html-script" }).as("scripts"),
+      function scriptRightAfterIframe(iframe, script: Script) {
+        let src = script.attributes.src;
+        return (
+          (script.start === iframe.end || script.start === iframe.end + 1) &&
+          src != null
+        );
+      }
+    )
+    .update(function joinBlockQuoteWithLinksAndScripts({ iframe, scripts }) {
+      let url = iframe.attributes.src.replace(/\/embed*/, "");
+      doc.replaceAnnotation(
+        iframe,
+        new MastodonEmbed({
+          id: iframe.id,
+          start: iframe.start,
+          end: iframe.end,
+          attributes: {
+            url,
+          },
+        })
+      );
+
+      doc.removeAnnotations(scripts);
     });
 
   doc.where((a) => is(a, ParseAnnotation) && a.start === a.end).remove();

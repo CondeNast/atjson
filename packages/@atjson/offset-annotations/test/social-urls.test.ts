@@ -1,7 +1,8 @@
 import {
   IframeEmbed,
-  SocialURLs,
   InstagramEmbed,
+  MastodonEmbed,
+  SocialURLs,
   ThreadsEmbed,
   TwitterEmbed,
 } from "../src";
@@ -247,5 +248,18 @@ describe("SocialURLs", () => {
         });
       }
     );
+  });
+
+  describe("identify Mastodon embeds", () => {
+    test.each([
+      ["https://mastodon.social/@thisemailfindsyou/112428613749566319"],
+    ])("%s", (url) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: MastodonEmbed,
+        attributes: {
+          url,
+        },
+      });
+    });
   });
 });

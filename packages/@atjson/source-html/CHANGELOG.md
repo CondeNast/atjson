@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.40.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.39.1...@atjson/source-html@0.40.0) (2024-06-10)
+
+### Features
+
+- BlueskyEmbed ([#1756](https://github.com/CondeNast/atjson/issues/1756)) ([9fd4db7](https://github.com/CondeNast/atjson/commit/9fd4db780096f4fecc04f1ddf023799df4907452))
+- MastodonEmbed ([#1755](https://github.com/CondeNast/atjson/issues/1755)) ([99a44a8](https://github.com/CondeNast/atjson/commit/99a44a863656590e4689d8a89d267fa7c7201b75))
+- properly store post content on social media blocks ([#1753](https://github.com/CondeNast/atjson/issues/1753)) ([8987f92](https://github.com/CondeNast/atjson/commit/8987f92d116cc4fcdec25846fd26116e7f1ca95b))
+
 ## [0.39.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.39.0...@atjson/source-html@0.39.1) (2024-05-30)
 
 **Note:** Version bump only for package @atjson/source-html
