@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.53.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.52.0...@atjson/offset-annotations@0.53.0) (2024-06-12)
+
+### Features
+
+- accordion annotatiosn ([b5b3d72](https://github.com/CondeNast/atjson/commit/b5b3d72d834d99485a211c83f10200f611b3fe30))
+- new annotation design ([a17dc26](https://github.com/CondeNast/atjson/commit/a17dc26c830bc66401a8ff2435677d9f544a36e5))
+- new annotation design ([b191e66](https://github.com/CondeNast/atjson/commit/b191e66960d0715677d7a77cc212f222170c2687))
+- new annotation design ([154229e](https://github.com/CondeNast/atjson/commit/154229e5aed9a68161315196252ffb3323451f11))
+
 # [0.52.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.51.1...@atjson/offset-annotations@0.52.0) (2024-06-10)
 
 ### Features
