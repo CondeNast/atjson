@@ -1,5 +1,6 @@
 import Document from "@atjson/document";
 import {
+  Accordion,
   Blockquote,
   BlueskyEmbed,
   Bold,
@@ -50,6 +51,7 @@ export * from "./utils";
 export default class OffsetSource extends Document {
   static contentType = "application/vnd.atjson+offset";
   static schema = [
+    Accordion,
     Blockquote,
     BlueskyEmbed,
     Bold,

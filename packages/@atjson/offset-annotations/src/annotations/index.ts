@@ -1,3 +1,4 @@
+export * from "./accordion";
 export * from "./blockquote";
 export * from "./bluesky-embed";
 export * from "./bold";
