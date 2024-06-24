@@ -250,15 +250,14 @@ export default function (doc: Document) {
         let start = Math.min(...paragraphs.map((paragraph) => paragraph.start));
         let end = Math.max(...paragraphs.map((paragraph) => paragraph.end));
 
+        doc.insertText(start, "\uFFFC");
         let content = new SliceAnnotation({
-          start,
+          start: start + 1,
           end,
           attributes: {
             refs: [blockquote.id],
           },
         });
-
-        doc.insertText(start, "\uFFFC");
 
         doc.replaceAnnotation(
           blockquote,
