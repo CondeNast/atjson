@@ -5,6 +5,7 @@ import {
   UnknownAnnotation,
   is,
   SliceAnnotation,
+  TextAnnotation,
 } from "../src";
 import TestSource, {
   Anchor,
@@ -356,6 +357,149 @@ describe("serialize", () => {
         ],
         marks: [],
       });
+    });
+
+    test("text annotations", () => {
+      expect(
+        serialize(
+          new TestSource({
+            content:
+              "\uFFFC\uFFFCWe ran together three sequences of the Sun taken in three different extreme ultraviolet wavelengths by our Solar Dynamic Observatory (SDO) to better illustrate how features that appear in one sequence are difficult, if not impossible, to see in the others (Mar. 20-21, 2018). In the red sequence, we can see very small jets of solar material burst from the Sun’s surface and some small prominences, bright features extending outward, at the edge, which are not easily discerned in the other two sequences.\nIn the second clip, we can readily observe a coronal hole, the large and dark region where the Sun's magnetic field is open to interplanetary space, though it is difficult to distinguish in the others.\nIn the third clip, we can see strands of plasma waving above the surface, especially above the one small, but bright, active region near the right edge.\nThese are just three of the 10 extreme ultraviolet wavelengths in which SDO images the Sun every 12 seconds every day. That's a lot of data and a lot of science!\nCredit: NASA/Solar Dynamics Observatory",
+            annotations: [
+              new Instagram({
+                start: 0,
+                end: 1064,
+                attributes: {
+                  url: "https://www.instagram.com/p/Bg15hWbn_Zj",
+                  content: "M00000000",
+                },
+              }),
+              new ParseAnnotation({
+                start: 0,
+                end: 1,
+              }),
+              new SliceAnnotation({
+                start: 1,
+                end: 1064,
+              }),
+              new ParseAnnotation({
+                start: 1,
+                end: 2,
+              }),
+              new TextAnnotation({
+                start: 1,
+                end: 1064,
+              }),
+              new LineBreak({
+                start: 507,
+                end: 508,
+              }),
+              new ParseAnnotation({
+                start: 507,
+                end: 508,
+              }),
+              new LineBreak({
+                start: 709,
+                end: 710,
+              }),
+              new ParseAnnotation({
+                start: 709,
+                end: 710,
+              }),
+              new LineBreak({
+                start: 862,
+                end: 863,
+              }),
+              new ParseAnnotation({
+                start: 862,
+                end: 863,
+              }),
+              new LineBreak({
+                start: 1024,
+                end: 1025,
+              }),
+              new ParseAnnotation({
+                start: 1024,
+                end: 1025,
+              }),
+            ],
+          }),
+          { withStableIds: true }
+        )
+      ).toMatchInlineSnapshot(`
+        {
+          "blocks": [
+            {
+              "attributes": {
+                "content": "M00000000",
+                "url": "https://www.instagram.com/p/Bg15hWbn_Zj",
+              },
+              "id": "B00000000",
+              "parents": [],
+              "selfClosing": true,
+              "type": "instagram",
+            },
+            {
+              "attributes": {},
+              "id": "B00000001",
+              "parents": [
+                "instagram",
+              ],
+              "selfClosing": false,
+              "type": "text",
+            },
+            {
+              "attributes": {},
+              "id": "B00000002",
+              "parents": [
+                "instagram",
+                "text",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            {
+              "attributes": {},
+              "id": "B00000003",
+              "parents": [
+                "instagram",
+                "text",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            {
+              "attributes": {},
+              "id": "B00000004",
+              "parents": [
+                "instagram",
+                "text",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+            {
+              "attributes": {},
+              "id": "B00000005",
+              "parents": [
+                "instagram",
+                "text",
+              ],
+              "selfClosing": true,
+              "type": "line-break",
+            },
+          ],
+          "marks": [
+            {
+              "attributes": {},
+              "id": "M00000000",
+              "range": "(1..1064]",
+              "type": "slice",
+            },
+          ],
+          "text": "￼￼We ran together three sequences of the Sun taken in three different extreme ultraviolet wavelengths by our Solar Dynamic Observatory (SDO) to better illustrate how features that appear in one sequence are difficult, if not impossible, to see in the others (Mar. 20-21, 2018). In the red sequence, we can see very small jets of solar material burst from the Sun’s surface and some small prominences, bright features extending outward, at the edge, which are not easily discerned in the other two sequences.￼In the second clip, we can readily observe a coronal hole, the large and dark region where the Sun's magnetic field is open to interplanetary space, though it is difficult to distinguish in the others.￼In the third clip, we can see strands of plasma waving above the surface, especially above the one small, but bright, active region near the right edge.￼These are just three of the 10 extreme ultraviolet wavelengths in which SDO images the Sun every 12 seconds every day. That's a lot of data and a lot of science!￼Credit: NASA/Solar Dynamics Observatory",
+        }
+      `);
     });
 
     test("continuations in blocks with parse tokens", () => {
