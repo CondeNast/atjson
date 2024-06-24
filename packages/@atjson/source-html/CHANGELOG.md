@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.40.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.2...@atjson/source-html@0.40.3) (2024-06-24)
+
+### Bug Fixes
+
+- **InstagramEmbed:** position slices for caption content _inside_ the embed ([#1773](https://github.com/CondeNast/atjson/issues/1773)) ([8d6d61c](https://github.com/CondeNast/atjson/commit/8d6d61cc1a62b89b8188ccaf4903d776d45c3981))
+
 ## [0.40.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.1...@atjson/source-html@0.40.2) (2024-06-24)
 
 ### Bug Fixes
