@@ -199,7 +199,7 @@ export default function (doc: Document) {
         return aCoversB(blockquote, paragraph);
       }
     )
-    .join(
+    .outerJoin(
       doc.where({ type: "-html-time" }).as("time"),
       ({ blockquote }, time) => {
         return aCoversB(blockquote, time);
