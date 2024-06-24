@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.40.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.1...@atjson/source-html@0.40.2) (2024-06-24)
+
+### Bug Fixes
+
+- update instagram embed code detection to handle v14 ([#1772](https://github.com/CondeNast/atjson/issues/1772)) ([9ed091b](https://github.com/CondeNast/atjson/commit/9ed091b339cd8bd04282dae4bb477aed1574294e))
+
 ## [0.40.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.0...@atjson/source-html@0.40.1) (2024-06-12)
 
 **Note:** Version bump only for package @atjson/source-html

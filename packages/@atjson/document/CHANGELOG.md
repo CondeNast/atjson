@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.30.2 (2024-06-24)
+
+### Bug Fixes
+
+- use text annotations in serialization ([#1771](https://github.com/CondeNast/atjson/issues/1771)) ([a9dab92](https://github.com/CondeNast/atjson/commit/a9dab92c32f2a322d3c317502a3bb4cc8e333a40))
+
 ## 0.30.1 (2024-05-08)
 
 ### Bug Fixes
