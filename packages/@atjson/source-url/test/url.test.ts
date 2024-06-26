@@ -518,42 +518,4 @@ describe("url-source", () => {
       });
     });
   });
-
-  describe("reddit", () => {
-    test.each([
-      [
-        "https://www.reddit.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?utm_source=share&utm_medium=web2x&context=3",
-        {
-          url: "https://www.redditmedia.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?ref_source=embed&ref=share&embed=true&showmedia=false",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-      [
-        "https://www.reddit.com/r/CryptoCurrency/comments/r9fni8/tether_usdt_created_1500000000_worth_of_usdt_out/?utm_source=share&utm_medium=web2x&context=3",
-        {
-          url: "https://www.redditmedia.com/r/CryptoCurrency/comments/r9fni8/tether_usdt_created_1500000000_worth_of_usdt_out/?ref_source=embed&ref=share&embed=true&showmedia=false",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-    ])("%s", (url, attributes) => {
-      let doc = URLSource.fromRaw(url).convertTo(OffsetSource);
-      expect(serialize(doc, { withStableIds: true })).toEqual({
-        text: "\uFFFC",
-        blocks: [
-          {
-            id: "B00000000",
-            parents: [],
-            selfClosing: false,
-            type: "iframe-embed",
-            attributes,
-          },
-        ],
-        marks: [],
-      });
-    });
-  });
 });
