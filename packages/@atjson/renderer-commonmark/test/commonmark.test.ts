@@ -1806,6 +1806,295 @@ After all the lists
       expect(CommonmarkRenderer.render(document)).toEqual("a\\\n\\\nb");
     });
 
+    test("Document with text and empty line break on next line.", () => {
+      let document = new OffsetSource({
+        content:
+          "<$root>Testing<linebreak></linebreak><linebreak></linebreak>One Another<linebreak></linebreak></$root>",
+        annotations: [
+          {
+            id: "82cc4694-3e0c-4ab6-8a7c-50670479a341",
+            type: "-atjson-parse-token",
+            start: 0,
+            end: 7,
+            attributes: {
+              "-atjson-reason": "$root_open",
+            },
+          },
+          {
+            id: "9f5a3160-4ab2-4af8-a77d-f184801103e2",
+            type: "-offset-line-break",
+            start: 14,
+            end: 37,
+            attributes: {},
+          },
+          {
+            id: "dab9716f-568a-41c8-9114-0eea9dddb283",
+            type: "-atjson-parse-token",
+            start: 14,
+            end: 25,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "eedbf178-f53e-4e4a-9929-7a2c8684a8d7",
+            type: "-atjson-parse-token",
+            start: 25,
+            end: 37,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "3d18057f-3289-4aa3-b001-04cf79110d99",
+            type: "-offset-line-break",
+            start: 37,
+            end: 60,
+            attributes: {},
+          },
+          {
+            id: "658ccabb-46d0-492e-9552-7243b0cc4fc6",
+            type: "-atjson-parse-token",
+            start: 37,
+            end: 48,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "9eec6d33-be6f-4d09-a777-488194df8950",
+            type: "-atjson-parse-token",
+            start: 48,
+            end: 60,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "6f82c9a5-760f-41b9-956b-a269b769b399",
+            type: "-offset-line-break",
+            start: 71,
+            end: 94,
+            attributes: {},
+          },
+          {
+            id: "4175f0ae-59b1-4706-b1b2-c86fe04733df",
+            type: "-atjson-parse-token",
+            start: 71,
+            end: 82,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "7637a916-a923-4717-bb0d-639f93db70cd",
+            type: "-atjson-parse-token",
+            start: 82,
+            end: 94,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "ba420b55-9fb3-4806-98b0-b2c578c54c76",
+            type: "-atjson-parse-token",
+            start: 94,
+            end: 102,
+            attributes: {
+              "-atjson-reason": "$root_close",
+            },
+          },
+        ],
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe(
+        "Testing\\\n\\\nOne Another"
+      );
+    });
+
+    test("Document without any linebreak at end.", () => {
+      let document = new OffsetSource({
+        content:
+          "<$root>Common<linebreak></linebreak><linebreak></linebreak>Mark</$root>",
+        annotations: [
+          {
+            id: "79323f50-1c55-44d7-bdb6-6ca564f9dfe4",
+            type: "-atjson-parse-token",
+            start: 0,
+            end: 7,
+            attributes: {
+              "-atjson-reason": "$root_open",
+            },
+          },
+          {
+            id: "dbe8cec9-314d-4c94-b740-bc8f702a50f6",
+            type: "-offset-line-break",
+            start: 13,
+            end: 36,
+            attributes: {},
+          },
+          {
+            id: "ae7b7dde-16f5-4f81-b61f-810481c180d2",
+            type: "-atjson-parse-token",
+            start: 13,
+            end: 24,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "5bb80af6-b265-4e70-8b0b-6d8076382cfc",
+            type: "-atjson-parse-token",
+            start: 24,
+            end: 36,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "318764e6-d1e2-4e19-b7f8-879caa24f4ef",
+            type: "-offset-line-break",
+            start: 36,
+            end: 59,
+            attributes: {},
+          },
+          {
+            id: "4d176464-f801-465d-97f6-9e1c8246b71d",
+            type: "-atjson-parse-token",
+            start: 36,
+            end: 47,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "855b3060-6d16-489b-8704-346edbe8dd1a",
+            type: "-atjson-parse-token",
+            start: 47,
+            end: 59,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "bf098c6b-bccf-4e1b-a4c2-8796a0703f38",
+            type: "-atjson-parse-token",
+            start: 63,
+            end: 71,
+            attributes: {
+              "-atjson-reason": "$root_close",
+            },
+          },
+        ],
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe("Common\\\n\\\nMark");
+    });
+
+    test("Empty Document", () => {
+      let document = new OffsetSource({
+        content:
+          "<$root><linebreak></linebreak><linebreak></linebreak><linebreak></linebreak></$root>",
+        annotations: [
+          {
+            id: "ff84442c-9b87-4936-b7d1-0741ddf03685",
+            type: "-atjson-parse-token",
+            start: 0,
+            end: 7,
+            attributes: {
+              "-atjson-reason": "$root_open",
+            },
+          },
+          {
+            id: "cc5afcc8-dddf-4dcd-aa6a-e1191465b198",
+            type: "-offset-line-break",
+            start: 7,
+            end: 30,
+            attributes: {},
+          },
+          {
+            id: "992e0537-3eb5-4b74-92d6-c46c38440436",
+            type: "-atjson-parse-token",
+            start: 7,
+            end: 18,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "c38a713f-e276-4d0f-a0e0-927e48af7fee",
+            type: "-atjson-parse-token",
+            start: 18,
+            end: 30,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "29487bae-8b0b-4c70-89b6-e5ec62a9304c",
+            type: "-offset-line-break",
+            start: 30,
+            end: 53,
+            attributes: {},
+          },
+          {
+            id: "0da8ef3b-4807-45d9-9629-1e0fd6c6d637",
+            type: "-atjson-parse-token",
+            start: 30,
+            end: 41,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "76cdea7d-b223-4b43-8fe2-7f0967246a71",
+            type: "-atjson-parse-token",
+            start: 41,
+            end: 53,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "468a3f4a-3f9b-4de1-bdef-e7ab802deb68",
+            type: "-offset-line-break",
+            start: 53,
+            end: 76,
+            attributes: {},
+          },
+          {
+            id: "58b4d429-73bc-4968-9e96-df06fc505609",
+            type: "-atjson-parse-token",
+            start: 53,
+            end: 64,
+            attributes: {
+              "-atjson-reason": "linebreak_open",
+            },
+          },
+          {
+            id: "412475eb-c68d-4aee-a6c6-c3676dbd0678",
+            type: "-atjson-parse-token",
+            start: 64,
+            end: 76,
+            attributes: {
+              "-atjson-reason": "linebreak_close",
+            },
+          },
+          {
+            id: "08f6f3b1-aae1-4586-9fc8-a5a56a63287c",
+            type: "-atjson-parse-token",
+            start: 76,
+            end: 84,
+            attributes: {
+              "-atjson-reason": "$root_close",
+            },
+          },
+        ],
+      });
+
+      expect(CommonmarkRenderer.render(document)).toBe("\\\n\\\n");
+    });
+
     test.each([
       ["paragraph", "a\n\n"],
       ["blockquote", "> a\n\n"],

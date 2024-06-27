@@ -474,6 +474,15 @@ export default class CommonmarkRenderer extends Renderer {
       return "";
     }
 
+    if (
+      context.parent == null &&
+      context.next == null &&
+      context.document.blocks[context.document.blocks.length - 1].type ===
+        "line-break"
+    ) {
+      return "";
+    }
+
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
     if (context.parent?.type === "code" || context.parent?.type === "html") {
