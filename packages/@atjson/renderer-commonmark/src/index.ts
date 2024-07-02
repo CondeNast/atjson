@@ -254,11 +254,7 @@ export default class CommonmarkRenderer extends Renderer {
 
   *root(): Iterator<void, string, string[]> {
     let rawText = (yield).join("");
-
-    while (rawText.length >= 2 && rawText.slice(-2) === "\\\n") {
-      rawText = rawText.slice(0, rawText.length - 2);
-    }
-    return rawText;
+    return rawText.replace(/(\\\n(\n*))+$/gs, "$2");
   }
 
   /**
