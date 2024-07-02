@@ -253,8 +253,8 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   *root(): Iterator<void, string, string[]> {
-    let rawText = yield;
-    return rawText.join("");
+    let rawText = (yield).join("");
+    return rawText.replace(/(\\\n(\n*))+$/gs, "$2");
   }
 
   /**
@@ -471,6 +471,10 @@ export default class CommonmarkRenderer extends Renderer {
       context.parent.parents &&
       context.next == null
     ) {
+      return "";
+    }
+
+    if (context.parent == null && context.next == null) {
       return "";
     }
 
