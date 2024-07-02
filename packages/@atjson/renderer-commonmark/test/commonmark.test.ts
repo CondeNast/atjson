@@ -2092,7 +2092,7 @@ After all the lists
         ],
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe("\\\n\\\n");
+      expect(CommonmarkRenderer.render(document)).toBe("");
     });
 
     test.each([
