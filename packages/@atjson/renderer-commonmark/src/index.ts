@@ -27,6 +27,8 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
+const TERMINAL_LINEBREAKS = /(\\\n(\n*))+$/gs;
+
 export function* splitDelimiterRuns(
   context: Context,
   options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
@@ -254,7 +256,7 @@ export default class CommonmarkRenderer extends Renderer {
 
   *root(): Iterator<void, string, string[]> {
     let rawText = (yield).join("");
-    return rawText.replace(/(\\\n(\n*))+$/gs, "$2");
+    return rawText.replace(TERMINAL_LINEBREAKS, "$2");
   }
 
   /**
