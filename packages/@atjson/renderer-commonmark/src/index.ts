@@ -27,6 +27,8 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
+// match a backslash + one or more new lines at the very end of the output
+// the second capture group allows us to preserve the extra new lines
 const TERMINAL_LINEBREAKS = /(\\\n(\n*))+$/gs;
 
 export function* splitDelimiterRuns(
