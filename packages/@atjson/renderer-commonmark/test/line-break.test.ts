@@ -1,6 +1,6 @@
 import CommonmarkRenderer from "../src";
 
-describe("terminal line breaks are removed", () => {
+describe("terminal line breaks are rendered", () => {
   test("in text", () => {
     const document = {
       text: "\ufffctest\ufffc\ufffc",
@@ -30,7 +30,7 @@ describe("terminal line breaks are removed", () => {
       marks: [],
     };
 
-    expect(CommonmarkRenderer.render(document)).toBe("test");
+    expect(CommonmarkRenderer.render(document)).toBe("test  \n  \n");
   });
 
   test("in text with interleaving new lines", () => {
@@ -62,7 +62,7 @@ describe("terminal line breaks are removed", () => {
       marks: [],
     };
 
-    expect(CommonmarkRenderer.render(document)).toBe("test\n");
+    expect(CommonmarkRenderer.render(document)).toBe("test  \n\n  \n");
   });
 
   test("in text with preceding linebreaks", () => {
@@ -94,7 +94,7 @@ describe("terminal line breaks are removed", () => {
       marks: [],
     };
 
-    expect(CommonmarkRenderer.render(document)).toBe("test\\\ntest");
+    expect(CommonmarkRenderer.render(document)).toBe("test  \ntest  \n");
   });
 
   test("in text terminating a mark", () => {
@@ -126,7 +126,7 @@ describe("terminal line breaks are removed", () => {
       ],
     };
 
-    expect(CommonmarkRenderer.render(document)).toBe("**test**");
+    expect(CommonmarkRenderer.render(document)).toBe("**test**  \n");
   });
 
   test("in paragraphs", () => {
@@ -166,89 +166,5 @@ describe("terminal line breaks are removed", () => {
     };
 
     expect(CommonmarkRenderer.render(document)).toBe("test\n\ntest\n\n");
-  });
-});
-
-describe("are slash escaped", () => {
-  test("in text", () => {
-    const document = {
-      text: "\ufffcline 1\ufffcline 2",
-      blocks: [
-        {
-          id: "B00000000",
-          type: "text",
-          parents: [],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "B00000001",
-          type: "line-break",
-          parents: ["text"],
-          selfClosing: true,
-          attributes: {},
-        },
-      ],
-      marks: [],
-    };
-
-    expect(CommonmarkRenderer.render(document)).toBe("line 1\\\nline 2");
-  });
-
-  test("in text terminating a mark", () => {
-    const document = {
-      text: "\ufffcline 1\ufffcline 2",
-      blocks: [
-        {
-          id: "B00000000",
-          type: "text",
-          parents: [],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "B00000001",
-          type: "line-break",
-          parents: ["text"],
-          selfClosing: true,
-          attributes: {},
-        },
-      ],
-      marks: [
-        {
-          id: "M00000000",
-          type: "bold",
-          range: "(1..8]" as const,
-          attributes: {},
-        },
-      ],
-    };
-
-    expect(CommonmarkRenderer.render(document)).toBe("**line 1**\\\nline 2");
-  });
-
-  test("in paragraph", () => {
-    const document = {
-      text: "\ufffcline 1\ufffcline 2",
-      blocks: [
-        {
-          id: "B00000000",
-          type: "paragraph",
-          parents: [],
-          selfClosing: false,
-          attributes: {},
-        },
-        {
-          id: "B00000001",
-          type: "line-break",
-          parents: ["paragraph"],
-          selfClosing: true,
-          attributes: {},
-        },
-      ],
-      marks: [],
-    };
-
-    expect(CommonmarkRenderer.render(document)).toBe("line 1\\\nline 2\n\n");
   });
 });

@@ -262,7 +262,7 @@ After all the lists
       ],
     });
 
-    expect(CommonmarkRenderer.render(document)).toBe("1. A\\\n   B\n2. C\n\n");
+    expect(CommonmarkRenderer.render(document)).toBe("1. A  \n   B\n2. C\n\n");
   });
 
   test("preserve space between sentence-terminating italic + number.", () => {
@@ -917,7 +917,7 @@ After all the lists
             },
           ],
         });
-        expect(CommonmarkRenderer.render(document)).toBe("**bold**\\\na");
+        expect(CommonmarkRenderer.render(document)).toBe("**bold**  \na");
       });
 
       test("delimiters with backslash in the inner boundary", () => {
@@ -944,7 +944,7 @@ After all the lists
             },
           ],
         });
-        expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\**\\\na");
+        expect(CommonmarkRenderer.render(document)).toBe("**bold\\\\**  \na");
       });
 
       test("delimiters with multiple backslash and newline in the inner boundary", () => {
@@ -1803,7 +1803,7 @@ After all the lists
         ],
       });
 
-      expect(CommonmarkRenderer.render(document)).toEqual("a\\\n\\\nb");
+      expect(CommonmarkRenderer.render(document)).toEqual("a  \n  \nb");
     });
 
     test("Document with text and empty line break on next line.", () => {
@@ -1908,7 +1908,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "Testing\\\n\\\nOne Another"
+        "Testing  \n  \nOne Another  \n"
       );
     });
 
@@ -1988,10 +1988,10 @@ After all the lists
         ],
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe("Common\\\n\\\nMark");
+      expect(CommonmarkRenderer.render(document)).toBe("Common  \n  \nMark");
     });
 
-    test("Empty Document", () => {
+    test("Document with all line breaks", () => {
       let document = new OffsetSource({
         content:
           "<$root><linebreak></linebreak><linebreak></linebreak><linebreak></linebreak></$root>",
@@ -2092,7 +2092,7 @@ After all the lists
         ],
       });
 
-      expect(CommonmarkRenderer.render(document)).toBe("");
+      expect(CommonmarkRenderer.render(document)).toBe("  \n  \n  \n");
     });
 
     test.each([

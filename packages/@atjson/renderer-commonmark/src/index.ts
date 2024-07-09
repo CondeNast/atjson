@@ -27,10 +27,6 @@ import {
 } from "./lib/punctuation";
 export * from "./lib/punctuation";
 
-// match a backslash + one or more new lines at the very end of the output
-// the second capture group allows us to preserve the extra new lines
-const TERMINAL_LINEBREAKS = /(\\\n(\n*))+$/gs;
-
 export function* splitDelimiterRuns(
   context: Context,
   options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
@@ -257,8 +253,8 @@ export default class CommonmarkRenderer extends Renderer {
   }
 
   *root(): Iterator<void, string, string[]> {
-    let rawText = (yield).join("");
-    return rawText.replace(TERMINAL_LINEBREAKS, "$2");
+    let rawText = yield;
+    return rawText.join("");
   }
 
   /**
@@ -478,17 +474,14 @@ export default class CommonmarkRenderer extends Renderer {
       return "";
     }
 
-    if (context.parent == null && context.next == null) {
-      return "";
-    }
-
     // MD code and html blocks cannot contain line breaks
     // https://spec.commonmark.org/0.29/#example-637
     if (context.parent?.type === "code" || context.parent?.type === "html") {
       return "\n";
     }
 
-    return "\\\n";
+    // two spaces + newline is parsed as a line break
+    return "  \n";
   }
 
   /**
