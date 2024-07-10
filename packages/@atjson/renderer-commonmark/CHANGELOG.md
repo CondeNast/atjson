@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.5](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.4...@atjson/renderer-commonmark@0.30.5) (2024-07-10)
+
+### Bug Fixes
+
+- add cleanup step to remove all terminal linebreaks ([381c7a3](https://github.com/CondeNast/atjson/commit/381c7a3e79ef34d02237c4de9ac3d88ed3b23fd7))
+- adding changes ([57716cb](https://github.com/CondeNast/atjson/commit/57716cb34e5e70993fa12e69d6e9e2522c28a0ce))
+- don't render terminal linebreaks ([b352160](https://github.com/CondeNast/atjson/commit/b352160b5c739a1b3ad40e1396b9a5e8de212c67))
+- handle linebreaks followed by new lines ([0910044](https://github.com/CondeNast/atjson/commit/0910044d6e4c7581bee07ea59db41d5f42492da4))
+- handling empty nextline doc ([7e64ee2](https://github.com/CondeNast/atjson/commit/7e64ee2b68741217c2cfc2ddce66eb841a3772ea))
+- revertin ([e0275c6](https://github.com/CondeNast/atjson/commit/e0275c68926cec3b414a2ec598065122f0c3f738))
+
 ## [0.30.4](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.3...@atjson/renderer-commonmark@0.30.4) (2024-06-12)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
