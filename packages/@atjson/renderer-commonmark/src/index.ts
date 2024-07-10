@@ -480,7 +480,8 @@ export default class CommonmarkRenderer extends Renderer {
       return "\n";
     }
 
-    return "\\\n";
+    // two spaces + newline is parsed as a line break
+    return "  \n";
   }
 
   /**
