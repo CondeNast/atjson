@@ -268,6 +268,11 @@ export default function (doc: Document) {
             attributes: {
               ...attributes,
               content: content.id,
+              hidePostCaption:
+                blockquote.attributes.dataset["instgrm-captioned"] != null &&
+                blockquote.attributes.dataset["instgrm-captioned"] !== "false"
+                  ? undefined
+                  : true,
             },
           }),
           content,
