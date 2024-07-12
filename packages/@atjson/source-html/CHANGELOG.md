@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.40.4 (2024-07-12)
+
+### Bug Fixes
+
+- convert hidePostCaption from insta embed code ([#1780](https://github.com/CondeNast/atjson/issues/1780)) ([8925544](https://github.com/CondeNast/atjson/commit/8925544ea1995fb9a96ade99e5bc9920726bf7d7))
+
 ## [0.40.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.2...@atjson/source-html@0.40.3) (2024-06-24)
 
 ### Bug Fixes
