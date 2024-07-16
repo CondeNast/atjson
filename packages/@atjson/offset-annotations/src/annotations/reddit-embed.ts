@@ -21,6 +21,18 @@ export class RedditEmbed extends BlockAnnotation<{
   hidePostContentIfEditedAfter?: string;
 
   /**
+   * For comment embeds, whether the post's title should
+   * be displayed.
+   */
+  showPostTitle?: boolean;
+
+  /**
+   * For comment embeds, whether the parent comment should
+   * be shown in the thread.
+   */
+  showParentComment?: boolean;
+
+  /**
    * Whether the username should be blurred.
    */
   hideUsername?: boolean;

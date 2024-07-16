@@ -450,6 +450,12 @@ export default function (doc: Document) {
               blockquote.attributes.dataset["embed-showedits"] === "false"
                 ? blockquote.attributes.dataset["embed-created"]
                 : undefined,
+            showParentComment:
+              blockquote.attributes.dataset["embed-context"] === "1"
+                ? blockquote.attributes.dataset["embed-depth"] >= 2
+                : undefined,
+            showPostTitle:
+              blockquote.attributes.dataset["embed-showtitle"] === "true",
           },
         }),
         content,
