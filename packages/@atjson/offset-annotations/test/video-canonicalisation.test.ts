@@ -63,6 +63,14 @@ describe("VideoURLs", () => {
         provider: VideoURLs.Provider.YOUTUBE,
       });
     });
+
+    test.each(["https://www.youtube.com/shorts/-5a7uHw4_0M"])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://www.youtube.com/embed/-5a7uHw4_0M",
+        provider: VideoURLs.Provider.YOUTUBE,
+        aspectRatio: "9:16",
+      });
+    });
   });
 
   describe("Twitch", () => {

@@ -50,7 +50,9 @@ function toURL(url: IUrl) {
 }
 
 function isYouTubeURL(url: IUrl) {
-  return isYouTubeEmbedURL(url) || isYouTubeWatchURL(url);
+  return (
+    isYouTubeEmbedURL(url) || isYouTubeWatchURL(url) || isYouTubeShortsURL(url)
+  );
 }
 
 // Youtube embed code
@@ -63,6 +65,12 @@ function isYouTubeEmbedURL(url: IUrl) {
     (["www.youtube-nocookie.com", "www.youtube.com"].includes(url.host) &&
       url.pathname.startsWith("/embed/"))
   );
+}
+
+// Youtube Shorts embed code
+// - youtube.com/shorts/:id
+function isYouTubeShortsURL(url: IUrl) {
+  return "www.youtube.com" === url.host && url.pathname.startsWith("/shorts/");
 }
 
 // Youtube watch URLs
@@ -90,7 +98,7 @@ function normalizeYouTubeURL(url: IUrl) {
     normalized.searchParams.set("start", timestamp);
   }
 
-  if (isYouTubeEmbedURL(url)) {
+  if (isYouTubeEmbedURL(url) || isYouTubeShortsURL(url)) {
     let parts = without<string>(url.pathname.split("/"), "");
     let id = parts.pop();
     normalized.pathname = `/embed/${id}`;
@@ -253,10 +261,18 @@ export enum Provider {
 
 export function identify(url: IUrl) {
   if (isYouTubeURL(url)) {
-    return {
-      provider: Provider.YOUTUBE,
-      url: normalizeYouTubeURL(url),
-    };
+    if (isYouTubeShortsURL(url)) {
+      return {
+        provider: Provider.YOUTUBE,
+        url: normalizeYouTubeURL(url),
+        aspectRatio: "9:16" as const,
+      };
+    } else {
+      return {
+        provider: Provider.YOUTUBE,
+        url: normalizeYouTubeURL(url),
+      };
+    }
   }
 
   if (isVimeoURL(url)) {
