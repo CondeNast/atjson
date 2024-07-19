@@ -184,10 +184,10 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = `column ${index + 1}`; // add unicode character
+            let columnName = `column ${index + 1}`;
 
             let columnConfig: (typeof columnConfigs)[number] = {
-              name: columnName.length ? columnName : `column ${index + 1}`,
+              name: columnName,
             };
 
             let alignment = extractAlignment(bodyCell);
