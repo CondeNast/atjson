@@ -1,10 +1,25 @@
+jest.mock("hexoid", () => {
+  let ticket = 0;
+  function hexoid() {
+    return () => `mock_uid_${ticket++}`;
+  }
+
+  hexoid.reset = () => {
+    ticket = 0;
+  };
+
+  return hexoid;
+});
+
+import hexoid from "hexoid";
+
 import {
   InlineAnnotation,
   getConverterFor,
   is,
   serialize,
 } from "@atjson/document";
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { Table } from "@atjson/offset-annotations";
 import MarkdownIt from "markdown-it";
 import CommonmarkSource from "../src";
 import { render } from "./utils";
@@ -86,6 +101,10 @@ describe("strikethrough", () => {
 });
 
 describe("tables", () => {
+  beforeEach(() => {
+    (hexoid as unknown as { reset(): void }).reset();
+  });
+
   const tableExample = `
 | name     | age | job     | [*notes*](https://ja.wikipedia.org/wiki/ダンジョン飯)                                                                                    |
 |:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|
@@ -94,6 +113,7 @@ describe("tables", () => {
 | falin    | 18  | healer  | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
 | chilchuk | 29  | thief   | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
 `;
+
   test("parsing", () => {
     expect(
       serialize(MarkdownItSource.fromRaw(tableExample), { withStableIds: true })
@@ -116,5 +136,45 @@ describe("tables", () => {
     expect(
       serialize(doc.convertTo(OffsetSource), { withStableIds: true })
     ).toMatchSnapshot();
+  });
+
+  test("empty header row creates headless table", () => {
+    const headlessTableExample = `
+|   |   |
+| - | - |
+| a | b |
+| c | d |
+`;
+    let doc =
+      MarkdownItSource.fromRaw(headlessTableExample).convertTo(OffsetSource);
+
+    let tables = doc.where((annotation) => is(annotation, Table));
+
+    expect(tables.length).toBe(1);
+
+    tables.forEach((table) => {
+      expect(table.attributes.showColumnHeaders).toBe(false);
+    });
+  });
+
+  test("duplicate column headers produce distinct column names", () => {
+    const duplicateColumnsTableExample = `
+| head | head |
+| ---- | ---- |
+| 1,1  | 1,2  |
+| 2,1  | 2,2  |
+`;
+    let doc = MarkdownItSource.fromRaw(duplicateColumnsTableExample).convertTo(
+      OffsetSource
+    );
+    let tables = doc.where((annotation) => is(annotation, Table));
+
+    expect(tables.length).toBe(1);
+
+    let columnNames = tables.annotations[0].attributes.columns.map(
+      (column) => column.name
+    );
+
+    expect(new Set(columnNames).size).toBe(2);
   });
 });

@@ -1,3 +1,4 @@
+import hexoid from "hexoid";
 import {
   JSON,
   SliceAnnotation,
@@ -7,6 +8,8 @@ import {
 } from "@atjson/document";
 
 import OffsetSource, { DataSet, Table, ColumnType } from "../index";
+
+const generateId = hexoid(8);
 
 function extractPlainContents(
   doc: OffsetSource,
@@ -80,15 +83,27 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
   return undefined;
 }
 
+function generateFieldName(
+  columnName: string | null,
+  index: number,
+  tableIdentifier: string
+) {
+  return (
+    (columnName?.length ? columnName : `column ${index + 1}`) +
+    `(${tableIdentifier}-${generateId()})`
+  );
+}
+
 export function convertHTMLTablesToDataSet(
   doc: OffsetSource,
   vendor: string
-): void {
+): Table[] {
+  let convertedTables: Table[] = [];
   doc.where({ type: `-${vendor}-table` }).forEach((table) => {
     if (isInvalidTable(doc, table, vendor)) {
       return;
     }
-
+    let tableIdentifier = generateId();
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
@@ -120,16 +135,15 @@ export function convertHTMLTablesToDataSet(
         });
         doc.replaceAnnotation(headCell, slice);
         let columnName = extractPlainContents(doc, slice);
+        let fieldName = generateFieldName(columnName, index, tableIdentifier);
 
-        dataSetSchemaEntries.push([
-          columnName.length ? columnName : `column ${index + 1}`,
-          ColumnType.RICH_TEXT,
-        ]);
+        dataSetSchemaEntries.push([fieldName, ColumnType.RICH_TEXT]);
 
         slices.push(slice);
 
         let columnConfig: (typeof columnConfigs)[number] = {
-          name: columnName,
+          name: fieldName,
+          plaintextName: columnName,
           slice: slice.id,
         };
 
@@ -174,7 +188,7 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = `column ${index + 1}`;
+            let columnName = generateFieldName(null, index, tableIdentifier);
 
             let columnConfig: (typeof columnConfigs)[number] = {
               name: columnName,
@@ -234,8 +248,12 @@ export function convertHTMLTablesToDataSet(
     slices.forEach((slice) => slice.attributes.refs.push(dataSet.id));
 
     doc.replaceAnnotation(table, dataSet, offsetTable);
+
+    convertedTables.push(offsetTable);
   });
 
   doc.where({ type: `-${vendor}-thead` }).remove();
   doc.where({ type: `-${vendor}-tbody` }).remove();
+
+  return convertedTables;
 }
