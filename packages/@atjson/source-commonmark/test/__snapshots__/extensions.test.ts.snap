@@ -7,24 +7,24 @@ exports[`tables adjacent tables 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name (mock_uid_0-mock_uid_1)",
+            "name": "name (1)",
             "plaintextName": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
-            "name": "age (mock_uid_0-mock_uid_2)",
+            "name": "age (2)",
             "plaintextName": "age",
             "slice": "M00000001",
             "textAlignment": "end",
           },
           {
-            "name": "job (mock_uid_0-mock_uid_3)",
+            "name": "job (3)",
             "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "notes (mock_uid_0-mock_uid_4)",
+            "name": "notes (4)",
             "plaintextName": "notes",
             "slice": "M00000003",
             "textAlignment": "center",
@@ -42,83 +42,83 @@ exports[`tables adjacent tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000013",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000018",
             },
           },
         ],
         "schema": {
-          "age (mock_uid_0-mock_uid_2)": "rich_text",
-          "job (mock_uid_0-mock_uid_3)": "rich_text",
-          "name (mock_uid_0-mock_uid_1)": "rich_text",
-          "notes (mock_uid_0-mock_uid_4)": "rich_text",
+          "age (2)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
+          "notes (4)": "rich_text",
         },
       },
       "id": "B00000001",
@@ -332,24 +332,24 @@ exports[`tables adjacent tables 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name (mock_uid_5-mock_uid_6)",
+            "name": "name (1)",
             "plaintextName": "name",
             "slice": "M00000019",
             "textAlignment": "start",
           },
           {
-            "name": "age (mock_uid_5-mock_uid_7)",
+            "name": "age (2)",
             "plaintextName": "age",
             "slice": "M0000001a",
             "textAlignment": "end",
           },
           {
-            "name": "job (mock_uid_5-mock_uid_8)",
+            "name": "job (3)",
             "plaintextName": "job",
             "slice": "M0000001b",
           },
           {
-            "name": "notes (mock_uid_5-mock_uid_9)",
+            "name": "notes (4)",
             "plaintextName": "notes",
             "slice": "M0000001c",
             "textAlignment": "center",
@@ -367,83 +367,83 @@ exports[`tables adjacent tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age (mock_uid_5-mock_uid_7)": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M00000020",
             },
-            "job (mock_uid_5-mock_uid_8)": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M00000021",
             },
-            "name (mock_uid_5-mock_uid_6)": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M0000001f",
             },
-            "notes (mock_uid_5-mock_uid_9)": {
+            "notes (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M00000022",
             },
           },
           {
-            "age (mock_uid_5-mock_uid_7)": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M00000026",
             },
-            "job (mock_uid_5-mock_uid_8)": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M00000027",
             },
-            "name (mock_uid_5-mock_uid_6)": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M00000025",
             },
-            "notes (mock_uid_5-mock_uid_9)": {
+            "notes (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M00000028",
             },
           },
           {
-            "age (mock_uid_5-mock_uid_7)": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M0000002a",
             },
-            "job (mock_uid_5-mock_uid_8)": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M0000002b",
             },
-            "name (mock_uid_5-mock_uid_6)": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M00000029",
             },
-            "notes (mock_uid_5-mock_uid_9)": {
+            "notes (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M0000002c",
             },
           },
           {
-            "age (mock_uid_5-mock_uid_7)": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M0000002f",
             },
-            "job (mock_uid_5-mock_uid_8)": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M00000030",
             },
-            "name (mock_uid_5-mock_uid_6)": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M0000002e",
             },
-            "notes (mock_uid_5-mock_uid_9)": {
+            "notes (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000031",
             },
           },
         ],
         "schema": {
-          "age (mock_uid_5-mock_uid_7)": "rich_text",
-          "job (mock_uid_5-mock_uid_8)": "rich_text",
-          "name (mock_uid_5-mock_uid_6)": "rich_text",
-          "notes (mock_uid_5-mock_uid_9)": "rich_text",
+          "age (2)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
+          "notes (4)": "rich_text",
         },
       },
       "id": "B00000017",
@@ -1131,24 +1131,24 @@ exports[`tables converting 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name (mock_uid_0-mock_uid_1)",
+            "name": "name (1)",
             "plaintextName": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
-            "name": "age (mock_uid_0-mock_uid_2)",
+            "name": "age (2)",
             "plaintextName": "age",
             "slice": "M00000001",
             "textAlignment": "end",
           },
           {
-            "name": "job (mock_uid_0-mock_uid_3)",
+            "name": "job (3)",
             "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "notes (mock_uid_0-mock_uid_4)",
+            "name": "notes (4)",
             "plaintextName": "notes",
             "slice": "M00000003",
             "textAlignment": "center",
@@ -1166,83 +1166,83 @@ exports[`tables converting 1`] = `
       "attributes": {
         "records": [
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000013",
             },
           },
           {
-            "age (mock_uid_0-mock_uid_2)": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job (mock_uid_0-mock_uid_3)": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name (mock_uid_0-mock_uid_1)": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes (mock_uid_0-mock_uid_4)": {
+            "notes (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000018",
             },
           },
         ],
         "schema": {
-          "age (mock_uid_0-mock_uid_2)": "rich_text",
-          "job (mock_uid_0-mock_uid_3)": "rich_text",
-          "name (mock_uid_0-mock_uid_1)": "rich_text",
-          "notes (mock_uid_0-mock_uid_4)": "rich_text",
+          "age (2)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
+          "notes (4)": "rich_text",
         },
       },
       "id": "B00000001",
