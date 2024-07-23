@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.29.3](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.29.2...@atjson/source-url@0.29.3) (2024-06-12)
+
+**Note:** Version bump only for package @atjson/source-url
+
+## [0.29.2](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.29.1...@atjson/source-url@0.29.2) (2024-06-10)
+
+**Note:** Version bump only for package @atjson/source-url
+
+## [0.29.1](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.29.0...@atjson/source-url@0.29.1) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-url
+
+# [0.29.0](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.28.27...@atjson/source-url@0.29.0) (2024-05-30)
+
+### Features
+
+- add Threads embed ([#1749](https://github.com/CondeNast/atjson/issues/1749)) ([3c99aa8](https://github.com/CondeNast/atjson/commit/3c99aa863a1b77b3c4c86ad82d889d60e376fa07))
+
+## [0.28.27](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.28.26...@atjson/source-url@0.28.27) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-url
+
 ## [0.28.26](https://github.com/CondeNast/atjson/compare/@atjson/source-url@0.28.25...@atjson/source-url@0.28.26) (2024-05-16)
 
 **Note:** Version bump only for package @atjson/source-url

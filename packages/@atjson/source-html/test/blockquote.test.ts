@@ -2,7 +2,7 @@ import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("blockquote", () => {
+describe("Blockquote", () => {
   test("without identifier", () => {
     let doc = HTMLSource.fromRaw(
       "<blockquote>This is a quote</blockquote>"

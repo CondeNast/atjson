@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.28.44 (2024-07-12)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.43](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.42...@atjson/source-prism@0.28.43) (2024-06-24)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.42](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.41...@atjson/source-prism@0.28.42) (2024-06-24)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.41](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.40...@atjson/source-prism@0.28.41) (2024-06-12)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.40](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.39...@atjson/source-prism@0.28.40) (2024-06-10)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.39](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.38...@atjson/source-prism@0.28.39) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.38](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.37...@atjson/source-prism@0.28.38) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-prism
+
+## [0.28.37](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.36...@atjson/source-prism@0.28.37) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-prism
+
 ## [0.28.36](https://github.com/CondeNast/atjson/compare/@atjson/source-prism@0.28.35...@atjson/source-prism@0.28.36) (2024-05-16)
 
 **Note:** Version bump only for package @atjson/source-prism

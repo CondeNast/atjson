@@ -2,7 +2,7 @@ import { serialize } from "@atjson/document";
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("CNE Audio", () => {
+describe("CNEAudioEmbed", () => {
   test("script", () => {
     let doc = HTMLSource.fromRaw(
       `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`

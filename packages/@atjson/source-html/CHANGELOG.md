@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.40.4 (2024-07-12)
+
+### Bug Fixes
+
+- convert hidePostCaption from insta embed code ([#1780](https://github.com/CondeNast/atjson/issues/1780)) ([8925544](https://github.com/CondeNast/atjson/commit/8925544ea1995fb9a96ade99e5bc9920726bf7d7))
+
+## [0.40.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.2...@atjson/source-html@0.40.3) (2024-06-24)
+
+### Bug Fixes
+
+- **InstagramEmbed:** position slices for caption content _inside_ the embed ([#1773](https://github.com/CondeNast/atjson/issues/1773)) ([8d6d61c](https://github.com/CondeNast/atjson/commit/8d6d61cc1a62b89b8188ccaf4903d776d45c3981))
+
+## [0.40.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.1...@atjson/source-html@0.40.2) (2024-06-24)
+
+### Bug Fixes
+
+- update instagram embed code detection to handle v14 ([#1772](https://github.com/CondeNast/atjson/issues/1772)) ([9ed091b](https://github.com/CondeNast/atjson/commit/9ed091b339cd8bd04282dae4bb477aed1574294e))
+
+## [0.40.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.40.0...@atjson/source-html@0.40.1) (2024-06-12)
+
+**Note:** Version bump only for package @atjson/source-html
+
+# [0.40.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.39.1...@atjson/source-html@0.40.0) (2024-06-10)
+
+### Features
+
+- BlueskyEmbed ([#1756](https://github.com/CondeNast/atjson/issues/1756)) ([9fd4db7](https://github.com/CondeNast/atjson/commit/9fd4db780096f4fecc04f1ddf023799df4907452))
+- MastodonEmbed ([#1755](https://github.com/CondeNast/atjson/issues/1755)) ([99a44a8](https://github.com/CondeNast/atjson/commit/99a44a863656590e4689d8a89d267fa7c7201b75))
+- properly store post content on social media blocks ([#1753](https://github.com/CondeNast/atjson/issues/1753)) ([8987f92](https://github.com/CondeNast/atjson/commit/8987f92d116cc4fcdec25846fd26116e7f1ca95b))
+
+## [0.39.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.39.0...@atjson/source-html@0.39.1) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/source-html
+
+# [0.39.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.38.0...@atjson/source-html@0.39.0) (2024-05-30)
+
+### Features
+
+- add Threads embed ([#1749](https://github.com/CondeNast/atjson/issues/1749)) ([3c99aa8](https://github.com/CondeNast/atjson/commit/3c99aa863a1b77b3c4c86ad82d889d60e376fa07))
+
+# [0.38.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.37.2...@atjson/source-html@0.38.0) (2024-05-30)
+
+### Features
+
+- attribute standardization ([#1685](https://github.com/CondeNast/atjson/issues/1685)) ([36f709f](https://github.com/CondeNast/atjson/commit/36f709f3bcf0e68dd09afd17c69e35b76ea7c7a8))
+
 ## [0.37.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.37.1...@atjson/source-html@0.37.2) (2024-05-16)
 
 ### Bug Fixes

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.53.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.52.0...@atjson/offset-annotations@0.53.0) (2024-06-12)
+
+### Features
+
+- accordion annotatiosn ([b5b3d72](https://github.com/CondeNast/atjson/commit/b5b3d72d834d99485a211c83f10200f611b3fe30))
+- new annotation design ([a17dc26](https://github.com/CondeNast/atjson/commit/a17dc26c830bc66401a8ff2435677d9f544a36e5))
+- new annotation design ([b191e66](https://github.com/CondeNast/atjson/commit/b191e66960d0715677d7a77cc212f222170c2687))
+- new annotation design ([154229e](https://github.com/CondeNast/atjson/commit/154229e5aed9a68161315196252ffb3323451f11))
+
+# [0.52.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.51.1...@atjson/offset-annotations@0.52.0) (2024-06-10)
+
+### Features
+
+- BlueskyEmbed ([#1756](https://github.com/CondeNast/atjson/issues/1756)) ([9fd4db7](https://github.com/CondeNast/atjson/commit/9fd4db780096f4fecc04f1ddf023799df4907452))
+- MastodonEmbed ([#1755](https://github.com/CondeNast/atjson/issues/1755)) ([99a44a8](https://github.com/CondeNast/atjson/commit/99a44a863656590e4689d8a89d267fa7c7201b75))
+- properly store post content on social media blocks ([#1753](https://github.com/CondeNast/atjson/issues/1753)) ([8987f92](https://github.com/CondeNast/atjson/commit/8987f92d116cc4fcdec25846fd26116e7f1ca95b))
+
+## [0.51.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.51.0...@atjson/offset-annotations@0.51.1) (2024-05-30)
+
+**Note:** Version bump only for package @atjson/offset-annotations
+
+# [0.51.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.50.0...@atjson/offset-annotations@0.51.0) (2024-05-30)
+
+### Features
+
+- add Threads embed ([#1749](https://github.com/CondeNast/atjson/issues/1749)) ([3c99aa8](https://github.com/CondeNast/atjson/commit/3c99aa863a1b77b3c4c86ad82d889d60e376fa07))
+
+# [0.50.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.2...@atjson/offset-annotations@0.50.0) (2024-05-30)
+
+### Features
+
+- attribute standardization ([#1685](https://github.com/CondeNast/atjson/issues/1685)) ([36f709f](https://github.com/CondeNast/atjson/commit/36f709f3bcf0e68dd09afd17c69e35b76ea7c7a8))
+
 ## [0.49.2](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.49.1...@atjson/offset-annotations@0.49.2) (2024-05-16)
 
 ### Bug Fixes

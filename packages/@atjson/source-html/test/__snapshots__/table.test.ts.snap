@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tables invalid tables does not convert tables with multiple head sections 1`] = `
+exports[`Table invalid tables does not convert tables with multiple head sections 1`] = `
 {
   "blocks": [
     {
@@ -316,7 +316,7 @@ exports[`tables invalid tables does not convert tables with multiple head sectio
 }
 `;
 
-exports[`tables invalid tables does not convert tables with multiple heading rows 1`] = `
+exports[`Table invalid tables does not convert tables with multiple heading rows 1`] = `
 {
   "blocks": [
     {
@@ -630,7 +630,7 @@ exports[`tables invalid tables does not convert tables with multiple heading row
 }
 `;
 
-exports[`tables valid tables converts column alignments 1`] = `
+exports[`Table valid tables converts column alignments 1`] = `
 {
   "blocks": [
     {
@@ -647,7 +647,7 @@ exports[`tables valid tables converts column alignments 1`] = `
             "name": "name(f0227921-f0227922)",
             "plaintextName": "name",
             "slice": "M00000000",
-            "textAlign": "left",
+            "textAlignment": "start",
           },
           {
             "name": "age(f0227921-f0227923)",
@@ -663,7 +663,7 @@ exports[`tables valid tables converts column alignments 1`] = `
             "name": "notes(f0227921-f0227925)",
             "plaintextName": "notes",
             "slice": "M00000003",
-            "textAlign": "right",
+            "textAlignment": "end",
           },
         ],
         "dataSet": "B00000002",
@@ -1391,7 +1391,7 @@ exports[`tables valid tables converts column alignments 1`] = `
 }
 `;
 
-exports[`tables valid tables converts jagged tables with no head section 1`] = `
+exports[`Table valid tables converts jagged tables with no head section 1`] = `
 {
   "blocks": [
     {
@@ -1754,7 +1754,7 @@ exports[`tables valid tables converts jagged tables with no head section 1`] = `
 }
 `;
 
-exports[`tables valid tables converts simple tables 1`] = `
+exports[`Table valid tables converts simple tables 1`] = `
 {
   "blocks": [
     {
@@ -2513,7 +2513,7 @@ exports[`tables valid tables converts simple tables 1`] = `
 }
 `;
 
-exports[`tables valid tables converts uniform tables with no head section 1`] = `
+exports[`Table valid tables converts uniform tables with no head section 1`] = `
 {
   "blocks": [
     {

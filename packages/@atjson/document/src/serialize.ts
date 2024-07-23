@@ -726,6 +726,9 @@ function schemaForItem<A>(
   if (item.type === "slice") {
     return SliceAnnotation;
   }
+  if (item.type === "text") {
+    return TextAnnotation;
+  }
   for (let AnnotationClass of schema) {
     if (AnnotationClass.type === item.type) {
       return AnnotationClass;
@@ -752,15 +755,6 @@ export function deserialize<A>(
 
   for (let i = 0, len = positions.length - 1; i < len; i++) {
     let block = blocks[i];
-    if (block.type === "text") {
-      annotations.push(
-        new ParseAnnotation({
-          start: positions[i],
-          end: positions[i] + 1,
-        })
-      );
-      continue;
-    }
     let AnnotationClass = schemaForItem(block, DocumentClass);
     let position = offsetsForBlock(blocks, i, positions);
     annotations.push(

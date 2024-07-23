@@ -1,4 +1,11 @@
-import { IframeEmbed, TelegramEmbed, SocialURLs, InstagramEmbed } from "../src";
+import {
+  IframeEmbed,
+  InstagramEmbed,
+  MastodonEmbed,
+  SocialURLs,
+  ThreadsEmbed,
+  TwitterEmbed,
+} from "../src";
 
 describe("SocialURLs", () => {
   describe("identify Spotify", () => {
@@ -141,28 +148,6 @@ describe("SocialURLs", () => {
     });
   });
 
-  describe("identify Telegram", () => {
-    test.each([
-      [
-        "https://t.me/voguerussia/8714/",
-        {
-          url: "voguerussia/8714",
-        },
-      ],
-      [
-        "http://t.me/tatlerbutler/3416",
-        {
-          url: "tatlerbutler/3416",
-        },
-      ],
-    ])("%s", (url, attributes) => {
-      expect(SocialURLs.identify(new URL(url))).toMatchObject({
-        Class: TelegramEmbed,
-        attributes,
-      });
-    });
-  });
-
   describe("identify Reddit", () => {
     test.each([
       [
@@ -221,6 +206,59 @@ describe("SocialURLs", () => {
       expect(SocialURLs.identify(new URL(url))).toMatchObject({
         Class: InstagramEmbed,
         attributes,
+      });
+    });
+  });
+
+  describe("identify Tweets", () => {
+    test.each([
+      [
+        "https://twitter.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+      [
+        "https://x.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+      [
+        "https://www.twitter.com/dril/status/1696601385385816223",
+        {
+          url: "https://twitter.com/dril/status/1696601385385816223",
+        },
+      ],
+    ])("%s", (url, attributes) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: TwitterEmbed,
+        attributes,
+      });
+    });
+  });
+
+  describe("identify Threads", () => {
+    test.each([["https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS"]])(
+      "%s",
+      (url) => {
+        expect(SocialURLs.identify(new URL(url))).toMatchObject({
+          Class: ThreadsEmbed,
+          attributes: { url },
+        });
+      }
+    );
+  });
+
+  describe("identify Mastodon embeds", () => {
+    test.each([
+      ["https://mastodon.social/@thisemailfindsyou/112428613749566319"],
+    ])("%s", (url) => {
+      expect(SocialURLs.identify(new URL(url))).toMatchObject({
+        Class: MastodonEmbed,
+        attributes: {
+          url,
+        },
       });
     });
   });

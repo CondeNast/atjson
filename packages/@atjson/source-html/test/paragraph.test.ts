@@ -1,19 +1,19 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { TextAlignment } from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 
-describe("paragraphs", () => {
-  describe("alignment", () => {
+describe("Paragraph", () => {
+  describe("textAlignment", () => {
     describe("left to right", () => {
       describe.each([
         ["with direction attribute", `dir="ltr"`],
         ["without direction attribute", ""],
       ])("%s", (dir) => {
         test.each([
-          ["left", "start"],
-          ["right", "end"],
-          ["center", "center"],
-          ["justify", "justify"],
-        ] as const)("%s attribute is converted", (textAlign, alignment) => {
+          ["left", TextAlignment.Start],
+          ["right", TextAlignment.End],
+          ["center", TextAlignment.Center],
+          ["justify", TextAlignment.Justify],
+        ] as const)("%s attribute is converted", (textAlign, textAlignment) => {
           let doc = HTMLSource.fromRaw(
             `<p style="text-align:${textAlign};" ${dir}>Here is some text</p>`
           ).convertTo(OffsetSource);
@@ -23,7 +23,7 @@ describe("paragraphs", () => {
           ).toMatchObject([
             {
               attributes: {
-                alignment,
+                textAlignment,
               },
             },
           ]);
@@ -33,10 +33,10 @@ describe("paragraphs", () => {
 
     describe("right to left", () => {
       test.each([
-        ["left", "end"],
-        ["right", "start"],
-        ["center", "center"],
-        ["justify", "justify"],
+        ["left", TextAlignment.End],
+        ["right", TextAlignment.Start],
+        ["center", TextAlignment.Center],
+        ["justify", TextAlignment.Justify],
       ] as const)("%s attribute is converted", (textAlign) => {
         expect(() => {
           HTMLSource.fromRaw(

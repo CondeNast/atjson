@@ -11,6 +11,7 @@ import {
   List,
   Paragraph,
   Table,
+  TextAlignment,
 } from "@atjson/offset-annotations";
 import Renderer, { Context } from "@atjson/renderer-hir";
 import type { Block, Mark } from "@atjson/document";
@@ -479,7 +480,8 @@ export default class CommonmarkRenderer extends Renderer {
       return "\n";
     }
 
-    return "\\\n";
+    // two spaces + newline is parsed as a line break
+    return "  \n";
   }
 
   /**
@@ -776,11 +778,12 @@ export default class CommonmarkRenderer extends Renderer {
         header: string;
         rows: string[];
         width: number;
-        textAlign?: "left" | "center" | "right";
+        textAlignment?: TextAlignment;
       }
     > = {};
 
-    for (let { name, slice: sliceId, textAlign } of table.attributes.columns) {
+    for (let { name, slice: sliceId, textAlignment } of table.attributes
+      .columns) {
       let headerText = "";
       if (table.attributes.showColumnHeaders) {
         if (sliceId) {
@@ -797,7 +800,7 @@ export default class CommonmarkRenderer extends Renderer {
         header: headerText.replace(/\n/g, " "),
         rows: [],
         width: Math.max(headerText.length, 1),
-        textAlign,
+        textAlignment,
       };
     }
 
@@ -830,16 +833,22 @@ export default class CommonmarkRenderer extends Renderer {
     let headerRow = "|";
     let separatorRow = "|";
 
-    for (let { name, textAlign } of table.attributes.columns) {
+    for (let { name, textAlignment } of table.attributes.columns) {
       let headerText = columns[name].header;
       let columnWidth = columns[name].width;
       headerRow +=
         " " + headerText + " ".repeat(columnWidth - headerText.length) + " |";
 
       let leftDecoration =
-        textAlign === "left" || textAlign === "center" ? ":" : " ";
+        textAlignment === TextAlignment.Start ||
+        textAlignment === TextAlignment.Center
+          ? ":"
+          : " ";
       let rightDecoration =
-        textAlign === "center" || textAlign === "right" ? ":" : " ";
+        textAlignment === TextAlignment.Center ||
+        textAlignment === TextAlignment.End
+          ? ":"
+          : " ";
       separatorRow +=
         leftDecoration + "-".repeat(columnWidth) + rightDecoration + "|";
     }

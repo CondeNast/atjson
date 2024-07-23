@@ -18,7 +18,19 @@ import { BlockAnnotation } from "@atjson/document";
  */
 export class Group<T = {}> extends BlockAnnotation<
   T & {
+    /**
+     * Art direction information about how the group should
+     * be laid out. Properties here can determine whether
+     * media should be shown as a diptych, masonry, stacked, etc.
+     */
     artDirection: string;
+
+    /**
+     * Layout information, used to indicate mutually
+     * exclusive layouts, for example sizes, floats, etc.
+     */
+    layout?: string;
+
     /**
      * A named identifier used to quickly jump to this item
      */

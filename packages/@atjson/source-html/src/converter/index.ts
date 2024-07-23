@@ -4,8 +4,9 @@ import OffsetSource, {
   List,
   IframeEmbed,
   convertHTMLTablesToDataSet,
+  Link,
 } from "@atjson/offset-annotations";
-import { OrderedList } from "../annotations";
+import { Anchor, OrderedList } from "../annotations";
 import HTMLSource from "../source";
 import convertSocialEmbeds from "./social-embeds";
 import convertThirdPartyEmbeds from "./third-party-embeds";
@@ -64,17 +65,22 @@ HTMLSource.defineConverterTo(OffsetSource, function HTMLToOffset(doc) {
     );
   });
 
-  doc
-    .where({ type: "-html-a" })
-    .set({ type: "-offset-link" })
-    .rename({
-      attributes: {
-        "-html-href": "-offset-url",
-        "-html-rel": "-offset-rel",
-        "-html-target": "-offset-target",
-        "-html-title": "-offset-title",
-      },
-    });
+  doc.where({ type: "-html-a" }).update((anchor: Anchor) => {
+    doc.replaceAnnotation(
+      anchor,
+      new Link({
+        id: anchor.id,
+        start: anchor.start,
+        end: anchor.end,
+        attributes: {
+          url: anchor.attributes.href as string,
+          rel: anchor.attributes.rel,
+          target: anchor.attributes.target,
+          title: anchor.attributes.title,
+        },
+      })
+    );
+  });
 
   doc
     .where({ type: "-html-blockquote" })
