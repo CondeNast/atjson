@@ -100,7 +100,7 @@ function generateFieldName(
 ) {
   return (
     (columnName?.length ? columnName : `column ${index + 1}`) +
-    `(${tableIdentifier}-${generateId()})`
+    ` (${tableIdentifier}-${generateId()})`
   );
 }
 

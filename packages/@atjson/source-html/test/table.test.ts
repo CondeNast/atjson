@@ -1,8 +1,27 @@
+jest.mock("hexoid", () => {
+  let ticket = 0;
+  function hexoid() {
+    return () => `mock_uid_${ticket++}`;
+  }
+
+  hexoid.reset = () => {
+    ticket = 0;
+  };
+
+  return hexoid;
+});
+
+import hexoid from "hexoid";
+
 import OffsetSource from "@atjson/offset-annotations";
 import HTMLSource from "../src";
 import { serialize } from "@atjson/document";
 
 describe("Table", () => {
+  beforeEach(() => {
+    (hexoid as unknown as { reset(): void }).reset();
+  });
+
   describe("valid tables", () => {
     test("converts simple tables", () => {
       let tableMarkup = `

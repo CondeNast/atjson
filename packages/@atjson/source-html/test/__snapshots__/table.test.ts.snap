@@ -644,23 +644,23 @@ exports[`Table valid tables converts column alignments 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name(f0227921-f0227922)",
+            "name": "name (mock_uid_0-mock_uid_1)",
             "plaintextName": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
-            "name": "age(f0227921-f0227923)",
+            "name": "age (mock_uid_0-mock_uid_2)",
             "plaintextName": "age",
             "slice": "M00000001",
           },
           {
-            "name": "job(f0227921-f0227924)",
+            "name": "job (mock_uid_0-mock_uid_3)",
             "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "notes(f0227921-f0227925)",
+            "name": "notes (mock_uid_0-mock_uid_4)",
             "plaintextName": "notes",
             "slice": "M00000003",
             "textAlignment": "end",
@@ -678,57 +678,57 @@ exports[`Table valid tables converts column alignments 1`] = `
       "attributes": {
         "records": [
           {
-            "age(f0227921-f0227923)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job(f0227921-f0227924)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name(f0227921-f0227922)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes(f0227921-f0227925)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age(f0227921-f0227923)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job(f0227921-f0227924)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name(f0227921-f0227922)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes(f0227921-f0227925)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age(f0227921-f0227923)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job(f0227921-f0227924)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name(f0227921-f0227922)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes(f0227921-f0227925)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -736,19 +736,19 @@ exports[`Table valid tables converts column alignments 1`] = `
             },
           },
           {
-            "age(f0227921-f0227923)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job(f0227921-f0227924)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name(f0227921-f0227922)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes(f0227921-f0227925)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -757,10 +757,10 @@ exports[`Table valid tables converts column alignments 1`] = `
           },
         ],
         "schema": {
-          "age(f0227921-f0227923)": "rich_text",
-          "job(f0227921-f0227924)": "rich_text",
-          "name(f0227921-f0227922)": "rich_text",
-          "notes(f0227921-f0227925)": "rich_text",
+          "age (mock_uid_0-mock_uid_2)": "rich_text",
+          "job (mock_uid_0-mock_uid_3)": "rich_text",
+          "name (mock_uid_0-mock_uid_1)": "rich_text",
+          "notes (mock_uid_0-mock_uid_4)": "rich_text",
         },
       },
       "id": "B00000002",
@@ -1405,16 +1405,16 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "column 1(f0227916-f022791d)",
+            "name": "column 1 (mock_uid_0-mock_uid_7)",
           },
           {
-            "name": "column 2(f0227916-f022791e)",
+            "name": "column 2 (mock_uid_0-mock_uid_8)",
           },
           {
-            "name": "column 3(f0227916-f022791f)",
+            "name": "column 3 (mock_uid_0-mock_uid_9)",
           },
           {
-            "name": "column 4(f0227916-f0227920)",
+            "name": "column 4 (mock_uid_0-mock_uid_10)",
           },
         ],
         "dataSet": "B00000002",
@@ -1429,49 +1429,49 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
       "attributes": {
         "records": [
           {
-            "column 1(f0227916-f0227917)": {
+            "column 1 (mock_uid_0-mock_uid_1)": {
               "jsonValue": "laios",
               "slice": "M00000000",
             },
           },
           {
-            "column 1(f0227916-f0227918)": {
+            "column 1 (mock_uid_0-mock_uid_2)": {
               "jsonValue": "marcille",
               "slice": "M00000001",
             },
-            "column 2(f0227916-f0227919)": {
+            "column 2 (mock_uid_0-mock_uid_3)": {
               "jsonValue": "500",
               "slice": "M00000002",
             },
-            "column 3(f0227916-f022791a)": {
+            "column 3 (mock_uid_0-mock_uid_4)": {
               "jsonValue": "mage",
               "slice": "M00000003",
             },
           },
           {
-            "column 1(f0227916-f022791b)": {
+            "column 1 (mock_uid_0-mock_uid_5)": {
               "jsonValue": "falin",
               "slice": "M00000004",
             },
-            "column 2(f0227916-f022791c)": {
+            "column 2 (mock_uid_0-mock_uid_6)": {
               "jsonValue": "healer",
               "slice": "M00000005",
             },
           },
           {
-            "column 1(f0227916-f022791d)": {
+            "column 1 (mock_uid_0-mock_uid_7)": {
               "jsonValue": "chilchuk",
               "slice": "M00000006",
             },
-            "column 2(f0227916-f022791e)": {
+            "column 2 (mock_uid_0-mock_uid_8)": {
               "jsonValue": "29",
               "slice": "M00000007",
             },
-            "column 3(f0227916-f022791f)": {
+            "column 3 (mock_uid_0-mock_uid_9)": {
               "jsonValue": "thief",
               "slice": "M00000008",
             },
-            "column 4(f0227916-f0227920)": {
+            "column 4 (mock_uid_0-mock_uid_10)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -1480,10 +1480,10 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
           },
         ],
         "schema": {
-          "column 1(f0227916-f022791d)": "rich_text",
-          "column 2(f0227916-f022791e)": "rich_text",
-          "column 3(f0227916-f022791f)": "rich_text",
-          "column 4(f0227916-f0227920)": "rich_text",
+          "column 1 (mock_uid_0-mock_uid_7)": "rich_text",
+          "column 2 (mock_uid_0-mock_uid_8)": "rich_text",
+          "column 3 (mock_uid_0-mock_uid_9)": "rich_text",
+          "column 4 (mock_uid_0-mock_uid_10)": "rich_text",
         },
       },
       "id": "B00000002",
@@ -1768,22 +1768,22 @@ exports[`Table valid tables converts simple tables 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name(f0227900-f0227901)",
+            "name": "name (mock_uid_0-mock_uid_1)",
             "plaintextName": "name",
             "slice": "M00000000",
           },
           {
-            "name": "age(f0227900-f0227902)",
+            "name": "age (mock_uid_0-mock_uid_2)",
             "plaintextName": "age",
             "slice": "M00000001",
           },
           {
-            "name": "job(f0227900-f0227903)",
+            "name": "job (mock_uid_0-mock_uid_3)",
             "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "notes(f0227900-f0227904)",
+            "name": "notes (mock_uid_0-mock_uid_4)",
             "plaintextName": "notes",
             "slice": "M00000003",
           },
@@ -1800,57 +1800,57 @@ exports[`Table valid tables converts simple tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age(f0227900-f0227902)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job(f0227900-f0227903)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name(f0227900-f0227901)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes(f0227900-f0227904)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age(f0227900-f0227902)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job(f0227900-f0227903)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name(f0227900-f0227901)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes(f0227900-f0227904)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age(f0227900-f0227902)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job(f0227900-f0227903)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name(f0227900-f0227901)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes(f0227900-f0227904)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -1858,19 +1858,19 @@ exports[`Table valid tables converts simple tables 1`] = `
             },
           },
           {
-            "age(f0227900-f0227902)": {
+            "age (mock_uid_0-mock_uid_2)": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job(f0227900-f0227903)": {
+            "job (mock_uid_0-mock_uid_3)": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name(f0227900-f0227901)": {
+            "name (mock_uid_0-mock_uid_1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes(f0227900-f0227904)": {
+            "notes (mock_uid_0-mock_uid_4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -1879,10 +1879,10 @@ exports[`Table valid tables converts simple tables 1`] = `
           },
         ],
         "schema": {
-          "age(f0227900-f0227902)": "rich_text",
-          "job(f0227900-f0227903)": "rich_text",
-          "name(f0227900-f0227901)": "rich_text",
-          "notes(f0227900-f0227904)": "rich_text",
+          "age (mock_uid_0-mock_uid_2)": "rich_text",
+          "job (mock_uid_0-mock_uid_3)": "rich_text",
+          "name (mock_uid_0-mock_uid_1)": "rich_text",
+          "notes (mock_uid_0-mock_uid_4)": "rich_text",
         },
       },
       "id": "B00000002",
@@ -2527,16 +2527,16 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "column 1(f0227905-f0227912)",
+            "name": "column 1 (mock_uid_0-mock_uid_13)",
           },
           {
-            "name": "column 2(f0227905-f0227913)",
+            "name": "column 2 (mock_uid_0-mock_uid_14)",
           },
           {
-            "name": "column 3(f0227905-f0227914)",
+            "name": "column 3 (mock_uid_0-mock_uid_15)",
           },
           {
-            "name": "column 4(f0227905-f0227915)",
+            "name": "column 4 (mock_uid_0-mock_uid_16)",
           },
         ],
         "dataSet": "B00000002",
@@ -2551,57 +2551,57 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
       "attributes": {
         "records": [
           {
-            "column 1(f0227905-f0227906)": {
+            "column 1 (mock_uid_0-mock_uid_1)": {
               "jsonValue": "laios",
               "slice": "M00000000",
             },
-            "column 2(f0227905-f0227907)": {
+            "column 2 (mock_uid_0-mock_uid_2)": {
               "jsonValue": "20",
               "slice": "M00000001",
             },
-            "column 3(f0227905-f0227908)": {
+            "column 3 (mock_uid_0-mock_uid_3)": {
               "jsonValue": "fighter",
               "slice": "M00000002",
             },
-            "column 4(f0227905-f0227909)": {
+            "column 4 (mock_uid_0-mock_uid_4)": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000003",
             },
           },
           {
-            "column 1(f0227905-f022790a)": {
+            "column 1 (mock_uid_0-mock_uid_5)": {
               "jsonValue": "marcille",
               "slice": "M00000006",
             },
-            "column 2(f0227905-f022790b)": {
+            "column 2 (mock_uid_0-mock_uid_6)": {
               "jsonValue": "500",
               "slice": "M00000007",
             },
-            "column 3(f0227905-f022790c)": {
+            "column 3 (mock_uid_0-mock_uid_7)": {
               "jsonValue": "mage",
               "slice": "M00000008",
             },
-            "column 4(f0227905-f022790d)": {
+            "column 4 (mock_uid_0-mock_uid_8)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M00000009",
             },
           },
           {
-            "column 1(f0227905-f022790e)": {
+            "column 1 (mock_uid_0-mock_uid_9)": {
               "jsonValue": "falin",
               "slice": "M0000000a",
             },
-            "column 2(f0227905-f022790f)": {
+            "column 2 (mock_uid_0-mock_uid_10)": {
               "jsonValue": "18",
               "slice": "M0000000b",
             },
-            "column 3(f0227905-f0227910)": {
+            "column 3 (mock_uid_0-mock_uid_11)": {
               "jsonValue": "healer",
               "slice": "M0000000c",
             },
-            "column 4(f0227905-f0227911)": {
+            "column 4 (mock_uid_0-mock_uid_12)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -2609,19 +2609,19 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
             },
           },
           {
-            "column 1(f0227905-f0227912)": {
+            "column 1 (mock_uid_0-mock_uid_13)": {
               "jsonValue": "chilchuk",
               "slice": "M0000000f",
             },
-            "column 2(f0227905-f0227913)": {
+            "column 2 (mock_uid_0-mock_uid_14)": {
               "jsonValue": "29",
               "slice": "M00000010",
             },
-            "column 3(f0227905-f0227914)": {
+            "column 3 (mock_uid_0-mock_uid_15)": {
               "jsonValue": "thief",
               "slice": "M00000011",
             },
-            "column 4(f0227905-f0227915)": {
+            "column 4 (mock_uid_0-mock_uid_16)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -2630,10 +2630,10 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
           },
         ],
         "schema": {
-          "column 1(f0227905-f0227912)": "rich_text",
-          "column 2(f0227905-f0227913)": "rich_text",
-          "column 3(f0227905-f0227914)": "rich_text",
-          "column 4(f0227905-f0227915)": "rich_text",
+          "column 1 (mock_uid_0-mock_uid_13)": "rich_text",
+          "column 2 (mock_uid_0-mock_uid_14)": "rich_text",
+          "column 3 (mock_uid_0-mock_uid_15)": "rich_text",
+          "column 4 (mock_uid_0-mock_uid_16)": "rich_text",
         },
       },
       "id": "B00000002",
