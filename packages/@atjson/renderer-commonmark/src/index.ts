@@ -782,10 +782,8 @@ export default class CommonmarkRenderer extends Renderer {
       }
     > = {};
 
-    for (let [
-      index,
-      { name, slice: sliceId, textAlignment },
-    ] of table.attributes.columns.entries()) {
+    for (let { name, slice: sliceId, textAlignment } of table.attributes
+      .columns) {
       let headerText = "";
       if (table.attributes.showColumnHeaders) {
         if (sliceId) {
@@ -798,7 +796,6 @@ export default class CommonmarkRenderer extends Renderer {
           headerText = name;
         }
       }
-      name = name === "" ? `column ${index + 1}` : name;
       columns[name] = {
         header: headerText.replace(/\n/g, " "),
         rows: [],
@@ -808,8 +805,7 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     for (let row of dataSet.attributes.records) {
-      for (let [index, { name }] of table.attributes.columns.entries()) {
-        name = name === "" ? `column ${index + 1}` : name;
+      for (let { name } of table.attributes.columns) {
         let cellText = "";
         let sliceId = row[name]?.slice;
 
@@ -837,11 +833,7 @@ export default class CommonmarkRenderer extends Renderer {
     let headerRow = "|";
     let separatorRow = "|";
 
-    for (let [
-      index,
-      { name, textAlignment },
-    ] of table.attributes.columns.entries()) {
-      name = name === "" ? `column ${index + 1}` : name;
+    for (let { name, textAlignment } of table.attributes.columns) {
       let headerText = columns[name].header;
       let columnWidth = columns[name].width;
       headerRow +=
@@ -865,8 +857,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     dataSet.attributes.records.forEach((_row, index) => {
       body += "|";
-      for (let [i, { name }] of table.attributes.columns.entries()) {
-        name = name === "" ? `column ${i + 1}` : name;
+      for (let { name } of table.attributes.columns) {
         let cellText = columns[name].rows[index];
         let columnWidth = columns[name].width;
         body +=

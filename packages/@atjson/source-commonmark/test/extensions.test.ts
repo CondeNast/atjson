@@ -118,3 +118,37 @@ describe("tables", () => {
     ).toMatchSnapshot();
   });
 });
+
+describe("table with empty column header", () => {
+  const tableExample = `
+| name     | age | job     |                                                                                 |
+|:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|
+| laios    | 20  | fighter | ちょっと変な but earnest person. He *really __really__* likes monsters                                                                              |
+| marcille | 500 | mage    | Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...                        |
+| falin    | 18  | healer  | She *seems* nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers |
+| chilchuk | 29  | thief   | Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people    |
+`;
+  test("parsing", () => {
+    expect(
+      serialize(MarkdownItSource.fromRaw(tableExample), { withStableIds: true })
+    ).toMatchSnapshot();
+  });
+
+  test("converting", () => {
+    let doc = MarkdownItSource.fromRaw(tableExample).withStableIds();
+
+    expect(
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+    ).toMatchSnapshot();
+  });
+
+  test("adjacent tables", () => {
+    let doc = MarkdownItSource.fromRaw(
+      tableExample + "\n" + tableExample
+    ).withStableIds();
+
+    expect(
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+    ).toMatchSnapshot();
+  });
+});
