@@ -1,18 +1,3 @@
-jest.mock("hexoid", () => {
-  let ticket = 0;
-  function hexoid() {
-    return () => `mock_uid_${ticket++}`;
-  }
-
-  hexoid.reset = () => {
-    ticket = 0;
-  };
-
-  return hexoid;
-});
-
-import hexoid from "hexoid";
-
 import {
   InlineAnnotation,
   getConverterFor,
@@ -101,10 +86,6 @@ describe("strikethrough", () => {
 });
 
 describe("tables", () => {
-  beforeEach(() => {
-    (hexoid as unknown as { reset(): void }).reset();
-  });
-
   const tableExample = `
 | name     | age | job     | [*notes*](https://ja.wikipedia.org/wiki/ダンジョン飯)                                                                                    |
 |:-------- | ---:| ------- |:------------------------------------------------------------------------------------------------------------------------------------------------:|

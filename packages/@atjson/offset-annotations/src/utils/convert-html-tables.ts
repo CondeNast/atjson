@@ -1,4 +1,3 @@
-import hexoid from "hexoid";
 import {
   JSON,
   SliceAnnotation,
@@ -13,8 +12,6 @@ import OffsetSource, {
   ColumnType,
   TextAlignment,
 } from "../index";
-
-const generateId = hexoid(8);
 
 function extractPlainContents(
   doc: OffsetSource,
@@ -93,14 +90,17 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
   return undefined;
 }
 
-function generateFieldName(
-  columnName: string | null,
-  index: number,
-  tableIdentifier: string
-) {
+/**
+ * generates a unique field name for each column, filling in blank or missing column names with "column \<index\>"
+ * and then appending (\<index\>) to the name in order to ensure there are no duplicates.
+ * @param columnName the human-readable column name derived from the rich text contents of the table
+ * @param index the index of the column in the table
+ * @returns the unique column name as a string
+ */
+function generateFieldName(columnName: string | null, index: number) {
   return (
     (columnName?.length ? columnName : `column ${index + 1}`) +
-    ` (${tableIdentifier}-${generateId()})`
+    ` (${index + 1})`
   );
 }
 
@@ -113,7 +113,6 @@ export function convertHTMLTablesToDataSet(
     if (isInvalidTable(doc, table, vendor)) {
       return;
     }
-    let tableIdentifier = generateId();
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
@@ -145,7 +144,7 @@ export function convertHTMLTablesToDataSet(
         });
         doc.replaceAnnotation(headCell, slice);
         let columnName = extractPlainContents(doc, slice);
-        let fieldName = generateFieldName(columnName, index, tableIdentifier);
+        let fieldName = generateFieldName(columnName, index);
 
         dataSetSchemaEntries.push([fieldName, ColumnType.RICH_TEXT]);
 
@@ -198,7 +197,7 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = generateFieldName(null, index, tableIdentifier);
+            let columnName = generateFieldName(null, index);
 
             let columnConfig: (typeof columnConfigs)[number] = {
               name: columnName,
