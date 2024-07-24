@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.53.1 (2024-07-24)
+
+### Bug Fixes
+
+- addressing comments ([b926594](https://github.com/CondeNast/atjson/commit/b92659467f174b60029008c91dd2cf4e916a95d2))
+- prerelease version change ([e96898c](https://github.com/CondeNast/atjson/commit/e96898c670e6df27e39babd190c6031715ad1b29))
+- removing comment ([d05f667](https://github.com/CondeNast/atjson/commit/d05f667fa3c0738c6b6fa5112e88519cfd3c1aa6))
+- updating condition ([df69db1](https://github.com/CondeNast/atjson/commit/df69db1e1e6a304a809ae410d7b79d0834888395))
+- updating condition ([80481e0](https://github.com/CondeNast/atjson/commit/80481e04d8a993b0fa284660b4098449d2c12f03))
+
 # [0.53.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.52.0...@atjson/offset-annotations@0.53.0) (2024-06-12)
 
 ### Features
