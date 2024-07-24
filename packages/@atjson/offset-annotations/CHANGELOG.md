@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.54.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.53.1...@atjson/offset-annotations@0.54.0) (2024-07-24)
+
+### Features
+
+- add support for YouTube Shorts ([#1782](https://github.com/CondeNast/atjson/issues/1782)) ([6ecd1ab](https://github.com/CondeNast/atjson/commit/6ecd1abe3a1e378ea6275670fc450c1695bbaa78))
+
 ## 0.53.1 (2024-07-24)
 
 ### Bug Fixes
