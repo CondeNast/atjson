@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.27.5 (2024-07-24)
+
+### Bug Fixes
+
+- removing changes on renderer-commonmark file ([8550464](https://github.com/CondeNast/atjson/commit/8550464dae12610367af3c72bbcc89e2f87f74c9))
+
 ## [0.27.4](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.27.3...@atjson/source-commonmark@0.27.4) (2024-06-12)
 
 **Note:** Version bump only for package @atjson/source-commonmark
