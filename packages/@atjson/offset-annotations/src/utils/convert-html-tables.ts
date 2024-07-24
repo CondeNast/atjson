@@ -139,7 +139,7 @@ export function convertHTMLTablesToDataSet(
         slices.push(slice);
 
         let columnConfig: (typeof columnConfigs)[number] = {
-          name: columnName,
+          name: columnName.length ? columnName : `column ${index + 1}`,
           slice: slice.id,
         };
 
