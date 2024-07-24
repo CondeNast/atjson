@@ -32,14 +32,14 @@ export class Table extends BlockAnnotation<{
    */
   columns: Array<{
     /**
-     * `name` corresponds to the fields on the schema of the corresponding DataSet
+     * `columnName` corresponds to the fields on the schema of the corresponding DataSet
      */
-    name: string;
+    columnName: string;
 
     /**
-     * `plaintextName`, if present, is a stringified version of the displayed column header text
+     * `name`, if present, is a stringified version of the displayed column header text
      */
-    plaintextName?: string;
+    name?: string;
 
     /**
      * `slice` is a reference to the slice of the document to be rendered as the column header

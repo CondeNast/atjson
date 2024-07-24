@@ -91,16 +91,24 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
 }
 
 /**
- * generates a unique field name for each column, filling in blank or missing column names with "column \<index\>"
- * and then appending (\<index\>) to the name in order to ensure there are no duplicates.
+ * generates a unique field name for each column, filling in blank or missing column names with "column_\<index\>"
+ * and then appending --\<index\> to the name in order to ensure there are no duplicates.
+ *
  * @param columnName the human-readable column name derived from the rich text contents of the table
  * @param index the index of the column in the table
  * @returns the unique column name as a string
  */
-function generateFieldName(columnName: string | null, index: number) {
+export function generateColumnName(columnName: string | null, index: number) {
+  let sqlizedColumnName = columnName
+    ?.toLocaleLowerCase()
+    .replace(/[\s-]+/gmu, "_")
+    .replace(/[^a-zA-Z0-9_]/gm, "");
+
   return (
-    (columnName?.length ? columnName : `column ${index + 1}`) +
-    ` (${index + 1})`
+    // we could do more sophisticated deduplication here, but it would make the data
+    // less consistent and predictable and make this code more complex
+    (sqlizedColumnName?.length ? sqlizedColumnName : `column_${index + 1}`) +
+    `__${index + 1}`
   );
 }
 
@@ -143,16 +151,16 @@ export function convertHTMLTablesToDataSet(
           attributes: { refs: [] },
         });
         doc.replaceAnnotation(headCell, slice);
-        let columnName = extractPlainContents(doc, slice);
-        let fieldName = generateFieldName(columnName, index);
+        let name = extractPlainContents(doc, slice);
+        let columnName = generateColumnName(name, index);
 
-        dataSetSchemaEntries.push([fieldName, ColumnType.RICH_TEXT]);
+        dataSetSchemaEntries.push([columnName, ColumnType.RICH_TEXT]);
 
         slices.push(slice);
 
         let columnConfig: (typeof columnConfigs)[number] = {
-          name: fieldName,
-          plaintextName: columnName,
+          columnName,
+          name,
           slice: slice.id,
         };
 
@@ -197,10 +205,10 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = generateFieldName(null, index);
+            let columnName = generateColumnName(null, index);
 
             let columnConfig: (typeof columnConfigs)[number] = {
-              name: columnName,
+              columnName,
             };
 
             let alignment = extractAlignment(bodyCell);
