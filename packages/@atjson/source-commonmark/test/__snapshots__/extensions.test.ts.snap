@@ -7,21 +7,25 @@ exports[`table with empty column header adjacent tables 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name",
+            "name": "name (1)",
+            "plaintextName": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
-            "name": "age",
+            "name": "age (2)",
+            "plaintextName": "age",
             "slice": "M00000001",
             "textAlignment": "end",
           },
           {
-            "name": "job",
+            "name": "job (3)",
+            "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "column 4",
+            "name": "column 4 (4)",
+            "plaintextName": "",
             "slice": "M00000003",
             "textAlignment": "center",
           },
@@ -38,83 +42,83 @@ exports[`table with empty column header adjacent tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M00000005",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M00000007",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M00000006",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M00000004",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M0000000b",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M0000000d",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M0000000c",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M0000000a",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M0000000f",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000011",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M00000010",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M0000000e",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M00000014",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000016",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M00000015",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000013",
             },
           },
         ],
         "schema": {
-          "age": "rich_text",
-          "column 4": "rich_text",
-          "job": "rich_text",
-          "name": "rich_text",
+          "age (2)": "rich_text",
+          "column 4 (4)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
         },
       },
       "id": "B00000001",
@@ -328,21 +332,25 @@ exports[`table with empty column header adjacent tables 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name",
+            "name": "name (1)",
+            "plaintextName": "name",
             "slice": "M00000017",
             "textAlignment": "start",
           },
           {
-            "name": "age",
+            "name": "age (2)",
+            "plaintextName": "age",
             "slice": "M00000018",
             "textAlignment": "end",
           },
           {
-            "name": "job",
+            "name": "job (3)",
+            "plaintextName": "job",
             "slice": "M00000019",
           },
           {
-            "name": "column 4",
+            "name": "column 4 (4)",
+            "plaintextName": "",
             "slice": "M0000001a",
             "textAlignment": "center",
           },
@@ -359,83 +367,83 @@ exports[`table with empty column header adjacent tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M0000001c",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M0000001e",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M0000001d",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M0000001b",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M00000022",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M00000024",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M00000023",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M00000021",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M00000026",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000028",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M00000027",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M00000025",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M0000002b",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M0000002d",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M0000002c",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M0000002a",
             },
           },
         ],
         "schema": {
-          "age": "rich_text",
-          "column 4": "rich_text",
-          "job": "rich_text",
-          "name": "rich_text",
+          "age (2)": "rich_text",
+          "column 4 (4)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
         },
       },
       "id": "B00000017",
@@ -1095,21 +1103,25 @@ exports[`table with empty column header converting 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "name",
+            "name": "name (1)",
+            "plaintextName": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
-            "name": "age",
+            "name": "age (2)",
+            "plaintextName": "age",
             "slice": "M00000001",
             "textAlignment": "end",
           },
           {
-            "name": "job",
+            "name": "job (3)",
+            "plaintextName": "job",
             "slice": "M00000002",
           },
           {
-            "name": "column 4",
+            "name": "column 4 (4)",
+            "plaintextName": "",
             "slice": "M00000003",
             "textAlignment": "center",
           },
@@ -1126,83 +1138,83 @@ exports[`table with empty column header converting 1`] = `
       "attributes": {
         "records": [
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "20",
               "slice": "M00000005",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "ちょっと変な but earnest person. He really really likes monsters",
               "slice": "M00000007",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "fighter",
               "slice": "M00000006",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "laios",
               "slice": "M00000004",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "500",
               "slice": "M0000000b",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict and fussy, she is interested in forbidden magic...",
               "slice": "M0000000d",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "mage",
               "slice": "M0000000c",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "marcille",
               "slice": "M0000000a",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "18",
               "slice": "M0000000f",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When push comes to shove she will look out for people she loves and disregard strangers",
               "slice": "M00000011",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "healer",
               "slice": "M00000010",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "falin",
               "slice": "M0000000e",
             },
           },
           {
-            "age": {
+            "age (2)": {
               "jsonValue": "29",
               "slice": "M00000014",
             },
-            "column 4": {
+            "column 4 (4)": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is serious about his work and isn't interested in getting close with people",
               "slice": "M00000016",
             },
-            "job": {
+            "job (3)": {
               "jsonValue": "thief",
               "slice": "M00000015",
             },
-            "name": {
+            "name (1)": {
               "jsonValue": "chilchuk",
               "slice": "M00000013",
             },
           },
         ],
         "schema": {
-          "age": "rich_text",
-          "column 4": "rich_text",
-          "job": "rich_text",
-          "name": "rich_text",
+          "age (2)": "rich_text",
+          "column 4 (4)": "rich_text",
+          "job (3)": "rich_text",
+          "name (1)": "rich_text",
         },
       },
       "id": "B00000001",
