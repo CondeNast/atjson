@@ -782,7 +782,7 @@ export default class CommonmarkRenderer extends Renderer {
       }
     > = {};
 
-    for (let { name, slice: sliceId, textAlignment } of table.attributes
+    for (let { columnName, slice: sliceId, textAlignment } of table.attributes
       .columns) {
       let headerText = "";
       if (table.attributes.showColumnHeaders) {
@@ -792,11 +792,9 @@ export default class CommonmarkRenderer extends Renderer {
             throw new Error(`column heading slice not found ${sliceId}`);
           }
           headerText = this.render(slice);
-        } else {
-          headerText = name;
         }
       }
-      columns[name] = {
+      columns[columnName] = {
         header: headerText.replace(/\n/g, " "),
         rows: [],
         width: Math.max(headerText.length, 1),
@@ -805,9 +803,9 @@ export default class CommonmarkRenderer extends Renderer {
     }
 
     for (let row of dataSet.attributes.records) {
-      for (let { name } of table.attributes.columns) {
+      for (let { columnName } of table.attributes.columns) {
         let cellText = "";
-        let sliceId = row[name]?.slice;
+        let sliceId = row[columnName]?.slice;
 
         if (sliceId) {
           let cellSlice = this.getSlice(sliceId);
@@ -815,7 +813,7 @@ export default class CommonmarkRenderer extends Renderer {
             throw new Error(
               `Table ${table.id} ${table.range} with DataSet ${
                 dataSet.attributes.name || dataSet.id
-              }: document slice not found for column ${name} in row ${JSON.stringify(
+              }: document slice not found for column ${columnName} in row ${JSON.stringify(
                 row,
                 null,
                 2
@@ -825,17 +823,20 @@ export default class CommonmarkRenderer extends Renderer {
           cellText = this.render(cellSlice);
         }
 
-        columns[name].rows.push(cellText.replace(/\n/g, " "));
-        columns[name].width = Math.max(columns[name].width, cellText.length);
+        columns[columnName].rows.push(cellText.replace(/\n/g, " "));
+        columns[columnName].width = Math.max(
+          columns[columnName].width,
+          cellText.length
+        );
       }
     }
 
     let headerRow = "|";
     let separatorRow = "|";
 
-    for (let { name, textAlignment } of table.attributes.columns) {
-      let headerText = columns[name].header;
-      let columnWidth = columns[name].width;
+    for (let { columnName, textAlignment } of table.attributes.columns) {
+      let headerText = columns[columnName].header;
+      let columnWidth = columns[columnName].width;
       headerRow +=
         " " + headerText + " ".repeat(columnWidth - headerText.length) + " |";
 
@@ -857,9 +858,9 @@ export default class CommonmarkRenderer extends Renderer {
 
     dataSet.attributes.records.forEach((_row, index) => {
       body += "|";
-      for (let { name } of table.attributes.columns) {
-        let cellText = columns[name].rows[index];
-        let columnWidth = columns[name].width;
+      for (let { columnName } of table.attributes.columns) {
+        let cellText = columns[columnName].rows[index];
+        let columnWidth = columns[columnName].width;
         body +=
           " " + cellText + " ".repeat(columnWidth - cellText.length) + " |";
       }

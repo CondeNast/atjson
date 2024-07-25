@@ -451,9 +451,9 @@ export default class HTMLRenderer extends Renderer {
     let body = "<tbody>";
     for (let record of dataSet.attributes.records) {
       body += "<tr>";
-      for (let { name, textAlignment } of table.attributes.columns) {
+      for (let { columnName, textAlignment } of table.attributes.columns) {
         let cellText = "";
-        let sliceId = record[name]?.slice;
+        let sliceId = record[columnName]?.slice;
         if (sliceId) {
           let slice = this.getSlice(sliceId);
           if (slice) {

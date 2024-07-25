@@ -100,8 +100,7 @@ CommonmarkSource.defineConverterTo(
        */
       if (
         table.attributes.columns.every(
-          (column) =>
-            column.plaintextName === "" || column.plaintextName == null
+          (column) => column.name === "" || column.name == null
         )
       ) {
         table.attributes.showColumnHeaders = false;
