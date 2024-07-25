@@ -46,7 +46,7 @@ describe("DataSet", () => {
             attributes: {
               columns: [
                 {
-                  columnNamename: "column 1",
+                  columnName: "column 1",
                   slice: "column1Id",
                   textAlignment: TextAlignment.Start,
                 },

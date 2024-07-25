@@ -153,7 +153,7 @@ describe("tables", () => {
     expect(tables.length).toBe(1);
 
     let columnNames = tables.annotations[0].attributes.columns.map(
-      (column) => column.name
+      (column) => column.columnName
     );
 
     expect(new Set(columnNames).size).toBe(2);
