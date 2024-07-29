@@ -400,7 +400,9 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       rows.push(row);
     }
     let [header, ...body] = rows;
-    let columnNames = header.map((header) => snakecase(header.jsonValue));
+    let columnNames = header.map(
+      (header, index) => snakecase(header.jsonValue) + "__" + index
+    );
     let records = body.map((row) => {
       return row.reduce((E, cell, index) => {
         E[columnNames[index]] = cell;
@@ -436,7 +438,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
           showColumnHeaders: true,
           columns: header.map((cell, index) => {
             return {
-              name: columnNames[index],
+              columnName: columnNames[index],
               slice: cell.slice,
             };
           }),

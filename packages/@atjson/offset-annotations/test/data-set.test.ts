@@ -4,7 +4,12 @@ import {
   Block,
   SliceAnnotation,
 } from "@atjson/document";
-import OffsetSource, { ColumnType, DataSet, Table } from "../src";
+import OffsetSource, {
+  ColumnType,
+  DataSet,
+  Table,
+  TextAlignment,
+} from "../src";
 
 describe("DataSet", () => {
   test("peritext", () => {
@@ -41,14 +46,14 @@ describe("DataSet", () => {
             attributes: {
               columns: [
                 {
-                  name: "column 1",
+                  columnName: "column 1",
                   slice: "column1Id",
-                  textAlign: "left",
+                  textAlignment: TextAlignment.Start,
                 },
                 {
-                  name: "column 2",
+                  columnName: "column 2",
                   slice: "column2Id",
-                  textAlign: "right",
+                  textAlignment: TextAlignment.End,
                 },
               ],
               dataSet: "dataSetId",

@@ -31,8 +31,24 @@ export class Table extends BlockAnnotation<{
    * them from rendering.
    */
   columns: Array<{
-    name: string;
+    /**
+     * `columnName` corresponds to the fields on the schema of the corresponding DataSet
+     */
+    columnName: string;
+
+    /**
+     * `name`, if present, is a stringified version of the displayed column header text
+     */
+    name?: string;
+
+    /**
+     * `slice` is a reference to the slice of the document to be rendered as the column header
+     */
     slice?: string;
+
+    /**
+     * `textAlignment` is stored on the column level as a concession to the markdown table format
+     */
     textAlignment?: TextAlignment;
   }>;
 

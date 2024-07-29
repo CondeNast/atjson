@@ -31,14 +31,14 @@ exports[`DataSet peritext 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "column 1",
+            "columnName": "column 1",
             "slice": "M00000000",
-            "textAlign": "left",
+            "textAlignment": "start",
           },
           {
-            "name": "column 2",
+            "columnName": "column 2",
             "slice": "M00000001",
-            "textAlign": "right",
+            "textAlignment": "end",
           },
         ],
         "dataSet": "B00000000",

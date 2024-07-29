@@ -90,15 +90,37 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
   return undefined;
 }
 
+/**
+ * generates a unique field name for each column, filling in blank or missing column names with "column_\<index\>"
+ * and then appending --\<index\> to the name in order to ensure there are no duplicates.
+ *
+ * @param columnName the human-readable column name derived from the rich text contents of the table
+ * @param index the index of the column in the table
+ * @returns the unique column name as a string
+ */
+export function generateColumnName(columnName: string | null, index: number) {
+  let sqlizedColumnName = columnName
+    ?.toLocaleLowerCase()
+    .replace(/[\s-]+/gmu, "_")
+    .replace(/[^a-zA-Z0-9_]/gm, "");
+
+  return (
+    // we could do more sophisticated deduplication here, but it would make the data
+    // less consistent and predictable and make this code more complex
+    (sqlizedColumnName?.length ? sqlizedColumnName : `column_${index + 1}`) +
+    `__${index + 1}`
+  );
+}
+
 export function convertHTMLTablesToDataSet(
   doc: OffsetSource,
   vendor: string
-): void {
+): Table[] {
+  let convertedTables: Table[] = [];
   doc.where({ type: `-${vendor}-table` }).forEach((table) => {
     if (isInvalidTable(doc, table, vendor)) {
       return;
     }
-
     let dataSetSchemaEntries: [name: string, type: ColumnType][] = [];
     let columnConfigs: Exclude<Table["attributes"]["columns"], undefined> = [];
     let dataRows: Record<string, { slice: string; jsonValue: JSON }>[] = [];
@@ -129,17 +151,16 @@ export function convertHTMLTablesToDataSet(
           attributes: { refs: [] },
         });
         doc.replaceAnnotation(headCell, slice);
-        let columnName = extractPlainContents(doc, slice);
+        let name = extractPlainContents(doc, slice);
+        let columnName = generateColumnName(name, index);
 
-        dataSetSchemaEntries.push([
-          columnName.length ? columnName : `column ${index + 1}`,
-          ColumnType.RICH_TEXT,
-        ]);
+        dataSetSchemaEntries.push([columnName, ColumnType.RICH_TEXT]);
 
         slices.push(slice);
 
         let columnConfig: (typeof columnConfigs)[number] = {
-          name: columnName.length ? columnName : `column ${index + 1}`,
+          columnName,
+          name,
           slice: slice.id,
         };
 
@@ -184,10 +205,10 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = `column ${index + 1}`;
+            let columnName = generateColumnName(null, index);
 
             let columnConfig: (typeof columnConfigs)[number] = {
-              name: columnName,
+              columnName,
             };
 
             let alignment = extractAlignment(bodyCell);
@@ -244,8 +265,12 @@ export function convertHTMLTablesToDataSet(
     slices.forEach((slice) => slice.attributes.refs.push(dataSet.id));
 
     doc.replaceAnnotation(table, dataSet, offsetTable);
+
+    convertedTables.push(offsetTable);
   });
 
   doc.where({ type: `-${vendor}-thead` }).remove();
   doc.where({ type: `-${vendor}-tbody` }).remove();
+
+  return convertedTables;
 }

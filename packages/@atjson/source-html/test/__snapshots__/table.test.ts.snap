@@ -644,19 +644,23 @@ exports[`Table valid tables converts column alignments 1`] = `
       "attributes": {
         "columns": [
           {
+            "columnName": "name__1",
             "name": "name",
             "slice": "M00000000",
             "textAlignment": "start",
           },
           {
+            "columnName": "age__2",
             "name": "age",
             "slice": "M00000001",
           },
           {
+            "columnName": "job__3",
             "name": "job",
             "slice": "M00000002",
           },
           {
+            "columnName": "notes__4",
             "name": "notes",
             "slice": "M00000003",
             "textAlignment": "end",
@@ -674,57 +678,57 @@ exports[`Table valid tables converts column alignments 1`] = `
       "attributes": {
         "records": [
           {
-            "age": {
+            "age__2": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -732,19 +736,19 @@ exports[`Table valid tables converts column alignments 1`] = `
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -753,10 +757,10 @@ exports[`Table valid tables converts column alignments 1`] = `
           },
         ],
         "schema": {
-          "age": "rich_text",
-          "job": "rich_text",
-          "name": "rich_text",
-          "notes": "rich_text",
+          "age__2": "rich_text",
+          "job__3": "rich_text",
+          "name__1": "rich_text",
+          "notes__4": "rich_text",
         },
       },
       "id": "B00000002",
@@ -1401,16 +1405,16 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "column 1",
+            "columnName": "column_1__1",
           },
           {
-            "name": "column 2",
+            "columnName": "column_2__2",
           },
           {
-            "name": "column 3",
+            "columnName": "column_3__3",
           },
           {
-            "name": "column 4",
+            "columnName": "column_4__4",
           },
         ],
         "dataSet": "B00000002",
@@ -1425,49 +1429,49 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
       "attributes": {
         "records": [
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "laios",
               "slice": "M00000000",
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "marcille",
               "slice": "M00000001",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "500",
               "slice": "M00000002",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "mage",
               "slice": "M00000003",
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "falin",
               "slice": "M00000004",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "healer",
               "slice": "M00000005",
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "chilchuk",
               "slice": "M00000006",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "29",
               "slice": "M00000007",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "thief",
               "slice": "M00000008",
             },
-            "column 4": {
+            "column_4__4": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -1476,10 +1480,10 @@ exports[`Table valid tables converts jagged tables with no head section 1`] = `
           },
         ],
         "schema": {
-          "column 1": "rich_text",
-          "column 2": "rich_text",
-          "column 3": "rich_text",
-          "column 4": "rich_text",
+          "column_1__1": "rich_text",
+          "column_2__2": "rich_text",
+          "column_3__3": "rich_text",
+          "column_4__4": "rich_text",
         },
       },
       "id": "B00000002",
@@ -1764,18 +1768,22 @@ exports[`Table valid tables converts simple tables 1`] = `
       "attributes": {
         "columns": [
           {
+            "columnName": "name__1",
             "name": "name",
             "slice": "M00000000",
           },
           {
+            "columnName": "age__2",
             "name": "age",
             "slice": "M00000001",
           },
           {
+            "columnName": "job__3",
             "name": "job",
             "slice": "M00000002",
           },
           {
+            "columnName": "notes__4",
             "name": "notes",
             "slice": "M00000003",
           },
@@ -1792,57 +1800,57 @@ exports[`Table valid tables converts simple tables 1`] = `
       "attributes": {
         "records": [
           {
-            "age": {
+            "age__2": {
               "jsonValue": "20",
               "slice": "M00000007",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "fighter",
               "slice": "M00000008",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "laios",
               "slice": "M00000006",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000009",
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "500",
               "slice": "M0000000d",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "mage",
               "slice": "M0000000e",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "marcille",
               "slice": "M0000000c",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M0000000f",
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "18",
               "slice": "M00000011",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "healer",
               "slice": "M00000012",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "falin",
               "slice": "M00000010",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -1850,19 +1858,19 @@ exports[`Table valid tables converts simple tables 1`] = `
             },
           },
           {
-            "age": {
+            "age__2": {
               "jsonValue": "29",
               "slice": "M00000016",
             },
-            "job": {
+            "job__3": {
               "jsonValue": "thief",
               "slice": "M00000017",
             },
-            "name": {
+            "name__1": {
               "jsonValue": "chilchuk",
               "slice": "M00000015",
             },
-            "notes": {
+            "notes__4": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -1871,10 +1879,10 @@ exports[`Table valid tables converts simple tables 1`] = `
           },
         ],
         "schema": {
-          "age": "rich_text",
-          "job": "rich_text",
-          "name": "rich_text",
-          "notes": "rich_text",
+          "age__2": "rich_text",
+          "job__3": "rich_text",
+          "name__1": "rich_text",
+          "notes__4": "rich_text",
         },
       },
       "id": "B00000002",
@@ -2519,16 +2527,16 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
       "attributes": {
         "columns": [
           {
-            "name": "column 1",
+            "columnName": "column_1__1",
           },
           {
-            "name": "column 2",
+            "columnName": "column_2__2",
           },
           {
-            "name": "column 3",
+            "columnName": "column_3__3",
           },
           {
-            "name": "column 4",
+            "columnName": "column_4__4",
           },
         ],
         "dataSet": "B00000002",
@@ -2543,57 +2551,57 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
       "attributes": {
         "records": [
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "laios",
               "slice": "M00000000",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "20",
               "slice": "M00000001",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "fighter",
               "slice": "M00000002",
             },
-            "column 4": {
+            "column_4__4": {
               "jsonValue": "A strange but earnest person. He
         really really likes monsters",
               "slice": "M00000003",
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "marcille",
               "slice": "M00000006",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "500",
               "slice": "M00000007",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "mage",
               "slice": "M00000008",
             },
-            "column 4": {
+            "column_4__4": {
               "jsonValue": "Difficult to get along with but very competent. Despite seeming strict
         and fussy, she is interested in forbidden magic...",
               "slice": "M00000009",
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "falin",
               "slice": "M0000000a",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "18",
               "slice": "M0000000b",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "healer",
               "slice": "M0000000c",
             },
-            "column 4": {
+            "column_4__4": {
               "jsonValue": "She seems nice, but is actually just a people pleaser. When
         push comes to shove she will look out for people she loves and disregard
         strangers",
@@ -2601,19 +2609,19 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
             },
           },
           {
-            "column 1": {
+            "column_1__1": {
               "jsonValue": "chilchuk",
               "slice": "M0000000f",
             },
-            "column 2": {
+            "column_2__2": {
               "jsonValue": "29",
               "slice": "M00000010",
             },
-            "column 3": {
+            "column_3__3": {
               "jsonValue": "thief",
               "slice": "M00000011",
             },
-            "column 4": {
+            "column_4__4": {
               "jsonValue": "Looks like a child but is actually a divorced father of three. He is
         serious about his work and isn't interested in getting close with
         people",
@@ -2622,10 +2630,10 @@ exports[`Table valid tables converts uniform tables with no head section 1`] = `
           },
         ],
         "schema": {
-          "column 1": "rich_text",
-          "column 2": "rich_text",
-          "column 3": "rich_text",
-          "column 4": "rich_text",
+          "column_1__1": "rich_text",
+          "column_2__2": "rich_text",
+          "column_3__3": "rich_text",
+          "column_4__4": "rich_text",
         },
       },
       "id": "B00000002",

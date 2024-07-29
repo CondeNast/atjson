@@ -39,15 +39,15 @@ describe("@atjson/source-gdocs-paste", () => {
               "attributes": {
                 "columns": [
                   {
-                    "name": "channel",
+                    "columnName": "channel__0",
                     "slice": "M00000000",
                   },
                   {
-                    "name": "mu_point",
+                    "columnName": "mu_point__1",
                     "slice": "M00000002",
                   },
                   {
-                    "name": "shu_point",
+                    "columnName": "shu_point__2",
                     "slice": "M00000003",
                   },
                 ],
@@ -63,178 +63,178 @@ describe("@atjson/source-gdocs-paste", () => {
               "attributes": {
                 "records": [
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Lung",
                       "slice": "M00000004",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "LU1",
                       "slice": "M00000005",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL13",
                       "slice": "M00000006",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Pericardium",
                       "slice": "M00000007",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV17",
                       "slice": "M00000008",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL14",
                       "slice": "M00000009",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Heart",
                       "slice": "M0000000a",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV14",
                       "slice": "M0000000b",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL15",
                       "slice": "M0000000c",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Liver",
                       "slice": "M0000000d",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "LR14",
                       "slice": "M0000000e",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL18",
                       "slice": "M0000000f",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Gallbladder",
                       "slice": "M00000010",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "GB24",
                       "slice": "M00000011",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL19",
                       "slice": "M00000012",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Spleen",
                       "slice": "M00000013",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "LR13",
                       "slice": "M00000014",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL20",
                       "slice": "M00000015",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Stomach",
                       "slice": "M00000016",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV12",
                       "slice": "M00000017",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL21",
                       "slice": "M00000018",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Triple Energizer",
                       "slice": "M00000019",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV5",
                       "slice": "M0000001a",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL22",
                       "slice": "M0000001b",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Kidney",
                       "slice": "M0000001c",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "GB25",
                       "slice": "M0000001d",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL23",
                       "slice": "M0000001e",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Large Intestine",
                       "slice": "M0000001f",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "ST25",
                       "slice": "M00000020",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL25",
                       "slice": "M00000021",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Small Intestine",
                       "slice": "M00000022",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV4",
                       "slice": "M00000023",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL27",
                       "slice": "M00000024",
                     },
                   },
                   {
-                    "channel": {
+                    "channel__0": {
                       "jsonValue": "Bladder",
                       "slice": "M00000025",
                     },
-                    "mu_point": {
+                    "mu_point__1": {
                       "jsonValue": "CV3",
                       "slice": "M00000026",
                     },
-                    "shu_point": {
+                    "shu_point__2": {
                       "jsonValue": "BL28",
                       "slice": "M00000027",
                     },
                   },
                 ],
                 "schema": {
-                  "channel": "rich_text",
-                  "mu_point": "rich_text",
-                  "shu_point": "rich_text",
+                  "channel__0": "rich_text",
+                  "mu_point__1": "rich_text",
+                  "shu_point__2": "rich_text",
                 },
               },
               "id": "B00000003",

@@ -313,10 +313,10 @@ describe("tables", () => {
     test("no alignment", () => {
       let document = testTable({
         columns: [
-          { name: "name", slice: "M00000000" },
-          { name: "age", slice: "M00000001" },
-          { name: "job", slice: "M00000002" },
-          { name: "notes", slice: "M00000005" },
+          { columnName: "name", slice: "M00000000" },
+          { columnName: "age", slice: "M00000001" },
+          { columnName: "job", slice: "M00000002" },
+          { columnName: "notes", slice: "M00000005" },
         ],
         showColumnHeaders: true,
       });
@@ -329,14 +329,18 @@ describe("tables", () => {
       let document = testTable({
         columns: [
           {
-            name: "name",
+            columnName: "name",
             slice: "M00000000",
             textAlignment: TextAlignment.Start,
           },
-          { name: "age", slice: "M00000001", textAlignment: TextAlignment.End },
-          { name: "job", slice: "M00000002" },
           {
-            name: "notes",
+            columnName: "age",
+            slice: "M00000001",
+            textAlignment: TextAlignment.End,
+          },
+          { columnName: "job", slice: "M00000002" },
+          {
+            columnName: "notes",
             slice: "M00000005",
             textAlignment: TextAlignment.Center,
           },
@@ -351,10 +355,10 @@ describe("tables", () => {
     test("reordering columns", () => {
       let document = testTable({
         columns: [
-          { name: "notes", slice: "M00000005" },
-          { name: "job", slice: "M00000002" },
-          { name: "age", slice: "M00000001" },
-          { name: "name", slice: "M00000000" },
+          { columnName: "notes", slice: "M00000005" },
+          { columnName: "job", slice: "M00000002" },
+          { columnName: "age", slice: "M00000001" },
+          { columnName: "name", slice: "M00000000" },
         ],
         showColumnHeaders: true,
       });
@@ -367,11 +371,11 @@ describe("tables", () => {
       let document = testTable({
         columns: [
           {
-            name: "name",
+            columnName: "name",
             slice: "M00000000",
           },
           {
-            name: "job",
+            columnName: "job",
             slice: "M00000002",
           },
         ],
@@ -386,10 +390,10 @@ describe("tables", () => {
   test("no column headings", () => {
     let document = testTable({
       columns: [
-        { name: "name" },
-        { name: "age" },
-        { name: "job" },
-        { name: "notes" },
+        { columnName: "name" },
+        { columnName: "age" },
+        { columnName: "job" },
+        { columnName: "notes" },
       ],
       showColumnHeaders: false,
     });
