@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.7](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.27.6...@atjson/source-commonmark@0.27.7) (2024-07-29)
+
+### Bug Fixes
+
+- handle duplicate columns and tables with no header ([5594128](https://github.com/CondeNast/atjson/commit/5594128959b41e4ceab53f5ddea8bc94e4a2a18b))
+- update snapshots ([f9a66bb](https://github.com/CondeNast/atjson/commit/f9a66bb5346fa69a214741d90e185c909a0e0e7f))
+- update snapshots ([0199e26](https://github.com/CondeNast/atjson/commit/0199e26e7718f91f0c03c00b841de5957b2ae648))
+- update tests ([3f99d13](https://github.com/CondeNast/atjson/commit/3f99d139ff0198fb8fb694c733e71b535793134c))
+- update tests for new column names ([82d9299](https://github.com/CondeNast/atjson/commit/82d9299a617e07c0e998a1e7cde1e3ab18d27516))
+- use column index instead of unique id ([a4c329f](https://github.com/CondeNast/atjson/commit/a4c329f8e24e4f8c6614ec9c1566e0b7f1b40b22))
+
 ## [0.27.6](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.27.5...@atjson/source-commonmark@0.27.6) (2024-07-24)
 
 **Note:** Version bump only for package @atjson/source-commonmark

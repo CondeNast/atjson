@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.35.2 (2024-07-29)
+
+### Bug Fixes
+
+- update tests ([3f99d13](https://github.com/CondeNast/atjson/commit/3f99d139ff0198fb8fb694c733e71b535793134c))
+
 ## 0.35.1 (2024-06-24)
 
 ### Bug Fixes
