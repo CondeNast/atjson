@@ -1,7 +1,7 @@
 import { BlockAnnotation } from "@atjson/document";
 
 /**
- * Reddit post embeds
+ * Reddit post & comment embeds
  */
 export class RedditEmbed extends BlockAnnotation<{
   /**
