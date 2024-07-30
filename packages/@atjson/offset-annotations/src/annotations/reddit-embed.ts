@@ -45,7 +45,7 @@ export class RedditEmbed extends BlockAnnotation<{
   /**
    * Post contents to store prior to load.
    */
-  content: string;
+  content?: string;
 
   /**
    * Layout information, used to indicate mutually
