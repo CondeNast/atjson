@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.55.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.55.0...@atjson/offset-annotations@0.55.1) (2024-07-30)
+
+### Bug Fixes
+
+- make content optional on reddit embeds ([8d9e5f6](https://github.com/CondeNast/atjson/commit/8d9e5f65549f2a332c86d69148ea859b1261362b))
+
 # [0.55.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.54.1...@atjson/offset-annotations@0.55.0) (2024-07-30)
 
 ### Features
