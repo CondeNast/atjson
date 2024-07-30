@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.36.1 (2024-07-30)
+
+### Bug Fixes
+
+- allow for null content in reddit embeds when rendering to html ([25c1f17](https://github.com/CondeNast/atjson/commit/25c1f174cdef947051398fc38c92bfe77ae44664))
+
 # [0.36.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.35.2...@atjson/renderer-html@0.36.0) (2024-07-30)
 
 ### Features
