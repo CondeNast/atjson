@@ -290,7 +290,9 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *RedditEmbed(embed: Block<RedditEmbed>) {
-    let content = this.getSlice(embed.attributes.content);
+    let content = embed.attributes.content
+      ? this.getSlice(embed.attributes.content)
+      : undefined;
     let attrs = this.htmlAttributes({
       class: "reddit-embed-bq",
       style: "height:500px",
