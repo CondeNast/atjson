@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.55.2 (2024-07-30)
+
+### Bug Fixes
+
+- update RedditEmbed comment to republish packages ([e1b5c80](https://github.com/CondeNast/atjson/commit/e1b5c80b09ca1bc9d8c4ec8a6c2e6e087c3b142c))
+
 ## [0.55.1](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.55.0...@atjson/offset-annotations@0.55.1) (2024-07-30)
 
 ### Bug Fixes
