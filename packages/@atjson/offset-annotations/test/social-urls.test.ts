@@ -148,52 +148,6 @@ describe("SocialURLs", () => {
     });
   });
 
-  describe("identify Reddit", () => {
-    test.each([
-      [
-        "https://www.reddit.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?utm_source=share&utm_medium=web2x&context=3",
-        {
-          url: "https://www.redditmedia.com/r/pics/comments/r9p0tp/my_great_grandfather_killed_a_nazi_and_took_this/?ref_source=embed&ref=share&embed=true&showmedia=false",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-      [
-        "https://www.reddit.com/r/politics/comments/r9wul2/trump_tried_to_kill_biden_with_covid19_it_turns/?utm_source=share&utm_medium=web2x&context=3",
-        {
-          url: "https://www.redditmedia.com/r/politics/comments/r9wul2/trump_tried_to_kill_biden_with_covid19_it_turns/?ref_source=embed&ref=share&embed=true&showmedia=false",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-      [
-        "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&ref=share&embed=true&showmedia=false",
-        {
-          url: "https://www.redditmedia.com/r/formula1/comments/r9ricn/max_has_been_given_a_10_second_time_penalty_post/?ref_source=embed&ref=share&embed=true&showmedia=false",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-      [
-        "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
-        {
-          url: "https://www.redditmedia.com/r/HollywoodUndead/comments/qoozk2/danny_solo_projecttreading_water/?ref_source=embed&ref=share&embed=true&showmedia=false&showedits=false&created=2021-11-08T13%3A42%3A20.393Z",
-          height: "141",
-          width: "640",
-          sandbox: "allow-scripts allow-same-origin allow-popups",
-        },
-      ],
-    ])("%s", (url, attributes) => {
-      expect(SocialURLs.identify(new URL(url))).toMatchObject({
-        Class: IframeEmbed,
-        attributes,
-      });
-    });
-  });
-
   describe("identify Instagram", () => {
     test.each([
       [
