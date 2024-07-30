@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.36.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.35.2...@atjson/renderer-html@0.36.0) (2024-07-30)
+
+### Features
+
+- add RedditEmbed ([#1754](https://github.com/CondeNast/atjson/issues/1754)) ([204ddcf](https://github.com/CondeNast/atjson/commit/204ddcf59eed19b763913afe6e0a77bdc7219b82))
+
 ## 0.35.2 (2024-07-29)
 
 ### Bug Fixes
