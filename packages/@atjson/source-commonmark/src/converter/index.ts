@@ -93,19 +93,7 @@ CommonmarkSource.defineConverterTo(
       .set({ type: "-offset-paragraph" });
     doc.where({ type: "-commonmark-strong" }).set({ type: "-offset-bold" });
 
-    convertHTMLTablesToDataSet(doc, "commonmark").forEach((table) => {
-      /**
-       * if a markdown table has no text in its column headers, we have decided to
-       * store that as a table with no header section at all
-       */
-      if (
-        table.attributes.columns.every(
-          (column) => column.name === "" || column.name == null
-        )
-      ) {
-        table.attributes.showColumnHeaders = false;
-      }
-    });
+    convertHTMLTablesToDataSet(doc, "commonmark");
 
     return doc;
   }
