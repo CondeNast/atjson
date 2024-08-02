@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.11](https://github.com/CondeNast/atjson/compare/@atjson/source-commonmark@0.27.10...@atjson/source-commonmark@0.27.11) (2024-08-02)
+
+### Bug Fixes
+
+- handle empty markdown table headers in proprietary packages ([9577018](https://github.com/CondeNast/atjson/commit/957701886178f244f94e723e18f1ff6931620303))
+
 ## 0.27.10 (2024-07-30)
 
 **Note:** Version bump only for package @atjson/source-commonmark
