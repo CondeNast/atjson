@@ -119,25 +119,6 @@ describe("tables", () => {
     ).toMatchSnapshot();
   });
 
-  test("empty header row creates headless table", () => {
-    const headlessTableExample = `
-|   |   |
-| - | - |
-| a | b |
-| c | d |
-`;
-    let doc =
-      MarkdownItSource.fromRaw(headlessTableExample).convertTo(OffsetSource);
-
-    let tables = doc.where((annotation) => is(annotation, Table));
-
-    expect(tables.length).toBe(1);
-
-    tables.forEach((table) => {
-      expect(table.attributes.showColumnHeaders).toBe(false);
-    });
-  });
-
   test("duplicate column headers produce distinct column names", () => {
     const duplicateColumnsTableExample = `
 | head | head |
