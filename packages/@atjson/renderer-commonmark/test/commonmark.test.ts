@@ -48,6 +48,76 @@ describe("commonmark", () => {
     );
   });
 
+  test("images with link", () => {
+    expect(
+      CommonmarkRenderer.render({
+        text: "\uFFFC",
+        blocks: [
+          {
+            id: "B01",
+            type: "image",
+            parents: [],
+            selfClosing: true,
+            attributes: {
+              description:
+                '"Cute As a Puppy" by cogdogblog is marked with CC0 1.0.',
+              link: {
+                url: "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+                title: "Cute as a Puppy | Openverse",
+              },
+              url: "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+          },
+        ],
+
+        marks: [],
+      })
+    ).toBe(
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+    );
+  });
+
+  test("backwards compatibility for link around an image", () => {
+    expect(
+      CommonmarkRenderer.render({
+        text: "\uFFFC\uFFFC",
+        blocks: [
+          {
+            id: "B00",
+            type: "text",
+            parents: [],
+            attributes: {},
+          },
+          {
+            id: "B01",
+            type: "image",
+            parents: ["text"],
+            selfClosing: true,
+            attributes: {
+              description:
+                '"Cute As a Puppy" by cogdogblog is marked with CC0 1.0.',
+              link: undefined,
+              url: "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+          },
+        ],
+        marks: [
+          {
+            id: "M01",
+            range: "(1..2)",
+            type: "link",
+            attributes: {
+              url: "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+              title: "Cute as a Puppy | Openverse",
+            },
+          },
+        ],
+      })
+    ).toBe(
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+    );
+  });
+
   test("a plain text document with virtual paragraphs", () => {
     let document = new OffsetSource({
       content:

@@ -1,9 +1,9 @@
 import OffsetSource, {
   CodeBlock,
-  Image,
   convertHTMLTablesToDataSet,
 } from "@atjson/offset-annotations";
 import CommonmarkSource from "../source";
+import { convertImage } from "./image";
 
 CommonmarkSource.defineConverterTo(
   OffsetSource,
@@ -52,20 +52,7 @@ CommonmarkSource.defineConverterTo(
       .where({ type: "-commonmark-html_inline" })
       .set({ type: "-offset-html", attributes: { "-offset-style": "inline" } });
 
-    doc.where({ type: "-commonmark-image" }).update((image) => {
-      doc.replaceAnnotation(
-        image,
-        new Image({
-          start: image.start,
-          end: image.end,
-          attributes: {
-            url: image.attributes.src,
-            title: image.attributes.title,
-            description: image.attributes.alt,
-          },
-        })
-      );
-    });
+    convertImage(doc);
 
     doc
       .where({ type: "-commonmark-link" })

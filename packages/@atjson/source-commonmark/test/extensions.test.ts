@@ -174,3 +174,187 @@ describe("table with empty column header", () => {
     ).toMatchSnapshot();
   });
 });
+
+describe("links around images", () => {
+  test("are converted to attributes on the image when the link wraps a single image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": ""Cute As a Puppy" by cogdogblog is marked with CC0 1.0.",
+              "link": {
+                "title": "Cute as a Puppy | Openverse",
+                "url": "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+              },
+              "url": "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [],
+        "text": "￼￼",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps text + image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      '[Linked text before the image !["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": ""Cute As a Puppy" by cogdogblog is marked with CC0 1.0.",
+              "url": "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "title": "Cute as a Puppy | Openverse",
+              "url": "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+            },
+            "id": "M00000000",
+            "range": "(1..31)",
+            "type": "link",
+          },
+        ],
+        "text": "￼Linked text before the image ￼",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps image + text", () => {
+    let doc = CommonmarkSource.fromRaw(
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) Linked text after the image ](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": ""Cute As a Puppy" by cogdogblog is marked with CC0 1.0.",
+              "url": "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "title": "Cute as a Puppy | Openverse",
+              "url": "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+            },
+            "id": "M00000000",
+            "range": "(1..31)",
+            "type": "link",
+          },
+        ],
+        "text": "￼￼ Linked text after the image ",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps image + image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) !["Wild Puppy" by Philippe Vieux-Jeanton is marked with CC0 1.0](https://live.staticflickr.com/2933/14013137587_1ed8e8b012_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": ""Cute As a Puppy" by cogdogblog is marked with CC0 1.0.",
+              "url": "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+          {
+            "attributes": {
+              "description": ""Wild Puppy" by Philippe Vieux-Jeanton is marked with CC0 1.0",
+              "url": "https://live.staticflickr.com/2933/14013137587_1ed8e8b012_b.jpg",
+            },
+            "id": "B00000002",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "title": "Cute as a Puppy | Openverse",
+              "url": "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+            },
+            "id": "M00000000",
+            "range": "(1..4)",
+            "type": "link",
+          },
+        ],
+        "text": "￼￼ ￼",
+      }
+    `);
+  });
+});
