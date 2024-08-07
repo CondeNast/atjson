@@ -59,12 +59,13 @@ describe("commonmark", () => {
             parents: [],
             selfClosing: true,
             attributes: {
-              description: "December 11, 1995 P. 41",
+              description:
+                '"Cute As a Puppy" by cogdogblog is marked with CC0 1.0.',
               link: {
-                url: "http://archives.newyorker.com/?i=1995-12-11#folio=040",
-                title: "Image Title",
+                url: "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+                title: "Cute as a Puppy | Openverse",
               },
-              url: "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+              url: "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
             },
           },
         ],
@@ -72,7 +73,7 @@ describe("commonmark", () => {
         marks: [],
       })
     ).toBe(
-      '[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040 "Image Title")'
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
     );
   });
 
@@ -93,9 +94,10 @@ describe("commonmark", () => {
             parents: ["text"],
             selfClosing: true,
             attributes: {
-              description: "December 11, 1995 P. 41",
+              description:
+                '"Cute As a Puppy" by cogdogblog is marked with CC0 1.0.',
               link: undefined,
-              url: "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+              url: "https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg",
             },
           },
         ],
@@ -105,14 +107,14 @@ describe("commonmark", () => {
             range: "(1..2)",
             type: "link",
             attributes: {
-              url: "http://archives.newyorker.com/?i=1995-12-11#folio=040",
-              title: "Link Title",
+              url: "https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3",
+              title: "Cute as a Puppy | Openverse",
             },
           },
         ],
       })
     ).toBe(
-      '[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040 "Link Title")'
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
     );
   });
 
