@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.12...@atjson/renderer-commonmark@0.31.0) (2024-08-07)
+
+### Features
+
+- explicit Link attributes for images ([#1787](https://github.com/CondeNast/atjson/issues/1787)) ([6b87e4d](https://github.com/CondeNast/atjson/commit/6b87e4d62a19259f3b8b858615d65930586ba247))
+
 ## [0.30.12](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.11...@atjson/renderer-commonmark@0.30.12) (2024-08-02)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

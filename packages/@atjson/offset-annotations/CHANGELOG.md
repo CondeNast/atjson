@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.56.0 (2024-08-07)
+
+### Features
+
+- explicit Link attributes for images ([#1787](https://github.com/CondeNast/atjson/issues/1787)) ([6b87e4d](https://github.com/CondeNast/atjson/commit/6b87e4d62a19259f3b8b858615d65930586ba247))
+
 ## 0.55.2 (2024-07-30)
 
 ### Bug Fixes
