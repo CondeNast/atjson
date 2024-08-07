@@ -57,6 +57,7 @@ describe("commonmark", () => {
             id: "B01",
             type: "image",
             parents: [],
+            selfClosing: true,
             attributes: {
               description: "December 11, 1995 P. 41",
               link: {
@@ -72,6 +73,46 @@ describe("commonmark", () => {
       })
     ).toBe(
       '[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040 "Image Title")'
+    );
+  });
+
+  test("backwards compatibility for link around an image", () => {
+    expect(
+      CommonmarkRenderer.render({
+        text: "\uFFFC\uFFFC",
+        blocks: [
+          {
+            id: "B00",
+            type: "text",
+            parents: [],
+            attributes: {},
+          },
+          {
+            id: "B01",
+            type: "image",
+            parents: ["text"],
+            selfClosing: true,
+            attributes: {
+              description: "December 11, 1995 P. 41",
+              link: undefined,
+              url: "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+          },
+        ],
+        marks: [
+          {
+            id: "M01",
+            range: "(1..2)",
+            type: "link",
+            attributes: {
+              url: "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+              title: "Link Title",
+            },
+          },
+        ],
+      })
+    ).toBe(
+      '[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040 "Link Title")'
     );
   });
 
