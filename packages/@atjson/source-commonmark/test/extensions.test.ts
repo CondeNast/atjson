@@ -174,3 +174,183 @@ describe("table with empty column header", () => {
     ).toMatchSnapshot();
   });
 });
+
+describe("links around images", () => {
+  test("are converted to attributes on the image when the link wraps a single image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040)`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": "December 11, 1995 P. 41",
+              "link": {
+                "url": "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+              },
+              "url": "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [],
+        "text": "￼￼",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps text + image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[text before the image ![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040)`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": "December 11, 1995 P. 41",
+              "url": "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "url": "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+            },
+            "id": "M00000000",
+            "range": "(1..24)",
+            "type": "link",
+          },
+        ],
+        "text": "￼text before the image ￼",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps text + image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040) text after an image](http://archives.newyorker.com/?i=1995-12-11#folio=040)`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": "December 11, 1995 P. 41",
+              "url": "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "url": "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+            },
+            "id": "M00000000",
+            "range": "(1..22)",
+            "type": "link",
+          },
+        ],
+        "text": "￼￼ text after an image",
+      }
+    `);
+  });
+
+  test("are kept separate when the link wraps image + image", () => {
+    let doc = CommonmarkSource.fromRaw(
+      `[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040) ![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=041)](http://archives.newyorker.com/?i=1995-12-11#folio=040)`
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {
+              "description": "December 11, 1995 P. 41",
+              "url": "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+            "id": "B00000001",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+          {
+            "attributes": {
+              "description": "December 11, 1995 P. 41",
+              "url": "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=041",
+            },
+            "id": "B00000002",
+            "parents": [
+              "paragraph",
+            ],
+            "selfClosing": true,
+            "type": "image",
+          },
+        ],
+        "marks": [
+          {
+            "attributes": {
+              "url": "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+            },
+            "id": "M00000000",
+            "range": "(1..4)",
+            "type": "link",
+          },
+        ],
+        "text": "￼￼ ￼",
+      }
+    `);
+  });
+});

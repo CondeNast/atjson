@@ -1,4 +1,5 @@
-import { ObjectAnnotation } from "@atjson/document";
+import { ObjectAnnotation, AttributesOf } from "@atjson/document";
+import { Link } from "./link";
 
 export class Image extends ObjectAnnotation<{
   /**
@@ -24,6 +25,11 @@ export class Image extends ObjectAnnotation<{
    * A named identifier used to quickly jump to this item
    */
   anchorName?: string;
+
+  /**
+   * Optional link attributes
+   */
+  link?: AttributesOf<Link>;
 }> {
   static vendorPrefix = "offset";
   static type = "image";

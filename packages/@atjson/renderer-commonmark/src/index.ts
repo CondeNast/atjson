@@ -404,11 +404,25 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *Image(image: Image): Generator<void, string, string[]> {
     let description = escapeDescription(image.attributes.description || "");
+    let imageMarkdown = "";
     if (image.attributes.title) {
       let title = image.attributes.title.replace(/"/g, '\\"');
-      return `![${description}](${image.attributes.url} "${title}")`;
+      imageMarkdown = `![${description}](${image.attributes.url} "${title}")`;
+    } else {
+      imageMarkdown = `![${description}](${image.attributes.url})`;
     }
-    return `![${description}](${image.attributes.url})`;
+
+    if (image.attributes.link?.url) {
+      let { url, title } = image.attributes.link;
+      url = url.replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+      let body = url;
+      if (title) {
+        title = title.replace(/"/g, '\\"');
+        body = `${url} "${title}"`;
+      }
+      return `[${imageMarkdown}](${body})`;
+    }
+    return imageMarkdown;
   }
 
   /**

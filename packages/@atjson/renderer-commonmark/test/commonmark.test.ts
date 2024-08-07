@@ -48,6 +48,33 @@ describe("commonmark", () => {
     );
   });
 
+  test("images with link", () => {
+    expect(
+      CommonmarkRenderer.render({
+        text: "\uFFFC",
+        blocks: [
+          {
+            id: "B01",
+            type: "image",
+            parents: [],
+            attributes: {
+              description: "December 11, 1995 P. 41",
+              link: {
+                url: "http://archives.newyorker.com/?i=1995-12-11#folio=040",
+                title: "Image Title",
+              },
+              url: "https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040",
+            },
+          },
+        ],
+
+        marks: [],
+      })
+    ).toBe(
+      '[![December 11, 1995 P. 41](https://static.cdn.realviewdigital.com/global/content/GetImage.aspx?pguid=FC9071DC-DD99-441F-A727-1B74670350BC&i=1995-12-11&folio=040)](http://archives.newyorker.com/?i=1995-12-11#folio=040 "Image Title")'
+    );
+  });
+
   test("a plain text document with virtual paragraphs", () => {
     let document = new OffsetSource({
       content:
