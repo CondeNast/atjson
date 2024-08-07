@@ -258,7 +258,7 @@ describe("links around images", () => {
     `);
   });
 
-  test("are kept separate when the link wraps text + image", () => {
+  test("are kept separate when the link wraps image + text", () => {
     let doc = CommonmarkSource.fromRaw(
       '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) Linked text after the image ](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
     ).convertTo(OffsetSource);
