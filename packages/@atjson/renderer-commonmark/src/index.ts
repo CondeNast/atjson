@@ -772,8 +772,8 @@ export default class CommonmarkRenderer extends Renderer {
     const previousState = { ...this.state };
     this.state.inlineOnly = true;
 
-    const dataSet = context.document.blocks.find(
-      (block) => block.id === table.attributes.dataSet
+    const dataSet = context.document.blocks.find((block) =>
+      block.id.includes(table.attributes.dataSet)
     ) as Block<DataSet> | undefined;
 
     if (!dataSet) {
