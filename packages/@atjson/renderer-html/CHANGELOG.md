@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.36.2 (2024-08-27)
+
+### Bug Fixes
+
+- accordion tables ([64d4276](https://github.com/CondeNast/atjson/commit/64d4276bb78194d8c82a36f35e7cb219c694f462))
+
 ## 0.36.1 (2024-07-30)
 
 ### Bug Fixes

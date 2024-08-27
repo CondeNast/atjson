@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.31.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.31.0...@atjson/renderer-commonmark@0.31.1) (2024-08-27)
+
+### Bug Fixes
+
+- accordion tables ([64d4276](https://github.com/CondeNast/atjson/commit/64d4276bb78194d8c82a36f35e7cb219c694f462))
+
 # [0.31.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.30.12...@atjson/renderer-commonmark@0.31.0) (2024-08-07)
 
 ### Features
