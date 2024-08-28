@@ -6,17 +6,15 @@ import OffsetSource from "@atjson/offset-annotations";
 
 const FIXTURES = readdirSync(join(__dirname, "fixtures", "html")).map(
   (filename) => {
-    return {
+    return [
       filename,
-      contents: readFileSync(
-        join(__dirname, "fixtures", "html", filename)
-      ).toString(),
-    };
+      readFileSync(join(__dirname, "fixtures", "html", filename)).toString(),
+    ];
   }
 );
 
 describe("HTML round trip", () => {
-  test.each(FIXTURES)("$1", ({ contents }) => {
+  test.each(FIXTURES)("%s", (_, contents) => {
     let originalDoc = HTMLSource.fromRaw(contents);
     let offsetDoc = originalDoc.convertTo(OffsetSource);
     let generatedHTML = HTMLRenderer.render(offsetDoc);
