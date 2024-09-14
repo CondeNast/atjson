@@ -9,7 +9,6 @@ import { BlockAnnotation } from "@atjson/document";
  * It also encourages readers to explore more content by providing them easy
  * access to different parts of our content.
  *
- * It is a way of displaying tabular or database-like data.
  * Table of Content displays data as a list of links that tag to headers that
  * exist in the body of a story.
  *
