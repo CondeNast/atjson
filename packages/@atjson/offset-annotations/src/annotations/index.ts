@@ -37,6 +37,7 @@ export * from "./strikethrough";
 export * from "./subscript";
 export * from "./superscript";
 export * from "./table";
+export * from "./table-of-content";
 export * from "./threads-embed";
 export * from "./tiktok-embed";
 export * from "./twitter-embed";
