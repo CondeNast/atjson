@@ -185,47 +185,41 @@ function normalizePinterestURL(url: IUrl) {
 // Facebook URLs
 // - www.facebook.com/:user/:type/:id
 // - www.facebook.com/:user/:type/:context-id/:id
-function isFacebookPostURL(url: IUrl) {
-  return (
-    url.host === "www.facebook.com" &&
-    (!!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+/) ||
-      !!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+\/[^\/]+/))
-  );
-}
-
-// Facebook embed urls
 // - www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2F{user}}%2Fposts%2F{id}"
-function isFacebookEmbedURL(url: IUrl) {
+// - www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F{user}}%2Fposts%2F{id}"
+function isFacebookURL(url: IUrl) {
   let href = getSearchParam(url.searchParams, "href");
 
   try {
+    if (isFacebookPluginURL(url) && href) {
+      url = new URL(href);
+    }
     return (
       url.host === "www.facebook.com" &&
-      url.pathname === "/plugins/post.php" &&
-      !!href &&
-      isFacebookPostURL(new URL(href))
+      (!!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+/) ||
+        !!url.pathname.match(/^\/[^\/]+\/[^\/]+\/[^\/]+\/[^\/]+/))
     );
   } catch {
     return false;
   }
 }
 
-function isFacebookURL(url: IUrl) {
-  return isFacebookPostURL(url) || isFacebookEmbedURL(url);
+function isFacebookPluginURL(url: IUrl) {
+  return (
+    url.host === "www.facebook.com" &&
+    (url.pathname === "/plugins/post.php" ||
+      url.pathname === "/plugins/video.php")
+  );
 }
 
 function normalizeFacebookURL(url: IUrl) {
-  if (isFacebookEmbedURL(url)) {
+  if (isFacebookPluginURL(url)) {
     url = new URL(getSearchParam(url.searchParams, "href") as string);
   }
 
-  let parts = without<string>(url.pathname.split("/"), "");
-  let id = parts.pop();
-  let username = parts.shift();
-
   return {
     attributes: {
-      url: `https://www.facebook.com/${username}/posts/${id}`,
+      url: `https://www.facebook.com${url.pathname}`,
     },
     Class: FacebookEmbed,
   };
