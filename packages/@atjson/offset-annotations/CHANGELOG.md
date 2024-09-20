@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.57.0 (2024-09-20)
+
+### Features
+
+- table of content feature ([e9236e7](https://github.com/CondeNast/atjson/commit/e9236e75b2c7bb29acce5b881a116cdc8195e091))
+- table of content feature ([75e80ef](https://github.com/CondeNast/atjson/commit/75e80ef6bbe92344706e80a2c8412ecd444d9eb6))
+
 # 0.56.0 (2024-08-07)
 
 ### Features
