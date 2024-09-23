@@ -1,7 +1,7 @@
 import { BlockAnnotation } from "@atjson/document";
 
 /**
- * A table of content is designed to enhance the usability and navigation of
+ * Table of contents is designed to enhance the usability and navigation of
  * our content. This feature provides users with a structured and accessible
  * way to navigate through various sections of a story, especially long-form
  * articles, improving the overall user experience and engagement. It will
@@ -9,12 +9,12 @@ import { BlockAnnotation } from "@atjson/document";
  * It also encourages readers to explore more content by providing them easy
  * access to different parts of our content.
  *
- * Table of Content displays data as a list of links that tag to headers that
+ * Table of Contents displays data as a list of links that anchor to headers that
  * exist in the body of a story.
  *
  */
 
-export class TableOfContent extends BlockAnnotation<{
+export class TableOfContents extends BlockAnnotation<{
   /**
    * a header slice to hold header text
    */
@@ -37,6 +37,6 @@ export class TableOfContent extends BlockAnnotation<{
    */
   layout?: string;
 }> {
-  static type = "table-of-content";
+  static type = "table-of-contents";
   static vendorPrefix = "offset";
 }
