@@ -29,7 +29,7 @@
     "@typescript-eslint/parser": "5.58.0",
     "babel-jest": "29.7.0",
     "chance": "1.1.12",
-    "commonmark": "0.31.1",
+    "commonmark": "0.31.2",
     "commonmark-spec": "0.31.2",
     "conventional-changelog-core": "4.2.4",
     "eslint": "8.38.0",
