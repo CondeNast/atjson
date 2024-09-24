@@ -9,8 +9,10 @@ import { BlockAnnotation } from "@atjson/document";
  * It also encourages readers to explore more content by providing them easy
  * access to different parts of our content.
  *
- * Table of Contents displays data as a list of links that anchor to headers that
- * exist in the body of a story.
+ * Table of Contents is meant to contain navigation to other parts of the
+ * document (which may take the form of a list of anchor links, just as one
+ * example, but could alternatively be a paragraph of text with links, or
+ * buttons, etc)
  *
  */
 
@@ -24,7 +26,8 @@ export class TableOfContents extends BlockAnnotation<{
    */
   content: string;
   /**
-   * A named identifier used to describe toc's initial state
+   * A named identifier used to describe whether the content
+   * section of a table of contents is expanded or collapsed
    */
   isCollapsible?: boolean;
   /**
