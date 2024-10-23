@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.3.0 (2024-10-23)
+
+### Features
+
+- useDataSet hook in the react renderer ([bdd77c7](https://github.com/CondeNast/atjson/commit/bdd77c73c082b27e33343db9589193cb7c4cfbdd))
+
 ## 0.2.5 (2024-04-29)
 
 **Note:** Version bump only for package @atjson/react
