@@ -1,0 +1,17 @@
+{
+  "name": "@atjson/peritext",
+  "version": "0.1.0",
+  "description": "Functions for building and transforming peritext documents",
+  "main": "dist/commonjs/index.js",
+  "module": "dist/modules/index.js",
+  "types": "dist/commonjs/index.d.ts",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@atjson/util": "file:../util",
+    "@atjson/document": "file:../document",
+    "uuid-random": "^1.3.0"
+  }
+}
