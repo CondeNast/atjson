@@ -116,12 +116,21 @@ function serializeRange(
   }`;
 }
 
-function adjustRange(mark: Mark, offset: number): Mark {
+function adjustMarkRange(mark: Mark, offset: number): Mark {
   const { start, end, edgeBehaviour } = unsafe_parseRange(mark.range);
 
   return {
     ...mark,
     range: serializeRange(start + offset, end + offset, edgeBehaviour),
+  };
+}
+
+function adjustMarkEnd(mark: Mark, offset: number): Mark {
+  const { start, end, edgeBehaviour } = unsafe_parseRange(mark.range);
+
+  return {
+    ...mark,
+    range: serializeRange(start, end + offset, edgeBehaviour),
   };
 }
 
@@ -250,7 +259,7 @@ export function block<Type, Attrs extends Record<string, JSON>>(
   );
 
   outDoc.marks.push(
-    ...peritextChildren.marks.map((mark) => adjustRange(mark, 1))
+    ...peritextChildren.marks.map((mark) => adjustMarkRange(mark, 1))
   );
 
   outDoc.text += peritextChildren.text;
@@ -268,7 +277,7 @@ export function concat(...docs: Peritext[]): Peritext {
   for (const doc of docs) {
     outDoc.blocks.push(...doc.blocks);
     outDoc.marks.push(
-      ...doc.marks.map((mark) => adjustRange(mark, outDoc.text.length))
+      ...doc.marks.map((mark) => adjustMarkRange(mark, outDoc.text.length))
     );
 
     outDoc.text += doc.text;
@@ -326,10 +335,19 @@ export function insertAfter(
     .map((text) => `\uFFFC${text}`)
     .join("");
   const beforeBlocks = doc.blocks.slice(0, insertionIndex);
-  const beforeMarks = doc.marks.filter((mark) => {
-    const { start } = unsafe_parseRange(mark.range);
-    return start < beforeText.length;
-  });
+  const beforeMarks = doc.marks
+    .filter((mark) => {
+      const { start } = unsafe_parseRange(mark.range);
+      return start < beforeText.length;
+    })
+    .map((mark) => {
+      const { end } = unsafe_parseRange(mark.range);
+      if (end <= beforeText.length) {
+        return mark;
+      }
+
+      return adjustMarkEnd(mark, newBlock.text.length);
+    });
 
   const insertedText = newBlock.text;
   const insertedBlocks = newBlock.blocks.map((block) => ({
@@ -337,7 +355,7 @@ export function insertAfter(
     parents: [...targetBlock.parents, ...block.parents],
   }));
   const insertedMarks = newBlock.marks.map((mark) => {
-    return adjustRange(mark, beforeText.length);
+    return adjustMarkRange(mark, beforeText.length);
   });
 
   const afterText = blocksText
@@ -352,7 +370,7 @@ export function insertAfter(
       return start >= beforeText.length;
     })
     .map((mark) => {
-      return adjustRange(mark, newBlock.text.length);
+      return adjustMarkRange(mark, newBlock.text.length);
     });
 
   return {
@@ -377,10 +395,19 @@ export function insertBefore(
     .map((text) => `\uFFFC${text}`)
     .join("");
   const beforeBlocks = doc.blocks.slice(0, insertionIndex);
-  const beforeMarks = doc.marks.filter((mark) => {
-    const { start } = unsafe_parseRange(mark.range);
-    return start < beforeText.length;
-  });
+  const beforeMarks = doc.marks
+    .filter((mark) => {
+      const { start } = unsafe_parseRange(mark.range);
+      return start < beforeText.length;
+    })
+    .map((mark) => {
+      const { end } = unsafe_parseRange(mark.range);
+      if (end <= beforeText.length) {
+        return mark;
+      }
+
+      return adjustMarkEnd(mark, newBlock.text.length);
+    });
 
   const insertedText = newBlock.text;
   const insertedBlocks = newBlock.blocks.map((block) => ({
@@ -388,7 +415,7 @@ export function insertBefore(
     parents: [...targetBlock.parents, ...block.parents],
   }));
   const insertedMarks = newBlock.marks.map((mark) => {
-    return adjustRange(mark, beforeText.length);
+    return adjustMarkRange(mark, beforeText.length);
   });
 
   const afterText = blocksText
@@ -403,7 +430,7 @@ export function insertBefore(
       return start >= beforeText.length;
     })
     .map((mark) => {
-      return adjustRange(mark, newBlock.text.length);
+      return adjustMarkRange(mark, newBlock.text.length);
     });
 
   return {

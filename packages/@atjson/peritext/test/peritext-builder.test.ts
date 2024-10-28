@@ -512,6 +512,57 @@ describe("peritext-builder", () => {
         )
       );
     });
+    test("preseves marks across insertion point", () => {
+      let target;
+      const doc = block(
+        Container,
+        { level: 1 },
+        mark(Emphasis, {}, [
+          (target = block(
+            Leaf,
+            { name: "first" },
+            mark(Emphasis, {}, "Beginning text")
+          )),
+          block(Leaf, { name: "second" }, mark(Emphasis, {}, "ending text")),
+        ])
+      );
+
+      const testDoc = insertAfter(
+        doc,
+        target.getValue().id,
+        block(
+          Leaf,
+          { name: "inserted" },
+          mark(Emphasis, { name: "middle" }, "(inserted text)")
+        )
+      );
+
+      expect(stabilizeIds(testDoc)).toMatchObject(
+        stabilizeIds(
+          block(
+            Container,
+            { level: 1 },
+            mark(Emphasis, {}, [
+              block(
+                Leaf,
+                { name: "first" },
+                mark(Emphasis, {}, "Beginning text")
+              ),
+              block(
+                Leaf,
+                { name: "inserted" },
+                mark(Emphasis, { name: "middle" }, "(inserted text)")
+              ),
+              block(
+                Leaf,
+                { name: "second" },
+                mark(Emphasis, {}, "ending text")
+              ),
+            ])
+          ).peritext()
+        )
+      );
+    });
   });
 
   describe("insertBefore()", () => {
@@ -673,6 +724,57 @@ describe("peritext-builder", () => {
               mark(Emphasis, { name: "after" }, "ending text")
             ),
           ]).peritext()
+        )
+      );
+    });
+    test("preseves marks across insertion point", () => {
+      let target;
+      const doc = block(
+        Container,
+        { level: 1 },
+        mark(Emphasis, {}, [
+          block(Leaf, { name: "first" }, mark(Emphasis, {}, "Beginning text")),
+          (target = block(
+            Leaf,
+            { name: "second" },
+            mark(Emphasis, {}, "ending text")
+          )),
+        ])
+      );
+
+      const testDoc = insertBefore(
+        doc,
+        target.getValue().id,
+        block(
+          Leaf,
+          { name: "inserted" },
+          mark(Emphasis, { name: "middle" }, "(inserted text)")
+        )
+      );
+
+      expect(stabilizeIds(testDoc)).toMatchObject(
+        stabilizeIds(
+          block(
+            Container,
+            { level: 1 },
+            mark(Emphasis, {}, [
+              block(
+                Leaf,
+                { name: "first" },
+                mark(Emphasis, {}, "Beginning text")
+              ),
+              block(
+                Leaf,
+                { name: "inserted" },
+                mark(Emphasis, { name: "middle" }, "(inserted text)")
+              ),
+              block(
+                Leaf,
+                { name: "second" },
+                mark(Emphasis, {}, "ending text")
+              ),
+            ])
+          ).peritext()
         )
       );
     });
