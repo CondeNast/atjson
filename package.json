@@ -13,7 +13,7 @@
     "@commitlint/config-conventional": "17.8.1",
     "@condenast/perf-kit": "0.1.4",
     "@types/chance": "1.1.6",
-    "@types/entities": "2.0.0",
+    "@types/entities": "2.0.2",
     "@types/jest": "29.5.14",
     "@types/jsdom": "21.1.7",
     "@types/markdown-it": "12.2.3",
