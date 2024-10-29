@@ -1,4 +1,5 @@
 import {
+  AttributesOf,
   ObjectAnnotation,
   ParseAnnotation,
   SliceAnnotation,
@@ -6,19 +7,27 @@ import {
 import OffsetSource, {
   Bold,
   CaptionSource,
+  ColumnType,
+  DataSet,
   GiphyEmbed,
   IframeEmbed,
   Italic,
   LineBreak,
   Link,
   Paragraph,
+  Table,
   VideoEmbed,
   VideoURLs,
 } from "@atjson/offset-annotations";
 import * as React from "react";
 import { createElement, Fragment, ReactNode } from "react";
 import * as ReactDOMServer from "react-dom/server";
-import ReactRenderer, { PropsOf, ReactRendererProvider, Slice } from "../src";
+import ReactRenderer, {
+  PropsOf,
+  ReactRendererProvider,
+  Slice,
+  useDataSet,
+} from "../src";
 
 function renderDocument(
   doc: OffsetSource,
@@ -138,6 +147,26 @@ function IframeComponentWithProvider(props: PropsOf<IframeEmbed>) {
         </figcaption>
       </ReactRendererProvider>
     </figure>
+  );
+}
+
+function TableComponent(props: AttributesOf<Table>) {
+  let data = useDataSet(props.dataSet);
+
+  return (
+    <table>
+      <tbody>
+        {data?.records.map((row) => (
+          <tr>
+            {props.columns.map(({ columnName }) => (
+              <td>
+                <Slice value={row[columnName].slice} />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -376,6 +405,70 @@ describe("ReactRenderer", () => {
         })
       ).toBe(
         `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<b>This</b> is <em>some</em> caption text)</figcaption></figure> and some text following.`
+      );
+    });
+  });
+
+  describe("useDataSet hook", () => {
+    it("can be used to render tables", () => {
+      const doc = new OffsetSource({
+        content: "foo bar baz",
+        annotations: [
+          new DataSet({
+            id: "DS1",
+            start: 0,
+            end: 11,
+            attributes: {
+              records: [
+                {
+                  foo: { slice: "S1", jsonValue: "foo" },
+                  bar: { slice: "S2", jsonValue: "bar" },
+                  baz: { slice: "S3", jsonValue: "baz" },
+                },
+              ],
+              schema: {
+                foo: ColumnType.STRING,
+                bar: ColumnType.STRING,
+                baz: ColumnType.STRING,
+              },
+            },
+          }),
+          new Table({
+            start: 0,
+            end: 11,
+            attributes: {
+              dataSet: "DS1",
+              columns: [
+                { columnName: "foo" },
+                { columnName: "bar" },
+                { columnName: "baz" },
+              ],
+            },
+          }),
+          new SliceAnnotation({
+            id: "S1",
+            start: 0,
+            end: 3,
+          }),
+          new SliceAnnotation({
+            id: "S2",
+            start: 4,
+            end: 7,
+          }),
+          new SliceAnnotation({
+            id: "S3",
+            start: 8,
+            end: 11,
+          }),
+        ],
+      });
+
+      expect(
+        renderDocument(doc, {
+          Table: TableComponent,
+        })
+      ).toBe(
+        "<table><tbody><tr><td>foo</td><td>bar</td><td>baz</td></tr></tbody></table>"
       );
     });
   });

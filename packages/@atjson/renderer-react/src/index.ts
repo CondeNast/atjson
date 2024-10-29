@@ -46,6 +46,16 @@ const SliceContext = React.createContext<{
   schema: AnnotationConstructor<any, any>[];
 }>({ slices: new Map(), schema: [] });
 
+export type DataSetAttrs = {
+  name?: string;
+  schema: Record<string, string>;
+  records: Array<Record<string, { slice: string; jsonValue: any }>>;
+};
+
+const DataSetContext = React.createContext<Map<string, DataSetAttrs>>(
+  new Map()
+);
+
 export const ReactRendererContext = React.createContext<{
   [key: string]: ComponentType<any>;
 }>(EMPTY_COMPONENT_MAP);
@@ -200,6 +210,11 @@ function render(
   });
   let tree = createTree(doc);
   let schema = (props.document.constructor as typeof Document).schema;
+  let dataSets = new Map(
+    doc.blocks
+      .filter((block) => block.type === "data-set")
+      .map((dataSet) => [dataSet.id, dataSet.attributes as DataSetAttrs])
+  );
 
   return createElement(
     SliceContext.Provider,
@@ -210,13 +225,17 @@ function render(
       },
     },
     createElement(
-      Fragment,
-      {},
-      renderNode({
-        id: ROOT,
-        tree,
-        schema,
-      })
+      DataSetContext.Provider,
+      { value: dataSets },
+      createElement(
+        Fragment,
+        {},
+        renderNode({
+          id: ROOT,
+          tree,
+          schema,
+        })
+      )
     )
   );
 }
@@ -253,6 +272,10 @@ export function Slice(props: {
   }
 }
 Slice.displayName = "Slice";
+
+export function useDataSet(id: string) {
+  return useContext(DataSetContext).get(id);
+}
 
 export default {
   render,
