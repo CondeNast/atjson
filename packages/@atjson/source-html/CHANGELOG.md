@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.41.6 (2024-11-12)
+
+### Bug Fixes
+
+- update column naming scheme in convert-html-tables helper ([85959dc](https://github.com/CondeNast/atjson/commit/85959dcd8d7eac17862b28136120e815d6c5853f))
+
 ## [0.41.5](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.41.4...@atjson/source-html@0.41.5) (2024-09-24)
 
 **Note:** Version bump only for package @atjson/source-html
