@@ -422,6 +422,11 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(6..7]",
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
@@ -429,6 +434,17 @@ describe("extractSlices", () => {
       expect(slices.get("M00000001")?.text).toEqual("￼B");
       expect(slices.get("M00000002")?.text).toEqual("￼C");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "end": 2,
+            "id": "M00000003",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
     });
 
     test("start slice position matches", () => {
@@ -542,6 +558,11 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(5..6]",
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
@@ -549,6 +570,17 @@ describe("extractSlices", () => {
       expect(slices.get("M00000001")?.text).toEqual("￼BB");
       expect(slices.get("M00000002")?.text).toEqual("￼C");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "end": 2,
+            "id": "M00000003",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
     });
 
     test("hanging overlapping slices", () => {
@@ -580,12 +612,28 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000002",
+            type: "italic",
+            range: "(4..5]",
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
       expect(slices.get("M00000000")?.text).toEqual("￼AB");
       expect(slices.get("M00000001")?.text).toEqual("￼BC");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "end": 2,
+            "id": "M00000002",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
     });
 
     describe("retain", () => {
