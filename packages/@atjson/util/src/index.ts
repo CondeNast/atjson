@@ -145,6 +145,16 @@ export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
   return 0;
 }
 
+function compareRanges(
+  [start1, end1]: [number, number],
+  [start2, end2]: [number, number]
+) {
+  if (start1 === start2) {
+    return end1 - end2;
+  }
+  return start1 - start2;
+}
+
 /**
  * Extracts slices from a document for the special `slice`
  * type provided by atjson. This function removes slices
@@ -388,6 +398,30 @@ export function extractSlices(value: {
       marks,
       blocks,
     });
+  }
+
+  // Normalize the ranges again, as we may have extended ranges into each other
+  if (rangesToDelete.length > 1) {
+    const normalizedRanges = [rangesToDelete[0]];
+    // First sort the ranges
+    rangesToDelete.sort(compareRanges);
+    for (
+      let j = 1, lastRange = rangesToDelete[0];
+      j < rangesToDelete.length;
+      j++
+    ) {
+      const currentRange = rangesToDelete[j];
+      // Since they are sorted, check if the current range can be merged into the
+      // previous one
+      if (currentRange[0] <= lastRange[1] && lastRange[1] <= currentRange[1]) {
+        lastRange[1] = currentRange[1];
+      } else {
+        // Otherwise we can add the range to the list
+        normalizedRanges.push(currentRange);
+        lastRange = currentRange;
+      }
+    }
+    rangesToDelete = normalizedRanges;
   }
 
   let firstRange = rangesToDelete[0];
