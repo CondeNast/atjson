@@ -401,22 +401,28 @@ export function extractSlices(value: {
   }
 
   // Normalize the ranges again, as we may have extended ranges into each other
-  // First sort the ranges
-  rangesToDelete = rangesToDelete.sort(compareRanges).reduce((acc, range) => {
-    // Since they are sorted, check if the current range can be merged into
-    // the previous one
-    const last = acc[acc.length - 1];
-    if (last) {
-      const [, lastEnd] = last;
-      if (range[0] <= lastEnd && lastEnd <= range[1]) {
-        last[1] = range[1];
-        return acc;
+  if (rangesToDelete.length > 1) {
+    const normalizedRanges = [rangesToDelete[0]];
+    // First sort the ranges
+    rangesToDelete.sort(compareRanges);
+    for (
+      let j = 1, lastRange = rangesToDelete[0];
+      j < rangesToDelete.length;
+      j++
+    ) {
+      const currentRange = rangesToDelete[j];
+      // Since they are sorted, check if the current range can be merged into the
+      // previous one
+      if (currentRange[0] <= lastRange[1] && lastRange[1] <= currentRange[1]) {
+        lastRange[1] = currentRange[1];
+      } else {
+        // Otherwise we can add the range to the list
+        normalizedRanges.push(currentRange);
+        lastRange = currentRange;
       }
     }
-    // Otherwise add the range to the list
-    acc.push(range);
-    return acc;
-  }, [] as [number, number][]);
+    rangesToDelete = normalizedRanges;
+  }
 
   let firstRange = rangesToDelete[0];
   let text = firstRange ? value.text.slice(0, firstRange[0]) : "";
