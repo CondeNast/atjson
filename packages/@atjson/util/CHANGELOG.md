@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.2.6 (2024-11-20)
+
+### Bug Fixes
+
+- extract nested slices ([#1821](https://github.com/CondeNast/atjson/issues/1821)) ([4940868](https://github.com/CondeNast/atjson/commit/4940868bbef81d9d89e511b566317c21976e5298))
+
 ## 0.2.5 (2024-04-29)
 
 ### Bug Fixes
