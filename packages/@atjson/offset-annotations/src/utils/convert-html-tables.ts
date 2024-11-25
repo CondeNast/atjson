@@ -98,18 +98,8 @@ function extractAlignment(tableCell: Annotation<{ style: string }>) {
  * @param index the index of the column in the table
  * @returns the unique column name as a string
  */
-export function generateColumnName(columnName: string | null, index: number) {
-  let sqlizedColumnName = columnName
-    ?.toLocaleLowerCase()
-    .replace(/[\s-]+/gmu, "_")
-    .replace(/[^a-zA-Z0-9_]/gm, "");
-
-  return (
-    // we could do more sophisticated deduplication here, but it would make the data
-    // less consistent and predictable and make this code more complex
-    (sqlizedColumnName?.length ? sqlizedColumnName : `column_${index + 1}`) +
-    `__${index + 1}`
-  );
+export function generateColumnName(index: number) {
+  return `field_${index + 1}`;
 }
 
 export function convertHTMLTablesToDataSet(
@@ -152,7 +142,7 @@ export function convertHTMLTablesToDataSet(
         });
         doc.replaceAnnotation(headCell, slice);
         let name = extractPlainContents(doc, slice);
-        let columnName = generateColumnName(name, index);
+        let columnName = generateColumnName(index);
 
         dataSetSchemaEntries.push([columnName, ColumnType.RICH_TEXT]);
 
@@ -205,7 +195,7 @@ export function convertHTMLTablesToDataSet(
           }
 
           if (!hasColumnHeaders) {
-            let columnName = generateColumnName(null, index);
+            let columnName = generateColumnName(index);
 
             let columnConfig: (typeof columnConfigs)[number] = {
               columnName,

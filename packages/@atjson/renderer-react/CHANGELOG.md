@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.29.2 (2024-11-20)
+
+**Note:** Version bump only for package @atjson/renderer-react
+
+## 0.29.1 (2024-10-29)
+
+### Bug Fixes
+
+- add useDataSet hook to react-renderer ([ab7e75f](https://github.com/CondeNast/atjson/commit/ab7e75feeb413bac7eee2b87463d7fb3bb9721b1))
+
 # 0.29.0 (2024-05-30)
 
 ### Features

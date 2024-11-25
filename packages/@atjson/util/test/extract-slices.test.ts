@@ -422,6 +422,12 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(6..7]",
+            attributes: {},
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
@@ -429,6 +435,18 @@ describe("extractSlices", () => {
       expect(slices.get("M00000001")?.text).toEqual("￼B");
       expect(slices.get("M00000002")?.text).toEqual("￼C");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "attributes": {},
+            "end": 2,
+            "id": "M00000003",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
     });
 
     test("start slice position matches", () => {
@@ -542,6 +560,12 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(5..6]",
+            attributes: {},
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
@@ -549,6 +573,229 @@ describe("extractSlices", () => {
       expect(slices.get("M00000001")?.text).toEqual("￼BB");
       expect(slices.get("M00000002")?.text).toEqual("￼C");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "attributes": {},
+            "end": 2,
+            "id": "M00000003",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
+    });
+
+    test("marks overlapping multiple slices", () => {
+      const original = {
+        text: "￼ABCBD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000002",
+            type: "slice",
+            range: "(3..4]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(5..6]",
+            attributes: {},
+          },
+          {
+            id: "M00000004",
+            type: "bold",
+            range: "(1..6]",
+            attributes: {},
+          },
+        ],
+      };
+
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000000")?.marks).toHaveLength(0);
+      expect(slices.get("M00000001")?.text).toEqual("￼BB");
+      expect(slices.get("M00000001")?.marks).toHaveLength(0);
+      expect(slices.get("M00000002")?.text).toEqual("￼C");
+      expect(slices.get("M00000002")?.marks).toHaveLength(0);
+      expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "attributes": {},
+            "end": 2,
+            "id": "M00000003",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+          {
+            "attributes": {},
+            "end": 2,
+            "id": "M00000004",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "bold",
+          },
+        ]
+      `);
+    });
+
+    test("marks contained in multiple slices", () => {
+      const original = {
+        text: "￼ABCBD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000002",
+            type: "slice",
+            range: "(3..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000003",
+            type: "italic",
+            range: "(3..5]",
+            attributes: {},
+          },
+        ],
+      };
+
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000000")?.marks).toHaveLength(0);
+      expect(slices.get("M00000001")?.text).toEqual("￼B");
+      expect(slices.get("M00000001")?.marks).toHaveLength(0);
+      expect(slices.get("M00000002")?.text).toEqual("￼CB");
+      expect(slices.get("M00000002")?.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "attributes": {},
+            "end": 3,
+            "id": "M00000002-M00000003",
+            "range": "(1..3]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
+      expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toHaveLength(0);
+    });
+
+    test("marks crossing multiple slices but contained in none are dropped", () => {
+      const original = {
+        text: "￼ABCBD",
+        blocks: [
+          {
+            id: "B00000000",
+            type: "paragraph",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [
+          {
+            id: "M00000000",
+            type: "slice",
+            range: "(1..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000001",
+            type: "slice",
+            range: "(2..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000002",
+            type: "slice",
+            range: "(3..5]",
+            attributes: {
+              refs: ["B00000000"],
+            },
+          },
+          {
+            id: "M00000003",
+            type: "italic",
+            // this mark is split by multiple slices so it is not
+            // fully contained in any of them. Currently this means
+            // it is not a part of any slice. In the future we may split
+            // this mark like we do blocks
+            range: "(1..5]",
+            attributes: {},
+          },
+        ],
+      };
+
+      let [doc, slices] = extractSlices(original);
+      expect(slices.get("M00000000")?.text).toEqual("￼A");
+      expect(slices.get("M00000000")?.marks).toHaveLength(0);
+      expect(slices.get("M00000001")?.text).toEqual("￼B");
+      expect(slices.get("M00000001")?.marks).toHaveLength(0);
+      expect(slices.get("M00000002")?.text).toEqual("￼CB");
+      expect(slices.get("M00000002")?.marks).toHaveLength(0);
+      expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toHaveLength(0);
     });
 
     test("hanging overlapping slices", () => {
@@ -580,12 +827,30 @@ describe("extractSlices", () => {
               refs: ["B00000000"],
             },
           },
+          {
+            id: "M00000002",
+            type: "italic",
+            range: "(4..5]",
+            attributes: {},
+          },
         ],
       };
       let [doc, slices] = extractSlices(original);
       expect(slices.get("M00000000")?.text).toEqual("￼AB");
       expect(slices.get("M00000001")?.text).toEqual("￼BC");
       expect(doc.text).toEqual("￼D");
+      expect(doc.marks).toMatchInlineSnapshot(`
+        [
+          {
+            "attributes": {},
+            "end": 2,
+            "id": "M00000002",
+            "range": "(1..2]",
+            "start": 1,
+            "type": "italic",
+          },
+        ]
+      `);
     });
 
     describe("retain", () => {
