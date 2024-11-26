@@ -7,6 +7,7 @@ import Document, {
   AttributesOf,
   Annotation,
   SliceAnnotation,
+  TextAnnotation,
 } from "@atjson/document";
 import uuid from "uuid-random";
 
@@ -25,7 +26,7 @@ function areParentsEqual(left: string[], right: string[]) {
   );
 }
 
-export function attributesWithStableIds(
+function attributesWithStableIds(
   attribute: any,
   ids: Map<string, string>
 ): NonNullable<any> {
@@ -53,6 +54,20 @@ export function attributesWithStableIds(
   return attribute;
 }
 
+/**
+ * Returns a modified copy of `doc` where all blocks and
+ *   marks have had their `id` properties re-generated in a
+ *   deterministic way, to enable easy document comparisons during
+ *   testing.
+ *
+ * Any properties on blocks or marks that exactly match a block or
+ *   mark `id` property will also be updated to the corresponding
+ *   id in the resulting document. Only exact matches are treated
+ *   this way, substring matches are not detected or handled.
+ *
+ * @param doc - a peritext document
+ * @returns a modified copy of `doc` with stabilized ids
+ */
 export function stabilizeIds(doc: Peritext) {
   let blockCounter = 0;
   let markCounter = 0;
@@ -137,7 +152,7 @@ function adjustMarkEnd(mark: Mark, offset: number): Mark {
 /**
  * @class PeritextBuilderStep is a peritext document, suitable
  *   for use with other peritext functions, but with an additional property:
- * @property value contains the direct result of a peritext builder function
+ * @property value - contains the direct result of a peritext builder function
  *   so that you can easily access the newly generated ID (for instance)
  */
 class PeritextBuilderStep<ReturnT> {
@@ -161,8 +176,8 @@ class PeritextBuilderStep<ReturnT> {
    * @returns the equivalent peritext document, minus the `value` field
    */
   public peritext(): Peritext {
-    const { value, ...peritext } = this;
-    return peritext;
+    const { blocks, marks, text } = this;
+    return { blocks, marks, text };
   }
 
   public getValue(): ReturnT {
@@ -175,15 +190,29 @@ class PeritextBuilderStep<ReturnT> {
   }
 }
 
+/**
+ * Creates a new mark and returns a document represting the `children` argument
+ *   with the newly created mark spanning the whole document
+ * - if `children` is a string, the string is turned into a peritext document
+ *     with a text block containing that string
+ * - if `children` is an array of peritext documents, those documents are
+ *     concatenated as though with `concat`
+ *
+ * @param annotation an annotation constructor, corresponding to the desired mark
+ * @param attributes the attributes to put on the created mark
+ * @param children - **_may be mutated by this function_** - the contents spanned by the created mark
+ * @returns a peritext document with the contents of `children`, and the newly
+ *   created mark with a range from the start to the end of the created document
+ */
 export function mark<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
   children: string | Peritext | Peritext[] = ""
 ): PeritextBuilderStep<Mark> {
-  let doc: Peritext = { text: "", blocks: [], marks: [] };
+  let doc: Peritext;
 
   if (typeof children === "string") {
-    doc.text += children;
+    doc = block(TextAnnotation, {}, children);
   } else if (Array.isArray(children)) {
     doc = concat(...children);
   } else {
@@ -205,6 +234,10 @@ export function mark<Type, Attrs extends Record<string, JSON>>(
   return PeritextBuilderStep.fromPeritext(doc, newMark);
 }
 
+/**
+ * @see {@link mark} - `slice(children[, attributes])` works like
+ *   `mark(SliceAnnotation, attributes || {refs: []}, children)`
+ */
 export function slice(
   children: string | Peritext,
   attributes: { refs: string[]; retain?: boolean } = { refs: [] }
@@ -221,6 +254,23 @@ export function slice(
   return mark(SliceAnnotation, attributes, children);
 }
 
+/**
+ * creates a peritext document with a new root block corresponding to the provided annotation
+ *   constructor, and all the contents of the provided `children` as its descendants.
+ * - __if `children` is a string__, the string is inserted as the text of the resulting document.
+ * - __if `children` is an array of peritext documents__, those documents are
+ *     concatenated as though with `concat`
+ * - __if `children` is a function__, the new block is first created and then passed to the function.
+ *   This function may modify the properties of the block. The return value of the function is
+ *   then used as the value for `children`.
+ *
+ * @param annotation an annotation constructor, corresponding to the desired block
+ * @param attributes the attributes to put on the created mark
+ * @param children - **_may be mutated by this function_** - the contents to be nested inside the
+ *   created block
+ * @returns a peritext document with the contents of `children` nested inside the
+ *   newly created block
+ */
 export function block<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
@@ -267,6 +317,11 @@ export function block<Type, Attrs extends Record<string, JSON>>(
   return outDoc;
 }
 
+/**
+ * concatenates the arguments end-to-end, adjusting mark ranges appropriately
+ * @param docs peritext documents
+ * @returns a peritext document representing the concatenation of the input documents
+ */
 export function concat(...docs: Peritext[]): Peritext {
   const outDoc: Peritext = {
     text: "",
@@ -286,6 +341,14 @@ export function concat(...docs: Peritext[]): Peritext {
   return outDoc;
 }
 
+/**
+ * gets all of the blocks which are descendants of a given block, in the peritext block tree
+ *  of the provided document
+ *
+ * @param doc the peritext document to search
+ * @param parentBlockId the `id` property of the block whose descendants are being selected
+ * @returns all the blocks which are nested under the target block in the peritext block tree
+ */
 export function getDescendants(doc: Peritext, parentBlockId: string): Block[] {
   const blockIndex = doc.blocks.findIndex(({ id }) => id === parentBlockId);
   if (blockIndex === -1) return [];
@@ -305,6 +368,14 @@ export function getDescendants(doc: Peritext, parentBlockId: string): Block[] {
   return children;
 }
 
+/**
+ * gets all of the blocks which are immediate children of a given block, in the peritext block tree
+ *   of the provided document.
+ *
+ * @param doc the peritext document to search
+ * @param parentBlockId the `id` property of the block whose children are being selected
+ * @returns all the blocks which are nested under the target block in the peritext block tree
+ */
 export function getChildren(doc: Peritext, parentBlockId: string): Block[] {
   const parentBlock = doc.blocks.find(({ id }) => id === parentBlockId);
   if (!parentBlock) return [];
@@ -317,12 +388,19 @@ export function getChildren(doc: Peritext, parentBlockId: string): Block[] {
 }
 
 /**
- * marks that cross block boundaries will break this
+ * Inserts `insertedContent` into a shallow copy of `doc`, after a block specified by `targetBlockId`.
+ *   All blocks in the inserted content will be descendants of the targeted block's parents.
+ *
+ * @param doc a modified shallow copy of `doc` will be returned
+ * @param targetBlockId the `id` property of a block in `doc`
+ * @param insertedContent a peritext document to insert into `doc`
+ * @returns a shallow copy of `doc`, with `insertedContent` added after the block
+ *   corresponding to `targetBlockId` and all its descendants.
  */
 export function insertAfter(
   doc: Peritext,
   targetBlockId: string,
-  newBlock: Peritext
+  insertedContent: Peritext
 ) {
   const blocksText = doc.text.split("\uFFFC").slice(1);
   const blockIndex = doc.blocks.findIndex(({ id }) => id === targetBlockId);
@@ -346,15 +424,15 @@ export function insertAfter(
         return mark;
       }
 
-      return adjustMarkEnd(mark, newBlock.text.length);
+      return adjustMarkEnd(mark, insertedContent.text.length);
     });
 
-  const insertedText = newBlock.text;
-  const insertedBlocks = newBlock.blocks.map((block) => ({
+  const insertedText = insertedContent.text;
+  const insertedBlocks = insertedContent.blocks.map((block) => ({
     ...block,
     parents: [...targetBlock.parents, ...block.parents],
   }));
-  const insertedMarks = newBlock.marks.map((mark) => {
+  const insertedMarks = insertedContent.marks.map((mark) => {
     return adjustMarkRange(mark, beforeText.length);
   });
 
@@ -370,7 +448,7 @@ export function insertAfter(
       return start >= beforeText.length;
     })
     .map((mark) => {
-      return adjustMarkRange(mark, newBlock.text.length);
+      return adjustMarkRange(mark, insertedContent.text.length);
     });
 
   return {
@@ -380,10 +458,19 @@ export function insertAfter(
   };
 }
 
+/**
+ * Inserts `insertedContent` into a shallow copy of `doc`, before a block specified by `targetBlockId`
+ *
+ * @param doc a modified shallow copy of `doc` will be returned
+ * @param targetBlockId the `id` property of a block in `doc`
+ * @param insertedContent a peritext document to insert into `doc`
+ * @returns a shallow copy of `doc`, with `insertedContent` added before the block
+ *   corresponding to `targetBlockId` and all its descendants.
+ */
 export function insertBefore(
   doc: Peritext,
   targetBlockId: string,
-  newBlock: Peritext
+  insertedContent: Peritext
 ) {
   const blocksText = doc.text.split("\uFFFC").slice(1);
   const blockIndex = doc.blocks.findIndex(({ id }) => id === targetBlockId);
@@ -406,15 +493,15 @@ export function insertBefore(
         return mark;
       }
 
-      return adjustMarkEnd(mark, newBlock.text.length);
+      return adjustMarkEnd(mark, insertedContent.text.length);
     });
 
-  const insertedText = newBlock.text;
-  const insertedBlocks = newBlock.blocks.map((block) => ({
+  const insertedText = insertedContent.text;
+  const insertedBlocks = insertedContent.blocks.map((block) => ({
     ...block,
     parents: [...targetBlock.parents, ...block.parents],
   }));
-  const insertedMarks = newBlock.marks.map((mark) => {
+  const insertedMarks = insertedContent.marks.map((mark) => {
     return adjustMarkRange(mark, beforeText.length);
   });
 
@@ -430,7 +517,7 @@ export function insertBefore(
       return start >= beforeText.length;
     })
     .map((mark) => {
-      return adjustMarkRange(mark, newBlock.text.length);
+      return adjustMarkRange(mark, insertedContent.text.length);
     });
 
   return {
@@ -440,6 +527,18 @@ export function insertBefore(
   };
 }
 
+/**
+ * Creates a shallow copy of `doc` where the children of the block corresponding to `parentBlockId`
+ *   are chunked into groups of size `groupSize`, wrapping each group in a new block whose type is
+ *   provided by `wrapper` and whose attributes are provided by `wrapperAttributes`
+ *
+ * @param doc
+ * @param parentBlockId
+ * @param groupSize - must be greater than 0
+ * @param wrapper
+ * @param wrapperAttributes
+ * @returns
+ */
 export function groupChildren<Type, Attrs extends Record<string, JSON>>(
   doc: Peritext,
   parentBlockId: string,
@@ -447,11 +546,10 @@ export function groupChildren<Type, Attrs extends Record<string, JSON>>(
   wrapper: AnnotationConstructor<Type, Attrs>,
   wrapperAttributes: Attrs
 ): Peritext {
+  let outDoc = { text: doc.text, blocks: doc.blocks, marks: doc.marks };
   const parentBlock = doc.blocks.find(({ id }) => id === parentBlockId);
-  if (!parentBlock) return doc; // maybe throw error?
-  if (groupSize < 1) return doc; // zero might be valid but negative values aren't; maybe throw error?
-
-  let outDoc = doc;
+  if (!parentBlock) return outDoc; // maybe throw error?
+  if (groupSize < 1) return outDoc; // maybe throw error?
 
   const descendants = getDescendants(doc, parentBlockId);
   const childParentArray = [...parentBlock.parents, parentBlock.type];
@@ -475,6 +573,10 @@ export function groupChildren<Type, Attrs extends Record<string, JSON>>(
   return outDoc;
 }
 
+/**
+ * a typescript guard function to narrow the type of an unknown block
+ *   down to a specific type Block<T>
+ */
 export function blockIsAnnotation<T extends Annotation>(
   block: Block<unknown>,
   annotation: AnnotationConstructor<T, AttributesOf<T>>

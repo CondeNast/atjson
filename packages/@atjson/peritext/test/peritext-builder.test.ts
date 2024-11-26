@@ -27,7 +27,23 @@ class Emphasis extends InlineAnnotation {
   static type = "emphasis";
 }
 
-describe("peritext-builder", () => {
+describe("peritext builder library", () => {
+  describe("stabilizeIds()", () => {
+    test("logically identical documents get identical ids", () => {
+      const doc1 = block(Container, {}, [
+        block(Leaf, {}),
+        block(Leaf, {}),
+      ]).peritext();
+      const doc2 = block(Container, {}, [
+        block(Leaf, {}),
+        block(Leaf, {}),
+      ]).peritext();
+
+      expect(doc1).not.toMatchObject(doc2);
+      expect(stabilizeIds(doc1)).toMatchObject(stabilizeIds(doc2));
+    });
+  });
+
   describe("block()", () => {
     test("string children", () => {
       expect(stabilizeIds(block(Leaf, {}, "test"))).toMatchObject(
@@ -141,7 +157,7 @@ describe("peritext-builder", () => {
         )
       ).toMatchObject(
         stabilizeIds({
-          text: "\uFFFC\uFFFCtest",
+          text: "\uFFFC\uFFFC\uFFFCtest",
           blocks: [
             {
               id: "1",
@@ -155,13 +171,20 @@ describe("peritext-builder", () => {
               attributes: {},
               parents: ["container"],
             },
+            {
+              id: "t1",
+              type: "text",
+              attributes: {},
+              parents: ["container", "leaf"],
+              selfClosing: false,
+            },
           ],
           marks: [
             {
               id: "3",
               type: "emphasis",
               attributes: {},
-              range: "(2..6]",
+              range: "(2..7]",
             },
           ],
         })
@@ -169,18 +192,26 @@ describe("peritext-builder", () => {
     });
   });
 
-  describe("mark", () => {
+  describe("mark()", () => {
     test("string children", () => {
       expect(stabilizeIds(mark(Emphasis, {}, "test"))).toMatchObject(
         stabilizeIds({
-          text: "test",
-          blocks: [],
+          text: "\uFFFCtest",
+          blocks: [
+            {
+              id: "t1",
+              type: "text",
+              attributes: {},
+              parents: [],
+              selfClosing: false,
+            },
+          ],
           marks: [
             {
               id: "1",
               type: "emphasis",
               attributes: {},
-              range: "(0..4]",
+              range: "(0..5]",
             },
           ],
         })
@@ -330,26 +361,48 @@ describe("peritext-builder", () => {
         )
       ).toMatchObject(
         stabilizeIds({
-          text: "startmiddleend",
-          blocks: [],
+          text: "\uFFFCstart\uFFFCmiddle\uFFFCend",
+          blocks: [
+            {
+              type: "text",
+              id: "b1",
+              parents: [],
+              attributes: {},
+              selfClosing: false,
+            },
+            {
+              type: "text",
+              id: "b2",
+              parents: [],
+              attributes: {},
+              selfClosing: false,
+            },
+            {
+              type: "text",
+              id: "b3",
+              parents: [],
+              attributes: {},
+              selfClosing: false,
+            },
+          ],
           marks: [
             {
               id: "1",
               type: "emphasis",
               attributes: { name: "first" },
-              range: "(0..5]",
+              range: "(0..6]",
             },
             {
               id: "2",
               type: "emphasis",
               attributes: { name: "second" },
-              range: "(5..11]",
+              range: "(6..13]",
             },
             {
               id: "3",
               type: "emphasis",
               attributes: { name: "third" },
-              range: "(11..14]",
+              range: "(13..17]",
             },
           ],
         })
@@ -843,9 +896,15 @@ describe("peritext-builder", () => {
         block(Leaf, {}),
       ]);
 
-      const testDoc = groupChildren(doc, doc.getValue().id, 3, Container, {
-        level: 2,
-      });
+      const testDoc = groupChildren(
+        doc.peritext(),
+        doc.getValue().id,
+        3,
+        Container,
+        {
+          level: 2,
+        }
+      );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
         stabilizeIds(
@@ -904,54 +963,75 @@ describe("peritext-builder", () => {
         stabilizeIds(groupChildren(doc, doc.getValue().id, 2, Container, {}))
       ).toMatchObject(
         stabilizeIds({
-          text: "\uFFFC\uFFFC\uFFFCfirst\uFFFC\uFFFC\uFFFCsecond\uFFFC",
+          text: "\uFFFC\uFFFC\uFFFC\uFFFCfirst\uFFFC\uFFFC\uFFFC\uFFFCsecond\uFFFC",
           blocks: [
             {
               id: "0",
               type: "container",
               attributes: {},
               parents: [],
+              selfClosing: false,
             },
             {
               id: "1",
               type: "container",
               attributes: {},
               parents: ["container"],
+              selfClosing: false,
             },
             {
               id: "2",
               type: "leaf",
               attributes: {},
               parents: ["container", "container"],
+              selfClosing: false,
+            },
+            {
+              id: "t1",
+              type: "text",
+              attributes: {},
+              parents: ["container", "container", "leaf"],
+              selfClosing: false,
             },
             {
               id: "3",
               type: "leaf",
               attributes: {},
               parents: ["container", "container"],
+              selfClosing: false,
             },
             {
               id: "4",
               type: "container",
               attributes: {},
               parents: ["container"],
+              selfClosing: false,
             },
             {
               id: "5",
               type: "leaf",
               attributes: {},
               parents: ["container", "container"],
+              selfClosing: false,
+            },
+            {
+              id: "t2",
+              type: "text",
+              attributes: {},
+              parents: ["container", "container", "leaf"],
+              selfClosing: false,
             },
             {
               id: "6",
               type: "leaf",
               attributes: {},
               parents: ["container", "container"],
+              selfClosing: false,
             },
           ],
           marks: [
-            { id: "7", type: "emphasis", attributes: {}, range: "(3..8]" },
-            { id: "8", type: "emphasis", attributes: {}, range: "(11..17]" },
+            { id: "7", type: "emphasis", attributes: {}, range: "(3..9]" },
+            { id: "8", type: "emphasis", attributes: {}, range: "(12..19]" },
           ],
         })
       );
@@ -967,9 +1047,15 @@ describe("peritext-builder", () => {
         block(Leaf, {}),
       ]);
 
-      const testDoc = groupChildren(doc, doc.getValue().id, 3, Container, {
-        level: 2,
-      });
+      const testDoc = groupChildren(
+        doc.peritext(),
+        doc.getValue().id,
+        3,
+        Container,
+        {
+          level: 2,
+        }
+      );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
         stabilizeIds(
@@ -1021,9 +1107,15 @@ describe("peritext-builder", () => {
         ]);
 
         const rootBlock = doc.getValue();
-        const testDoc = groupChildren(doc, rootBlock.id, 0, Container, {
-          level: 2,
-        });
+        const testDoc = groupChildren(
+          doc.peritext(),
+          rootBlock.id,
+          0,
+          Container,
+          {
+            level: 2,
+          }
+        );
 
         expect(stabilizeIds(testDoc)).toMatchObject(
           stabilizeIds(
@@ -1031,7 +1123,7 @@ describe("peritext-builder", () => {
               block(Leaf, {}),
               block(Leaf, {}),
               block(Leaf, {}),
-            ])
+            ]).peritext()
           )
         );
       });
