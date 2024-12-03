@@ -191,7 +191,7 @@ class PeritextBuilderStep<ReturnT> {
 }
 
 /**
- * Creates a new mark and returns a document represting the `children` argument
+ * Creates a new mark and returns a document representing the `children` argument
  *   with the newly created mark spanning the whole document
  * - if `children` is a string, the string is turned into a peritext document
  *     with a text block containing that string
