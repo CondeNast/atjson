@@ -155,7 +155,7 @@ function adjustMarkEnd(mark: Mark, offset: number): Mark {
  * @property value - contains the direct result of a peritext builder function
  *   so that you can easily access the newly generated ID (for instance)
  */
-class PeritextBuilderStep<ReturnT> {
+class Internal_PeritextBuilderStep<ReturnT> {
   constructor(
     public text: string,
     public blocks: Block[],
@@ -167,7 +167,12 @@ class PeritextBuilderStep<ReturnT> {
     doc: Peritext,
     value: ReturnT
   ): PeritextBuilderStep<ReturnT> {
-    return new PeritextBuilderStep(doc.text, doc.blocks, doc.marks, value);
+    return new Internal_PeritextBuilderStep(
+      doc.text,
+      doc.blocks,
+      doc.marks,
+      value
+    );
   }
 
   /**
@@ -190,6 +195,47 @@ class PeritextBuilderStep<ReturnT> {
   }
 }
 
+export type PeritextBuilderStep<ReturnT> =
+  Internal_PeritextBuilderStep<ReturnT>;
+
+type Peritextish = string | Peritext | (string | Peritext)[];
+
+function normalizePeritextishArg(
+  text: Peritextish,
+  options: { textBlocks: boolean } = { textBlocks: true }
+): Peritext {
+  if (typeof text === "string") {
+    if (options.textBlocks) {
+      // equivalent to `block(TextAnnotation, {}, text)`
+      return {
+        text: "\uFFFC" + text,
+        blocks: [
+          {
+            id: uuid(),
+            type: TextAnnotation.type,
+            parents: [],
+            attributes: {},
+            selfClosing: false,
+          },
+        ],
+        marks: [],
+      };
+    } else {
+      return { text, blocks: [], marks: [] };
+    }
+  }
+
+  if (Array.isArray(text)) {
+    return concat(
+      ...text.map((piece) =>
+        normalizePeritextishArg(piece, { textBlocks: true })
+      )
+    );
+  }
+
+  return text;
+}
+
 /**
  * Creates a new mark and returns a document representing the `children` argument
  *   with the newly created mark spanning the whole document
@@ -207,17 +253,9 @@ class PeritextBuilderStep<ReturnT> {
 export function mark<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
-  children: string | Peritext | Peritext[] = ""
+  children: Peritextish
 ): PeritextBuilderStep<Mark> {
-  let doc: Peritext;
-
-  if (typeof children === "string") {
-    doc = block(TextAnnotation, {}, children);
-  } else if (Array.isArray(children)) {
-    doc = concat(...children);
-  } else {
-    doc = children;
-  }
+  let doc = normalizePeritextishArg(children);
 
   const newMark = {
     id: uuid(),
@@ -231,7 +269,7 @@ export function mark<Type, Attrs extends Record<string, JSON>>(
 
   doc.marks.unshift(newMark);
 
-  return PeritextBuilderStep.fromPeritext(doc, newMark);
+  return Internal_PeritextBuilderStep.fromPeritext(doc, newMark);
 }
 
 /**
@@ -274,11 +312,7 @@ export function slice(
 export function block<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
-  children:
-    | string
-    | Peritext
-    | Peritext[]
-    | ((block: Block) => string | Peritext | Peritext[]) = ""
+  children: Peritextish | ((block: Block) => Peritextish) = ""
 ): PeritextBuilderStep<Block> {
   const newBlock = {
     id: uuid(),
@@ -288,19 +322,19 @@ export function block<Type, Attrs extends Record<string, JSON>>(
     attributes,
   };
 
-  const concreteChildren: string | Peritext | Peritext[] =
+  const concreteChildren: Peritextish =
     typeof children === "function" ? children(newBlock) : children;
 
-  let peritextChildren: Peritext | undefined;
-  if (typeof concreteChildren === "string") {
-    peritextChildren = { text: concreteChildren, blocks: [], marks: [] };
-  } else if (Array.isArray(concreteChildren)) {
-    peritextChildren = concat(...concreteChildren);
-  } else {
-    peritextChildren = concreteChildren;
-  }
+  let peritextChildren = normalizePeritextishArg(concreteChildren, {
+    textBlocks: !(typeof concreteChildren === "string"),
+  });
 
-  const outDoc = new PeritextBuilderStep("\uFFFC", [newBlock], [], newBlock);
+  const outDoc = new Internal_PeritextBuilderStep(
+    "\uFFFC",
+    [newBlock],
+    [],
+    newBlock
+  );
   outDoc.blocks.push(
     ...peritextChildren.blocks.map((childBlock) => ({
       ...childBlock,
