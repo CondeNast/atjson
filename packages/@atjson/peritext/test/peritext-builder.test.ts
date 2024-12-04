@@ -31,16 +31,36 @@ describe("peritext builder library", () => {
   describe("stabilizeIds()", () => {
     test("logically identical documents get identical ids", () => {
       const doc1 = block(Container, {}, [
-        block(Leaf, {}),
+        block(Leaf, {}, mark(Emphasis, {}, "text")),
         block(Leaf, {}),
       ]).peritext();
       const doc2 = block(Container, {}, [
-        block(Leaf, {}),
+        block(Leaf, {}, mark(Emphasis, {}, "text")),
         block(Leaf, {}),
       ]).peritext();
 
       expect(doc1).not.toMatchObject(doc2);
       expect(stabilizeIds(doc1)).toMatchObject(stabilizeIds(doc2));
+    });
+
+    test("idempotency", () => {
+      expect(
+        stabilizeIds(
+          stabilizeIds(
+            block(Container, {}, [
+              block(Leaf, {}, mark(Emphasis, {}, "text")),
+              block(Leaf, {}),
+            ])
+          )
+        )
+      ).toMatchObject(
+        stabilizeIds(
+          block(Container, {}, [
+            block(Leaf, {}, mark(Emphasis, {}, "text")),
+            block(Leaf, {}),
+          ])
+        )
+      );
     });
   });
 
