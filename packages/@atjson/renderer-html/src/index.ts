@@ -95,7 +95,7 @@ export default class HTMLRenderer extends Renderer {
   }
 
   text(text: string) {
-    return entities.encode(text);
+    return entities.encode(text, { mode: entities.EncodingMode.UTF8 });
   }
 
   htmlAttributes(attributes: {
