@@ -149,12 +149,6 @@ function adjustMarkEnd(mark: Mark, offset: number): Mark {
   };
 }
 
-/**
- * @class PeritextBuilderStep is a peritext document, suitable
- *   for use with other peritext functions, but with an additional property:
- * @property value - contains the direct result of a peritext builder function
- *   so that you can easily access the newly generated ID (for instance)
- */
 class Internal_PeritextBuilderStep<ReturnT> {
   constructor(
     public text: string,
@@ -195,6 +189,12 @@ class Internal_PeritextBuilderStep<ReturnT> {
   }
 }
 
+/**
+ * @type PeritextBuilderStep is a peritext document, suitable
+ *   for use with other peritext functions, but with an additional property:
+ * @method getValue() - returns the direct result of a peritext builder function
+ *   so that you can easily access the newly generated ID (for instance)
+ */
 export type PeritextBuilderStep<ReturnT> =
   Internal_PeritextBuilderStep<ReturnT>;
 
@@ -249,6 +249,7 @@ function normalizePeritextishArg(
  * @param children - **_may be mutated by this function_** - the contents spanned by the created mark
  * @returns a peritext document with the contents of `children`, and the newly
  *   created mark with a range from the start to the end of the created document
+ * @see {@link PeritextBuilderStep}
  */
 export function mark<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
@@ -308,6 +309,7 @@ export function slice(
  *   created block
  * @returns a peritext document with the contents of `children` nested inside the
  *   newly created block
+ * @see {@link PeritextBuilderStep}
  */
 export function block<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,

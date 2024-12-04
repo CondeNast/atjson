@@ -120,6 +120,50 @@ describe("peritext builder library", () => {
         })
       );
     });
+    test("mixed children", () => {
+      expect(
+        stabilizeIds(
+          block(Container, { level: 1 }, [
+            "first",
+            block(Leaf, {}, "nested"),
+            mark(Emphasis, {}, "last"),
+          ])
+        )
+      ).toMatchObject(
+        stabilizeIds({
+          text: "\uFFFC\uFFFCfirst\uFFFCnested\uFFFClast",
+          blocks: [
+            {
+              id: "0",
+              type: "container",
+              attributes: { level: 1 },
+              parents: [],
+            },
+            {
+              id: "1",
+              type: "text",
+              attributes: {},
+              parents: ["container"],
+            },
+            {
+              id: "2",
+              type: "leaf",
+              attributes: {},
+              parents: ["container"],
+            },
+            {
+              id: "3",
+              type: "text",
+              attributes: {},
+              parents: ["container"],
+            },
+          ],
+          marks: [
+            { id: "m1", type: "emphasis", range: "(14..19]", attributes: {} },
+          ],
+        })
+      );
+    });
     test("function children", () => {
       expect(
         stabilizeIds(
