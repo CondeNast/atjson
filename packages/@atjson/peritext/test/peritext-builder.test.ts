@@ -10,6 +10,8 @@ import {
   getChildren,
   groupChildren,
   stabilizeIds,
+  slice,
+  Peritext,
 } from "../src";
 
 class Container extends BlockAnnotation {
@@ -25,6 +27,10 @@ class Leaf extends BlockAnnotation {
 class Emphasis extends InlineAnnotation {
   static vendorPrefix = "test";
   static type = "emphasis";
+}
+
+function getBlocksByIds(doc: Peritext, ...ids: string[]) {
+  return doc.blocks.filter((block) => ids.includes(block.id));
 }
 
 describe("peritext builder library", () => {
@@ -254,6 +260,21 @@ describe("peritext builder library", () => {
         })
       );
     });
+    test("mutates child blocks and marks in-place", () => {
+      let innerMark = mark(Emphasis, {}, "test");
+      expect(innerMark.getValue().range).toBe("(0..5]");
+
+      let innerBlock = block(Leaf, {}, innerMark);
+      expect(innerBlock.getValue().parents).toMatchObject([]);
+      expect(innerMark.getValue().range).toBe("(1..6]");
+
+      let outer = block(Container, {}, innerBlock);
+
+      expect(innerBlock.getValue().parents).toMatchObject(["container"]);
+      expect(innerMark.getValue().range).toBe("(2..7]");
+      expect(outer.blocks[1]).toBe(innerBlock.getValue());
+      expect(outer.marks[0]).toBe(innerMark.getValue());
+    });
   });
 
   describe("mark()", () => {
@@ -301,6 +322,166 @@ describe("peritext builder library", () => {
               type: "emphasis",
               attributes: {},
               range: "(0..5]",
+            },
+          ],
+        })
+      );
+    });
+    test("mixed children", () => {
+      expect(
+        stabilizeIds(
+          mark(Emphasis, {}, [
+            "first",
+            block(Leaf, {}, "nested"),
+            mark(Emphasis, { decorations: ["underline"] }, "last"),
+          ])
+        )
+      ).toMatchObject(
+        stabilizeIds({
+          text: "\uFFFCfirst\uFFFCnested\uFFFClast",
+          blocks: [
+            {
+              id: "0",
+              type: "text",
+              attributes: {},
+              parents: [],
+            },
+            {
+              id: "1",
+              type: "leaf",
+              attributes: {},
+              parents: [],
+            },
+            {
+              id: "2",
+              type: "text",
+              attributes: {},
+              parents: [],
+            },
+          ],
+          marks: [
+            {
+              id: "m0",
+              type: "emphasis",
+              range: "(0..18]",
+              attributes: {},
+            },
+            {
+              id: "m1",
+              type: "emphasis",
+              range: "(13..18]",
+              attributes: { decorations: ["underline"] },
+            },
+          ],
+        })
+      );
+    });
+    test("mutates child blocks and marks in-place", () => {
+      let innerMark = mark(Emphasis, {}, "test");
+      expect(innerMark.getValue().range).toBe("(0..5]");
+
+      let innerBlock = block(Leaf, {}, innerMark);
+      expect(innerBlock.getValue().parents).toMatchObject([]);
+      expect(innerMark.getValue().range).toBe("(1..6]");
+
+      let outer = mark(Emphasis, {}, innerBlock);
+      expect(outer.blocks[0]).toBe(innerBlock.getValue());
+      expect(outer.marks[1]).toBe(innerMark.getValue());
+    });
+  });
+
+  describe("slice()", () => {
+    test("string children", () => {
+      expect(stabilizeIds(slice("test"))).toMatchObject(
+        stabilizeIds({
+          text: "\uFFFCtest",
+          blocks: [
+            {
+              id: "t1",
+              type: "text",
+              attributes: {},
+              parents: [],
+              selfClosing: false,
+            },
+          ],
+          marks: [
+            {
+              id: "1",
+              type: "slice",
+              attributes: {},
+              range: "(0..5]",
+            },
+          ],
+        })
+      );
+    });
+    test("peritext children", () => {
+      expect(stabilizeIds(slice(block(Leaf, {}, "test")))).toMatchObject(
+        stabilizeIds({
+          text: "\uFFFCtest",
+          blocks: [
+            {
+              id: "0",
+              type: "leaf",
+              parents: [],
+              attributes: {},
+            },
+          ],
+          marks: [
+            {
+              id: "1",
+              type: "slice",
+              attributes: {},
+              range: "(0..5]",
+            },
+          ],
+        })
+      );
+    });
+    test("mixed children", () => {
+      expect(
+        stabilizeIds(
+          slice([
+            "first",
+            block(Leaf, {}, "nested"),
+            mark(Emphasis, { decorations: ["underline"] }, "last"),
+          ])
+        )
+      ).toMatchObject(
+        stabilizeIds({
+          text: "\uFFFCfirst\uFFFCnested\uFFFClast",
+          blocks: [
+            {
+              id: "0",
+              type: "text",
+              attributes: {},
+              parents: [],
+            },
+            {
+              id: "1",
+              type: "leaf",
+              attributes: {},
+              parents: [],
+            },
+            {
+              id: "2",
+              type: "text",
+              attributes: {},
+              parents: [],
+            },
+          ],
+          marks: [
+            {
+              id: "m0",
+              type: "slice",
+              range: "(0..18]",
+              attributes: {},
+            },
+            {
+              id: "m1",
+              type: "emphasis",
+              range: "(13..18]",
+              attributes: { decorations: ["underline"] },
             },
           ],
         })
@@ -680,6 +861,23 @@ describe("peritext builder library", () => {
         )
       );
     });
+    test("mutates blocks and marks in-place", () => {
+      let beforeBlock = block(Leaf, {}, "before");
+      let insertedBlock = block(Leaf, {}, "inserted");
+      let afterMark = mark(Emphasis, {}, "after");
+      let afterBlock = block(Leaf, {}, afterMark);
+
+      let doc = insertAfter(
+        concat(beforeBlock, afterBlock),
+        beforeBlock.getValue().id,
+        insertedBlock
+      );
+
+      expect(doc.blocks).toContain(beforeBlock.getValue());
+      expect(doc.blocks).toContain(insertedBlock.getValue());
+      expect(doc.blocks).toContain(afterBlock.getValue());
+      expect(doc.marks).toContain(afterMark.getValue());
+    });
   });
 
   describe("insertBefore()", () => {
@@ -895,6 +1093,23 @@ describe("peritext builder library", () => {
         )
       );
     });
+    test("mutates blocks and marks in-place", () => {
+      let beforeBlock = block(Leaf, {}, "before");
+      let insertedBlock = block(Leaf, {}, "inserted");
+      let afterMark = mark(Emphasis, {}, "after");
+      let afterBlock = block(Leaf, {}, afterMark);
+
+      let doc = insertBefore(
+        concat(beforeBlock, afterBlock),
+        afterBlock.getValue().id,
+        insertedBlock
+      );
+
+      expect(doc.blocks).toContain(beforeBlock.getValue());
+      expect(doc.blocks).toContain(insertedBlock.getValue());
+      expect(doc.blocks).toContain(afterBlock.getValue());
+      expect(doc.marks).toContain(afterMark.getValue());
+    });
   });
 
   describe("getDescendants()", () => {
@@ -918,6 +1133,26 @@ describe("peritext builder library", () => {
 
       expect(getDescendants(doc, doc.getValue().id)).toMatchObject(
         doc.blocks.slice(1)
+      );
+    });
+    test("doesn't return siblings of target", () => {
+      let target;
+      let descendant1;
+      let descendant2;
+      const doc = block(Container, {}, [
+        block(Container, {}, [block(Leaf, {}), block(Leaf, {})]),
+        (target = block(Container, {}, [
+          (descendant1 = block(Container, {}, (descendant2 = block(Leaf, {})))),
+        ])),
+        block(Leaf, {}),
+      ]);
+
+      expect(getDescendants(doc, target.getValue().id)).toMatchObject(
+        getBlocksByIds(
+          doc,
+          descendant1.getValue().id,
+          descendant2.getValue().id
+        )
       );
     });
   });
@@ -946,6 +1181,21 @@ describe("peritext builder library", () => {
         doc.blocks[4],
         doc.blocks[7],
       ]);
+    });
+    test("doesn't return siblings of target", () => {
+      let target;
+      let child;
+      const doc = block(Container, {}, [
+        block(Container, {}, [block(Leaf, {}), block(Leaf, {})]),
+        (target = block(Container, {}, [
+          (child = block(Container, {}, block(Leaf, {}))),
+        ])),
+        block(Leaf, {}),
+      ]);
+
+      expect(getChildren(doc, target.getValue().id)).toMatchObject(
+        getBlocksByIds(doc, child.getValue().id)
+      );
     });
   });
 
@@ -1137,6 +1387,33 @@ describe("peritext builder library", () => {
           ]).peritext()
         )
       );
+    });
+
+    test("mutates blocks and marks in-place", () => {
+      let targetMark = mark(Emphasis, {}, "test");
+      let targetBlock = block(Leaf, {}, targetMark);
+
+      let doc = block(Container, { level: 1 }, [
+        block(Leaf, {}),
+        block(Leaf, {}),
+        targetBlock,
+        block(Leaf, {}),
+      ]);
+
+      let grouped = groupChildren(doc, doc.getValue().id, 2, Container, {
+        level: 2,
+      });
+
+      expect(grouped.blocks).toContain(doc.getValue());
+      expect(grouped.blocks).toContain(targetBlock.getValue());
+      expect(grouped.marks).toContain(targetMark.getValue());
+
+      expect(targetBlock.getValue().parents).toMatchObject([
+        "container",
+        "container",
+      ]);
+
+      expect(targetMark.getValue().range).toBe("(6..11]");
     });
 
     describe("groupSize edge cases", () => {

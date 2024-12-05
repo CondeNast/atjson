@@ -134,19 +134,15 @@ function serializeRange(
 function adjustMarkRange(mark: Mark, offset: number): Mark {
   const { start, end, edgeBehaviour } = unsafe_parseRange(mark.range);
 
-  return {
-    ...mark,
-    range: serializeRange(start + offset, end + offset, edgeBehaviour),
-  };
+  mark.range = serializeRange(start + offset, end + offset, edgeBehaviour);
+  return mark;
 }
 
 function adjustMarkEnd(mark: Mark, offset: number): Mark {
   const { start, end, edgeBehaviour } = unsafe_parseRange(mark.range);
 
-  return {
-    ...mark,
-    range: serializeRange(start, end + offset, edgeBehaviour),
-  };
+  mark.range = serializeRange(start, end + offset, edgeBehaviour);
+  return mark;
 }
 
 class Internal_PeritextBuilderStep<ReturnT> {
@@ -278,19 +274,17 @@ export function mark<Type, Attrs extends Record<string, JSON>>(
  *   `mark(SliceAnnotation, attributes || {refs: []}, children)`
  */
 export function slice(
-  children: string | Peritext,
+  children: Peritextish,
   attributes: { refs: string[]; retain?: boolean } = { refs: [] }
 ): PeritextBuilderStep<Mark> {
-  if (
-    (typeof children == "string" && children === "") ||
-    (typeof children == "object" && children.text === "")
-  ) {
+  let doc = normalizePeritextishArg(children);
+  if (doc.text === "") {
     throw new Error(
       "Slices must have some contents; an empty slice will cause errors."
     );
   }
 
-  return mark(SliceAnnotation, attributes, children);
+  return mark(SliceAnnotation, attributes, doc);
 }
 
 /**
@@ -338,10 +332,10 @@ export function block<Type, Attrs extends Record<string, JSON>>(
     newBlock
   );
   outDoc.blocks.push(
-    ...peritextChildren.blocks.map((childBlock) => ({
-      ...childBlock,
-      parents: [annotation.type, ...childBlock.parents],
-    }))
+    ...peritextChildren.blocks.map((childBlock) => {
+      childBlock.parents = [annotation.type, ...childBlock.parents];
+      return childBlock;
+    })
   );
 
   outDoc.marks.push(
@@ -464,10 +458,10 @@ export function insertAfter(
     });
 
   const insertedText = insertedContent.text;
-  const insertedBlocks = insertedContent.blocks.map((block) => ({
-    ...block,
-    parents: [...targetBlock.parents, ...block.parents],
-  }));
+  const insertedBlocks = insertedContent.blocks.map((block) => {
+    block.parents = [...targetBlock.parents, ...block.parents];
+    return block;
+  });
   const insertedMarks = insertedContent.marks.map((mark) => {
     return adjustMarkRange(mark, beforeText.length);
   });
@@ -533,10 +527,10 @@ export function insertBefore(
     });
 
   const insertedText = insertedContent.text;
-  const insertedBlocks = insertedContent.blocks.map((block) => ({
-    ...block,
-    parents: [...targetBlock.parents, ...block.parents],
-  }));
+  const insertedBlocks = insertedContent.blocks.map((block) => {
+    block.parents = [...targetBlock.parents, ...block.parents];
+    return block;
+  });
   const insertedMarks = insertedContent.marks.map((mark) => {
     return adjustMarkRange(mark, beforeText.length);
   });
