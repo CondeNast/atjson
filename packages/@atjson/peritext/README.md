@@ -23,3 +23,7 @@ let doc = block(Div, {}, (paragraph = block(Paragraph, {}, "Hello!")));
 
 return insertBefore(doc, paragraph.getValue().id, HorizontalRule, {});
 ```
+
+## Mutation
+
+All of the functions that construct and modify documents have the property that they shallowly copy any _peritext documents_ in their arguments, but **directly mutate** any _blocks_ and _marks_ on that document. This potentially-surprising behavior is intentional: this way, one can store the results of intermediate build steps and any such references to marks and blocks in the document will remain accurate after applying further build steps. documents are shallowly-copied in order for the behavior of functions like `concat` (which take multiple document objects and so could only mutate one of them anyway) to be consistent with the behavior of functions like `groupChildren` (which could in principle simply mutate the input document directly)
