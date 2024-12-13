@@ -55,6 +55,7 @@ describe("TwitterEmbed", () => {
             type: "line-break",
           },
         ],
+
         marks: [
           {
             attributes: {
@@ -85,7 +86,7 @@ describe("TwitterEmbed", () => {
         text: "￼￼Hope you had a great start to your week, New York City! pic.twitter.com/9skas4Bady￼— City of New York (@nycgov) November 5, 2019",
       })
     ).toMatchInlineSnapshot(
-      `"<blockquote class="twitter-embed"><p>Hope you had a great start to your week, New York City! <a href="https://t.co/9skas4Bady">pic.twitter.com/9skas4Bady</a><br />&#x2014; City of New York (@nycgov) <a href="https://twitter.com/nycgov/status/1191528054608334848?ref_src=twsrc%5Etfw">November 5, 2019</a></p></blockquote><script async src="https://www.tiktok.com/embed.js"></script>"`
+      `"<blockquote class="twitter-embed"><p>Hope you had a great start to your week, New York City! <a href="https://t.co/9skas4Bady">pic.twitter.com/9skas4Bady</a><br />— City of New York (@nycgov) <a href="https://twitter.com/nycgov/status/1191528054608334848?ref_src=twsrc%5Etfw">November 5, 2019</a></p></blockquote><script async src="https://www.tiktok.com/embed.js"></script>"`
     );
   });
 });
