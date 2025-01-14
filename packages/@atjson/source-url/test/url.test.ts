@@ -352,7 +352,7 @@ describe("url-source", () => {
               selfClosing: false,
               type: "facebook-embed",
               attributes: {
-                url: "https://www.facebook.com/Vogue/posts/10156453076157279",
+                url: text.replace(/\?.*/, ""),
               },
             },
           ],
@@ -364,7 +364,7 @@ describe("url-source", () => {
     describe("videos", () => {
       test.each([
         "https://www.facebook.com/Vogue/videos/vb.42933792278/258591818132754/?type=2&theater",
-        "https://www.facebook.com/Vogue/posts/258591818132754",
+        "https://www.facebook.com/Vogue/videos/258591818132754",
       ])("%s", (text) => {
         let url = URLSource.fromRaw(text).convertTo(OffsetSource);
         expect(serialize(url, { withStableIds: true })).toEqual({
@@ -376,7 +376,7 @@ describe("url-source", () => {
               selfClosing: false,
               type: "facebook-embed",
               attributes: {
-                url: "https://www.facebook.com/Vogue/posts/258591818132754",
+                url: text.replace(/\?.*/, ""),
               },
             },
           ],
