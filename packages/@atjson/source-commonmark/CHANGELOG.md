@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.28.4 (2025-01-14)
+
+**Note:** Version bump only for package @atjson/source-commonmark
+
 ## 0.28.3 (2024-11-12)
 
 ### Bug Fixes

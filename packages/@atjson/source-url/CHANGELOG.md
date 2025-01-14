@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.30.7 (2025-01-14)
+
+### Bug Fixes
+
+- update facebook embed detection to handle facebook videos ([#1788](https://github.com/CondeNast/atjson/issues/1788)) ([f3181ca](https://github.com/CondeNast/atjson/commit/f3181ca79d5f9c17d7a4f9ae276610a1ff458362))
+
 ## 0.30.6 (2024-11-12)
 
 **Note:** Version bump only for package @atjson/source-url
