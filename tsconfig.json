@@ -24,7 +24,7 @@
     "jsx": "react",
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES6"
+    "target": "ES2018"
   },
   "exclude": ["node_modules", "dist", "public", "test"]
 }
