@@ -38,9 +38,9 @@ function createListItemAnnotation(
 
 export default function extractListStyles(
   lists: GDocsStyleSlice[],
+  text: string,
   entityMap: GDocsEntityMap,
-  trailing?: GDocsStyleSlice,
-  text?: string
+  trailing?: GDocsStyleSlice
 ): AnnotationJSON[] {
   let lastParagraphStart = 0;
   let listAnnotations: { [key: string]: AnnotationJSON } = {};

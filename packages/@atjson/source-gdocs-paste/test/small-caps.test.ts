@@ -1,8 +1,8 @@
-import OffsetSource from "@atjson/offset-annotations";
+import OffsetSource, { SmallCaps } from "@atjson/offset-annotations";
 import * as fs from "fs";
 import * as path from "path";
 import GDocsSource from "../src";
-import { serialize } from "@atjson/document";
+import { serialize, is } from "@atjson/document";
 
 describe("@atjson/source-gdocs-paste", () => {
   describe("small caps", () => {
@@ -56,6 +56,34 @@ describe("@atjson/source-gdocs-paste", () => {
           "text": "￼Just by chance, Dylan’s “Christmas in the Heart” happened to fall aids in mid-Ddecember, which enriched the experience of that spirited if bewildering holiday album. (For me, it will never again feel like Christmas without hearing Dylan croak “Adeste Fideles” in his surreal Latin.) Every discography adds another chronological-cultural layer atop the ordinary passage of time: the year 2020 yielded nobody’s idea of an ideal summer, but for me it was at least enlivened by earlier Beach Boys releases, from the 1964 hit “All summer Long” and the 1966 critical-consensus masterpiece “Pet Sounds” to the 1973 ambitious conclusion to the band’s long heyday, “Holland.”",
         }
       `);
+    });
+  });
+
+  describe("small caps from font size", () => {
+    let doc: OffsetSource;
+    beforeAll(() => {
+      let fixturePath = path.join(
+        __dirname,
+        "fixtures",
+        "small-caps-shorthand.json"
+      );
+      let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
+      let gdocs = GDocsSource.fromRaw(rawJSON);
+      doc = gdocs.convertTo(OffsetSource);
+    });
+
+    test("Uppercase text in a smaller font creates small caps", () => {
+      let smallcapsAnnotations = doc.annotations.filter((annotation) =>
+        is(annotation, SmallCaps)
+      );
+
+      expect(smallcapsAnnotations.length).toBe(1);
+      expect(
+        doc.content.slice(
+          smallcapsAnnotations[0].start,
+          smallcapsAnnotations[0].end
+        )
+      ).toBe("THIS TEXT IS UPPERCASE AND IN A SMALLER FONT");
     });
   });
 });

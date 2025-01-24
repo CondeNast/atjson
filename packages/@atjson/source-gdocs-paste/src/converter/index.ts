@@ -3,34 +3,27 @@ import {
   BlockAnnotation,
   InlineAnnotation,
   ParseAnnotation,
-  SliceAnnotation,
-  TextAnnotation,
   compareAnnotations,
   is,
 } from "@atjson/document";
 import OffsetSource, {
+  Blockquote,
   Heading,
   LineBreak,
   ListItem,
   List,
   Paragraph,
-  DataSet,
-  ColumnType,
-  Table,
   TextAlignment,
 } from "@atjson/offset-annotations";
-import GDocsSource from "./source";
-import { Alignment, Heading as GDocsHeading } from "./annotations";
-import uuid from "uuid-random";
+import GDocsSource from "../source";
+import { Alignment, Heading as GDocsHeading } from "../annotations";
+import { convertTables } from "./tables";
+import { convertSmallCaps } from "./smallcaps";
+import { convertDropCaps } from "./dropcaps";
+import { IndentLeft } from "../annotations/indent-left";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
-// eslint-disable-next-line no-control-regex
-const TABLE = /\u0010(\u0012(\u001c.*\n)+)+\u0011/g;
-// eslint-disable-next-line no-control-regex
-const TABLE_ROW = /\u0012(\u001c.*\n)+/gmu;
-// eslint-disable-next-line no-control-regex
-const TABLE_CELL = /\u001c(.*)\n/gmu;
 const NEWLINE_PARAGRAPH_SEPARATOR = /\n(\s*\n)*/g;
 
 const ALIGNMENT = {
@@ -40,16 +33,7 @@ const ALIGNMENT = {
   3: TextAlignment.Justify,
 } as const;
 
-function snakecase(text: string) {
-  return text.toLowerCase().replace(/\s+/, "_");
-}
-
 GDocsSource.defineConverterTo(OffsetSource, (doc) => {
-  // Remove zero-length annotations
-  // This is a bit of a workaround to deal with complications that arise when trying to
-  // sort start/end tokens for these annotations when serializing the document
-  // doc.where((a) => a.start === a.end).remove();
-
   // Remove all underlines that align with links, since
   // Google docs automatically does this when creating a link.
   // If necessary, underlined text can be added afterwards;
@@ -238,6 +222,17 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
     );
   });
 
+  // Interpreting paragraphs with a left indent as blockquotes
+  doc.where({ type: "-gdocs-ps_il" }).update((bq: IndentLeft) => {
+    doc.replaceAnnotation(
+      bq,
+      new Blockquote({
+        start: bq.start,
+        end: bq.end,
+      })
+    );
+  });
+
   // GDocs can produce lists that have paragraphs in them that are
   // not wrapped by a list item. In these cases, split the list before
   // and after the paragraph, as necessary
@@ -343,113 +338,12 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       mark.end = end;
     });
 
-  // Convert vertical tabs to line breaks
-  for (let table of doc.match(TABLE)) {
-    let id = uuid();
-    let rows: Array<Array<{ slice: string; jsonValue: string }>> = [];
+  convertTables(doc);
+  convertSmallCaps(doc);
+  convertDropCaps(doc);
 
-    // Remove all paragraphs inside of tables
-    doc
-      .where(
-        (a) => is(a, Paragraph) && a.start >= table.start && a.end <= table.end
-      )
-      .update((a) => {
-        doc.replaceAnnotation(
-          a,
-          new TextAnnotation({
-            start: a.start,
-            end: a.end,
-          })
-        );
-      });
-
-    // Gather the dataset info first
-    for (let tableRow of doc.match(TABLE_ROW, table.start, table.end)) {
-      let row: Array<{ slice: string; jsonValue: string }> = [];
-      doc.addAnnotations(
-        new ParseAnnotation({
-          start: tableRow.start,
-          end: tableRow.start + 1,
-        })
-      );
-
-      for (let tableCell of doc.match(
-        TABLE_CELL,
-        tableRow.start + 1,
-        tableRow.end
-      )) {
-        let slice = new SliceAnnotation({
-          start: tableCell.start,
-          end: tableCell.end,
-          attributes: {
-            refs: [id],
-          },
-        });
-        row.push({
-          slice: slice.id,
-          jsonValue: tableCell.matches[1],
-        });
-        doc.addAnnotations(
-          new ParseAnnotation({
-            start: tableCell.start,
-            end: tableCell.start + 1,
-          }),
-          slice
-        );
-      }
-      rows.push(row);
-    }
-    let [header, ...body] = rows;
-    let columnNames = header.map(
-      (header, index) => snakecase(header.jsonValue) + "__" + index
-    );
-    let records = body.map((row) => {
-      return row.reduce((E, cell, index) => {
-        E[columnNames[index]] = cell;
-        return E;
-      }, {} as Record<string, { slice: string; jsonValue: string }>);
-    });
-    let schema = columnNames.reduce((E, columnName) => {
-      E[columnName] = ColumnType.RICH_TEXT;
-      return E;
-    }, {} as Record<string, ColumnType>);
-
-    let dataset = new DataSet({
-      id,
-      start: table.start,
-      end: table.end,
-      attributes: {
-        schema,
-        records,
-      },
-    });
-
-    doc.addAnnotations(
-      dataset,
-      new ParseAnnotation({
-        start: table.start,
-        end: table.start + 1,
-      }),
-      new Table({
-        start: table.start,
-        end: table.end,
-        attributes: {
-          dataSet: dataset.id,
-          showColumnHeaders: true,
-          columns: header.map((cell, index) => {
-            return {
-              columnName: columnNames[index],
-              slice: cell.slice,
-            };
-          }),
-        },
-      }),
-      new ParseAnnotation({
-        start: table.end - 1,
-        end: table.end,
-      })
-    );
-  }
+  // clean up font size annotations
+  doc.where({ type: "-gdocs-ts_fs" }).remove();
 
   return doc;
 });
