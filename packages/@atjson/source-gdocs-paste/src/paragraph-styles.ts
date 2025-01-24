@@ -18,8 +18,8 @@ import { GDocsStyleSlice } from "./types";
  *   ps_hd: header (integer, 0 = none, 1+ = header level)
  *   ps_hdid: header id (?)
  *   ps_ifl: unknown
- *   ps_il: unknown
- *   ps_ir: unknown
+ *   ps_il: number // left indent, units unknown
+ *   ps_ir: unknown // right indent?
  *   ps_klt: unknown
  *   ps_kwn: unknown
  *   ps_ls: unknown
@@ -62,6 +62,17 @@ export default function extractParagraphStyles(
         end: i,
         attributes: {
           "-gdocs-align": style.ps_al,
+        },
+      });
+    }
+
+    if (style.ps_il > 0) {
+      annotations.push({
+        type: "-gdocs-ps_il",
+        start: lastParagraphStart,
+        end: i,
+        attributes: {
+          "-gdocs-indent": style.ps_il,
         },
       });
     }
