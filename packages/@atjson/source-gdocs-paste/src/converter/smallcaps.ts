@@ -38,7 +38,7 @@ export function convertSmallCaps(doc: Document) {
   const smallCapsAnnotations: SmallCaps[] = [];
   for (let range of smallRanges) {
     const textRange = doc.content.slice(range.start, range.end);
-    if (textRange === textRange.toLocaleLowerCase()) {
+    if (textRange === textRange.toLocaleUpperCase()) {
       smallCapsAnnotations.push(
         new SmallCaps({ start: range.start, end: range.end })
       );

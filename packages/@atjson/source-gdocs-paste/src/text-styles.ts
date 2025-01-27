@@ -39,8 +39,9 @@ export default function extractTextStyles(
     // Add text style font size ("ts_fs") annotations
     if (
       style.ts_fs &&
-      style.ts_fs !==
-        (state.ts_fs.attributes as Record<string, string>)["-gdocs-size"]
+      (state.ts_fs == null ||
+        style.ts_fs !==
+          (state.ts_fs.attributes as Record<string, string>)["-gdocs-size"])
     ) {
       if (state.ts_fs) {
         state.ts_fs.end = i;
@@ -49,7 +50,7 @@ export default function extractTextStyles(
       state.ts_fs = {
         type: "-gdocs-ts_fs",
         attributes: {
-          "-godcs-size": style.ts_fs,
+          "-gdocs-size": style.ts_fs,
         },
         start: i,
         end: -1,

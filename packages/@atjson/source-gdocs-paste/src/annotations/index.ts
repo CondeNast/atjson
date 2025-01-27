@@ -1,5 +1,7 @@
 export * from "./alignment";
+export * from "./blockquote";
 export * from "./bold";
+export * from "./font-size";
 export * from "./heading";
 export * from "./horizontal-rule";
 export * from "./italic";
