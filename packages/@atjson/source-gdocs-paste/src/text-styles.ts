@@ -27,7 +27,7 @@ export default function extractTextStyles(
           "-gdocs-va": style.ts_va,
         },
         start: i,
-        end: -1,
+        end: content.length,
       };
     } else if (
       style.ts_va === "nor" &&
@@ -67,7 +67,7 @@ export default function extractTextStyles(
         state[styleType] = {
           type: "-gdocs-" + styleType,
           start: i,
-          end: -1,
+          end: content.length,
           attributes: {},
         };
       } else if (
@@ -82,13 +82,9 @@ export default function extractTextStyles(
     }
   }
 
-  // Close any remaining open styles
+  // push any remaining annotations
   for (let key in state) {
-    let annotation = state[key];
-    if (annotation.end === -1) {
-      annotation.end = styles.length - 1;
-    }
-    annotations.push(annotation);
+    annotations.push(state[key]);
   }
 
   return annotations;
