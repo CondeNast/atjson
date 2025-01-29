@@ -7,7 +7,7 @@ import {
   is,
 } from "@atjson/document";
 import OffsetSource, {
-  Blockquote as OffsetBlockquote,
+  Blockquote,
   Heading,
   LineBreak,
   ListItem,
@@ -20,7 +20,7 @@ import { Alignment, Heading as GDocsHeading } from "../annotations";
 import { convertTables } from "./tables";
 import { convertSmallCaps } from "./smallcaps";
 import { convertDropCaps } from "./dropcaps";
-import { Blockquote } from "../annotations/blockquote";
+import { IndentLeft } from "../annotations/blockquote";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
@@ -228,10 +228,10 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   });
 
   // Interpreting paragraphs with a left indent as blockquotes
-  doc.where({ type: "-gdocs-ps_il" }).update((bq: Blockquote) => {
+  doc.where({ type: "-gdocs-ps_il" }).update((bq: IndentLeft) => {
     doc.replaceAnnotation(
       bq,
-      new OffsetBlockquote({
+      new Blockquote({
         start: bq.start,
         end: bq.end,
       })
@@ -346,6 +346,9 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   convertTables(doc);
   convertSmallCaps(doc);
   convertDropCaps(doc);
+
+  // clean up font size annotations
+  doc.where({ type: "-gdocs-ts_fs" }).remove();
 
   return doc;
 });

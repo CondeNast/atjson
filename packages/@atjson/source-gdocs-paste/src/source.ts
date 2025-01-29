@@ -1,11 +1,11 @@
 import Document from "@atjson/document";
 import {
   Alignment,
-  Blockquote,
   Bold,
   FontSize,
   Heading,
   HorizontalRule,
+  IndentLeft,
   Italic,
   Link,
   List,
@@ -22,11 +22,11 @@ export default class extends Document {
   static contentType = "application/vnd.atjson+gdocs";
   static schema = [
     Alignment,
-    Blockquote,
     Bold,
     FontSize,
     Heading,
     HorizontalRule,
+    IndentLeft,
     Italic,
     Link,
     List,
