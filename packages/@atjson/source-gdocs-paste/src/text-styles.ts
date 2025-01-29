@@ -25,7 +25,7 @@ export default function extractTextStyles(
           "-gdocs-va": style.ts_va,
         },
         start: i,
-        end: content?.length || i,
+        end: content.length,
       };
     } else if (
       style.ts_va === "nor" &&
@@ -54,9 +54,7 @@ export default function extractTextStyles(
           "-gdocs-size": style.ts_fs,
         },
         start: i,
-        // font sizes are only stored in the paste data at the index where they change
-        // so the length of the trailing font size range isn't reflected in the style entries
-        end: content?.length || i,
+        end: content.length,
       };
     }
 
@@ -65,7 +63,7 @@ export default function extractTextStyles(
         state[styleType] = {
           type: "-gdocs-" + styleType,
           start: i,
-          end: content?.length || i,
+          end: content.length,
           attributes: {},
         };
       } else if (
