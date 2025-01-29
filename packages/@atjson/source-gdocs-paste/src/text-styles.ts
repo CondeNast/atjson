@@ -7,8 +7,6 @@ interface ParseState {
 
 export default function extractTextStyles(
   styles: GDocsStyleSlice[],
-  _entityMap: unknown,
-  _trailing: unknown,
   content: string
 ): AnnotationJSON[] {
   let state: ParseState = {};
@@ -27,7 +25,7 @@ export default function extractTextStyles(
           "-gdocs-va": style.ts_va,
         },
         start: i,
-        end: content.length,
+        end: content?.length || i,
       };
     } else if (
       style.ts_va === "nor" &&
@@ -58,7 +56,7 @@ export default function extractTextStyles(
         start: i,
         // font sizes are only stored in the paste data at the index where they change
         // so the length of the trailing font size range isn't reflected in the style entries
-        end: content.length,
+        end: content?.length || i,
       };
     }
 
@@ -67,7 +65,7 @@ export default function extractTextStyles(
         state[styleType] = {
           type: "-gdocs-" + styleType,
           start: i,
-          end: content.length,
+          end: content?.length || i,
           attributes: {},
         };
       } else if (

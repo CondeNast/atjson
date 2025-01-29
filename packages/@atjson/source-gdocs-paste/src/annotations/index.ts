@@ -1,5 +1,5 @@
 export * from "./alignment";
-export * from "./blockquote";
+export * from "./indent-left";
 export * from "./bold";
 export * from "./font-size";
 export * from "./heading";
