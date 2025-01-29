@@ -29,34 +29,26 @@ describe("@atjson/source-gdocs-paste", () => {
           ],
           "marks": [
             {
-              "attributes": {
-                "-gdocs-size": 12,
-              },
-              "id": "M00000000",
-              "range": "(1..502]",
-              "type": "-gdocs-ts_fs",
-            },
-            {
               "attributes": {},
-              "id": "M00000001",
+              "id": "M00000000",
               "range": "(9..15]",
               "type": "small-caps",
             },
             {
               "attributes": {},
-              "id": "M00000002",
+              "id": "M00000001",
               "range": "(67..71]",
               "type": "small-caps",
             },
             {
               "attributes": {},
-              "id": "M00000003",
+              "id": "M00000002",
               "range": "(79..88]",
               "type": "small-caps",
             },
             {
               "attributes": {},
-              "id": "M00000004",
+              "id": "M00000003",
               "range": "(494..502]",
               "type": "small-caps",
             },
