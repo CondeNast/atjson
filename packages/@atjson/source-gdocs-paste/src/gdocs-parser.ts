@@ -15,9 +15,9 @@ export interface GDocsPasteBuffer {
 export interface Transforms {
   [key: string]: (
     styles: GDocsStyleSlice[],
+    text: string,
     entityMap: GDocsEntityMap,
-    trailing?: GDocsStyleSlice,
-    text?: string
+    trailing?: GDocsStyleSlice
   ) => AnnotationJSON[];
 }
 
@@ -53,7 +53,7 @@ export default class GDocsParser {
 
       if (transforms[type]) {
         annotations.push(
-          ...transforms[type](styles, entityMap, trailing, this.getContent())
+          ...transforms[type](styles, this.getContent(), entityMap, trailing)
         );
       }
     }
