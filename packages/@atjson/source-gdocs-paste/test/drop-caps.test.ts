@@ -20,7 +20,7 @@ describe("@atjson/source-gdocs-paste drop caps", () => {
   test("Making the first letter of a paragraph a larger font creates a drop cap decoration", () => {
     let paragraphs = doc.annotations
       .filter((a) => is(a, Paragraph))
-      .filter((p: Paragraph) => p.attributes.decorations?.includes("dropCaps"));
+      .filter((p: Paragraph) => p.attributes.decorations?.includes("dropCap"));
     expect(paragraphs.length).toBe(1);
   });
 });

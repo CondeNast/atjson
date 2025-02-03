@@ -31,7 +31,7 @@ export function convertDropCaps(doc: Document) {
     )
     .forEach(({ paragraph }) => {
       const decorations = new Set(paragraph.attributes.decorations).add(
-        "dropCaps"
+        "dropCap"
       );
 
       paragraph.attributes.decorations = Array.from(decorations);
