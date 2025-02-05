@@ -135,7 +135,7 @@ export class Join<Left extends string, Right extends string> {
     filter: (
       lhs: Record<Left, Annotation<any>> &
         Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation
+      rhs: Annotation<any>
     ) => boolean
   ): never | Join<Left, Right | J> {
     if (rightCollection.document !== this.leftJoin.document) {
@@ -173,7 +173,7 @@ export class Join<Left extends string, Right extends string> {
     filter: (
       lhs: Record<Left, Annotation<any>> &
         Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation
+      rhs: Annotation<any>
     ) => boolean
   ): never | Join<Left, Right | J> {
     return this.outerJoin(rightCollection, filter).where(
