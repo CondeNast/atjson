@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.30.3 (2025-02-05)
+
+### Bug Fixes
+
+- type of Join.join arg to Annotation<any> ([12ea1d1](https://github.com/CondeNast/atjson/commit/12ea1d134128787259eea3838cce80a101d1c45c))
+
 ## 0.30.2 (2024-06-24)
 
 ### Bug Fixes
