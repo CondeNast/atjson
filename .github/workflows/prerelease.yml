@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{github.event.issue.pull_request && contains(github.event.comment.body, '@copilot-robot prerelease')}}
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           script: |
             try {
@@ -24,7 +24,7 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v7
         id: get-ref-name
         with:
           result-encoding: string
@@ -40,7 +40,7 @@ jobs:
             return result.data.head.ref;
         env:
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -55,7 +55,7 @@ jobs:
         env:
           BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           always-auth: true
           node-version: "20.11.1"
@@ -80,7 +80,7 @@ jobs:
           BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
           GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         if: ${{ success() }}
         with:
           github-token: ${{secrets.ROBOT_GITHUB_TOKEN}}
@@ -99,7 +99,7 @@ jobs:
             } catch (err) {
               core.info(`Failed to reply to user with pre-release info ${err}`)
             }
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         if: ${{ failure() }}
         with:
           github-token: ${{secrets.ROBOT_GITHUB_TOKEN}}
