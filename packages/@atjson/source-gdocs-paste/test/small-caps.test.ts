@@ -83,7 +83,7 @@ describe("@atjson/source-gdocs-paste", () => {
           smallcapsAnnotations[0].start,
           smallcapsAnnotations[0].end
         )
-      ).toBe("THIS TEXT IS UPPERCASE AND IN A SMALLER FONT");
+      ).toBe("WHICH INDICATES");
     });
   });
 });

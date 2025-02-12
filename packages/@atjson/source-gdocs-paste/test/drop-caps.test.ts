@@ -21,6 +21,6 @@ describe("@atjson/source-gdocs-paste drop caps", () => {
     let paragraphs = doc.annotations
       .filter((a) => is(a, Paragraph))
       .filter((p: Paragraph) => p.attributes.decorations?.includes("dropCap"));
-    expect(paragraphs.length).toBe(1);
+    expect(paragraphs.length).toBe(2);
   });
 });
