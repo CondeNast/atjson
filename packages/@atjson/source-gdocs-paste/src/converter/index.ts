@@ -312,6 +312,15 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       item.end--;
     });
 
+  convertTables(doc);
+
+  // use font sizes to detect small caps and drop caps
+  convertSmallCaps(doc);
+  convertDropCaps(doc);
+
+  // clean up font size annotations
+  doc.where({ type: "-gdocs-ts_fs" }).remove();
+
   // adjust marks to not cover whitespace at the start / end positions
   doc
     .where((a) => a instanceof InlineAnnotation)
@@ -337,13 +346,6 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
       mark.start = start;
       mark.end = end;
     });
-
-  convertTables(doc);
-  convertSmallCaps(doc);
-  convertDropCaps(doc);
-
-  // clean up font size annotations
-  doc.where({ type: "-gdocs-ts_fs" }).remove();
 
   return doc;
 });

@@ -11,8 +11,8 @@ export function convertDropCaps(doc: Document) {
       fontSizes.as("firstLetterSize"),
       (paragraph, fontSize) =>
         // font size annotations that only span the first letter of the paragraph
-        paragraph.start === fontSize.start &&
-        fontSize.end === fontSize.start + 1
+        // it's okay if the font size starts in a preceding paragraph
+        fontSize.end === paragraph.start + 1
     )
     .join(
       fontSizes.as("adjacentSize"),
