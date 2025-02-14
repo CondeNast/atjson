@@ -6,14 +6,14 @@ jobs:
   perf:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "20.11.1"
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: baseline
           ref: main
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: current
       - name: 🐢 Performance
@@ -29,7 +29,7 @@ jobs:
           npm run typecheck
           npx ts-node ./perf-kit/index.ts profile --out current
           npx ts-node ./perf-kit/index.ts compare baseline current
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
           script: |
             const fs = require("fs/promises");
@@ -57,7 +57,7 @@ jobs:
                 });
               }
             }
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: performance-profiles
           path: ./current/perf-kit/profiles
