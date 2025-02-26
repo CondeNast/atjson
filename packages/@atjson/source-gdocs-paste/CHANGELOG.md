@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.29.0 (2025-02-26)
+
+### Bug Fixes
+
+- handle font ranges across paragraph boundaries; do font logic before trimming marks ([645c5a9](https://github.com/CondeNast/atjson/commit/645c5a9c1cfd56e4b36d90b28bcce1decb669bc3))
+- use difficult document for test fixtures ([a64fae3](https://github.com/CondeNast/atjson/commit/a64fae3fd97aa58f0dfeba11cef3d87f43cb2e62))
+
+### Features
+
+- extend gdocs paste syntax to support shorthand for small caps, drop caps, and blockquotes ([1357bc0](https://github.com/CondeNast/atjson/commit/1357bc04927aa9b09d4094c386162a16572eece5))
+
 ## 0.28.15 (2025-01-14)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
