@@ -1,3 +1,4 @@
+import { deserialize } from "@atjson/document";
 import OffsetSource, { Paragraph } from "@atjson/offset-annotations";
 import CommonmarkSource from "@atjson/source-commonmark";
 import CommonmarkRenderer from "../src";
@@ -26,4 +27,27 @@ describe("commonmark", () => {
       expect(document.equals(roundTrip)).toBe(true);
     }
   );
+
+  test.each([
+    ["following text", "1. Something", "1\\. Something"],
+    ["end of line", "1.", "1\\."],
+  ])("text that looks like list item with %s", (_, text, md) => {
+    const document = deserialize(
+      {
+        text: `\uFFFC${text}`,
+        blocks: [
+          {
+            id: "B00000000",
+            type: "text",
+            parents: [],
+            selfClosing: false,
+            attributes: {},
+          },
+        ],
+        marks: [],
+      },
+      OffsetSource
+    );
+    expect(CommonmarkRenderer.render(document)).toBe(md);
+  });
 });

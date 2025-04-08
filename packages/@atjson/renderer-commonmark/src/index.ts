@@ -141,7 +141,8 @@ function escapePunctuation(
     .replace(/(^[\s]*)>/g, "$1\\>") // Escape >
     .replace(/(^[^[]*)(\].*$)/g, "$1\\$2") // Escape bare closing brackets ]
     .replace(/(\]\()/g, "]\\(") // Escape parenthesis ](
-    .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items; not all numbers
+    .replace(/^(\s*\d+)\.(\s+)/gm, "$1\\.$2") // Escape list items with text following; not all numbers
+    .replace(/^(\s*\d+)\.$/gm, "$1\\.") // Escape list items with no text following
     .replace(/(^[\s]*)-/g, "$1\\-") // `  - list item`
     .replace(/(\r\n|\r|\n)([\s]*)-/g, "$1$2\\-"); // `- list item\n - list item`
 
