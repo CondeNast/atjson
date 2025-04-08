@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.31.7 (2025-04-08)
+
+### Bug Fixes
+
+- escape text that looks like numbered lists ([#1857](https://github.com/CondeNast/atjson/issues/1857)) ([fab8496](https://github.com/CondeNast/atjson/commit/fab84961e39384191f4f2e3076aa7ce5955f9cff))
+
 ## 0.31.6 (2025-01-14)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark
