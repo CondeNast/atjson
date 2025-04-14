@@ -79,6 +79,8 @@ For an HTML document, the annotated document includes the HTML tags in the sourc
 
 The document above is represented as the following JSON:
 
+import CodeBlock from "@theme/CodeBlock";
+
 export const CanonicalBefore = (props) => {
   let json = HTMLSource.fromRaw(props.html).toJSON();
   return (
@@ -579,14 +581,12 @@ doc.slice(0, 8);
 By default, all annotations that overlap the range of the slice will be truncated and included in the slice. This can be overriden by specifying a `filter` function
 
 import HTMLSource from "@atjson/source-html";
-import CodeBlock from "@theme/CodeBlock";
 
 export const Slice = (props) => {
   let json = HTMLSource.fromRaw(props.html)
-    .slice(props.start, props.end)
-    .toJSON();
-  delete json.schema;
+    .slice(props.start, props.end).toJSON();
   delete json.contentType;
+  delete json.schema;
   return <CodeBlock language="json">{JSON.stringify(json, null, 2)}</CodeBlock>;
 };
 
