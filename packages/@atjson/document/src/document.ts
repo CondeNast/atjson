@@ -57,7 +57,7 @@ export function getConverterFor(
 export function getConverterClassFor(
   from: typeof Document | string,
   to: typeof Document | string
-): never | typeof Document {
+): null | typeof Document {
   let exports = (typeof window !== "undefined" ? window : global) as any;
   let fromType = typeof from === "string" ? from : from.contentType;
   let toType = typeof to === "string" ? to : to.contentType;
@@ -505,6 +505,11 @@ export class Document {
     let DocumentClass = this.constructor as typeof Document;
     let converter = getConverterFor(DocumentClass, to);
     let ConversionDocument = getConverterClassFor(DocumentClass, to);
+    if (ConversionDocument == null) {
+      throw new Error(
+        `No converter found between ${this.contentType} and ${to.contentType}`
+      );
+    }
 
     let convertedDoc = new ConversionDocument({
       content: this.content,
