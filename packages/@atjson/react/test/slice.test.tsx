@@ -65,7 +65,7 @@ describe("slice", () => {
         </ComponentProvider>
       )
     ).toMatchInlineSnapshot(
-      `"<figure><img src="https://i.kym-cdn.com/photos/images/newsfeed/001/233/590/acd.jpg" alt="Cat coming out of a TV in a reference to “The Ring”"/><figcaption>Meowwww</figcaption></figure>"`
+      `"<link rel="preload" as="image" href="https://i.kym-cdn.com/photos/images/newsfeed/001/233/590/acd.jpg"/><figure><img src="https://i.kym-cdn.com/photos/images/newsfeed/001/233/590/acd.jpg" alt="Cat coming out of a TV in a reference to “The Ring”"/><figcaption>Meowwww</figcaption></figure>"`
     );
   });
 });
