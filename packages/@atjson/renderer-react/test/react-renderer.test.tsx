@@ -1,12 +1,10 @@
 import {
   AttributesOf,
-  ObjectAnnotation,
   ParseAnnotation,
   SliceAnnotation,
 } from "@atjson/document";
 import OffsetSource, {
   Bold,
-  CaptionSource,
   ColumnType,
   DataSet,
   GiphyEmbed,
@@ -39,31 +37,6 @@ function renderDocument(
     </ReactRendererProvider>
   );
 }
-
-class IframeEmbedWithSubdocument extends ObjectAnnotation<{
-  url: string;
-  width?: string;
-  height?: string;
-  caption?: CaptionSource;
-  sandbox?: string;
-  /**
-   * A named identifier used to quickly jump to this item
-   */
-  anchorName?: string;
-}> {
-  static type = "iframe-embed-with-subdocument";
-  static vendorPrefix = "offset";
-  static subdocuments = { caption: CaptionSource };
-
-  get url() {
-    try {
-      return new URL(this.attributes.url);
-    } catch (e) {
-      return null;
-    }
-  }
-}
-OffsetSource.schema.push(IframeEmbedWithSubdocument);
 
 function ParagraphComponent(props: PropsOf<Paragraph>) {
   return <p>{props.children}</p>;
@@ -156,10 +129,10 @@ function TableComponent(props: AttributesOf<Table>) {
   return (
     <table>
       <tbody>
-        {data?.records.map((row) => (
-          <tr>
-            {props.columns.map(({ columnName }) => (
-              <td>
+        {data?.records.map((row, index) => (
+          <tr key={index}>
+            {props.columns.map(({ columnName }, colIndex) => (
+              <td key={`${index}-${colIndex}`}>
                 <Slice value={row[columnName].slice} />
               </td>
             ))}
@@ -221,7 +194,7 @@ describe("ReactRenderer", () => {
         VideoEmbed: VideoEmbedComponent,
       })
     ).toMatchInlineSnapshot(
-      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowfullscreen=""></iframe>"`
+      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowFullScreen=""></iframe>"`
     );
   });
 
@@ -286,7 +259,7 @@ describe("ReactRenderer", () => {
         GiphyEmbed: GiphyEmbedComponent,
       })
     ).toMatchInlineSnapshot(
-      `"<a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`
+      `"<link rel="preload" as="image" href="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/><a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`
     );
   });
 

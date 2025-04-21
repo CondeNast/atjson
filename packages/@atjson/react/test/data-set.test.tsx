@@ -12,11 +12,10 @@ describe("useDataSet", () => {
               foos({ dataSet }) {
                 let values = useDataSet(dataSet);
                 if (!values) return null;
-
-                return values.records.map(({ foo }) => (
-                  <>
+                return values.records.map(({ foo }, index) => (
+                  <React.Fragment key={index}>
                     foo: <Slice value={foo?.slice} />
-                  </>
+                  </React.Fragment>
                 ));
               },
             },
@@ -48,7 +47,6 @@ describe("useDataSet", () => {
                   },
                 },
               ],
-
               marks: [
                 {
                   id: "M0",
