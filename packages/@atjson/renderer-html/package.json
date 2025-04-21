@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@atjson/renderer-hir": "file:../renderer-hir",
-    "entities": "^4.3.1"
+    "entities": "^6.0.0"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
