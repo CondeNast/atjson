@@ -1,4 +1,3 @@
-import uuid from "uuid-random";
 import {
   AnnotationAttributesObject,
   Change,
@@ -170,7 +169,7 @@ export abstract class Annotation<Attributes = {}> {
     let AnnotationClass = this.getAnnotationConstructor();
     this.type = AnnotationClass.type;
     this.vendorPrefix = AnnotationClass.vendorPrefix;
-    this.id = attrs.id || uuid();
+    this.id = attrs.id || crypto.randomUUID();
     this.start = attrs.start;
     this.end = attrs.end;
 

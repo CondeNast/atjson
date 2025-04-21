@@ -1,10 +1,6 @@
 import { ParseAnnotation, SliceAnnotation } from "@atjson/document";
 import TestSource, { Bold, Italic, Paragraph, Quote } from "./test-source";
 
-jest.unmock("uuid-random");
-
-import uuid from "uuid-random";
-
 describe("Document#equals", () => {
   test("documents are correctly compared for equality", () => {
     let leftHandSideTestDoc = new TestSource({
@@ -147,13 +143,13 @@ describe("Document#equals", () => {
 
   describe("slices", () => {
     test("annotations by id reference are equal (even when the ids are different)", () => {
-      let quoteId = uuid();
-      let creditId = uuid();
-      let citationId = uuid();
+      let quoteId = crypto.randomUUID();
+      let creditId = crypto.randomUUID();
+      let citationId = crypto.randomUUID();
 
-      let htmlQuoteId = uuid();
-      let htmlCreditId = uuid();
-      let htmlCitationId = uuid();
+      let htmlQuoteId = crypto.randomUUID();
+      let htmlCreditId = crypto.randomUUID();
+      let htmlCitationId = crypto.randomUUID();
 
       let PlainTextTestDoc = new TestSource({
         content:
