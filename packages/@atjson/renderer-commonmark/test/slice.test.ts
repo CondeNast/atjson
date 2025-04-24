@@ -1,4 +1,4 @@
-jest.unmock("uuid-random");
+jest.unmock("nanoid");
 
 import OffsetSource, {
   IframeEmbed,
@@ -8,11 +8,11 @@ import OffsetSource, {
 } from "@atjson/offset-annotations";
 import { ParseAnnotation, SliceAnnotation } from "@atjson/document";
 import CommonmarkRenderer from "../src";
-import uuid from "uuid-random";
+import { nanoid } from "nanoid";
 
 describe("commonmark", () => {
   test("correct handling of slices and delimiter runs", () => {
-    let captionId = uuid();
+    let captionId = nanoid();
     let doc = new OffsetSource({
       content: "\uFFFC\nPop tarts\nAnd an emphasized link",
       annotations: [

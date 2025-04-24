@@ -4,7 +4,7 @@ import Document, {
   SliceAnnotation,
   TextAnnotation,
 } from "@atjson/document";
-import uuid from "uuid-random";
+import { nanoid } from "nanoid";
 import {
   Paragraph,
   DataSet,
@@ -25,7 +25,7 @@ function snakecase(text: string) {
 
 export function convertTables(doc: Document) {
   for (let table of doc.match(TABLE)) {
-    let id = uuid();
+    let id = nanoid();
     let rows: Array<Array<{ slice: string; jsonValue: string }>> = [];
 
     // Remove all paragraphs inside of tables

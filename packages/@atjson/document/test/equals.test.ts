@@ -1,9 +1,9 @@
 import { ParseAnnotation, SliceAnnotation } from "@atjson/document";
 import TestSource, { Bold, Italic, Paragraph, Quote } from "./test-source";
 
-jest.unmock("uuid-random");
+jest.unmock("nanoid");
 
-import uuid from "uuid-random";
+import { nanoid as uuid } from "nanoid";
 
 describe("Document#equals", () => {
   test("documents are correctly compared for equality", () => {

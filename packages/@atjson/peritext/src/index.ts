@@ -9,7 +9,7 @@ import Document, {
   SliceAnnotation,
   TextAnnotation,
 } from "@atjson/document";
-import uuid from "uuid-random";
+import { nanoid } from "nanoid";
 
 export type Peritext = {
   text: string;
@@ -207,7 +207,7 @@ function normalizePeritextishArg(
         text: "\uFFFC" + text,
         blocks: [
           {
-            id: uuid(),
+            id: nanoid(),
             type: TextAnnotation.type,
             parents: [],
             attributes: {},
@@ -255,7 +255,7 @@ export function mark<Type, Attrs extends Record<string, JSON>>(
   let doc = normalizePeritextishArg(children);
 
   const newMark = {
-    id: uuid(),
+    id: nanoid(),
     type: annotation.type,
     range: serializeRange(0, doc.text.length, {
       leading: EdgeBehaviour.preserve,
@@ -311,7 +311,7 @@ export function block<Type, Attrs extends Record<string, JSON>>(
   children: Peritextish | ((block: Block) => Peritextish) = ""
 ): PeritextBuilderStep<Block> {
   const newBlock = {
-    id: uuid(),
+    id: nanoid(),
     type: annotation.type,
     parents: [],
     selfClosing: false,

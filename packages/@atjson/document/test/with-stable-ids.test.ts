@@ -1,9 +1,9 @@
 import { ParseAnnotation, SliceAnnotation } from "@atjson/document";
 import TestSource, { Bold, Italic, Paragraph, Quote } from "./test-source";
 
-jest.unmock("uuid-random");
+jest.unmock("nanoid");
 
-import uuid from "uuid-random";
+import { nanoid } from "nanoid";
 
 describe("Document#withStableId", () => {
   test("ids are stable", () => {
@@ -35,9 +35,9 @@ describe("Document#withStableId", () => {
   });
 
   test("annotations by id reference are equal (even when the ids are different)", () => {
-    let quoteId = uuid();
-    let creditId = uuid();
-    let citationId = uuid();
+    let quoteId = nanoid();
+    let creditId = nanoid();
+    let citationId = nanoid();
 
     let doc = new TestSource({
       content:
