@@ -63,12 +63,15 @@ function isFacebookDiv(annotation: Annotation<any>) {
   );
 }
 
+function isThreadsDomain(url: string) {
+  return url.includes("www.threads.net") || url.includes("www.threads.com");
+}
+
 function isThreadsEmbed(annotation: Annotation<any>) {
   return (
     annotation.type === "blockquote" &&
     annotation.attributes.dataset?.["text-post-permalink"] &&
-    new URL(annotation.attributes.dataset["text-post-permalink"]).host ===
-      "www.threads.net"
+    isThreadsDomain(annotation.attributes.dataset["text-post-permalink"])
   );
 }
 
@@ -551,7 +554,7 @@ export default function (doc: Document) {
 
   /**
    * Threads embeds in blockquotes:
-   *   <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.net/{handle}/post/{id}">
+   *   <blockquote class="text-post-media" data-text-post-permalink="https://www.threads.com/{handle}/post/{id}">
    *     ...
    *   </blockquote>
    */
@@ -581,7 +584,7 @@ export default function (doc: Document) {
         return (
           (script.start === blockquote.end ||
             script.start === blockquote.end + 1) &&
-          (!src || src.includes("www.threads.net"))
+          (!src || isThreadsDomain(src))
         );
       }
     )
