@@ -127,8 +127,9 @@ function normalizeInstagramReelURL(url: IUrl) {
 
 // Threads
 // - www.threads.net/:handle/post/:id
+// - www.threads.com/:handle/post/:id
 function isThreadsURL(url: IUrl) {
-  return url.host === "www.threads.net";
+  return url.host === "www.threads.net" || url.host === "www.threads.com";
 }
 
 function normalizeThreadsURL(url: IUrl) {
