@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.57.4 (2025-05-07)
+
+### Bug Fixes
+
+- identify threads.com and threads.net social urls ([4882695](https://github.com/CondeNast/atjson/commit/4882695cec4b1c395051446272dfad4e98010438))
+
 ## 0.57.3 (2025-01-14)
 
 ### Bug Fixes

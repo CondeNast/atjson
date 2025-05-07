@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.30.4 (2025-05-07)
+
+**Note:** Version bump only for package @atjson/document
+
 ## 0.30.3 (2025-02-05)
 
 ### Bug Fixes

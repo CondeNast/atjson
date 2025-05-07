@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.24.56 (2025-05-07)
+
+**Note:** Version bump only for package @atjson/renderer-plain-text
+
 ## 0.24.55 (2025-01-14)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text
