@@ -193,15 +193,21 @@ describe("SocialURLs", () => {
   });
 
   describe("identify Threads", () => {
-    test.each([["https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS"]])(
-      "%s",
-      (url) => {
-        expect(SocialURLs.identify(new URL(url))).toMatchObject({
-          Class: ThreadsEmbed,
-          attributes: { url },
-        });
-      }
-    );
+    test.each([
+      [
+        "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
+        "https://www.threads.net/@voguemagazine/post/C6v2RQfMvKS",
+      ],
+      [
+        "https://www.threads.com/@voguemagazine/post/C6v2RQfMvKS?xmt=1234",
+        "https://www.threads.com/@voguemagazine/post/C6v2RQfMvKS",
+      ],
+    ])("%s", (sourceURL, normalizedURL) => {
+      expect(SocialURLs.identify(new URL(sourceURL))).toMatchObject({
+        Class: ThreadsEmbed,
+        attributes: { url: normalizedURL },
+      });
+    });
   });
 
   describe("identify Mastodon embeds", () => {
