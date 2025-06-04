@@ -8,7 +8,9 @@ import {
   Deletion,
   EdgeBehaviour,
   Insertion,
+  JSONEquals,
   ParseAnnotation,
+  serialize,
   SliceAnnotation,
   TextAnnotation,
   UnknownAnnotation,
@@ -696,28 +698,59 @@ export class Document {
   }
 
   equals(docToCompare: Document): boolean {
-    let canonicalLeftHandSideDoc = this.canonical().withStableIds();
-    let canonicalRightHandSideDoc = docToCompare.canonical().withStableIds();
+    let canonicalLeftHandSideDoc = serialize(this, { withStableIds: true });
+    let canonicalRightHandSideDoc = serialize(docToCompare, {
+      withStableIds: true,
+    });
 
     let isContentEqual =
-      canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
+      canonicalLeftHandSideDoc.text === canonicalRightHandSideDoc.text;
     if (!isContentEqual) {
       return false;
     }
-    let isAnnotationLengthEqual =
-      canonicalLeftHandSideDoc.annotations.length ===
-      canonicalRightHandSideDoc.annotations.length;
-    if (!isAnnotationLengthEqual) {
+
+    let isBlockLengthEqual =
+      canonicalLeftHandSideDoc.blocks.length ===
+      canonicalRightHandSideDoc.blocks.length;
+    if (!isBlockLengthEqual) {
       return false;
     }
 
-    return canonicalLeftHandSideDoc.annotations.every(
-      function matchesRightHandDocAnnotationAtIndex(lhsAnnotation, index) {
-        return lhsAnnotation.equals(
-          canonicalRightHandSideDoc.annotations[index]
-        );
+    let isMarkLengthEqual =
+      canonicalLeftHandSideDoc.marks.length ===
+      canonicalRightHandSideDoc.marks.length;
+
+    if (!isMarkLengthEqual) {
+      return false;
+    }
+
+    for (let b = 0; b < canonicalLeftHandSideDoc.blocks.length; b++) {
+      if (
+        !JSONEquals(
+          canonicalLeftHandSideDoc.blocks[b],
+          canonicalRightHandSideDoc.blocks[b]
+        )
+      ) {
+        return false;
       }
-    );
+    }
+
+    // in principle the order of marks shouldn't matter
+    // however, since serialize sorts the marks, we can assume that
+    // logically equivalent marks should be in the same place in the array
+    // in identical documents
+    for (let m = 0; m < canonicalLeftHandSideDoc.marks.length; m++) {
+      if (
+        !JSONEquals(
+          canonicalLeftHandSideDoc.marks[m],
+          canonicalRightHandSideDoc.marks[m]
+        )
+      ) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   withStableIds() {

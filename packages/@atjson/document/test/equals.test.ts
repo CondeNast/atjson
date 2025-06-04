@@ -49,6 +49,14 @@ describe("Document#equals", () => {
       content: "\uFFFC",
       annotations: [
         {
+          type: "-atjson-parse-token",
+          start: 0,
+          end: 1,
+          attributes: {
+            reason: "test image",
+          },
+        },
+        {
           type: "-test-image",
           start: 0,
           end: 1,
@@ -73,6 +81,14 @@ describe("Document#equals", () => {
     let rightHandSideTestDoc = new TestSource({
       content: "\uFFFC",
       annotations: [
+        {
+          type: "-atjson-parse-token",
+          start: 0,
+          end: 1,
+          attributes: {
+            reason: "test image",
+          },
+        },
         {
           type: "-test-image",
           start: 0,
