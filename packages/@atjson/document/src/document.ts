@@ -736,7 +736,7 @@ export class Document {
     }
 
     // in principle the order of marks shouldn't matter
-    // however, since serialize sorts the marks, we can assume that
+    // however, since `serialize` sorts the marks, we can assume that
     // logically equivalent marks should be in the same place in the array
     // in identical documents
     for (let m = 0; m < canonicalLeftHandSideDoc.marks.length; m++) {
