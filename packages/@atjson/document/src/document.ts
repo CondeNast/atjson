@@ -703,16 +703,12 @@ export class Document {
       withStableIds: true,
     });
 
+    // this also ensures that there are the same number of blocks
+    // since each block corresponds one-to-one with a \uFFFC character
+    // in the text
     let isContentEqual =
       canonicalLeftHandSideDoc.text === canonicalRightHandSideDoc.text;
     if (!isContentEqual) {
-      return false;
-    }
-
-    let isBlockLengthEqual =
-      canonicalLeftHandSideDoc.blocks.length ===
-      canonicalRightHandSideDoc.blocks.length;
-    if (!isBlockLengthEqual) {
       return false;
     }
 
@@ -724,26 +720,28 @@ export class Document {
       return false;
     }
 
-    for (let b = 0; b < canonicalLeftHandSideDoc.blocks.length; b++) {
+    // in principle the order of marks shouldn't matter
+    // however, since `serialize` sorts the marks, we can assume that
+    // logically equivalent marks should be in the same place in the array
+    // in identical documents
+    // NOTE: this is in reverse order so that any changes that shifted
+    // all the marks *after* a certain position get caught early
+    for (let m = canonicalLeftHandSideDoc.marks.length - 1; m >= 0; m--) {
       if (
         !JSONEquals(
-          canonicalLeftHandSideDoc.blocks[b],
-          canonicalRightHandSideDoc.blocks[b]
+          canonicalLeftHandSideDoc.marks[m],
+          canonicalRightHandSideDoc.marks[m]
         )
       ) {
         return false;
       }
     }
 
-    // in principle the order of marks shouldn't matter
-    // however, since `serialize` sorts the marks, we can assume that
-    // logically equivalent marks should be in the same place in the array
-    // in identical documents
-    for (let m = 0; m < canonicalLeftHandSideDoc.marks.length; m++) {
+    for (let b = 0; b < canonicalLeftHandSideDoc.blocks.length; b++) {
       if (
         !JSONEquals(
-          canonicalLeftHandSideDoc.marks[m],
-          canonicalRightHandSideDoc.marks[m]
+          canonicalLeftHandSideDoc.blocks[b],
+          canonicalRightHandSideDoc.blocks[b]
         )
       ) {
         return false;
