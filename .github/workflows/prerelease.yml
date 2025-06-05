@@ -29,7 +29,7 @@ jobs:
         with:
           result-encoding: string
           script: |
-            const result = await github.pulls.get({
+            const result = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
@@ -73,7 +73,6 @@ jobs:
             --dist-tag "${BRANCH_NAME}"\
             --preid "${BRANCH_NAME}"\
             --canary\
-            -m 'chore(prerelease): publish'\
             --yes\
             --summary-file
         env:
