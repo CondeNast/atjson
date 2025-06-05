@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.30.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.30.4...@atjson/document@0.30.5) (2025-06-05)
+
+### Bug Fixes
+
+- refactor Document.equals to use peritext instead of .canonical ([99a604e](https://github.com/CondeNast/atjson/commit/99a604e46a21132f6923362a4a9857b093797cd0))
+
 ## 0.30.4 (2025-05-07)
 
 **Note:** Version bump only for package @atjson/document

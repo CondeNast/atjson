@@ -1,6 +1,6 @@
 {
   "name": "@atjson/peritext",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Functions for building and transforming peritext documents",
   "main": "dist/commonjs/index.js",
   "module": "dist/modules/index.js",
