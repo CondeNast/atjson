@@ -8,18 +8,19 @@ export interface JSONObject extends Dictionary<JSON> {}
 export interface JSONArray extends Array<JSON> {}
 
 export function JSONEquals(left: JSON | undefined, right: JSON | undefined) {
-  // covers all primitives
-  if (left == right) {
+  // first, eliminate null and undefined values to simplify types
+  if (left == null || right == null) {
+    return left === right;
+  }
+
+  // simple equality covers all primitives
+  // and referential equality for objects and arrays
+  if (left === right) {
     return true;
   }
 
-  // if either is null then we already know they aren't equal from above;
-  // but this narrows the type to simplify things later
-  if (left == null || right == null) {
-    return false;
-  }
-
-  // arrays are equal if they're the same length and every position is equal
+  // arrays are equal if they're the same length and every
+  // position is equal
   if (Array.isArray(left) && Array.isArray(right)) {
     if (left.length !== right.length) {
       return false;
@@ -34,7 +35,8 @@ export function JSONEquals(left: JSON | undefined, right: JSON | undefined) {
     return true;
   }
 
-  // objects are equal if they have the same keys and every key has the same value
+  // objects are equal if they have the same keys and every
+  // key has the same value
   if (
     typeof left === "object" &&
     typeof right === "object" &&
@@ -59,6 +61,7 @@ export function JSONEquals(left: JSON | undefined, right: JSON | undefined) {
     return true;
   }
 
-  // the arguments have different types
+  // the arguments are either unequal scalars
+  // or they have different types
   return false;
 }
