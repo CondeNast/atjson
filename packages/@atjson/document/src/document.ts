@@ -8,7 +8,9 @@ import {
   Deletion,
   EdgeBehaviour,
   Insertion,
+  JSONEquals,
   ParseAnnotation,
+  serialize,
   SliceAnnotation,
   TextAnnotation,
   UnknownAnnotation,
@@ -696,28 +698,57 @@ export class Document {
   }
 
   equals(docToCompare: Document): boolean {
-    let canonicalLeftHandSideDoc = this.canonical().withStableIds();
-    let canonicalRightHandSideDoc = docToCompare.canonical().withStableIds();
+    let canonicalLeftHandSideDoc = serialize(this, { withStableIds: true });
+    let canonicalRightHandSideDoc = serialize(docToCompare, {
+      withStableIds: true,
+    });
 
+    // this also ensures that there are the same number of blocks
+    // since each block corresponds one-to-one with a \uFFFC character
+    // in the text
     let isContentEqual =
-      canonicalLeftHandSideDoc.content === canonicalRightHandSideDoc.content;
+      canonicalLeftHandSideDoc.text === canonicalRightHandSideDoc.text;
     if (!isContentEqual) {
       return false;
     }
-    let isAnnotationLengthEqual =
-      canonicalLeftHandSideDoc.annotations.length ===
-      canonicalRightHandSideDoc.annotations.length;
-    if (!isAnnotationLengthEqual) {
+
+    let isMarkLengthEqual =
+      canonicalLeftHandSideDoc.marks.length ===
+      canonicalRightHandSideDoc.marks.length;
+
+    if (!isMarkLengthEqual) {
       return false;
     }
 
-    return canonicalLeftHandSideDoc.annotations.every(
-      function matchesRightHandDocAnnotationAtIndex(lhsAnnotation, index) {
-        return lhsAnnotation.equals(
-          canonicalRightHandSideDoc.annotations[index]
-        );
+    // in principle the order of marks shouldn't matter
+    // however, since `serialize` sorts the marks, we can assume that
+    // logically equivalent marks should be in the same place in the array
+    // in identical documents
+    // NOTE: this is in reverse order so that any changes that shifted
+    // all the marks *after* a certain position get caught early
+    for (let m = canonicalLeftHandSideDoc.marks.length - 1; m >= 0; m--) {
+      if (
+        !JSONEquals(
+          canonicalLeftHandSideDoc.marks[m],
+          canonicalRightHandSideDoc.marks[m]
+        )
+      ) {
+        return false;
       }
-    );
+    }
+
+    for (let b = 0; b < canonicalLeftHandSideDoc.blocks.length; b++) {
+      if (
+        !JSONEquals(
+          canonicalLeftHandSideDoc.blocks[b],
+          canonicalRightHandSideDoc.blocks[b]
+        )
+      ) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   withStableIds() {
