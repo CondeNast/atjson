@@ -76,13 +76,6 @@ function areAttributesEqual(
     let rhsAttributeValue = rhsAnnotationAttributes[key];
     if (lhsAttributeValue !== rhsAttributeValue) {
       if (
-        lhsAttributeValue instanceof Document &&
-        rhsAttributeValue instanceof Document
-      ) {
-        let areNestedDocumentsEqual =
-          lhsAttributeValue.equals(rhsAttributeValue);
-        if (!areNestedDocumentsEqual) return false;
-      } else if (
         typeof lhsAttributeValue === "object" &&
         typeof rhsAttributeValue === "object"
       ) {
