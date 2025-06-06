@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@atjson/offset-annotations": "file:../offset-annotations",
-    "parse5": "^7.1.2"
+    "parse5": "^7.2.1"
   },
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
