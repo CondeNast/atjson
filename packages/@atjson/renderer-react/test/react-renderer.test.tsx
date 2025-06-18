@@ -29,12 +29,12 @@ import ReactRenderer, {
 
 function renderDocument(
   doc: OffsetSource,
-  components: { [key: string]: React.ComponentType<any> }
+  components: { [key: string]: React.ComponentType<any> },
 ) {
   return ReactDOMServer.renderToStaticMarkup(
     <ReactRendererProvider value={components}>
       {ReactRenderer.render(doc)}
-    </ReactRendererProvider>
+    </ReactRendererProvider>,
   );
 }
 
@@ -157,7 +157,7 @@ describe("ReactRenderer", () => {
       renderDocument(document, {
         Bold: BoldComponent,
         Italic: ItalicComponent,
-      })
+      }),
     ).toBe(`This is <strong>bold<em> and </em></strong><em>italic</em> text`);
   });
 
@@ -192,9 +192,9 @@ describe("ReactRenderer", () => {
         Link: LinkComponent,
         LineBreak: LineBreakComponent,
         VideoEmbed: VideoEmbedComponent,
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowFullScreen=""></iframe>"`
+      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowFullScreen=""></iframe>"`,
     );
   });
 
@@ -222,9 +222,9 @@ describe("ReactRenderer", () => {
         Paragraph: ParagraphComponent,
         Bold: BoldComponent,
         Italic: ItalicComponent,
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<p>Text that is <strong>bold <em>and</em></strong><em> italic</em></p>"`
+      `"<p>Text that is <strong>bold <em>and</em></strong><em> italic</em></p>"`,
     );
   });
 
@@ -257,9 +257,9 @@ describe("ReactRenderer", () => {
         LineBreak: LineBreakComponent,
         Link: LinkComponent,
         GiphyEmbed: GiphyEmbedComponent,
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<link rel="preload" as="image" href="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/><a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`
+      `"<link rel="preload" as="image" href="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/><a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`,
     );
   });
 
@@ -271,9 +271,9 @@ describe("ReactRenderer", () => {
 
     expect(() =>
       ReactDOMServer.renderToStaticMarkup(
-        createElement(Fragment, {}, ReactRenderer.render(document))
-      )
-    ).toThrowError(/ReactRendererProvider/);
+        createElement(Fragment, {}, ReactRenderer.render(document)),
+      ),
+    ).toThrow(/ReactRendererProvider/);
   });
 
   describe("Slices", () => {
@@ -323,9 +323,9 @@ describe("ReactRenderer", () => {
           Bold: BoldComponent,
           Italic: ItalicComponent,
           IframeEmbed: IframeComponent,
-        })
+        }),
       ).toBe(
-        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<strong>This</strong> is <em>some</em> caption text)</figcaption></figure> and some text following.`
+        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<strong>This</strong> is <em>some</em> caption text)</figcaption></figure> and some text following.`,
       );
     });
 
@@ -375,9 +375,9 @@ describe("ReactRenderer", () => {
           Bold: BoldComponent,
           Italic: ItalicComponent,
           IframeEmbed: IframeComponentWithProvider,
-        })
+        }),
       ).toBe(
-        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<b>This</b> is <em>some</em> caption text)</figcaption></figure> and some text following.`
+        `An <strong>embed</strong> with caption <figure><iframe src="https://foo.bar"></iframe><figcaption>(<b>This</b> is <em>some</em> caption text)</figcaption></figure> and some text following.`,
       );
     });
   });
@@ -439,9 +439,9 @@ describe("ReactRenderer", () => {
       expect(
         renderDocument(doc, {
           Table: TableComponent,
-        })
+        }),
       ).toBe(
-        "<table><tbody><tr><td>foo</td><td>bar</td><td>baz</td></tr></tbody></table>"
+        "<table><tbody><tr><td>foo</td><td>bar</td><td>baz</td></tr></tbody></table>",
       );
     });
   });

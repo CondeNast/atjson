@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("CNEEventRegistrationEmbed", () => {
   test("only baseurl", () => {
     let doc = HTMLSource.fromRaw(
-      `<cne-event-registration url="https://baseurl"></cne-event-registration>`
+      `<cne-event-registration url="https://baseurl"></cne-event-registration>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -29,7 +29,7 @@ describe("CNEEventRegistrationEmbed", () => {
 
   test("full param", () => {
     let doc = HTMLSource.fromRaw(
-      `<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true"></cne-event-registration>`
+      `<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&loggedin=loggedinslug&privacy=true"></cne-event-registration>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

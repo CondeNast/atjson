@@ -36,7 +36,7 @@ describe("PlainTextRenderer", () => {
 
   it("strips virtual annotations", () => {
     let doc = HTMLSource.fromRaw(
-      '<p>This is some <em>fancy</em> <span class="fancy">text</span>.'
+      '<p>This is some <em>fancy</em> <span class="fancy">text</span>.',
     );
 
     let text = PlainTextRenderer.render(doc);
@@ -45,7 +45,7 @@ describe("PlainTextRenderer", () => {
 
   it("adds newlines between paragraphs", () => {
     let doc = HTMLSource.fromRaw("<p>One fish</p><p>Two fish</p>").convertTo(
-      OffsetSource
+      OffsetSource,
     );
 
     let text = PlainTextRenderer.render(doc);
@@ -54,7 +54,7 @@ describe("PlainTextRenderer", () => {
 
   it("headings have newlines added around them", () => {
     let doc = HTMLSource.fromRaw("<h2>One fish</h2><p>Two fish</p>").convertTo(
-      OffsetSource
+      OffsetSource,
     );
 
     let text = PlainTextRenderer.render(doc);
@@ -63,7 +63,7 @@ describe("PlainTextRenderer", () => {
 
   it("blockquotes have newlines added around them", () => {
     let doc = HTMLSource.fromRaw(
-      "<blockquote>One fish</blockquote><p>Two fish</p>"
+      "<blockquote>One fish</blockquote><p>Two fish</p>",
     ).convertTo(OffsetSource);
 
     let text = PlainTextRenderer.render(doc);
@@ -167,9 +167,9 @@ describe("PlainTextRenderer", () => {
       expect(text).toBe(
         `${index}. one fish\n${index + 1}. two fish\n${index + 2}. red fish\n${
           index + 3
-        }. blue fish\n\n`
+        }. blue fish\n\n`,
       );
-    }
+    },
   );
 
   test("bulleted lists are pretty printed", () => {

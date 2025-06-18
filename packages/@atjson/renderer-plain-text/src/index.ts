@@ -16,7 +16,7 @@ export default class PlainTextRenderer extends Renderer {
           annotation.type !== "paragraph" &&
           annotation.type !== "heading" &&
           annotation.type !== "pullquote" &&
-          annotation.type !== "blockquote"
+          annotation.type !== "blockquote",
       )
       .remove();
     super(document, args);

@@ -46,21 +46,21 @@ describe("@atjson/source-gdocs-paste", () => {
       .forEach(({ list, parseTokens }) => {
         let newlines = atjson.match(/\n/g, list.start, list.end);
         expect(newlines.map((match) => [match.start, match.end])).toEqual(
-          parseTokens.map((a) => [a.start, a.end])
+          parseTokens.map((a) => [a.start, a.end]),
         );
       });
   });
 
   it("correctly converts numbered lists", () => {
     let lists = atjson.where(
-      (a) => a.type === "list" && a.attributes.type === "numbered"
+      (a) => a.type === "list" && a.attributes.type === "numbered",
     );
     expect(lists.length).toEqual(1);
   });
 
   it("correctly converts bulleted lists", () => {
     let lists = atjson.where(
-      (a) => a.type === "list" && a.attributes.type === "bulleted"
+      (a) => a.type === "list" && a.attributes.type === "bulleted",
     );
     expect(lists.length).toEqual(1);
   });
@@ -170,10 +170,10 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
     let verticalTabs = atjson.match(/\u000b/g);
 
     expect(
-      verticalTabs.map(({ start, end }) => ({ start, end }))
+      verticalTabs.map(({ start, end }) => ({ start, end })),
     ).toMatchObject(LINEBREAKS.map(({ start, end }) => ({ start, end })));
     expect(atjson.where({ type: "-offset-line-break" }).toJSON()).toMatchObject(
-      LINEBREAKS
+      LINEBREAKS,
     );
   });
 
@@ -189,7 +189,7 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
       .as("list")
       .join(
         atjson.where({ type: "-offset-paragraph" }).as("paragraphs"),
-        (l, r) => r.end <= l.start
+        (l, r) => r.end <= l.start,
       );
 
     expect(listsAndParagraphs.toJSON()[0]).toMatchObject({
@@ -204,7 +204,7 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
       .as("paragraph")
       .join(
         atjson.where({ type: "-offset-line-break" }).as("linebreaks"),
-        (l, r) => r.start > l.start && r.end < l.end
+        (l, r) => r.start > l.start && r.end < l.end,
       )
       .toJSON()[0];
 
@@ -220,20 +220,20 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
       .as("linebreak")
       .join(
         atjson.where({ type: "-offset-list" }).as("lists"),
-        (l, r) => l.start >= r.start && l.end <= r.end
+        (l, r) => l.start >= r.start && l.end <= r.end,
       )
       .outerJoin(
         atjson.where({ type: "-offset-list-item" }).as("list-items"),
-        (l, r) => l.linebreak.start >= r.start && l.linebreak.end <= r.end
+        (l, r) => l.linebreak.start >= r.start && l.linebreak.end <= r.end,
       );
 
     // No linebreaks in a list outside of a list-item
     expect(
       linebreaksInLists
         .where(
-          (join) => join.lists.length > 0 && join["list-items"].length === 0
+          (join) => join.lists.length > 0 && join["list-items"].length === 0,
         )
-        .toJSON()
+        .toJSON(),
     ).toHaveLength(0);
 
     expect(linebreaksInLists.toJSON()).toMatchObject([
@@ -277,7 +277,7 @@ describe("@atjson/source-gdocs-paste paragraphs", () => {
 
     let paragraphsInLists = paragraphs.join(
       atjson.where({ type: "-offset-list" }).as("lists"),
-      (l, r) => l.start >= r.start && l.end <= r.end
+      (l, r) => l.start >= r.start && l.end <= r.end,
     );
 
     expect(paragraphsInLists.length).toBe(0);
@@ -329,7 +329,7 @@ describe("@atjson/source-gdocs-paste", () => {
         start,
         end,
         type: "-offset-paragraph",
-      }))
+      })),
     );
   });
 
@@ -359,7 +359,7 @@ describe("@atjson/source-gdocs-paste", () => {
         attributes: {
           "-atjson-reason": "paragraph boundary",
         },
-      }))
+      })),
     );
   });
 });
@@ -372,7 +372,7 @@ describe("@atjson/source-gdocs-paste paragraphs in list", () => {
     let fixturePath = path.join(
       __dirname,
       "fixtures",
-      "list-with-interrupting-paragraph.json"
+      "list-with-interrupting-paragraph.json",
     );
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
     let gdocs = GDocsSource.fromRaw(rawJSON);

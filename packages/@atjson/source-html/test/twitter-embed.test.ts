@@ -5,7 +5,7 @@ import { serialize } from "@atjson/document";
 describe("TwitterEmbed (x.com / twitter.com)", () => {
   test("embed", () => {
     let doc = HTMLSource.fromRaw(
-      `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Respect the drip, twerp. <a href="https://t.co/f5OF4ikSFj">pic.twitter.com/f5OF4ikSFj</a></p>&mdash; Pokémon (@Pokemon) <a href="https://twitter.com/Pokemon/status/1227294189185949696?ref_src=twsrc%5Etfw">February 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`
+      `<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Respect the drip, twerp. <a href="https://t.co/f5OF4ikSFj">pic.twitter.com/f5OF4ikSFj</a></p>&mdash; Pokémon (@Pokemon) <a href="https://twitter.com/Pokemon/status/1227294189185949696?ref_src=twsrc%5Etfw">February 11, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

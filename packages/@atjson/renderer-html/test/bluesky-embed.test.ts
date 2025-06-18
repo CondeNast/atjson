@@ -23,7 +23,7 @@ describe("BlueskyEmbed", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      `<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:xrr5j2okn7ew2zvcwsxus3gb/app.bsky.feed.post/3kshwuxmy5o2y" data-bluesky-cid="bafyreicg7axsdp6b7f4uj75ggdfhrdl52cqpjah45scox3prmqflwg557i"></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>`
+      `<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:xrr5j2okn7ew2zvcwsxus3gb/app.bsky.feed.post/3kshwuxmy5o2y" data-bluesky-cid="bafyreicg7axsdp6b7f4uj75ggdfhrdl52cqpjah45scox3prmqflwg557i"></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>`,
     );
   });
 
@@ -108,9 +108,9 @@ describe("BlueskyEmbed", () => {
         ],
 
         text: "￼￼Lap time al fresco. Photo from my collection, no date/info.￼￼[image or embed]￼— Cats of Yore (@catsofyore.bsky.social) May 14, 2024 at 3:43 PM",
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:xrr5j2okn7ew2zvcwsxus3gb/app.bsky.feed.post/3kshwuxmy5o2y" data-bluesky-cid="bafyreicg7axsdp6b7f4uj75ggdfhrdl52cqpjah45scox3prmqflwg557i">Lap time al fresco. Photo from my collection, no date/info.<br /><br /><a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb/post/3kshwuxmy5o2y?ref_src=embed">[image or embed]</a><br />— Cats of Yore (<a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb?ref_src=embed">@catsofyore.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb/post/3kshwuxmy5o2y?ref_src=embed">May 14, 2024 at 3:43 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>"`
+      `"<blockquote class="bluesky-embed" data-bluesky-uri="at://did:plc:xrr5j2okn7ew2zvcwsxus3gb/app.bsky.feed.post/3kshwuxmy5o2y" data-bluesky-cid="bafyreicg7axsdp6b7f4uj75ggdfhrdl52cqpjah45scox3prmqflwg557i">Lap time al fresco. Photo from my collection, no date/info.<br /><br /><a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb/post/3kshwuxmy5o2y?ref_src=embed">[image or embed]</a><br />— Cats of Yore (<a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb?ref_src=embed">@catsofyore.bsky.social</a>) <a href="https://bsky.app/profile/did:plc:xrr5j2okn7ew2zvcwsxus3gb/post/3kshwuxmy5o2y?ref_src=embed">May 14, 2024 at 3:43 PM</a></blockquote><script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>"`,
     );
   });
 });

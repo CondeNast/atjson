@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("Blockquote", () => {
   test("without identifier", () => {
     let doc = HTMLSource.fromRaw(
-      "<blockquote>This is a quote</blockquote>"
+      "<blockquote>This is a quote</blockquote>",
     ).convertTo(OffsetSource);
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFCThis is a quote",
@@ -21,7 +21,7 @@ describe("Blockquote", () => {
 
   test("fragment ids", () => {
     let doc = HTMLSource.fromRaw(
-      `<blockquote id="test">This is a quote</blockquote>`
+      `<blockquote id="test">This is a quote</blockquote>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc)).toMatchObject({

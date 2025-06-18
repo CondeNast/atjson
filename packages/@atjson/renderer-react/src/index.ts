@@ -27,15 +27,14 @@ import {
  * Make a React-aware AttributesOf for subdocuments rendered into Fragments
  * @deprecated use `PropsOf` instead
  */
-export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
-  infer Attributes
->
-  ? {
-      [P in keyof Attributes]: Attributes[P] extends Document
-        ? React.ReactFragment
-        : Attributes[P];
-    }
-  : never;
+export type AttributesOf<AnnotationClass> =
+  AnnotationClass extends Annotation<infer Attributes>
+    ? {
+        [P in keyof Attributes]: Attributes[P] extends Document
+          ? React.ReactFragment
+          : Attributes[P];
+      }
+    : never;
 
 // assigning this to a var so we can check equality with this (to throw when a
 // user of the library has not wrapped in a provider).
@@ -53,7 +52,7 @@ export type DataSetAttrs = {
 };
 
 const DataSetContext = React.createContext<Map<string, DataSetAttrs>>(
-  new Map()
+  new Map(),
 );
 
 export const ReactRendererContext = React.createContext<{
@@ -75,26 +74,25 @@ export function ReactRendererProvider(props: {
       return createElement(
         ReactRendererContext.Provider,
         { value: mergedValues },
-        props.children
+        props.children,
       );
-    }
+    },
   );
 }
 
-export type PropsOf<AnnotationClass> = AnnotationClass extends Annotation<
-  infer Attributes
->
-  ? {
-      [P in keyof Attributes]: Attributes[P] extends Document
-        ? React.ReactFragment
-        : Attributes[P];
-    } & { children?: ReactNode }
-  : never;
+export type PropsOf<AnnotationClass> =
+  AnnotationClass extends Annotation<infer Attributes>
+    ? {
+        [P in keyof Attributes]: Attributes[P] extends Document
+          ? React.ReactFragment
+          : Attributes[P];
+      } & { children?: ReactNode }
+    : never;
 
 function propsOf(
   attributes: JSON | undefined,
   subdocuments: Record<string, typeof Document>,
-  id: string
+  id: string,
 ): any {
   if (attributes == null) {
     return attributes;
@@ -128,7 +126,7 @@ function renderNode(props: {
     children: (componentMap: { [key: string]: ComponentType<any> }) => {
       if (componentMap === EMPTY_COMPONENT_MAP) {
         throw new Error(
-          "Component map is empty. Did you wrap your render call in ReactRendererProvider?"
+          "Component map is empty. Did you wrap your render call in ReactRendererProvider?",
         );
       }
 
@@ -150,13 +148,13 @@ function renderNode(props: {
             componentMap[classify(child.type)] ||
             componentMap.Default;
           let AnnotationClass = schema.find(
-            (annotationClass) => annotationClass.type === child.type
+            (annotationClass) => annotationClass.type === child.type,
           );
           let attributes = AnnotationComponent
             ? propsOf(
                 child.attributes,
                 AnnotationClass?.subdocuments ?? {},
-                child.id
+                child.id,
               )
             : {};
 
@@ -166,7 +164,7 @@ function renderNode(props: {
               Fragment,
               { key: child.id },
               createElement(AnnotationComponent, attributes),
-              children
+              children,
             );
           }
 
@@ -174,7 +172,7 @@ function renderNode(props: {
             return createElement(
               AnnotationComponent,
               { key: child.id, ...attributes },
-              children
+              children,
             );
           } else {
             return createElement(AnnotationComponent, {
@@ -182,7 +180,7 @@ function renderNode(props: {
               ...attributes,
             });
           }
-        })
+        }),
       );
     },
   });
@@ -194,7 +192,7 @@ function render(props: {
   includeParseTokens: boolean;
 }): ReactElement;
 function render(
-  propsOrDocument: Document | { document: Document }
+  propsOrDocument: Document | { document: Document },
 ): ReactElement {
   let props =
     propsOrDocument instanceof Document
@@ -213,7 +211,7 @@ function render(
   let dataSets = new Map(
     doc.blocks
       .filter((block) => block.type === "data-set")
-      .map((dataSet) => [dataSet.id, dataSet.attributes as DataSetAttrs])
+      .map((dataSet) => [dataSet.id, dataSet.attributes as DataSetAttrs]),
   );
 
   return createElement(
@@ -234,9 +232,9 @@ function render(
           id: ROOT,
           tree,
           schema,
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 }
 
@@ -258,14 +256,14 @@ export function Slice(props: {
   let slices = useContext(SliceContext);
   let tree = useMemo(
     () => (value ? createTree(slices.slices.get(value)) : null),
-    [value]
+    [value],
   );
 
   if (tree) {
     return createElement(
       Fragment,
       {},
-      renderNode({ tree, id: ROOT, schema: slices.schema })
+      renderNode({ tree, id: ROOT, schema: slices.schema }),
     );
   } else {
     return createElement(Fragment, {}, fallback);

@@ -46,7 +46,7 @@ export default class HIR {
         (a) =>
           a.start >= annotation.start &&
           a.end <= annotation.end &&
-          a.id !== annotation.id
+          a.id !== annotation.id,
       );
 
       // Only remove slices that aren't retained
@@ -55,7 +55,7 @@ export default class HIR {
           .where(
             (a) =>
               (a.start >= annotation.start && a.end <= annotation.end) ||
-              a.id === annotation.id
+              a.id === annotation.id,
           )
           .remove();
         sliceRanges.push({ start: annotation.start, end: annotation.end });
@@ -68,7 +68,7 @@ export default class HIR {
         start: 0,
         end: this.document.content.length,
         attributes: {},
-      })
+      }),
     );
 
     for (let annotation of this.document.annotations.sort(compareAnnotations)) {

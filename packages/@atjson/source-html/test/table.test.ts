@@ -65,7 +65,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
 
@@ -118,7 +118,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
 
@@ -155,7 +155,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
 
@@ -220,7 +220,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
   });
@@ -299,7 +299,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
 
@@ -374,7 +374,7 @@ describe("Table", () => {
       expect(
         serialize(HTMLSource.fromRaw(tableMarkup).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchSnapshot();
     });
   });

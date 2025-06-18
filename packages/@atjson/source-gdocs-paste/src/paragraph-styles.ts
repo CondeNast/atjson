@@ -33,7 +33,7 @@ import { GDocsStyleSlice } from "./types";
  *
  */
 export default function extractParagraphStyles(
-  styles: GDocsStyleSlice[]
+  styles: GDocsStyleSlice[],
 ): AnnotationJSON[] {
   let lastParagraphStart = 0;
   let annotations: AnnotationJSON[] = [];

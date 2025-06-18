@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("FireworkEmbed", () => {
   test("with channel name and playlist", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed channel="awesome-channel" playlist="kj43j2" ui_border_style = "hard"></fw-embed-feed>`
+      `<fw-embed-feed channel="awesome-channel" playlist="kj43j2" ui_border_style = "hard"></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -30,7 +30,7 @@ describe("FireworkEmbed", () => {
 
   test("without channel name", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-2" playlist="def" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-2" playlist="def" mode="row" open_in="_modal" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -55,7 +55,7 @@ describe("FireworkEmbed", () => {
 
   test("without channel open_in", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-3" channel="vanity_fair" playlist="hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-3" channel="vanity_fair" playlist="hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -80,7 +80,7 @@ describe("FireworkEmbed", () => {
 
   test("combined playlist and channel", () => {
     let doc = HTMLSource.fromRaw(
-      `<fw-embed-feed id="firework-embed-3" channel="undefined" playlist="allure|hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`
+      `<fw-embed-feed id="firework-embed-3" channel="undefined" playlist="allure|hij" mode="row" max_videos="0" placement="middle" player_placement="bottom-right" pip="false" captions="false" player_minimize="false" branding="false"></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -116,7 +116,7 @@ describe("FireworkEmbed", () => {
         max_videos="0"
         placement="middle"
         player_placement="bottom-right"
-      ></fw-embed-feed>`
+      ></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -153,7 +153,7 @@ describe("FireworkEmbed", () => {
         max_videos="0"
         placement="middle"
         player_placement="bottom-right"
-      ></fw-embed-feed>`
+      ></fw-embed-feed>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

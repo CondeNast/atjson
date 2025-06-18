@@ -63,18 +63,18 @@ export interface Collection<T> {
   clear(): void;
   filter<Scope>(
     callback: (this: Scope, item: T, index: number) => boolean,
-    scope?: Scope
+    scope?: Scope,
   ): T[];
   find<Scope>(
     callback: (this: Scope, item: T, index: number) => boolean,
-    scope?: Scope
+    scope?: Scope,
   ): T;
   get(idOrIndex: string | number): T | null;
   getIndex(itemOrId: T | string): number;
   has(itemOrId: T | string): boolean;
   map<Result, Scope>(
     callback: (this: Scope, item: T, index: number) => Result,
-    scope?: Scope
+    scope?: Scope,
   ): Result[];
   remove(subject: T | string | number): T;
 }
@@ -88,7 +88,7 @@ export interface Document {
 
 export interface Schema {
   getDefinition(
-    node: Node | TextProxy | SchemaContextItem
+    node: Node | TextProxy | SchemaContextItem,
   ): SchemaCompiledItemDefinition;
   getDefinitions(): { [key: string]: SchemaCompiledItemDefinition };
 }
@@ -140,7 +140,7 @@ export interface Node {
   getAttributes(): Iterable<[string, unknown]>;
   getCommonAncestor(
     node: Node,
-    options?: { includeSelf: boolean }
+    options?: { includeSelf: boolean },
   ): Element | DocumentFragment | null;
   getPath(): number[];
   hasAttribute(key: string): boolean;
@@ -278,7 +278,7 @@ export interface Position {
       shallow?: boolean;
       singleCharacters?: boolean;
       startPosition?: Position;
-    }
+    },
   ): Position;
   getParentPath(): number[];
   getShiftedBy(shift: number): Position;

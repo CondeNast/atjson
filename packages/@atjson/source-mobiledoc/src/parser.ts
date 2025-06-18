@@ -78,7 +78,7 @@ export default class Parser {
         start,
         end: start + 1,
         attributes: {},
-      }
+      },
     );
     return "\uFFFC";
   }
@@ -99,7 +99,7 @@ export default class Parser {
         start,
         end: start + 1,
         attributes: {},
-      }
+      },
     );
     return "\uFFFC";
   }
@@ -116,12 +116,12 @@ export default class Parser {
           tags,
           closed,
           textOrAtomIndex as string,
-          offset
+          offset,
         );
       } else if (identifier === 1) {
         partial = this.processAtom(
           this.mobiledoc.atoms[textOrAtomIndex as number],
-          offset
+          offset,
         );
       }
       sectionText += partial;
@@ -154,12 +154,12 @@ export default class Parser {
             tags,
             closed,
             textOrAtomIndex as string,
-            offset
+            offset,
           );
         } else if (identifier === 1) {
           partial = this.processAtom(
             this.mobiledoc.atoms[textOrAtomIndex as number],
-            offset
+            offset,
           );
         }
         item += partial;
@@ -189,7 +189,7 @@ export default class Parser {
     markupIndexes: number[],
     numberOfClosedMarkups: number,
     text: string,
-    start: number
+    start: number,
   ) {
     let end = start + text.length;
 
@@ -197,7 +197,7 @@ export default class Parser {
       let index = markupIndexes.shift();
       if (index == null)
         throw new Error(
-          "The MobileDoc is malformed— the markup object is not correct."
+          "The MobileDoc is malformed— the markup object is not correct.",
         );
       let markup = this.mobiledoc.markups[index];
       let attributes: any = {};
@@ -221,7 +221,7 @@ export default class Parser {
       let annotation = this.inProgressAnnotations.pop();
       if (annotation == null) {
         throw new Error(
-          "The markup to have an associated annotation, but got none."
+          "The markup to have an associated annotation, but got none.",
         );
       }
       annotation.end = end;

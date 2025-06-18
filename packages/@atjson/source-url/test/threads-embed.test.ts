@@ -12,7 +12,7 @@ describe("ThreadsEmbed", () => {
     expect(
       serialize(URLSource.fromRaw(url).convertTo(OffsetSource), {
         withStableIds: true,
-      })
+      }),
     ).toEqual({
       text: "\uFFFC",
       blocks: [

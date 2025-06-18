@@ -55,7 +55,7 @@ describe("@atjson/source-ckeditor classic build", () => {
 
   test("multiple paragraphs", () => {
     editor.setData(
-      "<p>Here is a paragraph</p>\n\n<p>Here is another paragraph</p>"
+      "<p>Here is a paragraph</p>\n\n<p>Here is another paragraph</p>",
     );
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
@@ -115,7 +115,7 @@ describe("@atjson/source-ckeditor classic build", () => {
 
   test("single text styles", () => {
     editor.setData(
-      "<strong>Bold</strong> <em>italic</em> <a href='https://www.condenast.com'>link</a>"
+      "<strong>Bold</strong> <em>italic</em> <a href='https://www.condenast.com'>link</a>",
     );
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 
@@ -166,7 +166,7 @@ describe("@atjson/source-ckeditor classic build", () => {
 
   test("nested text styles", () => {
     editor.setData(
-      "<strong><em>Bold and italic</em></strong> <strong><a href='https://www.condenast.com'>bold link</a> just bold</strong>"
+      "<strong><em>Bold and italic</em></strong> <strong><a href='https://www.condenast.com'>bold link</a> just bold</strong>",
     );
     let doc = CKEditorSource.fromRaw(editor.model.document).canonical();
 

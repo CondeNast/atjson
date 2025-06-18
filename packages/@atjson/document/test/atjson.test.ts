@@ -8,7 +8,7 @@ describe("new Document", () => {
       new TestSource({
         content: "Hello World.",
         annotations: [],
-      })
+      }),
     ).toBeDefined();
   });
 
@@ -23,7 +23,7 @@ describe("new Document", () => {
             attributes: {},
           }),
         ],
-      })
+      }),
     ).toBeDefined();
   });
 
@@ -195,7 +195,7 @@ describe("new Document", () => {
             end,
             matches: ["and", "a", "nd"],
           };
-        })
+        }),
       );
     });
 

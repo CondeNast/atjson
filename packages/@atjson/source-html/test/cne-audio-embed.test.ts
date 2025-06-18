@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("CNEAudioEmbed", () => {
   test("script", () => {
     let doc = HTMLSource.fromRaw(
-      `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+      `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -31,7 +31,7 @@ describe("CNEAudioEmbed", () => {
 
   test("iframe", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`
+      `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -57,7 +57,7 @@ describe("CNEAudioEmbed", () => {
 
   test("script with anchor", () => {
     let doc = HTMLSource.fromRaw(
-      `<script id="isabel-pantoja-y-paquirri" src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+      `<script id="isabel-pantoja-y-paquirri" src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -84,7 +84,7 @@ describe("CNEAudioEmbed", () => {
 
   test("iframe with anchor", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe id="isabel-pantoja-y-paquirri" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`
+      `<iframe id="isabel-pantoja-y-paquirri" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -113,17 +113,17 @@ describe("CNEAudioEmbed", () => {
     expect(
       serialize(
         HTMLSource.fromRaw(
-          `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`
+          `<iframe src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf" frameborder="0" height="244" sandbox=allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>`,
         ).convertTo(OffsetSource),
-        { withStableIds: true }
-      )
+        { withStableIds: true },
+      ),
     ).toEqual(
       serialize(
         HTMLSource.fromRaw(
-          `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`
+          `<script src="https://embed-audio.cnevids.com/script/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6?skin=vf&target=js-audio1" defer></script><div id="js-audio1"></div>`,
         ).convertTo(OffsetSource),
-        { withStableIds: true }
-      )
+        { withStableIds: true },
+      ),
     );
   });
 });

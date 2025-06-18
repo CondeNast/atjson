@@ -9,7 +9,7 @@ describe("FacebookEmbed", () => {
         width="500" height="633"
         style="border:none;overflow:hidden"
         scrolling="no" frameborder="0"
-        allowTransparency="true" allow="encrypted-media"></iframe>`
+        allowTransparency="true" allow="encrypted-media"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -35,7 +35,7 @@ describe("FacebookEmbed", () => {
 
   test("div embed", () => {
     let doc = HTMLSource.fromRaw(
-      `<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-width="500" data-show-text="true"><blockquote cite="https://developers.facebook.com/BeethovenOfficialPage/posts/2923157684380743" class="fb-xfbml-parse-ignore"><p>Next stop of the exhibition &quot;BTHVN on Tour&quot; is in Boston!</p>Posted by <a href="https://www.facebook.com/BeethovenOfficialPage/">Ludwig van Beethoven</a> on&nbsp;<a href="https://developers.facebook.com/BeethovenOfficialPage/posts/2923157684380743">Thursday, October 24, 2019</a></blockquote></div>`
+      `<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-width="500" data-show-text="true"><blockquote cite="https://developers.facebook.com/BeethovenOfficialPage/posts/2923157684380743" class="fb-xfbml-parse-ignore"><p>Next stop of the exhibition &quot;BTHVN on Tour&quot; is in Boston!</p>Posted by <a href="https://www.facebook.com/BeethovenOfficialPage/">Ludwig van Beethoven</a> on&nbsp;<a href="https://developers.facebook.com/BeethovenOfficialPage/posts/2923157684380743">Thursday, October 24, 2019</a></blockquote></div>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
