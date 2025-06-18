@@ -1,5 +1,5 @@
 import { is } from "@atjson/document";
-import { Anchor, Bold } from "./test-source";
+import TestSource, { Anchor, Bold } from "./test-source";
 
 describe("Annotation", () => {
   describe("is", () => {
