@@ -80,7 +80,7 @@ describe("@atjson/source-mobiledoc", () => {
             },
           ],
         });
-      }
+      },
     );
 
     test("simple markup", () => {

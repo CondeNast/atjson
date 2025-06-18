@@ -31,7 +31,7 @@ describe("@atjson/source-prism", () => {
 
   it("parses xml tags", () => {
     let doc = PRISMSource.fromRaw(
-      `<?xml version="1.0" encoding="utf-8"?><pam:message><pam:article><head /><body>text</body></pam:article></pam:message>`
+      `<?xml version="1.0" encoding="utf-8"?><pam:message><pam:article><head /><body>text</body></pam:article></pam:message>`,
     );
 
     expect(serialize(doc, { withStableIds: true })).toMatchObject({
@@ -69,21 +69,21 @@ describe("@atjson/source-prism", () => {
       ["&rsquo;", "&rsquo;"], // other named entities are not supported
     ])("converts %s to %s", (entity, expected) => {
       let doc = PRISMSource.fromRaw(
-        `<?xml version="1.0" encoding="utf-8"?><body>${entity}</body>`
+        `<?xml version="1.0" encoding="utf-8"?><body>${entity}</body>`,
       );
 
       expect(doc.content).toEqual(
-        `<?xml version="1.0" encoding="utf-8"?><body>${expected}</body>`
+        `<?xml version="1.0" encoding="utf-8"?><body>${expected}</body>`,
       );
     });
 
     it("repositions annotations after replacing entities", () => {
       let doc = PRISMSource.fromRaw(
-        "<pam:article><head><dc:title>Title</dc:title></head><body><p>&#8704;x&#8712;Λ, x&#8744;&#172;x&#x220E;</p></body></pam:article>"
+        "<pam:article><head><dc:title>Title</dc:title></head><body><p>&#8704;x&#8712;Λ, x&#8744;&#172;x&#x220E;</p></body></pam:article>",
       );
 
       expect(doc.content).toEqual(
-        "<pam:article><head><dc:title>Title</dc:title></head><body><p>∀x∈Λ, x∨¬x∎</p></body></pam:article>"
+        "<pam:article><head><dc:title>Title</dc:title></head><body><p>∀x∈Λ, x∨¬x∎</p></body></pam:article>",
       );
       expect(doc.where({}).sort().toJSON()).toMatchObject([
         { type: "-pam-article", start: 0, end: 97 },
@@ -165,9 +165,9 @@ describe("@atjson/source-prism", () => {
 
         expect(serialize(doc, { withStableIds: true })).toMatchSnapshot();
         expect(
-          serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+          serialize(doc.convertTo(OffsetSource), { withStableIds: true }),
         ).toMatchSnapshot();
-      }
+      },
     );
   });
 });

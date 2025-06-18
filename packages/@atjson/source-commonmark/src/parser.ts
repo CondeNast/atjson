@@ -206,7 +206,7 @@ export default class Parser {
         let annotationGenerator = this.convertTokenToAnnotation(
           node.name,
           node.open,
-          attrs
+          attrs,
         );
         annotationGenerator.next();
         this.walk(node.children);
@@ -218,7 +218,7 @@ export default class Parser {
   *convertTokenToAnnotation(
     name: string,
     open: Token,
-    attrs: Attributes
+    attrs: Attributes,
   ): IterableIterator<void> {
     let start = this.content.length;
     this.content += "\uFFFC";
@@ -229,7 +229,7 @@ export default class Parser {
         attributes: {
           reason: `${name}_open`,
         },
-      })
+      }),
     );
 
     let closingToken = yield;

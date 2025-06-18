@@ -29,7 +29,7 @@ export default class URLSource extends Document {
           }),
         ],
       });
-    } catch (e) {
+    } catch {
       return new this({
         content: text,
         annotations: [],

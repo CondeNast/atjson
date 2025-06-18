@@ -9,7 +9,7 @@ export function is<
     vendorPrefix: string;
     type: string;
     new (...args: any[]): Annotation<any>;
-  }
+  },
 >(annotation: Annotation<any>, Class: T): annotation is InstanceType<T> {
   return (
     annotation &&

@@ -25,7 +25,7 @@ import {
  */
 export function getConverterFor(
   from: typeof Document | string,
-  to: typeof Document | string
+  to: typeof Document | string,
 ): never | ((doc: Document) => Document) {
   let exports = (typeof window !== "undefined" ? window : global) as any;
   let fromType = typeof from === "string" ? from : from.contentType;
@@ -42,7 +42,7 @@ export function getConverterFor(
     let fromName = typeof from === "string" ? from : from.name;
     let toName = typeof to === "string" ? to : to.name;
     throw new Error(
-      `🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`
+      `🚨 There is no converter registered between ${fromName} and ${toName}.\n\nDid you forget to \`import\` or \`require\` your converter?\n\nIf you haven't written a converter yet, register a converter for this:\n\n${fromName}.defineConverterTo(${toName}, doc => {\n  // ❤️ Write your converter here!\n  return doc;\n});`,
     );
   }
 
@@ -58,7 +58,7 @@ export function getConverterFor(
  */
 export function getConverterClassFor(
   from: typeof Document | string,
-  to: typeof Document | string
+  to: typeof Document | string,
 ): null | typeof Document {
   let exports = (typeof window !== "undefined" ? window : global) as any;
   let fromType = typeof from === "string" ? from : from.contentType;
@@ -92,7 +92,7 @@ export function mergeRanges(_ranges: Array<{ start: number; end: number }>) {
    */
   let sortedRanges = ranges.sort(function compareRangeStarts(
     { start: startL },
-    { start: startR }
+    { start: startR },
   ) {
     return startL - startR;
   });
@@ -135,7 +135,7 @@ export class Document {
 
   static defineConverterTo(
     to: typeof Document,
-    converter: (doc: Document) => Document
+    converter: (doc: Document) => Document,
   ) {
     // We may have multiple / conflicting versions of
     // @atjson/document. To allow this, we need to
@@ -157,7 +157,7 @@ export class Document {
 
     if (!(to.prototype instanceof Document)) {
       throw new Error(
-        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`
+        `📦 We've detected that you have multiple versions of \`@atjson/document\` installed— ${to.name} doesn't extend the same Document class as ${this.name}.\nThis may be because @atjson/document is being installed as a sub-dependency of an npm package and as a top-level package, and their versions don't match. It could also be that your build includes two versions of @atjson/document.`,
       );
     }
     converters[this.contentType][to.contentType] = converter;
@@ -173,7 +173,7 @@ export class Document {
       slice(
         start: number,
         end: number,
-        filter?: (annotation: Annotation<any>) => boolean
+        filter?: (annotation: Annotation<any>) => boolean,
       ): Document {
         let sliceDoc = super.slice(start, end, filter);
 
@@ -191,10 +191,10 @@ export class Document {
             to.name
           }, doc => {\n  let convert${other.name.replace(
             "Source",
-            ""
+            "",
           )} = getConverterFor(${other.name}, ${
             to.name
-          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`
+          });\n  return convert${other.name.replace("Source", "")}(doc);\n});`,
         );
       }
     }
@@ -271,7 +271,7 @@ export class Document {
    * tk: join documentation
    */
   where(
-    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
+    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean),
   ) {
     return this.all().where(filter);
   }
@@ -338,7 +338,7 @@ export class Document {
   insertText(
     start: number,
     text: string,
-    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default
+    behaviour: AdjacentBoundaryBehaviour = AdjacentBoundaryBehaviour.default,
   ) {
     if (start < 0 || start > this.content.length)
       throw new Error("Invalid position.");
@@ -369,7 +369,7 @@ export class Document {
       start,
       text,
       behaviourLeading,
-      behaviourTrailing
+      behaviourTrailing,
     );
 
     try {
@@ -453,7 +453,7 @@ export class Document {
   slice(
     start: number,
     end: number,
-    filter?: (annotation: Annotation<any>) => boolean
+    filter?: (annotation: Annotation<any>) => boolean,
   ): Document {
     let DocumentClass = this.constructor as typeof Document;
     let slicedAnnotations = filter
@@ -488,7 +488,7 @@ export class Document {
   cut(
     start: number,
     end: number,
-    filter?: (annotation: Annotation<any>) => boolean
+    filter?: (annotation: Annotation<any>) => boolean,
   ): Document {
     let slice = this.slice(start, end, filter);
     this.where(function annotationWasCut(annotation) {
@@ -509,7 +509,7 @@ export class Document {
     let ConversionDocument = getConverterClassFor(DocumentClass, to);
     if (ConversionDocument == null) {
       throw new Error(
-        `No converter found between ${this.contentType} and ${to.contentType}`
+        `No converter found between ${this.contentType} and ${to.contentType}`,
       );
     }
 
@@ -556,7 +556,7 @@ export class Document {
   match(
     regex: RegExp,
     start?: number,
-    end?: number
+    end?: number,
   ): Array<{ start: number; end: number; matches: string[] }> {
     let content = this.content.slice(start, end);
     let offset = start || 0;
@@ -601,7 +601,7 @@ export class Document {
     for (let i = 0; i < mergedRanges.length - 1; i++) {
       newContent += this.content.slice(
         mergedRanges[i].end,
-        mergedRanges[i + 1].start
+        mergedRanges[i + 1].start,
       );
       lastEnd = mergedRanges[i + 1].end;
     }
@@ -730,7 +730,7 @@ export class Document {
       if (
         !JSONEquals(
           canonicalLeftHandSideDoc.marks[m],
-          canonicalRightHandSideDoc.marks[m]
+          canonicalRightHandSideDoc.marks[m],
         )
       ) {
         return false;
@@ -741,7 +741,7 @@ export class Document {
       if (
         !JSONEquals(
           canonicalLeftHandSideDoc.blocks[b],
-          canonicalRightHandSideDoc.blocks[b]
+          canonicalRightHandSideDoc.blocks[b],
         )
       ) {
         return false;
@@ -762,14 +762,14 @@ export class Document {
     }
 
     this.annotations = this.annotations.map((annotation) =>
-      annotation.withStableIds(ids)
+      annotation.withStableIds(ids),
     );
 
     return this;
   }
 
   private createAnnotation(
-    annotation: Annotation<any> | AnnotationJSON
+    annotation: Annotation<any> | AnnotationJSON,
   ): Annotation<any> {
     let DocumentClass = this.constructor as typeof Document;
     let schema = [
@@ -780,14 +780,14 @@ export class Document {
     ];
 
     if (annotation instanceof UnknownAnnotation) {
-      let KnownAnnotation = schema.find(function annotationMatchesClass(
-        AnnotationClass
-      ) {
-        return (
-          annotation.attributes.type ===
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-        );
-      });
+      let KnownAnnotation = schema.find(
+        function annotationMatchesClass(AnnotationClass) {
+          return (
+            annotation.attributes.type ===
+            `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+          );
+        },
+      );
 
       if (KnownAnnotation) {
         return KnownAnnotation.hydrate(annotation.toJSON());
@@ -809,14 +809,14 @@ export class Document {
       }
       return annotation;
     } else {
-      let ConcreteAnnotation = schema.find(function annotationMatchesClass(
-        AnnotationClass
-      ) {
-        return (
-          annotation.type ===
-          `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
-        );
-      });
+      let ConcreteAnnotation = schema.find(
+        function annotationMatchesClass(AnnotationClass) {
+          return (
+            annotation.type ===
+            `-${AnnotationClass.vendorPrefix}-${AnnotationClass.type}`
+          );
+        },
+      );
 
       if (ConcreteAnnotation) {
         return ConcreteAnnotation.hydrate(annotation);

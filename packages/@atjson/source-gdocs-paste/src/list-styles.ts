@@ -5,7 +5,7 @@ function createListAnnotation(
   list: GDocsStyleSlice,
   entityMap: GDocsEntityMap,
   start: number,
-  end: number
+  end: number,
 ) {
   return {
     type: "-gdocs-list",
@@ -23,7 +23,7 @@ function createListAnnotation(
 function createListItemAnnotation(
   list: GDocsStyleSlice,
   start: number,
-  end: number
+  end: number,
 ) {
   return {
     type: "-gdocs-list_item",
@@ -40,7 +40,7 @@ export default function extractListStyles(
   lists: GDocsStyleSlice[],
   text: string,
   entityMap: GDocsEntityMap,
-  trailing?: GDocsStyleSlice
+  trailing?: GDocsStyleSlice,
 ): AnnotationJSON[] {
   let lastParagraphStart = 0;
   let listAnnotations: { [key: string]: AnnotationJSON } = {};
@@ -62,7 +62,7 @@ export default function extractListStyles(
         list,
         entityMap,
         lastParagraphStart,
-        i
+        i,
       );
     }
     listItems.push(createListItemAnnotation(list, lastParagraphStart, i));
@@ -81,11 +81,11 @@ export default function extractListStyles(
         trailing,
         entityMap,
         lastParagraphStart,
-        text.length
+        text.length,
       );
     }
     listItems.push(
-      createListItemAnnotation(trailing, lastParagraphStart, text.length)
+      createListItemAnnotation(trailing, lastParagraphStart, text.length),
     );
   }
 

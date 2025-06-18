@@ -6,7 +6,7 @@ describe("@atjson/source-html", () => {
   describe("converter", () => {
     test("p, br", () => {
       let doc = HTMLSource.fromRaw(
-        "<p>This paragraph has a<br>line break</p>"
+        "<p>This paragraph has a<br>line break</p>",
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -36,7 +36,7 @@ describe("@atjson/source-html", () => {
 
     test("a", () => {
       let doc = HTMLSource.fromRaw(
-        'This <a href="https://condenast.com" rel="nofollow" target="_blank" title="Condé Nast">is a link</a>'
+        'This <a href="https://condenast.com" rel="nofollow" target="_blank" title="Condé Nast">is a link</a>',
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -69,7 +69,7 @@ describe("@atjson/source-html", () => {
 
     test("hr", () => {
       let doc = HTMLSource.fromRaw(
-        "<p>Horizontal</p><hr><p>rules!</p>"
+        "<p>Horizontal</p><hr><p>rules!</p>",
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -104,7 +104,7 @@ describe("@atjson/source-html", () => {
 
     test("img", () => {
       let doc = HTMLSource.fromRaw(
-        '<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86" title="Miles Davis & Andy Warhol">'
+        '<img src="https://pbs.twimg.com/media/DXiMcM9X4AEhR3u.jpg" alt="Miles Davis came out, blond, in gold lamé, and he plays really terrific music. High heels. 4/6/86" title="Miles Davis & Andy Warhol">',
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -129,7 +129,7 @@ describe("@atjson/source-html", () => {
 
     test("code", () => {
       let doc = HTMLSource.fromRaw(
-        `<code>console.log('wowowowow');</code>`
+        `<code>console.log('wowowowow');</code>`,
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -158,7 +158,7 @@ describe("@atjson/source-html", () => {
     describe("code blocks", () => {
       test("pre code", () => {
         let doc = HTMLSource.fromRaw(
-          `<pre> <code>console.log('wowowowow');</code>\n</pre>`
+          `<pre> <code>console.log('wowowowow');</code>\n</pre>`,
         ).convertTo(OffsetSource);
         expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
           {
@@ -194,7 +194,7 @@ describe("@atjson/source-html", () => {
 
       test("multiple code blocks inside of pre", () => {
         let doc = HTMLSource.fromRaw(
-          `<pre><code>console.log('wow');</code><code>console.log('wowowow');</code></pre>`
+          `<pre><code>console.log('wow');</code><code>console.log('wowowow');</code></pre>`,
         ).convertTo(OffsetSource);
         doc.where((a) => a.type === "unknown").remove();
 
@@ -230,7 +230,7 @@ describe("@atjson/source-html", () => {
 
       test("text inside of pre, but not code", () => {
         let doc = HTMLSource.fromRaw(
-          `<pre>hi<code>console.log('wowowow');</code></pre>`
+          `<pre>hi<code>console.log('wowowow');</code></pre>`,
         ).convertTo(OffsetSource);
         doc.where((a) => a.type === "unknown").remove();
 
@@ -261,7 +261,7 @@ describe("@atjson/source-html", () => {
 
     test("ul, ol, li", () => {
       let doc = HTMLSource.fromRaw(
-        '<ol start="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>'
+        '<ol start="2"><li>Second</li><li>Third</li></ol><ul><li>First</li><li>Second</li></ul>',
       ).convertTo(OffsetSource);
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
         {
@@ -330,7 +330,7 @@ describe("@atjson/source-html", () => {
 
     test("section", () => {
       let doc = HTMLSource.fromRaw(
-        `<section><p>Paragraph in a section.</p></section>`
+        `<section><p>Paragraph in a section.</p></section>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -361,7 +361,7 @@ describe("@atjson/source-html", () => {
 
     test("smallcaps", () => {
       let doc = HTMLSource.fromRaw(
-        `<p><span class="smallcaps">SmallCaps</span> in a paragraph.</p>`
+        `<p><span class="smallcaps">SmallCaps</span> in a paragraph.</p>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

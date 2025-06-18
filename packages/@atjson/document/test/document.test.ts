@@ -10,7 +10,7 @@ describe("Document#deleteTextRanges", () => {
           { start: 0, end: 5 },
           { start: 5, end: 12 },
           { start: 4, end: 8 },
-        ])
+        ]),
       ).toEqual([{ start: 0, end: 12 }]);
     });
 
@@ -19,7 +19,7 @@ describe("Document#deleteTextRanges", () => {
         mergeRanges([
           { start: 8, end: 10 },
           { start: 0, end: 4 },
-        ])
+        ]),
       ).toEqual([
         { start: 0, end: 4 },
         { start: 8, end: 10 },
@@ -37,7 +37,7 @@ describe("Document#deleteTextRanges", () => {
           { start: 8, end: 10 },
           { start: 13, end: 14 },
           { start: 30, end: 33 },
-        ])
+        ]),
       ).toEqual([
         { start: 4, end: 10 },
         { start: 13, end: 14 },

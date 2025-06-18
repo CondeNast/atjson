@@ -22,7 +22,7 @@ describe("FacebookEmbed", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      `<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743&width=500" width="500" height="633" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>`
+      `<iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743&width=500" width="500" height="633" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>`,
     );
   });
 
@@ -78,9 +78,9 @@ describe("FacebookEmbed", () => {
         ],
 
         text: `\uFFFCNext stop of the exhibition "BTHVN on Tour" is in Boston!\uFFFCPosted by Ludwig van Beethoven on\u00a0Thursday, October 24, 2019`,
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text><blockquote class="fb-xfbml-parse-ignore" cite="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743"><br />Posted by Ludwig van Beethoven on\u00a0Thursday, October 24, 2019</blockquote></div>"`
+      `"<div class="fb-post" data-href="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743" data-show-text><blockquote class="fb-xfbml-parse-ignore" cite="https://www.facebook.com/BeethovenOfficialPage/posts/2923157684380743"><br />Posted by Ludwig van Beethoven on\u00a0Thursday, October 24, 2019</blockquote></div>"`,
     );
   });
 });

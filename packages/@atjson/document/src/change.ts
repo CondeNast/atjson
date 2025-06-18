@@ -36,7 +36,7 @@ export class Deletion extends Change {
     readonly start: number,
     readonly end: number,
     readonly behaviourLeading: EdgeBehaviour = EdgeBehaviour.preserve,
-    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify
+    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify,
   ) {
     super();
   }
@@ -48,7 +48,7 @@ export class Insertion extends Change {
     readonly start: number,
     readonly text: string,
     readonly behaviourLeading: EdgeBehaviour = EdgeBehaviour.preserve,
-    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify
+    readonly behaviourTrailing: EdgeBehaviour = EdgeBehaviour.modify,
   ) {
     super();
   }
