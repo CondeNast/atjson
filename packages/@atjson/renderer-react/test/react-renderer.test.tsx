@@ -81,7 +81,6 @@ function VideoEmbedComponent(props: PropsOf<VideoEmbed>) {
       width="560"
       height="315"
       src={props.url}
-      frameBorder={0}
       allowFullScreen={true}
     ></iframe>
   );
@@ -194,7 +193,7 @@ describe("ReactRenderer", () => {
         VideoEmbed: VideoEmbedComponent,
       }),
     ).toMatchInlineSnapshot(
-      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" frameBorder="0" allowFullScreen=""></iframe>"`,
+      `"<a href="https://www.youtube.com/watch?v=U8x85EY03vY" target="__blank" rel="noreferrer noopener">Good<br/>boy</a><iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/U8x85EY03vY?controls=0&amp;showinfo=0&amp;rel=0" allowfullscreen=""></iframe>"`,
     );
   });
 
@@ -259,7 +258,7 @@ describe("ReactRenderer", () => {
         GiphyEmbed: GiphyEmbedComponent,
       }),
     ).toMatchInlineSnapshot(
-      `"<link rel="preload" as="image" href="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/><a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`,
+      `"<a href="https://giphy.com/gifs/dog-chair-good-boy-26FmRLBRZfpMNwWdy" target="__blank" rel="noreferrer noopener">Another<br/>good boy</a><img src="https://media.giphy.com/media/26FmRLBRZfpMNwWdy/giphy.gif"/>"`,
     );
   });
 
