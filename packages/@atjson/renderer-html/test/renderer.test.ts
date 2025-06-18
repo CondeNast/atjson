@@ -70,7 +70,7 @@ describe("renderer-html", () => {
 
     code.attributes.info = "html";
     expect(Renderer.render(doc)).toEqual(
-      `<pre class="html"><code>Hello</code></pre>`
+      `<pre class="html"><code>Hello</code></pre>`,
     );
   });
 
@@ -97,7 +97,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<h${level} id="test-${level}">Hello</h${level}>`
+        `<h${level} id="test-${level}">Hello</h${level}>`,
       );
     });
 
@@ -124,7 +124,7 @@ describe("renderer-html", () => {
           });
 
           expect(Renderer.render(doc)).toEqual(
-            `<h${level} style="text-align:${textAlign};">Hello</h${level}>`
+            `<h${level} style="text-align:${textAlign};">Hello</h${level}>`,
           );
         });
       });
@@ -169,12 +169,12 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      `<img src="https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif" title="Haigney Hippo" alt="Hippo Hula Hooping" />`
+      `<img src="https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif" title="Haigney Hippo" alt="Hippo Hula Hooping" />`,
     );
 
     delete image.attributes.title;
     expect(Renderer.render(doc)).toEqual(
-      `<img src="https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif" alt="Hippo Hula Hooping" />`
+      `<img src="https://media.newyorker.com/photos/5d30e1b9d957560008da95d7/master/w_1023,c_limit/Haigney-Hippo.gif" alt="Hippo Hula Hooping" />`,
     );
   });
 
@@ -221,7 +221,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://condenast.com" title="Cond&#xe9; Nast" rel="nofollow" target="_blank">Hello</a>`
+        `<a href="https://condenast.com" title="Cond&#xe9; Nast" rel="nofollow" target="_blank">Hello</a>`,
       );
     });
 
@@ -240,7 +240,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">日本人</a>`
+        `<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">日本人</a>`,
       );
     });
 
@@ -260,7 +260,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toEqual(
-        `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`
+        `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`,
       );
     });
   });
@@ -282,7 +282,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol compact><li>one</li>\n<li>two</li></ol>`
+        `<ol compact><li>one</li>\n<li>two</li></ol>`,
       );
     });
 
@@ -303,7 +303,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol starts=3 compact><li>one</li>\n<li>two</li></ol>`
+        `<ol starts=3 compact><li>one</li>\n<li>two</li></ol>`,
       );
     });
 
@@ -324,7 +324,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ol><li>one</li>\n<li>two</li></ol>`
+        `<ol><li>one</li>\n<li>two</li></ol>`,
       );
     });
   });
@@ -346,7 +346,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ul compact><li>one</li>\n<li>two</li></ul>`
+        `<ul compact><li>one</li>\n<li>two</li></ul>`,
       );
     });
 
@@ -367,7 +367,7 @@ describe("renderer-html", () => {
         ],
       });
       expect(Renderer.render(doc)).toEqual(
-        `<ul compact type="square"><li>one</li>\n<li>two</li></ul>`
+        `<ul compact type="square"><li>one</li>\n<li>two</li></ul>`,
       );
     });
   });
@@ -416,7 +416,7 @@ describe("renderer-html", () => {
         });
 
         expect(Renderer.render(doc)).toEqual(
-          `<p style="text-align:${textAlign};">Hello</p>`
+          `<p style="text-align:${textAlign};">Hello</p>`,
         );
       });
     });
@@ -432,7 +432,7 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      "<section><p>Text in a paragraph in a section.</p></section>"
+      "<section><p>Text in a paragraph in a section.</p></section>",
     );
   });
 
@@ -443,7 +443,7 @@ describe("renderer-html", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      'Text with <span class="smallcaps">smallcaps</span>.'
+      'Text with <span class="smallcaps">smallcaps</span>.',
     );
   });
 
@@ -506,7 +506,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
-        `"<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" id="carousel" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>"`
+        `"<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" id="carousel" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>"`,
       );
     });
 
@@ -532,7 +532,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
-        `"<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2" data-mobile-aspectRatio="3"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>"`
+        `"<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2" data-mobile-aspectRatio="3"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>"`,
       );
     });
   });
@@ -579,15 +579,15 @@ describe("renderer-html", () => {
     });
 
     expect(
-      Renderer.render(serialize(docProductionEnv, { withStableIds: true }))
+      Renderer.render(serialize(docProductionEnv, { withStableIds: true })),
     ).toMatchInlineSnapshot(
-      `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
+      `"<iframe id="podcast" src="https://embed-audio.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`,
     );
 
     expect(
-      Renderer.render(serialize(docSandboxEnv, { withStableIds: true }))
+      Renderer.render(serialize(docSandboxEnv, { withStableIds: true })),
     ).toMatchInlineSnapshot(
-      `"<iframe id="podcast" src="https://embed-audio-sandbox.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`
+      `"<iframe id="podcast" src="https://embed-audio-sandbox.cnevids.com/iframe/episode/bb2ef05b-de71-469a-b0a5-829f2a54dac6" frameborder="0" height="244" sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox"></iframe>"`,
     );
   });
 
@@ -608,9 +608,9 @@ describe("renderer-html", () => {
       });
 
       expect(
-        Renderer.render(serialize(doc, { withStableIds: true }))
+        Renderer.render(serialize(doc, { withStableIds: true })),
       ).toMatchInlineSnapshot(
-        `"<cne-event-registration url="https://baseurl"></cne-event-registration>"`
+        `"<cne-event-registration url="https://baseurl"></cne-event-registration>"`,
       );
     });
     test("full param", () => {
@@ -629,9 +629,9 @@ describe("renderer-html", () => {
       });
 
       expect(
-        Renderer.render(serialize(doc, { withStableIds: true }))
+        Renderer.render(serialize(doc, { withStableIds: true })),
       ).toMatchInlineSnapshot(
-        `"<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&amp;loggedin=loggedinslug&amp;privacy=true"></cne-event-registration>"`
+        `"<cne-event-registration url="https://baseurl?loggedout=loggedoutslug&amp;loggedin=loggedinslug&amp;privacy=true"></cne-event-registration>"`,
       );
     });
   });

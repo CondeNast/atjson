@@ -54,15 +54,12 @@ export interface AnnotationJSON {
  * };
  * ```
  */
-export type AttributesOf<AnnotationClass> = AnnotationClass extends Annotation<
-  infer Attributes
->
-  ? Attributes
-  : never;
+export type AttributesOf<AnnotationClass> =
+  AnnotationClass extends Annotation<infer Attributes> ? Attributes : never;
 
 function areAttributesEqual(
   lhsAnnotationAttributes: AnnotationAttributesObject,
-  rhsAnnotationAttributes: AnnotationAttributesObject
+  rhsAnnotationAttributes: AnnotationAttributesObject,
 ): boolean {
   let hasUnEqualLengths =
     Object.keys(lhsAnnotationAttributes).length !==
@@ -88,7 +85,7 @@ function areAttributesEqual(
       ) {
         let areNestedAttributesEqual = areAttributesEqual(
           lhsAttributeValue,
-          rhsAttributeValue
+          rhsAttributeValue,
         );
         if (!areNestedAttributesEqual) return false;
       } else {
@@ -119,7 +116,7 @@ export interface AnnotationConstructor<T, Attributes> {
   }): T;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export abstract class Annotation<Attributes = {}> {
   static vendorPrefix: string;
   static type: string;
@@ -148,7 +145,7 @@ export abstract class Annotation<Attributes = {}> {
       attributes: unprefix(
         this.vendorPrefix,
         this.subdocuments,
-        attrs.attributes
+        attrs.attributes,
       ),
     });
   }
@@ -187,10 +184,10 @@ export abstract class Annotation<Attributes = {}> {
 
   equals(annotationToCompare: Annotation<any>): boolean {
     let lhsAnnotationAttributes = removeUndefinedValuesFromObject(
-      this.attributes
+      this.attributes,
     );
     let rhsAnnotationAttributes = removeUndefinedValuesFromObject(
-      annotationToCompare.attributes
+      annotationToCompare.attributes,
     );
 
     return (

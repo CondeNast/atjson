@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import { BlockAnnotation, InlineAnnotation } from "@atjson/document";
 import {
   block,
@@ -56,16 +55,16 @@ describe("peritext builder library", () => {
             block(Container, {}, [
               block(Leaf, {}, mark(Emphasis, {}, "text")),
               block(Leaf, {}),
-            ])
-          )
-        )
+            ]),
+          ),
+        ),
       ).toMatchObject(
         stabilizeIds(
           block(Container, {}, [
             block(Leaf, {}, mark(Emphasis, {}, "text")),
             block(Leaf, {}),
-          ])
-        )
+          ]),
+        ),
       );
     });
   });
@@ -84,12 +83,12 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("peritext children", () => {
       expect(
-        stabilizeIds(block(Container, { level: 1 }, block(Leaf, {}, "test")))
+        stabilizeIds(block(Container, { level: 1 }, block(Leaf, {}, "test"))),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFCtest",
@@ -108,7 +107,7 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("peritext[] children", () => {
@@ -117,8 +116,8 @@ describe("peritext builder library", () => {
           block(Container, { level: 1 }, [
             block(Leaf, {}, "test"),
             block(Leaf, {}, "test"),
-          ])
-        )
+          ]),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFCtest\uFFFCtest",
@@ -143,7 +142,7 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("mixed children", () => {
@@ -153,8 +152,8 @@ describe("peritext builder library", () => {
             "first",
             block(Leaf, {}, "nested"),
             mark(Emphasis, {}, "last"),
-          ])
-        )
+          ]),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFCfirst\uFFFCnested\uFFFClast",
@@ -187,7 +186,7 @@ describe("peritext builder library", () => {
           marks: [
             { id: "m1", type: "emphasis", range: "(14..19]", attributes: {} },
           ],
-        })
+        }),
       );
     });
     test("function children", () => {
@@ -197,8 +196,8 @@ describe("peritext builder library", () => {
             container.attributes.level = 1;
 
             return block(Leaf, {}, "test");
-          })
-        )
+          }),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFCtest",
@@ -217,14 +216,14 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("preserves marks in children", () => {
       expect(
         stabilizeIds(
-          block(Container, {}, block(Leaf, {}, mark(Emphasis, {}, "test")))
-        )
+          block(Container, {}, block(Leaf, {}, mark(Emphasis, {}, "test"))),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFC\uFFFCtest",
@@ -257,7 +256,7 @@ describe("peritext builder library", () => {
               range: "(2..7]",
             },
           ],
-        })
+        }),
       );
     });
     test("mutates child blocks and marks in-place", () => {
@@ -299,12 +298,12 @@ describe("peritext builder library", () => {
               range: "(0..5]",
             },
           ],
-        })
+        }),
       );
     });
     test("peritext children", () => {
       expect(
-        stabilizeIds(mark(Emphasis, {}, block(Leaf, {}, "test")))
+        stabilizeIds(mark(Emphasis, {}, block(Leaf, {}, "test"))),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFCtest",
@@ -324,7 +323,7 @@ describe("peritext builder library", () => {
               range: "(0..5]",
             },
           ],
-        })
+        }),
       );
     });
     test("mixed children", () => {
@@ -334,8 +333,8 @@ describe("peritext builder library", () => {
             "first",
             block(Leaf, {}, "nested"),
             mark(Emphasis, { decorations: ["underline"] }, "last"),
-          ])
-        )
+          ]),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFCfirst\uFFFCnested\uFFFClast",
@@ -373,7 +372,7 @@ describe("peritext builder library", () => {
               attributes: { decorations: ["underline"] },
             },
           ],
-        })
+        }),
       );
     });
     test("mutates child blocks and marks in-place", () => {
@@ -412,7 +411,7 @@ describe("peritext builder library", () => {
               range: "(0..5]",
             },
           ],
-        })
+        }),
       );
     });
     test("peritext children", () => {
@@ -435,7 +434,7 @@ describe("peritext builder library", () => {
               range: "(0..5]",
             },
           ],
-        })
+        }),
       );
     });
     test("mixed children", () => {
@@ -445,8 +444,8 @@ describe("peritext builder library", () => {
             "first",
             block(Leaf, {}, "nested"),
             mark(Emphasis, { decorations: ["underline"] }, "last"),
-          ])
-        )
+          ]),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFCfirst\uFFFCnested\uFFFClast",
@@ -484,7 +483,7 @@ describe("peritext builder library", () => {
               attributes: { decorations: ["underline"] },
             },
           ],
-        })
+        }),
       );
     });
   });
@@ -495,7 +494,7 @@ describe("peritext builder library", () => {
     });
     test("one arg", () => {
       expect(stabilizeIds(concat(block(Leaf, {})))).toMatchObject(
-        stabilizeIds(block(Leaf, {}).peritext())
+        stabilizeIds(block(Leaf, {}).peritext()),
       );
     });
     test("many args", () => {
@@ -504,9 +503,9 @@ describe("peritext builder library", () => {
           concat(
             block(Leaf, { name: "first" }),
             block(Leaf, { name: "second" }),
-            block(Leaf, { name: "third" })
-          )
-        )
+            block(Leaf, { name: "third" }),
+          ),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFC\uFFFC",
@@ -537,7 +536,7 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("nested calls", () => {
@@ -546,14 +545,14 @@ describe("peritext builder library", () => {
           concat(
             concat(
               block(Leaf, { name: "first" }),
-              block(Leaf, { name: "second" })
+              block(Leaf, { name: "second" }),
             ),
             concat(
               block(Leaf, { name: "third" }),
-              block(Leaf, { name: "fourth" })
-            )
-          )
-        )
+              block(Leaf, { name: "fourth" }),
+            ),
+          ),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFC\uFFFC\uFFFC",
@@ -592,7 +591,7 @@ describe("peritext builder library", () => {
             },
           ],
           marks: [],
-        })
+        }),
       );
     });
     test("preserves marks", () => {
@@ -601,9 +600,9 @@ describe("peritext builder library", () => {
           concat(
             mark(Emphasis, { name: "first" }, "start"),
             mark(Emphasis, { name: "second" }, "middle"),
-            mark(Emphasis, { name: "third" }, "end")
-          )
-        )
+            mark(Emphasis, { name: "third" }, "end"),
+          ),
+        ),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFCstart\uFFFCmiddle\uFFFCend",
@@ -650,7 +649,7 @@ describe("peritext builder library", () => {
               range: "(13..17]",
             },
           ],
-        })
+        }),
       );
     });
   });
@@ -666,16 +665,16 @@ describe("peritext builder library", () => {
           stabilizeIds(
             concat(
               block(Container, { level: 1 }, block(Leaf, {})),
-              block(Leaf, {})
-            )
-          )
+              block(Leaf, {}),
+            ),
+          ),
         );
       });
       test("insert between two roots", () => {
         let target;
         const doc = concat(
           (target = block(Container, { level: 1 }, block(Leaf, {}))),
-          block(Container, { level: 1 }, [block(Leaf, {}), block(Leaf, {})])
+          block(Container, { level: 1 }, [block(Leaf, {}), block(Leaf, {})]),
         );
 
         const testDoc = insertAfter(doc, target.getValue().id, block(Leaf, {}));
@@ -685,9 +684,12 @@ describe("peritext builder library", () => {
             concat(
               block(Container, { level: 1 }, block(Leaf, {})),
               block(Leaf, {}),
-              block(Container, { level: 1 }, [block(Leaf, {}), block(Leaf, {})])
-            )
-          )
+              block(Container, { level: 1 }, [
+                block(Leaf, {}),
+                block(Leaf, {}),
+              ]),
+            ),
+          ),
         );
       });
     });
@@ -696,13 +698,13 @@ describe("peritext builder library", () => {
       const doc = block(
         Container,
         { level: 1 },
-        (target = block(Leaf, { name: "first" }))
+        (target = block(Leaf, { name: "first" })),
       );
 
       const testDoc = insertAfter(
         doc,
         target.getValue().id,
-        block(Leaf, { name: "inserted" })
+        block(Leaf, { name: "inserted" }),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -710,8 +712,8 @@ describe("peritext builder library", () => {
           block(Container, { level: 1 }, [
             block(Leaf, { name: "first" }),
             block(Leaf, { name: "inserted" }),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("insert between two children", () => {
@@ -724,7 +726,7 @@ describe("peritext builder library", () => {
       const testDoc = insertAfter(
         doc,
         target.getValue().id,
-        block(Leaf, { name: "inserted" })
+        block(Leaf, { name: "inserted" }),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -733,8 +735,8 @@ describe("peritext builder library", () => {
             block(Leaf, { name: "first" }),
             block(Leaf, { name: "inserted" }),
             block(Leaf, { name: "second" }),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("insert after child with its own children", () => {
@@ -750,7 +752,7 @@ describe("peritext builder library", () => {
       const testDoc = insertAfter(
         doc,
         target.getValue().id,
-        block(Leaf, { name: "inserted" })
+        block(Leaf, { name: "inserted" }),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -759,8 +761,8 @@ describe("peritext builder library", () => {
             block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})]),
             block(Leaf, { name: "inserted" }),
             block(Leaf, { name: "second" }),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("preserves marks", () => {
@@ -769,12 +771,12 @@ describe("peritext builder library", () => {
         (target = block(
           Leaf,
           { name: "first" },
-          mark(Emphasis, { name: "before" }, "Beginning text")
+          mark(Emphasis, { name: "before" }, "Beginning text"),
         )),
         block(
           Leaf,
           { name: "second" },
-          mark(Emphasis, { name: "after" }, "ending text")
+          mark(Emphasis, { name: "after" }, "ending text"),
         ),
       ]);
 
@@ -784,8 +786,8 @@ describe("peritext builder library", () => {
         block(
           Leaf,
           { name: "inserted" },
-          mark(Emphasis, { name: "middle" }, "(inserted text)")
-        )
+          mark(Emphasis, { name: "middle" }, "(inserted text)"),
+        ),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -794,20 +796,20 @@ describe("peritext builder library", () => {
             block(
               Leaf,
               { name: "first" },
-              mark(Emphasis, { name: "before" }, "Beginning text")
+              mark(Emphasis, { name: "before" }, "Beginning text"),
             ),
             block(
               Leaf,
               { name: "inserted" },
-              mark(Emphasis, { name: "middle" }, "(inserted text)")
+              mark(Emphasis, { name: "middle" }, "(inserted text)"),
             ),
             block(
               Leaf,
               { name: "second" },
-              mark(Emphasis, { name: "after" }, "ending text")
+              mark(Emphasis, { name: "after" }, "ending text"),
             ),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("preseves marks across insertion point", () => {
@@ -819,10 +821,10 @@ describe("peritext builder library", () => {
           (target = block(
             Leaf,
             { name: "first" },
-            mark(Emphasis, {}, "Beginning text")
+            mark(Emphasis, {}, "Beginning text"),
           )),
           block(Leaf, { name: "second" }, mark(Emphasis, {}, "ending text")),
-        ])
+        ]),
       );
 
       const testDoc = insertAfter(
@@ -831,8 +833,8 @@ describe("peritext builder library", () => {
         block(
           Leaf,
           { name: "inserted" },
-          mark(Emphasis, { name: "middle" }, "(inserted text)")
-        )
+          mark(Emphasis, { name: "middle" }, "(inserted text)"),
+        ),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -844,21 +846,21 @@ describe("peritext builder library", () => {
               block(
                 Leaf,
                 { name: "first" },
-                mark(Emphasis, {}, "Beginning text")
+                mark(Emphasis, {}, "Beginning text"),
               ),
               block(
                 Leaf,
                 { name: "inserted" },
-                mark(Emphasis, { name: "middle" }, "(inserted text)")
+                mark(Emphasis, { name: "middle" }, "(inserted text)"),
               ),
               block(
                 Leaf,
                 { name: "second" },
-                mark(Emphasis, {}, "ending text")
+                mark(Emphasis, {}, "ending text"),
               ),
-            ])
-          ).peritext()
-        )
+            ]),
+          ).peritext(),
+        ),
       );
     });
     test("mutates blocks and marks in-place", () => {
@@ -870,7 +872,7 @@ describe("peritext builder library", () => {
       let doc = insertAfter(
         concat(beforeBlock, afterBlock),
         beforeBlock.getValue().id,
-        insertedBlock
+        insertedBlock,
       );
 
       expect(doc.blocks).toContain(beforeBlock.getValue());
@@ -885,22 +887,22 @@ describe("peritext builder library", () => {
       test("insert before only root", () => {
         let target;
         const doc = concat(
-          (target = block(Container, { level: 1 }, block(Leaf, {})))
+          (target = block(Container, { level: 1 }, block(Leaf, {}))),
         );
 
         const testDoc = insertBefore(
           doc,
           target.getValue().id,
-          block(Leaf, {})
+          block(Leaf, {}),
         );
 
         expect(stabilizeIds(testDoc)).toMatchObject(
           stabilizeIds(
             concat(
               block(Leaf, {}),
-              block(Container, { level: 1 }, block(Leaf, {}))
-            )
-          )
+              block(Container, { level: 1 }, block(Leaf, {})),
+            ),
+          ),
         );
       });
       test("insert between two roots", () => {
@@ -910,13 +912,13 @@ describe("peritext builder library", () => {
           (target = block(Container, { level: 1 }, [
             block(Leaf, {}),
             block(Leaf, {}),
-          ]))
+          ])),
         );
 
         const testDoc = insertBefore(
           doc,
           target.getValue().id,
-          block(Leaf, {})
+          block(Leaf, {}),
         );
 
         expect(stabilizeIds(testDoc)).toMatchObject(
@@ -924,9 +926,12 @@ describe("peritext builder library", () => {
             concat(
               block(Container, { level: 1 }, block(Leaf, {})),
               block(Leaf, {}),
-              block(Container, { level: 1 }, [block(Leaf, {}), block(Leaf, {})])
-            )
-          )
+              block(Container, { level: 1 }, [
+                block(Leaf, {}),
+                block(Leaf, {}),
+              ]),
+            ),
+          ),
         );
       });
     });
@@ -937,7 +942,7 @@ describe("peritext builder library", () => {
       const testDoc = insertBefore(
         doc,
         target.getValue().id,
-        block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})])
+        block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})]),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -945,8 +950,8 @@ describe("peritext builder library", () => {
           block(Container, { level: 1 }, [
             block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})]),
             block(Leaf, {}),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("insert between two children", () => {
@@ -959,7 +964,7 @@ describe("peritext builder library", () => {
       const testDoc = insertAfter(
         doc,
         target.getValue().id,
-        block(Leaf, { name: "inserted" })
+        block(Leaf, { name: "inserted" }),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -968,8 +973,8 @@ describe("peritext builder library", () => {
             block(Leaf, { name: "first" }),
             block(Leaf, { name: "inserted" }),
             block(Leaf, { name: "second" }),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("insert after child with its own children", () => {
@@ -982,7 +987,7 @@ describe("peritext builder library", () => {
       const testDoc = insertBefore(
         doc,
         target.getValue().id,
-        block(Leaf, { name: "inserted" })
+        block(Leaf, { name: "inserted" }),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -991,8 +996,8 @@ describe("peritext builder library", () => {
             block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})]),
             block(Leaf, { name: "inserted" }),
             block(Leaf, { name: "second" }),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("preserves marks", () => {
@@ -1001,12 +1006,12 @@ describe("peritext builder library", () => {
         block(
           Leaf,
           { name: "first" },
-          mark(Emphasis, { name: "before" }, "Beginning text")
+          mark(Emphasis, { name: "before" }, "Beginning text"),
         ),
         (target = block(
           Leaf,
           { name: "second" },
-          mark(Emphasis, { name: "after" }, "ending text")
+          mark(Emphasis, { name: "after" }, "ending text"),
         )),
       ]);
 
@@ -1016,8 +1021,8 @@ describe("peritext builder library", () => {
         block(
           Leaf,
           { name: "inserted" },
-          mark(Emphasis, { name: "middle" }, "(inserted text)")
-        )
+          mark(Emphasis, { name: "middle" }, "(inserted text)"),
+        ),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -1026,20 +1031,20 @@ describe("peritext builder library", () => {
             block(
               Leaf,
               { name: "first" },
-              mark(Emphasis, { name: "before" }, "Beginning text")
+              mark(Emphasis, { name: "before" }, "Beginning text"),
             ),
             block(
               Leaf,
               { name: "inserted" },
-              mark(Emphasis, { name: "middle" }, "(inserted text)")
+              mark(Emphasis, { name: "middle" }, "(inserted text)"),
             ),
             block(
               Leaf,
               { name: "second" },
-              mark(Emphasis, { name: "after" }, "ending text")
+              mark(Emphasis, { name: "after" }, "ending text"),
             ),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
     test("preseves marks across insertion point", () => {
@@ -1052,9 +1057,9 @@ describe("peritext builder library", () => {
           (target = block(
             Leaf,
             { name: "second" },
-            mark(Emphasis, {}, "ending text")
+            mark(Emphasis, {}, "ending text"),
           )),
-        ])
+        ]),
       );
 
       const testDoc = insertBefore(
@@ -1063,8 +1068,8 @@ describe("peritext builder library", () => {
         block(
           Leaf,
           { name: "inserted" },
-          mark(Emphasis, { name: "middle" }, "(inserted text)")
-        )
+          mark(Emphasis, { name: "middle" }, "(inserted text)"),
+        ),
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -1076,21 +1081,21 @@ describe("peritext builder library", () => {
               block(
                 Leaf,
                 { name: "first" },
-                mark(Emphasis, {}, "Beginning text")
+                mark(Emphasis, {}, "Beginning text"),
               ),
               block(
                 Leaf,
                 { name: "inserted" },
-                mark(Emphasis, { name: "middle" }, "(inserted text)")
+                mark(Emphasis, { name: "middle" }, "(inserted text)"),
               ),
               block(
                 Leaf,
                 { name: "second" },
-                mark(Emphasis, {}, "ending text")
+                mark(Emphasis, {}, "ending text"),
               ),
-            ])
-          ).peritext()
-        )
+            ]),
+          ).peritext(),
+        ),
       );
     });
     test("mutates blocks and marks in-place", () => {
@@ -1102,7 +1107,7 @@ describe("peritext builder library", () => {
       let doc = insertBefore(
         concat(beforeBlock, afterBlock),
         afterBlock.getValue().id,
-        insertedBlock
+        insertedBlock,
       );
 
       expect(doc.blocks).toContain(beforeBlock.getValue());
@@ -1121,7 +1126,7 @@ describe("peritext builder library", () => {
       ]);
 
       expect(getDescendants(doc, doc.getValue().id)).toMatchObject(
-        doc.blocks.slice(1)
+        doc.blocks.slice(1),
       );
     });
     test("nested descendants", () => {
@@ -1132,7 +1137,7 @@ describe("peritext builder library", () => {
       ]);
 
       expect(getDescendants(doc, doc.getValue().id)).toMatchObject(
-        doc.blocks.slice(1)
+        doc.blocks.slice(1),
       );
     });
     test("doesn't return siblings of target", () => {
@@ -1151,8 +1156,8 @@ describe("peritext builder library", () => {
         getBlocksByIds(
           doc,
           descendant1.getValue().id,
-          descendant2.getValue().id
-        )
+          descendant2.getValue().id,
+        ),
       );
     });
   });
@@ -1166,7 +1171,7 @@ describe("peritext builder library", () => {
       ]);
 
       expect(getChildren(doc, doc.getValue().id)).toMatchObject(
-        doc.blocks.slice(1)
+        doc.blocks.slice(1),
       );
     });
     test("nested descendants", () => {
@@ -1194,7 +1199,7 @@ describe("peritext builder library", () => {
       ]);
 
       expect(getChildren(doc, target.getValue().id)).toMatchObject(
-        getBlocksByIds(doc, child.getValue().id)
+        getBlocksByIds(doc, child.getValue().id),
       );
     });
   });
@@ -1217,7 +1222,7 @@ describe("peritext builder library", () => {
         Container,
         {
           level: 2,
-        }
+        },
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -1233,8 +1238,8 @@ describe("peritext builder library", () => {
               block(Leaf, {}),
               block(Leaf, {}),
             ]),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
 
@@ -1261,8 +1266,8 @@ describe("peritext builder library", () => {
               block(Leaf, {}),
             ]),
             block(Container, { level: 2 }, [block(Leaf, {}), block(Leaf, {})]),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
 
@@ -1274,7 +1279,7 @@ describe("peritext builder library", () => {
         block(Leaf, {}),
       ]);
       expect(
-        stabilizeIds(groupChildren(doc, doc.getValue().id, 2, Container, {}))
+        stabilizeIds(groupChildren(doc, doc.getValue().id, 2, Container, {})),
       ).toMatchObject(
         stabilizeIds({
           text: "\uFFFC\uFFFC\uFFFC\uFFFCfirst\uFFFC\uFFFC\uFFFC\uFFFCsecond\uFFFC",
@@ -1347,7 +1352,7 @@ describe("peritext builder library", () => {
             { id: "7", type: "emphasis", attributes: {}, range: "(3..9]" },
             { id: "8", type: "emphasis", attributes: {}, range: "(12..19]" },
           ],
-        })
+        }),
       );
     });
 
@@ -1368,7 +1373,7 @@ describe("peritext builder library", () => {
         Container,
         {
           level: 2,
-        }
+        },
       );
 
       expect(stabilizeIds(testDoc)).toMatchObject(
@@ -1384,8 +1389,8 @@ describe("peritext builder library", () => {
               block(Container, { level: 3 }, block(Leaf, {})),
               block(Leaf, {}),
             ]),
-          ]).peritext()
-        )
+          ]).peritext(),
+        ),
       );
     });
 
@@ -1435,8 +1440,8 @@ describe("peritext builder library", () => {
               block(Container, { level: 2 }, block(Leaf, {})),
               block(Container, { level: 2 }, block(Leaf, {})),
               block(Container, { level: 2 }, block(Leaf, {})),
-            ]).peritext()
-          )
+            ]).peritext(),
+          ),
         );
       });
 
@@ -1455,7 +1460,7 @@ describe("peritext builder library", () => {
           Container,
           {
             level: 2,
-          }
+          },
         );
 
         expect(stabilizeIds(testDoc)).toMatchObject(
@@ -1464,8 +1469,8 @@ describe("peritext builder library", () => {
               block(Leaf, {}),
               block(Leaf, {}),
               block(Leaf, {}),
-            ]).peritext()
-          )
+            ]).peritext(),
+          ),
         );
       });
 
@@ -1487,8 +1492,8 @@ describe("peritext builder library", () => {
               block(Leaf, {}),
               block(Leaf, {}),
               block(Leaf, {}),
-            ]).peritext()
-          )
+            ]).peritext(),
+          ),
         );
       });
 
@@ -1518,12 +1523,10 @@ describe("peritext builder library", () => {
                 block(Leaf, {}),
                 block(Leaf, {}),
               ]),
-            ]).peritext()
-          )
+            ]).peritext(),
+          ),
         );
       });
     });
   });
 });
-
-/* eslint-enable max-classes-per-file */

@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ["@babel/plugin-proposal-class-properties"],
+  plugins: ["@babel/plugin-transform-class-properties"],
   presets: [
     [
       "@babel/preset-env",

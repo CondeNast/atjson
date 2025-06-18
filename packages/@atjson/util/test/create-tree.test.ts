@@ -17,7 +17,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -51,7 +51,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -94,7 +94,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -136,7 +136,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -189,7 +189,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -252,7 +252,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -315,7 +315,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -379,7 +379,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -442,7 +442,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -505,7 +505,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -578,7 +578,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -632,7 +632,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -695,7 +695,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -821,7 +821,7 @@ describe("createTree", () => {
               attributes: { color: "blue" },
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -949,7 +949,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -1034,7 +1034,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -1096,7 +1096,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -1176,7 +1176,7 @@ describe("createTree", () => {
           ],
 
           marks: [],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [
@@ -1286,7 +1286,7 @@ describe("createTree", () => {
               attributes: {},
             },
           ],
-        })
+        }),
       ).toMatchInlineSnapshot(`
         Map {
           "root" => [

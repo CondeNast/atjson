@@ -112,7 +112,7 @@ describe("@atjson/renderer-hir", () => {
     class ConcreteRenderer extends Renderer {
       *renderBlock(
         block: Block,
-        context: Context
+        context: Context,
       ): Iterator<void, string, string[]> {
         let expected = callStack.shift() as Context & {
           value: Block;
@@ -132,7 +132,7 @@ describe("@atjson/renderer-hir", () => {
 
       *renderMark(
         mark: Mark,
-        context: Context
+        context: Context,
       ): Iterator<void, string, string[]> {
         let expected = callStack.shift() as Context & {
           value: Mark;
@@ -181,7 +181,7 @@ describe("@atjson/renderer-hir", () => {
     }
 
     expect(ConcreteRenderer.render(atjson)).toBe(
-      "This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text"
+      "This &lt;html-element with&#x3D;&quot;param&quot; and-another&#x3D;&#x27;param&#x27;&gt; should render as plain text",
     );
   });
 
@@ -283,7 +283,7 @@ describe("@atjson/renderer-hir", () => {
           return `<blockquote>${words.join("")}${
             blockquote.attributes.credit
               ? `<cite>${HTMLRenderer.render(
-                  this.getSlice(blockquote.attributes.credit)
+                  this.getSlice(blockquote.attributes.credit),
                 )}</cite>`
               : ""
           }</blockquote>`;
@@ -306,7 +306,7 @@ describe("@atjson/renderer-hir", () => {
       }
 
       expect(HTMLRenderer.render(doc)).toBe(
-        "<blockquote>The radio is stuck right now. Everything sound the same. As far as video-wise everything look the same. So we coming in to change the whole thing.<cite><em>Missy Elliott</em></cite></blockquote> "
+        "<blockquote>The radio is stuck right now. Everything sound the same. As far as video-wise everything look the same. So we coming in to change the whole thing.<cite><em>Missy Elliott</em></cite></blockquote> ",
       );
     });
 
@@ -378,7 +378,7 @@ describe("@atjson/renderer-hir", () => {
           return `${words.join("")}${citation.attributes.citations
             .map(
               (_, index) =>
-                `<a href="#cite-${start + index}">[${start + index}]</a>`
+                `<a href="#cite-${start + index}">[${start + index}]</a>`,
             )
             .join("")}`;
         }
@@ -401,8 +401,8 @@ describe("@atjson/renderer-hir", () => {
                   .map(
                     (citation, index) =>
                       `<li id="cite-${index + 1}">${HTMLRenderer.render(
-                        this.getSlice(citation)
-                      )}</li>`
+                        this.getSlice(citation),
+                      )}</li>`,
                   )
                   .join("")}</ol>`
               : ""
@@ -412,7 +412,7 @@ describe("@atjson/renderer-hir", () => {
 
       expect(HTMLRenderer.render(doc)).toBe(
         `<a href="https://en.wikipedia.org/wiki/Arthur_Baldwin_Turnure">Arthur Baldwin Turnure</a>, an American businessman, founded <em>Vogue</em> as a weekly newspaper based in <a href="https://en.wikipedia.org/wiki/New_York_City">New York City</a>, sponsored by Kristoffer Wright, with its first issue on December 17, 1892.<a href="#cite-1">[1]</a><a href="#cite-2">[2]</a>\n` +
-          `<ol><li id="cite-1">Rowlands, Penelope (2008) A Dash of Daring: Carmel Snow and Her Life In Fashion, Art, and Letters Simon & Schuster, 2008.</li><li id="cite-2">Warren, Lynne (2005) Encyclopedia of Twentieth-Century Photography, 3-Volume Set Routledge, 2005</li></ol>`
+          `<ol><li id="cite-1">Rowlands, Penelope (2008) A Dash of Daring: Carmel Snow and Her Life In Fashion, Art, and Letters Simon & Schuster, 2008.</li><li id="cite-2">Warren, Lynne (2005) Encyclopedia of Twentieth-Century Photography, 3-Volume Set Routledge, 2005</li></ol>`,
       );
     });
 
@@ -439,17 +439,17 @@ describe("@atjson/renderer-hir", () => {
       class ConcreteRenderer extends Renderer {
         *Italic(_, context) {
           expect(context.document.text).toEqual(
-            "\uFFFCThis document has a spoiler:\n"
+            "\uFFFCThis document has a spoiler:\n",
           );
           return (yield).join("");
         }
         *Spoiler(spoiler, context) {
           let spoilerText =
             ConcreteRenderer.render(
-              this.getSlice(spoiler.attributes.spoiler)
+              this.getSlice(spoiler.attributes.spoiler),
             ) ?? "";
           expect(context.document.text).toEqual(
-            "\uFFFCThis document has a spoiler:\n"
+            "\uFFFCThis document has a spoiler:\n",
           );
           return (yield).join("") + "X".repeat(spoilerText.length - 1);
         }
@@ -465,7 +465,7 @@ describe("@atjson/renderer-hir", () => {
       }
 
       expect(ConcreteRenderer.render(atjson)).toEqual(
-        "This document has a spoiler:\nXXXXXXXXXX"
+        "This document has a spoiler:\nXXXXXXXXXX",
       );
     });
   });

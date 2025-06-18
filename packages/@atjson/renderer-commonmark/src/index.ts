@@ -32,7 +32,7 @@ export function* splitDelimiterRuns(
   options: { escapeHtmlEntities: boolean; ignoreInnerMark?: boolean } = {
     escapeHtmlEntities: true,
     ignoreInnerMark: false,
-  }
+  },
 ): Generator<void, [string, string, string], string[]> {
   let rawText = yield;
   let text = rawText.map(unescapeEntities).join("");
@@ -100,11 +100,11 @@ export function* splitDelimiterRuns(
 
   if (options.escapeHtmlEntities) {
     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
-      escapeHtmlEntities
+      escapeHtmlEntities,
     ) as [string, string, string];
   } else {
     return [text.slice(0, start), text.slice(start, end), text.slice(end)].map(
-      escapeEntities
+      escapeEntities,
     ) as [string, string, string];
   }
 }
@@ -133,7 +133,7 @@ export function* split(): Generator<void, string[], string[]> {
 // http://spec.commonmark.org/0.28/#backslash-escapes
 function escapePunctuation(
   text: string,
-  options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true }
+  options: { escapeHtmlEntities: boolean } = { escapeHtmlEntities: true },
 ) {
   let escaped = text
     .replace(/([#!*+=\\^_`{|}~])/g, "\\$1")
@@ -240,7 +240,7 @@ export default class CommonmarkRenderer extends Renderer {
      */
     protected options: {
       escapeHtmlEntities: boolean;
-    } = { escapeHtmlEntities: true }
+    } = { escapeHtmlEntities: true },
   ) {
     super(document);
     this.state = {};
@@ -440,7 +440,7 @@ export default class CommonmarkRenderer extends Renderer {
 
     let [before, text, after] = yield* splitDelimiterRuns(
       context,
-      this.options
+      this.options,
     );
     this.state = state;
 
@@ -548,7 +548,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *CodeBlock(
     code: Block<CodeBlock>,
-    context: Context
+    context: Context,
   ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
@@ -661,7 +661,7 @@ export default class CommonmarkRenderer extends Renderer {
    */
   *List(
     list: Block<List>,
-    context: Context
+    context: Context,
   ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
@@ -726,8 +726,10 @@ export default class CommonmarkRenderer extends Renderer {
    * Paragraphs are delimited by two or more newlines in markdown.
    */
   *Paragraph(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _paragraph: Block<Paragraph>,
-    _context: Context
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _context: Context,
   ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
@@ -764,7 +766,7 @@ export default class CommonmarkRenderer extends Renderer {
 
   *Table(
     table: Block<Table>,
-    context: Context
+    context: Context,
   ): Generator<void, string, string[]> {
     if (this.state.inlineOnly) {
       return "";
@@ -774,7 +776,7 @@ export default class CommonmarkRenderer extends Renderer {
     this.state.inlineOnly = true;
 
     const dataSet = context.document.blocks.find((block) =>
-      block.id.includes(table.attributes.dataSet)
+      block.id.includes(table.attributes.dataSet),
     ) as Block<DataSet> | undefined;
 
     if (!dataSet) {
@@ -783,7 +785,7 @@ export default class CommonmarkRenderer extends Renderer {
        */
 
       throw new Error(
-        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`
+        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`,
       );
     }
 
@@ -831,8 +833,8 @@ export default class CommonmarkRenderer extends Renderer {
               }: document slice not found for column ${columnName} in row ${JSON.stringify(
                 row,
                 null,
-                2
-              )}`
+                2,
+              )}`,
             );
           }
           cellText = this.render(cellSlice);
@@ -841,7 +843,7 @@ export default class CommonmarkRenderer extends Renderer {
         columns[columnName].rows.push(cellText.replace(/\n/g, " "));
         columns[columnName].width = Math.max(
           columns[columnName].width,
-          cellText.length
+          cellText.length,
         );
       }
     }

@@ -32,7 +32,7 @@ function parse(text: string) {
           type,
           attrs: attrs(match[3]),
         },
-      })
+      }),
     );
 
     if (match[5] == null) {
@@ -43,7 +43,7 @@ function parse(text: string) {
           attributes: {
             reason: `[${match[2]} /]`,
           },
-        })
+        }),
       );
     } else {
       let openingShortcodeEnd = start + match[2].length + match[3].length + 2;
@@ -62,7 +62,7 @@ function parse(text: string) {
           attributes: {
             reason: `[/${match[2]}]`,
           },
-        })
+        }),
       );
     }
   }

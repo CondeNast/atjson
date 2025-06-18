@@ -74,7 +74,7 @@ function compile(
       blocks: Block[];
       marks: Mark[];
     };
-  }
+  },
 ): any {
   let children = map.get(key) ?? [];
   let generator: Iterator<void, any, any[]>;
@@ -118,8 +118,8 @@ function compile(
         }
 
         return compile(renderer, child, map, child.id, childContext) as any[];
-      })
-    )
+      }),
+    ),
   ).value;
 }
 
@@ -141,7 +141,7 @@ export default class Renderer {
     let [remainder, slices] = extractSlices(
       document instanceof Document
         ? serialize(document, { onUnknown: "throw" })
-        : document
+        : document,
     );
     renderer.slices = slices;
     return compile(
@@ -151,7 +151,7 @@ export default class Renderer {
       ROOT,
       {
         document: remainder as { text: string; marks: Mark[]; blocks: Block[] },
-      }
+      },
     );
   }
 
@@ -174,7 +174,7 @@ export default class Renderer {
           marks: Mark[];
           blocks: Block[];
         },
-      }
+      },
     );
   }
 
@@ -183,7 +183,7 @@ export default class Renderer {
     { text: string; marks: InternalMark[]; blocks: Block[] }
   >;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(_document: RendererDocument, ..._args: any[]) {
     this.slices = new Map();
   }
@@ -196,7 +196,7 @@ export default class Renderer {
     } else {
       // eslint-disable-next-line no-console
       console.warn(
-        `[${this.constructor.name}]: No handler present for block of type ${block.type}. Possibly important information has been dropped.`
+        `[${this.constructor.name}]: No handler present for block of type ${block.type}. Possibly important information has been dropped.`,
       );
       // eslint-disable-next-line no-console
       console.debug("Unsupported block:", block);
@@ -212,7 +212,7 @@ export default class Renderer {
     } else {
       // eslint-disable-next-line no-console
       console.warn(
-        `[${this.constructor.name}]: No handler present for mark of type ${mark.type}. Possibly important information has been dropped.`
+        `[${this.constructor.name}]: No handler present for mark of type ${mark.type}. Possibly important information has been dropped.`,
       );
       // eslint-disable-next-line no-console
       console.debug("Unsupported mark:", mark);

@@ -7,7 +7,7 @@ interface ParseState {
 
 export default function extractTextStyles(
   styles: GDocsStyleSlice[],
-  content: string
+  content: string,
 ): AnnotationJSON[] {
   let state: ParseState = {};
   let annotations: AnnotationJSON[] = [];

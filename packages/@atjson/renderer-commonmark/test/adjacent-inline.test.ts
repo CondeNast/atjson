@@ -26,7 +26,7 @@ describe("adjacent inline annotations", () => {
           },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold**_italic_");
@@ -50,7 +50,7 @@ describe("adjacent inline annotations", () => {
           { id: "M00000001", type: "bold", range: "(5..9]", attributes: {} },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold**__bold__");
@@ -74,7 +74,7 @@ describe("adjacent inline annotations", () => {
           { id: "M00000001", type: "bold", range: "(5..10]", attributes: {} },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold** **bold**");
@@ -98,7 +98,7 @@ describe("adjacent inline annotations", () => {
           { id: "M00000001", type: "bold", range: "(6..10]", attributes: {} },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe("**bold** __bold__");
@@ -128,11 +128,11 @@ describe("adjacent inline annotations", () => {
           },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**Bold** *__bold and italic__*"
+      "**Bold** *__bold and italic__*",
     );
   });
 
@@ -160,11 +160,11 @@ describe("adjacent inline annotations", () => {
           },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**Bold** ***bold and italic***"
+      "**Bold** ***bold and italic***",
     );
   });
 });

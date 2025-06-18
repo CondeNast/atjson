@@ -78,7 +78,7 @@ describe("@atjson/source-gdocs-paste", () => {
         let [a0] = [...annotations];
 
         expect(gdocs.content.substring(a0.start, a0.end)).toEqual(
-          "Here’s a numbered list\nAnd another item"
+          "Here’s a numbered list\nAnd another item",
         );
         expect(a0.attributes.ls_id).toEqual("kix.trdi2u6o1bvt");
       });
@@ -91,13 +91,13 @@ describe("@atjson/source-gdocs-paste", () => {
         let [a0, a1] = [...annotations];
 
         expect(gdocs.content.substring(a0.start, a0.end)).toEqual(
-          "Here’s a numbered list"
+          "Here’s a numbered list",
         );
         expect(a0.attributes.ls_id).toEqual("kix.trdi2u6o1bvt");
         expect(a0.attributes.ls_nest).toEqual(0);
 
         expect(gdocs.content.substring(a1.start, a1.end)).toEqual(
-          "And another item"
+          "And another item",
         );
         expect(a1.attributes.ls_id).toEqual("kix.trdi2u6o1bvt");
         expect(a1.attributes.ls_nest).toEqual(0);
@@ -125,7 +125,7 @@ describe("@atjson/source-gdocs-paste", () => {
       let fixturePath = path.join(
         __dirname,
         "fixtures",
-        "formats-and-tabs.json"
+        "formats-and-tabs.json",
       );
       gdocsBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
@@ -160,7 +160,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
       let [italic] = annotations;
       expect(gdocs.content.substring(italic.start, italic.end)).toEqual(
-        "italic"
+        "italic",
       );
     });
 
@@ -171,7 +171,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
       let [underline] = annotations;
       expect(gdocs.content.substring(underline.start, underline.end)).toEqual(
-        "underlined"
+        "underlined",
       );
     });
 
@@ -191,7 +191,7 @@ describe("@atjson/source-gdocs-paste", () => {
 
       let [strikethrough] = annotations;
       expect(
-        gdocs.content.substring(strikethrough.start, strikethrough.end)
+        gdocs.content.substring(strikethrough.start, strikethrough.end),
       ).toEqual("strikethrough");
     });
 
@@ -201,16 +201,16 @@ describe("@atjson/source-gdocs-paste", () => {
       expect(annotations.length).toEqual(2);
 
       let [superscript] = annotations.where(
-        (annotation) => annotation.attributes.va === "sup"
+        (annotation) => annotation.attributes.va === "sup",
       );
       let [subscript] = annotations.where(
-        (annotation) => annotation.attributes.va === "sub"
+        (annotation) => annotation.attributes.va === "sub",
       );
       expect(
-        gdocs.content.substring(superscript.start, superscript.end)
+        gdocs.content.substring(superscript.start, superscript.end),
       ).toEqual("TM");
       expect(gdocs.content.substring(subscript.start, subscript.end)).toEqual(
-        "2"
+        "2",
       );
     });
   });
@@ -278,7 +278,7 @@ describe("@atjson/source-gdocs-paste", () => {
       let fixturePath = path.join(
         __dirname,
         "fixtures",
-        "list-styles-partial.json"
+        "list-styles-partial.json",
       );
       pasteBuffer = JSON.parse(fs.readFileSync(fixturePath).toString());
     });
@@ -290,7 +290,7 @@ describe("@atjson/source-gdocs-paste", () => {
         .as("list")
         .join(
           gdocs.where((a) => a.type === "list_item").as("listItems"),
-          (l, r) => l.start <= r.start && l.end >= r.end
+          (l, r) => l.start <= r.start && l.end >= r.end,
         );
 
       expect(listAndItems.toJSON()).toMatchObject([

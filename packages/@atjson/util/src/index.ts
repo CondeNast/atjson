@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/no-empty-interface: 0 */
+/* eslint @typescript-eslint/no-empty-object-type: 0 */
 interface Dictionary<T> {
   [key: string]: T | undefined;
 }
@@ -147,7 +147,7 @@ export function compareSliceTokens(a: SortableSlice, b: SortableSlice) {
 
 function compareRanges(
   [start1, end1]: [number, number],
-  [start2, end2]: [number, number]
+  [start2, end2]: [number, number],
 ) {
   if (start1 === start2) {
     return end1 - end2;
@@ -216,7 +216,7 @@ export function extractSlices(value: {
           index: end,
           mark: slice,
           ranges,
-        }
+        },
       );
     } else {
       marksWithoutSlices.push({
@@ -627,11 +627,11 @@ export function createTree(value?: {
           .filter(
             (mark) =>
               Math.max(mark.start, blockStart) === start &&
-              mark.end > mark.start
+              mark.end > mark.start,
           )
           .sort((a, b) => b.end - a.end);
         let closingMarks = scopedMarks.filter(
-          (mark) => Math.min(mark.end, blockEnd) === end
+          (mark) => Math.min(mark.end, blockEnd) === end,
         );
         markStack.push(...startingMarks);
 

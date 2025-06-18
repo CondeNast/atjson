@@ -92,8 +92,8 @@ test("mutiple slice hops", () => {
           },
         },
       ],
-    })
+    }),
   ).toEqual(
-    `<p>Text that refers to <a>footnote</a><aside>This is the footnote and has an image <figure><img src="my-little-pony.gif" /><figcaption>Credit: foo</figcaption></figure></aside></p>`
+    `<p>Text that refers to <a>footnote</a><aside>This is the footnote and has an image <figure><img src="my-little-pony.gif" /><figcaption>Credit: foo</figcaption></figure></aside></p>`,
   );
 });

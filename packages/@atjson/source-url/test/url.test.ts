@@ -7,7 +7,7 @@ describe("url-source", () => {
     expect(
       serialize(URLSource.fromRaw("Hi buddy!").convertTo(OffsetSource), {
         withStableIds: true,
-      })
+      }),
     ).toMatchObject({
       text: `\uFFFCHi buddy!`,
       blocks: [
@@ -31,7 +31,7 @@ describe("url-source", () => {
       expect(
         serialize(URLSource.fromRaw(text).convertTo(OffsetSource), {
           withStableIds: true,
-        })
+        }),
       ).toMatchObject({
         text: `\uFFFC${text}`,
         blocks: [
@@ -41,7 +41,7 @@ describe("url-source", () => {
         ],
         marks: [],
       });
-    }
+    },
   );
 
   describe("instagram", () => {
@@ -250,7 +250,7 @@ describe("url-source", () => {
   describe("pinterest", () => {
     test("profile", () => {
       let url = URLSource.fromRaw(
-        "https://www.pinterest.com/alluremagazine/"
+        "https://www.pinterest.com/alluremagazine/",
       ).convertTo(OffsetSource);
       expect(serialize(url, { withStableIds: true })).toEqual({
         text: "\uFFFC",
@@ -271,7 +271,7 @@ describe("url-source", () => {
 
     test("board", () => {
       let url = URLSource.fromRaw(
-        "https://www.pinterest.com/alluremagazine/makeup-inspiration/"
+        "https://www.pinterest.com/alluremagazine/makeup-inspiration/",
       ).convertTo(OffsetSource);
       expect(serialize(url, { withStableIds: true })).toEqual({
         text: "\uFFFC",
@@ -292,7 +292,7 @@ describe("url-source", () => {
 
     test("pin", () => {
       let url = URLSource.fromRaw(
-        "https://www.pinterest.com/pin/246290673356918386/"
+        "https://www.pinterest.com/pin/246290673356918386/",
       ).convertTo(OffsetSource);
       expect(serialize(url, { withStableIds: true })).toEqual({
         text: "\uFFFC",
@@ -388,7 +388,7 @@ describe("url-source", () => {
     describe("embed url", () => {
       test("https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743&width=500", () => {
         let url = URLSource.fromRaw(
-          "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743"
+          "https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2FBeethovenOfficialPage%2Fposts%2F2923157684380743",
         ).convertTo(OffsetSource);
         expect(serialize(url, { withStableIds: true })).toEqual({
           text: "\uFFFC",

@@ -4,7 +4,7 @@ import { isTextNode, isElement, isNode, isDocumentFragment } from "./utils";
 
 function fromNode(
   node: CK.Node | CK.DocumentFragment | null,
-  { content, annotations }: { content: string; annotations: AnnotationJSON[] }
+  { content, annotations }: { content: string; annotations: AnnotationJSON[] },
 ) {
   if (!node) {
     return { content, annotations };
@@ -38,7 +38,7 @@ function fromNode(
         attributes: {
           reason: `${name}_open`,
         },
-      })
+      }),
     );
     for (let child of node.getChildren()) {
       ({ content, annotations } = fromNode(child, { content, annotations }));
@@ -52,7 +52,7 @@ function fromNode(
         attributes: {
           reason: `${name}_close`,
         },
-      })
+      }),
     );
     annotations.push({
       start,
@@ -68,7 +68,7 @@ function fromNode(
 export default abstract class CKEditorSource extends Document {
   static fromDocument(
     doc: CK.DocumentFragment | CK.Document,
-    rootName = "main"
+    rootName = "main",
   ) {
     let root = (doc as CK.DocumentFragment).root
       ? (doc as CK.DocumentFragment).root

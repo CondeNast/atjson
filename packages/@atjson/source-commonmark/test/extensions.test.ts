@@ -56,7 +56,7 @@ describe("strikethrough", () => {
       doc
         .where((a) => a.type !== "parse-token")
         .sort()
-        .toJSON()
+        .toJSON(),
     ).toMatchInlineSnapshot(`
       [
         {
@@ -97,7 +97,9 @@ describe("tables", () => {
 
   test("parsing", () => {
     expect(
-      serialize(MarkdownItSource.fromRaw(tableExample), { withStableIds: true })
+      serialize(MarkdownItSource.fromRaw(tableExample), {
+        withStableIds: true,
+      }),
     ).toMatchSnapshot();
   });
 
@@ -105,17 +107,17 @@ describe("tables", () => {
     let doc = MarkdownItSource.fromRaw(tableExample).withStableIds();
 
     expect(
-      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true }),
     ).toMatchSnapshot();
   });
 
   test("adjacent tables", () => {
     let doc = MarkdownItSource.fromRaw(
-      tableExample + "\n" + tableExample
+      tableExample + "\n" + tableExample,
     ).withStableIds();
 
     expect(
-      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true }),
     ).toMatchSnapshot();
   });
 
@@ -127,14 +129,14 @@ describe("tables", () => {
 | 2,1  | 2,2  |
 `;
     let doc = MarkdownItSource.fromRaw(duplicateColumnsTableExample).convertTo(
-      OffsetSource
+      OffsetSource,
     );
     let tables = doc.where((annotation) => is(annotation, Table));
 
     expect(tables.length).toBe(1);
 
     let columnNames = tables.annotations[0].attributes.columns.map(
-      (column) => column.columnName
+      (column) => column.columnName,
     );
 
     expect(new Set(columnNames).size).toBe(2);
@@ -152,7 +154,9 @@ describe("table with empty column header", () => {
 `;
   test("parsing", () => {
     expect(
-      serialize(MarkdownItSource.fromRaw(tableExample), { withStableIds: true })
+      serialize(MarkdownItSource.fromRaw(tableExample), {
+        withStableIds: true,
+      }),
     ).toMatchSnapshot();
   });
 
@@ -160,17 +164,17 @@ describe("table with empty column header", () => {
     let doc = MarkdownItSource.fromRaw(tableExample).withStableIds();
 
     expect(
-      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true }),
     ).toMatchSnapshot();
   });
 
   test("adjacent tables", () => {
     let doc = MarkdownItSource.fromRaw(
-      tableExample + "\n" + tableExample
+      tableExample + "\n" + tableExample,
     ).withStableIds();
 
     expect(
-      serialize(doc.convertTo(OffsetSource), { withStableIds: true })
+      serialize(doc.convertTo(OffsetSource), { withStableIds: true }),
     ).toMatchSnapshot();
   });
 });
@@ -178,7 +182,7 @@ describe("table with empty column header", () => {
 describe("links around images", () => {
   test("are converted to attributes on the image when the link wraps a single image", () => {
     let doc = CommonmarkSource.fromRaw(
-      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`
+      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -216,7 +220,7 @@ describe("links around images", () => {
 
   test("are kept separate when the link wraps text + image", () => {
     let doc = CommonmarkSource.fromRaw(
-      '[Linked text before the image !["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+      '[Linked text before the image !["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")',
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -260,7 +264,7 @@ describe("links around images", () => {
 
   test("are kept separate when the link wraps image + text", () => {
     let doc = CommonmarkSource.fromRaw(
-      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) Linked text after the image ](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) Linked text after the image ](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")',
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -304,7 +308,7 @@ describe("links around images", () => {
 
   test("are kept separate when the link wraps image + image", () => {
     let doc = CommonmarkSource.fromRaw(
-      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) !["Wild Puppy" by Philippe Vieux-Jeanton is marked with CC0 1.0](https://live.staticflickr.com/2933/14013137587_1ed8e8b012_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`
+      `[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg) !["Wild Puppy" by Philippe Vieux-Jeanton is marked with CC0 1.0](https://live.staticflickr.com/2933/14013137587_1ed8e8b012_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

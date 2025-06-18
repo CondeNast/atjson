@@ -5,7 +5,7 @@ import { TextSource } from "./text-source.test";
 describe("Document#convert", () => {
   test("sources without conversions throw errors", () => {
     let textDoc = TextSource.fromRaw("Hello, World!");
-    expect(() => textDoc.convertTo(TestSource)).toThrowError();
+    expect(() => textDoc.convertTo(TestSource)).toThrow();
   });
 
   test("sources with conversions are called", () => {
@@ -48,7 +48,7 @@ describe("Document#convert", () => {
       ],
     });
 
-    expect(() => testDoc.convertTo(TestSource)).toThrowError();
+    expect(() => testDoc.convertTo(TestSource)).toThrow();
   });
 
   test("conversion doesn't modify the original document", () => {

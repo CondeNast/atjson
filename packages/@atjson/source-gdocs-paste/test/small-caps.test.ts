@@ -65,7 +65,7 @@ describe("@atjson/source-gdocs-paste", () => {
       let fixturePath = path.join(
         __dirname,
         "fixtures",
-        "small-caps-shorthand.json"
+        "small-caps-shorthand.json",
       );
       let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
       let gdocs = GDocsSource.fromRaw(rawJSON);
@@ -74,15 +74,15 @@ describe("@atjson/source-gdocs-paste", () => {
 
     test("Uppercase text in a smaller font creates small caps", () => {
       let smallcapsAnnotations = doc.annotations.filter((annotation) =>
-        is(annotation, SmallCaps)
+        is(annotation, SmallCaps),
       );
 
       expect(smallcapsAnnotations.length).toBe(1);
       expect(
         doc.content.slice(
           smallcapsAnnotations[0].start,
-          smallcapsAnnotations[0].end
-        )
+          smallcapsAnnotations[0].end,
+        ),
       ).toBe("WHICH INDICATES");
     });
   });

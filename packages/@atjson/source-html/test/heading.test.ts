@@ -11,7 +11,7 @@ describe("Heading", () => {
     ["h6", 6],
   ])("%s", (tagname, level) => {
     let doc = HTMLSource.fromRaw(
-      `<${tagname}>Heading from ${tagname}</${tagname}>`
+      `<${tagname}>Heading from ${tagname}</${tagname}>`,
     ).convertTo(OffsetSource);
     expect(doc.where({ type: `-offset-heading` }).annotations).toMatchObject([
       { attributes: { level } },
@@ -36,12 +36,12 @@ describe("Heading", () => {
             "%s",
             (tagname) => {
               let doc = HTMLSource.fromRaw(
-                `<${tagname} style="text-align:${textAlign};" ${dir}>Heading from ${tagname}</${tagname}>`
+                `<${tagname} style="text-align:${textAlign};" ${dir}>Heading from ${tagname}</${tagname}>`,
               ).convertTo(OffsetSource);
               expect(
-                doc.where({ type: `-offset-heading` }).annotations
+                doc.where({ type: `-offset-heading` }).annotations,
               ).toMatchObject([{ attributes: { textAlignment } }]);
-            }
+            },
           );
         });
       });
@@ -61,10 +61,10 @@ describe("Heading", () => {
           (tagname) => {
             expect(() => {
               HTMLSource.fromRaw(
-                `<${tagname} style="text-align:${textAlign};" dir="rtl">Heading from ${tagname}</${tagname}>`
+                `<${tagname} style="text-align:${textAlign};" dir="rtl">Heading from ${tagname}</${tagname}>`,
               ).convertTo(OffsetSource);
             }).toThrow();
-          }
+          },
         );
       });
     });
@@ -75,12 +75,12 @@ describe("Heading", () => {
       "%s",
       (tagname) => {
         let doc = HTMLSource.fromRaw(
-          `<${tagname} id="test">Heading from ${tagname}</${tagname}>`
+          `<${tagname} id="test">Heading from ${tagname}</${tagname}>`,
         ).convertTo(OffsetSource);
         expect(
-          doc.where({ type: `-offset-heading` }).annotations
+          doc.where({ type: `-offset-heading` }).annotations,
         ).toMatchObject([{ attributes: { anchorName: "test" } }]);
-      }
+      },
     );
   });
 });

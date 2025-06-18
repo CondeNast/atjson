@@ -68,9 +68,9 @@ export class Collection {
       accumulator: T,
       currentValue: Annotation<any>,
       currentIndex: number,
-      array: Array<Annotation<any>>
+      array: Array<Annotation<any>>,
     ) => T,
-    initialValue: T
+    initialValue: T,
   ) {
     return this.annotations.reduce(reducer, initialValue);
   }
@@ -81,12 +81,12 @@ export class Collection {
   }
 
   where(
-    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean)
+    filter: { [key: string]: any } | ((annotation: Annotation<any>) => boolean),
   ) {
     if (filter instanceof Function) {
       return new AnnotationCollection(
         this.document,
-        this.annotations.filter(filter)
+        this.annotations.filter(filter),
       );
     }
 
@@ -109,11 +109,11 @@ export class Collection {
       return new AnnotationCollection(this.document, annotations);
     }
 
-    let annotations = this.annotations.filter(function jsonMatchesFilter(
-      annotation
-    ) {
-      return matches(annotation.toJSON(), filter);
-    });
+    let annotations = this.annotations.filter(
+      function jsonMatchesFilter(annotation) {
+        return matches(annotation.toJSON(), filter);
+      },
+    );
     return new AnnotationCollection(this.document, annotations);
   }
 
@@ -127,7 +127,7 @@ export class Collection {
       remove?: Array<Annotation<any>>;
       retain?: Array<Annotation<any>>;
       update?: Array<[Annotation, Annotation]>;
-    }
+    },
   ) {
     let newAnnotations: Array<Annotation<any>> = [];
 
@@ -139,7 +139,7 @@ export class Collection {
           newAnnotations.push(
             ...updateObject.update.map(function get1(a) {
               return a[1];
-            })
+            }),
           );
         if (updateObject.retain) newAnnotations.push(...updateObject.retain);
       }
@@ -167,7 +167,7 @@ export interface FlattenedRenaming {
 function flattenPropertyPaths(
   mapping: Renaming,
   options: { keys: boolean; values?: boolean },
-  prefix?: string
+  prefix?: string,
 ): FlattenedRenaming {
   let result: FlattenedRenaming = {};
   for (let key in mapping) {
@@ -184,7 +184,7 @@ function flattenPropertyPaths(
     } else {
       Object.assign(
         result,
-        flattenPropertyPaths(value, options, fullyQualifiedKey)
+        flattenPropertyPaths(value, options, fullyQualifiedKey),
       );
     }
   }
@@ -205,7 +205,7 @@ function without(object: any, attributes: string[]): any {
         object[key],
         activeAttributes.map(function removeFirstKey(attribute) {
           return attribute.split(".").slice(1).join(".");
-        })
+        }),
       );
     }
   }
@@ -307,7 +307,7 @@ export class NamedCollection<Left extends string> extends Collection {
   constructor(
     document: Document,
     annotations: Array<Annotation<any>>,
-    name: Left
+    name: Left,
   ) {
     super(document, annotations);
     this.name = name;
@@ -315,14 +315,14 @@ export class NamedCollection<Left extends string> extends Collection {
 
   outerJoin<Right extends string>(
     rightCollection: NamedCollection<Right>,
-    filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean
+    filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean,
   ): never | Join<Left, Right> {
     if (rightCollection.document !== this.document) {
       // n.b. there is a case that this is OK, if the RHS's document is null,
       // then we're just joining on annotations that shouldn't have positions in
       // the document.
       throw new Error(
-        "Joining annotations from two different documents is non-sensical. Refusing to continue."
+        "Joining annotations from two different documents is non-sensical. Refusing to continue.",
       );
     }
 
@@ -332,7 +332,7 @@ export class NamedCollection<Left extends string> extends Collection {
       let joinAnnotations = rightCollection.annotations.filter(
         function testJoinCandidates(rightAnnotation: Annotation<any>) {
           return filter(leftAnnotation, rightAnnotation);
-        }
+        },
       );
 
       type JoinItem = Record<Left, Annotation<any>> &
@@ -350,12 +350,12 @@ export class NamedCollection<Left extends string> extends Collection {
 
   join<Right extends string>(
     rightCollection: NamedCollection<Right>,
-    filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean
+    filter: (lhs: Annotation<any>, rhs: Annotation<any>) => boolean,
   ): never | Join<Left, Right> {
     return this.outerJoin(rightCollection, filter).where(
       function testRightCollectionLength(record) {
         return record[rightCollection.name].length > 0;
-      }
+      },
     );
   }
 }

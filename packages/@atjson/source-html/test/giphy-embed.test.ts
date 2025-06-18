@@ -4,7 +4,7 @@ import HTMLSource from "../src";
 
 test("GiphyEmbed", () => {
   let doc = HTMLSource.fromRaw(
-    `<iframe src="https://giphy.com/embed/13CoXDiaCcCoyk" width="480" height="398" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/wiggle-shaq-13CoXDiaCcCoyk">via GIPHY</a></p>`
+    `<iframe src="https://giphy.com/embed/13CoXDiaCcCoyk" width="480" height="398" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/wiggle-shaq-13CoXDiaCcCoyk">via GIPHY</a></p>`,
   ).convertTo(OffsetSource);
 
   expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

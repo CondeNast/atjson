@@ -7,7 +7,7 @@ describe("IframeEmbed", () => {
     let doc = HTMLSource.fromRaw(
       `<iframe src="//example.com"
         scrolling="no" frameborder="0"
-        allowTransparency="true" allow="encrypted-media"></iframe>`
+        allowTransparency="true" allow="encrypted-media"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -33,7 +33,7 @@ describe("IframeEmbed", () => {
     let doc = HTMLSource.fromRaw(
       `<iframe src="https://example.com"
         scrolling="no" frameborder="0"
-        allowTransparency="true" allow="encrypted-media" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>`
+        allowTransparency="true" allow="encrypted-media" sandbox="allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -64,7 +64,7 @@ describe("IframeEmbed", () => {
           height="232"
           frameborder="0"
           allowtransparency="true"
-          allow="encrypted-media"></iframe>`
+          allow="encrypted-media"></iframe>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -95,7 +95,7 @@ describe("IframeEmbed", () => {
           height="380"
           frameborder="0"
           allowtransparency="true"
-          allow="encrypted-media"></iframe>`
+          allow="encrypted-media"></iframe>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

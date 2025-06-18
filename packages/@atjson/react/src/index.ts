@@ -25,7 +25,7 @@ export default function Text(props: {
     let dataSets = new Map(
       doc.blocks
         .filter((block) => block.type === "data-set")
-        .map((dataSet) => [dataSet.id, dataSet.attributes as DataSetAttrs])
+        .map((dataSet) => [dataSet.id, dataSet.attributes as DataSetAttrs]),
     );
     return [createTree(doc), slices, dataSets] as const;
   }, [props.value]);
@@ -55,9 +55,9 @@ export default function Text(props: {
             map: tree,
             key: child.id,
           });
-        })
-      )
-    )
+        }),
+      ),
+    ),
   );
 }
 Text.displayName = "Text";
