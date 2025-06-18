@@ -17,7 +17,7 @@ export interface Transforms {
     styles: GDocsStyleSlice[],
     text: string,
     entityMap: GDocsEntityMap,
-    trailing?: GDocsStyleSlice
+    trailing?: GDocsStyleSlice,
   ) => AnnotationJSON[];
 }
 
@@ -53,7 +53,7 @@ export default class GDocsParser {
 
       if (transforms[type]) {
         annotations.push(
-          ...transforms[type](styles, this.getContent(), entityMap, trailing)
+          ...transforms[type](styles, this.getContent(), entityMap, trailing),
         );
       }
     }

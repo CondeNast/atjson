@@ -97,7 +97,7 @@ describe("DataSet", () => {
           },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(serialize(document, { withStableIds: true })).toMatchSnapshot();

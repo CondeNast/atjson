@@ -15,11 +15,11 @@ describe("Paragraph", () => {
           ["justify", TextAlignment.Justify],
         ] as const)("%s attribute is converted", (textAlign, textAlignment) => {
           let doc = HTMLSource.fromRaw(
-            `<p style="text-align:${textAlign};" ${dir}>Here is some text</p>`
+            `<p style="text-align:${textAlign};" ${dir}>Here is some text</p>`,
           ).convertTo(OffsetSource);
 
           expect(
-            doc.where({ type: `-offset-paragraph` }).annotations
+            doc.where({ type: `-offset-paragraph` }).annotations,
           ).toMatchObject([
             {
               attributes: {
@@ -40,7 +40,7 @@ describe("Paragraph", () => {
       ] as const)("%s attribute is converted", (textAlign) => {
         expect(() => {
           HTMLSource.fromRaw(
-            `<p style="text-align:${textAlign};" dir="rtl">Here is some text</p>`
+            `<p style="text-align:${textAlign};" dir="rtl">Here is some text</p>`,
           ).convertTo(OffsetSource);
         }).toThrow();
       });
@@ -49,7 +49,7 @@ describe("Paragraph", () => {
 
   test("fragment ids", () => {
     let doc = HTMLSource.fromRaw(
-      `<p id="test">Here is some text</p>`
+      `<p id="test">Here is some text</p>`,
     ).convertTo(OffsetSource);
 
     expect(doc.where({ type: `-offset-paragraph` }).annotations).toMatchObject([

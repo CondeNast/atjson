@@ -24,7 +24,7 @@ function prefix(vendorPrefix: string, attributes: any): any {
       }
       prefixedAttributes[`-${namespace}-${key}`] = prefix(
         vendorPrefix,
-        attributes[key]
+        attributes[key],
       );
     }
     return prefixedAttributes;
@@ -79,7 +79,7 @@ export default class PRISMSource extends Document {
           attributes: {
             reason: "<?xml>",
           },
-        })
+        }),
       );
     }
 
@@ -102,7 +102,7 @@ export default class PRISMSource extends Document {
             attributes: {
               reason: `<${node.name}/>`,
             },
-          })
+          }),
         );
       } else {
         partialAnnotations.push({
@@ -117,7 +117,7 @@ export default class PRISMSource extends Document {
             attributes: {
               reason: `<${node.name}>`,
             },
-          })
+          }),
         );
       }
     };
@@ -126,7 +126,7 @@ export default class PRISMSource extends Document {
       let annotation = partialAnnotations.pop();
       if (annotation == null) {
         throw new Error(
-          "Expected there to be an annotation from the opening tag, but got none."
+          "Expected there to be an annotation from the opening tag, but got none.",
         );
       }
 
@@ -148,7 +148,7 @@ export default class PRISMSource extends Document {
           attributes: {
             reason: `</${tagName}>`,
           },
-        })
+        }),
       );
     };
 

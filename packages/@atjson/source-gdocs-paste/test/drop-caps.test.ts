@@ -10,7 +10,7 @@ describe("@atjson/source-gdocs-paste drop caps", () => {
     let fixturePath = path.join(
       __dirname,
       "fixtures",
-      "drop-cap-shorthand.json"
+      "drop-cap-shorthand.json",
     );
     let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
     let gdocs = GDocsSource.fromRaw(rawJSON);

@@ -88,7 +88,7 @@ export class Join<Left extends string, Right extends string> {
     leftJoin: NamedCollection<Left>,
     joins: Array<
       Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
-    >
+    >,
   ) {
     this.leftJoin = leftJoin;
     this._joins = joins;
@@ -105,8 +105,8 @@ export class Join<Left extends string, Right extends string> {
   forEach(
     callback: (
       join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => void
+        Record<Right, Array<Annotation<any>>>,
+    ) => void,
   ) {
     this._joins.forEach(callback);
   }
@@ -135,15 +135,15 @@ export class Join<Left extends string, Right extends string> {
     filter: (
       lhs: Record<Left, Annotation<any>> &
         Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation<any>
-    ) => boolean
+      rhs: Annotation<any>,
+    ) => boolean,
   ): never | Join<Left, Right | J> {
     if (rightCollection.document !== this.leftJoin.document) {
       // n.b. there is a case that this is OK, if the right hand side's document is null,
       // then we're just joining on annotations that shouldn't have positions in
       // the document.
       throw new Error(
-        "Joining annotations from two different documents is non-sensical. Refusing to continue."
+        "Joining annotations from two different documents is non-sensical. Refusing to continue.",
       );
     }
 
@@ -153,7 +153,7 @@ export class Join<Left extends string, Right extends string> {
       let joinAnnotations = rightCollection.annotations.filter(
         (rightAnnotation: Annotation) => {
           return filter(join, rightAnnotation);
-        }
+        },
       );
 
       type JoinItem = Record<Left, Annotation<any>> &
@@ -173,25 +173,25 @@ export class Join<Left extends string, Right extends string> {
     filter: (
       lhs: Record<Left, Annotation<any>> &
         Record<Right, Array<Annotation<any>>>,
-      rhs: Annotation<any>
-    ) => boolean
+      rhs: Annotation<any>,
+    ) => boolean,
   ): never | Join<Left, Right | J> {
     return this.outerJoin(rightCollection, filter).where(
-      (record) => record[rightCollection.name].length > 0
+      (record) => record[rightCollection.name].length > 0,
     );
   }
 
   where(
     filter: (
       join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => boolean
+        Record<Right, Array<Annotation<any>>>,
+    ) => boolean,
   ): Join<Left, Right> {
     return new Join<Left, Right>(this.leftJoin, this._joins.filter(filter));
   }
 
   push(
-    join: Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>
+    join: Record<Left, Annotation<any>> & Record<Right, Array<Annotation<any>>>,
   ) {
     this._joins.push(join);
   }
@@ -199,8 +199,8 @@ export class Join<Left extends string, Right extends string> {
   update(
     callback: (
       join: Record<Left, Annotation<any>> &
-        Record<Right, Array<Annotation<any>>>
-    ) => void
+        Record<Right, Array<Annotation<any>>>,
+    ) => void,
   ) {
     this._joins.forEach(callback);
   }

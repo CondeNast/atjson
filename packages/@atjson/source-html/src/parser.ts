@@ -97,7 +97,7 @@ export default class Parser {
         attributes: { reason },
         start: start - this.offset,
         end: end - this.offset,
-      })
+      }),
     );
     this.content += this.html.slice(start, end);
     return end - this.offset;
@@ -147,7 +147,7 @@ export default class Parser {
           attributes: { reason: `<${tagName}/>` },
           start,
           end,
-        })
+        }),
       );
 
       // Handle `<!DOCTYPE html>` gracefully

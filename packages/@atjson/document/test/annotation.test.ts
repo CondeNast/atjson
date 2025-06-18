@@ -1,5 +1,5 @@
 import { is } from "@atjson/document";
-import TestSource, { Anchor, Bold } from "./test-source";
+import { Anchor, Bold } from "./test-source";
 
 describe("Annotation", () => {
   describe("is", () => {
@@ -112,13 +112,13 @@ describe("Annotation", () => {
 
       expect(
         leftHandSideTestDoc.annotations[0].equals(
-          rightHandSideTestDoc.annotations[0]
-        )
+          rightHandSideTestDoc.annotations[0],
+        ),
       ).toBe(true);
       expect(
         leftHandSideTestDoc.annotations[0].equals(
-          unequalRightHandSideTestDoc.annotations[0]
-        )
+          unequalRightHandSideTestDoc.annotations[0],
+        ),
       ).toBe(false);
     });
   });

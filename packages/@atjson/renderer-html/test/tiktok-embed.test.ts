@@ -22,7 +22,7 @@ describe("TiktokEmbed", () => {
     });
 
     expect(Renderer.render(doc)).toEqual(
-      `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`
+      `<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@vogueitalia/video/6771026615137750277" data-video-id="6771026615137750277" style="max-width: 605px;min-width: 325px;"><section><a target="_blank" title="@vogueitalia" href="https://www.tiktok.com/@vogueitalia">@vogueitalia</a></section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>`,
     );
   });
 
@@ -121,9 +121,9 @@ describe("TiktokEmbed", () => {
         ],
 
         text: "￼￼ @teenvogue The Swish Alps emoji is sending me 😭 The cast of RuPaul’s Drag Race S16 describe the season in 3 emojis 🪩 #rupaul #rupaulsdragrace #drag #dragqueen ♬ Trilha de Desfile - Beatdohostil  ",
-      })
+      }),
     ).toMatchInlineSnapshot(
-      `"<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/7361091431944965419" data-video-id="7361091431944965419" style="max-width: 605px;min-width: 325px;"><section> <a href="https://www.tiktok.com/@teenvogue?refer=embed" title="@teenvogue" target="_blank">@teenvogue</a> The Swish Alps emoji is sending me 😭 The cast of RuPaul’s Drag Race S16 describe the season in 3 emojis 🪩 <a href="https://www.tiktok.com/tag/rupaul?refer=embed" title="rupaul" target="_blank">#rupaul</a> <a href="https://www.tiktok.com/tag/rupaulsdragrace?refer=embed" title="rupaulsdragrace" target="_blank">#rupaulsdragrace</a> <a href="https://www.tiktok.com/tag/drag?refer=embed" title="drag" target="_blank">#drag</a> <a href="https://www.tiktok.com/tag/dragqueen?refer=embed" title="dragqueen" target="_blank">#dragqueen</a> <a href="https://www.tiktok.com/music/Trilha-de-Desfile-7268337112642193410?refer=embed" title="&#x266c; Trilha de Desfile - Beatdohostil" target="_blank">♬ Trilha de Desfile - Beatdohostil</a>  </section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>"`
+      `"<blockquote class="tiktok-embed" cite="https://www.tiktok.com/@teenvogue/video/7361091431944965419" data-video-id="7361091431944965419" style="max-width: 605px;min-width: 325px;"><section> <a href="https://www.tiktok.com/@teenvogue?refer=embed" title="@teenvogue" target="_blank">@teenvogue</a> The Swish Alps emoji is sending me 😭 The cast of RuPaul’s Drag Race S16 describe the season in 3 emojis 🪩 <a href="https://www.tiktok.com/tag/rupaul?refer=embed" title="rupaul" target="_blank">#rupaul</a> <a href="https://www.tiktok.com/tag/rupaulsdragrace?refer=embed" title="rupaulsdragrace" target="_blank">#rupaulsdragrace</a> <a href="https://www.tiktok.com/tag/drag?refer=embed" title="drag" target="_blank">#drag</a> <a href="https://www.tiktok.com/tag/dragqueen?refer=embed" title="dragqueen" target="_blank">#dragqueen</a> <a href="https://www.tiktok.com/music/Trilha-de-Desfile-7268337112642193410?refer=embed" title="&#x266c; Trilha de Desfile - Beatdohostil" target="_blank">♬ Trilha de Desfile - Beatdohostil</a>  </section></blockquote><script async src="https://www.tiktok.com/embed.js"></script>"`,
     );
   });
 });

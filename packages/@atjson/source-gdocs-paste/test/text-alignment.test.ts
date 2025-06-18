@@ -12,7 +12,7 @@ describe("@atjson/source-gdocs-paste", () => {
         let fixturePath = path.join(
           __dirname,
           "fixtures",
-          "heading-alignment.json"
+          "heading-alignment.json",
         );
         let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
         let gdocs = GDocsSource.fromRaw(rawJSON);
@@ -27,7 +27,7 @@ describe("@atjson/source-gdocs-paste", () => {
               type: "-offset-heading",
               attributes: { "-offset-level": 1 },
             })
-            .toJSON()
+            .toJSON(),
         ).toMatchObject([
           {
             type: "-offset-heading",
@@ -45,7 +45,7 @@ describe("@atjson/source-gdocs-paste", () => {
               type: "-offset-heading",
               attributes: { "-offset-level": 2 },
             })
-            .toJSON()
+            .toJSON(),
         ).toMatchObject([
           {
             type: "-offset-heading",
@@ -66,7 +66,7 @@ describe("@atjson/source-gdocs-paste", () => {
               type: "-offset-heading",
               attributes: { "-offset-level": 3 },
             })
-            .toJSON()
+            .toJSON(),
         ).toMatchObject([
           {
             type: "-offset-heading",
@@ -87,7 +87,7 @@ describe("@atjson/source-gdocs-paste", () => {
               type: "-offset-heading",
               attributes: { "-offset-level": 4 },
             })
-            .toJSON()
+            .toJSON(),
         ).toMatchObject([
           {
             type: "-offset-heading",
@@ -110,7 +110,7 @@ describe("@atjson/source-gdocs-paste", () => {
       let fixturePath = path.join(
         __dirname,
         "fixtures",
-        "paragraph-alignment.json"
+        "paragraph-alignment.json",
       );
       let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
       let gdocs = GDocsSource.fromRaw(rawJSON);
@@ -167,7 +167,7 @@ describe("@atjson/source-gdocs-paste", () => {
       let fixturePath = path.join(
         __dirname,
         "fixtures",
-        "rtl-paragraph-alignment.json"
+        "rtl-paragraph-alignment.json",
       );
       let rawJSON = JSON.parse(fs.readFileSync(fixturePath).toString());
       let gdocs = GDocsSource.fromRaw(rawJSON);

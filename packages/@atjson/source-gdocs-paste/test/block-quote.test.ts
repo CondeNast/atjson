@@ -19,7 +19,7 @@ describe("@atjson/source-gdocs-paste blockquotes", () => {
 
     let [bq] = blockquotes;
     expect(doc.content.slice(bq.start, bq.end)).toBe(
-      "This paragraph is indented, indicating a block quote"
+      "This paragraph is indented, indicating a block quote",
     );
   });
 });

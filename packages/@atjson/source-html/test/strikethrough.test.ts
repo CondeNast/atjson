@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("Strikethrough", () => {
   test.each(["s", "del"])("%s", (tagName) => {
     let doc = HTMLSource.fromRaw(
-      `This <${tagName}>text</${tagName}> is <${tagName}>struck</${tagName}>`
+      `This <${tagName}>text</${tagName}> is <${tagName}>struck</${tagName}>`,
     ).convertTo(OffsetSource);
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFCThis text is struck",
