@@ -3,7 +3,7 @@ import WPShortcodeSource from "../src";
 describe("@atjson/source-wordpress-shortcode", () => {
   test("single shortcodes", () => {
     let doc = WPShortcodeSource.fromRaw(
-      `[gallery id="123" size="medium"]`
+      `[gallery id="123" size="medium"]`,
     ).canonical();
     expect(doc).toMatchObject({
       content: "",
@@ -27,7 +27,7 @@ describe("@atjson/source-wordpress-shortcode", () => {
 
   test("numeric attrs", () => {
     let doc = WPShortcodeSource.fromRaw(
-      `[happy "happy" 'joy' joy]`
+      `[happy "happy" 'joy' joy]`,
     ).canonical();
     expect(doc).toMatchObject({
       content: "",
@@ -73,7 +73,7 @@ describe("@atjson/source-wordpress-shortcode", () => {
 
   test("closed shortcodes", () => {
     let doc = WPShortcodeSource.fromRaw(
-      `[caption id="attachment_6" align="alignright" width="300"]<img src="http://localhost/wp-content/uploads/2010/07/800px-Great_Wave_off_Kanagawa2-300x205.jpg" alt="Kanagawa" title="The Great Wave" width="300" height="205" class="size-medium wp-image-6" /> The Great Wave[/caption]`
+      `[caption id="attachment_6" align="alignright" width="300"]<img src="http://localhost/wp-content/uploads/2010/07/800px-Great_Wave_off_Kanagawa2-300x205.jpg" alt="Kanagawa" title="The Great Wave" width="300" height="205" class="size-medium wp-image-6" /> The Great Wave[/caption]`,
     ).canonical();
     expect(doc).toMatchObject({
       content: `<img src="http://localhost/wp-content/uploads/2010/07/800px-Great_Wave_off_Kanagawa2-300x205.jpg" alt="Kanagawa" title="The Great Wave" width="300" height="205" class="size-medium wp-image-6" /> The Great Wave`,
@@ -107,6 +107,6 @@ describe("@atjson/source-wordpress-shortcode", () => {
         content: code,
         annotations: [],
       });
-    }
+    },
   );
 });

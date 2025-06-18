@@ -104,7 +104,7 @@ function parseRange(range: Range) {
 function serializeRange(
   start: number,
   end: number,
-  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour }
+  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour },
 ) {
   return `${
     edgeBehaviour.leading === EdgeBehaviour.preserve ? "(" : "["
@@ -198,8 +198,8 @@ export function sortTokens(a: SortableToken, b: SortableToken) {
   return a.annotation.type > b.annotation.type
     ? multiplier * -1
     : a.annotation.type < b.annotation.type
-    ? multiplier
-    : 0;
+      ? multiplier
+      : 0;
 }
 
 function sortMarks(a: Mark, b: Mark) {
@@ -243,7 +243,7 @@ export function serialize(
     withStableIds?: boolean;
     includeBlockRanges?: boolean;
     onUnknown?: "warn" | "throw" | "ignore";
-  }
+  },
 ): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
   // as blocks in this format. Blocks are aligned
@@ -303,8 +303,8 @@ export function serialize(
     let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
       ? [TokenType.PARSE_START, TokenType.PARSE_END]
       : isBlockAnnotation || isObjectAnnotation
-      ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
-      : [TokenType.MARK_START, TokenType.MARK_END];
+        ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
+        : [TokenType.MARK_START, TokenType.MARK_END];
     let edgeBehaviour = annotation.getAnnotationConstructor().edgeBehaviour;
     let shared = { start: -1 };
     if (
@@ -337,7 +337,7 @@ export function serialize(
           shared,
           selfClosing: isObjectAnnotation,
           edgeBehaviour,
-        }
+        },
       );
     }
     if (annotation instanceof UnknownAnnotation) {
@@ -352,7 +352,7 @@ export function serialize(
     let info = `Unknown annotations were found:\n${unknown
       .map(
         (annotation) =>
-          `- ${annotation.attributes.type}[${annotation.start}..${annotation.end}]`
+          `- ${annotation.attributes.type}[${annotation.start}..${annotation.end}]`,
       )
       .join("\n")}`;
 
@@ -506,7 +506,7 @@ export function serialize(
         } else {
           stack.splice(
             stack.findIndex((t) => t.annotation.id === token.annotation.id),
-            1
+            1,
           );
         }
         break;
@@ -547,7 +547,7 @@ export function serialize(
         throw new Error(
           `Text contains reserved character +uFFFC at index ${
             lastIndex + reservedCharacterIndex
-          }.\n\n${doc.content.slice(start, end)}\n${" ".repeat(index - start)}^`
+          }.\n\n${doc.content.slice(start, end)}\n${" ".repeat(index - start)}^`,
         );
       }
       text += chunk;
@@ -583,7 +583,7 @@ export function serialize(
             block.range = serializeRange(
               token.shared.start,
               text.length,
-              token.edgeBehaviour
+              token.edgeBehaviour,
             );
           }
         }
@@ -605,7 +605,7 @@ export function serialize(
           range: serializeRange(
             token.shared.start,
             text.length,
-            token.edgeBehaviour
+            token.edgeBehaviour,
           ),
           attributes,
         });
@@ -680,7 +680,7 @@ export function serialize(
 function offsetsForBlock<A>(
   blocks: Block<A>[],
   index: number,
-  positions: number[]
+  positions: number[],
 ) {
   let start = index;
   let block = blocks[index];
@@ -720,7 +720,7 @@ function offsetsForBlock<A>(
 
 function schemaForItem<A>(
   item: Mark<A> | Block<A>,
-  DocumentClass: typeof Document
+  DocumentClass: typeof Document,
 ): AnnotationConstructor<any, any> | null {
   let schema = DocumentClass.schema;
   if (item.type === "slice") {
@@ -739,7 +739,7 @@ function schemaForItem<A>(
 
 export function deserialize<A>(
   json: { text: string; blocks?: Block<A>[]; marks?: Mark<A>[] },
-  DocumentClass: typeof Document
+  DocumentClass: typeof Document,
 ) {
   let annotations: Annotation<any>[] = [];
   let blocks = json.blocks ?? [];
@@ -761,7 +761,7 @@ export function deserialize<A>(
       new ParseAnnotation({
         start: positions[i],
         end: positions[i] + 1,
-      })
+      }),
     );
     if (AnnotationClass === null) {
       annotations.push(
@@ -772,7 +772,7 @@ export function deserialize<A>(
             type: block.type,
             attributes: block.attributes as any,
           },
-        })
+        }),
       );
     } else {
       annotations.push(
@@ -780,7 +780,7 @@ export function deserialize<A>(
           id: block.id,
           ...position,
           attributes: block.attributes,
-        })
+        }),
       );
     }
   }
@@ -798,7 +798,7 @@ export function deserialize<A>(
             type: mark.type,
             attributes: mark.attributes as any,
           },
-        })
+        }),
       );
     } else {
       annotations.push(
@@ -807,7 +807,7 @@ export function deserialize<A>(
           start,
           end,
           attributes: mark.attributes,
-        })
+        }),
       );
     }
   }

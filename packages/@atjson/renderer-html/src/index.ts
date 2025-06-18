@@ -87,7 +87,7 @@ export default class HTMLRenderer extends Renderer {
 
     if (htmlAttributes.length) {
       return `<${tagName} ${htmlAttributes.join(" ")}>${innerHTML.join(
-        ""
+        "",
       )}</${tagName}>`;
     }
 
@@ -170,7 +170,7 @@ export default class HTMLRenderer extends Renderer {
       class: "ceros-experience",
       scrolling: "no",
     }).join(
-      " "
+      " ",
     )}></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>`;
   }
 
@@ -372,7 +372,7 @@ export default class HTMLRenderer extends Renderer {
       width: "400",
       allowfullscreen: "allowfullscreen",
     }).join(
-      " "
+      " ",
     )}></iframe><script src="https://${domain}/embed.js" async="async"></script>`;
   }
 
@@ -394,7 +394,7 @@ export default class HTMLRenderer extends Renderer {
     } else {
       return `<iframe ${[
         `src="https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(
-          embed.attributes.url
+          embed.attributes.url,
         )}&width=500"`,
         ...this.htmlAttributes({
           id: embed.attributes.anchorName,
@@ -434,7 +434,7 @@ export default class HTMLRenderer extends Renderer {
 
   *Table(table: Block<Table>, context: Context) {
     const dataSet = context.document.blocks.find((block) =>
-      block.id.includes(table.attributes.dataSet)
+      block.id.includes(table.attributes.dataSet),
     ) as Block<DataSet> | undefined;
 
     if (!dataSet) {
@@ -443,7 +443,7 @@ export default class HTMLRenderer extends Renderer {
        */
 
       throw new Error(
-        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`
+        `table ${table.id} references nonexistent dataset ${table.attributes.dataSet}`,
       );
     }
 
@@ -459,7 +459,7 @@ export default class HTMLRenderer extends Renderer {
             throw new Error(
               `Table ${table.id} ${
                 table.range || ""
-              } could not find column heading slice for ${name} ${sliceId}`
+              } could not find column heading slice for ${name} ${sliceId}`,
             );
           }
 
@@ -492,8 +492,8 @@ export default class HTMLRenderer extends Renderer {
               }: document slice not found for column ${name} in row ${JSON.stringify(
                 record,
                 null,
-                2
-              )}`
+                2,
+              )}`,
             );
           }
         }

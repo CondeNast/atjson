@@ -5,7 +5,7 @@ describe("@atjson/source-html", () => {
   describe("parser", () => {
     test("leading space parsed correctly", () => {
       expect(
-        serialize(HTMLSource.fromRaw(" leading <strong>whitespace</strong>"))
+        serialize(HTMLSource.fromRaw(" leading <strong>whitespace</strong>")),
       ).toMatchObject({
         text: "\uFFFC leading whitespace",
         marks: [
@@ -19,7 +19,7 @@ describe("@atjson/source-html", () => {
 
     test("leading tab parsed correctly", () => {
       let doc = HTMLSource.fromRaw(
-        "\tleading <strong>whitespace</strong>"
+        "\tleading <strong>whitespace</strong>",
       ).canonical();
       expect(doc).toMatchObject({
         content: "\tleading whitespace",
@@ -95,7 +95,7 @@ describe("@atjson/source-html", () => {
 
     test("annotation wraps unclosed tags", () => {
       let doc = HTMLSource.fromRaw(
-        "<p>Paragraph with no closing<p>New paragraph</p>"
+        "<p>Paragraph with no closing<p>New paragraph</p>",
       );
 
       expect(doc.annotations.sort()).toMatchObject([
@@ -125,7 +125,7 @@ describe("@atjson/source-html", () => {
 
   test("dataset", () => {
     let doc = HTMLSource.fromRaw(
-      '<div class="spaceship" data-ship-id="92432" data-weapons="kittens"></div>'
+      '<div class="spaceship" data-ship-id="92432" data-weapons="kittens"></div>',
     );
     expect(doc.where({ type: "-html-div" }).toJSON()).toMatchObject([
       {
@@ -143,7 +143,7 @@ describe("@atjson/source-html", () => {
 
   test("pre-code", () => {
     let doc = HTMLSource.fromRaw(
-      "<pre><code>this <b>is</b> a test</code></pre>"
+      "<pre><code>this <b>is</b> a test</code></pre>",
     );
 
     // This is weird, but follows the HTML spec in terms
@@ -259,7 +259,7 @@ describe("@atjson/source-html", () => {
 
   test('<p><img src="/url" alt="Foo" title="title" /></p>', () => {
     let doc = HTMLSource.fromRaw(
-      '<p><img src="/url" alt="Foo" title="title" /></p>'
+      '<p><img src="/url" alt="Foo" title="title" /></p>',
     );
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFC\uFFFC",
@@ -309,7 +309,7 @@ describe("@atjson/source-html", () => {
 
   test("entities in attributes", () => {
     let doc = HTMLSource.fromRaw(
-      `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`
+      `<a href="https://example.com?q=this%20is%20a%20search" title="&quot;test&quot; &lt;tag&gt;">Test</a>`,
     );
     expect(doc.canonical()).toMatchObject({
       content: "Test",
@@ -329,7 +329,7 @@ describe("@atjson/source-html", () => {
 
   test('<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>', () => {
     let doc = HTMLSource.fromRaw(
-      '<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>'
+      '<a href="https://en.wiktionary.org/wiki/%E6%97%A5%E6%9C%AC%E4%BA%BA">&#x65E5;&#x672C;&#x4EBA;</a>',
     );
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFC日本人",
@@ -348,7 +348,7 @@ describe("@atjson/source-html", () => {
 
   test('<!DOCTYPE html><html lang="en"><body>Hello</body></html>', () => {
     let doc = HTMLSource.fromRaw(
-      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>',
     );
 
     expect([...doc.where({ type: "-html-body" })]).toMatchObject([
@@ -358,7 +358,7 @@ describe("@atjson/source-html", () => {
       },
     ]);
     expect(doc.content).toEqual(
-      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+      '<!DOCTYPE html><html lang="en"><body>Hello</body></html>',
     );
 
     let canonical = doc.canonical();
@@ -382,7 +382,7 @@ describe("@atjson/source-html", () => {
 
   test('  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>', () => {
     let doc = HTMLSource.fromRaw(
-      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>',
     );
 
     expect([...doc.where({ type: "-html-body" })]).toMatchObject([
@@ -392,7 +392,7 @@ describe("@atjson/source-html", () => {
       },
     ]);
     expect(doc.content).toEqual(
-      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>'
+      '  \t<!DOCTYPE html><html lang="en"><body>Hello</body></html>',
     );
 
     let canonical = doc.canonical();

@@ -31,7 +31,7 @@ function getColor(rank: number) {
 function generateGraph(
   hirNode: HIRNode,
   edges: Array<[Node, Node]>,
-  nodes: Node[]
+  nodes: Node[],
 ): Node {
   let children = hirNode.children({ includeParseTokens: true });
   let text = hirNode.type;
@@ -63,14 +63,14 @@ export interface GraphvizOptions {
 function makeNodeString(node: Node) {
   return `  ${node.id} [label="${node.label}\\n${node.text.replace(
     /"/g,
-    '\\"'
+    '\\"',
   )}" ${node.color}];`;
 }
 
 function makeNodeStringRecord(node: Node) {
   return `  ${node.id} [label="{${node.label}|${node.text.replace(
     /"/g,
-    '\\"'
+    '\\"',
   )}}" ${node.color}];`;
 }
 
@@ -81,7 +81,7 @@ function makeEdgeString([parent, child]: Node[]) {
 export default class GraphvizRenderer {
   static render(
     document: Document,
-    options: GraphvizOptions = { shape: "oval" }
+    options: GraphvizOptions = { shape: "oval" },
   ): string {
     let edges: Array<[Node, Node]> = [];
     let nodes: Node[] = [];

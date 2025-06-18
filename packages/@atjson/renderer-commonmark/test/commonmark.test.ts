@@ -14,7 +14,7 @@ describe("commonmark", () => {
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "Some text that is both **bold *and*** *italic* plus something after."
+      "Some text that is both **bold *and*** *italic* plus something after.",
     );
   });
 
@@ -44,7 +44,7 @@ describe("commonmark", () => {
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "![Image descriptions \\\\![are escaped]\\\\(example.jpg)](http://commonmark.org/images/markdown-mark.png)"
+      "![Image descriptions \\\\![are escaped]\\\\(example.jpg)](http://commonmark.org/images/markdown-mark.png)",
     );
   });
 
@@ -71,9 +71,9 @@ describe("commonmark", () => {
         ],
 
         marks: [],
-      })
+      }),
     ).toBe(
-      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")',
     );
   });
 
@@ -112,9 +112,9 @@ describe("commonmark", () => {
             },
           },
         ],
-      })
+      }),
     ).toBe(
-      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")'
+      '[!["Cute As a Puppy" by cogdogblog is marked with CC0 1.0.](https://live.staticflickr.com/1238/916815136_41e5571707_b.jpg)](https://openverse.org/image/63744ab3-8b2e-4892-a218-5c50943b45b3 "Cute as a Puppy | Openverse")',
     );
   });
 
@@ -149,7 +149,7 @@ describe("commonmark", () => {
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "A paragraph with some **bold**\n\n**text** that continues into the next.\n\n"
+      "A paragraph with some **bold**\n\n**text** that continues into the next.\n\n",
     );
   });
 
@@ -300,7 +300,7 @@ describe("commonmark", () => {
 
 After all the lists
 
-`
+`,
     );
   });
 
@@ -346,7 +346,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "Sentence ending in *italic* 1\\. New sentence"
+      "Sentence ending in *italic* 1\\. New sentence",
     );
   });
 
@@ -368,7 +368,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "I have a [link](https://example.com)"
+        "I have a [link](https://example.com)",
       );
     });
 
@@ -389,7 +389,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "I have a [link](https://example.com) with flanking whitespace"
+        "I have a [link](https://example.com) with flanking whitespace",
       );
     });
   });
@@ -410,7 +410,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "> This is a quote\n> \n> That has some\n> lines in it.\n\n"
+        "> This is a quote\n> \n> That has some\n> lines in it.\n\n",
       );
     });
 
@@ -443,7 +443,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "> This is a quote\n\nAnd this is not.\n\n"
+        "> This is a quote\n\nAnd this is not.\n\n",
       );
     });
 
@@ -476,7 +476,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "> This is a quote\n\nAnd this is not.\n\n"
+        "> This is a quote\n\nAnd this is not.\n\n",
       );
     });
 
@@ -530,7 +530,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "This is some text\n\n> This is a quote\n\nAnd this is not.\n\n"
+        "This is some text\n\n> This is a quote\n\nAnd this is not.\n\n",
       );
     });
   });
@@ -633,7 +633,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "This is **bold** text and a [link](https://example.com)."
+      "This is **bold** text and a [link](https://example.com).",
     );
   });
 
@@ -701,7 +701,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "***bold then italic*** ***italic then bold***"
+      "***bold then italic*** ***italic then bold***",
     );
   });
 
@@ -826,7 +826,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "**bold**_then italic_\n\n_italic_**then bold**\n\n"
+      "**bold**_then italic_\n\n_italic_**then bold**\n\n",
     );
   });
 
@@ -864,11 +864,11 @@ After all the lists
           },
         ],
       },
-      OffsetSource
+      OffsetSource,
     );
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "***Space***__: the final frontier__"
+      "***Space***__: the final frontier__",
     );
   });
 
@@ -896,7 +896,7 @@ After all the lists
         let doc = new OffsetSource({ content: unicode, annotations: [] });
         expect(CommonmarkRenderer.render(doc)).toBe(entity);
         expect(
-          CommonmarkRenderer.render(doc, { escapeHtmlEntities: false })
+          CommonmarkRenderer.render(doc, { escapeHtmlEntities: false }),
         ).toBe(entity);
       });
     });
@@ -910,7 +910,7 @@ After all the lists
       test("<", () => {
         let doc = new OffsetSource({ content: "<", annotations: [] });
         expect(
-          CommonmarkRenderer.render(doc, { escapeHtmlEntities: false })
+          CommonmarkRenderer.render(doc, { escapeHtmlEntities: false }),
         ).toBe("<");
       });
 
@@ -939,7 +939,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "a—*italic*—non-italic"
+          "a—*italic*—non-italic",
         );
       });
 
@@ -959,7 +959,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "[link.](https://some-url.com)a"
+          "[link.](https://some-url.com)a",
         );
       });
 
@@ -1125,7 +1125,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "a—*(italic*)non-italic"
+          "a—*(italic*)non-italic",
         );
       });
 
@@ -1145,7 +1145,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "*italic*\\]non-italic"
+          "*italic*\\]non-italic",
         );
       });
 
@@ -1165,7 +1165,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "*italic\\\\*\\]non-italic"
+          "*italic\\\\*\\]non-italic",
         );
       });
 
@@ -1185,7 +1185,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "*italic.*.non-italic"
+          "*italic.*.non-italic",
         );
       });
 
@@ -1223,7 +1223,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "a&*\\}italic&*\\]non-italic"
+          "a&*\\}italic&*\\]non-italic",
         );
       });
 
@@ -1344,7 +1344,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "**bold**_, then italic_\n\n_italic_**, then bold**\n\n"
+          "**bold**_, then italic_\n\n_italic_**, then bold**\n\n",
         );
       });
     });
@@ -1365,7 +1365,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          " *—italic—* non-italic"
+          " *—italic—* non-italic",
         );
       });
 
@@ -1385,7 +1385,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "  *—italic—*  non-italic"
+          "  *—italic—*  non-italic",
         );
       });
     });
@@ -1413,7 +1413,7 @@ After all the lists
         });
 
         expect(CommonmarkRenderer.render(document)).toBe(
-          "*—italic*—a—**bold—**"
+          "*—italic*—a—**bold—**",
         );
       });
 
@@ -1459,7 +1459,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "Some formatting on empty spaces"
+      "Some formatting on empty spaces",
     );
   });
 
@@ -1506,7 +1506,7 @@ After all the lists
     });
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "&nbsp;\n\n**text**\n\n\u202F"
+      "&nbsp;\n\n**text**\n\n\u202F",
     );
   });
 
@@ -1579,13 +1579,13 @@ After all the lists
     let markdown = CommonmarkRenderer.render(document);
 
     expect(CommonmarkRenderer.render(document)).toBe(
-      "Hello\n\nThis is my text\n\n"
+      "Hello\n\nThis is my text\n\n",
     );
     // Make sure we're not generating code in the round-trip
     expect(markdown).toEqual(
       CommonmarkRenderer.render(
-        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)
-      )
+        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource),
+      ),
     );
   });
 
@@ -1613,13 +1613,13 @@ After all the lists
     let markdown = CommonmarkRenderer.render(document);
 
     expect(markdown).toBe(
-      "&emsp;&emsp;&emsp;&emsp;Hello\n\nThis is my text\n\n"
+      "&emsp;&emsp;&emsp;&emsp;Hello\n\nThis is my text\n\n",
     );
     // Make sure we're not generating code in the round-trip
     expect(markdown).toEqual(
       CommonmarkRenderer.render(
-        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource)
-      )
+        CommonmarkSource.fromRaw(markdown).convertTo(OffsetSource),
+      ),
     );
   });
 
@@ -1634,7 +1634,7 @@ After all the lists
           });
 
           expect(CommonmarkRenderer.render(document)).toBe(text);
-        }
+        },
       );
     });
 
@@ -1678,11 +1678,11 @@ After all the lists
             },
           ],
         },
-        OffsetSource
+        OffsetSource,
       );
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "**タイトルですにします太字**。而\n\n"
+        "**タイトルですにします太字**。而\n\n",
       );
     });
 
@@ -1702,7 +1702,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです***にします太字***"
+        "タイトルです***にします太字***",
       );
     });
 
@@ -1722,7 +1722,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです***にします太字***"
+        "タイトルです***にします太字***",
       );
     });
 
@@ -1742,7 +1742,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです**にし**_ます太字_"
+        "タイトルです**にし**_ます太字_",
       );
     });
 
@@ -1762,7 +1762,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです***にし**ます太字*"
+        "タイトルです***にし**ます太字*",
       );
     });
 
@@ -1782,7 +1782,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです*にし**ます太字***"
+        "タイトルです*にし**ます太字***",
       );
     });
 
@@ -1796,7 +1796,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです***にし*ます太字**"
+        "タイトルです***にし*ます太字**",
       );
     });
 
@@ -1816,7 +1816,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです**にし*ます太字***"
+        "タイトルです**にし*ます太字***",
       );
     });
 
@@ -1836,7 +1836,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです**にし*ます*太字**"
+        "タイトルです**にし*ます*太字**",
       );
     });
 
@@ -1856,7 +1856,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "タイトルです*にし**ます**太字*"
+        "タイトルです*にし**ます**太字*",
       );
     });
   });
@@ -1978,7 +1978,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toBe(
-        "Testing  \n  \nOne Another  \n"
+        "Testing  \n  \nOne Another  \n",
       );
     });
 
@@ -2228,7 +2228,7 @@ After all the lists
       });
 
       expect(CommonmarkRenderer.render(document)).toEqual(
-        "Normal text, &emsp;Indented text\nMore text, &emsp;&emsp;&emsp;Also indented"
+        "Normal text, &emsp;Indented text\nMore text, &emsp;&emsp;&emsp;Also indented",
       );
     });
   });

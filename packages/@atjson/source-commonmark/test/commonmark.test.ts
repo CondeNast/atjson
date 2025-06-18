@@ -120,9 +120,9 @@ describe("images", () => {
     expect(
       serialize(
         CommonMarkSource.fromRaw(
-          "![Markdown **is stripped** from *this*](test.jpg)"
-        )
-      )
+          "![Markdown **is stripped** from *this*](test.jpg)",
+        ),
+      ),
     ).toMatchObject({
       text: "\uFFFC\uFFFC",
       blocks: [
@@ -144,7 +144,7 @@ describe("images", () => {
 
   test("title", () => {
     expect(
-      serialize(CommonMarkSource.fromRaw('![](test.jpg "Title of test.jpg")'))
+      serialize(CommonMarkSource.fromRaw('![](test.jpg "Title of test.jpg")')),
     ).toMatchObject({
       text: "\uFFFC\uFFFC",
       blocks: [

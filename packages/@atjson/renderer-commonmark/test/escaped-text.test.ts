@@ -21,11 +21,11 @@ describe("commonmark", () => {
         annotations: [new Paragraph({ start: 0, end: content.length })],
       });
       let roundTrip = CommonmarkSource.fromRaw(
-        CommonmarkRenderer.render(document)
+        CommonmarkRenderer.render(document),
       ).convertTo(OffsetSource);
 
       expect(document.equals(roundTrip)).toBe(true);
-    }
+    },
   );
 
   test.each([
@@ -46,7 +46,7 @@ describe("commonmark", () => {
         ],
         marks: [],
       },
-      OffsetSource
+      OffsetSource,
     );
     expect(CommonmarkRenderer.render(document)).toBe(md);
   });

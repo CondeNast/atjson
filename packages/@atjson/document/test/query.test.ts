@@ -323,7 +323,7 @@ describe("Document#where", () => {
             start: code.start,
             end: code.end,
             attributes: {},
-          }
+          },
         );
 
         return {
@@ -413,7 +413,7 @@ describe("Document#where", () => {
       let preformattedText = doc.where({ type: "-test-pre" }).as("pre");
       let preAndCode = codeBlocks.join(
         preformattedText,
-        (l, r) => l.start === r.start && l.end === r.end
+        (l, r) => l.start === r.start && l.end === r.end,
       );
 
       expect(preAndCode.toJSON()).toEqual([
@@ -445,7 +445,7 @@ describe("Document#where", () => {
           doc.removeAnnotation(pre[0]);
           code.attributes.textStyle = "pre";
           doc.deleteText(2, 4);
-        }
+        },
       );
 
       expect(doc.annotations.map((a) => a.toJSON())).toEqual([
@@ -519,7 +519,7 @@ describe("Document#where", () => {
       let preformattedText = doc.where({ type: "-test-pre" }).as("pre");
       let preAndCode = codeBlocks.outerJoin(
         preformattedText,
-        (l, r) => l.start === r.start && l.end === r.end
+        (l, r) => l.start === r.start && l.end === r.end,
       );
 
       expect(preAndCode.toJSON()).toEqual([
@@ -664,11 +664,11 @@ describe("Document#where", () => {
       let threeWayJoin = codeBlocks
         .join(
           preformattedText,
-          (l, r) => l.start === r.start && l.end === r.end
+          (l, r) => l.start === r.start && l.end === r.end,
         )
         .join(
           locales,
-          (l, r) => l.code.start === r.start && l.code.end === r.end
+          (l, r) => l.code.start === r.start && l.code.end === r.end,
         );
 
       expect(threeWayJoin.toJSON()).toEqual([
@@ -736,7 +736,7 @@ describe("Document#where", () => {
           doc.removeAnnotation(locale[0]);
 
           doc.replaceAnnotation(code, newCode.toJSON());
-        }
+        },
       );
 
       expect(doc.annotations.map((a) => a.toJSON())).toEqual([

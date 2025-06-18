@@ -14,7 +14,7 @@ describe("VideoEmbed", () => {
             src="${url}"
             frameborder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>`
+            allowfullscreen></iframe>`,
       ).convertTo(OffsetSource);
 
       if (url.startsWith("//")) {
@@ -112,7 +112,7 @@ describe("VideoEmbed", () => {
 
     test("protocol-relative URLs https", () => {
       let doc = HTMLSource.fromRaw(
-        `<iframe src="//player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+        `<iframe src="//player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -141,7 +141,7 @@ describe("VideoEmbed", () => {
     test("embed code with trailing paragraph that isn't from Vimeo", () => {
       let doc = HTMLSource.fromRaw(
         `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-<p>Hello, this is something from <a href="https://vogue.it">Vogue Italia</a>!</p>`
+<p>Hello, this is something from <a href="https://vogue.it">Vogue Italia</a>!</p>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -193,7 +193,7 @@ describe("VideoEmbed", () => {
 
     test("embed code without caption", () => {
       let doc = HTMLSource.fromRaw(
-        `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+        `<iframe src="https://player.vimeo.com/video/156254412" width="640" height="480" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`,
       ).convertTo(OffsetSource);
 
       expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -222,7 +222,7 @@ describe("VideoEmbed", () => {
 
   test("Dailymotion", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe frameborder="0" width="480" height="270" src="https://www.dailymotion.com/embed/video/x6gmvnp" allowfullscreen allow="autoplay"></iframe>`
+      `<iframe frameborder="0" width="480" height="270" src="https://www.dailymotion.com/embed/video/x6gmvnp" allowfullscreen allow="autoplay"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -259,7 +259,7 @@ describe("VideoEmbed", () => {
       style="position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; width: 100%; height: 100%;">
     </iframe>
   </div>
-</div>`
+</div>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -306,7 +306,7 @@ describe("VideoEmbed", () => {
 
   test("Twitch videos", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe src="https://player.twitch.tv/?video=956002196&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`
+      `<iframe src="https://player.twitch.tv/?video=956002196&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -334,7 +334,7 @@ describe("VideoEmbed", () => {
 
   test("Twitch clips", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe src="https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`
+      `<iframe src="https://clips.twitch.tv/embed?clip=StrongBlueWaterDoubleRainbow&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -362,7 +362,7 @@ describe("VideoEmbed", () => {
 
   test("Wirewax", () => {
     let doc = HTMLSource.fromRaw(
-      `<iframe style="position: absolute; top: 0; left: 0;" width="100%" height="100%" src="https://embedder.wirewax.com/8203724/" frameborder="0" scrolling="yes" allowfullscreen></iframe>`
+      `<iframe style="position: absolute; top: 0; left: 0;" width="100%" height="100%" src="https://embedder.wirewax.com/8203724/" frameborder="0" scrolling="yes" allowfullscreen></iframe>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`

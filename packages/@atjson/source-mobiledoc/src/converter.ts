@@ -69,5 +69,5 @@ MobiledocSource.defineConverterTo(
       .rename({ attributes: { "-mobiledoc-src": "-offset-url" } });
 
     return doc;
-  }
+  },
 );
