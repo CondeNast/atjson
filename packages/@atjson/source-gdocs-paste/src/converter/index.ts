@@ -223,16 +223,32 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   });
 
   // Interpreting paragraphs with a left indent as blockquotes
-  doc.where({ type: "-gdocs-ps_il" }).update((bq: IndentLeft) => {
-    doc.replaceAnnotation(
-      bq,
-      new Blockquote({
-        start: bq.start,
-        end: bq.end,
-      })
-    );
-  });
+  doc.where({ type: "-gdocs-ps_il" }).update((bq) => {
+    const text = doc.content.substring(bq.start, bq.end);
+    const hasContent = bq.end > bq.start && text.trim().length > 0;
 
+    console.log("ps_il annotation:", {
+      start: bq.start,
+      end: bq.end,
+      length: bq.end - bq.start,
+      text: text,
+      indent: bq.attributes.indent,
+      hasContent: hasContent,
+    });
+
+    // Only convert to blockquote if it has actual content
+    if (hasContent) {
+      doc.replaceAnnotation(
+        bq,
+        new Blockquote({
+          start: bq.start,
+          end: bq.end,
+        })
+      );
+    } else {
+      doc.removeAnnotation(bq);
+    }
+  });
   // GDocs can produce lists that have paragraphs in them that are
   // not wrapped by a list item. In these cases, split the list before
   // and after the paragraph, as necessary
