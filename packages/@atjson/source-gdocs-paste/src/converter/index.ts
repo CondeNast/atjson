@@ -20,7 +20,6 @@ import { Alignment, Heading as GDocsHeading } from "../annotations";
 import { convertTables } from "./tables";
 import { convertSmallCaps } from "./smallcaps";
 import { convertDropCaps } from "./dropcaps";
-import { IndentLeft } from "../annotations/indent-left";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
