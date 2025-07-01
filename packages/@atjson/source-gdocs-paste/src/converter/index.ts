@@ -226,16 +226,6 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   doc.where({ type: "-gdocs-ps_il" }).update((bq) => {
     const text = doc.content.substring(bq.start, bq.end);
     const hasContent = bq.end > bq.start && text.trim().length > 0;
-
-    console.log("ps_il annotation:", {
-      start: bq.start,
-      end: bq.end,
-      length: bq.end - bq.start,
-      text: text,
-      indent: bq.attributes.indent,
-      hasContent: hasContent,
-    });
-
     // Only convert to blockquote if it has actual content
     if (hasContent) {
       doc.replaceAnnotation(
