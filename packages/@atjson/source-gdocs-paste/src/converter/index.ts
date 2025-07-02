@@ -16,11 +16,10 @@ import OffsetSource, {
   TextAlignment,
 } from "@atjson/offset-annotations";
 import GDocsSource from "../source";
-import { Alignment, Heading as GDocsHeading } from "../annotations";
+import { Alignment, Heading as GDocsHeading, IndentLeft } from "../annotations";
 import { convertTables } from "./tables";
 import { convertSmallCaps } from "./smallcaps";
 import { convertDropCaps } from "./dropcaps";
-import { IndentLeft } from "../annotations/indent-left";
 
 // eslint-disable-next-line no-control-regex
 const VERTICAL_TABS = /\u000B/g;
@@ -224,15 +223,21 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
 
   // Interpreting paragraphs with a left indent as blockquotes
   doc.where({ type: "-gdocs-ps_il" }).update((bq: IndentLeft) => {
-    doc.replaceAnnotation(
-      bq,
-      new Blockquote({
-        start: bq.start,
-        end: bq.end,
-      })
-    );
+    const text = doc.content.substring(bq.start, bq.end);
+    const hasContent = bq.end > bq.start && text.trim().length > 0;
+    // Only convert to blockquote if it has actual content
+    if (hasContent) {
+      doc.replaceAnnotation(
+        bq,
+        new Blockquote({
+          start: bq.start,
+          end: bq.end,
+        })
+      );
+    } else {
+      doc.removeAnnotation(bq);
+    }
   });
-
   // GDocs can produce lists that have paragraphs in them that are
   // not wrapped by a list item. In these cases, split the list before
   // and after the paragraph, as necessary
