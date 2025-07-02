@@ -16,7 +16,7 @@ import OffsetSource, {
   TextAlignment,
 } from "@atjson/offset-annotations";
 import GDocsSource from "../source";
-import { Alignment, Heading as GDocsHeading } from "../annotations";
+import { Alignment, Heading as GDocsHeading, IndentLeft } from "../annotations";
 import { convertTables } from "./tables";
 import { convertSmallCaps } from "./smallcaps";
 import { convertDropCaps } from "./dropcaps";
@@ -222,7 +222,7 @@ GDocsSource.defineConverterTo(OffsetSource, (doc) => {
   });
 
   // Interpreting paragraphs with a left indent as blockquotes
-  doc.where({ type: "-gdocs-ps_il" }).update((bq) => {
+  doc.where({ type: "-gdocs-ps_il" }).update((bq: IndentLeft) => {
     const text = doc.content.substring(bq.start, bq.end);
     const hasContent = bq.end > bq.start && text.trim().length > 0;
     // Only convert to blockquote if it has actual content
