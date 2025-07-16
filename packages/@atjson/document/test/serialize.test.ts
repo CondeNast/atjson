@@ -48,7 +48,7 @@ describe("serialize", () => {
               end: 62,
             }),
           ],
-        })
+        }),
       );
     }).toThrowErrorMatchingInlineSnapshot(`
       "Text contains reserved character +uFFFC at index 61.
@@ -78,7 +78,7 @@ describe("serialize", () => {
             }),
           ],
         }),
-        { onUnknown: "throw" }
+        { onUnknown: "throw" },
       );
     }).toThrowErrorMatchingInlineSnapshot(`
       "Unknown annotations were found:
@@ -98,8 +98,8 @@ describe("serialize", () => {
                 end: 12,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCHello, world",
         blocks: [
@@ -127,8 +127,8 @@ describe("serialize", () => {
                 end: 12,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCHello, world",
         blocks: [
@@ -164,8 +164,8 @@ describe("serialize", () => {
                 end: 12,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCHello, world",
         blocks: [
@@ -202,8 +202,8 @@ describe("serialize", () => {
                 end: 16,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCMissy Elliott’s\uFFFC“Supa Dupa Fly”",
         blocks: [
@@ -296,8 +296,8 @@ describe("serialize", () => {
                 end: 6,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCone\uFFFCtwo\uFFFCthree",
         blocks: [
@@ -333,8 +333,8 @@ describe("serialize", () => {
                 end: 6,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCone\uFFFCtwo\uFFFCthree\uFFFCfour",
         blocks: [
@@ -424,8 +424,8 @@ describe("serialize", () => {
               }),
             ],
           }),
-          { withStableIds: true }
-        )
+          { withStableIds: true },
+        ),
       ).toMatchInlineSnapshot(`
         {
           "blocks": [
@@ -546,8 +546,8 @@ describe("serialize", () => {
                 end: 110,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFC\uFFFC“My main problem is that I have a lot of energy and I can’t say no,”\uFFFCPrue Leith",
         blocks: [
@@ -596,8 +596,8 @@ describe("serialize", () => {
                 end: 33,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
         blocks: [
@@ -652,8 +652,8 @@ describe("serialize", () => {
                 end: 33,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFC\uFFFCone fish\uFFFCtwo fish\uFFFCred fish\uFFFCblue fish",
         blocks: [
@@ -707,8 +707,8 @@ describe("serialize", () => {
                 end: 12,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFChello, world",
         blocks: [
@@ -751,8 +751,8 @@ describe("serialize", () => {
                 },
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFCHello, world",
         blocks: [
@@ -786,8 +786,8 @@ describe("serialize", () => {
                 end: 12,
               }),
             ],
-          })
-        )
+          }),
+        ),
       ).toMatchObject({
         text: "\uFFFChello, world",
         blocks: [
@@ -844,8 +844,8 @@ describe("serialize", () => {
                   end: 14,
                 }),
               ],
-            })
-          )
+            }),
+          ),
         ).toMatchObject({
           text: "\uFFFChello, world",
           blocks: [
@@ -886,8 +886,8 @@ describe("serialize", () => {
                   end: 1,
                 }),
               ],
-            })
-          )
+            }),
+          ),
         ).toMatchObject({
           text: "\uFFFChello, world",
           blocks: [
@@ -919,8 +919,8 @@ describe("serialize", () => {
                   end: 14,
                 }),
               ],
-            })
-          )
+            }),
+          ),
         ).toMatchObject({
           text: "\uFFFChello, world\uFFFChi",
           blocks: [
@@ -1312,7 +1312,7 @@ describe("serialize", () => {
             shared: { start: -1 },
             selfClosing: false,
             edgeBehaviour: description.edgeBehaviour,
-          }
+          },
         );
         return E;
       }, [] as Token[]);
@@ -1335,7 +1335,7 @@ describe("serialize", () => {
             case TokenType.PARSE_END:
               return { id: token.annotation.id, type: "PARSE_END" };
           }
-        })
+        }),
       ).toMatchInlineSnapshot(`
         [
           {
@@ -1380,10 +1380,10 @@ describe("deserialize", () => {
             ],
           },
 
-          TestSource
+          TestSource,
         )
           .withStableIds()
-          .toJSON()
+          .toJSON(),
       ).toMatchInlineSnapshot(`
         {
           "annotations": [
@@ -1439,10 +1439,10 @@ describe("deserialize", () => {
               },
             ],
           },
-          TestSource
+          TestSource,
         )
           .withStableIds()
-          .toJSON()
+          .toJSON(),
       ).toMatchInlineSnapshot(`
         {
           "annotations": [
@@ -1554,10 +1554,10 @@ describe("deserialize", () => {
               },
             ],
           },
-          TestSource
+          TestSource,
         )
           .withStableIds()
-          .toJSON()
+          .toJSON(),
       ).toMatchInlineSnapshot(`
         {
           "annotations": [
@@ -1726,7 +1726,7 @@ describe("deserialize", () => {
             },
           ],
         },
-        TestSource
+        TestSource,
       );
       let unknown = [...doc.where((a) => is(a, UnknownAnnotation))];
       expect(unknown.length).toBe(1);
@@ -1760,7 +1760,7 @@ describe("deserialize", () => {
             },
           ],
         },
-        TestSource
+        TestSource,
       );
       let unknown = [...doc.where((a) => is(a, UnknownAnnotation))];
       expect(unknown.length).toBe(1);
@@ -1799,10 +1799,10 @@ describe("deserialize", () => {
               },
             ],
           },
-          TestSource
+          TestSource,
         )
           .withStableIds()
-          .toJSON()
+          .toJSON(),
       ).toMatchInlineSnapshot(`
         {
           "annotations": [
@@ -1895,9 +1895,9 @@ describe("deserialize", () => {
               },
             ],
           },
-          TestSource
-        )
-      ).toThrowError();
+          TestSource,
+        ),
+      ).toThrow();
     });
   });
 
@@ -1954,7 +1954,7 @@ describe("deserialize", () => {
             shared: { start: -1 },
             selfClosing: false,
             edgeBehaviour: description.edgeBehaviour,
-          }
+          },
         );
         return E;
       }, [] as Token[]);

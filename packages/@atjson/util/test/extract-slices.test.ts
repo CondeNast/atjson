@@ -1719,7 +1719,7 @@ describe("extractSlices", () => {
     test("example1", () => {
       let [, slices] = extractSlices(example1);
       expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
-        "￼Name"
+        "￼Name",
       );
     });
 
@@ -1727,7 +1727,7 @@ describe("extractSlices", () => {
       let [, slices] = extractSlices(example2);
 
       expect(slices.get("e1458d1e-da47-4b78-b001-69b289708e75")?.text).toBe(
-        "￼Name"
+        "￼Name",
       );
     });
 
@@ -1735,7 +1735,7 @@ describe("extractSlices", () => {
       let [, slices] = extractSlices(example3);
 
       expect(slices.get("a6e8a1a8-537e-469c-9c7c-2eb7a43f1994")?.text).toBe(
-        "￼a"
+        "￼a",
       );
     });
   });

@@ -28,7 +28,7 @@ function areParentsEqual(left: string[], right: string[]) {
 
 function attributesWithStableIds(
   attribute: any,
-  ids: Map<string, string>
+  ids: Map<string, string>,
 ): NonNullable<any> {
   if (attribute == null) {
     return null;
@@ -122,7 +122,7 @@ function unsafe_parseRange(range: Range) {
 function serializeRange(
   start: number,
   end: number,
-  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour }
+  edgeBehaviour: { leading: EdgeBehaviour; trailing: EdgeBehaviour },
 ): Range {
   return `${
     edgeBehaviour.leading === EdgeBehaviour.preserve ? "(" : "["
@@ -150,18 +150,18 @@ class Internal_PeritextBuilderStep<ReturnT> {
     public text: string,
     public blocks: Block[],
     public marks: Mark[],
-    private value: ReturnT
+    private value: ReturnT,
   ) {}
 
   static fromPeritext<ReturnT>(
     doc: Peritext,
-    value: ReturnT
+    value: ReturnT,
   ): PeritextBuilderStep<ReturnT> {
     return new Internal_PeritextBuilderStep(
       doc.text,
       doc.blocks,
       doc.marks,
-      value
+      value,
     );
   }
 
@@ -198,7 +198,7 @@ type Peritextish = string | Peritext | (string | Peritext)[];
 
 function normalizePeritextishArg(
   text: Peritextish,
-  options: { textBlocks: boolean } = { textBlocks: true }
+  options: { textBlocks: boolean } = { textBlocks: true },
 ): Peritext {
   if (typeof text === "string") {
     if (options.textBlocks) {
@@ -224,8 +224,8 @@ function normalizePeritextishArg(
   if (Array.isArray(text)) {
     return concat(
       ...text.map((piece) =>
-        normalizePeritextishArg(piece, { textBlocks: true })
-      )
+        normalizePeritextishArg(piece, { textBlocks: true }),
+      ),
     );
   }
 
@@ -250,7 +250,7 @@ function normalizePeritextishArg(
 export function mark<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
-  children: Peritextish
+  children: Peritextish,
 ): PeritextBuilderStep<Mark> {
   let doc = normalizePeritextishArg(children);
 
@@ -275,12 +275,12 @@ export function mark<Type, Attrs extends Record<string, JSON>>(
  */
 export function slice(
   children: Peritextish,
-  attributes: { refs: string[]; retain?: boolean } = { refs: [] }
+  attributes: { refs: string[]; retain?: boolean } = { refs: [] },
 ): PeritextBuilderStep<Mark> {
   let doc = normalizePeritextishArg(children);
   if (doc.text === "") {
     throw new Error(
-      "Slices must have some contents; an empty slice will cause errors."
+      "Slices must have some contents; an empty slice will cause errors.",
     );
   }
 
@@ -308,7 +308,7 @@ export function slice(
 export function block<Type, Attrs extends Record<string, JSON>>(
   annotation: AnnotationConstructor<Type, Attrs>,
   attributes: Attrs,
-  children: Peritextish | ((block: Block) => Peritextish) = ""
+  children: Peritextish | ((block: Block) => Peritextish) = "",
 ): PeritextBuilderStep<Block> {
   const newBlock = {
     id: uuid(),
@@ -329,17 +329,17 @@ export function block<Type, Attrs extends Record<string, JSON>>(
     "\uFFFC",
     [newBlock],
     [],
-    newBlock
+    newBlock,
   );
   outDoc.blocks.push(
     ...peritextChildren.blocks.map((childBlock) => {
       childBlock.parents = [annotation.type, ...childBlock.parents];
       return childBlock;
-    })
+    }),
   );
 
   outDoc.marks.push(
-    ...peritextChildren.marks.map((mark) => adjustMarkRange(mark, 1))
+    ...peritextChildren.marks.map((mark) => adjustMarkRange(mark, 1)),
   );
 
   outDoc.text += peritextChildren.text;
@@ -362,7 +362,7 @@ export function concat(...docs: Peritext[]): Peritext {
   for (const doc of docs) {
     outDoc.blocks.push(...doc.blocks);
     outDoc.marks.push(
-      ...doc.marks.map((mark) => adjustMarkRange(mark, outDoc.text.length))
+      ...doc.marks.map((mark) => adjustMarkRange(mark, outDoc.text.length)),
     );
 
     outDoc.text += doc.text;
@@ -413,7 +413,7 @@ export function getChildren(doc: Peritext, parentBlockId: string): Block[] {
   const childParents = [...parentBlock.parents, parentBlock.type];
 
   return allDescendants.filter((block) =>
-    areParentsEqual(block.parents, childParents)
+    areParentsEqual(block.parents, childParents),
   );
 }
 
@@ -430,7 +430,7 @@ export function getChildren(doc: Peritext, parentBlockId: string): Block[] {
 export function insertAfter(
   doc: Peritext,
   targetBlockId: string,
-  insertedContent: Peritext
+  insertedContent: Peritext,
 ) {
   const blocksText = doc.text.split("\uFFFC").slice(1);
   const blockIndex = doc.blocks.findIndex(({ id }) => id === targetBlockId);
@@ -500,7 +500,7 @@ export function insertAfter(
 export function insertBefore(
   doc: Peritext,
   targetBlockId: string,
-  insertedContent: Peritext
+  insertedContent: Peritext,
 ) {
   const blocksText = doc.text.split("\uFFFC").slice(1);
   const blockIndex = doc.blocks.findIndex(({ id }) => id === targetBlockId);
@@ -574,7 +574,7 @@ export function groupChildren<Type, Attrs extends Record<string, JSON>>(
   parentBlockId: string,
   groupSize: number,
   wrapper: AnnotationConstructor<Type, Attrs>,
-  wrapperAttributes: Attrs
+  wrapperAttributes: Attrs,
 ): Peritext {
   let outDoc = { text: doc.text, blocks: doc.blocks, marks: doc.marks };
   const parentBlock = doc.blocks.find(({ id }) => id === parentBlockId);
@@ -591,7 +591,7 @@ export function groupChildren<Type, Attrs extends Record<string, JSON>>(
         outDoc = insertBefore(
           outDoc,
           childBlock.id,
-          block(wrapper, wrapperAttributes)
+          block(wrapper, wrapperAttributes),
         );
       }
     });
@@ -609,7 +609,7 @@ export function groupChildren<Type, Attrs extends Record<string, JSON>>(
  */
 export function blockIsAnnotation<T extends Annotation>(
   block: Block<unknown>,
-  annotation: AnnotationConstructor<T, AttributesOf<T>>
+  annotation: AnnotationConstructor<T, AttributesOf<T>>,
 ): block is Block<T> {
   return block.type === annotation.type;
 }

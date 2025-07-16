@@ -30,7 +30,7 @@ describe("@atjson/hir", () => {
         bold("bold"),
         " and an ",
         italic("italic"),
-        " annotation"
+        " annotation",
       );
 
       expect(hir).toMatchObject(expected);
@@ -97,10 +97,10 @@ describe("@atjson/hir", () => {
             "Second item plus ",
             italic("italic"),
             " text\n\n",
-            ol(li("Item 2a\n\n"), li("Item 2b\n\n"))
-          )
+            ol(li("Item 2a\n\n"), li("Item 2b\n\n")),
+          ),
         ),
-        "After all the lists"
+        "After all the lists",
       );
 
       expect(new HIR(nested).toJSON()).toMatchObject(expected);
@@ -119,7 +119,7 @@ describe("@atjson/hir", () => {
         "Some text that is both ",
         bold("bold ", italic("and")),
         italic(" italic"),
-        " plus something after."
+        " plus something after.",
       );
 
       expect(new HIR(overlapping).toJSON()).toMatchObject(expected);
@@ -150,7 +150,7 @@ describe("@atjson/hir", () => {
 
       let expected = document(
         paragraph("A paragraph with some ", bold("bold\n\n")),
-        paragraph(bold("text"), " that continues into the next.")
+        paragraph(bold("text"), " that continues into the next."),
       );
 
       expect(new HIR(spanning).toJSON()).toMatchObject(expected);
@@ -278,7 +278,7 @@ describe("@atjson/hir", () => {
         paragraph("Two fish"),
         paragraph(),
         paragraph("Red fish"),
-        paragraph("Blue fish")
+        paragraph("Blue fish"),
       );
 
       expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
@@ -360,7 +360,7 @@ describe("@atjson/hir", () => {
         paragraph("Two fish"),
         paragraph(bold()),
         paragraph("Red fish"),
-        paragraph("Blue fish")
+        paragraph("Blue fish"),
       );
 
       expect(new HIR(zeroLength).toJSON()).toMatchObject(expected);
@@ -411,7 +411,7 @@ describe("@atjson/hir", () => {
             },
           ],
         },
-      })
+      }),
     );
 
     expect(hir).toMatchObject(expected);

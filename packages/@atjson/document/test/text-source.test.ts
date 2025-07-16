@@ -29,7 +29,7 @@ export class TextSource extends Document {
           start: end,
           end: end + 1,
           attributes: {},
-        }
+        },
       );
       start = end + 1;
     }

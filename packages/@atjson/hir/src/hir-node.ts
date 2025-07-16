@@ -60,7 +60,7 @@ export default class HIRNode {
           annotation: Annotation<any>;
           rank: number;
           text?: string;
-        }
+        },
   ) {
     if (annotation instanceof Annotation) {
       this.annotation = annotation;
@@ -123,7 +123,7 @@ export default class HIRNode {
   insertText(text: string): void {
     if (!is(this.annotation, Root)) {
       throw new Error(
-        "temporary exception; this should only exist in the root node subclass"
+        "temporary exception; this should only exist in the root node subclass",
       );
     }
 

@@ -3,7 +3,7 @@ import OffsetSource, { Table, TextAlignment } from "@atjson/offset-annotations";
 import HtmlRenderer from "../src";
 
 function testTable(
-  tableAttributes: Omit<Block<Table>["attributes"], "dataSet">
+  tableAttributes: Omit<Block<Table>["attributes"], "dataSet">,
 ) {
   return deserialize(
     {
@@ -304,7 +304,7 @@ function testTable(
         },
       ],
     },
-    OffsetSource
+    OffsetSource,
   );
 }
 

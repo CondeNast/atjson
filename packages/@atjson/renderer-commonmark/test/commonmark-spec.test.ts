@@ -46,7 +46,7 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
           let markdown = unitTest.markdown.replace(/→/g, "\t");
           let original = CommonMarkSource.fromRaw(markdown);
           let generatedMarkdown = CommonMarkRenderer.render(
-            original.convertTo(OffsetSource)
+            original.convertTo(OffsetSource),
           );
           let output = CommonMarkSource.fromRaw(generatedMarkdown);
           let originalJSON = serialize(original, {
@@ -63,29 +63,29 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
 
           let deserializedOriginal = deserialize(
             originalJSON,
-            CommonMarkSource
+            CommonMarkSource,
           );
           let deserializedGenerated = deserialize(
             generatedJSON,
-            CommonMarkSource
+            CommonMarkSource,
           );
 
           // Verify serialization is working properly
           if (!deserializedOriginal.equals(deserializedGenerated)) {
             expect(
-              deserializedOriginal.canonical().withStableIds().toJSON()
+              deserializedOriginal.canonical().withStableIds().toJSON(),
             ).toEqual(
-              deserializedGenerated.canonical().withStableIds().toJSON()
+              deserializedGenerated.canonical().withStableIds().toJSON(),
             );
           } else {
             expect(deserializedOriginal.equals(deserializedGenerated)).toBe(
-              true
+              true,
             );
           }
 
           if (!original.equals(deserializedGenerated)) {
             expect(serialize(original, { withStableIds: true })).toEqual(
-              serialize(deserializedGenerated, { withStableIds: true })
+              serialize(deserializedGenerated, { withStableIds: true }),
             );
           } else {
             expect(original.equals(deserializedGenerated)).toBe(true);
@@ -94,7 +94,7 @@ Object.keys(unitTestsBySection).forEach((moduleName) => {
           // Assert that external representations (HTML) match
           let md = MarkdownIt("commonmark");
           expect(md.render(generatedMarkdown)).toEqual(md.render(markdown));
-        }
+        },
       );
     });
   });

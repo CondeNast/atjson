@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("Italic", () => {
   test.each(["i", "em"])("%s", (tagName) => {
     let doc = HTMLSource.fromRaw(
-      `This <${tagName}>text</${tagName}> is <${tagName}>italic</${tagName}>`
+      `This <${tagName}>text</${tagName}> is <${tagName}>italic</${tagName}>`,
     ).convertTo(OffsetSource);
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFCThis text is italic",

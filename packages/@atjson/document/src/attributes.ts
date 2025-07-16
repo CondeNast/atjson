@@ -8,7 +8,7 @@ export function unprefix(
   vendorPrefix: string,
   subdocuments: { [key: string]: typeof Document },
   attribute: JSON,
-  path: Array<string | number> = []
+  path: Array<string | number> = [],
 ): NonNullable<any> {
   if (Array.isArray(attribute)) {
     return attribute.map(function unprefixAttr(attr, index) {
@@ -16,7 +16,7 @@ export function unprefix(
         vendorPrefix,
         subdocuments,
         attr,
-        path.concat(index)
+        path.concat(index),
       );
       return result;
     });
@@ -38,7 +38,7 @@ export function unprefix(
           vendorPrefix,
           subdocuments,
           value,
-          path.concat(unprefixedKey)
+          path.concat(unprefixedKey),
         );
       } else {
         attrs[key] = value;
@@ -106,7 +106,7 @@ export function clone(attribute: any): NonNullable<any> {
 
 export function withStableIds(
   attribute: any,
-  ids: Map<string, string>
+  ids: Map<string, string>,
 ): NonNullable<any> {
   if (attribute == null) {
     return null;

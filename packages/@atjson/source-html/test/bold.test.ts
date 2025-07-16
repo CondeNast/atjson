@@ -5,7 +5,7 @@ import HTMLSource from "../src";
 describe("Bold", () => {
   test.each(["b", "strong"])("%s", (tagName) => {
     let doc = HTMLSource.fromRaw(
-      `This <${tagName}>text</${tagName}> is <${tagName}>bold</${tagName}>`
+      `This <${tagName}>text</${tagName}> is <${tagName}>bold</${tagName}>`,
     ).convertTo(OffsetSource);
     expect(serialize(doc)).toMatchObject({
       text: "\uFFFCThis text is bold",
