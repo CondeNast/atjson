@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.29.2 (2025-07-16)
+
+### Bug Fixes
+
+- handle indents for blockquotes in gdocs-paste converter ([#1880](https://github.com/CondeNast/atjson/issues/1880)) ([b996c3f](https://github.com/CondeNast/atjson/commit/b996c3ff336b2c91c7ddc12c89ae82194dca0841))
+
 ## 0.29.1 (2025-05-07)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
