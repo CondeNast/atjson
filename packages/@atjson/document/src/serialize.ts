@@ -123,12 +123,6 @@ export enum TokenType {
   MARK_COLLAPSED,
 }
 
-const START_TOKENS = [
-  TokenType.BLOCK_START,
-  TokenType.MARK_START,
-  TokenType.PARSE_START,
-];
-
 class Root extends BlockAnnotation {
   static vendorPrefix = "atjson";
   static type = "root";
@@ -155,49 +149,96 @@ export type SortableToken = {
   };
 };
 
-export function sortTokens(a: SortableToken, b: SortableToken) {
-  let indexDelta = a.index - b.index;
+export function sortTokens(lhs: SortableToken, rhs: SortableToken) {
+  let indexDelta = lhs.index - rhs.index;
   if (indexDelta !== 0) {
     return indexDelta;
   }
+
+  let isLhsStart =
+    lhs.type === TokenType.BLOCK_START ||
+    lhs.type === TokenType.MARK_START ||
+    lhs.type === TokenType.PARSE_START;
+  let isLhsEnd = !isLhsStart;
+  let isRhsStart =
+    rhs.type === TokenType.BLOCK_START ||
+    rhs.type === TokenType.MARK_START ||
+    rhs.type === TokenType.PARSE_START;
+  let isRhsEnd = !isRhsStart;
 
   // Handle start before end for a 0 length mark:
   // We're assuming that one of `a` or `b` is a start
   // token and the other is the end token. Sort the start
   // token first
-  if (a.annotation.id === b.annotation.id) {
-    return START_TOKENS.indexOf(a.type) !== -1 ? -1 : 1;
+  if (lhs.annotation.id === rhs.annotation.id) {
+    return isLhsStart ? -1 : 1;
   }
 
   // Sort end tokens before start tokens
-  if (
-    START_TOKENS.indexOf(a.type) !== -1 &&
-    START_TOKENS.indexOf(b.type) === -1
-  ) {
+  if (isLhsStart && isRhsEnd) {
     return 1;
-  } else if (
-    START_TOKENS.indexOf(a.type) === -1 &&
-    START_TOKENS.indexOf(b.type) !== -1
-  ) {
+  } else if (isLhsEnd && isRhsStart) {
     return -1;
   }
-  let multiplier = START_TOKENS.indexOf(a.type) === -1 ? -1 : 1;
 
-  let startDelta = b.annotation.start - a.annotation.start;
-  if (startDelta !== 0) {
-    return startDelta * multiplier;
+  // In the following example, we are sorting tokens
+  // where the start tokens are in the same position
+  // and the end positions are different.
+  //
+  // We always want to create the most contiguous
+  // non-overlapping ranges, so we will place the
+  // parse token in this example _after_ the paragraph
+  // start token.
+  //
+  // In the ending case, we will put the parse token
+  // end token _before_ the paragraph end token.
+  //
+  // ```
+  // <p>Hello, world</p>
+  // ^ ^            ^  ^
+  // |-| ParseToken |--|
+  // |----Paragraph----|
+  // ```
+  if (isLhsStart && isRhsStart) {
+    if (lhs.annotation.end < rhs.annotation.end) {
+      return 1;
+    } else if (lhs.annotation.end > rhs.annotation.end) {
+      return -1;
+    }
+  } else if (isLhsEnd && isRhsEnd) {
+    // Handle collapsed ranges, in this case we want
+    // to put the collapsed range _after_ whatever range
+    // it was adjacent to, so it can be expanded in place
+    // (hopefully) correctly. For explicit and better
+    // handling of this, clients should make their collapsed
+    // annotations 1 length by wrapping them around a
+    // parse annotation.
+    //
+    // ```
+    // <p>Hello, world</p>
+    // ^ ^            ^  ^
+    // |-| ParseToken |--|
+    //       LineBreak ->|
+    // ```
+    if (lhs.annotation.start === lhs.annotation.end) {
+      return 1;
+    } else if (rhs.annotation.start === rhs.annotation.end) {
+      return -1;
+    } else if (lhs.annotation.start < rhs.annotation.start) {
+      return 1;
+    } else if (lhs.annotation.start > rhs.annotation.start) {
+      return -1;
+    }
   }
-  let endDelta = b.annotation.end - a.annotation.end;
-  if (endDelta !== 0) {
-    return endDelta * multiplier;
-  }
-  let rankDelta = a.annotation.rank - b.annotation.rank;
+
+  let multiplier = isLhsEnd ? -1 : 1;
+  let rankDelta = lhs.annotation.rank - rhs.annotation.rank;
   if (rankDelta !== 0) {
     return rankDelta * multiplier;
   }
-  return a.annotation.type > b.annotation.type
+  return lhs.annotation.type > rhs.annotation.type
     ? multiplier * -1
-    : a.annotation.type < b.annotation.type
+    : lhs.annotation.type < rhs.annotation.type
     ? multiplier
     : 0;
 }
@@ -243,6 +284,7 @@ export function serialize(
     withStableIds?: boolean;
     includeBlockRanges?: boolean;
     onUnknown?: "warn" | "throw" | "ignore";
+    includeParseTokens?: boolean;
   }
 ): { text: string; blocks: Block[]; marks: Mark[] } {
   // Blocks and object annotations are both stored
@@ -300,11 +342,13 @@ export function serialize(
   for (let annotation of doc.annotations) {
     let isBlockAnnotation = annotation instanceof BlockAnnotation;
     let isObjectAnnotation = annotation instanceof ObjectAnnotation;
-    let types: [TokenType, TokenType] = is(annotation, ParseAnnotation)
-      ? [TokenType.PARSE_START, TokenType.PARSE_END]
-      : isBlockAnnotation || isObjectAnnotation
-      ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
-      : [TokenType.MARK_START, TokenType.MARK_END];
+    let isParseToken = is(annotation, ParseAnnotation);
+    let types: [TokenType, TokenType] =
+      isParseToken && !options?.includeParseTokens
+        ? [TokenType.PARSE_START, TokenType.PARSE_END]
+        : isBlockAnnotation || isObjectAnnotation
+        ? [TokenType.BLOCK_START, TokenType.BLOCK_END]
+        : [TokenType.MARK_START, TokenType.MARK_END];
     let edgeBehaviour = annotation.getAnnotationConstructor().edgeBehaviour;
     let shared = { start: -1 };
     if (
