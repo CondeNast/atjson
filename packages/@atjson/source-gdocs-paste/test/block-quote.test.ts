@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
 import GDocsSource from "../src";
-import OffsetSource, { Blockquote } from "@atjson/offset-annotations";
-import { is } from "@atjson/document";
+import OffsetSource from "@atjson/offset-annotations";
+import { serialize } from "@atjson/document";
 
 describe("@atjson/source-gdocs-paste blockquotes", () => {
   let doc: OffsetSource;
@@ -14,12 +14,59 @@ describe("@atjson/source-gdocs-paste blockquotes", () => {
   });
 
   test("Indenting a paragraph makes a block quote", () => {
-    let blockquotes = doc.annotations.filter((a) => is(a, Blockquote));
-    expect(blockquotes.length).toBe(1);
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {},
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+          {
+            "attributes": {},
+            "id": "B00000001",
+            "parents": [],
+            "selfClosing": false,
+            "type": "blockquote",
+          },
+          {
+            "attributes": {},
+            "id": "B00000002",
+            "parents": [],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000003",
+            "parents": [],
+            "selfClosing": false,
+            "type": "blockquote",
+          },
+          {
+            "attributes": {},
+            "id": "B00000004",
+            "parents": [],
+            "selfClosing": false,
+            "type": "text",
+          },
+          {
+            "attributes": {},
+            "id": "B00000005",
+            "parents": [],
+            "selfClosing": false,
+            "type": "paragraph",
+          },
+        ],
+        "marks": [],
+        "text": "￼Example￼Nested￼
 
-    let [bq] = blockquotes;
-    expect(doc.content.slice(bq.start, bq.end)).toBe(
-      "This paragraph is indented, indicating a block quote"
-    );
+      ￼Double nested￼
+
+      ￼Normal",
+      }
+    `);
   });
 });
