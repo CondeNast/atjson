@@ -1,0 +1,80 @@
+---
+name: Service Catalog Metadata Provider
+
+on:
+  push:
+    paths:
+      - '.github/workflows/service.yml'
+
+jobs:
+  update-service-catalog-metadata:
+    if: ${{ github.ref_name == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: CondeNast/service-catalog-scripts@v1.1.0
+        with:
+          schema-version: v2.2
+          datadog-key: ${{ secrets.DATADOG_API_KEY }}
+          datadog-app-key: ${{ secrets.DATADOG_APPLICATION_KEY }}
+
+          # This maps to the "dd-service" field in Datadog, it's just the name of your service.
+          service-name: atjson
+
+          description: |
+            Provides a dynamic content format for annotating and managing digital content, enhancing content organization and accessibility.
+
+          # PII or non-PII
+          data-sensitivity: ''
+
+           # This is the application name, which is used to group services together.
+          service-group: atjson
+
+          tier: 3
+
+          # This service is in production, so let's put that into the lifecycle field
+          lifecycle: production
+
+          # The name of the team which owns and/or supports the service.
+          team: Atjson Team
+
+           # The URL of the Slack channel where support for the service is handled.
+           # Keep in mind, this _must_ be a URL. To get the URL, right-click on the channel
+           # in the Slack app, and select "Copy link" in the "Copy" submenu.
+          slack: ''
+
+          # Links are great for runbooks, other documentation, other services which
+          # could be helpful, as well as dashboards. In v2.1 repos and docs move here.
+          links: |
+            - name: atjson
+              url: https://github.com/CondeNast/atjson
+              type: repo
+              provider: github
+            - name: atjson docs
+              url: https://github.com/CondeNast/atjson/tree/main/docs
+              type: doc
+              provider: Web
+            - name: atjson runbook
+              url: 
+              type: runbook
+              provider: Confluence
+            - name: atjson dashboard
+              url: 
+              type: dashboard
+              provider: Web
+            - name: atjson error logs
+              url: 
+              type: dashboard
+              provider: Web
+
+          # This will allow people to directly page a team when seeing a failing service. To find your pagerduty url go to PagerDuty -> Service Directory -> Find your service -> Copy the direct link to your service.
+          pagerduty: ''
+          
+          # A list of individuals who can be contacted about the service.
+          contacts: |
+            - name: Colin-Alexa Robinson
+              type: email
+              contact: colin-alexa_robinson@condenast.com
+
+            - name: Dmitriy Korenblyum
+              type: email
+              contact: dmitriy_korenblyum@condenast.com
