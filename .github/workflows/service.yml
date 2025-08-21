@@ -14,8 +14,8 @@ jobs:
       - uses: CondeNast/service-catalog-scripts@v1.1.0
         with:
           schema-version: v2.2
-          datadog-key: ${{ secrets.DATADOG_API_KEY }}
-          datadog-app-key: ${{ secrets.DATADOG_APPLICATION_KEY }}
+          datadog-key: \${{ secrets.DATADOG_SERVICE_CATALOG_API_KEY }}
+          datadog-app-key: \${{ secrets.DATADOG_SERVICE_CATALOG_APPLICATION_KEY }}
 
           # This maps to the "dd-service" field in Datadog, it's just the name of your service.
           service-name: atjson
