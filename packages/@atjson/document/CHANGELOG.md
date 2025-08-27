@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.31.0 (2025-08-27)
+
+### Features
+
+- add option to include parse tokens in serialize ([#1741](https://github.com/CondeNast/atjson/issues/1741)) ([1f09df8](https://github.com/CondeNast/atjson/commit/1f09df8d8fe6574869b142b1b61758cdf9655b07))
+
 ## [0.30.5](https://github.com/CondeNast/atjson/compare/@atjson/document@0.30.4...@atjson/document@0.30.5) (2025-06-05)
 
 ### Bug Fixes

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.57.5 (2025-08-27)
+
+**Note:** Version bump only for package @atjson/offset-annotations
+
 ## 0.57.4 (2025-05-07)
 
 ### Bug Fixes

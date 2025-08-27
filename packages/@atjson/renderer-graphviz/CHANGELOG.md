@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.21.43 (2025-08-27)
+
+**Note:** Version bump only for package @atjson/renderer-graphviz
+
 ## 0.21.42 (2023-10-16)
 
 **Note:** Version bump only for package @atjson/renderer-graphviz
