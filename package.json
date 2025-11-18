@@ -42,7 +42,7 @@
     "jest": "30.0.0",
     "jest-environment-jsdom": "30.0.0",
     "jsdom": "26.1.0",
-    "lerna": "8.2.3",
+    "lerna": "8.2.4",
     "lint-staged": "16.1.2",
     "markdown-it": "14.1.0",
     "minimist": "1.2.8",
