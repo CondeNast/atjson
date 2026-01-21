@@ -51,7 +51,10 @@ function toURL(url: IUrl) {
 
 function isYouTubeURL(url: IUrl) {
   return (
-    isYouTubeEmbedURL(url) || isYouTubeWatchURL(url) || isYouTubeShortsURL(url)
+    isYouTubeEmbedURL(url) ||
+    isYouTubeWatchURL(url) ||
+    isYouTubeShortsURL(url) ||
+    isYouTubePlaylistURL(url)
   );
 }
 
@@ -59,6 +62,7 @@ function isYouTubeURL(url: IUrl) {
 // - youtu.be/
 // - youtube-nocookie.com/embed/
 // - youtube.com/embed
+// - youtube.com/embed/videoseries (for playlists)
 function isYouTubeEmbedURL(url: IUrl) {
   return (
     url.host === "youtu.be" ||
@@ -85,6 +89,21 @@ function isYouTubeWatchURL(url: IUrl) {
   );
 }
 
+// Youtube playlist URLs
+// - www.youtube.com/playlist?list=
+// - m.youtube.com/playlist?list=
+// - youtube.com/playlist?list=
+// - www.youtube.com/watch?v=VIDEO_ID&list=PLAYLIST_ID (watch URL with playlist)
+function isYouTubePlaylistURL(url: IUrl) {
+  return (
+    ["www.youtube.com", "m.youtube.com", "youtube.com"].includes(url.host) &&
+    getSearchParam(url.searchParams, "list") !== null &&
+    (url.pathname.startsWith("/playlist") ||
+      (url.pathname.startsWith("/watch") &&
+        getSearchParam(url.searchParams, "v") !== null))
+  );
+}
+
 function normalizeYouTubeURL(url: IUrl) {
   let normalized =
     url.host === "www.youtube-nocookie.com"
@@ -98,7 +117,33 @@ function normalizeYouTubeURL(url: IUrl) {
     normalized.searchParams.set("start", timestamp);
   }
 
-  if (isYouTubeEmbedURL(url) || isYouTubeShortsURL(url)) {
+  // Check if this is already an embed URL with videoseries (playlist embed)
+  if (isYouTubeEmbedURL(url) && url.pathname.includes("/embed/videoseries")) {
+    normalized.pathname = "/embed/videoseries";
+    let playlistId = getSearchParam(url.searchParams, "list");
+    if (playlistId) {
+      normalized.searchParams.set("list", playlistId);
+    }
+  }
+  // Handle playlist URLs
+  else if (isYouTubePlaylistURL(url)) {
+    let playlistId = getSearchParam(url.searchParams, "list");
+    let videoId = getSearchParam(url.searchParams, "v");
+
+    if (videoId) {
+      // Watch URL with playlist - embed the video with playlist context
+      normalized.pathname = `/embed/${videoId}`;
+      if (playlistId) {
+        normalized.searchParams.set("list", playlistId);
+      }
+    } else {
+      // Pure playlist URL - use videoseries endpoint
+      normalized.pathname = "/embed/videoseries";
+      if (playlistId) {
+        normalized.searchParams.set("list", playlistId);
+      }
+    }
+  } else if (isYouTubeEmbedURL(url) || isYouTubeShortsURL(url)) {
     let parts = without<string>(url.pathname.split("/"), "");
     let id = parts.pop();
     normalized.pathname = `/embed/${id}`;

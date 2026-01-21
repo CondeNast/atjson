@@ -37,6 +37,29 @@ describe("VideoEmbed", () => {
         ],
       });
     });
+
+    test("playlist embed code", () => {
+      let doc = HTMLSource.fromRaw(
+        `<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=RrMc-rfBh85re8uq&amp;list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`,
+      ).convertTo(OffsetSource);
+
+      expect(serialize(doc)).toMatchObject({
+        text: "\uFFFC",
+        blocks: [
+          {
+            type: "video-embed",
+            attributes: {
+              url: "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+              provider: VideoURLs.Provider.YOUTUBE,
+              width: 560,
+              height: 315,
+              aspectRatio: "16:9",
+            },
+            parents: [],
+          },
+        ],
+      });
+    });
   });
 
   describe("Vimeo", () => {

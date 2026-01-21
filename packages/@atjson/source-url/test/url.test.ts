@@ -172,6 +172,52 @@ describe("url-source", () => {
         marks: [],
       });
     });
+
+    test.each([
+      "https://www.youtube.com/playlist?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+      "https://m.youtube.com/playlist?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+    ])("%s", (text) => {
+      let url = URLSource.fromRaw(text).convertTo(OffsetSource);
+      expect(serialize(url, { withStableIds: true })).toEqual({
+        text: "\uFFFC",
+        blocks: [
+          {
+            id: "B00000000",
+            parents: [],
+            selfClosing: false,
+            type: "video-embed",
+            attributes: {
+              provider: VideoURLs.Provider.YOUTUBE,
+              url: "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+            },
+          },
+        ],
+        marks: [],
+      });
+    });
+
+    test.each([
+      "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+      "https://www.youtube.com/embed/videoseries?si=RrMc-rfBh85re8uq&list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+    ])("%s", (text) => {
+      let url = URLSource.fromRaw(text).convertTo(OffsetSource);
+      expect(serialize(url, { withStableIds: true })).toEqual({
+        text: "\uFFFC",
+        blocks: [
+          {
+            id: "B00000000",
+            parents: [],
+            selfClosing: false,
+            type: "video-embed",
+            attributes: {
+              provider: VideoURLs.Provider.YOUTUBE,
+              url: "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+            },
+          },
+        ],
+        marks: [],
+      });
+    });
   });
 
   describe("vimeo", () => {
