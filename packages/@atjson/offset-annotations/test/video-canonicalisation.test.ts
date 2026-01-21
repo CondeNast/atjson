@@ -71,6 +71,37 @@ describe("VideoURLs", () => {
         aspectRatio: "9:16",
       });
     });
+
+    test.each([
+      "https://www.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+      "https://m.youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+      "https://youtube.com/playlist?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://www.youtube.com/embed/videoseries?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+        provider: VideoURLs.Provider.YOUTUBE,
+      });
+    });
+
+    test.each([
+      "https://www.youtube.com/watch?v=Mh5LY4Mz15o&list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+      "https://m.youtube.com/watch?v=Mh5LY4Mz15o&list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://www.youtube.com/embed/Mh5LY4Mz15o?list=PLrAXtmErZgOeiKm4sgNOknGvNjby9efdf",
+        provider: VideoURLs.Provider.YOUTUBE,
+      });
+    });
+
+    test.each([
+      "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+      "https://www.youtube.com/embed/videoseries?si=RrMc-rfBh85re8uq&list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+    ])("%s", (url) => {
+      expect(VideoURLs.identify(new URL(url))).toEqual({
+        url: "https://www.youtube.com/embed/videoseries?list=PLztAHXmlMZFQomdSnSzomB_yGwd33MnHt",
+        provider: VideoURLs.Provider.YOUTUBE,
+      });
+    });
   });
 
   describe("Twitch", () => {
