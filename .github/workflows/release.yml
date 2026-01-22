@@ -70,8 +70,6 @@ jobs:
           cache: "npm"
       - name: Install Dependencies
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Fetch tags
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         env:
@@ -131,10 +129,10 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@v2
         with:
-          app-id: ${{vars.COPILOT_APP_ID}}
-          private-key: ${{secrets.COPILOT_APP_PRIVATE_KEY}}
+          app-id: ${{vars.GITHUB_APP_ID}}
+          private-key: ${{secrets.GITHUB_APP_PRIVATE_KEY}}
           owner: CondeNast
-          repositories: copilot-core-monorepo
+          repositories: atjson
       - name: Validate token generation
         run: |
           if [ -z "${{ steps.generate_token.outputs.token }}" ]; then
