@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.42.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.41.10...@atjson/source-html@0.42.0) (2026-01-22)
+
+### Features
+
+- Adding support for youtube playlist ([578b48e](https://github.com/CondeNast/atjson/commit/578b48e4070f2afcf34941784fa8351cf5c6060b))
+
 ## 0.41.10 (2025-08-27)
 
 **Note:** Version bump only for package @atjson/source-html
