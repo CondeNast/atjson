@@ -1,14 +1,147 @@
 name: Release
-concurrency: release
 on:
   push:
     branches: [main]
+  issue_comment:
+    types: [created]
+
+permissions:
+  id-token: write # Required for OIDC
+  contents: write
+  pull-requests: write # For prerelease comments
 
 jobs:
-  publish:
-    environment: npm
+  prerelease:
     runs-on: ubuntu-latest
+    if: ${{github.event.issue.pull_request && contains(github.event.comment.body, '@copilot-robot prerelease')}}
     steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              const result = await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: "+1"
+              });
+              return result.data
+            } catch (err) {
+              core.info(`Failed to set reaction error ${err}`)
+            }
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+      - uses: actions/github-script@v7
+        id: get-ref-name
+        with:
+          result-encoding: string
+          script: |
+            const result = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            if (result.data.head.ref === "main") {
+              throw new Error("Prereleasing main is unsupported");
+            }
+            return result.data.head.ref;
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{steps.get-ref-name.outputs.result}}
+      - name: Configure git
+        run: |
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
+          git checkout $BRANCH_NAME
+          echo "Prepublishing $(git branch --show-current) on behalf of ${GITHUB_ACTOR}"
+        env:
+          BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
+          GITHUB_TOKEN: ${{github.token}}
+      - uses: actions/setup-node@v4
+        with:
+          always-auth: true
+          node-version: "20.11.1"
+          registry-url: https://registry.npmjs.org
+          cache: "npm"
+      - name: Install Dependencies
+        run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+        env:
+          GITHUB_TOKEN: ${{github.token}}
+      - name: Lerna publish
+        id: publish
+        run: |
+          npx lerna publish\
+            --dist-tag "${BRANCH_NAME//\//-}"\
+            --preid "${BRANCH_NAME//\//-}"\
+            --canary\
+            --yes\
+            --summary-file\
+            --force-publish\
+            --no-private
+        env:
+          BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
+      - uses: actions/github-script@v7
+        if: ${{ success() }}
+        with:
+          github-token: ${{github.token}}
+          script: |
+            try {
+              const fs = require("fs/promises");
+              let publishResult = await fs.readFile("./lerna-publish-summary.json");
+              let packageInfo = JSON.parse(publishResult.toString());
+              const result = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `Hi, @${context.actor}, a pre-release has been published:\n\n${packageInfo.map(package => `- ${package.packageName}@${package.version}`).join("\n")}`
+              });
+              return result.data;
+            } catch (err) {
+              core.info(`Failed to reply to user with pre-release info ${err}`)
+            }
+      - uses: actions/github-script@v7
+        if: ${{ failure() }}
+        with:
+          github-token: ${{github.token}}
+          script: |
+            try {
+              const result = await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `Hi, @${context.actor}, there are no changed packages to publish.`
+              });
+            } catch (err) {
+              core.info(`Failed to reply to user with pre-release info ${err}`)
+            }
+  release:
+    runs-on: ubuntu-latest
+    if: ${{github.event_name == 'push' && github.ref == 'refs/heads/main'}}
+    steps:
+      - name: Generate GitHub App Token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{vars.COPILOT_APP_ID}}
+          private-key: ${{secrets.COPILOT_APP_PRIVATE_KEY}}
+          owner: CondeNast
+          repositories: copilot-core-monorepo
+      - name: Validate token generation
+        run: |
+          if [ -z "${{ steps.generate_token.outputs.token }}" ]; then
+            echo "❌ Failed to generate GitHub App token"
+            exit 1
+          fi
+          echo "✅ GitHub App token generated successfully"
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -16,10 +149,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           always-auth: true
-          node-version: "20.19.1"
+          node-version: "20.11.1"
           registry-url: https://registry.npmjs.org
+          cache: "npm"
       - name: Install Dependencies
-        run: npm ci --no-optional
+        run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Configure git
@@ -28,18 +162,9 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         env:
-          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-      - name: Fetch tags
-        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-        env:
-          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
       - name: Lerna publish
-        run: |
-          npx lerna publish\
-            -m "chore(release): publish [skip ci]"\
-            --conventional-graduate\
-            --conventional-commits\
-            --yes
+        run: $(echo ./node_modules/.bin)/lerna publish --conventional-commits --conventional-graduate --yes
         env:
-          GITHUB_TOKEN: ${{secrets.ROBOT_GITHUB_TOKEN}}
-          NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
+          GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
