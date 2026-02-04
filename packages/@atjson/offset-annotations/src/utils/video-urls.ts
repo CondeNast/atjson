@@ -19,7 +19,7 @@ interface IUrl {
 
 function getSearchParam(
   searchParams: { [key: string]: string } | URLSearchParams,
-  name: string
+  name: string,
 ) {
   if (searchParams instanceof URLSearchParams) {
     return searchParams.get(name);
@@ -49,6 +49,7 @@ function toURL(url: IUrl) {
   return result.href;
 }
 
+//adding this function to check if the url is a youtube url is playlist or not
 function isYouTubeURL(url: IUrl) {
   return (
     isYouTubeEmbedURL(url) ||
