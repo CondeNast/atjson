@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.59.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.58.0...@atjson/offset-annotations@0.59.0-dev.0) (2026-04-14)
+
+### Features
+
+- **ads:** atc-6999 ceros flex implementation ([271e408](https://github.com/CondeNast/atjson/commit/271e4087c3756b440051b612205873f41b6a5e35))
+
 # [0.58.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.57.5...@atjson/offset-annotations@0.58.0) (2026-01-22)
 
 ### Features
