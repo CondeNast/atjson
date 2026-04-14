@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.37.0-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.37.0-dev.0...@atjson/renderer-html@0.37.0-dev.1) (2026-04-14)
+
+### Features
+
+- **ads:** atc-6999 updated index for null check ([4f8a38d](https://github.com/CondeNast/atjson/commit/4f8a38d8bcb750676c59a9212004727c026dd08d))
+
 # [0.37.0-dev.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.36.6...@atjson/renderer-html@0.37.0-dev.0) (2026-04-14)
 
 ### Features
