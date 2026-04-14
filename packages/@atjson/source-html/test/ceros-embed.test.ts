@@ -99,35 +99,30 @@ describe("CerosEmbed", () => {
 
   test("parses Flex embeds into a structured Ceros block", () => {
     let doc = HTMLSource.fromRaw(
-      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div><script src="assets/scripts/embed_v1.js"></script>`,
+      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div>
+<script src="assets/scripts/embed_v1.js"></script>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
      {
-       "blocks": [],
-       "marks": [
+       "blocks": [
          {
            "attributes": {
-             "-html-dataset": {
-               "-html-ceros-experience": "https://view.ceros.com/example/flex/index.html",
-               "-html-embed-height": "auto",
-               "-html-embed-width": "100%",
-             },
+             "cerosType": "flex",
+             "experienceUrl": "https://view.ceros.com/example/flex/index.html",
+             "height": "auto",
+             "scriptUrl": "assets/scripts/embed_v1.js",
+             "url": "https://view.ceros.com/example/flex/index.html",
+             "width": "100%",
            },
-           "id": "M00000000",
-           "range": "(0..0]",
-           "type": "-html-div",
-         },
-         {
-           "attributes": {
-             "-html-src": "assets/scripts/embed_v1.js",
-           },
-           "id": "M00000001",
-           "range": "(0..0]",
-           "type": "-html-script",
+           "id": "B00000000",
+           "parents": [],
+           "selfClosing": false,
+           "type": "ceros-embed",
          },
        ],
-       "text": "",
+       "marks": [],
+       "text": "￼",
      }
     `);
   });
@@ -150,38 +145,32 @@ describe("CerosEmbed", () => {
            "selfClosing": false,
            "type": "ceros-embed",
          },
+         {
+           "attributes": {
+             "cerosType": "flex",
+             "experienceUrl": "https://view.ceros.com/example/flex/index.html",
+             "height": "auto",
+             "scriptUrl": "assets/scripts/embed_v1.js",
+             "url": "https://view.ceros.com/example/flex/index.html",
+             "width": "100%",
+           },
+           "id": "B00000001",
+           "parents": [],
+           "selfClosing": false,
+           "type": "ceros-embed",
+         },
        ],
        "marks": [
          {
            "attributes": {
-             "-html-dataset": {
-               "-html-ceros-experience": "https://view.ceros.com/example/flex/index.html",
-               "-html-embed-height": "auto",
-               "-html-embed-width": "100%",
-             },
-           },
-           "id": "M00000000",
-           "range": "(1..1]",
-           "type": "-html-div",
-         },
-         {
-           "attributes": {
              "-html-src": "https://www.example.com/keep-me.js",
            },
-           "id": "M00000001",
-           "range": "(1..1]",
-           "type": "-html-script",
-         },
-         {
-           "attributes": {
-             "-html-src": "assets/scripts/embed_v1.js",
-           },
-           "id": "M00000002",
-           "range": "(1..1]",
+           "id": "M00000000",
+           "range": "(2..2]",
            "type": "-html-script",
          },
        ],
-       "text": "￼",
+       "text": "￼￼",
      }
     `);
   });

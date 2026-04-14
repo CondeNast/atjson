@@ -13,7 +13,7 @@ function isCerosExperienceFrame(a: Annotation<any>) {
 }
 
 function isFlexCerosContainer(a: Annotation<any>) {
-  return a.type === "div" && a.attributes.dataset?.cerosExperience != null;
+  return a.type === "div" && a.attributes.dataset?.["ceros-experience"] != null;
 }
 
 function isCerosOriginDomainsScript(a: Annotation<any>) {
@@ -58,6 +58,17 @@ function isCneAudioScript(a: Annotation<any>) {
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
+}
+
+function adjacentSiblingWithOptionalWhitespace(
+  doc: Document,
+  first: Annotation<any>,
+  second: Annotation<any>,
+) {
+  return (
+    second.start >= first.end &&
+    /^\s*$/.test(doc.content.slice(first.end, second.start))
+  );
 }
 
 function getCneAudioEnvironment(hostname: string): AudioEnvironments {
@@ -122,9 +133,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
     .join(
       doc.where(isFlexCerosScript).as("scripts"),
       function scriptAfterFlexContainer(container, script: Script) {
-        return (
-          script.start === container.end || script.start === container.end + 1
-        );
+        return adjacentSiblingWithOptionalWhitespace(doc, container, script);
       },
     )
     .update(({ container, scripts }) => {
@@ -136,6 +145,10 @@ export default function convertThirdPartyEmbeds(doc: Document) {
 
       if (!script) return;
 
+      if (container.end !== script.start) {
+        doc.deleteText(container.end, script.start);
+      }
+
       doc.removeAnnotations(scripts);
 
       doc.replaceAnnotation(
@@ -145,11 +158,11 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           end: container.end,
           attributes: {
             cerosType: "flex",
-            url: container.attributes.dataset.cerosExperience,
-            experienceUrl: container.attributes.dataset.cerosExperience,
+            url: container.attributes.dataset["ceros-experience"],
+            experienceUrl: container.attributes.dataset["ceros-experience"],
             scriptUrl: script.attributes.src,
-            width: container.attributes.dataset.embedWidth,
-            height: container.attributes.dataset.embedHeight,
+            width: container.attributes.dataset["embed-width"],
+            height: container.attributes.dataset["embed-height"],
           },
         }),
       );
