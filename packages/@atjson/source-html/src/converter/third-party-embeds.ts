@@ -12,6 +12,10 @@ function isCerosExperienceFrame(a: Annotation<any>) {
   return a.type === "iframe" && a.attributes.class === "ceros-experience";
 }
 
+function isFlexCerosContainer(a: Annotation<any>) {
+  return a.type === "div" && a.attributes.dataset?.cerosExperience != null;
+}
+
 function isCerosOriginDomainsScript(a: Annotation<any>) {
   if (a.type !== "script") {
     return false;
@@ -34,6 +38,14 @@ function isCerosContainer(a: Annotation<any>) {
     a.attributes.id.match(/^experience-.*$/) &&
     a.attributes.dataset &&
     a.attributes.dataset.aspectratio != null
+  );
+}
+
+function isFlexCerosScript(a: Annotation<any>) {
+  return (
+    a.type === "script" &&
+    typeof a.attributes.src === "string" &&
+    /(?:^|\/)embed_v\d+\.js(?:[?#].*)?$/i.test(a.attributes.src)
   );
 }
 
@@ -73,6 +85,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
    */
   let containers = doc.where(isCerosContainer).as("container");
   let iframeTags = doc.where(isCerosExperienceFrame).as("iframes");
+  let flexContainers = doc.where(isFlexCerosContainer).as("container");
 
   doc.where(isCerosOriginDomainsScript).remove();
 
@@ -101,7 +114,44 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             mobileAspectRatio,
             url: iframes[0].attributes.src,
           },
-        })
+        }),
+      );
+    });
+
+  flexContainers
+    .join(
+      doc.where(isFlexCerosScript).as("scripts"),
+      function scriptAfterFlexContainer(container, script: Script) {
+        return (
+          script.start === container.end || script.start === container.end + 1
+        );
+      },
+    )
+    .update(({ container, scripts }) => {
+      let script = scripts.find(
+        (annotation) =>
+          typeof annotation.attributes.src === "string" &&
+          annotation.attributes.src.length > 0,
+      );
+
+      if (!script) return;
+
+      doc.removeAnnotations(scripts);
+
+      doc.replaceAnnotation(
+        container,
+        new CerosEmbed({
+          start: container.start,
+          end: container.end,
+          attributes: {
+            cerosType: "flex",
+            url: container.attributes.dataset.cerosExperience,
+            experienceUrl: container.attributes.dataset.cerosExperience,
+            scriptUrl: script.attributes.src,
+            width: container.attributes.dataset.embedWidth,
+            height: container.attributes.dataset.embedHeight,
+          },
+        }),
       );
     });
 
@@ -120,7 +170,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             src.match(/fwcdn\d\.com\//) != null ||
             src.match(/fwpub\d\.com\//) != null)
         );
-      }
+      },
     )
     .update(({ embed, scripts }) => {
       let playlist = embed.attributes.playlist;
@@ -142,7 +192,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             channel: channel,
             open: embed.attributes.open_in,
           },
-        })
+        }),
       );
       // Remove newlines from embed code
       if (scripts.length) {
@@ -184,7 +234,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioId,
             anchorName,
           },
-        })
+        }),
       );
     });
   /**
@@ -212,7 +262,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioType,
             anchorName: iframe.attributes.id,
           },
-        })
+        }),
       );
     });
   /**
@@ -238,7 +288,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         attributes: {
           url: embed.attributes.url,
         },
-      })
+      }),
     );
   });
 

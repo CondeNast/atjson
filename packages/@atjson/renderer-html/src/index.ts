@@ -132,6 +132,17 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *CerosEmbed(embed: Block<CerosEmbed>) {
+    if (embed.attributes.cerosType === "flex") {
+      return `<div ${this.htmlAttributes({
+        "data-embed-width": embed.attributes.width,
+        "data-embed-height": embed.attributes.height,
+        "data-ceros-experience":
+          embed.attributes.experienceUrl || embed.attributes.url,
+      }).join(" ")}></div><script ${this.htmlAttributes({
+        src: embed.attributes.scriptUrl,
+      }).join(" ")}></script>`;
+    }
+
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",

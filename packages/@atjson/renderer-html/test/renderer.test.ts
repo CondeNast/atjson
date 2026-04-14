@@ -510,6 +510,35 @@ describe("renderer-html", () => {
       );
     });
 
+    test("flex", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CerosEmbed({
+            id: "test",
+            start: 0,
+            end: 1,
+            attributes: {
+              cerosType: "flex",
+              url: "https://view.ceros.com/example/flex/index.html",
+              experienceUrl: "https://view.ceros.com/example/flex/index.html",
+              scriptUrl: "assets/scripts/embed_v1.js",
+              width: "100%",
+              height: "auto",
+            },
+          }),
+          new ParseAnnotation({
+            start: 0,
+            end: 1,
+          }),
+        ],
+      });
+
+      expect(Renderer.render(doc)).toMatchInlineSnapshot(
+        `"<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div><script src="assets/scripts/embed_v1.js"></script>"`,
+      );
+    });
+
     test("with mobile aspect ratio", () => {
       let doc = new OffsetSource({
         content: "\uFFFC",

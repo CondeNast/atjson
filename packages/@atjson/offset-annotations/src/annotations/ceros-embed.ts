@@ -7,11 +7,37 @@ export class CerosEmbed extends BlockAnnotation<{
   url: string;
 
   /**
+   * The type of ceros embed.
+   */
+  cerosType?: "studio" | "flex";
+
+  /**
+   * The URL to the Flex experience when represented separately
+   * from the canonical `url` field.
+   */
+  experienceUrl?: string;
+
+  /**
+   * The script URL required to bootstrap a Flex embed.
+   */
+  scriptUrl?: string;
+
+  /**
+   * The configured width for a Flex embed.
+   */
+  width?: string;
+
+  /**
+   * The configured height for a Flex embed.
+   */
+  height?: string;
+
+  /**
    * The aspect ratio, as a fraction of the embed, which
    * is used so the embed can be scaled automatically
    * by the Ceros script tag.
    */
-  aspectRatio: number;
+  aspectRatio?: number;
 
   /**
    * The mobile aspect ratio of the embed, which is chosen
