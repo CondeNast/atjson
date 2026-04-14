@@ -143,6 +143,10 @@ export default class HTMLRenderer extends Renderer {
       }).join(" ")}></script>`;
     }
 
+    if (embed.attributes.aspectRatio == null) {
+      throw new Error("Studio Ceros embeds require an aspectRatio");
+    }
+
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",
