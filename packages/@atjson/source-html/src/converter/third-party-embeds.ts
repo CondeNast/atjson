@@ -88,11 +88,16 @@ function getCneAudioEnvironment(hostname: string): AudioEnvironments {
 
 export default function convertThirdPartyEmbeds(doc: Document) {
   /**
-   * Ceros Embeds are iframes wrapped in divs:
+   * Ceros studio Embeds are iframes wrapped in divs:
    *   <div id="experience-*" data-aspectRatio="{aspectRatio}" data-mobile-aspectRatio="{mobileAspectRatio}">
    *     <iframe src="{url}" class="ceros-experience"></iframe>
    *   </div>
    *   <script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>
+   */
+  /**
+   * Ceros flex embeds
+   * <div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://cn-adelphi.ceros.site/flex-testing"></div>
+   * <script src="https://assets.ceros.site/js/embed.v1.js"></script>
    */
   let containers = doc.where(isCerosContainer).as("container");
   let iframeTags = doc.where(isCerosExperienceFrame).as("iframes");
