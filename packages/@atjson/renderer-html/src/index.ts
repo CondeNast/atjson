@@ -144,7 +144,7 @@ export default class HTMLRenderer extends Renderer {
     }
 
     if (embed.attributes.aspectRatio == null) {
-      throw new Error("Studio Ceros embeds require an aspectRatio");
+      throw new Error("Ceros studio embeds require an aspectRatio");
     }
 
     return `<div ${this.htmlAttributes({

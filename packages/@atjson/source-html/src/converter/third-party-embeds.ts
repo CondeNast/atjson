@@ -95,7 +95,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
    *   <script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>
    */
   /**
-   * Ceros flex embeds
+   * Ceros flex embeds are wrapped in divs
    * <div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://cn-adelphi.ceros.site/flex-testing"></div>
    * <script src="https://assets.ceros.site/js/embed.v1.js"></script>
    */
