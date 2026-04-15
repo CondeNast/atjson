@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.43.0-dev.2](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.43.0-dev.1...@atjson/source-html@0.43.0-dev.2) (2026-04-15)
+
+### Features
+
+- **ads:** atc-6999 updated comment for re-release ([cc625e7](https://github.com/CondeNast/atjson/commit/cc625e7dd04a4bd79e3636529c92bae2e484ae7c))
+
 # [0.43.0-dev.1](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.43.0-dev.0...@atjson/source-html@0.43.0-dev.1) (2026-04-14)
 
 ### Features
