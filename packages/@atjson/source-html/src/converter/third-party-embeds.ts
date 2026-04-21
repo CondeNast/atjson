@@ -12,6 +12,10 @@ function isCerosExperienceFrame(a: Annotation<any>) {
   return a.type === "iframe" && a.attributes.class === "ceros-experience";
 }
 
+function isFlexCerosContainer(a: Annotation<any>) {
+  return a.type === "div" && a.attributes.dataset?.["ceros-experience"] != null;
+}
+
 function isCerosOriginDomainsScript(a: Annotation<any>) {
   if (a.type !== "script") {
     return false;
@@ -37,6 +41,14 @@ function isCerosContainer(a: Annotation<any>) {
   );
 }
 
+function isFlexCerosScript(a: Annotation<any>) {
+  return (
+    a.type === "script" &&
+    typeof a.attributes.src === "string" &&
+    /(?:^|\/)embed_v\d+\.js(?:[?#].*)?$/i.test(a.attributes.src)
+  );
+}
+
 function isCneAudioScript(a: Annotation<any>) {
   return (
     a.attributes.src &&
@@ -46,6 +58,17 @@ function isCneAudioScript(a: Annotation<any>) {
 
 function aCoversB(a: Annotation<any>, b: Annotation<any>) {
   return a.start < b.start && a.end > b.end;
+}
+
+function adjacentSiblingWithOptionalWhitespace(
+  doc: Document,
+  first: Annotation<any>,
+  second: Annotation<any>,
+) {
+  return (
+    second.start >= first.end &&
+    /^\s*$/.test(doc.content.slice(first.end, second.start))
+  );
 }
 
 function getCneAudioEnvironment(hostname: string): AudioEnvironments {
@@ -65,14 +88,20 @@ function getCneAudioEnvironment(hostname: string): AudioEnvironments {
 
 export default function convertThirdPartyEmbeds(doc: Document) {
   /**
-   * Ceros Embeds are iframes wrapped in divs:
+   * Ceros studio Embeds are iframes wrapped in divs:
    *   <div id="experience-*" data-aspectRatio="{aspectRatio}" data-mobile-aspectRatio="{mobileAspectRatio}">
    *     <iframe src="{url}" class="ceros-experience"></iframe>
    *   </div>
    *   <script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js" data-ceros-origin-domains="view.ceros.com"></script>
    */
+  /**
+   * Ceros flex embeds are wrapped in divs
+   * <div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://cn-adelphi.ceros.site/flex-testing"></div>
+   * <script src="https://assets.ceros.site/js/embed.v1.js"></script>
+   */
   let containers = doc.where(isCerosContainer).as("container");
   let iframeTags = doc.where(isCerosExperienceFrame).as("iframes");
+  let flexContainers = doc.where(isFlexCerosContainer).as("container");
 
   doc.where(isCerosOriginDomainsScript).remove();
 
@@ -101,7 +130,46 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             mobileAspectRatio,
             url: iframes[0].attributes.src,
           },
-        })
+        }),
+      );
+    });
+
+  flexContainers
+    .join(
+      doc.where(isFlexCerosScript).as("scripts"),
+      function scriptAfterFlexContainer(container, script: Script) {
+        return adjacentSiblingWithOptionalWhitespace(doc, container, script);
+      },
+    )
+    .update(({ container, scripts }) => {
+      let script = scripts.find(
+        (annotation) =>
+          typeof annotation.attributes.src === "string" &&
+          annotation.attributes.src.length > 0,
+      );
+
+      if (!script) return;
+
+      if (container.end !== script.start) {
+        doc.deleteText(container.end, script.start);
+      }
+
+      doc.removeAnnotations(scripts);
+
+      doc.replaceAnnotation(
+        container,
+        new CerosEmbed({
+          start: container.start,
+          end: container.end,
+          attributes: {
+            cerosType: "flex",
+            url: container.attributes.dataset["ceros-experience"],
+            experienceUrl: container.attributes.dataset["ceros-experience"],
+            scriptUrl: script.attributes.src,
+            width: container.attributes.dataset["embed-width"],
+            height: container.attributes.dataset["embed-height"],
+          },
+        }),
       );
     });
 
@@ -120,7 +188,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             src.match(/fwcdn\d\.com\//) != null ||
             src.match(/fwpub\d\.com\//) != null)
         );
-      }
+      },
     )
     .update(({ embed, scripts }) => {
       let playlist = embed.attributes.playlist;
@@ -142,7 +210,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             channel: channel,
             open: embed.attributes.open_in,
           },
-        })
+        }),
       );
       // Remove newlines from embed code
       if (scripts.length) {
@@ -184,7 +252,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioId,
             anchorName,
           },
-        })
+        }),
       );
     });
   /**
@@ -212,7 +280,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioType,
             anchorName: iframe.attributes.id,
           },
-        })
+        }),
       );
     });
   /**
@@ -238,7 +306,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         attributes: {
           url: embed.attributes.url,
         },
-      })
+      }),
     );
   });
 
