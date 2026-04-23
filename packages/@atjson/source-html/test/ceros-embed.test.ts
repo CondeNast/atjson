@@ -99,8 +99,8 @@ describe("CerosEmbed", () => {
 
   test("parses Flex embeds into a structured Ceros block", () => {
     let doc = HTMLSource.fromRaw(
-      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div>
-<script src="assets/scripts/embed_v1.js"></script>`,
+      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div>
+<script src="https://assets.ceros.site/js/embed.v1.js"></script>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -109,10 +109,10 @@ describe("CerosEmbed", () => {
          {
            "attributes": {
              "cerosType": "flex",
-             "experienceUrl": "https://view.ceros.com/example/flex/index.html",
              "height": "auto",
-             "scriptUrl": "assets/scripts/embed_v1.js",
-             "url": "https://view.ceros.com/example/flex/index.html",
+             "scriptUrl": "https://assets.ceros.site/js/embed.v1.js",
+             "title": "Example Flex Experience",
+             "url": "https://flexamples.ceros.site/example-1",
              "width": "100%",
            },
            "id": "B00000000",
@@ -129,7 +129,7 @@ describe("CerosEmbed", () => {
 
   test("mixed studio and flex scenarios keep both embeds and remove only matched scripts", () => {
     let doc = HTMLSource.fromRaw(
-      `<div id="experience-test" data-aspectRatio="2"><iframe src="//view.ceros.com/ceros-inspire/carousel-3" class="ceros-experience"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js"></script><div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div><script src="assets/scripts/embed_v1.js"></script><script src="https://www.example.com/keep-me.js"></script>`,
+      `<div id="experience-test" data-aspectRatio="2"><iframe src="//view.ceros.com/ceros-inspire/carousel-3" class="ceros-experience" title="Studio carousel"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js"></script><div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div><script src="https://assets.ceros.site/js/embed.v1.js"></script><script src="https://www.example.com/keep-me.js"></script>`,
     ).convertTo(OffsetSource);
 
     expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
@@ -138,6 +138,7 @@ describe("CerosEmbed", () => {
          {
            "attributes": {
              "aspectRatio": 2,
+             "title": "Studio carousel",
              "url": "//view.ceros.com/ceros-inspire/carousel-3",
            },
            "id": "B00000000",
@@ -148,10 +149,10 @@ describe("CerosEmbed", () => {
          {
            "attributes": {
              "cerosType": "flex",
-             "experienceUrl": "https://view.ceros.com/example/flex/index.html",
              "height": "auto",
-             "scriptUrl": "assets/scripts/embed_v1.js",
-             "url": "https://view.ceros.com/example/flex/index.html",
+             "scriptUrl": "https://assets.ceros.site/js/embed.v1.js",
+             "title": "Example Flex Experience",
+             "url": "https://flexamples.ceros.site/example-1",
              "width": "100%",
            },
            "id": "B00000001",
@@ -173,5 +174,35 @@ describe("CerosEmbed", () => {
        "text": "￼￼",
      }
     `);
+  });
+
+  test("does not treat non-ceros embed scripts as flex embeds", () => {
+    let doc = HTMLSource.fromRaw(
+      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1"></div>
+<script src="https://www.example.com/js/embed.v1.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      blocks: [{ type: "text", attributes: {} }],
+      marks: [
+        {
+          type: "-html-div",
+          attributes: {
+            "-html-dataset": {
+              "-html-ceros-experience":
+                "https://flexamples.ceros.site/example-1",
+              "-html-embed-height": "auto",
+              "-html-embed-width": "100%",
+            },
+          },
+        },
+        {
+          type: "-html-script",
+          attributes: {
+            "-html-src": "https://www.example.com/js/embed.v1.js",
+          },
+        },
+      ],
+    });
   });
 });

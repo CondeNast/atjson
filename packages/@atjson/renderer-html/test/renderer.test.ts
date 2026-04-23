@@ -520,11 +520,11 @@ describe("renderer-html", () => {
             end: 1,
             attributes: {
               cerosType: "flex",
-              url: "https://view.ceros.com/example/flex/index.html",
-              experienceUrl: "https://view.ceros.com/example/flex/index.html",
-              scriptUrl: "assets/scripts/embed_v1.js",
+              url: "https://flexamples.ceros.site/example-1",
+              scriptUrl: "https://assets.ceros.site/js/embed.v1.js",
               width: "100%",
               height: "auto",
+              title: "Example Flex Experience",
             },
           }),
           new ParseAnnotation({
@@ -535,7 +535,7 @@ describe("renderer-html", () => {
       });
 
       expect(Renderer.render(doc)).toMatchInlineSnapshot(
-        `"<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://view.ceros.com/example/flex/index.html"></div><script src="assets/scripts/embed_v1.js"></script>"`,
+        `"<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div><script src="https://assets.ceros.site/js/embed.v1.js"></script>"`,
       );
     });
 

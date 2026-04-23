@@ -133,25 +133,25 @@ export default class HTMLRenderer extends Renderer {
 
   *CerosEmbed(embed: Block<CerosEmbed>) {
     if (embed.attributes.cerosType === "flex") {
+      let { height, scriptUrl, title, url, width } = embed.attributes;
       return `<div ${this.htmlAttributes({
-        "data-embed-width": embed.attributes.width,
-        "data-embed-height": embed.attributes.height,
-        "data-ceros-experience":
-          embed.attributes.experienceUrl || embed.attributes.url,
+        "data-embed-width": width,
+        "data-embed-height": height,
+        "data-ceros-experience": url,
+        "data-title": title,
       }).join(" ")}></div><script ${this.htmlAttributes({
-        src: embed.attributes.scriptUrl,
+        src: scriptUrl,
       }).join(" ")}></script>`;
     }
 
-    if (embed.attributes.aspectRatio == null) {
-      throw new Error("Ceros studio embeds require an aspectRatio");
-    }
+    let { anchorName, aspectRatio, mobileAspectRatio, title, url } =
+      embed.attributes;
 
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",
         "width: auto",
-        `padding: 0 0 ${100 / embed.attributes.aspectRatio}%`,
+        `padding: 0 0 ${100 / aspectRatio}%`,
         "height: 0",
         "top: 0",
         "left: 0",
@@ -161,12 +161,13 @@ export default class HTMLRenderer extends Renderer {
         "border: 0 none",
       ].join(";"),
       id: `experience-${embed.id}`,
-      "data-aspectRatio": embed.attributes.aspectRatio?.toString(),
-      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString(),
+      "data-aspectRatio": aspectRatio.toString(),
+      "data-mobile-aspectRatio": mobileAspectRatio?.toString(),
     }).join(" ")}><iframe ${this.htmlAttributes({
       allowfullscreen: true,
-      src: embed.attributes.url,
-      id: embed.attributes.anchorName,
+      src: url,
+      id: anchorName,
+      title,
       style: [
         "position: absolute",
         "top: 0",

@@ -42,11 +42,24 @@ function isCerosContainer(a: Annotation<any>) {
 }
 
 function isFlexCerosScript(a: Annotation<any>) {
-  return (
-    a.type === "script" &&
-    typeof a.attributes.src === "string" &&
-    /(?:^|\/)embed_v\d+\.js(?:[?#].*)?$/i.test(a.attributes.src)
-  );
+  if (a.type !== "script" || typeof a.attributes.src !== "string") {
+    return false;
+  }
+
+  let src = a.attributes.src;
+  if (src.indexOf("//") === 0) {
+    src = `https:${src}`;
+  }
+
+  try {
+    let url = new URL(src);
+    return (
+      url.hostname === "assets.ceros.site" &&
+      /^\/js\/embed\.v\d+\.js$/i.test(url.pathname)
+    );
+  } catch (error) {
+    return false;
+  }
 }
 
 function isCneAudioScript(a: Annotation<any>) {
@@ -128,6 +141,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             anchorName: iframes[0].attributes.id,
             aspectRatio,
             mobileAspectRatio,
+            title: iframes[0].attributes.title,
             url: iframes[0].attributes.src,
           },
         }),
@@ -164,10 +178,10 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           attributes: {
             cerosType: "flex",
             url: container.attributes.dataset["ceros-experience"],
-            experienceUrl: container.attributes.dataset["ceros-experience"],
             scriptUrl: script.attributes.src,
             width: container.attributes.dataset["embed-width"],
             height: container.attributes.dataset["embed-height"],
+            title: container.attributes.dataset["title"],
           },
         }),
       );
