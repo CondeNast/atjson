@@ -178,9 +178,8 @@ export default function convertThirdPartyEmbeds(doc: Document) {
           attributes: {
             cerosType: "flex",
             url: container.attributes.dataset["ceros-experience"],
-            scriptUrl: script.attributes.src,
-            width: container.attributes.dataset["embed-width"],
-            height: container.attributes.dataset["embed-height"],
+            embedWidth: container.attributes.dataset["embed-width"],
+            embedHeight: container.attributes.dataset["embed-height"],
             title: container.attributes.dataset["title"],
           },
         }),

@@ -51,22 +51,17 @@ type FlexCerosEmbedAttributes = SharedCerosEmbedAttributes & {
   cerosType: "flex";
 
   /**
-   * The script URL required to bootstrap a Flex embed.
-   */
-  scriptUrl?: string;
-
-  /**
    * The configured width for a Flex embed. Per Ceros docs this is
    * typically a percentage value such as `100%`.
    */
-  width?: string;
+  embedWidth?: string;
 
   /**
    * The configured height for a Flex embed. Per Ceros docs this is
    * either `auto` for a full-height embed or a fixed pixel value
    * such as `800px` for a scrolling embed.
    */
-  height?: string;
+  embedHeight?: string;
 };
 
 export type CerosEmbedAttributes =

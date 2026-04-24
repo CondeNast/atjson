@@ -521,9 +521,8 @@ describe("renderer-html", () => {
             attributes: {
               cerosType: "flex",
               url: "https://flexamples.ceros.site/example-1",
-              scriptUrl: "https://assets.ceros.site/js/embed.v1.js",
-              width: "100%",
-              height: "auto",
+              embedWidth: "100%",
+              embedHeight: "auto",
               title: "Example Flex Experience",
             },
           }),

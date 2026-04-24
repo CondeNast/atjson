@@ -133,15 +133,15 @@ export default class HTMLRenderer extends Renderer {
 
   *CerosEmbed(embed: Block<CerosEmbed>) {
     if (embed.attributes.cerosType === "flex") {
-      let { height, scriptUrl, title, url, width } = embed.attributes;
+      let { embedHeight, embedWidth, title, url } = embed.attributes;
       return `<div ${this.htmlAttributes({
-        "data-embed-width": width,
-        "data-embed-height": height,
+        "data-embed-width": embedWidth,
+        "data-embed-height": embedHeight,
         "data-ceros-experience": url,
         "data-title": title,
-      }).join(" ")}></div><script ${this.htmlAttributes({
-        src: scriptUrl,
-      }).join(" ")}></script>`;
+      }).join(
+        " ",
+      )}></div><script src="https://assets.ceros.site/js/embed.v1.js"></script>`;
     }
 
     let { anchorName, aspectRatio, mobileAspectRatio, title, url } =

@@ -109,11 +109,10 @@ describe("CerosEmbed", () => {
          {
            "attributes": {
              "cerosType": "flex",
-             "height": "auto",
-             "scriptUrl": "https://assets.ceros.site/js/embed.v1.js",
+             "embedHeight": "auto",
+             "embedWidth": "100%",
              "title": "Example Flex Experience",
              "url": "https://flexamples.ceros.site/example-1",
-             "width": "100%",
            },
            "id": "B00000000",
            "parents": [],
@@ -149,11 +148,10 @@ describe("CerosEmbed", () => {
          {
            "attributes": {
              "cerosType": "flex",
-             "height": "auto",
-             "scriptUrl": "https://assets.ceros.site/js/embed.v1.js",
+             "embedHeight": "auto",
+             "embedWidth": "100%",
              "title": "Example Flex Experience",
              "url": "https://flexamples.ceros.site/example-1",
-             "width": "100%",
            },
            "id": "B00000001",
            "parents": [],
