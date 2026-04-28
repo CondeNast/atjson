@@ -96,4 +96,111 @@ describe("CerosEmbed", () => {
       }
     `);
   });
+
+  test("parses Flex embeds into a structured Ceros block", () => {
+    let doc = HTMLSource.fromRaw(
+      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div>
+<script src="https://assets.ceros.site/js/embed.v1.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+     {
+       "blocks": [
+         {
+           "attributes": {
+             "cerosType": "flex",
+             "embedHeight": "auto",
+             "embedWidth": "100%",
+             "title": "Example Flex Experience",
+             "url": "https://flexamples.ceros.site/example-1",
+           },
+           "id": "B00000000",
+           "parents": [],
+           "selfClosing": false,
+           "type": "ceros-embed",
+         },
+       ],
+       "marks": [],
+       "text": "￼",
+     }
+    `);
+  });
+
+  test("mixed studio and flex scenarios keep both embeds and remove only matched scripts", () => {
+    let doc = HTMLSource.fromRaw(
+      `<div id="experience-test" data-aspectRatio="2"><iframe src="//view.ceros.com/ceros-inspire/carousel-3" class="ceros-experience" title="Studio carousel"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js"></script><div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div><script src="https://assets.ceros.site/js/embed.v1.js"></script><script src="https://www.example.com/keep-me.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+     {
+       "blocks": [
+         {
+           "attributes": {
+             "aspectRatio": 2,
+             "title": "Studio carousel",
+             "url": "//view.ceros.com/ceros-inspire/carousel-3",
+           },
+           "id": "B00000000",
+           "parents": [],
+           "selfClosing": false,
+           "type": "ceros-embed",
+         },
+         {
+           "attributes": {
+             "cerosType": "flex",
+             "embedHeight": "auto",
+             "embedWidth": "100%",
+             "title": "Example Flex Experience",
+             "url": "https://flexamples.ceros.site/example-1",
+           },
+           "id": "B00000001",
+           "parents": [],
+           "selfClosing": false,
+           "type": "ceros-embed",
+         },
+       ],
+       "marks": [
+         {
+           "attributes": {
+             "-html-src": "https://www.example.com/keep-me.js",
+           },
+           "id": "M00000000",
+           "range": "(2..2]",
+           "type": "-html-script",
+         },
+       ],
+       "text": "￼￼",
+     }
+    `);
+  });
+
+  test("does not treat non-ceros embed scripts as flex embeds", () => {
+    let doc = HTMLSource.fromRaw(
+      `<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1"></div>
+<script src="https://www.example.com/js/embed.v1.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      blocks: [{ type: "text", attributes: {} }],
+      marks: [
+        {
+          type: "-html-div",
+          attributes: {
+            "-html-dataset": {
+              "-html-ceros-experience":
+                "https://flexamples.ceros.site/example-1",
+              "-html-embed-height": "auto",
+              "-html-embed-width": "100%",
+            },
+          },
+        },
+        {
+          type: "-html-script",
+          attributes: {
+            "-html-src": "https://www.example.com/js/embed.v1.js",
+          },
+        },
+      ],
+    });
+  });
 });

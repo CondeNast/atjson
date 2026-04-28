@@ -510,6 +510,34 @@ describe("renderer-html", () => {
       );
     });
 
+    test("flex", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CerosEmbed({
+            id: "test",
+            start: 0,
+            end: 1,
+            attributes: {
+              cerosType: "flex",
+              url: "https://flexamples.ceros.site/example-1",
+              embedWidth: "100%",
+              embedHeight: "auto",
+              title: "Example Flex Experience",
+            },
+          }),
+          new ParseAnnotation({
+            start: 0,
+            end: 1,
+          }),
+        ],
+      });
+
+      expect(Renderer.render(doc)).toMatchInlineSnapshot(
+        `"<div data-embed-width="100%" data-embed-height="auto" data-ceros-experience="https://flexamples.ceros.site/example-1" data-title="Example Flex Experience"></div><script src="https://assets.ceros.site/js/embed.v1.js"></script>"`,
+      );
+    });
+
     test("with mobile aspect ratio", () => {
       let doc = new OffsetSource({
         content: "\uFFFC",

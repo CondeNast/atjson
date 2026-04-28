@@ -132,11 +132,26 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *CerosEmbed(embed: Block<CerosEmbed>) {
+    if (embed.attributes.cerosType === "flex") {
+      let { embedHeight, embedWidth, title, url } = embed.attributes;
+      return `<div ${this.htmlAttributes({
+        "data-embed-width": embedWidth,
+        "data-embed-height": embedHeight,
+        "data-ceros-experience": url,
+        "data-title": title,
+      }).join(
+        " ",
+      )}></div><script src="https://assets.ceros.site/js/embed.v1.js"></script>`;
+    }
+
+    let { anchorName, aspectRatio, mobileAspectRatio, title, url } =
+      embed.attributes;
+
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",
         "width: auto",
-        `padding: 0 0 ${100 / embed.attributes.aspectRatio}%`,
+        `padding: 0 0 ${100 / aspectRatio}%`,
         "height: 0",
         "top: 0",
         "left: 0",
@@ -146,12 +161,13 @@ export default class HTMLRenderer extends Renderer {
         "border: 0 none",
       ].join(";"),
       id: `experience-${embed.id}`,
-      "data-aspectRatio": embed.attributes.aspectRatio?.toString(),
-      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString(),
+      "data-aspectRatio": aspectRatio.toString(),
+      "data-mobile-aspectRatio": mobileAspectRatio?.toString(),
     }).join(" ")}><iframe ${this.htmlAttributes({
       allowfullscreen: true,
-      src: embed.attributes.url,
-      id: embed.attributes.anchorName,
+      src: url,
+      id: anchorName,
+      title,
       style: [
         "position: absolute",
         "top: 0",
