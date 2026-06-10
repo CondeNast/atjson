@@ -152,8 +152,6 @@ jobs:
         run: npm ci --no-optional
         env:
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
-      - name: NX Report
-        run: npx nx report
       - name: Configure git
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -165,6 +163,8 @@ jobs:
         run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
+      - name: NX Report
+        run: npx nx report
       - name: Lerna publish
         run: |
           npx lerna publish\
