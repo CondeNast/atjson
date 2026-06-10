@@ -77,7 +77,7 @@ jobs:
       - name: Lerna publish
         id: publish
         run: |
-          npx lerna publish\
+          NX_SKIP_NATIVE_FILE_CACHE=true npx lerna publish\
             --dist-tag "${BRANCH_NAME//\//-}"\
             --preid "${BRANCH_NAME//\//-}"\
             --canary\
@@ -164,10 +164,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
       - name: NX Report
-        run: npx nx report
+        run: NX_SKIP_NATIVE_FILE_CACHE=true npx nx report
       - name: Lerna publish
         run: |
-          npx lerna publish\
+          NX_SKIP_NATIVE_FILE_CACHE=true npx lerna publish\
             -m "chore(release): publish %s [skip ci]"\
             --conventional-graduate\
             --conventional-commits\
