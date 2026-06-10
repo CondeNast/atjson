@@ -23,21 +23,21 @@
     "@atjson/util": "file:../packages/util",
     "@babel/plugin-proposal-class-properties": "7.18.6",
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
-    "@babel/preset-typescript": "7.26.0",
-    "@docusaurus/core": "^3.7.0",
-    "@docusaurus/preset-classic": "^3.8.1",
-    "classnames": "2.3.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "@babel/preset-typescript": "7.29.7",
+    "@docusaurus/core": "^3.10.1",
+    "@docusaurus/preset-classic": "^3.10.1",
+    "classnames": "2.5.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "resize-observer": "1.0.4",
-    "styled-components": "6.1.19"
+    "styled-components": "6.4.2"
   },
   "browserslist": [
     "last 2 chrome versions",
     "last 2 firefox versions"
   ],
   "devDependencies": {
-    "@types/react": "18.2.70",
+    "@types/react": "19.2.7",
     "@types/styled-components": "5.1.36"
   }
 }
