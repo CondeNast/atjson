@@ -63,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{github.token}}
       - uses: actions/setup-node@v6
         with:
-          node-version: "24.16.0"
+          node-version: "20.11.1"
           registry-url: https://registry.npmjs.org
           cache: "npm"
       - name: Install Dependencies
@@ -145,7 +145,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v6
         with:
-          node-version: "24.16.0"
+          node-version: "20.11.1"
           registry-url: https://registry.npmjs.org
           cache: "npm"
       - name: Install Dependencies
