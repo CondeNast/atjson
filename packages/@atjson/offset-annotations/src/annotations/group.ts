@@ -32,6 +32,12 @@ export class Group<T = {}> extends BlockAnnotation<
     layout?: string;
 
     /**
+     * Optional color theme information that downstream consumers
+     * can use to persist and render themed media groups.
+     */
+    theme?: string;
+
+    /**
      * A named identifier used to quickly jump to this item
      */
     anchorName?: string;
