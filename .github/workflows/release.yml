@@ -83,8 +83,7 @@ jobs:
             --canary\
             --yes\
             --summary-file\
-            --no-private\
-            --skip-nx-cache
+            --no-private
         env:
           BRANCH_NAME: ${{steps.get-ref-name.outputs.result}}
       - uses: actions/github-script@v9
@@ -171,8 +170,7 @@ jobs:
             --conventional-graduate\
             --conventional-commits\
             --yes\
-            --no-private\
-            --skip-nx-cache
+            --no-private
         env:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
