@@ -41,9 +41,11 @@ function getAnnotatedSource(html: string) {
 Test your Wordpress code here. (This website doesn't collect any data, and this runs completely on this page with bundled packages)
 
 import { useState } from "react";
+import { serialize } from "@atjson/document";
 import { TextArea } from "../src/components/TextArea.tsx";
 import HTMLSource from "@atjson/source-html";
 import WPSource from "@atjson/source-wordpress-shortcode";
+import CodeBlock from "@theme/CodeBlock";
 
 export const WPDemo = (props) => {
   let [code, setCode] = useState(
@@ -54,8 +56,7 @@ export const WPDemo = (props) => {
   return (
     <>
       <TextArea value={code} onChange={(evt) => setCode(evt.target.value)} />
-      <code language="json">{JSON.stringify(doc.toJSON(), null, 2)}</code>
-      <code>{doc.canonical().content}</code>
+      <CodeBlock language="json">{JSON.stringify(serialize(doc), null, 2)}</CodeBlock>
     </>
   );
 };

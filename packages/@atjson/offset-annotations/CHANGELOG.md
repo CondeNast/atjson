@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.59.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.58.0...@atjson/offset-annotations@0.59.0) (2026-06-10)
+
+### Features
+
+- **offset-annotations:** add optional theme to Group and corresponding tests ([#1943](https://github.com/CondeNast/atjson/issues/1943)) ([9161993](https://github.com/CondeNast/atjson/commit/91619938b32c04330007cdde891e1af95b064dde))
+
 # [0.58.0](https://github.com/CondeNast/atjson/compare/@atjson/offset-annotations@0.57.5...@atjson/offset-annotations@0.58.0) (2026-01-22)
 
 ### Features
