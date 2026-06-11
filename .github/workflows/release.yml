@@ -149,7 +149,7 @@ jobs:
           registry-url: https://registry.npmjs.org
           cache: "npm"
       - name: Install Dependencies
-        run: npm ci --no-optional
+        run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{secrets.ROBOT_NPM_TOKEN}}
       - name: Configure git

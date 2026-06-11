@@ -105,5 +105,8 @@
     "*.{ts,tsx,css,js,jsx,json,md}": [
       "prettier --write"
     ]
+  },
+  "optionalDependencies": {
+    "@nx/nx-linux-x64-gnu": "^22.7.5"
   }
 }
