@@ -165,7 +165,6 @@ jobs:
           GITHUB_TOKEN: ${{steps.generate_token.outputs.token}}
       - name: Lerna publish
         run: |
-          npm ls @nx/nx-linux-x64-gnu
           npx lerna publish\
             -m "chore(release): publish %s [skip ci]"\
             --conventional-graduate\
