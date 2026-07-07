@@ -3,6 +3,61 @@ import OffsetSource from "@atjson/offset-annotations";
 import { serialize } from "@atjson/document";
 
 describe("CerosEmbed", () => {
+  test("flex inline embed", () => {
+    let doc = HTMLSource.fromRaw(
+      `<div data-flex-inline style="height: 100vh" data-flex-manifest-url="https://a-j-lawrence.ceros.site/newsletter-hub/manifest.v1.json"></div><script src="https://assets.ceros.site/js/flex-client.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchInlineSnapshot(`
+      {
+        "blocks": [
+          {
+            "attributes": {
+              "cerosType": "flex",
+              "height": "100vh",
+              "manifestUrl": "https://a-j-lawrence.ceros.site/newsletter-hub/manifest.v1.json",
+              "renderMode": "inline",
+              "scriptUrl": "https://assets.ceros.site/js/flex-client.js",
+            },
+            "id": "B00000000",
+            "parents": [],
+            "selfClosing": false,
+            "type": "ceros-embed",
+          },
+        ],
+        "marks": [],
+        "text": "￼",
+      }
+    `);
+  });
+
+  test.each([
+    "https://a-j-lawrence.ceros.site/trench-the-world-of-twenty-one-pilots/manifest.v1.json",
+    "https://a-j-lawrence.ceros.site/refined-living-real-estate/manifest.v1.json",
+    "https://a-j-lawrence.ceros.site/ge-flex-experience/manifest.v1.json",
+  ])("flex scrolling embed %s", (manifestUrl) => {
+    let doc = HTMLSource.fromRaw(
+      `<div data-flex-inline style="height: 100vh" data-flex-manifest-url="${manifestUrl}"></div><script src="https://assets.ceros.site/js/flex-client.js"></script>`,
+    ).convertTo(OffsetSource);
+
+    expect(serialize(doc, { withStableIds: true })).toMatchObject({
+      blocks: [
+        {
+          type: "ceros-embed",
+          attributes: {
+            cerosType: "flex",
+            renderMode: "inline",
+            manifestUrl,
+            scriptUrl: "https://assets.ceros.site/js/flex-client.js",
+            height: "100vh",
+          },
+        },
+      ],
+      marks: [],
+      text: "\uFFFC",
+    });
+  });
+
   test("with mobileAspectRatio", () => {
     let doc = HTMLSource.fromRaw(
       `<div style="position: relative;width: auto;padding: 0 0 50%;height: 0;top: 0;left: 0;bottom: 0;right: 0;margin: 0;border: 0 none" id="experience-test" data-aspectRatio="2.01" data-mobile-aspectRatio="3.2"><iframe allowfullscreen src="//view.ceros.com/ceros-inspire/carousel-3" style="position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: 0;padding: 0;border: 0 none;height: 1px;width: 1px;min-height: 100%;min-width: 100%" frameborder="0" class="ceros-experience" scrolling="no"></iframe></div><script type="text/javascript" src="//view.ceros.com/scroll-proxy.min.js"></script>`,

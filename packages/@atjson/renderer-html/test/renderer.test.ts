@@ -484,6 +484,35 @@ describe("renderer-html", () => {
   });
 
   describe("ceros", () => {
+    test("flex inline embed", () => {
+      let doc = new OffsetSource({
+        content: "\uFFFC",
+        annotations: [
+          new CerosEmbed({
+            id: "test",
+            start: 0,
+            end: 1,
+            attributes: {
+              cerosType: "flex",
+              renderMode: "inline",
+              manifestUrl:
+                "https://a-j-lawrence.ceros.site/newsletter-hub/manifest.v1.json",
+              scriptUrl: "https://assets.ceros.site/js/flex-client.js",
+              height: "100vh",
+            },
+          }),
+          new ParseAnnotation({
+            start: 0,
+            end: 1,
+          }),
+        ],
+      });
+
+      expect(Renderer.render(doc)).toMatchInlineSnapshot(
+        `"<div data-flex-inline style="height: 100vh" data-flex-manifest-url="https://a-j-lawrence.ceros.site/newsletter-hub/manifest.v1.json"></div><script src="https://assets.ceros.site/js/flex-client.js"></script>"`,
+      );
+    });
+
     test("without mobile aspect ratio", () => {
       let doc = new OffsetSource({
         content: "\uFFFC",

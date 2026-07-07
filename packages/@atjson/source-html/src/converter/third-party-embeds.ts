@@ -28,6 +28,36 @@ function isCerosOriginDomainsScript(a: Annotation<any>) {
   }
 }
 
+function isCerosFlexInlineContainer(a: Annotation<any>) {
+  return (
+    a.attributes.dataset &&
+    a.attributes.dataset["flex-inline"] != null &&
+    a.attributes.dataset["flex-manifest-url"] != null
+  );
+}
+
+function isCerosFlexClientScript(a: Annotation<any>) {
+  if (a.type !== "script") {
+    return false;
+  }
+
+  let src = a.attributes.src;
+  if (src && src.indexOf("//") === 0) {
+    src = `https:${src}`;
+  }
+
+  return src === "https://assets.ceros.site/js/flex-client.js";
+}
+
+function getInlineStyleHeight(style?: string) {
+  if (!style) {
+    return undefined;
+  }
+
+  let match = style.match(/(?:^|;)\s*height\s*:\s*([^;]+)/i);
+  return match?.[1]?.trim();
+}
+
 function isCerosContainer(a: Annotation<any>) {
   return (
     a.attributes.id != null &&
@@ -76,6 +106,28 @@ export default function convertThirdPartyEmbeds(doc: Document) {
 
   doc.where(isCerosOriginDomainsScript).remove();
 
+  doc
+    .where(isCerosFlexInlineContainer)
+    .update(function convertCerosFlexInlineContainer(container) {
+      doc.replaceAnnotation(
+        container,
+        new CerosEmbed({
+          id: container.id,
+          start: container.start,
+          end: container.end,
+          attributes: {
+            cerosType: "flex",
+            renderMode: "inline",
+            manifestUrl: container.attributes.dataset["flex-manifest-url"],
+            scriptUrl: "https://assets.ceros.site/js/flex-client.js",
+            height: getInlineStyleHeight(container.attributes.style),
+          },
+        }),
+      );
+    });
+
+  doc.where(isCerosFlexClientScript).remove();
+
   containers
     .join(iframeTags, aCoversB)
     .update(function joinContainerWithFrames({ container, iframes }) {
@@ -101,7 +153,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             mobileAspectRatio,
             url: iframes[0].attributes.src,
           },
-        })
+        }),
       );
     });
 
@@ -120,7 +172,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             src.match(/fwcdn\d\.com\//) != null ||
             src.match(/fwpub\d\.com\//) != null)
         );
-      }
+      },
     )
     .update(({ embed, scripts }) => {
       let playlist = embed.attributes.playlist;
@@ -142,7 +194,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             channel: channel,
             open: embed.attributes.open_in,
           },
-        })
+        }),
       );
       // Remove newlines from embed code
       if (scripts.length) {
@@ -184,7 +236,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioId,
             anchorName,
           },
-        })
+        }),
       );
     });
   /**
@@ -212,7 +264,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             audioType,
             anchorName: iframe.attributes.id,
           },
-        })
+        }),
       );
     });
   /**
@@ -238,7 +290,7 @@ export default function convertThirdPartyEmbeds(doc: Document) {
         attributes: {
           url: embed.attributes.url,
         },
-      })
+      }),
     );
   });
 
