@@ -140,9 +140,7 @@ export default class HTMLRenderer extends Renderer {
           : undefined,
         "data-flex-manifest-url": embed.attributes.manifestUrl,
       }).join(" ")}></div><script ${this.htmlAttributes({
-        src:
-          embed.attributes.scriptUrl ??
-          "https://assets.ceros.site/js/flex-client.js",
+        src: "https://assets.ceros.site/js/flex-client.js",
       }).join(" ")}></script>`;
     }
 

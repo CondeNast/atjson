@@ -119,7 +119,6 @@ export default function convertThirdPartyEmbeds(doc: Document) {
             cerosType: "flex",
             renderMode: "inline",
             manifestUrl: container.attributes.dataset["flex-manifest-url"],
-            scriptUrl: "https://assets.ceros.site/js/flex-client.js",
             height: getInlineStyleHeight(container.attributes.style),
           },
         }),

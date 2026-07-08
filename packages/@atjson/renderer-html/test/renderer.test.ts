@@ -497,7 +497,6 @@ describe("renderer-html", () => {
               renderMode: "inline",
               manifestUrl:
                 "https://a-j-lawrence.ceros.site/newsletter-hub/manifest.v1.json",
-              scriptUrl: "https://assets.ceros.site/js/flex-client.js",
               height: "100vh",
             },
           }),

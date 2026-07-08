@@ -53,11 +53,6 @@ export type CerosFlexInlineEmbedAttributes = {
   manifestUrl: string;
 
   /**
-   * The client script URL for rendering Ceros Flex experiences.
-   */
-  scriptUrl?: string;
-
-  /**
    * The inline container height for full-height scrolling Flex experiences.
    */
   height?: string;
