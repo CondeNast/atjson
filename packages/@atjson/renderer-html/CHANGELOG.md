@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.37.0 (2026-08-05)
+
+### Features
+
+- **ceros-flex:** atc-7642 ceros flex inline embeds ([c3125be](https://github.com/CondeNast/atjson/commit/c3125bee8778da35c447240ebe835e8fd6ca2672))
+- **ceros-flex:** atc-7642 update annotation to remove scripturl ([8e87093](https://github.com/CondeNast/atjson/commit/8e870934db32ecec50dbf66c6b8b5a487e2f90b2))
+
 ## 0.36.6 (2025-08-27)
 
 **Note:** Version bump only for package @atjson/renderer-html
