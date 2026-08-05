@@ -108,5 +108,9 @@
   },
   "optionalDependencies": {
     "@nx/nx-linux-x64-gnu": "^22.7.5"
+  },
+  "allowScripts": {
+    "nx@22.7.5": true,
+    "unrs-resolver@1.11.1": true
   }
 }
