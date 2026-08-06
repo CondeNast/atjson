@@ -132,25 +132,11 @@ export default class HTMLRenderer extends Renderer {
   }
 
   *CerosEmbed(embed: Block<CerosEmbed>) {
-    if (embed.attributes.cerosType === "flex") {
-      return `<div ${this.htmlAttributes({
-        "data-flex-inline": true,
-        style: embed.attributes.height
-          ? `height: ${embed.attributes.height}`
-          : undefined,
-        "data-flex-manifest-url": embed.attributes.manifestUrl,
-      }).join(" ")}></div><script ${this.htmlAttributes({
-        src: "https://assets.ceros.site/js/flex-client.js",
-      }).join(" ")}></script>`;
-    }
-
-    let studioAttributes = embed.attributes;
-
     return `<div ${this.htmlAttributes({
       style: [
         "position: relative",
         "width: auto",
-        `padding: 0 0 ${100 / studioAttributes.aspectRatio}%`,
+        `padding: 0 0 ${100 / embed.attributes.aspectRatio}%`,
         "height: 0",
         "top: 0",
         "left: 0",
@@ -160,12 +146,12 @@ export default class HTMLRenderer extends Renderer {
         "border: 0 none",
       ].join(";"),
       id: `experience-${embed.id}`,
-      "data-aspectRatio": studioAttributes.aspectRatio?.toString(),
-      "data-mobile-aspectRatio": studioAttributes.mobileAspectRatio?.toString(),
+      "data-aspectRatio": embed.attributes.aspectRatio?.toString(),
+      "data-mobile-aspectRatio": embed.attributes.mobileAspectRatio?.toString(),
     }).join(" ")}><iframe ${this.htmlAttributes({
       allowfullscreen: true,
-      src: studioAttributes.url,
-      id: studioAttributes.anchorName,
+      src: embed.attributes.url,
+      id: embed.attributes.anchorName,
       style: [
         "position: absolute",
         "top: 0",
