@@ -21,7 +21,7 @@ export class CerosEmbed extends BlockAnnotation<{
 
   /**
    * Layout information, used to indicate mutually
-   * exclusive layouts, for example sizes, floats, etc.
+   * exclusive layouts, for example sizes, floats, etc...
    */
   layout?: string;
 
