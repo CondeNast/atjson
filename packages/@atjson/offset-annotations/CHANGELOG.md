@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.62.0 (2026-08-10)
+
+### Features
+
+- **ceros-flex:** version mismatch ([6ff5207](https://github.com/CondeNast/atjson/commit/6ff5207c04373e303d5b124b1603adac7ec15dd8))
+
 # 0.61.0 (2026-08-10)
 
 ### Features
