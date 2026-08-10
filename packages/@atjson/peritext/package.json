@@ -13,5 +13,6 @@
     "@atjson/document": "file:../document",
     "@atjson/util": "file:../util",
     "uuid-random": "^1.3.0"
-  }
+  },
+  "repository": "https://github.com/CondeNast/atjson"
 }
