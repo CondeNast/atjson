@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.38.0 (2026-08-10)
+
+### Features
+
+- **ceros-flex:** version mismatch ([093ef03](https://github.com/CondeNast/atjson/commit/093ef03d884681e6a3b89b904a1459e61d02323b))
+
 ## [0.37.3](https://github.com/CondeNast/atjson/compare/@atjson/renderer-html@0.37.2...@atjson/renderer-html@0.37.3) (2026-08-06)
 
 **Note:** Version bump only for package @atjson/renderer-html

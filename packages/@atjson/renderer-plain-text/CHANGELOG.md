@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.25.1...@atjson/renderer-plain-text@0.26.0) (2026-08-10)
+
+### Features
+
+- **ceros-flex:** version mismatch ([093ef03](https://github.com/CondeNast/atjson/commit/093ef03d884681e6a3b89b904a1459e61d02323b))
+
 ## [0.25.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-plain-text@0.25.0...@atjson/renderer-plain-text@0.25.1) (2026-08-10)
 
 **Note:** Version bump only for package @atjson/renderer-plain-text

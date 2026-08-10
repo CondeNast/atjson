@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.33.0](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.32.1...@atjson/renderer-commonmark@0.33.0) (2026-08-10)
+
+### Features
+
+- **ceros-flex:** version mismatch ([093ef03](https://github.com/CondeNast/atjson/commit/093ef03d884681e6a3b89b904a1459e61d02323b))
+
 ## [0.32.1](https://github.com/CondeNast/atjson/compare/@atjson/renderer-commonmark@0.32.0...@atjson/renderer-commonmark@0.32.1) (2026-08-10)
 
 **Note:** Version bump only for package @atjson/renderer-commonmark

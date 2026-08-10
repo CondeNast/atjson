@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.31.0](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.30.1...@atjson/source-gdocs-paste@0.31.0) (2026-08-10)
+
+### Features
+
+- **ceros-flex:** version mismatch ([093ef03](https://github.com/CondeNast/atjson/commit/093ef03d884681e6a3b89b904a1459e61d02323b))
+
 ## [0.30.1](https://github.com/CondeNast/atjson/compare/@atjson/source-gdocs-paste@0.30.0...@atjson/source-gdocs-paste@0.30.1) (2026-08-10)
 
 **Note:** Version bump only for package @atjson/source-gdocs-paste
