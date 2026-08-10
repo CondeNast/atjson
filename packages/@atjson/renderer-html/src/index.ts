@@ -69,7 +69,7 @@ export default class HTMLRenderer extends Renderer {
    * This will forward the children to this function to get wrapped
    * in the HTML tag.
    *
-   * @param tagName The HTML tag name to use.
+   * @param tagName The HTML tag name to use
    * @param props The HTML attributes (if there are any) and whether the element is self-closing.
    */
   *$(tagName: string, attributes: any = {}) {
