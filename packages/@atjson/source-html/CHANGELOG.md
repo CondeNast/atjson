@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.44.0](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.43.3...@atjson/source-html@0.44.0) (2026-08-10)
+
+### Features
+
+- **ceros-flex:** atc-7642 adding support for inline flex embeds ([2956e83](https://github.com/CondeNast/atjson/commit/2956e83e57eeac74539b8d60c136260a3d8c7947))
+- **ceros-flex:** updated package and reverted it back to previous version ([e5a0e23](https://github.com/CondeNast/atjson/commit/e5a0e23bb9f13aef049b061c8e56fb2b080c58c5))
+
 ## [0.43.3](https://github.com/CondeNast/atjson/compare/@atjson/source-html@0.43.2...@atjson/source-html@0.43.3) (2026-08-06)
 
 **Note:** Version bump only for package @atjson/source-html
