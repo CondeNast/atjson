@@ -9,5 +9,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4f62b3c5b6fabb22a10d210074ec576112630028"
+  "gitHead": "4f62b3c5b6fabb22a10d210074ec576112630028",
+  "repository": "https://github.com/CondeNast/atjson"
 }

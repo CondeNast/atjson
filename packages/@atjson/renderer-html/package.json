@@ -16,5 +16,6 @@
   "peerDependencies": {
     "@atjson/document": ">= 0.29.0 < 1"
   },
-  "gitHead": "1d161ada22546621208b8d890bdff141bc976439"
+  "gitHead": "1d161ada22546621208b8d890bdff141bc976439",
+  "repository": "https://github.com/CondeNast/atjson"
 }
