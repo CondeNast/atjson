@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.39.0 (2026-08-10)
+
+### Features
+
+- **ceros-flex:** rereleasing package for version mismatch ([31ebf8a](https://github.com/CondeNast/atjson/commit/31ebf8a69e2221222bd517069d14d8237509caa3))
+
 # 0.38.0 (2026-08-10)
 
 ### Features
