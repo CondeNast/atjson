@@ -27,8 +27,8 @@
     "@docusaurus/core": "^3.10.1",
     "@docusaurus/preset-classic": "^3.10.1",
     "classnames": "2.5.1",
-    "react": "19.2.7",
-    "react-dom": "19.2.7",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "resize-observer": "1.0.4",
     "styled-components": "6.4.2"
   },
@@ -37,7 +37,7 @@
     "last 2 firefox versions"
   ],
   "devDependencies": {
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.18",
     "@types/styled-components": "5.1.36"
   }
 }
