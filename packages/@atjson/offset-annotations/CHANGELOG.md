@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.63.0 (2026-08-12)
+
+### Features
+
+- **ceros-flex:** atc-7642 adding props to use ceros-flex embeds in copilot ([c84fe3f](https://github.com/CondeNast/atjson/commit/c84fe3f56dfc20041a5d9dd39e0cc5e6c7583b8d))
+
 # 0.62.0 (2026-08-10)
 
 ### Features
