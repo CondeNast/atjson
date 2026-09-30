@@ -1,0 +1,75 @@
+name: Request Pullquote validation
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited, closed, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+concurrency:
+  group: pullquote-dispatch-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    if: >-
+      vars.RICH_TEXT_ENABLED == 'true' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    environment: rich-text-control
+    steps:
+      # This workflow never checks out or executes PR code.
+      - name: Authorize the event and invalidate its current status
+        id: metadata
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
+              ...context.repo, username: context.actor
+            });
+            if (!['admin', 'maintain', 'write'].includes(access.permission))
+              throw new Error('Automatic private validation requires repository write access.');
+            const { data: current } = await github.rest.pulls.get({ ...context.repo, pull_number: pr.number });
+            if (current.head.sha !== pr.head.sha) throw new Error('Superseded PR event.');
+            const old = context.payload.changes?.body?.from || '';
+            const blocks = [...old.matchAll(/<!--\s*copilot-rich-text:\s*([\s\S]*?)\s*-->/g)];
+            let previous = [];
+            if (blocks.length === 1 && blocks[0][1].length <= 4096) {
+              try {
+                const value = JSON.parse(blocks[0][1]);
+                if (value.v === 1 && Array.isArray(value.prs) && value.prs.length <= 4 &&
+                    value.prs.every(ref => /^CondeNast\/(atjson|copilot-atjson|ckeditor|copilot-app)#[1-9]\d*$/.test(ref)))
+                  previous = value.prs;
+              } catch { /* Invalid previous declarations confer no membership. */ }
+            }
+            core.setOutput('previous', JSON.stringify(previous));
+            await github.rest.repos.createCommitStatus({ ...context.repo, sha: current.head.sha,
+              state: 'pending', context: 'rich-text/pullquote',
+              description: 'Waiting for internal coordinated validation.' });
+      - name: Create dispatch credential
+        id: app
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.RICH_TEXT_CONTROL_APP_ID }}
+          private-key: ${{ secrets.RICH_TEXT_CONTROL_APP_PRIVATE_KEY }}
+          owner: CondeNast
+          repositories: copilot-app
+          permission-actions: write
+      - name: Dispatch metadata to the internal app
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          PREVIOUS_MEMBERSHIP: ${{ steps.metadata.outputs.previous }}
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'CondeNast', repo: 'copilot-app', workflow_id: 'rich-text-pullquote.yml', ref: 'main',
+              inputs: { repository: context.payload.repository.full_name,
+                pr: String(context.payload.pull_request.number), sha: context.payload.pull_request.head.sha,
+                previous: process.env.PREVIOUS_MEMBERSHIP }
+            });
