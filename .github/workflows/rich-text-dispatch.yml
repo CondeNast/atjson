@@ -26,6 +26,8 @@ jobs:
       - name: Invalidate the current event, then authorize private execution
         id: metadata
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          RICH_TEXT_CONTROL_APP_SLUG: ${{ vars.RICH_TEXT_CONTROL_APP_SLUG }}
         with:
           script: |
             const pr = context.payload.pull_request;
@@ -49,15 +51,22 @@ jobs:
             };
             const before = await statuses();
             const fingerprint = require('node:crypto').createHash('sha256').update(snapshot(current)).digest('hex').slice(0, 32);
+            const controlAppSlug = process.env.RICH_TEXT_CONTROL_APP_SLUG;
+            const trustedControlStatus = Boolean(controlAppSlug) &&
+              before[0]?.creator?.type === 'Bot' &&
+              before[0].creator.login === `${controlAppSlug}[bot]`;
             // Duplicate/older events cannot put the same metadata back to pending
-            // after the coordinator has already accepted or reported that matrix.
-            if (/^https:\/\/github.com\/CondeNast\/copilot-app\/actions\/runs\/\d+$/.test(before[0]?.target_url || '') &&
+            // after the configured control App accepted or reported that matrix.
+            // URLs and fingerprints alone are forgeable status metadata.
+            if (trustedControlStatus &&
+                /^https:\/\/github.com\/CondeNast\/copilot-app\/actions\/runs\/\d+$/.test(before[0]?.target_url || '') &&
                 before[0].description?.endsWith(`[pr:${fingerprint}]`)) {
               core.setOutput('skip', 'true');
               return;
             }
             const prefix = `https://github.com/${context.payload.repository.full_name}/actions/runs/`;
             if (before.some(item => {
+              if (item.creator?.type !== 'Bot' || item.creator.login !== 'github-actions[bot]') return false;
               if (!item.target_url?.startsWith(prefix) || !item.target_url.endsWith('#pullquote-dispatch')) return false;
               const id = item.target_url.slice(prefix.length).split('#')[0];
               return /^\d+$/.test(id) && BigInt(id) > BigInt(context.runId);
