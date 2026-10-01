@@ -102,13 +102,6 @@ jobs:
                 throw new Error('A newer status writer superseded this dispatcher.');
               }
             }
-            // Invalidation uses only trusted same-repository metadata. Access or
-            // credential setup failure below must leave the old result pending.
-            const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
-              ...context.repo, username: context.actor
-            });
-            if (!['admin', 'maintain', 'write'].includes(access.permission))
-              throw new Error('Automatic private validation requires repository write access.');
             const old = context.payload.changes?.body?.from || '';
             const blocks = [...old.matchAll(/<!--\s*copilot-rich-text:\s*([\s\S]*?)\s*-->/g)];
             let previous = [];
@@ -121,6 +114,18 @@ jobs:
               } catch { /* Invalid previous declarations confer no membership. */ }
             }
             core.setOutput('previous', JSON.stringify(previous));
+            core.setOutput('metadata', fingerprint);
+            // Denied or unavailable actor permissions may invalidate linked
+            // statuses, but never authorize private candidate execution.
+            let operation = 'invalidate';
+            try {
+              const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
+                ...context.repo, username: context.actor
+              });
+              if (['admin', 'maintain', 'write'].includes(access.permission))
+                operation = 'validate';
+            } catch { /* Keep the metadata-only operation on lookup failure. */ }
+            core.setOutput('operation', operation);
       - name: Create dispatch credential
         if: steps.metadata.outputs.skip != 'true'
         id: app
@@ -136,12 +141,19 @@ jobs:
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         env:
           PREVIOUS_MEMBERSHIP: ${{ steps.metadata.outputs.previous }}
+          COORDINATION_OPERATION: ${{ steps.metadata.outputs.operation }}
+          SOURCE_METADATA: ${{ steps.metadata.outputs.metadata }}
         with:
           github-token: ${{ steps.app.outputs.token }}
           script: |
+            if (!['validate', 'invalidate'].includes(process.env.COORDINATION_OPERATION) ||
+                !/^[a-f0-9]{32}$/.test(process.env.SOURCE_METADATA || ''))
+              throw new Error('Verified coordination operation and metadata are required.');
             await github.rest.actions.createWorkflowDispatch({
               owner: 'CondeNast', repo: 'copilot-app', workflow_id: 'rich-text-pullquote.yml', ref: 'main',
               inputs: { repository: context.payload.repository.full_name,
                 pr: String(context.payload.pull_request.number), sha: context.payload.pull_request.head.sha,
-                previous: process.env.PREVIOUS_MEMBERSHIP }
+                previous: process.env.PREVIOUS_MEMBERSHIP,
+                operation: process.env.COORDINATION_OPERATION,
+                metadata: process.env.SOURCE_METADATA }
             });
