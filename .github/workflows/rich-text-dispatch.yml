@@ -16,9 +16,7 @@ concurrency:
 
 jobs:
   dispatch:
-    if: >-
-      vars.RICH_TEXT_ENABLED == 'true' &&
-      github.event.pull_request.head.repo.full_name == github.repository
+    if: vars.RICH_TEXT_ENABLED == 'true'
     runs-on: ubuntu-latest
     environment: rich-text-control
     steps:
@@ -33,12 +31,12 @@ jobs:
             const pr = context.payload.pull_request;
             const { data: current } = await github.rest.pulls.get({ ...context.repo, pull_number: pr.number });
             const snapshot = value => JSON.stringify({
+              repository: value.base.repo.full_name, number: value.number,
               head: value.head.sha, base: value.base.sha, body: value.body || '',
               state: value.state, draft: Boolean(value.draft), merged: Boolean(value.merged),
               mergedSha: value.merged ? value.merge_commit_sha : null
             });
-            if (current.head.repo.full_name !== context.payload.repository.full_name ||
-                current.base.repo.full_name !== context.payload.repository.full_name ||
+            if (current.base.repo.full_name !== context.payload.repository.full_name ||
                 current.base.ref !== 'main' || snapshot(current) !== snapshot(pr))
               throw new Error('Superseded or ineligible PR event.');
             const statusContext = 'rich-text/pullquote';
@@ -55,14 +53,41 @@ jobs:
             const trustedControlStatus = Boolean(controlAppSlug) &&
               before[0]?.creator?.type === 'Bot' &&
               before[0].creator.login === `${controlAppSlug}[bot]`;
+            const uniqueHead = async () => {
+              const seen = new Set();
+              let found = false;
+              for (let page = 1; page <= 30; page++) {
+                const { data: values } = await github.rest.pulls.list({
+                  ...context.repo, state: 'open', base: 'main', sort: 'created',
+                  direction: 'asc', per_page: 100, page
+                });
+                if (!Array.isArray(values) || values.length > 100) return false;
+                for (const value of values) {
+                  if (!Number.isSafeInteger(value.number) || value.number < 1 || seen.has(value.number) ||
+                      value.state !== 'open' || value.base?.repo?.full_name !== context.payload.repository.full_name ||
+                      value.base.ref !== 'main' || !/^[a-f0-9]{40}$/.test(value.head?.sha)) return false;
+                  seen.add(value.number);
+                  if (value.head.sha !== current.head.sha) continue;
+                  // Include fork heads: the status still belongs to this base repository.
+                  if (value.number !== current.number) return false;
+                  found = true;
+                }
+                if (values.length < 100) return found;
+              }
+              return false;
+            };
             // Duplicate/older events cannot put the same metadata back to pending
             // after the configured control App accepted or reported that matrix.
             // URLs and fingerprints alone are forgeable status metadata.
             if (trustedControlStatus &&
                 /^https:\/\/github.com\/CondeNast\/copilot-app\/actions\/runs\/\d+$/.test(before[0]?.target_url || '') &&
                 before[0].description?.endsWith(`[pr:${fingerprint}]`)) {
-              core.setOutput('skip', 'true');
-              return;
+              let unique = false;
+              try { unique = await uniqueHead(); } catch { /* Missing evidence invalidates cached results. */ }
+              if (unique) {
+                core.setOutput('skip', 'true');
+                return;
+              }
             }
             const prefix = `https://github.com/${context.payload.repository.full_name}/actions/runs/`;
             if (before.some(item => {
@@ -116,15 +141,18 @@ jobs:
             core.setOutput('previous', JSON.stringify(previous));
             core.setOutput('metadata', fingerprint);
             // Denied or unavailable actor permissions may invalidate linked
-            // statuses, but never authorize private candidate execution.
+            // statuses. Fork metadata always stays on that path, even for a
+            // write-authorized actor; it never authorizes private execution.
             let operation = 'invalidate';
-            try {
-              const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
-                ...context.repo, username: context.actor
-              });
-              if (['admin', 'maintain', 'write'].includes(access.permission))
-                operation = 'validate';
-            } catch { /* Keep the metadata-only operation on lookup failure. */ }
+            if (current.head.repo?.full_name === context.payload.repository.full_name) {
+              try {
+                const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
+                  ...context.repo, username: context.actor
+                });
+                if (['admin', 'maintain', 'write'].includes(access.permission))
+                  operation = 'validate';
+              } catch { /* Keep the metadata-only operation on lookup failure. */ }
+            }
             core.setOutput('operation', operation);
       - name: Create dispatch credential
         if: steps.metadata.outputs.skip != 'true'
