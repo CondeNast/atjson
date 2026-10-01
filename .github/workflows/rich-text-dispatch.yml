@@ -3,7 +3,16 @@ name: Request Pullquote validation
 on:
   pull_request_target:
     branches: [main]
-    types: [opened, reopened, synchronize, edited, closed, ready_for_review]
+    types:
+      [
+        opened,
+        reopened,
+        synchronize,
+        edited,
+        closed,
+        ready_for_review,
+        converted_to_draft,
+      ]
 
 permissions:
   contents: read
