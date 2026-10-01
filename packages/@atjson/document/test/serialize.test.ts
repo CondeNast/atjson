@@ -2091,7 +2091,7 @@ describe("deserialize", () => {
               description.type === "block"
                 ? TokenType.BLOCK_END
                 : TokenType.MARK_END,
-            index: description.annotation.start,
+            index: description.annotation.end,
             annotation: description.annotation,
             shared: { start: -1 },
             selfClosing: false,
@@ -2102,6 +2102,20 @@ describe("deserialize", () => {
       }, [] as Token[]);
 
       tokens.sort(sortTokens);
+      expect(
+        tokens.map(({ index, type, annotation }) => ({
+          index,
+          type,
+          id: annotation.id,
+        })),
+      ).toEqual([
+        { index: 0, type: TokenType.BLOCK_START, id: paragraph.id },
+        { index: 1, type: TokenType.MARK_START, id: italic.id },
+        { index: 1, type: TokenType.MARK_START, id: bold.id },
+        { index: 3, type: TokenType.MARK_END, id: bold.id },
+        { index: 3, type: TokenType.MARK_END, id: italic.id },
+        { index: 5, type: TokenType.BLOCK_END, id: paragraph.id },
+      ]);
     });
   });
 });
