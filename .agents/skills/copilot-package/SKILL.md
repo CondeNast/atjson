@@ -5,7 +5,7 @@ description: Coordinate foundational AtJSON features, fixes, tests, and package 
 
 # Work on foundational AtJSON
 
-Use `copilot-app` as the coordinator and read its [copilot-start skill](../../../../copilot-app/.agents/skills/copilot-start/SKILL.md) and [shared lifecycle](../../../../copilot-app/.agents/skills/copilot-start/references/lifecycle.md). These links assume sibling checkouts. For another layout, resolve the same resources from the actual app path recorded for the task. Do not begin implementation or branch preparation until the coordinator and required access are available. Route authorized setup recovery through the shared lifecycle and native execution approvals.
+Resolve the current task first with `node .agents/skills/copilot-package/scripts/context.cjs --json`. It reads the worktree's Git-metadata pointer and verifies the actual app coordinator, including its registered worktrees. If discovery is ambiguous, select the correct app worktree explicitly with `--coordinator /absolute/path`; do not edit an arbitrary sibling checkout. Read the resolved app's `copilot-start` skill and shared lifecycle. Prepared trial branches and continuations retain their task record, branches and approved scope. Complete required access checks before implementation; authorized recovery uses native approvals.
 
 Reuse one approved plan and task record with actual checkout paths, affected packages and consumers, branch/base revisions, validation, and delivery evidence. Establish whether this is a continuation before preparing branches. Branch this repository only if it needs edits. The app may coordinate a package-only task without an app diff or PR.
 
@@ -18,3 +18,5 @@ Read the local [AGENTS.md](../../../AGENTS.md), `.nvmrc`, root and affected pack
 - Use the shared delivery skill, but verify this repository's capabilities first. The reviewed release workflow only receives pushes to `main`; no working prerelease event or AI-review workflow is verified. Report those blockers rather than invoking another repository's comment or label trigger. Keep consumers awaiting required publication in the state required by the shared lifecycle.
 
 Report local validation separately from consumer integration and publication. This adapter does not authorize publishing, merging, deployment, or release-workflow changes.
+
+After producer checks, continue into the shared task validation workflow: selected local tarballs, affected consumers, browser interactions and reviewed visual comparisons where relevant. Use the app task record with `agent:verify -- --task FILE --level quick|integration|visual`; inspect `agent:status` before handoff. Neither an existing Pullquote result nor source tests alone establish a new feature's consumer coverage.

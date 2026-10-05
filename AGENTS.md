@@ -1,5 +1,10 @@
 # AtJSON repository instructions
 
+Resolve task/coordinator identity before onboarding or edits with
+`node .agents/skills/copilot-package/scripts/context.cjs --json`.
+Follow the registered worktree mapping; prepared trials and continuations retain
+their branches. A missing or ambiguous coordinator is a discovery blocker.
+
 Use the local [copilot-package adapter](.agents/skills/copilot-package/SKILL.md) for agent-assisted work. `copilot-app` is the coordinator for onboarding, access checks, one approved plan, and a shared task record across the affected repositories. Prepare a task branch here only when this repository needs edits; a package-only task can leave the app unchanged. Preserve unrelated work and use the coordinator's explicit branch-preparation procedure.
 
 This is `CondeNast/atjson`, the foundational `@atjson/*` workspace under `packages/@atjson/*`. The separate `CondeNast/copilot-atjson` repository owns Copilot-specific `@condenast/*` packages. Trace actual package imports and consumers rather than treating these as interchangeable checkouts or assuming every change passes through the same repository chain.
