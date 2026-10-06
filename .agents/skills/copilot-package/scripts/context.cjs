@@ -19,16 +19,29 @@ const isApp = (root) =>
     git(root, "remote", "get-url", "origin")
   );
 function capable(root) {
-  return (
-    isApp(root) &&
-    fs.existsSync(path.join(root, "scripts/agents/context.cjs")) &&
-    ["agent:context", "agent:verify", "agent:check", "agent:status"].every(
-      (name) => read(path.join(root, "package.json")).scripts?.[name]
-    ) &&
-    ["start", "feature", "bug", "test", "delivery"].every((skill) =>
-      fs.existsSync(path.join(root, `.agents/skills/copilot-${skill}/SKILL.md`))
-    )
-  );
+  try {
+    return (
+      isApp(root) &&
+      fs.existsSync(path.join(root, "scripts/agents/context.cjs")) &&
+      [
+        "agent:context",
+        "agent:verify",
+        "agent:check",
+        "agent:status",
+        "agent:continue",
+        "agent:preview",
+      ].every(
+        (name) => read(path.join(root, "package.json")).scripts?.[name]
+      ) &&
+      ["start", "feature", "bug", "test", "delivery"].every((skill) =>
+        fs.existsSync(
+          path.join(root, `.agents/skills/copilot-${skill}/SKILL.md`)
+        )
+      )
+    );
+  } catch {
+    return false;
+  }
 }
 try {
   const root = git(process.cwd(), "rev-parse", "--show-toplevel");
@@ -69,7 +82,7 @@ try {
   }
   if (!coordinator || !capable(coordinator))
     throw new Error(
-      "The registered app coordinator is unavailable or lacks shared skills."
+      "The registered app coordinator is unavailable or lacks shared skills/continuation commands; update its workflow tooling before continuing."
     );
   const result = spawnSync(
     process.execPath,

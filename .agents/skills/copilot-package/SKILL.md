@@ -20,3 +20,12 @@ Read the local [AGENTS.md](../../../AGENTS.md), `.nvmrc`, root and affected pack
 Report local validation separately from consumer integration and publication. This adapter does not authorize publishing, merging, deployment, or release-workflow changes.
 
 After producer checks, continue into the shared task validation workflow: selected local tarballs, affected consumers, browser interactions and reviewed visual comparisons where relevant. Use the app task record with `agent:verify -- --task FILE --level quick|integration|visual`; inspect `agent:status` before handoff. Neither an existing Pullquote result nor source tests alone establish a new feature's consumer coverage.
+
+Use the coordinator's `agent:continue -- --json` after producer checks. Follow its
+impact-derived surface inventory and complete missing consumer registrations or
+runners within scope; unattempted checks are pending work. Scoped, evidenced
+external blockers suspend only their named requirements. Run `agent:status -- --json` on the final revisions before handoff. Keep
+incomplete consumer PRs draft. For requested local review, use the app-owned `agent:preview` command and
+report the actual URL and server lifetime. See the coordinator's
+`docs/rich-text/task-workflow.md#continuation-and-handoff`; these commands never
+authorize publication or the hardened Pullquote status.

@@ -4,6 +4,9 @@ Resolve task/coordinator identity before onboarding or edits with
 `node .agents/skills/copilot-package/scripts/context.cjs --json`.
 Follow the registered worktree mapping; prepared trials and continuations retain
 their branches. A missing or ambiguous coordinator is a discovery blocker.
+After producer checks, follow the coordinator's `agent:continue` actions and
+inspect `agent:status` before handoff. Missing consumer tests/runners are work to
+complete; only scoped external blockers suspend their affected checks.
 
 Use the local [copilot-package adapter](.agents/skills/copilot-package/SKILL.md) for agent-assisted work. `copilot-app` is the coordinator for onboarding, access checks, one approved plan, and a shared task record across the affected repositories. Prepare a task branch here only when this repository needs edits; a package-only task can leave the app unchanged. Preserve unrelated work and use the coordinator's explicit branch-preparation procedure.
 
