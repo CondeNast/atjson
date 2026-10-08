@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "failures": [
+    {
+      "routeId": "atjson-html-round-trip",
+      "fixture": "ceros-with-mobile-aspect-ratio.html",
+      "fixtureSha256": "b6cc2d5ce27249cb95ed8c588410cbdc33a2337a8400a035f4e425558f7dfc7a",
+      "semanticDiffSha256": "81adde7b9ddb37fd2b7420af09f3b064ebd78e8c571f5d0e6f5d2803a9674f7e",
+      "baselineSha": "8412cf9d0c9f3d50180c00c144a09e989d0d4706",
+      "owner": "Copilot maintainers",
+      "issue": "https://cnissues.atlassian.net/browse/COPILOT-13315",
+      "reviewDate": "2026-09-30",
+      "expires": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "routeId": "atjson-html-round-trip",
+      "fixture": "ceros.html",
+      "fixtureSha256": "23a9b5f3d5f11cae318e62561438133786768a14c52fa7aaf6ea1968ebf2ff84",
+      "semanticDiffSha256": "7365cd27216b42b1b2eb17fba5089d1b9e08ddd83eb173d2fd5353e84c4fcebf",
+      "baselineSha": "8412cf9d0c9f3d50180c00c144a09e989d0d4706",
+      "owner": "Copilot maintainers",
+      "issue": "https://cnissues.atlassian.net/browse/COPILOT-13315",
+      "reviewDate": "2026-09-30",
+      "expires": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "routeId": "atjson-html-round-trip",
+      "fixture": "threads.html",
+      "fixtureSha256": "81ad85b47262ce04c402be2b031347c87c80cb9488b2392fe85a95e5c0945664",
+      "semanticDiffSha256": "4d2d3a403756517678a67cb284f937b28daa0443aadbe6cce4c4feca16b75603",
+      "baselineSha": "8412cf9d0c9f3d50180c00c144a09e989d0d4706",
+      "owner": "Copilot maintainers",
+      "issue": "https://cnissues.atlassian.net/browse/COPILOT-13315",
+      "reviewDate": "2026-09-30",
+      "expires": "2026-10-30T00:00:00.000Z"
+    },
+    {
+      "routeId": "atjson-html-round-trip",
+      "fixture": "twitter.html",
+      "fixtureSha256": "91e16a17fc661a51ff4095f7ce270f2fb0fc8fe9ae62c4e430426277a7edc35b",
+      "semanticDiffSha256": "78d12b299e2abf0b596b8ae0eec202017fd938251743042bf3dedca80f71d51f",
+      "baselineSha": "8412cf9d0c9f3d50180c00c144a09e989d0d4706",
+      "owner": "Copilot maintainers",
+      "issue": "https://cnissues.atlassian.net/browse/COPILOT-13315",
+      "reviewDate": "2026-09-30",
+      "expires": "2026-10-30T00:00:00.000Z"
+    }
+  ]
+}

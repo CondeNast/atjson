@@ -63,7 +63,6 @@
     "@atjson/renderer-html": "file:packages/@atjson/renderer-html",
     "@atjson/renderer-plain-text": "file:packages/@atjson/renderer-plain-text",
     "@atjson/renderer-react": "file:packages/@atjson/renderer-react",
-    "@atjson/renderer-webcomponent": "file:packages/@atjson/renderer-webcomponent",
     "@atjson/source-ckeditor": "file:packages/@atjson/source-ckeditor",
     "@atjson/source-commonmark": "file:packages/@atjson/source-commonmark",
     "@atjson/source-gdocs-paste": "file:packages/@atjson/source-gdocs-paste",
@@ -77,8 +76,8 @@
   "scripts": {
     "build": "tsc -b packages/**/* --verbose && tsc -b packages/@atjson/**/tsconfig.modules.json --verbose",
     "clean": "tsc -b packages/**/* --clean && tsc -b packages/@atjson/**/tsconfig.modules.json --clean",
-    "lint": "eslint packages/**/src/*.ts packages/**/test/*.ts",
-    "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts --fix",
+    "lint": "eslint packages/**/src/*.ts packages/**/test/*.ts \"tests/**/*.ts\"",
+    "lint-fix": "eslint packages/**/src/*.ts packages/**/test/*.ts \"tests/**/*.ts\" --fix",
     "prepublishOnly": "rm -rf packages/@atjson/**/dist && npm run build",
     "lerna-publish": "lerna publish --conventional-graduate",
     "lerna-prerelease": "lerna publish --dist-tag dev --preid dev --conventional-prerelease",
@@ -88,7 +87,8 @@
     "perf": "npx ts-node ./perf-kit/index.ts profile --out current",
     "perf:baseline": "npx ts-node ./perf-kit/index.ts profile --out baseline",
     "perf:tstat": "npx ts-node ./perf-kit/index.ts compare baseline current",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:html-round-trip": "jest --runInBand --watchman=false --runTestsByPath tests/html-round-trip.test.ts tests/helpers/html-round-trip.test.ts"
   },
   "workspaces": [
     "packages/@atjson/*"

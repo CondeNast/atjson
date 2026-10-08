@@ -1,5 +1,22 @@
 # atjson [![CI](https://github.com/CondeNast/atjson/actions/workflows/ci.yml/badge.svg)](https://github.com/CondeNast/atjson/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
+## Copilot development onboarding
+
+For agent-assisted work, start with the [local package adapter](.agents/skills/copilot-package/SKILL.md) and [repository instructions](AGENTS.md). `copilot-app` coordinates access checks, one approved plan, and delivery across affected repositories, including changes that leave the app untouched. This foundational `@atjson/*` repository is distinct from `CondeNast/copilot-atjson` and its Copilot-specific packages.
+
+Use the runtime declared in `.nvmrc` and the root package scripts:
+
+```sh
+nvm use
+npm ci
+npm run build
+npm run lint
+npm run typecheck
+npm test
+```
+
+Run focused package tests from the root, for example `npm test -- --runTestsByPath packages/@atjson/document/test/document.test.ts`. The TypeScript `typecheck` script may emit output. Current manifests and CI determine the commands when older contributing guidance differs. See [AGENTS.md](AGENTS.md) for integration-test limitations and the unverified prerelease/AI-review capabilities.
+
 ## Maintainers
 
 - Tim Evans (@tim-evans tim_evans@condenast.com)
@@ -184,8 +201,7 @@ A number of little notes distributed that morning by a footman in red livery had
     start: 37,
     end: 478,
     attributes: {
-      note:
-        "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
+      note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
     },
   },
   {
@@ -282,9 +298,8 @@ This can be done using our built-in parser:
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 
-let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(
-  OffsetSource
-);
+let document =
+  CommonMarkSource.fromRaw("# Hello, world").convertTo(OffsetSource);
 ```
 
 This will result in the following document:
@@ -338,7 +353,7 @@ document.addAnnotations(
   new Bold({
     start: 0,
     end: 6,
-  })
+  }),
 );
 
 // This should extend the annotation
