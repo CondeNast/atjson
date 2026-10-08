@@ -29,3 +29,22 @@ incomplete consumer PRs draft. For requested local review, use the app-owned `ag
 report the actual URL and server lifetime. See the coordinator's
 `docs/rich-text/task-workflow.md#continuation-and-handoff`; these commands never
 authorize publication or the hardened Pullquote status.
+
+## PR-to-multibranch continuation
+
+For “tested locally, raise the PRs to test on multibranch” or equivalent requests,
+resume the resolved app's `copilot-delivery` skill and
+`.agents/skills/copilot-delivery/references/multibranch.md`. Reuse the task branches,
+original JIRA ticket and existing PRs. Read `agent:delivery -- --task FILE --json`
+from that coordinator before action; helpers report evidence and next steps,
+while Git/GitHub/npm mutations use native execution approvals.
+
+Create affected draft PRs early. Verify and install exact upstream prereleases,
+validate and push producer dependency updates before downstream publication.
+The final app dependency commit stays local until the engineer verifies its
+installed candidate. Continue current-revision CI monitoring and report the URL
+only after `agent:multibranch-status` verifies deployment/runtime evidence.
+Behavior or package changes require renewed local verification; validated CI-only
+fixes can proceed within the approved delivery scope. A working preview does not
+establish stable merge readiness. Verify live publisher capability; this workflow
+does not repair AtJSON release automation or authorize the hardened Pullquote gate.
