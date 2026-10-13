@@ -32,19 +32,29 @@ authorize publication or the hardened Pullquote status.
 
 ## PR-to-multibranch continuation
 
-For “tested locally, raise the PRs to test on multibranch” or equivalent requests,
-resume the resolved app's `copilot-delivery` skill and
-`.agents/skills/copilot-delivery/references/multibranch.md`. Reuse the task branches,
-original JIRA ticket and existing PRs. Read `agent:delivery -- --task FILE --json`
-from that coordinator before action; helpers report evidence and next steps,
-while Git/GitHub/npm mutations use native execution approvals.
+An ordinary multibranch request or installed-prerelease confirmation resumes the
+resolved app's `copilot-delivery` skill and its `references/multibranch.md`.
+Preserve task branches, approved PR bases, ticket preference (including explicit
+omission), publication repositories/workspace scope and requested brand. Distinguish
+changed packages, the full supported publication set and consumer installation.
+Use the coordinator's read-only `agent:delivery -- --task FILE --json`, then
+`agent:deliver -- --task FILE --json` for resumable native actions. These commands
+cannot expand authority or bypass execution approval.
 
-Create affected draft PRs early. Verify and install exact upstream prereleases,
-validate and push producer dependency updates before downstream publication.
-The final app dependency commit stays local until the engineer verifies its
-installed candidate. Continue current-revision CI monitoring and report the URL
-only after `agent:multibranch-status` verifies deployment/runtime evidence.
-Behavior or package changes require renewed local verification; validated CI-only
-fixes can proceed within the approved delivery scope. A working preview does not
-establish stable merge readiness. Verify live publisher capability; this workflow
-does not repair AtJSON release automation or authorize the hardened Pullquote gate.
+Validate and push producer dependencies in graph order. Install the exact app
+candidate, run its checks and provide usable previews before requesting mandatory
+local verification. Retain the actual candidate-bound reply durably; after it,
+continue authorized app push, monitoring and handoff without another routine
+proceed prompt. Behavior/package/resolution changes need renewed verification;
+proven validation-only edits still need fresh automated evidence. Keep reports in
+the coordinator's durable ignored task evidence directory.
+
+Share all changed-repository PRs and the requested brand URL (`/all` by default)
+only after `agent:multibranch-status` verifies that exact route and revision.
+Read-only inspection does not waive missing push or merge gates. Optional external
+AI review requires its own destination/private-code authority; native denial must
+not be bypassed. Continue unaffected authorized work. A durable host must be
+configured for wake/resume after the local process exits; the task journal alone
+is not a background service. Live publisher capability and stable merge readiness
+remain separate; this adapter neither repairs release automation nor authorizes
+the hardened Pullquote gate.
