@@ -25,10 +25,15 @@ Use the coordinator's `agent:continue -- --json` after producer checks. Follow i
 impact-derived surface inventory and complete missing consumer registrations or
 runners within scope; unattempted checks are pending work. Scoped, evidenced
 external blockers suspend only their named requirements. Run `agent:status -- --json` on the final revisions before handoff. Keep
-incomplete consumer PRs draft. For requested local review, use the app-owned `agent:preview` command and
-report the actual URL and server lifetime. See the coordinator's
-`docs/rich-text/task-workflow.md#continuation-and-handoff`; these commands never
-authorize publication or the hardened Pullquote status.
+incomplete consumer PRs draft. For affected feature/bug work, follow the resolved coordinator's
+`.agents/skills/copilot-test/references/local-review.md`: leave the full configured
+Copilot app consuming verified local tarballs and CKEditor Storybook when affected
+running for review, without waiting for another startup request. Share live URLs,
+artifact/runtime identities, session lifetimes and stop instructions. Canonical
+visual or publication blockers do not suspend independent local setup. The
+controlled `agent:preview` helper is an additional preview, not the full app;
+report actual native startup/authentication blockers separately. This handoff
+neither authorizes publishing nor satisfies the hardened Pullquote gate.
 
 ## PR-to-multibranch continuation
 

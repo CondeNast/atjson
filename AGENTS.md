@@ -7,6 +7,10 @@ their branches. A missing or ambiguous coordinator is a discovery blocker.
 After producer checks, follow the coordinator's `agent:continue` actions and
 inspect `agent:status` before handoff. Missing consumer tests/runners are work to
 complete; only scoped external blockers suspend their affected checks.
+For affected feature/bug handoff, use the coordinator's local review procedure:
+leave the full Copilot app using verified tarballs and CKEditor Storybook when
+affected running with verified URLs. Controlled previews or completed automated
+tests alone do not complete that handoff; visual/publication waits are separate.
 A multibranch request resumes the coordinator's `copilot-delivery` skill and
 recorded ticket preference, approved PR bases, publication scope and brand.
 Inspect `agent:delivery` and resume `agent:deliver`; the final app push requires
