@@ -27,7 +27,7 @@ runners within scope; unattempted checks are pending work. Scoped, evidenced
 external blockers suspend only their named requirements. Run `agent:status -- --json` on the final revisions before handoff. Keep
 incomplete consumer PRs draft. For affected feature/bug work, follow the resolved coordinator's
 `.agents/skills/copilot-test/references/local-review.md`: leave the full configured
-Copilot app consuming verified local tarballs and CKEditor Storybook when affected
+Copilot app on port 1234 consuming verified local tarballs and CKEditor Storybook when affected
 running for review, without waiting for another startup request. Share live URLs,
 artifact/runtime identities, session lifetimes and stop instructions. Canonical
 visual or publication blockers do not suspend independent local setup. The
@@ -35,9 +35,17 @@ controlled `agent:preview` helper is an additional preview, not the full app;
 report actual native startup/authentication blockers separately. This handoff
 neither authorizes publishing nor satisfies the hardened Pullquote gate.
 
+Use the coordinator's `.agents/skills/copilot-start/references/intake.md` for the
+one optional JIRA question and any missing UI decisions. A new CKEditor tool
+needs its design/reference (or an agreed proposal) and toolbar position; an app
+UI change needs a reference/design when absent from the acceptance criteria.
+Do not repeat answered questions. No supplied ticket means no PR ticket section.
+For native app startup, stop the identified service occupying 1234 and start the
+candidate there; never choose another app port.
+
 ## PR-to-multibranch continuation
 
-An ordinary multibranch request or installed-prerelease confirmation resumes the
+Acceptance of the current local build, a multibranch request, or installed-prerelease confirmation resumes the
 resolved app's `copilot-delivery` skill and its `references/multibranch.md`.
 Preserve task branches, approved PR bases, ticket preference (including explicit
 omission), publication repositories/workspace scope and requested brand. Distinguish
@@ -45,6 +53,15 @@ changed packages, the full supported publication set and consumer installation.
 Use the coordinator's read-only `agent:delivery -- --task FILE --json`, then
 `agent:deliver -- --task FILE --json` for resumable native actions. These commands
 cannot expand authority or bypass execution approval.
+
+The engineer's local tarball acceptance starts required prereleases and consumer
+updates, including necessary draft PRs; retain the actual reply and reviewed
+identities in `delivery.localAcceptance`. Do not ask again for publication intent.
+Respect explicit no-publication instructions and supported publisher capability.
+Initial acceptance is separate from verifying the later installed prerelease
+candidate before the app push. Agents must never merge PRs, enable auto-merge,
+enqueue PRs for merging or perform an equivalent API/base-branch merge; engineers
+have exclusive merge authority.
 
 Validate and push producer dependencies in graph order. Install the exact app
 candidate, run its checks and provide usable previews before requesting mandatory

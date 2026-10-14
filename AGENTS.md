@@ -8,10 +8,10 @@ After producer checks, follow the coordinator's `agent:continue` actions and
 inspect `agent:status` before handoff. Missing consumer tests/runners are work to
 complete; only scoped external blockers suspend their affected checks.
 For affected feature/bug handoff, use the coordinator's local review procedure:
-leave the full Copilot app using verified tarballs and CKEditor Storybook when
+leave the full Copilot app on port 1234 using verified tarballs and CKEditor Storybook when
 affected running with verified URLs. Controlled previews or completed automated
 tests alone do not complete that handoff; visual/publication waits are separate.
-A multibranch request resumes the coordinator's `copilot-delivery` skill and
+Local build acceptance or a multibranch request resumes the coordinator's `copilot-delivery` skill and
 recorded ticket preference, approved PR bases, publication scope and brand.
 Inspect `agent:delivery` and resume `agent:deliver`; the final app push requires
 actual candidate-bound local verification. After confirmation, continue authorized
@@ -19,6 +19,15 @@ pushes, monitoring and the verified brand URL/PR handoff without routine proceed
 prompts. Deployment inspection never grants push authority. Optional external
 AI review requires destination/private-code authorization; respect native denials.
 Publication, preview readiness and stable merge readiness remain distinct.
+
+Ask once for an optional JIRA ticket at intake; omit it from PRs if none is
+supplied. Follow the coordinator's intake guide for missing tool design/toolbar
+placement and app UI references. Accepting the local tarball build starts the
+required prereleases and consumer updates without another publication-intent
+question; native approvals and later installed-prerelease verification remain.
+When starting the native app, stop the identified service occupying port 1234
+and use that port. Agents must never merge PRs, enable auto-merge, enqueue PRs
+for merging or perform an equivalent API/base-branch merge. Engineers alone merge.
 
 Use the local [copilot-package adapter](.agents/skills/copilot-package/SKILL.md) for agent-assisted work. `copilot-app` is the coordinator for onboarding, access checks, one approved plan, and a shared task record across the affected repositories. Prepare a task branch here only when this repository needs edits; a package-only task can leave the app unchanged. Preserve unrelated work and use the coordinator's explicit branch-preparation procedure.
 
@@ -51,4 +60,4 @@ The root build uses TypeScript project builds for CommonJS and ES modules. `type
 
 Preserve existing workspace `file:` links and package peer requirements. Build before packing and inspect the package's declared `main`, `module`, `types`, and published files; the TypeScript packages commonly emit `dist/commonjs` and `dist/modules`. Do not edit generated output directly or commit temporary tarball dependencies. Use the coordinator's delivery procedure for integration, exact published versions, source evidence, and readiness.
 
-Use Conventional Commits and existing repository conventions. Do not manually publish, merge, or alter release workflows without task authority. The reviewed `.github/workflows/release.yml` only triggers on pushes to `main`; its comment-conditioned prerelease job has no matching comment or dispatch event. A usable prerelease route and AI-review workflow are not verified here. Reinspect current default-branch capabilities before delivery and report missing support; do not copy another repository's trigger or equate an npm script with authorization to publish.
+Use Conventional Commits and existing repository conventions. Agents never merge PRs; engineers own that action. Do not manually publish or alter release workflows without task authority. The reviewed `.github/workflows/release.yml` only triggers on pushes to `main`; its comment-conditioned prerelease job has no matching comment or dispatch event. A usable prerelease route and AI-review workflow are not verified here. Reinspect current default-branch capabilities before delivery and report missing support; do not copy another repository's trigger or equate an npm script with authorization to publish.
