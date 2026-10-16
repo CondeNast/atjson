@@ -1,0 +1,196 @@
+name: Request Pullquote validation
+
+on:
+  pull_request_target:
+    branches: [main]
+    types:
+      [
+        opened,
+        reopened,
+        synchronize,
+        edited,
+        closed,
+        ready_for_review,
+        converted_to_draft,
+      ]
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+concurrency:
+  group: pullquote-dispatch-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    if: vars.RICH_TEXT_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: rich-text-control
+    steps:
+      # This workflow never checks out or executes PR code.
+      - name: Invalidate the current event, then authorize private execution
+        id: metadata
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          RICH_TEXT_CONTROL_APP_SLUG: ${{ vars.RICH_TEXT_CONTROL_APP_SLUG }}
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { data: current } = await github.rest.pulls.get({ ...context.repo, pull_number: pr.number });
+            const snapshot = value => JSON.stringify({
+              repository: value.base.repo.full_name, number: value.number,
+              head: value.head.sha, base: value.base.sha, body: value.body || '',
+              state: value.state, draft: Boolean(value.draft), merged: Boolean(value.merged),
+              mergedSha: value.merged ? value.merge_commit_sha : null
+            });
+            if (current.base.repo.full_name !== context.payload.repository.full_name ||
+                current.base.ref !== 'main' || snapshot(current) !== snapshot(pr))
+              throw new Error('Superseded or ineligible PR event.');
+            const statusContext = 'rich-text/pullquote';
+            const eventUrl = `https://github.com/${context.payload.repository.full_name}/actions/runs/${context.runId}#pullquote-dispatch`;
+            const statuses = async () => {
+              const { data } = await github.rest.repos.listCommitStatusesForRef({
+                ...context.repo, ref: current.head.sha, per_page: 100
+              });
+              return data.filter(item => item.context === statusContext);
+            };
+            const before = await statuses();
+            const fingerprint = require('node:crypto').createHash('sha256').update(snapshot(current)).digest('hex').slice(0, 32);
+            const controlAppSlug = process.env.RICH_TEXT_CONTROL_APP_SLUG;
+            const trustedControlStatus = Boolean(controlAppSlug) &&
+              before[0]?.creator?.type === 'Bot' &&
+              before[0].creator.login === `${controlAppSlug}[bot]`;
+            const uniqueHead = async () => {
+              const seen = new Set();
+              let found = false;
+              for (let page = 1; page <= 30; page++) {
+                const { data: values } = await github.rest.pulls.list({
+                  ...context.repo, state: 'open', base: 'main', sort: 'created',
+                  direction: 'asc', per_page: 100, page
+                });
+                if (!Array.isArray(values) || values.length > 100) return false;
+                for (const value of values) {
+                  if (!Number.isSafeInteger(value.number) || value.number < 1 || seen.has(value.number) ||
+                      value.state !== 'open' || value.base?.repo?.full_name !== context.payload.repository.full_name ||
+                      value.base.ref !== 'main' || !/^[a-f0-9]{40}$/.test(value.head?.sha)) return false;
+                  seen.add(value.number);
+                  if (value.head.sha !== current.head.sha) continue;
+                  // Include fork heads: the status still belongs to this base repository.
+                  if (value.number !== current.number) return false;
+                  found = true;
+                }
+                if (values.length < 100) return found;
+              }
+              return false;
+            };
+            // Duplicate/older events cannot put the same metadata back to pending
+            // after the configured control App accepted or reported that matrix.
+            // URLs and fingerprints alone are forgeable status metadata.
+            if (trustedControlStatus &&
+                /^https:\/\/github.com\/CondeNast\/copilot-app\/actions\/runs\/\d+$/.test(before[0]?.target_url || '') &&
+                before[0].description?.endsWith(`[pr:${fingerprint}]`)) {
+              let unique = false;
+              try { unique = await uniqueHead(); } catch { /* Missing evidence invalidates cached results. */ }
+              if (unique) {
+                core.setOutput('skip', 'true');
+                return;
+              }
+            }
+            const prefix = `https://github.com/${context.payload.repository.full_name}/actions/runs/`;
+            if (before.some(item => {
+              if (item.creator?.type !== 'Bot' || item.creator.login !== 'github-actions[bot]') return false;
+              if (!item.target_url?.startsWith(prefix) || !item.target_url.endsWith('#pullquote-dispatch')) return false;
+              const id = item.target_url.slice(prefix.length).split('#')[0];
+              return /^\d+$/.test(id) && BigInt(id) > BigInt(context.runId);
+            })) throw new Error('A newer dispatcher already owns this event.');
+            if (before[0] && before[0].id == null) throw new Error('Status ordering evidence is unavailable.');
+            const { data: pending } = await github.rest.repos.createCommitStatus({
+              ...context.repo, sha: current.head.sha, state: 'pending', context: statusContext,
+              target_url: eventUrl, description: 'Waiting for internal coordinated validation.'
+            });
+            // Another writer can race this pending POST. GITHUB_TOKEN cannot
+            // restore a success attributed to the protected control App, so any
+            // raced success requires a fresh trusted validation, never copying.
+            const after = await statuses();
+            const anchor = before.length ? after.findIndex(item => item.id === before[0].id) : after.length;
+            if (anchor < 0 || pending?.id == null) throw new Error('Status ordering could not be verified.');
+            const intervening = after.slice(0, anchor).find(item => item.id !== pending.id && item.target_url !== eventUrl);
+            if (intervening) {
+              const [latest] = await statuses();
+              if (intervening.state === 'success') {
+                const { data: refreshed } = await github.rest.pulls.get({ ...context.repo, pull_number: pr.number });
+                if (snapshot(refreshed) !== snapshot(current)) throw new Error('Superseded PR event after raced publication.');
+                if (latest?.state === 'success')
+                  await github.rest.repos.createCommitStatus({ ...context.repo, sha: current.head.sha,
+                    state: 'pending', context: statusContext, target_url: eventUrl,
+                    description: 'Revalidating after a concurrent status publication.' });
+                // Continue through authorization and dispatch below. An access
+                // failure keeps the event pending rather than granting success.
+              } else {
+                if (latest?.id === pending.id)
+                  await github.rest.repos.createCommitStatus({ ...context.repo, sha: current.head.sha,
+                    state: intervening.state, context: statusContext, target_url: intervening.target_url,
+                    description: intervening.description || 'Newer validation owns this revision.' });
+                throw new Error('A newer status writer superseded this dispatcher.');
+              }
+            }
+            const old = context.payload.changes?.body?.from || '';
+            const blocks = [...old.matchAll(/<!--\s*copilot-rich-text:\s*([\s\S]*?)\s*-->/g)];
+            let previous = [];
+            if (blocks.length === 1 && blocks[0][1].length <= 4096) {
+              try {
+                const value = JSON.parse(blocks[0][1]);
+                if (value.v === 1 && Array.isArray(value.prs) && value.prs.length <= 4 &&
+                    value.prs.every(ref => /^CondeNast\/(atjson|copilot-atjson|ckeditor|copilot-app)#[1-9]\d*$/.test(ref)))
+                  previous = value.prs;
+              } catch { /* Invalid previous declarations confer no membership. */ }
+            }
+            core.setOutput('previous', JSON.stringify(previous));
+            core.setOutput('metadata', fingerprint);
+            // Denied or unavailable actor permissions may invalidate linked
+            // statuses. Fork metadata always stays on that path, even for a
+            // write-authorized actor; it never authorizes private execution.
+            let operation = 'invalidate';
+            if (current.head.repo?.full_name === context.payload.repository.full_name) {
+              try {
+                const { data: access } = await github.rest.repos.getCollaboratorPermissionLevel({
+                  ...context.repo, username: context.actor
+                });
+                if (['admin', 'maintain', 'write'].includes(access.permission))
+                  operation = 'validate';
+              } catch { /* Keep the metadata-only operation on lookup failure. */ }
+            }
+            core.setOutput('operation', operation);
+      - name: Create dispatch credential
+        if: steps.metadata.outputs.skip != 'true'
+        id: app
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.RICH_TEXT_CONTROL_APP_ID }}
+          private-key: ${{ secrets.RICH_TEXT_CONTROL_APP_PRIVATE_KEY }}
+          owner: CondeNast
+          repositories: copilot-app
+          permission-actions: write
+      - name: Dispatch metadata to the internal app
+        if: steps.metadata.outputs.skip != 'true'
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          PREVIOUS_MEMBERSHIP: ${{ steps.metadata.outputs.previous }}
+          COORDINATION_OPERATION: ${{ steps.metadata.outputs.operation }}
+          SOURCE_METADATA: ${{ steps.metadata.outputs.metadata }}
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          script: |
+            if (!['validate', 'invalidate'].includes(process.env.COORDINATION_OPERATION) ||
+                !/^[a-f0-9]{32}$/.test(process.env.SOURCE_METADATA || ''))
+              throw new Error('Verified coordination operation and metadata are required.');
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'CondeNast', repo: 'copilot-app', workflow_id: 'rich-text-pullquote.yml', ref: 'main',
+              inputs: { repository: context.payload.repository.full_name,
+                pr: String(context.payload.pull_request.number), sha: context.payload.pull_request.head.sha,
+                previous: process.env.PREVIOUS_MEMBERSHIP,
+                operation: process.env.COORDINATION_OPERATION,
+                metadata: process.env.SOURCE_METADATA }
+            });

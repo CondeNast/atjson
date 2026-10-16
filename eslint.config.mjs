@@ -45,4 +45,10 @@ export default defineConfig([{
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-use-before-define": 0,
     },
+}, {
+    files: ["tests/**/*.test.ts", "packages/@atjson/document/test/serialize.test.ts"],
+    rules: {
+        "jest/expect-expect": "error",
+        "jest/no-focused-tests": "error",
+    },
 }]);
