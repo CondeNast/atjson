@@ -4,6 +4,10 @@ Resolve task/coordinator identity before onboarding or edits with
 `node .agents/skills/copilot-package/scripts/context.cjs --json`.
 Follow the registered worktree mapping; prepared trials and continuations retain
 their branches. A missing or ambiguous coordinator is a discovery blocker.
+Interpret ticket/request language through the resolved coordinator's
+`.agents/skills/copilot-start/references/glossary.md`: “toolbar” defaults to
+CKEditor and “Copilot” to the app/project. Explicit qualifiers take precedence;
+trace source before deciding which repositories need edits or consumer checks.
 After producer checks, follow the coordinator's `agent:continue` actions and
 inspect `agent:status` before handoff. Missing consumer tests/runners are work to
 complete; only scoped external blockers suspend their affected checks.

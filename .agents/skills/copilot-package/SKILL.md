@@ -7,6 +7,12 @@ description: Coordinate foundational AtJSON features, fixes, tests, and package 
 
 Resolve the current task first with `node .agents/skills/copilot-package/scripts/context.cjs --json`. It reads the worktree's Git-metadata pointer and verifies the actual app coordinator, including its registered worktrees. If discovery is ambiguous, select the correct app worktree explicitly with `--coordinator /absolute/path`; do not edit an arbitrary sibling checkout. Read the resolved app's `copilot-start` skill and shared lifecycle. Prepared trial branches and continuations retain their task record, branches and approved scope. Complete required access checks before implementation; authorized recovery uses native approvals.
 
+Read `.agents/skills/copilot-start/references/glossary.md` in the resolved app
+coordinator when interpreting product terms in requests or tickets. “Toolbar”
+defaults to CKEditor and “Copilot” to the app/project; explicit qualifiers override
+those defaults. Trace actual source and consumers before selecting edit scope;
+engineers need not name repositories and an alias does not require all four repos.
+
 Reuse one approved plan and task record with actual checkout paths, affected packages and consumers, branch/base revisions, validation, and delivery evidence. Establish whether this is a continuation before preparing branches. Branch this repository only if it needs edits. The app may coordinate a package-only task without an app diff or PR.
 
 Read the local [AGENTS.md](../../../AGENTS.md), `.nvmrc`, root and affected package manifests, and `.github/workflows/ci.yml`. This is `CondeNast/atjson` with `packages/@atjson/*`; do not substitute `CondeNast/copilot-atjson` and its Copilot-specific `@condenast/*` packages.
