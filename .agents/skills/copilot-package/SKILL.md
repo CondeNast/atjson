@@ -25,7 +25,13 @@ Read the local [AGENTS.md](../../../AGENTS.md), `.nvmrc`, root and affected pack
 
 Report local validation separately from consumer integration and publication. This adapter does not authorize publishing, merging, deployment, or release-workflow changes.
 
-After producer checks, continue into the shared task validation workflow: selected local tarballs, affected consumers, browser interactions and reviewed visual comparisons where relevant. Use the app task record with `agent:verify -- --task FILE --level quick|integration|visual`; inspect `agent:status` before handoff. Source tests alone do not establish a new feature's consumer coverage; register its expected behavior and affected consumer checks.
+Pullquote is the first shared preservation contract, not the scope of this adapter.
+Its credit slices exercise document primitives across Markdown, editor and app
+save/reload routes. Use that contract for affected Pullquote behavior; other tasks
+register their own requirements and affected consumer checks. The coordinator's
+`docs/rich-text/pullquote.md` explains the pilot and opt-in CI dispatch.
+
+After producer checks, continue into the shared task validation workflow: selected local tarballs, affected consumers, browser interactions and reviewed visual comparisons where relevant. Use the app task record with `agent:verify -- --task FILE --level quick|integration|visual`; inspect `agent:status` before handoff. Neither an existing Pullquote result nor source tests alone establish a new feature's consumer coverage.
 
 Use the coordinator's `agent:continue -- --json` after producer checks. Follow its
 impact-derived surface inventory and complete missing consumer registrations or
@@ -39,7 +45,7 @@ artifact/runtime identities, session lifetimes and stop instructions. Canonical
 visual or publication blockers do not suspend independent local setup. The
 controlled `agent:preview` helper is an additional preview, not the full app;
 report actual native startup/authentication blockers separately. This handoff
-does not authorize publishing or replace required validation.
+neither authorizes publishing nor satisfies the hardened Pullquote gate.
 
 Use the coordinator's `.agents/skills/copilot-start/references/intake.md` for the
 one optional JIRA question and any missing UI decisions. A new CKEditor tool
@@ -84,5 +90,5 @@ AI review requires its own destination/private-code authority; native denial mus
 not be bypassed. Continue unaffected authorized work. A durable host must be
 configured for wake/resume after the local process exits; the task journal alone
 is not a background service. Live publisher capability and stable merge readiness
-remain separate; this adapter does not repair release automation or enable
-required CI gates.
+remain separate; this adapter neither repairs release automation nor authorizes
+the hardened Pullquote gate.

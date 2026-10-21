@@ -53,5 +53,5 @@ coverage of the complete HTML route.
 
 Fixing one of these product defects requires a focused regression and review of
 the corresponding record; an unexpected pass deliberately fails until then.
-Do not update hashes or expiry merely to obtain green checks. New failures or failures in behavior affected by the task cannot be added to
-this list of unrelated baseline defects.
+Do not update hashes or expiry merely to obtain green checks. New or affected
+Pullquote failures cannot be added to this list of unrelated baseline defects.
