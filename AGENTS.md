@@ -60,6 +60,11 @@ The root build uses TypeScript project builds for CommonJS and ES modules. `type
 - For conversion fixes, preserve text, annotations, attributes, and supported embedded content. Add a deterministic regression case that distinguishes intentional normalization from lost data. Do not update snapshots merely to hide a failure or commit private article content.
 - Run the relevant root lint, test, and typecheck checks and validate affected direct consumers identified by the shared graph, including direct app dependencies. Record baseline failures and unavailable checks separately.
 
+The [HTML preservation guide](tests/README.md) explains why the original suite was
+green without equality assertions and how the current tests distinguish matching
+documents from exactly reproduced baseline discrepancies. Reporting belongs to
+the Jest reporter, not the test body; both kinds of assertion still execute.
+
 ## Packages and delivery
 
 Preserve existing workspace `file:` links and package peer requirements. Build before packing and inspect the package's declared `main`, `module`, `types`, and published files; the TypeScript packages commonly emit `dist/commonjs` and `dist/modules`. Do not edit generated output directly or commit temporary tarball dependencies. Use the coordinator's delivery procedure for integration, exact published versions, source evidence, and readiness.

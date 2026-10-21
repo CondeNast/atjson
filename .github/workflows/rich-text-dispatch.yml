@@ -1,6 +1,13 @@
+# Opt-in metadata adapter for the first rich-text preservation contract (Pullquote).
+# PR revisions/membership request private copilot-app integration and status reporting;
+# this workflow never checks out candidate code or proves validation by dispatching.
+# Generic feature/bug tasks retain their own declared checks. Activation requires
+# RICH_TEXT_ENABLED=true plus the coordinator's docs/rich-text/ci-setup.md prerequisites.
 name: Request Pullquote validation
 
 on:
+  push:
+    branches: [main]
   pull_request_target:
     branches: [main]
     types:
@@ -20,12 +27,12 @@ permissions:
   statuses: write
 
 concurrency:
-  group: pullquote-dispatch-${{ github.event.pull_request.number }}
+  group: pullquote-dispatch-${{ github.event.pull_request.number || 'main' }}
   cancel-in-progress: false
 
 jobs:
   dispatch:
-    if: vars.RICH_TEXT_ENABLED == 'true'
+    if: vars.RICH_TEXT_ENABLED == 'true' && github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     environment: rich-text-control
     steps:
@@ -193,4 +200,49 @@ jobs:
                 previous: process.env.PREVIOUS_MEMBERSHIP,
                 operation: process.env.COORDINATION_OPERATION,
                 metadata: process.env.SOURCE_METADATA }
+            });
+
+  reconcile-main:
+    if: vars.RICH_TEXT_ENABLED == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: rich-text-control
+    permissions:
+      contents: read
+    steps:
+      # Only default-branch metadata is read; this job never checks out code.
+      - name: Verify the current default-branch push
+        id: main
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            if (context.eventName !== 'push' || context.ref !== 'refs/heads/main' ||
+                context.payload.deleted || !/^[a-f0-9]{40}$/.test(context.payload.after || '') ||
+                context.sha !== context.payload.after)
+              throw new Error('A current default-branch push is required.');
+            const { data: current } = await github.rest.repos.getCommit({ ...context.repo, ref: 'main' });
+            if (current.sha !== context.payload.after)
+              throw new Error('A newer default-branch push superseded this reconciliation.');
+            core.setOutput('sha', current.sha);
+      - name: Create app-only reconciliation credential
+        id: app
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ vars.RICH_TEXT_CONTROL_APP_ID }}
+          private-key: ${{ secrets.RICH_TEXT_CONTROL_APP_PRIVATE_KEY }}
+          owner: CondeNast
+          repositories: copilot-app
+          permission-actions: write
+      - name: Request private default-branch reconciliation
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        env:
+          SOURCE_MAIN_SHA: ${{ steps.main.outputs.sha }}
+        with:
+          github-token: ${{ steps.app.outputs.token }}
+          script: |
+            if (!/^[a-f0-9]{40}$/.test(process.env.SOURCE_MAIN_SHA || ''))
+              throw new Error('Verified default-branch revision is required.');
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'CondeNast', repo: 'copilot-app', workflow_id: 'rich-text-pullquote.yml', ref: 'main',
+              inputs: { repository: context.payload.repository.full_name, sha: process.env.SOURCE_MAIN_SHA,
+                pr: '', previous: '[]', metadata: '', operation: 'reconcile' }
             });

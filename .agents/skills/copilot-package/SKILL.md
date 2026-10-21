@@ -25,6 +25,12 @@ Read the local [AGENTS.md](../../../AGENTS.md), `.nvmrc`, root and affected pack
 
 Report local validation separately from consumer integration and publication. This adapter does not authorize publishing, merging, deployment, or release-workflow changes.
 
+Pullquote is the first shared preservation contract, not the scope of this adapter.
+Its credit slices exercise document primitives across Markdown, editor and app
+save/reload routes. Use that contract for affected Pullquote behavior; other tasks
+register their own requirements and affected consumer checks. The coordinator's
+`docs/rich-text/pullquote.md` explains the pilot and opt-in CI dispatch.
+
 After producer checks, continue into the shared task validation workflow: selected local tarballs, affected consumers, browser interactions and reviewed visual comparisons where relevant. Use the app task record with `agent:verify -- --task FILE --level quick|integration|visual`; inspect `agent:status` before handoff. Neither an existing Pullquote result nor source tests alone establish a new feature's consumer coverage.
 
 Use the coordinator's `agent:continue -- --json` after producer checks. Follow its

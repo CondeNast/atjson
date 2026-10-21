@@ -1,6 +1,6 @@
 import HTMLRenderer from "@atjson/renderer-html";
 import HTMLSource from "@atjson/source-html";
-import { readdirSync, readFileSync, writeFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { isDeepStrictEqual } from "node:util";
 import OffsetSource from "@atjson/offset-annotations";
@@ -23,7 +23,6 @@ interface KnownFailure {
   expires: string;
 }
 const known = knownFailures.failures as KnownFailure[];
-const results: Array<Record<string, unknown>> = [];
 const FIXTURES = readdirSync(join(__dirname, "fixtures", "html"))
   .sort()
   .map((filename) => [
@@ -49,30 +48,9 @@ describe("HTML round trip", () => {
       fixtureSha256: fixtureDigest(contents),
       semanticDiffSha256: semanticDiffFingerprint(expected, actual),
     };
-    const matchesKnownFailure =
-      record &&
-      !equal &&
-      evidence.fixtureSha256 === record.fixtureSha256 &&
-      evidence.semanticDiffSha256 === record.semanticDiffSha256 &&
-      Date.parse(record.expires) > Date.now();
-    results.push({
-      ...evidence,
-      status: matchesKnownFailure
-        ? "known-failure"
-        : equal && !record
-          ? "pass"
-          : "fail",
-      ...(record
-        ? {
-            owner: record.owner,
-            issue: record.issue,
-            baselineSha: record.baselineSha,
-            expires: record.expires,
-          }
-        : {}),
-    });
     if (record) {
-      // This is an executed expected failure: a fix, changed failure, edited
+      // This test passes only by reproducing the registered discrepancy:
+      // a fix, changed failure, edited
       // fixture, or expired review all fail until this record is reviewed.
       expect(record.baselineSha).toMatch(/^[a-f0-9]{40}$/);
       expect(Date.parse(record.expires)).toBeGreaterThan(Date.now());
@@ -99,23 +77,4 @@ test("known failures reference unique existing fixtures and an accountable revie
       Date.parse(entry.expires),
     );
   }
-});
-
-afterAll(() => {
-  const report = {
-    schemaVersion: 1,
-    routeId: "atjson-html-round-trip",
-    cases: results,
-  };
-  if (process.env.ATJSON_HTML_ROUND_TRIP_REPORT) {
-    writeFileSync(
-      process.env.ATJSON_HTML_ROUND_TRIP_REPORT,
-      `${JSON.stringify(report, null, 2)}\n`,
-    );
-  }
-  const recorded = results.filter((entry) => entry.status === "known-failure");
-  if (recorded.length)
-    process.stdout.write(
-      `Known HTML round-trip failures (${recorded.length}): ${recorded.map((entry) => `${entry.fixture} — ${entry.issue}`).join(", ")}\n`,
-    );
 });

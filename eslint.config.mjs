@@ -51,4 +51,13 @@ export default defineConfig([{
         "jest/expect-expect": "error",
         "jest/no-focused-tests": "error",
     },
+}, {
+    files: ["tests/reporters/*.cjs"],
+    languageOptions: {
+        sourceType: "commonjs",
+        globals: { process: "readonly" },
+    },
+    rules: {
+        "@typescript-eslint/no-require-imports": "off",
+    },
 }]);
