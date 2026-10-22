@@ -49,6 +49,19 @@ Do not repeat answered questions. No supplied ticket means no PR ticket section.
 For native app startup, stop the identified service occupying 1234 and start the
 candidate there; never choose another app port.
 
+Use `agent:branch-name` from the coordinator for new branches: append a supplied
+JIRA key as `-KEY-123`, quote the shell argument and encode URLs. No supplied key
+means no suffix; do not rename prepared or continuing branches.
+
+Follow the coordinator's `.agents/skills/copilot-delivery/references/review.md`
+for metadata on every PR: `copilot-dlc`, initial `do not merge`, actual human
+contributor assignment and verified base-revision owners/reviewers. Report missing
+metadata or pending draft review requests and reconcile them on continuation.
+Explicit final acceptance of the current cross-repository candidate changes the
+hold label to `ready for review`; it is separate from local tarball acceptance
+and the later prerelease push checkpoint. Changed candidates require renewed
+acceptance. Labels do not waive drafts, required tests or stable dependencies.
+
 ## PR-to-multibranch continuation
 
 Acceptance of the current local build, a multibranch request, or installed-prerelease confirmation resumes the

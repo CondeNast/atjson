@@ -33,6 +33,15 @@ When starting the native app, stop the identified service occupying port 1234
 and use that port. Agents must never merge PRs, enable auto-merge, enqueue PRs
 for merging or perform an equivalent API/base-branch merge. Engineers alone merge.
 
+New task branches use the coordinator's `agent:branch-name` to append a supplied
+JIRA key, for example `feat/upperCase-COMI-1234`; quote shell arguments and encode
+URLs. No ticket means no suffix; keep continuation branches unchanged.
+Follow the coordinator's delivery `references/review.md` for PR metadata:
+`copilot-dlc`, initial `do not merge`, the actual human contributor as assignee,
+and verified current owners/reviewers. Only explicit final user acceptance of
+the current candidate changes the hold label to `ready for review`; it does not
+waive draft, stable-dependency or validation gates.
+
 Use the local [copilot-package adapter](.agents/skills/copilot-package/SKILL.md) for agent-assisted work. `copilot-app` is the coordinator for onboarding, access checks, one approved plan, and a shared task record across the affected repositories. Prepare a task branch here only when this repository needs edits; a package-only task can leave the app unchanged. Preserve unrelated work and use the coordinator's explicit branch-preparation procedure.
 
 This is `CondeNast/atjson`, the foundational `@atjson/*` workspace under `packages/@atjson/*`. The separate `CondeNast/copilot-atjson` repository owns Copilot-specific `@condenast/*` packages. Trace actual package imports and consumers rather than treating these as interchangeable checkouts or assuming every change passes through the same repository chain.
