@@ -16,8 +16,10 @@ ATJSON_HTML_ROUND_TRIP_REPORT=/tmp/atjson-html-round-trip.json npm run test:html
 The test compares canonical, stably serialized documents before and after
 HTML rendering/parsing. A Jest reporter collects the executed assertion results,
 prints their preservation classification and optionally writes the JSON report.
-The test file itself does not write reports. The app coordinator consumes this
-report as local development evidence; it is not the trusted automatic CI oracle.
+The test file itself does not write reports. Consumers can use the report as
+test evidence; it does not establish coverage beyond the executed assertions.
+Committed tracking references must point to public AtJSON issues or PRs. The
+reporter rejects other references before writing a report or printing metadata.
 
 ### Why the old suite passed
 

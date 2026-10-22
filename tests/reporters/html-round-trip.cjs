@@ -40,7 +40,14 @@ function collectReport(root, results, now = Date.now()) {
     !Array.isArray(ledger.failures) ||
     new Set(ledger.failures.map((entry) => entry.fixture)).size !==
       ledger.failures.length ||
-    ledger.failures.some((entry) => !fixtures.includes(entry.fixture))
+    ledger.failures.some(
+      (entry) =>
+        !fixtures.includes(entry.fixture) ||
+        entry.owner !== "AtJSON maintainers" ||
+        !/^https:\/\/github\.com\/CondeNast\/atjson\/(?:issues|pull)\/[1-9]\d*(?:#[a-zA-Z0-9_-]+)?$/.test(
+          entry.issue,
+        ),
+    )
   ) {
     throw new Error("Invalid HTML round-trip discrepancy registry.");
   }

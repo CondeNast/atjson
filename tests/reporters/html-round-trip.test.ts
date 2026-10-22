@@ -18,8 +18,8 @@ const known = {
   fixtureSha256: createHash("sha256").update("known").digest("hex"),
   semanticDiffSha256: "a".repeat(64),
   baselineSha: "b".repeat(40),
-  owner: "Copilot maintainers",
-  issue: "https://example.com/tracking",
+  owner: "AtJSON maintainers",
+  issue: "https://github.com/CondeNast/atjson/issues/123",
   expires: "2050-01-01T00:00:00.000Z",
 };
 const results = () => ({
@@ -166,6 +166,31 @@ test("rejects duplicate and nonexistent registry fixture identities", () => {
   ledger([{ ...known, fixture: "missing.html" }]);
   expect(() => collectReport(root, results())).toThrow(
     "Invalid HTML round-trip discrepancy registry",
+  );
+});
+
+test.each([
+  { ...known, issue: "https://tracker.example.invalid/PRIVATE-123" },
+  { ...known, issue: "https://github.com/example/private-repo/issues/123" },
+  {
+    ...known,
+    issue: "https://github.com/CondeNast/atjson/issues/123?token=private",
+  },
+  { ...known, owner: "Private downstream team" },
+])("rejects nonpublic tracking metadata before producing output", (record) => {
+  ledger([record]);
+  const file = join(root, "report.json");
+  process.env.ATJSON_HTML_ROUND_TRIP_REPORT = file;
+  const reporter = new HtmlRoundTripReporter({ rootDir: root });
+  reporter.onRunStart();
+  reporter.onRunComplete(new Set(), results());
+  expect(reporter.getLastError().message).toBe(
+    "Invalid HTML round-trip discrepancy registry.",
+  );
+  expect(JSON.parse(readFileSync(file, "utf8")).cases).toEqual([]);
+  expect(process.stdout.write).not.toHaveBeenCalled();
+  expect(process.stderr.write).toHaveBeenCalledWith(
+    "HTML round-trip reporter: Invalid HTML round-trip discrepancy registry.\n",
   );
 });
 

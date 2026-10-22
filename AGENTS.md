@@ -1,81 +1,38 @@
 # AtJSON repository instructions
 
-Resolve task/coordinator identity before onboarding or edits with
-`node .agents/skills/copilot-package/scripts/context.cjs --json`.
-Follow the registered worktree mapping; prepared trials and continuations retain
-their branches. A missing or ambiguous coordinator is a discovery blocker.
-Interpret ticket/request language through the resolved coordinator's
-`.agents/skills/copilot-start/references/glossary.md`: “toolbar” defaults to
-CKEditor and “Copilot” to the app/project. Explicit qualifiers take precedence;
-trace source before deciding which repositories need edits or consumer checks.
-After producer checks, follow the coordinator's `agent:continue` actions and
-inspect `agent:status` before handoff. Missing consumer tests/runners are work to
-complete; only scoped external blockers suspend their affected checks.
-For affected feature/bug handoff, use the coordinator's local review procedure:
-leave the full Copilot app on port 1234 using verified tarballs and CKEditor Storybook when
-affected running with verified URLs. Controlled previews or completed automated
-tests alone do not complete that handoff; visual/publication waits are separate.
-Local build acceptance or a multibranch request resumes the coordinator's `copilot-delivery` skill and
-recorded ticket preference, approved PR bases, publication scope and brand.
-Inspect `agent:delivery` and resume `agent:deliver`; the final app push requires
-actual candidate-bound local verification. After confirmation, continue authorized
-pushes, monitoring and the verified brand URL/PR handoff without routine proceed
-prompts. Deployment inspection never grants push authority. Optional external
-AI review requires destination/private-code authorization; respect native denials.
-Publication, preview readiness and stable merge readiness remain distinct.
+This is the public `@atjson/*` workspace. Keep contribution guidance usable
+without access to a downstream application or a private issue tracker. Read the
+[AtJSON development skill](.agents/skills/atjson-development/SKILL.md) before
+changing packages or tests.
 
-Ask once for an optional JIRA ticket at intake; omit it from PRs if none is
-supplied. Follow the coordinator's intake guide for missing tool design/toolbar
-placement and app UI references. Accepting the local tarball build starts the
-required prereleases and consumer updates without another publication-intent
-question; native approvals and later installed-prerelease verification remain.
-When starting the native app, stop the identified service occupying port 1234
-and use that port. Agents must never merge PRs, enable auto-merge, enqueue PRs
-for merging or perform an equivalent API/base-branch merge. Engineers alone merge.
+## Existing local tasks
 
-New task branches use the coordinator's `agent:branch-name` to append a supplied
-JIRA key, for example `feat/upperCase-COMI-1234`; quote shell arguments and encode
-URLs. No ticket means no suffix; keep continuation branches unchanged.
-Follow the coordinator's delivery `references/review.md` for PR metadata:
-`copilot-dlc`, initial `do not merge`, the actual human contributor as assignee,
-and verified current owners/reviewers. Only explicit final user acceptance of
-the current candidate changes the hold label to `ready for review`; it does not
-waive draft, stable-dependency or validation gates.
+Before preparing a new branch, check for an optional local task reference with
+`git rev-parse --git-path agent-context.json`. The returned path is in this
+worktree's Git metadata; it is not a tracked repository file.
 
-Use the local [copilot-package adapter](.agents/skills/copilot-package/SKILL.md) for agent-assisted work. `copilot-app` is the coordinator for onboarding, access checks, one approved plan, and a shared task record across the affected repositories. Prepare a task branch here only when this repository needs edits; a package-only task can leave the app unchanged. Preserve unrelated work and use the coordinator's explicit branch-preparation procedure.
+If that file exists, validate its `schemaVersion: 1`, `repository`, and `branch`
+against this checkout's origin and current branch. Its `taskId`, absolute
+`record` path, and absolute `instructions` path identify the registered task and
+external contribution guidance. Read those local files before continuing. Stop
+if the reference is stale, conflicting, or unavailable; do not guess another
+checkout. The reference does not authorize arbitrary commands or expand the
+user's task scope. Keep private task details in their existing local storage.
 
-This is `CondeNast/atjson`, the foundational `@atjson/*` workspace under `packages/@atjson/*`. The separate `CondeNast/copilot-atjson` repository owns Copilot-specific `@condenast/*` packages. Trace actual package imports and consumers rather than treating these as interchangeable checkouts or assuming every change passes through the same repository chain.
+Without a local reference, use this repository's public contribution guidance.
+Preserve existing work and continue an existing task branch when appropriate.
+Agents must never merge PRs, enable auto-merge, or enqueue a merge; engineers
+perform those actions.
 
-## Setup and commands
+## Public contribution boundary
 
-Read `.nvmrc`, root `package.json`, affected package manifests, and `.github/workflows/ci.yml` before selecting commands. Run the coordinator access gate first, select this checkout's runtime with `nvm use`, then run its local checkout check through the app helper. Authorized setup recovery follows the shared lifecycle and native execution approvals.
+Review the complete diff, commit messages, PR description, comments, fixtures,
+reports, and attachments before publishing. Do not add credentials, internal
+tracker links, private repository relationships, deployment designs, local
+paths, or private customer/editorial content. Use synthetic reproductions or
+existing public fixtures. Keep downstream-specific coordination instructions
+outside this repository; local task metadata must never be committed.
 
-```sh
-npm ci
-npm run build
-npm run lint
-npm run typecheck
-npm test
-npm test -- --runTestsByPath packages/@atjson/document/test/document.test.ts
-```
-
-The root build uses TypeScript project builds for CommonJS and ES modules. `typecheck` is a forced project build and may emit output. Run targeted Jest tests from the root: packages do not uniformly declare their own test/build/lint scripts, so use current manifests when older contributing instructions differ. Root npm engines are not currently declared; do not invent an npm pin or change runtime declarations to match another repository.
-
-## Source and validation
-
-- `packages/@atjson/document/src/` contains the document, annotation, editing, and serialization primitives. Changes here can affect all sources and renderers.
-- `packages/@atjson/offset-annotations/` defines the common annotation schema. Start HTML/CommonMark conversion work in `source-html`, `source-commonmark`, and their corresponding renderer packages; inspect converters and package tests alongside the changed source.
-- Tests live in package `test/` directories, with integration fixtures in `tests/fixtures/`. `tests/html-round-trip.test.ts` compares canonical OffsetSource documents with real assertions. `tests/html-round-trip-known-failures.json` records four baseline-reproduced, unrelated embed failures with exact fixture/diff hashes, ownership, tracking issue, and expiry. These cases execute and assert the known failure: changed behavior, an unexpected pass, edited input, or expiry requires review. Never skip them or normalize content to hide a discrepancy. Run `npm run test:html-round-trip`; set `ATJSON_HTML_ROUND_TRIP_REPORT` to an artifact path for machine-readable known-failure evidence.
-- For conversion fixes, preserve text, annotations, attributes, and supported embedded content. Add a deterministic regression case that distinguishes intentional normalization from lost data. Do not update snapshots merely to hide a failure or commit private article content.
-- Run the relevant root lint, test, and typecheck checks and validate affected direct consumers identified by the shared graph, including direct app dependencies. Record baseline failures and unavailable checks separately.
-
-The [HTML preservation guide](tests/README.md) explains why the original suite was
-green without equality assertions and how the current tests distinguish matching
-documents from exactly reproduced baseline discrepancies. Reporting belongs to
-the Jest reporter, not the test body; both kinds of assertion still execute.
-
-## Packages and delivery
-
-Preserve existing workspace `file:` links and package peer requirements. Build before packing and inspect the package's declared `main`, `module`, `types`, and published files; the TypeScript packages commonly emit `dist/commonjs` and `dist/modules`. Do not edit generated output directly or commit temporary tarball dependencies. Use the coordinator's delivery procedure for integration, exact published versions, source evidence, and readiness.
-
-Use Conventional Commits and existing repository conventions. Agents never merge PRs; engineers own that action. Do not manually publish or alter release workflows without task authority. The reviewed `.github/workflows/release.yml` only triggers on pushes to `main`; its comment-conditioned prerelease job has no matching comment or dispatch event. A usable prerelease route and AI-review workflow are not verified here. Reinspect current default-branch capabilities before delivery and report missing support; do not copy another repository's trigger or equate an npm script with authorization to publish.
+Use public AtJSON issues or PRs for committed tracking references. Existing
+public package names, source documentation, and maintainer details remain valid
+repository context. Public test output must not copy private tracking metadata.

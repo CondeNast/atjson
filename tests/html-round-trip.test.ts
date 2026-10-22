@@ -69,10 +69,8 @@ test("known failures reference unique existing fixtures and an accountable revie
   for (const entry of known) {
     expect(entry.routeId).toBe("atjson-html-round-trip");
     expect(FIXTURES.map(([filename]) => filename)).toContain(entry.fixture);
-    expect(entry.owner).toBe("Copilot maintainers");
-    expect(entry.issue).toBe(
-      "https://cnissues.atlassian.net/browse/COPILOT-13315",
-    );
+    expect(entry.owner).toBe("AtJSON maintainers");
+    expect(entry.issue).toBe("https://github.com/CondeNast/atjson/pull/1991");
     expect(Date.parse(entry.reviewDate)).toBeLessThan(
       Date.parse(entry.expires),
     );
