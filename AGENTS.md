@@ -36,3 +36,43 @@ outside this repository; local task metadata must never be committed.
 Use public AtJSON issues or PRs for committed tracking references. Existing
 public package names, source documentation, and maintainer details remain valid
 repository context. Public test output must not copy private tracking metadata.
+
+## Feature regression testing
+
+For feature or bug work, use the
+[native AtJSON testing skill](.agents/skills/atjson-testing/SKILL.md) alongside the
+[AtJSON development skill](.agents/skills/atjson-development/SKILL.md). This
+repository owns foundational `@atjson/*` packages under `packages/@atjson/*`.
+Trace actual imports and affected consumers before selecting assertions. Read
+current root/package manifests, `.nvmrc` and runner configuration. Documentation-only
+changes need instruction, link and diff validation rather than product tests.
+
+The following limits apply to delegated testing. Authorized development owns
+branch preparation, setup, permanent product fixes and delivery under the active
+task. Reuse the optional local task reference above when present; do not create a
+second task or reporting workflow. Keep feature changes and tests together in the
+same affected-repository PR. When the active task uses a testing or delivery
+coordinator, return results and intended test changes to it.
+
+Before any test edit or run, verify each owning checkout is on the active task's
+existing feature branch. Never edit or test on `main`, `master`, another default
+branch or a detached HEAD. If the branch is wrong or unknown, ask development
+to prepare the task branch; do not switch or create branches from testing.
+
+Limit lasting testing edits to relevant test files, synthetic fixtures and
+reviewed test snapshots. Temporary local implementation mutations are allowed
+only for focused sensitivity checks on the verified task feature branch, following
+the native skill's preservation/restoration protocol. Never retain a product fix
+or stage, commit, push or publish a mutant. Testing must not edit configuration,
+manifests, scripts, documentation or credential files. Read runner/dependency
+configuration and request any needed setup, builds or configuration changes from
+development. Inspect runner effects before execution; do not run checks that
+write unrelated files or outside the repository/workspace. Delegate external or
+shared-service runs under the native skill's authorization workflow.
+
+Return failures and actual results to development in the conversation and existing
+feature PR handoff. Do not create separate reports, evidence JSON, task records
+or workspace scaffolding inside or outside this repository from testing. Testing
+does not create branches, stage, commit, push, publish or open PRs. Only the exactly
+restored candidate and intended tests may be handed to authorized development
+delivery. Preserve unrelated work and report missing or unrun coverage honestly.
