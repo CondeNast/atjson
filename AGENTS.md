@@ -54,10 +54,13 @@ second task or reporting workflow. Keep feature changes and tests together in th
 same affected-repository PR. When the active task uses a testing or delivery
 coordinator, return results and intended test changes to it.
 
-Before any test edit or run, verify each owning checkout is on the active task's
-existing feature branch. Never edit or test on `main`, `master`, another default
-branch or a detached HEAD. If the branch is wrong or unknown, ask development
-to prepare the task branch; do not switch or create branches from testing.
+Resolve the owning checkout through the active task's verified mappings, not a
+sibling directory name. Confirm repository identity and the selected revision
+before execution. Test edits and temporary implementation mutations require the
+task's implementation branch. Read-only checks may use unchanged consumers on a
+default branch or prepared, pinned detached baseline/candidate checkouts. Do not
+create empty branches or PRs for validation-only repositories. Resolve stale or
+ambiguous mappings before dependent work; do not switch unrelated checkouts.
 
 Limit lasting testing edits to relevant test files, synthetic fixtures and
 reviewed test snapshots. Temporary local implementation mutations are allowed
@@ -66,13 +69,17 @@ the native skill's preservation/restoration protocol. Never retain a product fix
 or stage, commit, push or publish a mutant. Testing must not edit configuration,
 manifests, scripts, documentation or credential files. Read runner/dependency
 configuration and request any needed setup, builds or configuration changes from
-development. Inspect runner effects before execution; do not run checks that
-write unrelated files or outside the repository/workspace. Delegate external or
-shared-service runs under the native skill's authorization workflow.
+development. Run existing checks with their normal bounded caches, reports and
+temporary output in the task's declared ignored or temporary locations. Keep
+generated artifacts out of source commits. Reuse applicable task authorization
+and native execution approvals; request new approval only when scope, target or
+effects change or the current user explicitly requires it. Credentials alone do
+not authorize external/shared-service mutations.
 
-Return failures and actual results to development in the conversation and existing
-feature PR handoff. Do not create separate reports, evidence JSON, task records
-or workspace scaffolding inside or outside this repository from testing. Testing
-does not create branches, stage, commit, push, publish or open PRs. Only the exactly
-restored candidate and intended tests may be handed to authorized development
-delivery. Preserve unrelated work and report missing or unrun coverage honestly.
+Return failures, actual executions and artifact locations to the existing task
+and feature PR handoff. Preserve its required machine-readable evidence; a chat
+summary does not replace runner results. Do not create a parallel task or delivery
+process. Delegated testing does not stage, commit, push, publish or open PRs; the
+authorized development workflow retains those responsibilities. Only the exactly
+restored candidate and intended tests may be handed to delivery. Preserve
+unrelated work and report missing or unrun coverage honestly.

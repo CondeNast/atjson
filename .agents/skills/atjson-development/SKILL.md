@@ -9,10 +9,11 @@ Read [AGENTS.md](../../../AGENTS.md) for the optional local task reference and
 public contribution boundary. This skill requires no private repository access.
 
 For feature and bug work, use the [native testing skill](../atjson-testing/SKILL.md)
-for regression test selection, authoring and actual results. Its narrower file
-and execution permissions apply to delegated testing; development retains setup,
-permanent product fixes and separately authorized delivery. Reuse the active task
-and keep feature changes and tests together in its affected-repository PR.
+for regression test selection, authoring and actual results. Delegated testing
+keeps lasting edits within tests and fixtures; development retains setup,
+permanent product fixes and authorized delivery. Reuse the active task and its
+applicable approvals. Preserve required runner evidence and keep feature changes
+and tests together in the affected-repository PR.
 
 1. Read `.nvmrc`, root `package.json`, affected package manifests, and
    `.github/workflows/ci.yml`. Use this checkout's declared runtime. Root npm
