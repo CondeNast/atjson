@@ -6,28 +6,18 @@ description: Develop and validate AtJSON document primitives, annotations, sourc
 # Develop AtJSON
 
 Read [AGENTS.md](../../../AGENTS.md) for the optional local task reference and
-public contribution boundary. This skill requires no private repository access.
+public contribution boundary. Standalone AtJSON work requires no private checkout.
+Use the [native testing skill](../atjson-testing/SKILL.md) for relevant regressions.
 
-For feature and bug work, use the [native testing skill](../atjson-testing/SKILL.md)
-for regression test selection, authoring and actual results. Delegated testing
-keeps lasting edits within tests and fixtures; development retains setup,
-permanent product fixes and authorized delivery. Reuse the active task and its
-applicable approvals. Preserve required runner evidence and keep feature changes
-and tests together in the affected-repository PR.
-
-1. Read `.nvmrc`, root `package.json`, affected package manifests, and
-   `.github/workflows/ci.yml`. Use this checkout's declared runtime. Root npm
-   engines are not declared; do not invent an npm version requirement.
-2. Trace the affected packages under `packages/@atjson/`. Document/annotation
-   primitives live in `document`; the shared schema lives in
-   `offset-annotations`. Inspect the relevant source, converter, renderer, and
-   tests together. Determine affected consumers from actual dependency edges.
-3. Define expected preservation and permitted normalization before editing.
-   For a conversion fix, add a deterministic regression that demonstrates the
-   failure. Preserve text, marks, attributes, ranges, and supported embedded
-   content. Never change snapshots just to hide a discrepancy.
-4. Run targeted tests through root Jest; package directories do not uniformly
-   declare their own scripts. Run applicable root checks:
+1. Read `.nvmrc`, root/affected `package.json` files and `.github/workflows/ci.yml`.
+   Use this checkout's declared runtime; root npm engines are not declared.
+2. Trace packages under `packages/@atjson/`: document/annotation primitives in
+   `document`, shared schema in `offset-annotations`, and the relevant source,
+   converter and renderer implementations. Follow actual imports and consumers.
+3. Define expected preservation and permitted normalization. Add a deterministic
+   regression for conversion fixes; preserve text, marks, attributes, ranges and
+   supported embedded content. Do not accept discrepancies through snapshots.
+4. Install from the lockfile and run applicable root checks:
 
    ```sh
    npm ci
@@ -38,22 +28,14 @@ and tests together in the affected-repository PR.
    npm run test:html-round-trip
    ```
 
-   The root build emits CommonJS and ES modules. `typecheck` is a forced
-   TypeScript project build and may emit files. Documentation-only changes need
-   link and instruction checks; report unrun checks accurately.
+   See [runner semantics](../atjson-testing/references/test-workflows.md) for
+   focused selections, emitted files and public round-trip reports.
 
-5. Follow the [HTML preservation guide](../../../tests/README.md) for meaningful
-   round-trip assertions and the exact, expiring known-failure registry. Required
-   cases execute; changed signatures, unexpected passes, and expired records
-   need review. Do not weaken assertions or add affected failures as exceptions.
-6. Build before packing. Inspect declared `main`, `module`, `types`, packed
-   contents, and consumer resolution. Preserve workspace `file:` links and peer
-   requirements. Keep temporary tarballs, dependency paths, and generated build
-   output out of the PR. Report source checks, consumer checks, and publication
-   separately.
+5. Build before packing; inspect `main`, `module`, `types`, packed contents and
+   installed consumer resolution. Preserve workspace `file:` links and peer
+   requirements. Keep temporary tarballs, dependency paths and build output out
+   of source commits. Source checks do not prove package integration.
 
-Use Conventional Commits and repository PR conventions. Inspect the live
-default-branch release workflow before a release action; a package script does
-not establish publishing authority or a working prerelease route. Do not alter
-release automation or publish without task authorization. Report unsupported
-capabilities explicitly. Agents never merge PRs.
+Use Conventional Commits and repository PR conventions. Read the actual
+release workflow before a release; package scripts alone establish neither
+publishing authority nor supported release behavior. Agents never merge PRs.
