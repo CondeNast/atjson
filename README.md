@@ -1,7 +1,5 @@
 # atjson [![CI](https://github.com/CondeNast/atjson/actions/workflows/ci.yml/badge.svg)](https://github.com/CondeNast/atjson/actions/workflows/ci.yml) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Maintainability](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/maintainability)](https://codeclimate.com/github/CondeNast/atjson/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ee3591f9171333e235e/test_coverage)](https://codeclimate.com/github/CondeNast/atjson/test_coverage)
 
-For agent-assisted AtJSON contributions, see the [repository guidance](AGENTS.md).
-
 ## Maintainers
 
 - Tim Evans (@tim-evans tim_evans@condenast.com)
@@ -186,7 +184,8 @@ A number of little notes distributed that morning by a footman in red livery had
     start: 37,
     end: 478,
     attributes: {
-      note: "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
+      note:
+        "In the fifth edition of Count Tolstoï's works, this conversation is in a mixture of French and Russian. In the seventh (1887) the Russian entirely replaces the French — N. H. D.",
     },
   },
   {
@@ -283,8 +282,9 @@ This can be done using our built-in parser:
 import OffsetSource from "@atjson/offset-annotations";
 import CommonMarkSource from "@atjson/source-commonmark";
 
-let document =
-  CommonMarkSource.fromRaw("# Hello, world").convertTo(OffsetSource);
+let document = CommonMarkSource.fromRaw("# Hello, world").convertTo(
+  OffsetSource
+);
 ```
 
 This will result in the following document:
@@ -338,7 +338,7 @@ document.addAnnotations(
   new Bold({
     start: 0,
     end: 6,
-  }),
+  })
 );
 
 // This should extend the annotation
